@@ -27,6 +27,7 @@
             "Label OP",
             "Profile dropdown",
             "Code syntax highlighting",
+            "Nested collapsible comments"
         ];
 
     /*human readable mod desc*/
@@ -35,7 +36,8 @@
             "Add magazine subscriptions to navbar",
             "Add 'OP' label to thread author",
             "Convert profile page links to dropdown",
-            "Adds syntax highlighting for code blocks"
+            "Adds syntax highlighting for code blocks",
+            "Adds collapsible comments to threads"
             ];
 
     /*function identifier, can be same as function name*/
@@ -44,7 +46,8 @@
         "initMags",
         "labelOp",
         "dropdownEntry",
-        "codeHighlighting"
+        "codeHighlighting",
+        "initCollapsibleComments"
         ];
 
       /*object used for interpolation of function names*/
@@ -56,7 +59,8 @@
         initMags: initMags,
         labelOp: labelOp,
         dropdownEntry: dropdownEntry,
-        codeHighlighting: initCodeHighlights
+        codeHighlighting: initCodeHighlights,
+        collapsibleComments: initCollapsibleComments
        };
 
     'use strict';
