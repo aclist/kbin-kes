@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name         kbin-subs-test
+// @name         megamod-kbin-subs
 // @namespace    https://github.com/aclist
 // @version      0.2
 // @description  put subs on top page
 // @author       aclist
 // @match        https://kbin.social/*
-// @require               http://code.jquery.com/jquery-3.4.1.min.js
-// @license               MIT
+// @require      http://code.jquery.com/jquery-3.4.1.min.js
+// @license      MIT
 // ==/UserScript==
 
 function createMags(){

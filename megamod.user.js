@@ -1,17 +1,19 @@
 // ==UserScript==
-// @name         kbin-megamod
-// @namespace      https://github.com/aclist/
-// @license      MIT
-// @version      0.0.1
-// @description  megamod pack for kbin
+// @name          kbin-megamod
+// @namespace     https://github.com/aclist/
+// @license       MIT
+// @version       0.1.0
+// @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
-// @grant           GM_addStyle
+// @grant         GM_addStyle
+// @grant         GM_getResourceText
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mod/subs.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
 // ==/UserScript==
 
 (function () {
@@ -22,6 +24,7 @@
             "Add subs to navbar",
             "Label OP",
             "Profile dropdown",
+            "Code syntax highlighting",
         ];
 
     /*human readable mod desc*/
@@ -29,7 +32,8 @@
             "Add mail link to usernames if on kbin.social",
             "Add magazine subscriptions to navbar",
             "Add 'OP' label to thread author",
-        "Convert profile page links to dropdown",
+            "Convert profile page links to dropdown",
+            "Adds syntax highlighting for <code> blocks"
             ];
 
     /*function identifier, can be same as function name*/
@@ -37,7 +41,8 @@
         "addMail",
         "initMags",
         "labelOp",
-        "dropdownEntry"
+        "dropdownEntry",
+        "codeHighlighting"
         ];
 
       /*object used for interpolation of function names*/

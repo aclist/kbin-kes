@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name           kbin-dropdown
+// @name           megamod-kbin-dropdown
 // @namespace      https://github.com/aclist/kbin-scripts/
 // @description    make dropdown on profile page
 // @author         aclist

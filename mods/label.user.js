@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name         kbin-labelop
+// @name         megamod-kbin-labelop
 // @namespace    https://github.com/aclist
 // @version      0.3
 // @description  label thread author
 // @author       aclist
 // @match        https://kbin.social/*
-// @license               MIT
+// @license      MIT
 // ==/UserScript==
 
 function labelOp(toggle){

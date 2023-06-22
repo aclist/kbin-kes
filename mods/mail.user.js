@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name          kbin-mail-test
+// @name          megamod-kbin-mail
 // @description   Adds mail link next to usernames
-// @namespace      https://github.com/aclist/
+// @namespace     https://github.com/aclist/
 // @author        aclist
 // @version       0.0.1
 // @match         https://kbin.social/*
-// @require               http://code.jquery.com/jquery-3.4.1.min.js
-// @license               MIT
+// @require       http://code.jquery.com/jquery-3.4.1.min.js
+// @license       MIT
 // ==/UserScript==
 
 const itemsSelector = '.user-inline';
