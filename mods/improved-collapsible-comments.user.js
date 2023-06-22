@@ -26,18 +26,15 @@
 function initCollapsibleComments(toggle) {
     console.log('Initializing Improved Collapsible Comments');
 
-    // Check if page has already been modified
-    if (document.querySelector('.entry-comment.nested')) {
-        if (!toggle) {
-            location.reload();
-        } 
-    } else {
-        if (toggle) {
-            applyToNewPosts();
-            applyCommentStyles();
+    if (toggle) {
+        applyToNewPosts();
+        applyCommentStyles();
 
-            let observer = new MutationObserver(applyToNewPosts);
-            observer.observe(document.body, { childList: true, subtree: true });
+        let observer = new MutationObserver(applyToNewPosts);
+        observer.observe(document.body, { childList: true, subtree: true });
+    } else {
+        if (document.querySelector('.entry-comment.nested')) {
+            location.reload();
         }
     }
 }
