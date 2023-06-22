@@ -14,6 +14,7 @@
 
 - Prefer 4 space indentation
 - Prefer [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
+- Script entry point must accept a boolean toggle (true = setup, false = teardown)
 
 # TODO
 
