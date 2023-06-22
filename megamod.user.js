@@ -33,7 +33,7 @@
             "Add magazine subscriptions to navbar",
             "Add 'OP' label to thread author",
             "Convert profile page links to dropdown",
-            "Adds syntax highlighting for <code> blocks"
+            "Adds syntax highlighting for code blocks"
             ];
 
     /*function identifier, can be same as function name*/
