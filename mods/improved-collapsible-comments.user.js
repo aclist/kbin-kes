@@ -10,7 +10,7 @@
 // ==UserScript==
 // @name         kbin Improved Collapsible Comments
 // @namespace    http://tampermonkey.net/
-// @version      1.3.5
+// @version      1.3.6
 // @description  Improves the comment tree layout and adds a line that lets you collapse replies
 // @author       artillect
 // @match        https://kbin.social/*
