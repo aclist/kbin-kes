@@ -8,7 +8,8 @@
 4. Set the mod classname and entry point
 - `mmFuncs` contains a unique identifier used as a classname when injecting the checklists into the DOM
 - `funcObj` contains a mapping from the classname to the script's entry point function
-5. Submit a PR
+5. Add necessary @grants to megamod.user.js
+6. Submit a PR
 
 # Specifications
 
