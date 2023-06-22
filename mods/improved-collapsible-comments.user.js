@@ -40,17 +40,30 @@ function initCollapsibleComments(toggle) {
 }
 
 function initCollapsibleCommentsListeners(toggle) {
-    if (!toggle) {
-        // Add event listener to expando
-        expando.addEventListener('click', function(){toggleReplies(event,comments[i],expando)});
-        // Add event listener to header
-        let header = comments[i].querySelector('header');
-        header.addEventListener('click', function(){toggleReplies(event,comments[i],expando)});
-        // Add event listener to icon
-        icon.addEventListener('click', function(){toggleReplies(event, comments[i],expando)});
-    } else {
-        // Add event listener to comment
-        comments[i].addEventListener('click', function(){toggleReplies(event, comments[i], expando)});
+    // Get all comments
+    let comments = document.querySelectorAll('.entry-comment');
+
+    // Add event listeners to comments
+    for (let i = 0; i < comments.length; i++) {
+        if (!toggle) {
+            // Get expando
+            let expando = comments[i].querySelector('.expando');
+            // Get icon
+            let icon = comments[i].querySelector('.expando-icon');
+            // Get comment header
+            let header = comments[i].querySelector('header');
+
+            // Add event listener to expando
+            expando.addEventListener('click', function(){toggleReplies(event,comments[i],expando)});
+            // Add event listener to header
+            header.addEventListener('click', function(){toggleReplies(event,comments[i],expando)});
+            // Add event listener to icon
+            icon.addEventListener('click', function(){toggleReplies(event, comments[i],expando)});
+
+        } else {
+            // Add event listener to comment
+            comments[i].addEventListener('click', function(){toggleReplies(event, comments[i], expando)});
+        }
     }
 }
 
