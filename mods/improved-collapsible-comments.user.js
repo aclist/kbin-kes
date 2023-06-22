@@ -33,7 +33,7 @@ function initCollapsibleComments(toggle) {
         if (toggle) {
             applyToNewPosts();
             applyCommentStyles();
-            
+
             let observer = new MutationObserver(applyToNewPosts);
             observer.observe(document.body, { childList: true, subtree: true });
         }
@@ -123,7 +123,7 @@ function nestComments(comments,levels) {
         comments[i].appendChild(icon);
 
         // Add event listener to comment
-        if (GM_getValue("fulltoggle") == false) {
+        // if (GM_getValue("fulltoggle") == false) {
             // Add event listener to expando
             expando.addEventListener('click', function(){toggleReplies(event,comments[i],expando)});
             // Add event listener to header
@@ -131,9 +131,9 @@ function nestComments(comments,levels) {
             header.addEventListener('click', function(){toggleReplies(event,comments[i],expando)});
             //// Add event listener to icon
             icon.addEventListener('click', function(){toggleReplies(event, comments[i],expando)});
-        } else {
-            comments[i].addEventListener('click', function(){toggleReplies(event, comments[i], expando)});
-        }
+        // } else {
+        //     comments[i].addEventListener('click', function(){toggleReplies(event, comments[i], expando)});
+        // }
 
         // Check if the previous element is the parent
         let previousElement = comments[i].previousElementSibling;
