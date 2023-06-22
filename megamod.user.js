@@ -2,7 +2,7 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.1.4
+// @version       0.1.5
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -62,11 +62,7 @@
     'use strict';
 
         GM_addStyle(`
-        body.extend-width .kbin-container {
-            max-width: 1620px;
-        }
-
-        #subscription-panel-settings-button {
+        #megamod-settings-button {
             position: absolute;
             top: 0;
             right: 0;
@@ -77,12 +73,12 @@
             cursor: pointer;
         }
 
-        #subscription-panel-settings-button:hover {
+        #megamod-settings-button:hover {
             color: var(--kbin-sidebar-header-text-color);
         }
 
 
-        .subscription-panel-settings-modal {
+        .megamod-settings-modal {
             position: fixed;
             z-index: 100;
             left: 0;
@@ -92,44 +88,44 @@
             overflow: auto;
         }
 
-        .subscription-panel-settings-modal-content {
+        .megamod-settings-modal-content {
             background-color: var(--kbin-section-bg);
             height:100%
             width: 100%;
             padding: 2rem;
         }
 
-        .subscription-panel-settings-modal-content {
+        .megamod-settings-modal-content {
             border: var(--kbin-options-border);
         }
 
-        .subscription-panel-settings-modal-content .close {
+        .megamod-settings-modal-content .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             cursor: pointer;
         }
 
-        .subscription-panel-settings-modal-content ul {
+        .megamod-settings-modal-content ul {
             list-style: none;
             padding-inline: 0;
         }
-        .subscription-panel-settings-modal-content ul li label {
+        .megamod-settings-modal-content ul li label {
             display: block;
             margin-bottom: 0.5rem;
         }
 
-        .subscription-panel-settings-modal-content ul li .description {
+        .megamod-settings-modal-content ul li .description {
             font-size: 0.8em;
             padding-left: 20px;
             text-align: justify;
         }
 
-        .subscription-panel-settings-modal-content ul li input[type="checkbox"] {
+        .megamod-settings-modal-content ul li input[type="checkbox"] {
             margin-right: 0.5rem;
         }
 
-        .subscription-panel-settings-modal-content h2 {
+        .megamod-settings-modal-content h2 {
             margin-top: 0;
             font-size: 1rem;
         }
@@ -142,13 +138,13 @@
         const magazinePanel = document.createElement("aside");
         const magazinePanelUl = document.createElement("ul");
         const title = document.createElement("h3");
-        magazinePanel.id = "subscription-panel";
+        magazinePanel.id = "megamod-settings";
         magazinePanel.appendChild(title);
         kbinContainer.appendChild(magazinePanel);
 
         /*add settings button*/
         const settingsButton = document.createElement("div");
-        settingsButton.id = "subscription-panel-settings-button";
+        settingsButton.id = "megamod-settings-button";
         settingsButton.innerHTML = '<i class="fa-solid fa-bug"></i>';
         settingsButton.addEventListener("click", () => {
             showSettingsModal();
@@ -160,13 +156,13 @@
         const settings = getSettings();
 
         const modal = document.createElement("div");
-        modal.className = "subscription-panel-settings-modal";
+        modal.className = "megamod-settings-modal";
 
         const modalContent = document.createElement("div");
-        modalContent.className = "subscription-panel-settings-modal-content";
+        modalContent.className = "megamod-settings-modal-content";
 
         const header = document.createElement("div");
-        header.innerHTML = `<div class="subscription-panel-settings-modal-header">
+        header.innerHTML = `<div class="megamod-settings-modal-header">
                 <span class="close">
                     <i class="fa-solid fa-times"></i>
                 </span>
@@ -174,7 +170,7 @@
             </div>
         `
         const bodyHolder = document.createElement("div");
-             bodyHolder.className = "subscription-panel-settings-modal-body";
+             bodyHolder.className = "megamod-settings-modal-body";
 
         const megamodUl = document.createElement("ul")
               megamodUl.className = "megamods-list";
@@ -203,7 +199,7 @@
             }
          }
 
-        modal.querySelector(".subscription-panel-settings-modal .close").addEventListener("click", () => {
+        modal.querySelector(".megamod-settings-modal .close").addEventListener("click", () => {
             modal.remove();
          });
         modal.addEventListener("click", (e) => {
