@@ -1,3 +1,6 @@
+
+![Alt text](/examples/mm2.png)
+
 # Adding a script
 
 1. Add the script to the /mods directory
