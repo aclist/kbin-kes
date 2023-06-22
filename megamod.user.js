@@ -2,7 +2,7 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.1.2
+// @version       0.1.3
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -14,6 +14,8 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
+// @resource      css1   https://highlightjs.org/static/demo/styles/base16/gruvbox-dark-hard.css
+// @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js
 // ==/UserScript==
 
 (function () {
