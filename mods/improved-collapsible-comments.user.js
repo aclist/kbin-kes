@@ -31,7 +31,11 @@ function initCollapsibleComments(toggle) {
         } 
     } else {
         if (toggle) {
-            nestComments();
+            applyToNewPosts();
+            applyCommentStyles();
+            
+            let observer = new MutationObserver(applyToNewPosts);
+            observer.observe(document.body, { childList: true, subtree: true });
         }
     }
 }
@@ -414,124 +418,3 @@ function applyToNewPosts() {
 
     nestComments(comments,levels);
 }
-
-function addMenuOption() {
-    var menu = document.querySelectorAll('#header.header menu')[1];
-    var menuOption = document.createElement('li');
-    var menuButton = document.createElement('a');
-    menuButton.className = 'fa-solid fa-user-gear';
-    menuButton.style = 'cursor: pointer;'
-    menuButton.title = 'Userscript Settings';
-    menuOption.appendChild(menuButton);
-    menu.appendChild(menuOption);
-    menuButton.addEventListener("click", openConfigMenu);
-
-}
-
-function closeConfigMenu() {
-    document.querySelector('#config-wrapper').remove();
-}
-
-function openConfigMenu() {
-    console.log('Opening menu');
-    // Load Config Values
-
-    // Create div for full-screen background
-    var configWrapper = document.createElement('div');
-    document.body.appendChild(configWrapper);
-    configWrapper.id = 'config-wrapper';
-    configWrapper.style = `
-        width: 100vw;
-        height: 100vh;
-        position: fixed;
-        background-color: #1c1c1c66;
-        top:0;
-        left:0;
-        z-index:99;
-        display: flex;
-        align-items: center;
-        justify-content: center`;
-
-    // Create div for config
-    var configMenu = document.createElement('div');
-    configMenu.style = `
-        padding: 0px 8px 8px 8px;
-        height: 50vh;
-        width: 80vw;
-        border-radius: 1rem;
-        background: var(--kbin-bg);
-        display: grid;
-        grid-template-areas: "header header close" "sidebar options options";
-        grid-template-columns: auto auto 24px;
-        grid-template-rows: min-content auto;
-        `
-    configWrapper.appendChild(configMenu);
-
-    // Create config header
-    var configHeader = document.createElement('h3');
-    configHeader.style = "margin: 0;";
-    configHeader.innerHTML = "Userscript Settings";
-
-    // Create sidebar
-    var configSidebar = document.createElement('ul');
-    configSidebar.style = "grid-area: sidebar; list-style: none; padding-inline-start:0";
-    configMenu.appendChild(configSidebar);
-
-    configMenu.appendChild(configHeader);
-
-    var configOptions = document.createElement('div');
-    configOptions.style = 'grid-area: options; overflow-y: scroll';
-
-    configMenu.appendChild(configOptions);
-
-    addUserscriptOption(configSidebar, configOptions, "kicc", "Improved Collapsible Comments");
-    addConfigOption(configOptions, "fulltoggle", "Toggle comments by clicking or tapping anywhere on them");
-
-    var userscriptName = document.createElement('a');
-
-    var fullCommentToggle = document.createElement('div');
-
-    configOptions.appendChild(fullCommentToggle);
-
-    var closeButton = document.createElement('div');
-    closeButton.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
-    closeButton.style = 'grid-area: close; padding: 4px;';
-    configMenu.appendChild(closeButton);
-    closeButton.addEventListener("click", closeConfigMenu)
-}
-
-function addUserscriptOption(sidebar,options,userscript,title) {
-    var sidebarLink = document.createElement('li');
-    sidebarLink.innerHTML = `<a href="#${userscript}">${title}</a>`;
-
-    sidebar.appendChild(sidebarLink);
-
-    var optionsHeader = document.createElement('h4');
-    optionsHeader.id = userscript;
-    optionsHeader.innerHTML = title;
-    options.appendChild(optionsHeader);
-}
-
-async function addConfigOption(options,name,title) {
-    var option = document.createElement('div');
-    option.innerHTML = `<input id="${name}" type="checkbox" ${GM_getValue(name)==true?'checked':''}>${title}</input>`
-
-    options.appendChild(option);
-    option.addEventListener('click', function(){saveConfigOption(option,name)})
-}
-
-async function saveConfigOption(option,name) {
-    var value = document.getElementById(name);
-    await GM.setValue(name, value.checked);
-    console.log(await GM.getValue(name));
-}
-
-(async function () {
-    addMenuOption();
-    applyToNewPosts();
-    applyCommentStyles();
-    // Observe for new posts
-    let observer = new MutationObserver(applyToNewPosts);
-    observer.observe(document.body, { childList: true, subtree: true });
-    console.log(await GM.getValue("fulltoggle"));
-})();
