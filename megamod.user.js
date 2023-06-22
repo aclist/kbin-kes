@@ -2,7 +2,7 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.1.6
+// @version       0.2.0
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -129,8 +129,15 @@
             margin-top: 0;
             font-size: 1rem;
         }
-
+        .megamod-tab-link {
+             border-radius: 0px;
+             color: var(--kbin-header-text-color);
+            background-color: var(--kbin-primary-color);
+            border: none;
+            padding: 8px 16px;
         }
+        .megamod-tab-link:hover{
+            opacity: 0.65;
         `);
 
         /*instantiate megamod modal*/
@@ -162,12 +169,19 @@
         modalContent.className = "megamod-settings-modal-content";
 
         const header = document.createElement("div");
-        header.innerHTML = `<div class="megamod-settings-modal-header">
-                <span class="close">
-                    <i class="fa-solid fa-times"></i>
-                </span>
-                <h2>Megamod Settings</h2>
-            </div>
+        header.innerHTML = `
+          <div class="megamod-settings-modal-header">
+            <span class="close">
+             <i class="fa-solid fa-times"></i>
+             </span>
+             <button class="megamod-tab-link" onclick="openTab(event, 'homePage')">Home page</button>
+             <button class="megamod-tab-link" onclick="openTab(event, 'inbox')">Inbox</button>
+             <button class="megamod-tab-link" onclick="openTab(event, 'subs')">Subscriptions</button>
+             <button class="megamod-tab-link" onclick="openTab(event, 'lookAndFeel')">Look and feel</button>
+          </div>
+             <hr style="border: 1px solid gray">
+             <h2>Megamod Settings</h2>
+          </div>
         `
         const bodyHolder = document.createElement("div");
              bodyHolder.className = "megamod-settings-modal-body";
