@@ -61,6 +61,8 @@ function initCollapsibleCommentsListeners(toggle) {
             icon.addEventListener('click', function(){toggleReplies(event, comments[i],expando)});
 
         } else {
+            // Get expando
+            let expando = comments[i].querySelector('.expando');
             // Add event listener to comment
             comments[i].addEventListener('click', function(){toggleReplies(event, comments[i], expando)});
         }
