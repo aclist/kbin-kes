@@ -24,6 +24,8 @@
 // ==/UserScript==
 
 function initCollapsibleComments(toggle) {
+    console.log('Initializing Improved Collapsible Comments');
+
     // Check if page has already been modified
     if (document.querySelector('.entry-comment.nested')) {
         if (!toggle) {
@@ -31,7 +33,6 @@ function initCollapsibleComments(toggle) {
         } 
     } else {
         if (toggle) {
-            console.log('Initializing Improved Collapsible Comments');
             applyToNewPosts();
             applyCommentStyles();
 
