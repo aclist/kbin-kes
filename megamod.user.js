@@ -9,7 +9,7 @@
 // @grant           GM_addStyle
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mod/subs.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/subs.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
 // ==/UserScript==
