@@ -2,7 +2,7 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.1.5
+// @version       0.1.6
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -34,8 +34,8 @@
             "Add mail link to usernames if on kbin.social",
             "Add magazine subscriptions to navbar",
             "Add 'OP' label to thread author",
-            "Convert profile page links to dropdown",
-            "Adds syntax highlighting for code blocks"
+            "Convert profile page links to dropdown [BETA]",
+            "Adds syntax highlighting for code blocks [BETA]"
             ];
 
     /*function identifier, can be same as function name*/
