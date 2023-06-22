@@ -5,6 +5,8 @@
 
 This tool is not ready for mainstream consumption yet.
 
+# Developers
+
 ## Adding a script
 
 1. Add the script to the /mods directory
