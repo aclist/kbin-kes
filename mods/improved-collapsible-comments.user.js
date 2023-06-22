@@ -39,6 +39,21 @@ function initCollapsibleComments(toggle) {
     }
 }
 
+function initCollapsibleCommentsListeners(toggle) {
+    if (!toggle) {
+        // Add event listener to expando
+        expando.addEventListener('click', function(){toggleReplies(event,comments[i],expando)});
+        // Add event listener to header
+        let header = comments[i].querySelector('header');
+        header.addEventListener('click', function(){toggleReplies(event,comments[i],expando)});
+        // Add event listener to icon
+        icon.addEventListener('click', function(){toggleReplies(event, comments[i],expando)});
+    } else {
+        // Add event listener to comment
+        comments[i].addEventListener('click', function(){toggleReplies(event, comments[i], expando)});
+    }
+}
+
 
 function toggleReplies(event, comment,expando) {
     var senderElement = event.target
@@ -121,18 +136,7 @@ function nestComments(comments,levels) {
         icon.className = 'expando-icon fas fa-minus';
         comments[i].appendChild(icon);
 
-        // Add event listener to comment
-        // if (GM_getValue("fulltoggle") == false) {
-            // Add event listener to expando
-            expando.addEventListener('click', function(){toggleReplies(event,comments[i],expando)});
-            // Add event listener to header
-            let header = comments[i].querySelector('header');
-            header.addEventListener('click', function(){toggleReplies(event,comments[i],expando)});
-            //// Add event listener to icon
-            icon.addEventListener('click', function(){toggleReplies(event, comments[i],expando)});
-        // } else {
-        //     comments[i].addEventListener('click', function(){toggleReplies(event, comments[i], expando)});
-        // }
+
 
         // Check if the previous element is the parent
         let previousElement = comments[i].previousElementSibling;
