@@ -1,3 +1,4 @@
+
 // ==UserScript==
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
@@ -19,6 +20,9 @@
 // ==/UserScript==
 
 (function () {
+
+    const version = '0.2.0'
+    const tool = 'kbin-megamod'
 
     /*human readable mod label*/
      const mmLabels = [
@@ -98,7 +102,11 @@
         .megamod-settings-modal-content {
             border: var(--kbin-options-border);
         }
-
+        .megamod-version {
+            float: right;
+            margin-right: 0.5rem;
+            padding-top: 0.1rem;
+         }
         .megamod-settings-modal-content .close {
             color: #aaa;
             float: right;
@@ -171,10 +179,11 @@
         const header = document.createElement("div");
         header.innerHTML = `
           <div class="megamod-settings-modal-header">
-            <span class="close">
+           </span><span class="close">
              <i class="fa-solid fa-times"></i>
              </span>
-             <button class="megamod-tab-link" onclick="openTab(event, 'homePage')">Home page</button>
+             <span class="megamod-version">` + tool + ' ' + version +
+             `</span><button class="megamod-tab-link" onclick="openTab(event, 'homePage')">Home page</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'inbox')">Inbox</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'subs')">Subscriptions</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'lookAndFeel')">Look and feel</button>
