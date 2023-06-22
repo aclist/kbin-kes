@@ -1,7 +1,11 @@
 
 ![Alt text](/examples/mm2.png)
 
-# Adding a script
+# Note to end users
+
+This tool is not ready for mainstream consumption yet.
+
+## Adding a script
 
 1. Add the script to the /mods directory
 2. Add the script's absolute path to the includes (`@require`)
@@ -14,14 +18,14 @@
 5. Add necessary @grants to megamod.user.js
 6. Submit a PR
 
-# Specifications
+## Specifications
 
 - Prefer 4 space indentation
 - Prefer [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
 - Script entry point must accept a boolean toggle (true = setup, false = teardown)
 
 
-# TODO
+## TODO
 - Contributors
 - Update this README
 - JSON manifest
