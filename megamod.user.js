@@ -2,7 +2,7 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.1.0
+// @version       0.1.1
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
