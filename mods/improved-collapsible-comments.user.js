@@ -31,6 +31,7 @@ function initCollapsibleComments(toggle) {
         } 
     } else {
         if (toggle) {
+            console.log('Initializing Improved Collapsible Comments');
             applyToNewPosts();
             applyCommentStyles();
 
