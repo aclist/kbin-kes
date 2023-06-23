@@ -49,7 +49,6 @@ function addDropdown(){
         var username = urlArr[4];
         const pref = 'https://kbin.social/u/'
         var finalUrl = pref + username + "/" + page;
-        console.log(finalUrl);
         window.location = finalUrl;
     })
 
@@ -70,7 +69,6 @@ function removeDropdown(){
             scrollArrows.style.cssText += 'display:grid';
 }
 function dropdownEntry(toggle){
-    console.log(toggle);
     if (toggle == false) {
         removeDropdown();
     } else {
