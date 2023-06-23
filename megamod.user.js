@@ -15,6 +15,7 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
+// @require       https://github.com/artillect/kbin-megamod/raw/main/mods/language-filter.user.js
 // @resource      css   https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/windows-10.css
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // ==/UserScript==
@@ -31,6 +32,7 @@
             "Label OP",
             "Profile dropdown",
             "Code syntax highlighting",
+            "Language filter"
         ];
 
     /*human readable mod desc*/
@@ -39,7 +41,8 @@
             "Add magazine subscriptions to navbar",
             "Add 'OP' label to thread author",
             "Convert profile page links to dropdown [BETA]",
-            "Adds syntax highlighting for code blocks [BETA]"
+            "Adds syntax highlighting for code blocks [BETA]",
+            "Filter posts by language"
             ];
 
     /*function identifier, can be same as function name*/
@@ -48,7 +51,8 @@
         "initMags",
         "labelOp",
         "dropdownEntry",
-        "codeHighlighting"
+        "codeHighlighting",
+        "languageFilterEntry"
         ];
 
       /*object used for interpolation of function names*/
@@ -60,7 +64,8 @@
         initMags: initMags,
         labelOp: labelOp,
         dropdownEntry: dropdownEntry,
-        codeHighlighting: initCodeHighlights
+        codeHighlighting: initCodeHighlights,
+        languageFilterEntry: languageFilterEntry
        };
 
     'use strict';
