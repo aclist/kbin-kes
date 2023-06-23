@@ -3,13 +3,14 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.2.1
+// @version       0.2.2
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
 // @grant         GM_addStyle
 // @grant         GM_getResourceText
 // @grant         GM_xmlhttpRequest
+// @grant        GM_info
 // @connect       raw.githubusercontent.com
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
@@ -24,8 +25,8 @@
 
 (function () {
 
-    const version = '0.2.1'
-    const tool = 'kbin-megamod'
+    const version = GM_info.script.version;
+    const tool = GM_info.script.name;
 
     /*human readable mod label*/
      const mmLabels = [
