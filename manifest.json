@@ -6,6 +6,7 @@
       "desc": "do something",
       "class": "myfunc",
       "entrypoint": "initMyFunc",
+        "type": "checkbox",
       "page": "inbox"
     },
     {
@@ -15,6 +16,12 @@
       "desc": "do something",
       "class": "myfunc",
       "entrypoint": "initMyFunc",
+        "type": "selector",
+         "values" : [
+           "a",
+           "b",
+           "c"
+        ],
       "page": "inbox"
     }
   ]
