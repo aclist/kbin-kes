@@ -256,10 +256,14 @@
 
     function applySettings(method) {
         const settings = getSettings();
-        if (settings[method] == true) {
-            funcObj[method](true);
-        } else {
-             funcObj[method](false);
+        try {
+            if (settings[method] == true) {
+                funcObj[method](true);
+            } else {
+                funcObj[method](false);
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
