@@ -1,6 +1,7 @@
 [
     {
       "name": "foo",
+       "author": "person",
       "label": "mylabel",
       "desc": "do something",
       "class": "myfunc",
@@ -9,6 +10,7 @@
     },
     {
       "name": "bar",
+        "author": "person",
       "label": "mylabel",
       "desc": "do something",
       "class": "myfunc",
