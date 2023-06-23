@@ -33,7 +33,9 @@
             "Label OP",
             "Profile dropdown",
             "Code syntax highlighting",
-            "Language filter"
+            "Language filter",
+            "Collapsible comments",
+            "Collapse comments by clicking anywhere"
         ];
 
     /*human readable mod desc*/
@@ -43,7 +45,9 @@
             "Add 'OP' label to thread author",
             "Convert profile page links to dropdown [BETA]",
             "Adds syntax highlighting for code blocks [BETA]",
-            "Filter posts by language"
+            "Filter posts by language",
+            "Allow comments to be collapsed by clicking on the comment header or the bar on the left side",
+            "Allow comments to be collapsed by clicking anywhere on the comment"
             ];
 
     /*function identifier, can be same as function name*/
@@ -53,7 +57,9 @@
         "labelOp",
         "dropdownEntry",
         "codeHighlighting",
-        "languageFilterEntry"
+        "languageFilterEntry",
+        "initCollapsibleComments",
+        "initCollapsibleCommentsListeners"
         ];
 
       /*object used for interpolation of function names*/
@@ -66,7 +72,9 @@
         labelOp: labelOp,
         dropdownEntry: dropdownEntry,
         codeHighlighting: initCodeHighlights,
-        languageFilterEntry: languageFilterEntry
+        languageFilterEntry: languageFilterEntry,
+        initCollapsibleComments: initCollapsibleComments,
+        initCollapsibleCommentsListeners: initCollapsibleCommentsListeners
        };
 
     'use strict';
