@@ -36,6 +36,11 @@ function hideFilteredPosts() {
                 posts[i].style.display = "none";
                 posts[i].classList.add("language-filtered");
             }
+        } else {
+            if(!whitelist.includes('en')) {
+                posts[i].style.display = "none";
+                posts[i].classList.add("language-filtered");
+            }
         }
     }
 }
