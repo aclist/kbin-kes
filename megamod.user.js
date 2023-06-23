@@ -3,12 +3,14 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.2.0
+// @version       0.2.1
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
 // @grant         GM_addStyle
 // @grant         GM_getResourceText
+// @grant        GM_xmlhttpRequest
+// @connect      raw.githubusercontent.com
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/subs.user.js
