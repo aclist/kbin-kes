@@ -1,0 +1,20 @@
+[
+    {
+      "name": "foo",
+       "author": "person",
+      "label": "mylabel",
+      "desc": "do something",
+      "class": "myfunc",
+      "entrypoint": "initMyFunc",
+      "page": "inbox"
+    },
+    {
+      "name": "bar",
+        "author": "person",
+      "label": "mylabel",
+      "desc": "do something",
+      "class": "myfunc",
+      "entrypoint": "initMyFunc",
+      "page": "inbox"
+    }
+  ]

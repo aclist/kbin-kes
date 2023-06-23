@@ -1,8 +1,9 @@
+
 // ==UserScript==
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.1.4
+// @version       0.2.0
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -14,11 +15,15 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
+// @require       https://github.com/artillect/kbin-megamod/raw/main/mods/language-filter.user.js
 // @resource      css   https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/windows-10.css
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // ==/UserScript==
 
 (function () {
+
+    const version = '0.2.0'
+    const tool = 'kbin-megamod'
 
     /*human readable mod label*/
      const mmLabels = [
@@ -27,7 +32,7 @@
             "Label OP",
             "Profile dropdown",
             "Code syntax highlighting",
-            "Nested collapsible comments"
+            "Language filter"
         ];
 
     /*human readable mod desc*/
@@ -35,9 +40,9 @@
             "Add mail link to usernames if on kbin.social",
             "Add magazine subscriptions to navbar",
             "Add 'OP' label to thread author",
-            "Convert profile page links to dropdown",
-            "Adds syntax highlighting for code blocks",
-            "Adds collapsible comments to threads"
+            "Convert profile page links to dropdown [BETA]",
+            "Adds syntax highlighting for code blocks [BETA]",
+            "Filter posts by language"
             ];
 
     /*function identifier, can be same as function name*/
@@ -47,7 +52,7 @@
         "labelOp",
         "dropdownEntry",
         "codeHighlighting",
-        "initCollapsibleComments"
+        "languageFilterEntry"
         ];
 
       /*object used for interpolation of function names*/
@@ -60,17 +65,13 @@
         labelOp: labelOp,
         dropdownEntry: dropdownEntry,
         codeHighlighting: initCodeHighlights,
-        collapsibleComments: initCollapsibleComments
+        languageFilterEntry: languageFilterEntry
        };
 
     'use strict';
 
         GM_addStyle(`
-        body.extend-width .kbin-container {
-            max-width: 1620px;
-        }
-
-        #subscription-panel-settings-button {
+        #megamod-settings-button {
             position: absolute;
             top: 0;
             right: 0;
@@ -81,12 +82,12 @@
             cursor: pointer;
         }
 
-        #subscription-panel-settings-button:hover {
+        #megamod-settings-button:hover {
             color: var(--kbin-sidebar-header-text-color);
         }
 
 
-        .subscription-panel-settings-modal {
+        .megamod-settings-modal {
             position: fixed;
             z-index: 100;
             left: 0;
@@ -96,49 +97,60 @@
             overflow: auto;
         }
 
-        .subscription-panel-settings-modal-content {
+        .megamod-settings-modal-content {
             background-color: var(--kbin-section-bg);
             height:100%
             width: 100%;
             padding: 2rem;
         }
 
-        .subscription-panel-settings-modal-content {
+        .megamod-settings-modal-content {
             border: var(--kbin-options-border);
         }
-
-        .subscription-panel-settings-modal-content .close {
+        .megamod-version {
+            float: right;
+            margin-right: 0.5rem;
+            padding-top: 0.1rem;
+         }
+        .megamod-settings-modal-content .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             cursor: pointer;
         }
 
-        .subscription-panel-settings-modal-content ul {
+        .megamod-settings-modal-content ul {
             list-style: none;
             padding-inline: 0;
         }
-        .subscription-panel-settings-modal-content ul li label {
+        .megamod-settings-modal-content ul li label {
             display: block;
             margin-bottom: 0.5rem;
         }
 
-        .subscription-panel-settings-modal-content ul li .description {
+        .megamod-settings-modal-content ul li .description {
             font-size: 0.8em;
             padding-left: 20px;
             text-align: justify;
         }
 
-        .subscription-panel-settings-modal-content ul li input[type="checkbox"] {
+        .megamod-settings-modal-content ul li input[type="checkbox"] {
             margin-right: 0.5rem;
         }
 
-        .subscription-panel-settings-modal-content h2 {
+        .megamod-settings-modal-content h2 {
             margin-top: 0;
             font-size: 1rem;
         }
-
+        .megamod-tab-link {
+             border-radius: 0px;
+             color: var(--kbin-header-text-color);
+            background-color: var(--kbin-primary-color);
+            border: none;
+            padding: 8px 16px;
         }
+        .megamod-tab-link:hover{
+            opacity: 0.65;
         `);
 
         /*instantiate megamod modal*/
@@ -146,13 +158,13 @@
         const magazinePanel = document.createElement("aside");
         const magazinePanelUl = document.createElement("ul");
         const title = document.createElement("h3");
-        magazinePanel.id = "subscription-panel";
+        magazinePanel.id = "megamod-settings";
         magazinePanel.appendChild(title);
         kbinContainer.appendChild(magazinePanel);
 
         /*add settings button*/
         const settingsButton = document.createElement("div");
-        settingsButton.id = "subscription-panel-settings-button";
+        settingsButton.id = "megamod-settings-button";
         settingsButton.innerHTML = '<i class="fa-solid fa-bug"></i>';
         settingsButton.addEventListener("click", () => {
             showSettingsModal();
@@ -164,21 +176,29 @@
         const settings = getSettings();
 
         const modal = document.createElement("div");
-        modal.className = "subscription-panel-settings-modal";
+        modal.className = "megamod-settings-modal";
 
         const modalContent = document.createElement("div");
-        modalContent.className = "subscription-panel-settings-modal-content";
+        modalContent.className = "megamod-settings-modal-content";
 
         const header = document.createElement("div");
-        header.innerHTML = `<div class="subscription-panel-settings-modal-header">
-                <span class="close">
-                    <i class="fa-solid fa-times"></i>
-                </span>
-                <h2>Megamod Settings</h2>
-            </div>
+        header.innerHTML = `
+          <div class="megamod-settings-modal-header">
+           </span><span class="close">
+             <i class="fa-solid fa-times"></i>
+             </span>
+             <span class="megamod-version">` + tool + ' ' + version +
+             `</span><button class="megamod-tab-link" onclick="openTab(event, 'homePage')">Home page</button>
+             <button class="megamod-tab-link" onclick="openTab(event, 'inbox')">Inbox</button>
+             <button class="megamod-tab-link" onclick="openTab(event, 'subs')">Subscriptions</button>
+             <button class="megamod-tab-link" onclick="openTab(event, 'lookAndFeel')">Look and feel</button>
+          </div>
+             <hr style="border: 1px solid gray">
+             <h2>Megamod Settings</h2>
+          </div>
         `
         const bodyHolder = document.createElement("div");
-             bodyHolder.className = "subscription-panel-settings-modal-body";
+             bodyHolder.className = "megamod-settings-modal-body";
 
         const megamodUl = document.createElement("ul")
               megamodUl.className = "megamods-list";
@@ -207,7 +227,7 @@
             }
          }
 
-        modal.querySelector(".subscription-panel-settings-modal .close").addEventListener("click", () => {
+        modal.querySelector(".megamod-settings-modal .close").addEventListener("click", () => {
             modal.remove();
          });
         modal.addEventListener("click", (e) => {
