@@ -3,14 +3,16 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.2.2
+// @version       0.3.0
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
 // @grant         GM_addStyle
 // @grant         GM_getResourceText
 // @grant         GM_xmlhttpRequest
-// @grant        GM_info
+// @grant         GM_info
+// @grant         GM.getValue
+// @grant         GM.setValue
 // @connect       raw.githubusercontent.com
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
@@ -23,45 +25,11 @@
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // ==/UserScript==
 
-(function () {
-
     const version = GM_info.script.version;
     const tool = GM_info.script.name;
-
-    /*human readable mod label*/
-     const mmLabels = [
-            "Add mail icon",
-            "Add subs to navbar",
-            "Label OP",
-            "Profile dropdown",
-            "Code syntax highlighting",
-            "Language filter"
-        ];
-
-    /*human readable mod desc*/
-    const mmDescs = [
-            "Add mail link to usernames if on kbin.social",
-            "Add magazine subscriptions to navbar",
-            "Add 'OP' label to thread author",
-            "Convert profile page links to dropdown [BETA]",
-            "Adds syntax highlighting for code blocks [BETA]",
-            "Filter posts by language"
-            ];
-
-    /*function identifier, can be same as function name*/
-    const mmFuncs = [
-        "addMail",
-        "initMags",
-        "labelOp",
-        "dropdownEntry",
-        "codeHighlighting",
-        "languageFilterEntry"
-        ];
+    const manifest = "https://raw.githubusercontent.com/aclist/kbin-megamod/main/manifest.json"
 
       /*object used for interpolation of function names*/
-    /*key MUST be same as mmFuncs array*/
-    /*value MUST be literal entry point in the target script, will be passed boolean*/
-    /*literal func name need not be identical to key*/
       const funcObj = {
        addMail: addMail,
         initMags: initMags,
@@ -71,7 +39,29 @@
         languageFilterEntry: languageFilterEntry
        };
 
-    'use strict';
+function fetchManifest() {
+    GM_xmlhttpRequest({
+        method: 'GET',
+        url: manifest,
+        onload: makeArr,
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/xml"
+        },
+    });
+};
+
+function makeArr(response) {
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(response.responseText, "text/html");
+    var content = response.responseText
+     const jarr = JSON.parse(content)
+     /*TODO: wait on promise and set warning string if unreachable*/
+     GM.setValue("json", jarr);
+};
+
+fetchManifest();
+var json = await GM.getValue("json");
 
         GM_addStyle(`
         #megamod-settings-button {
@@ -185,6 +175,7 @@
         modalContent.className = "megamod-settings-modal-content";
 
         const header = document.createElement("div");
+	/*TODO: check for new remote version at startup and insert link*/
         header.innerHTML = `
           <div class="megamod-settings-modal-header">
            </span><span class="close">
@@ -214,16 +205,23 @@
        document.body.appendChild(modal);
 
     /*populate modal identifiers*/
-    function insertListItem(func, item, desc){
-        const megamodListItem = document.createElement("li");
-        megamodListItem.innerHTML+=`<label><input type="checkbox" id="megamod-option" megamod-iter="` + func + `"/input>` + item + `<span class="description">` + desc + `</span></label>`
+    function insertListItem(func, item, desc,author,type){
+            switch(type) {
+                case 'checkbox': console.log('toggle type selected');
+                break;
+                case 'selector': console.log('dropdown type selected');
+                break;
+            }
+       const megamodListItem = document.createElement("li");
+       megamodListItem.innerHTML+=`<label><input type="checkbox" id="megamod-option" megamod-entry="` + func + `"/input>` + item + `<span class="description">` + desc + ` (` + author + `)</span></label>`
         megamodUl.appendChild(megamodListItem);
     }
 
-        for (let i = 0; i < mmLabels.length; ++i) {
-                insertListItem(mmFuncs[i], mmLabels[i], mmDescs[i]);
-             const check = document.querySelector(`[megamod-iter="` + mmFuncs[i] + `"]`);
-            if (settings[mmFuncs[i]] == true) {
+    for (let i = 0; i < json.length; ++i) {
+                insertListItem(json[i].entrypoint, json[i].label, json[i].desc, json[i].author, json[i].type);
+        let func = json[i].entrypoint;
+     const check = document.querySelector(`[megamod-entry="` + func + `"]`);
+            if (settings[func] == true) {
               check.checked = true;
             } else {
     check.checked = false;
@@ -244,7 +242,7 @@
         const settings = getSettings();
         var state
         var eventTarget = e.target;
-        var func = eventTarget.getAttribute('megamod-iter');
+        var func = eventTarget.getAttribute('megamod-entry');
         if(e.target.checked) {
           state = true;
        } else {
@@ -254,16 +252,16 @@
        /*save and apply checkbox state*/
       saveSettings(settings);
       applySettings(func);
-  }
-}
+       }
+     }
 
-    function applySettings(method) {
+    function applySettings(entry) {
         const settings = getSettings();
         try {
-            if (settings[method] == true) {
-                funcObj[method](true);
+            if (settings[entry] == true) {
+                funcObj[entry](true);
             } else {
-                funcObj[method](false);
+                funcObj[entry](false);
             }
         } catch (error) {
             console.log(error);
@@ -284,7 +282,6 @@
         localStorage.setItem("megamod-settings", JSON.stringify(settings));
     }
 
-    for (let i = 0; i < mmFuncs.length; ++i) {
-        applySettings(mmFuncs[i]);
+    for (let i = 0; i < json.length; ++i) {
+        applySettings(json[i].entrypoint);
     }
-})()
