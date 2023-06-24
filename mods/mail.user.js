@@ -31,7 +31,6 @@ function getUsername(item) {
 }
 
 function addItemLink(item) {
-	console.log('entered')
   const username = getUsername(item);
   if (!username) return;
   const link = document.createElement('a');

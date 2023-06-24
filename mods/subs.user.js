@@ -16,7 +16,6 @@ function createMags(){
     var split = user.href.split("/");
     var username = split[4];
     var subLink = 'https://kbin.social/u/' + username + '/subscriptions';
-    console.log(username);
         if ( username == null) {
             return;
         } else {
@@ -32,7 +31,6 @@ function createMags(){
 }
 
 function initMags(toggle){
-    console.log(toggle);
     if (toggle === false) {
         $('.subs-nav').remove();
     } else {
