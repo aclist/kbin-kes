@@ -10,6 +10,7 @@
 // ==/UserScript==
 
 function createMags(){
+	console.log('entered func');
     var nav = document.querySelector('.head-nav__menu');
     var mags = document.querySelector('[href="/magazines"]');
     var user = document.querySelector('.login');
@@ -31,7 +32,9 @@ function createMags(){
 }
 
 function initMags(toggle){
-    if (toggle === false) {
+    console.log(toggle);
+    if (toggle == false) {
+	    console.log('requested removal')
         $('.subs-nav').remove();
     } else {
         createMags();
