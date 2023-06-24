@@ -29,7 +29,7 @@ function createMags(){
         nav.appendChild(myListItem);
     }
 }
-let megamod += {initMags: initMags}
+
 function initMags(toggle){
     if (toggle == false) {
         $('.subs-nav').remove();
@@ -37,3 +37,5 @@ function initMags(toggle){
         createMags();
     }
 }
+
+megamod.initMags: initMags
