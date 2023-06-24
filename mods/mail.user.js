@@ -57,7 +57,7 @@ function checkItems(selector) {
   });
 }
 
-function addMail(toggle){
+megamod.addMail = function(toggle){
     console.log(toggle);
     if (toggle == false) {
 	    $('.item-link').remove();
