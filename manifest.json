@@ -23,5 +23,20 @@
            "c"
         ],
       "page": "inbox"
+    },
+        {
+      "name": "Option 3",
+        "author": "somebody",
+      "label": "foo",
+      "desc": "bar",
+      "class": "myclass",
+      "entrypoint": "myEp",
+        "type": "selector",
+         "values" : [
+           "a",
+           "b",
+           "c"
+        ],
+      "page": "inbox"
     }
   ]
