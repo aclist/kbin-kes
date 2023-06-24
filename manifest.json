@@ -1,21 +1,36 @@
 [
     {
-      "name": "foo",
-       "author": "person",
-      "label": "mylabel",
-      "desc": "do something",
-      "class": "myfunc",
-      "entrypoint": "initMyFunc",
+      "name": "Add mail",
+       "author": "aclist",
+      "label": "Add mail icon",
+      "desc": "Add mail link to usernames if on kbin.social",
+      "class": "addMail",
+      "entrypoint": "addMail",
         "type": "checkbox",
       "page": "inbox"
     },
     {
-      "name": "bar",
-        "author": "person",
-      "label": "mylabel",
-      "desc": "do something",
-      "class": "myfunc",
-      "entrypoint": "initMyFunc",
+      "name": "Add subs to navbar",
+        "author": "aclist",
+      "label": "Add subs to navbar",
+      "desc": "Add magazine subscription to navbar",
+      "class": "initMags",
+      "entrypoint": "initMags",
+        "type": "selector",
+         "values" : [
+           "a",
+           "b",
+           "c"
+        ],
+      "page": "inbox"
+    },
+        {
+      "name": "Option 3",
+        "author": "somebody",
+      "label": "foo",
+      "desc": "bar",
+      "class": "myclass",
+      "entrypoint": "myEp",
         "type": "selector",
          "values" : [
            "a",
