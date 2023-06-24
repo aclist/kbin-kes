@@ -7,10 +7,7 @@
 // @match        https://kbin.social/*
 // @match        https://fedia.io/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @grant        GM_getValue
-// @grant        GM_setValue
-// @grant        GM.getValue
-// @grant        GM.setValue
+// @grant        GM.addStyle
 // @license      MIT
 // ==/UserScript==
 
@@ -405,7 +402,7 @@ function applyCommentStyles() {
         }
         `;
     }
-    GM_addStyle(style);
+    GM.addStyle(style);
 }
 
 function applyToNewPosts() {
