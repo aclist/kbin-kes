@@ -37,5 +37,3 @@ function initMags(toggle){
         createMags();
     }
 }
-
-megamod.initMags: initMags
