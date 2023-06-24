@@ -3,7 +3,7 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.2.2
+// @version       0.2.3
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -50,7 +50,7 @@
             "Adds syntax highlighting for code blocks [BETA]",
             "Filter posts by language",
             "Allow comments to be collapsed by clicking on the comment header or the bar on the left side",
-            "Allow comments to be collapsed by clicking anywhere on the comment"
+            "Allow comments to be collapsed by clicking anywhere on the comment (requires page reload)"
             ];
 
     /*function identifier, can be same as function name*/

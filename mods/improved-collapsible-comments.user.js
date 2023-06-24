@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         kbin Improved Collapsible Comments
 // @namespace    http://tampermonkey.net/
-// @version      1.3.6
+// @version      1.3.7
 // @description  Improves the comment tree layout and adds a line that lets you collapse replies
 // @author       artillect
 // @match        https://kbin.social/*
@@ -34,9 +34,11 @@ function initCollapsibleCommentsListeners(toggle) {
     for (let i = 0; i < comments.length; i++) {
         if (!toggle) {
             // Get expando
-            let expando = comments[i].querySelector('.expando');
+            let expandos = comments[i].querySelectorAll('.expando');
+            let expando = expandos[expandos.length-1];
             // Get expando icon
-            let icon = comments[i].querySelector('.expando-icon');
+            let icons = comments[i].querySelectorAll('.expando-icon');
+            let icon = icons[icons.length-1];
             // Get comment header
             let header = comments[i].querySelector('header');
 
@@ -45,13 +47,14 @@ function initCollapsibleCommentsListeners(toggle) {
             header.addEventListener('click', function(){toggleReplies(event,comments[i])});
             icon.addEventListener('click', function(){toggleReplies(event, comments[i])});
 
+            // Remove comment event listener if it exists
+            comments[i].removeEventListener('click', function(){toggleReplies(event, comments[i])});
         } else {
             // Add event listener to comment
             comments[i].addEventListener('click', function(){toggleReplies(event, comments[i])});
         }
     }
 }
-
 
 function toggleReplies(event, comment) {
     var senderElement = event.target
@@ -210,12 +213,6 @@ function applyCommentStyles() {
         margin-bottom: 8px;
     }
 
-    .author > header .timeago:before {
-        content: 'OP ';
-        color: var(--kbin-danger-color);
-        font-weight: bold;
-    }
-
     .collapsed .children, .collapsed .content, .collapsed footer, .collapsed .vote, .collapsed .more {
         display: none !important;
     }
@@ -227,7 +224,7 @@ function applyCommentStyles() {
 
     .collapsed {
         grid-template-areas:"expando-icon avatar header"!important;
-        grid-template-columns: 20px min-content auto!important;
+        grid-template-columns: 20px 20px auto!important;
         grid-template-rows: min-content!important;
         grid-row-gap: 0!important;
     }
@@ -257,6 +254,7 @@ function applyCommentStyles() {
     .threadLine {
         background-color: #4a4a4a;
         transition: background-color 0.2s ease;
+        border-radius: 2px;
         width: 2px;
         height: 100%;
         margin: auto;
@@ -267,7 +265,7 @@ function applyCommentStyles() {
     }
 
     .comment-level--1 .threadLine {
-        background-color: #24262a;
+        background-color: var(--kbin-meta-link-color);
     }
     .comment-level--2 .threadLine {
         background-color: #71ac53;
@@ -310,7 +308,7 @@ function applyCommentStyles() {
         color:#d7dadc;
     }
     .expando:hover .threadLine {
-        background-color: #d7dadc;
+        background-color: var(--kbin-meta-link-hover-color);
     }
 
     .entry-comment > figure {
@@ -372,7 +370,7 @@ function applyCommentStyles() {
         "expando body body body"
         "expando footer footer footer"
         "expando children children children";
-        grid-template-columns: 20px min-content auto min-content;
+        grid-template-columns: 20px 20px auto min-content;
         grid-template-rows: min-content auto auto;
         display: grid;
         margin-left: 0 !important;
