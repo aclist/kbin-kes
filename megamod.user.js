@@ -1,4 +1,3 @@
-
 // ==UserScript==
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
@@ -100,6 +99,13 @@ var json = await GM.getValue("json");
         .megamod-settings-modal-content {
             border: var(--kbin-options-border);
         }
+        .megamod-dock{
+        padding-left: 0.5rem;
+        }
+        .megamod-dock:hover {
+            opacity: 0.5;
+        }
+
         .megamod-version {
             float: right;
             margin-right: 0.5rem;
@@ -111,6 +117,9 @@ var json = await GM.getValue("json");
             font-size: 28px;
             cursor: pointer;
         }
+        .megamod-settings-modal-content .close:hover{
+          opacity: 0.5;
+          }
 
         .megamod-settings-modal-content ul {
             list-style: none;
@@ -125,6 +134,7 @@ var json = await GM.getValue("json");
             font-size: 0.8em;
             padding-left: 20px;
             text-align: justify;
+            color: #b9b9b9;
         }
 
         .megamod-settings-modal-content ul li input[type="checkbox"] {
@@ -178,7 +188,7 @@ var json = await GM.getValue("json");
 	/*TODO: check for new remote version at startup and insert link*/
         header.innerHTML = `
           <div class="megamod-settings-modal-header">
-           </span><span class="close">
+           <span class="close">
              <i class="fa-solid fa-times"></i>
              </span>
              <span class="megamod-version">` + tool + ' ' + version +
@@ -186,6 +196,8 @@ var json = await GM.getValue("json");
              <button class="megamod-tab-link" onclick="openTab(event, 'inbox')">Inbox</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'subs')">Subscriptions</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'lookAndFeel')">Look and feel</button>
+             <span class="megamod-dock"><i class="fa-solid fa-arrow-down"></i></span>
+             </div>
           </div>
              <hr style="border: 1px solid gray">
              <h2>Megamod Settings</h2>
@@ -228,6 +240,22 @@ var json = await GM.getValue("json");
             }
          }
 
+        /*dock button*/
+        modal.querySelector('.megamod-dock i').addEventListener("click", (e) =>{
+            console.log('click');
+            let cn = e.target.className;
+            console.log(cn);
+            if (cn == "fa-solid fa-arrow-down") {
+                modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
+                e.target.className = 'fa-solid fa-arrow-up';
+            } else
+            {
+                modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
+                e.target.className = 'fa-solid fa-arrow-down';
+            }
+        });
+
+        /*close button*/
         modal.querySelector(".megamod-settings-modal .close").addEventListener("click", () => {
             modal.remove();
          });
