@@ -329,6 +329,16 @@ var json = await GM.getValue("json");
        bodyHolder.appendChild(megamodUl);
        document.body.appendChild(modal);
 
+        const dockIcon= document.querySelector('.megamod-dock i');
+       if (settings.dock == 'down') {
+         modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
+           dockIcon.className = 'fa-solid fa-arrow-up';
+       } else {
+           modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
+           dockIcon.className = 'fa-solid fa-arrow-down';
+       }
+
+
     /*populate modal identifiers*/
     /*TODO: extend boilerplate*/
     function insertListItem(func, item, desc,author,type,page, it){
@@ -359,17 +369,20 @@ var json = await GM.getValue("json");
          }
 
         /*dock button*/
-        /*TODO: remember user's docked position*/
         modal.querySelector('.megamod-dock i').addEventListener("click", (e) =>{
+            const settings = getSettings();
             let cn = e.target.className;
             if (cn == "fa-solid fa-arrow-down") {
                 modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
                 e.target.className = 'fa-solid fa-arrow-up';
-            } else
-            {
+                settings.dock = 'down';
+            } else {
                 modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
                 e.target.className = 'fa-solid fa-arrow-down';
+                settings.dock = 'up';
+
             }
+            saveSettings(settings);
         });
 
 
