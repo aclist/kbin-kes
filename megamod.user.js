@@ -26,6 +26,7 @@
 
     const version = GM_info.script.version;
     const tool = GM_info.script.name;
+    const versionFile = "https://raw.githubusercontent.com/artillect/kbin-megamod/version-check/VERSION";
     const manifest = "https://raw.githubusercontent.com/aclist/kbin-megamod/main/manifest.json";
     const repositoryURL = "https://github.com/aclist/kbin-megamod/";
 
@@ -50,6 +51,37 @@ function fetchManifest() {
         },
     });
 };
+
+
+const upstream = "REPO_URL";
+const updateElement = document.createElement('a');
+updateElement.innerText = tool + ' ' + version;
+updateElement.setAttribute('href',repositoryURL);
+
+
+function checkVersion() {
+    GM_xmlhttpRequest({
+        method: 'GET',
+        url: versionFile,
+        onload: compare,
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/xml"
+        },
+
+    });
+};
+function compare(response) {
+let parser = new DOMParser();
+let doc = parser.parseFromString(response.responseText, "text/html");
+let content = response.responseText;
+if (content != version) {
+        updateElement.innerText += "(New version available!)";
+        updateElement.style.cssText += 'color: pink';
+        } else {
+            return
+        }
+    }
 
 function makeArr(response) {
     var parser = new DOMParser();
@@ -185,6 +217,8 @@ var json = await GM.getValue("json");
         const modalContent = document.createElement("div");
         modalContent.className = "megamod-settings-modal-content";
 
+        checkVersion();
+
         const header = document.createElement("div");
 	/*TODO: check for new remote version at startup and insert link*/
         header.innerHTML = `
@@ -192,8 +226,8 @@ var json = await GM.getValue("json");
            <span class="close">
              <i class="fa-solid fa-times"></i>
              </span>
-             <span class="megamod-version">` + '<a href="' + repositoryURL + '">' + tool + ' ' + version + '</a>' +
-             `</span><button class="megamod-tab-link" onclick="openTab(event, 'homePage')">Home page</button>
+             <span class="megamod-version">` + updateElement.outerHTML + `</span>
+             <button class="megamod-tab-link" onclick="openTab(event, 'homePage')">Home page</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'inbox')">Inbox</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'subs')">Subscriptions</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'lookAndFeel')">Look and feel</button>
