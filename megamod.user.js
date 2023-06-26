@@ -116,7 +116,7 @@ var json = await GM.getValue("json");
             padding-left: 0.5rem;
             padding-right: 0.5rem;
         }
-        .megamod-dock:hover {
+        .megamod-dock i:hover {
             opacity: 0.5;
         }
 
