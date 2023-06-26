@@ -26,7 +26,8 @@
 
     const version = GM_info.script.version;
     const tool = GM_info.script.name;
-    const manifest = "https://raw.githubusercontent.com/artillect/kbin-megamod/modal-ui/manifest.json";
+    const manifest = "https://raw.githubusercontent.com/aclist/kbin-megamod/main/manifest.json";
+    const repositoryURL = "https://github.com/aclist/kbin-megamod/";
 
       /*object used for interpolation of function names*/
       const funcObj = {
