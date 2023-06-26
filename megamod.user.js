@@ -53,7 +53,6 @@ function fetchManifest() {
 };
 
 
-const upstream = "REPO_URL";
 const updateElement = document.createElement('a');
 updateElement.innerText = tool + ' ' + version;
 updateElement.setAttribute('href',repositoryURL);
