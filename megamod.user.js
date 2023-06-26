@@ -293,6 +293,8 @@ var json = await GM.getValue("json");
             // Hide all options not in this tab (without this classname)
             const options = document.getElementsByClassName("megamods-list")[0];
             const optionsChildren = options.children;
+            let helpbox = document.querySelector('.megamod-settings-modal-helpbox');
+            helpbox.style.cssText = 'display: none;'
 
             for (let i = 0; i < optionsChildren.length; i++) {
                 if (optionsChildren[i].className.indexOf(tabName) > -1) {
