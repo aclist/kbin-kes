@@ -3,7 +3,7 @@
     "name": "Add mail",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Add mail icon",
+    "label": "Add mail link",
     "desc": "Add mail link to usernames if on kbin.social",
     "class": "addMail",
     "entrypoint": "addMail",
