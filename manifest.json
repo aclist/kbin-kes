@@ -8,7 +8,7 @@
       "class": "addMail",
       "entrypoint": "addMail",
         "type": "checkbox",
-      "page": "top"
+      "page": "general"
     },
     {
       "name": "Add subs to navbar",
@@ -24,7 +24,7 @@
            "b",
            "c"
         ],
-      "page": "top"
+      "page": "general"
     },
     {
       "name": "Label OP",
@@ -35,7 +35,7 @@
       "class": "labelOp",
       "entrypoint": "labelop",
         "type": "checkbox",
-         "page": "threads"
+         "page": "comments"
     },
     {
       "name": "Profile dropdown",
@@ -46,7 +46,7 @@
       "class": "dropdownEntry",
       "entrypoint": "dropdownEntry",
         "type": "checkbox",
-         "page": "threads"
+         "page": "profiles"
     },
         {
       "name": "Code syntax highlighting",
@@ -73,6 +73,6 @@
       "class": "languageFilterEntry",
       "entrypoint": "languageFilterEntry",
         "type": "textarea",
-         "page": "threads"
+         "page": "general"
     }
    ]
