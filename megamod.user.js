@@ -94,13 +94,20 @@ var json = await GM.getValue("json");
             height:100%
             width: 100%;
             padding: 2rem;
+            display: grid;
+            grid-template-areas: "header header" "sidebar body";
+            grid-template-columns: 1fr 2fr;
         }
 
         .megamod-settings-modal-content {
             border: var(--kbin-options-border);
         }
+        .megamod-settings-modal-header {
+            grid-area: header;
+        }
+
         .megamod-dock{
-        padding-left: 0.5rem;
+            padding-left: 0.5rem;
         }
         .megamod-dock:hover {
             opacity: 0.5;
@@ -145,15 +152,31 @@ var json = await GM.getValue("json");
             margin-top: 0;
             font-size: 1rem;
         }
+
+        .megamod-settings-modal-body {
+            grid-area: body;
+        }
+
+        .megamod-settings-modal-body label .description {
+            transition: opacity 0.15s ease-in-out;
+            opacity: 0;
+        }
+
+        .megamod-settings-modal-body label:hover .description {
+            opacity: 1;
+        }
+
+        .mod-author {
+            float: right;
+        }
         .megamod-tab-link {
              border-radius: 0px;
              color: var(--kbin-header-text-color);
-            background-color: var(--kbin-primary-color);
             border: none;
-            padding: 8px 16px;
         }
         .megamod-tab-link:hover{
             opacity: 0.65;
+        }
         `);
 
         /*instantiate megamod modal*/
@@ -175,6 +198,8 @@ var json = await GM.getValue("json");
         title.appendChild(settingsButton);
         magazinePanel.appendChild(magazinePanelUl);
 
+
+
     function showSettingsModal() {
         const settings = getSettings();
 
@@ -185,24 +210,49 @@ var json = await GM.getValue("json");
         modalContent.className = "megamod-settings-modal-content";
 
         const header = document.createElement("div");
+        header.className = "megamod-settings-modal-header";
 	/*TODO: check for new remote version at startup and insert link*/
         header.innerHTML = `
-          <div class="megamod-settings-modal-header">
-           <span class="close">
-             <i class="fa-solid fa-times"></i>
-             </span>
-             <span class="megamod-version">` + tool + ' ' + version +
-             `</span><button class="megamod-tab-link" onclick="openTab(event, 'homePage')">Home page</button>
-             <button class="megamod-tab-link" onclick="openTab(event, 'inbox')">Inbox</button>
-             <button class="megamod-tab-link" onclick="openTab(event, 'subs')">Subscriptions</button>
-             <button class="megamod-tab-link" onclick="openTab(event, 'lookAndFeel')">Look and feel</button>
-             <span class="megamod-dock"><i class="fa-solid fa-arrow-down"></i></span>
-             </div>
-          </div>
-             <hr style="border: 1px solid gray">
-             <h2>Megamod Settings</h2>
-          </div>
+            <span class="close">
+            <i class="fa-solid fa-times"></i>
+            </span>
+            <span class="megamod-version">` + tool + ' ' + version + `</span>
+            <span class="megamod-dock"><i class="fa-solid fa-arrow-down"></i></span>
+            <hr style="border: 1px solid gray">
+            <h2>Megamod Settings</h2>
         `
+        const sidebar = document.createElement("div");
+        sidebar.className = "megamod-settings-modal-sidebar";
+
+        sidebar.innerHTML = `
+        <ul>
+        <li><a class="megamod-tab-link" onclick="openTab(event, 'top')">General</a></li>
+        <li><a class="megamod-tab-link" onclick="openTab(event, 'threads')">Threads</a></li>
+        <li><a class="megamod-tab-link" onclick="openTab(event, 'comments')">Comments</a></li>
+        <li><a class="megamod-tab-link" onclick="openTab(event, 'profiles')">Profiles</a></li>
+        <ul>`
+
+        // Add script tag with opentab function
+        const script = document.createElement("script");
+        script.innerHTML = `
+        
+        function openTab(event, tabName) {
+            event.stopPropagation();
+            // Hide all options not in this tab (without this classname)
+            const options = document.getElementsByClassName("megamods-list")[0];
+            const optionsChildren = options.children;
+    
+            for (let i = 0; i < optionsChildren.length; i++) {
+                if (optionsChildren[i].className.indexOf(tabName) > -1) {
+                    optionsChildren[i].style.display = "block";
+                } else {
+                    optionsChildren[i].style.display = "none";
+                }
+            }
+        }
+        `;
+        document.body.appendChild(script);
+
         const bodyHolder = document.createElement("div");
              bodyHolder.className = "megamod-settings-modal-body";
 
@@ -211,13 +261,14 @@ var json = await GM.getValue("json");
 
         /*inject modal*/
         modal.appendChild(modalContent);
-        modalContent.appendChild(header)
+        modalContent.appendChild(header);
+        modalContent.appendChild(sidebar);
         modalContent.appendChild(bodyHolder);
         bodyHolder.appendChild(megamodUl);
        document.body.appendChild(modal);
 
     /*populate modal identifiers*/
-    function insertListItem(func, item, desc,author,type){
+    function insertListItem(func, item, desc,author,type,page){
             switch(type) {
                 case 'checkbox': console.log('toggle type selected');
                 break;
@@ -225,12 +276,13 @@ var json = await GM.getValue("json");
                 break;
             }
        const megamodListItem = document.createElement("li");
-       megamodListItem.innerHTML+=`<label><input type="checkbox" id="megamod-option" megamod-entry="` + func + `"/input>` + item + `<span class="description">` + desc + ` (` + author + `)</span></label>`
+       megamodListItem.className = page;
+       megamodListItem.innerHTML+=`<label><input type="checkbox" id="megamod-option" megamod-entry="` + func + `"/input>` + item + `<span class="description">` + desc + ` <span class="mod-author">(<a href="https://kbin.social/u/` + author + '">' + author + `</a>)</span></span></label>`
         megamodUl.appendChild(megamodListItem);
     }
 
     for (let i = 0; i < json.length; ++i) {
-                insertListItem(json[i].entrypoint, json[i].label, json[i].desc, json[i].author, json[i].type);
+                insertListItem(json[i].entrypoint, json[i].label, json[i].desc, json[i].author, json[i].type, json[i].page);
         let func = json[i].entrypoint;
      const check = document.querySelector(`[megamod-entry="` + func + `"]`);
             if (settings[func] == true) {
