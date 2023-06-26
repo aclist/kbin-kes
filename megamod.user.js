@@ -26,7 +26,7 @@
 
     const version = GM_info.script.version;
     const tool = GM_info.script.name;
-    const manifest = "https://raw.githubusercontent.com/aclist/kbin-megamod/main/manifest.json"
+    const manifest = "https://raw.githubusercontent.com/artillect/kbin-megamod/modal-ui/manifest.json";
 
       /*object used for interpolation of function names*/
       const funcObj = {
@@ -226,7 +226,7 @@ var json = await GM.getValue("json");
 
         sidebar.innerHTML = `
         <ul>
-        <li><a class="megamod-tab-link" onclick="openTab(event, 'top')">General</a></li>
+        <li><a class="megamod-tab-link" onclick="openTab(event, 'general')">General</a></li>
         <li><a class="megamod-tab-link" onclick="openTab(event, 'threads')">Threads</a></li>
         <li><a class="megamod-tab-link" onclick="openTab(event, 'comments')">Comments</a></li>
         <li><a class="megamod-tab-link" onclick="openTab(event, 'profiles')">Profiles</a></li>
@@ -258,6 +258,13 @@ var json = await GM.getValue("json");
 
         const megamodUl = document.createElement("ul")
               megamodUl.className = "megamods-list";
+
+        megamodUl.innerHTML = `
+        <li class="general"><h2>General</h2></li>
+        <li class="threads"><h2>Threads</h2></li>
+        <li class="comments"><h2>Comments</h2></li>
+        <li class="profiles"><h2>Profiles</h2></li>
+        `;
 
         /*inject modal*/
         modal.appendChild(modalContent);
@@ -333,6 +340,7 @@ var json = await GM.getValue("json");
       saveSettings(settings);
       applySettings(func);
        }
+       openTab(event, 'general');
      }
 
     function applySettings(entry) {
@@ -365,3 +373,4 @@ var json = await GM.getValue("json");
     for (let i = 0; i < json.length; ++i) {
         applySettings(json[i].entrypoint);
     }
+
