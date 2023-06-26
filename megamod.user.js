@@ -26,7 +26,8 @@
 
     const version = GM_info.script.version;
     const tool = GM_info.script.name;
-    const manifest = "https://raw.githubusercontent.com/aclist/kbin-megamod/main/manifest.json"
+    const manifest = "https://raw.githubusercontent.com/aclist/kbin-megamod/main/manifest.json";
+    const repositoryURL = "https://github.com/aclist/kbin-megamod/";
 
       /*object used for interpolation of function names*/
       const funcObj = {
@@ -191,7 +192,7 @@ var json = await GM.getValue("json");
            <span class="close">
              <i class="fa-solid fa-times"></i>
              </span>
-             <span class="megamod-version">` + tool + ' ' + version +
+             <span class="megamod-version">` + '<a href="' + repositoryURL + '">' + tool + ' ' + version + '</a>' +
              `</span><button class="megamod-tab-link" onclick="openTab(event, 'homePage')">Home page</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'inbox')">Inbox</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'subs')">Subscriptions</button>
