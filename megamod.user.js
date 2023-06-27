@@ -22,7 +22,7 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
 // @resource      css   https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/windows-10.css
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
-// @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
+// @resource      megamod_css https://github.com/artillect/kbin-megamod/raw/modal-ui/megamod.css
 // ==/UserScript==
 
     const version = GM_info.script.version;
@@ -168,6 +168,15 @@ GM_addStyle(css);
         script.innerHTML = `
 
         function openTab(event, tabName) {
+            // Change opacity of all tabs to 1
+            const tablinks = document.getElementsByClassName("megamod-tab-link");
+            for (let i = 0; i < tablinks.length; i++) {
+                if (tablinks[i] !== event.target) {
+                    tablinks[i].style.opacity = 1;
+                } else {
+                    tablinks[i].style.opacity = 0.5;
+                }
+            }
             event.stopPropagation();
             // Hide all options not in this tab (without this classname)
             const options = document.getElementsByClassName("megamods-list")[0];

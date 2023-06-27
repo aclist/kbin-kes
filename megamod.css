@@ -35,6 +35,13 @@
 width:fit-content;
 margin-left: 0.5rem;
 }
+/* Hide more info button by default */
+.megamods-list li i {
+    opacity: 0;
+}
+.megamods-list li:hover i {
+    opacity: 1;
+}
 
 .megamod-settings-modal-content {
     border: var(--kbin-options-border);
