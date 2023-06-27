@@ -142,7 +142,7 @@ GM_addStyle(css);
         let url = kbinPrefix + author;
         let hBox = document.querySelector('.megamod-settings-modal-helpbox');
         hBox.style.cssText = 'display: inline; opacity: 1;'
-        hBox.innerHTML = '<p>Author: ' + '<a href="' + url + '">' + author + '</a><br>Description: ' +  desc + '</p>';
+        hBox.innerHTML = '<p>' + desc + '<br>Author: ' + '<a href="' + url + '">' + author + '</a>'+ '</p>';
         // reset opacity of other helpbox toggles
         let helpboxToggles = document.querySelectorAll('.megamod-tooltip');
         for (let i = 0; i < helpboxToggles.length; ++i) {
