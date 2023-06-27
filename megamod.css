@@ -4,13 +4,13 @@
     right: 0;
     margin: 0.5rem;
     padding: 0.5rem;
-    color: var(--kbin-section-text-color);
+    color: var(--kbin-header-link-color);
     font-size: 0.5em;
     cursor: pointer;
 }
 
 #megamod-settings-button:hover {
-    color: var(--kbin-sidebar-header-text-color);
+    color: var(--kbin-header-link-hover-color);
 }
 
 .megamod-settings-modal {
