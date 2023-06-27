@@ -124,6 +124,9 @@ border: 1px solid gray
     margin-left: 0.5rem;
     transition: opacity 0.25s ease-in-out;
 }
+.megamod-tooltip.active {
+    opacity: 0.5;
+}
 .megamod-tab-link {
      border-radius: 0px;
     border: none;
