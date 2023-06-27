@@ -106,9 +106,7 @@ GM_addStyle(css);
 
         const crumbs = document.createElement("div");
         crumbs.className = 'megamod-crumbs';
-        //let crumbsRoot = document.createElement('p')
         crumbs.innerText = 'Megamod Settings'
-        //crumbs.appendChild(crumbsRoot);
         header.appendChild(crumbs)
         const headerHr = document.createElement('hr');
         headerHr.className = 'megamod-header-hr'
@@ -166,7 +164,6 @@ GM_addStyle(css);
         // Add script tag with opentab function
         const script = document.createElement("script");
         script.innerHTML = `
-
         function openTab(event, tabName) {
             // Change opacity of all tabs to 1
             const tablinks = document.getElementsByClassName("megamod-tab-link");
@@ -191,7 +188,7 @@ GM_addStyle(css);
                     optionsChildren[i].style.display = "none";
                     let crumbUpper = tabName.charAt(0).toUpperCase() + tabName.slice(1);
                    let crumbsRoot = document.querySelector('.megamod-crumbs');
-                   crumbsRoot.innerHTML = 'Megamod Settings <i class="fa-solid fa-chevron-right fa-xs"></i> ' + crumbUpper;
+                   crumbsRoot.innerHTML = '<h2>Megamod Settings <i class="fa-solid fa-chevron-right fa-xs"></i> ' + crumbUpper + '</h2>';
                 }
             }
         }
