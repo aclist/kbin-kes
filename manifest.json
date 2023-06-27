@@ -74,5 +74,20 @@
       "entrypoint": "languageFilterEntry",
         "type": "textarea",
          "page": "threads"
+    },
+    {
+      "name": "Collapsible comments",
+      "author": "artillect",
+      "version": "1.3.7",
+      "label": "Collapsible comments",
+      "desc": "Collapse comments by clicking on their headers, and the bars to their left",
+      "class": "languageFilterEntry",
+      "entrypoint": "languageFilterEntry",
+      "type": "selector",
+      "values" : [
+        "Headers and bars only",
+        "Anywhere on comments"
+      ],
+      "page": "comments"
     }
    ]
