@@ -106,9 +106,9 @@ GM_addStyle(css);
 
         const crumbs = document.createElement("div");
         crumbs.className = 'megamod-crumbs';
-        let crumbsRoot = document.createElement('h2')
-        crumbsRoot.innerText = 'Megamod Settings'
-        crumbs.appendChild(crumbsRoot);
+        //let crumbsRoot = document.createElement('p')
+        crumbs.innerText = 'Megamod Settings'
+        //crumbs.appendChild(crumbsRoot);
         header.appendChild(crumbs)
         const headerHr = document.createElement('hr');
         headerHr.className = 'megamod-header-hr'
@@ -174,8 +174,8 @@ GM_addStyle(css);
                 } else {
                     optionsChildren[i].style.display = "none";
                     let crumbUpper = tabName.charAt(0).toUpperCase() + tabName.slice(1);
-                   let crumbsRoot = document.querySelector('.megamod-crumbs h2');
-                   crumbsRoot.innerText = 'Megamod Settings :: ' + crumbUpper;
+                   let crumbsRoot = document.querySelector('.megamod-crumbs');
+                   crumbsRoot.innerHTML = 'Megamod Settings <i class="fa-solid fa-chevron-right fa-xs"></i> ' + crumbUpper;
                 }
             }
         }
