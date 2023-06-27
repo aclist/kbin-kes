@@ -137,12 +137,19 @@ GM_addStyle(css);
 
          const hscript = document.createElement("script");
         hscript.innerHTML = `
-        function openHelpBox(author, desc){
+        function openHelpBox(event,author, desc){
         let kbinPrefix = 'https://kbin.social/u/';
         let url = kbinPrefix + author;
         let hBox = document.querySelector('.megamod-settings-modal-helpbox');
         hBox.style.cssText = 'display: inline; opacity: 1;'
         hBox.innerHTML = '<p>Author: ' + '<a href="' + url + '">' + author + '</a><br>Description: ' +  desc + '</p>';
+        // reset opacity of other helpbox toggles
+        let helpboxToggles = document.querySelectorAll('.megamod-tooltip');
+        for (let i = 0; i < helpboxToggles.length; ++i) {
+            helpboxToggles[i].style.cssText = 'opacity: 1;'
+        }
+        let target = event.target;
+        target.style.cssText = 'opacity: 0.5;';
         };
         `
        const cscript = document.createElement("script");
@@ -224,7 +231,7 @@ GM_addStyle(css);
        megamodListItem.className = page;
        megamodListItem.innerHTML+=`<input type="checkbox" id="megamod-option" megamod-entry="` +
            func + `"/input>` + item +
-           `<i class="megamod-tooltip fa-solid fa-question-circle" onclick="openHelpBox('` + author +`','` + desc + `')"></i>`
+           `<i class="megamod-tooltip fa-solid fa-question-circle" onclick="openHelpBox(event,'` + author +`','` + desc + `')"></i>`
        megamodUl.appendChild(megamodListItem);
 
       }
