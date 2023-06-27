@@ -22,6 +22,7 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
 // @resource      css   https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/windows-10.css
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
+// @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
 // ==/UserScript==
 
     const version = GM_info.script.version;
@@ -62,139 +63,10 @@ function makeArr(response) {
 
 fetchManifest();
 var json = await GM.getValue("json");
-
-        GM_addStyle(`
-        #megamod-settings-button {
-            position: absolute;
-            top: 0;
-            right: 0;
-            margin: 0.5rem;
-            padding: 0.5rem;
-            color: var(--kbin-section-text-color);
-            font-size: 0.5em;
-            cursor: pointer;
-        }
-
-        #megamod-settings-button:hover {
-            color: var(--kbin-sidebar-header-text-color);
-        }
-
-
-        .megamod-settings-modal {
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-        }
-
-        .megamod-settings-modal-content {
-            background-color: var(--kbin-section-bg);
-            height:100%
-            width: 100%;
-            padding: 2rem;
-            display: grid;
-            grid-template-areas: "header header header" "sidebar body helpbox";
-            grid-template-columns: 0.5fr 3fr 3fr;
-        }
-        .megamods-list {
-        width:fit-content;
-        margin-left: 0.5rem;
-        }
-
-        .megamod-settings-modal-content {
-            border: var(--kbin-options-border);
-        }
-        .megamod-settings-modal-header {
-            grid-area: header;
-        }
-
-        .megamod-dock{
-            float:right;
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-        }
-        .megamod-dock i:hover {
-            opacity: 0.5;
-        }
-
-       .megamod-header-hr {
-       border: 1px solid gray
-       }
-
-        .megamod-version {
-            float: right;
-         }
-        .megamod-settings-modal-content .close {
-            color: #aaa;
-            float: right;
-            cursor: pointer;
-        }
-        .megamod-settings-modal-content .close:hover{
-          opacity: 0.5;
-          }
-
-        .megamod-settings-modal-content ul {
-            list-style: none;
-            padding-inline: 0;
-        }
-        .megamod-settings-modal-content ul li label {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .megamod-settings-modal-content ul li .description {
-            font-size: 0.8em;
-            padding-left: 20px;
-            text-align: justify;
-            color: #b9b9b9;
-        }
-
-        .megamod-settings-modal-content ul li input[type="checkbox"] {
-            margin-right: 0.5rem;
-        }
-
-        .megamod-settings-modal-content h2 {
-            margin-top: 0;
-            font-size: 1rem;
-        }
-
-        .megamod-settings-modal-body {
-            grid-area: body;
-        }
-         .megamod-settings-modal-helpbox {
-            grid-area: helpbox;
-            opacity: 0;
-            padding: 1rem;
-            color: var(--kbin-header-text-color);
-        }
-
-        .megamod-settings-modal-body label:hover .description {
-            opacity: 1;
-        }
-        .megamod-settings-modal-body label .description {
-            transition: opacity 0.15s ease-in-out;
-            opacity: 0;
-        }
-        .mod-author {
-            float: right;
-        }
-        .megamod-tooltip {
-        margin-left: 0.5rem;
-        }
-        .megamod-tab-link {
-             border-radius: 0px;
-            border: none;
-            color: var(--kbin-header-text-color);
-        }
-        .megamod-tab-link:hover{
-            opacity: 0.65;
-        }
-        `);
-
-        /*instantiate megamod modal*/
+var css = GM_getResourceText("megamod_css");
+GM_addStyle(css);
+	
+	/*instantiate megamod modal*/
         const kbinContainer = document.querySelector(".kbin-container > menu");
         const magazinePanel = document.createElement("aside");
         const magazinePanelUl = document.createElement("ul");
@@ -408,7 +280,7 @@ var json = await GM.getValue("json");
           state = false;
        }
       settings[func] = state;
-       /*save and apply checkbox state*/
+      /*save and apply checkbox state*/
       saveSettings(settings);
       applySettings(func);
        }
