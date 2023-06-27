@@ -2,16 +2,18 @@
     {
       "name": "Add mail",
        "author": "aclist",
+        "version": "0.1.0",
       "label": "Add mail icon",
       "desc": "Add mail link to usernames if on kbin.social",
       "class": "addMail",
       "entrypoint": "addMail",
         "type": "checkbox",
-      "page": "inbox"
+      "page": "top"
     },
     {
       "name": "Add subs to navbar",
         "author": "aclist",
+        "version": "0.1.0",
       "label": "Add subs to navbar",
       "desc": "Add magazine subscription to navbar",
       "class": "initMags",
@@ -22,21 +24,55 @@
            "b",
            "c"
         ],
-      "page": "inbox"
+      "page": "top"
+    },
+    {
+      "name": "Label OP",
+        "author": "aclist",
+        "version": "0.1.0",
+      "label": "Add 'OP' label",
+      "desc": "Add 'OP' label to thread author",
+      "class": "labelOp",
+      "entrypoint": "labelop",
+        "type": "checkbox",
+         "page": "threads"
+    },
+    {
+      "name": "Profile dropdown",
+        "author": "aclist",
+        "version": "0.1.0",
+      "label": "Convert links to dropdown",
+      "desc": "Convert activity/profile page links to dropdown [BETA]",
+      "class": "dropdownEntry",
+      "entrypoint": "dropdownEntry",
+        "type": "checkbox",
+         "page": "threads"
     },
         {
-      "name": "Option 3",
-        "author": "somebody",
-      "label": "foo",
-      "desc": "bar",
-      "class": "myclass",
-      "entrypoint": "myEp",
+      "name": "Code syntax highlighting",
+        "author": "0rito",
+            "version": "0.1.0",
+      "label": "Code syntax highlighting",
+      "desc": "Adds syntax highlighting for code blocks [BETA]",
+      "class": "codeHighlighting",
+      "entrypoint": "codeHighlighting",
         "type": "selector",
-         "values" : [
-           "a",
-           "b",
-           "c"
+            "values" : [
+           "theme1",
+           "theme2",
+           "theme3"
         ],
-      "page": "inbox"
+         "page": "threads"
+    },
+        {
+      "name": "Language filter",
+        "author": "artillect",
+            "version": "0.1.0",
+      "label": "Language filter",
+      "desc": "Filter posts by language",
+      "class": "languageFilterEntry",
+      "entrypoint": "languageFilterEntry",
+        "type": "textarea",
+         "page": "threads"
     }
-  ]
+   ]

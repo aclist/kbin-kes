@@ -31,7 +31,7 @@ function createMags(){
 }
 
 function initMags(toggle){
-    if (toggle === false) {
+    if (toggle == false) {
         $('.subs-nav').remove();
     } else {
         createMags();
