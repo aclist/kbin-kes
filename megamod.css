@@ -60,7 +60,16 @@ border: 1px solid gray
 
 .megamod-version {
     float: right;
- }
+}
+.megamod-version .new {
+    color: var(--kbin-button-primary-bg);
+    transition: color 0.15s ease-in-out;
+    margin-right: 0.5rem;
+}
+.megamod-version .new:hover {
+    color: var(--kbin-button-primary-hover-bg);
+}
+
 .megamod-settings-modal-content .close {
     color: #aaa;
     float: right;
