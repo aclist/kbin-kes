@@ -21,7 +21,6 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
-// @resource      css   https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/windows-10.css
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
 // ==/UserScript==
