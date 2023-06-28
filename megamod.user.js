@@ -12,6 +12,7 @@
 // @grant         GM_info
 // @grant         GM.getValue
 // @grant         GM.setValue
+// @grant         GM_setClipboard
 // @connect       raw.githubusercontent.com
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
