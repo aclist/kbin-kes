@@ -385,20 +385,20 @@ function createSettings() {
 }
 // Load settings
 const settingPrefix = 'kbin-code-highlighting-'
-let css = GM_getValue(settingPrefix + 'css', "windows-10");
+let kchcss = GM_getValue(settingPrefix + 'css', "windows-10");
 let settingsEnabled = GM_getValue(settingPrefix + 'enabled', true);
 let settingsToggle;
 let cssDropdown;
 let cssUrl;
 // Correct previous var from version 0.3
-if (css.includes("http")) {
-    css = "windows-10";
-    GM_setValue(settingPrefix + 'css', css);
+if (kchcss.includes("http")) {
+    kchcss = "windows-10";
+    GM_setValue(settingPrefix + 'css', kchcss);
 }
 // Set initial/saved style.
 let injectedCss;
 for (let style of styles) {
-    if (css === style.name) {
+    if (kchcss === style.name) {
         cssUrl = style.url;
         break;
     }
@@ -414,6 +414,7 @@ hljs.configure({
 hljs.highlightAll();
 
 function initCodeHighlights(toggle) {
+    console.log('toggle: ' + toggle + '; settingsEnabled: ' + settingsEnabled);
     if (toggle && settingsEnabled) {
         startup();
     } else {
