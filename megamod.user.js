@@ -31,6 +31,7 @@
     const tool = GM_info.script.name;
     const manifest = "https://raw.githubusercontent.com/aclist/kbin-megamod/main/manifest.json";
     const repositoryURL = "https://github.com/aclist/kbin-megamod/";
+    const updateURL = "https://github.com/aclist/kbin-megamod/raw/main/megamod.user.js";
 
       /*object used for interpolation of function names*/
       const funcObj = {
@@ -55,17 +56,23 @@ function fetchManifest() {
 };
 
 
-const updateElement = document.createElement('a');
-updateElement.innerText = tool + ' ' + version;
-updateElement.setAttribute('href',repositoryURL);
+const versionElement = document.createElement('a');
+versionElement.innerText = tool + ' ' + version;
+versionElement.setAttribute('href',repositoryURL);
 
 function checkUpdates() {
-    let newVersion = GM_getResourceText("version");
+    let newVersion = GM_getResourceText("version").trim();
 
-    if (newVersion != version && updateElement.className != 'new') {
-        updateElement.innerText += " (New version available!)";
-        updateElement.style.cssText += 'color: pink';
+    if (newVersion != version && versionElement.className != 'new') {
+        // Add text with link to update script
+        let megamodVersion = document.querySelector('.megamod-version');
+
+        let updateElement = document.createElement('a');
+        updateElement.innerText = ' (Install update: ' + newVersion + ')';
+        updateElement.setAttribute('href', updateURL);
         updateElement.className = 'new';
+
+        megamodVersion.appendChild(updateElement);
     } else {
         return
     }
@@ -113,8 +120,6 @@ GM_addStyle(css);
         const modalContent = document.createElement("div");
         modalContent.className = "megamod-settings-modal-content";
 
-        checkUpdates();
-
         const header = document.createElement("div");
 	/*TODO: check for new remote version at startup and insert link*/
         header.innerHTML = `
@@ -122,7 +127,7 @@ GM_addStyle(css);
            <span class="close">
              <i class="fa-solid fa-times"></i>
              </span>
-             <span class="megamod-version">` + updateElement.outerHTML + `</span>
+             <span class="megamod-version">` + versionElement.outerHTML + `</span>
              <button class="megamod-tab-link" onclick="openTab(event, 'homePage')">Home page</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'inbox')">Inbox</button>
              <button class="megamod-tab-link" onclick="openTab(event, 'subs')">Subscriptions</button>
@@ -146,6 +151,8 @@ GM_addStyle(css);
         modalContent.appendChild(bodyHolder);
         bodyHolder.appendChild(megamodUl);
        document.body.appendChild(modal);
+
+       checkUpdates();
 
     /*populate modal identifiers*/
     function insertListItem(func, item, desc,author,type){
