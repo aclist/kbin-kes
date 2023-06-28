@@ -12,6 +12,7 @@
 // @grant         GM_info
 // @grant         GM.getValue
 // @grant         GM.setValue
+// @grant         GM_getResourceText
 // @connect       raw.githubusercontent.com
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
@@ -23,11 +24,11 @@
 // @resource      css   https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/windows-10.css
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
+// @resource      version https://raw.githubusercontent.com/artillect/kbin-megamod/version-check/VERSION
 // ==/UserScript==
 
     const version = GM_info.script.version;
     const tool = GM_info.script.name;
-    const versionFile = "https://raw.githubusercontent.com/artillect/kbin-megamod/version-check/VERSION";
     const manifest = "https://raw.githubusercontent.com/aclist/kbin-megamod/main/manifest.json";
     const repositoryURL = "https://github.com/aclist/kbin-megamod/";
 
@@ -58,30 +59,17 @@ const updateElement = document.createElement('a');
 updateElement.innerText = tool + ' ' + version;
 updateElement.setAttribute('href',repositoryURL);
 
+function checkUpdates() {
+    let newVersion = GM_getResourceText("version");
 
-function checkVersion() {
-    GM_xmlhttpRequest({
-        method: 'GET',
-        url: versionFile,
-        onload: compare,
-        headers: {
-            "User-Agent": "Mozilla/5.0",
-            "Accept": "text/xml"
-        },
-
-    });
-};
-function compare(response) {
-let parser = new DOMParser();
-let doc = parser.parseFromString(response.responseText, "text/html");
-let content = response.responseText;
-if (content != version) {
-        updateElement.innerText += "(New version available!)";
+    if (newVersion != version && updateElement.className != 'new') {
+        updateElement.innerText += " (New version available!)";
         updateElement.style.cssText += 'color: pink';
-        } else {
-            return
-        }
+        updateElement.className = 'new';
+    } else {
+        return
     }
+}
 
 function makeArr(response) {
     var parser = new DOMParser();
@@ -125,7 +113,7 @@ GM_addStyle(css);
         const modalContent = document.createElement("div");
         modalContent.className = "megamod-settings-modal-content";
 
-        checkVersion();
+        checkUpdates();
 
         const header = document.createElement("div");
 	/*TODO: check for new remote version at startup and insert link*/
