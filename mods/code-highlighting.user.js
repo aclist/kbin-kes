@@ -370,7 +370,7 @@ function createSettings() {
     kchStyles.forEach(style => {
         configStyles.push({ name: style.name, value: style.name });
     });
-    cssDropdown = kmoAddDropDown(settingHeader, 'Style', configStyles, css, 'Changes your code stylesheet.');
+    cssDropdown = kmoAddDropDown(settingHeader, 'Style', configStyles, kchcss, 'Changes your code stylesheet.');
     cssDropdown.addEventListener("change", () => {
         const newStyle = kmoGetDropDown(cssDropdown);
         const newStyleUrl = (kchStyles.find(style => style.name === newStyle)).url;
