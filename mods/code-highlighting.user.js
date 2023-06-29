@@ -359,8 +359,8 @@ function addHeaders(selector) {
 function createSettings() {
     let license = (GM_info).script.header.split('\n').find(header => header.includes('license'));
     license = license.replace('//','').replace('@license','').trim();
-    kmoAddHeader('kbin-code-highlighting', { author: (GM_info).script.author, version: (GM_info).script.version, license: license, url: 'https://github.com/Oricul/kbin-scripts/' });
-    settingsToggle = kmoAddToggle('Enabled', settingsEnabled, 'Toggle kbin-code-highlighting on or off.');
+    const settingHeader = kmoAddHeader('kbin-code-highlighting', { author: (GM_info).script.author, version: (GM_info).script.version, license: license, url: 'https://github.com/Oricul/kbin-scripts/' });
+    settingsToggle = kmoAddToggle(settingHeader, 'Enabled', settingsEnabled, 'Toggle kbin-code-highlighting on or off.');
     settingsToggle.addEventListener("click", () => {
         const enabledState = kmoGetToggle(settingsToggle);
         GM_setValue(settingPrefix + 'enabled', enabledState);
@@ -374,7 +374,7 @@ function createSettings() {
     styles.forEach(style => {
         configStyles.push({ name: style.name, value: style.name });
     });
-    cssDropdown = kmoAddDropDown('Style', configStyles, css, 'Changes your code stylesheet.');
+    cssDropdown = kmoAddDropDown(settingHeader, 'Style', configStyles, css, 'Changes your code stylesheet.');
     cssDropdown.addEventListener("change", () => {
         const newStyle = kmoGetDropDown(cssDropdown);
         const newStyleUrl = (styles.find(style => style.name === newStyle)).url;
