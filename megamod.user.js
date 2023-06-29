@@ -23,6 +23,7 @@
 // @resource      css   https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/windows-10.css
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
+// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
 
     const version = GM_info.script.version;
@@ -37,7 +38,8 @@
         labelOp: labelOp,
         dropdownEntry: dropdownEntry,
         codeHighlighting: initCodeHighlights,
-        languageFilterEntry: languageFilterEntry
+        languageFilterEntry: languageFilterEntry,
+        easyEmoticon: easyEmoticon
        };
 
 function fetchManifest() {
