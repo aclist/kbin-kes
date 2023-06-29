@@ -54,7 +54,7 @@
             "version": "0.4.2",
       "label": "Code Syntax Highlighting",
       "desc": "Adds syntax highlighting for code blocks.",
-      "class": "initCodeHighlights",
+      "class": "codeHighlights",
       "entrypoint": "initCodeHighlights",
       "type": "checkbox",
       "page": "threads"

@@ -15,6 +15,8 @@
 // @grant         GM_setClipboard
 // @connect       raw.githubusercontent.com
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
+// @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
+// @require       https://github.com/Oricul/kbin-scripts/raw/main/kbin-mod-options.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/subs.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
@@ -29,15 +31,15 @@
     const manifest = "https://raw.githubusercontent.com/aclist/kbin-megamod/main/manifest.json";
     const repositoryURL = "https://github.com/aclist/kbin-megamod/";
 
-      /*object used for interpolation of function names*/
-      const funcObj = {
-       addMail: addMail,
+    /*object used for interpolation of function names*/
+    const funcObj = {
+        addMail: addMail,
         initMags: initMags,
         labelOp: labelOp,
         dropdownEntry: dropdownEntry,
-        initCodeHighlights: initCodeHighlights,
+        codeHighlights: initCodeHighlights,
         languageFilterEntry: languageFilterEntry
-       };
+    };
 
 function fetchManifest() {
     GM_xmlhttpRequest({
