@@ -248,6 +248,14 @@ GM_addStyle(`
         display: none !important;
     }
 `);
+function initCodeHighlights(toggle) {
+    console.log('toggle: ' + toggle + '; settingsEnabled: ' + settingsEnabled);
+    if (toggle && settingsEnabled) {
+        startup(true);
+    } else {
+        shutdown();
+    }
+}
 function startup(firstBoot = false) {
     setCss(cssUrl);
     if (firstBoot) {
@@ -408,12 +416,3 @@ hljs.configure({
     ignoreUnescapedHTML: true
 });
 hljs.highlightAll();
-
-function initCodeHighlights(toggle) {
-    console.log('toggle: ' + toggle + '; settingsEnabled: ' + settingsEnabled);
-    if (toggle && settingsEnabled) {
-        startup(true);
-    } else {
-        shutdown();
-    }
-}
