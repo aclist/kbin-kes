@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         megamod-kbin-code-highlighting
 // @namespace    https://github.com/Oricul
-// @version      0.4.1
+// @version      0.4.2
 // @description  Use HLJS to add code highlighting to kbin. Hopefully adds some legibility as well.
 // @author       0rito
 // @license      MIT
