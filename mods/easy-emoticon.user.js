@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Kbin Easy Emoticon
 // @namespace    https://github.com/aclist
-// @version      0.6.1
+// @version      0.6.2
 // @description  Use slash commands for emoticons
 // @author       minnieo
 // @match        https://kbin.social/*
@@ -10,7 +10,7 @@
 
 //lemmy based emoticons
 const emoticons = [
-    '¯\\\\_(ツ)_/¯', '( ͡° ͜ʖ ͡°)', '¯\\_( ͡° ͜ʖ ͡°)_/¯', '( ͡° ͜ʖ ͡°)╭∩╮',
+    '¯\\\\_(ツ)\\_/¯', '( ͡° ͜ʖ ͡°)', '¯\\_( ͡° ͜ʖ ͡°)_/¯', '( ͡° ͜ʖ ͡°)╭∩╮',
     '( ͡~ ͜ʖ ͡°)', 'ツ', '(͠≖ ͜ʖ͠≖)', '(╯°□°)╯︵ ┻━┻', '┬─┬ノ( º _ ºノ)'
 ];
 
