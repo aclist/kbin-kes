@@ -64,12 +64,10 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setClipboard
 // @grant        GM_info
-// @downloadURL  https://github.com/Oricul/kbin-scripts/raw/main/kbin-code-highlighting.user.js
-// @updateURL    https://github.com/Oricul/kbin-scripts/raw/main/kbin-code-highlighting.user.js
 // ==/UserScript==
 
 // Declare all styles
-const styles = [
+const kchStyles = [
     {name: "3024", url: "https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/3024.css"},
     {name: "apathy", url: "https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/apathy.css"},
     {name: "apprentice", url: "https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/apprentice.css"},
@@ -371,13 +369,13 @@ function createSettings() {
         }
     });
     let configStyles = [];
-    styles.forEach(style => {
+    kchStyles.forEach(style => {
         configStyles.push({ name: style.name, value: style.name });
     });
     cssDropdown = kmoAddDropDown(settingHeader, 'Style', configStyles, css, 'Changes your code stylesheet.');
     cssDropdown.addEventListener("change", () => {
         const newStyle = kmoGetDropDown(cssDropdown);
-        const newStyleUrl = (styles.find(style => style.name === newStyle)).url;
+        const newStyleUrl = (kchStyles.find(style => style.name === newStyle)).url;
         injectedCss.remove();
         GM_setValue(settingPrefix + 'css', newStyle);
         setCss(newStyleUrl);
@@ -397,7 +395,7 @@ if (kchcss.includes("http")) {
 }
 // Set initial/saved style.
 let injectedCss;
-for (let style of styles) {
+for (let style of kchStyles) {
     if (kchcss === style.name) {
         cssUrl = style.url;
         break;
