@@ -80,7 +80,7 @@
         "author": "minnieo",
             "version": "0.6.1",
         "label": "Easy emoticons",
-        "desc": "Use slash commands for emoticons",
+        "desc": "Use slash commands for emoticons. <a href="https://docs.google.com/document/d/1jMeY7GwmgwrV8mEC4jmkEKKWdKuWvjgLgYrtUS5hPYg/edit">Command guide here.</a>",
         "class": "easyEmoticon",
         "entrypoint": "easyEmoticon",
           "type": "checkbox",
