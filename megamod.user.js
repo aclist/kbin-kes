@@ -12,17 +12,20 @@
 // @grant         GM_info
 // @grant         GM.getValue
 // @grant         GM.setValue
+// @grant         GM_setClipboard
 // @connect       raw.githubusercontent.com
+// @connect       github.com
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
+// @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
+// @require       https://github.com/Oricul/kbin-scripts/raw/main/kbin-mod-options.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/subs.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
-// @resource      css   https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/windows-10.css
-// @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
-// @resource      megamod_css https://github.com/artillect/kbin-megamod/raw/modal-ui/megamod.css
+// @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
+// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
 
     const version = GM_info.script.version;
@@ -30,15 +33,16 @@
     const manifest = "https://raw.githubusercontent.com/aclist/kbin-megamod/3a81cc679e0d6a46e9d29fdbed8f251dc02114a3/manifest.json";
     const repositoryURL = "https://github.com/aclist/kbin-megamod/";
 
-      /*object used for interpolation of function names*/
-      const funcObj = {
-       addMail: addMail,
+    /*object used for interpolation of function names*/
+    const funcObj = {
+        addMail: addMail,
         initMags: initMags,
         labelOp: labelOp,
         dropdownEntry: dropdownEntry,
-        codeHighlighting: initCodeHighlights,
-        languageFilterEntry: languageFilterEntry
-       };
+        initCodeHighlights: initCodeHighlights,
+        languageFilterEntry: languageFilterEntry,
+        easyEmoticon: easyEmoticon
+    };
 
 function fetchManifest() {
     GM_xmlhttpRequest({
