@@ -412,7 +412,7 @@ hljs.highlightAll();
 function initCodeHighlights(toggle) {
     console.log('toggle: ' + toggle + '; settingsEnabled: ' + settingsEnabled);
     if (toggle && settingsEnabled) {
-        startup();
+        startup(true);
     } else {
         shutdown();
     }
