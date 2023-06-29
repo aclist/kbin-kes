@@ -25,6 +25,7 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
+// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
 
     const version = GM_info.script.version;
@@ -39,7 +40,8 @@
         labelOp: labelOp,
         dropdownEntry: dropdownEntry,
         initCodeHighlights: initCodeHighlights,
-        languageFilterEntry: languageFilterEntry
+        languageFilterEntry: languageFilterEntry,
+        easyEmoticon: easyEmoticon
     };
 
 function fetchManifest() {
