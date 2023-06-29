@@ -4,15 +4,14 @@
     right: 0;
     margin: 0.5rem;
     padding: 0.5rem;
-    color: var(--kbin-section-text-color);
+    color: var(--kbin-header-link-color);
     font-size: 0.5em;
     cursor: pointer;
 }
 
 #megamod-settings-button:hover {
-    color: var(--kbin-sidebar-header-text-color);
+    color: var(--kbin-header-link-hover-color);
 }
-
 
 .megamod-settings-modal {
     position: fixed;
@@ -26,16 +25,22 @@
 
 .megamod-settings-modal-content {
     background-color: var(--kbin-section-bg);
-    height:100%
     width: 100%;
     padding: 2rem;
     display: grid;
     grid-template-areas: "header header header" "sidebar body helpbox";
-    grid-template-columns: 0.5fr 3fr 3fr;
+    grid-template-columns: 1fr 3fr 3fr;
 }
 .megamods-list {
 width:fit-content;
 margin-left: 0.5rem;
+}
+/* Hide more info button by default */
+.megamods-list li i {
+    opacity: 0;
+}
+.megamods-list li:hover i {
+    opacity: 1;
 }
 
 .megamod-settings-modal-content {
@@ -116,7 +121,11 @@ border: 1px solid gray
     float: right;
 }
 .megamod-tooltip {
-margin-left: 0.5rem;
+    margin-left: 0.5rem;
+    transition: opacity 0.25s ease-in-out;
+}
+.megamod-tooltip.active {
+    opacity: 0.5;
 }
 .megamod-tab-link {
      border-radius: 0px;
@@ -125,4 +134,7 @@ margin-left: 0.5rem;
 }
 .megamod-tab-link:hover{
     opacity: 0.65;
+}
+.megamod-tab-link.active {
+    color: var(--kbin-sidebar-header-text-color);
 }
