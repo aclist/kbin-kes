@@ -251,7 +251,7 @@ GM_addStyle(`
 function initCodeHighlights(toggle) {
     console.log('toggle: ' + toggle + '; settingsEnabled: ' + settingsEnabled);
     if (toggle && settingsEnabled) {
-        startup(true);
+        startup();
     } else {
         shutdown();
     }

@@ -14,6 +14,7 @@
 // @grant         GM.setValue
 // @grant         GM_setClipboard
 // @connect       raw.githubusercontent.com
+// @connect       github.com
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require       https://github.com/Oricul/kbin-scripts/raw/main/kbin-mod-options.js
@@ -37,7 +38,7 @@
         initMags: initMags,
         labelOp: labelOp,
         dropdownEntry: dropdownEntry,
-        codeHighlights: initCodeHighlights,
+        initCodeHighlights: initCodeHighlights,
         languageFilterEntry: languageFilterEntry
     };
 
