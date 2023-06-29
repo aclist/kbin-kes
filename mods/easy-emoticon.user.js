@@ -8,6 +8,7 @@
 // @license      MIT
 // ==/UserScript==
 
+let eventListener;
 //lemmy based emoticons
 const emoticons = [
     '¯\\\\_(ツ)\\_/¯', '( ͡° ͜ʖ ͡°)', '¯\\_( ͡° ͜ʖ ͡°)_/¯', '( ͡° ͜ʖ ͡°)╭∩╮',
@@ -32,12 +33,13 @@ const emoticonsCute = [
 ];
 
 function emoticonGen() {
-    document.addEventListener('input', (e) => {
+    eventListener = (e) => {
         if (e.target.tagName === 'TEXTAREA') {
             emoticonMake(e.target);
             console.log('working');
         }
-    });
+    };
+    document.addEventListener('input', eventListener)
 }
 
 function emoticonMake(param) {
@@ -142,5 +144,7 @@ function emoticonMake(param) {
 function easyEmoticon(toggle) {
     if (toggle) {
         emoticonGen();
+    } else {
+        document.removeEventListener('input', eventListener);
     }
 }
