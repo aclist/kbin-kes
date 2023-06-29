@@ -54,8 +54,6 @@
 // @match        https://thekittysays.icu/*
 // @match        https://dev-kbin.korako.me/*
 // @icon         https://kbin.social/favicon.svg
-// @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
-// @require      https://github.com/Oricul/kbin-scripts/raw/main/kbin-mod-options.js
 // @connect      github.com
 // @connect      raw.githubusercontent.com
 // @grant        GM_addStyle
