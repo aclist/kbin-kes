@@ -35,7 +35,7 @@
         initMags: initMags,
         labelOp: labelOp,
         dropdownEntry: dropdownEntry,
-        codeHighlighting: initCodeHighlights,
+        initCodeHighlights: initCodeHighlights,
         languageFilterEntry: languageFilterEntry
        };
 
