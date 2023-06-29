@@ -49,20 +49,15 @@
          "page": "threads"
     },
         {
-      "name": "Code syntax highlighting",
+      "name": "kbin-code-highlighting",
         "author": "0rito",
-            "version": "0.1.0",
-      "label": "Code syntax highlighting",
-      "desc": "Adds syntax highlighting for code blocks [BETA]",
-      "class": "codeHighlighting",
-      "entrypoint": "codeHighlighting",
-        "type": "selector",
-            "values" : [
-           "theme1",
-           "theme2",
-           "theme3"
-        ],
-         "page": "threads"
+            "version": "0.4.2",
+      "label": "Code Syntax Highlighting",
+      "desc": "Adds syntax highlighting for code blocks.",
+      "class": "initCodeHighlights",
+      "entrypoint": "initCodeHighlights",
+      "type": "checkbox",
+      "page": "threads"
     },
         {
       "name": "Language filter",
