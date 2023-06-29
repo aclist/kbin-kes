@@ -74,5 +74,16 @@
       "entrypoint": "languageFilterEntry",
         "type": "textarea",
          "page": "threads"
-    }
+    },
+        {
+      "name": "Kbin Easy Emoticon",
+        "author": "minnieo",
+            "version": "0.6.1",
+        "label": "Easy emoticons",
+        "desc": "Use slash commands for emoticons",
+        "class": "easyEmoticon",
+        "entrypoint": "easyEmoticon",
+          "type": "checkbox",
+          "page": "general"   
+        }
    ]
