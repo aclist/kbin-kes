@@ -1,3 +1,4 @@
+
 #megamod-settings-button {
     position: absolute;
     top: 0;
@@ -120,21 +121,76 @@ border: 1px solid gray
 .mod-author {
     float: right;
 }
-.megamod-tooltip {
-    margin-left: 0.5rem;
-    transition: opacity 0.25s ease-in-out;
-}
-.megamod-tooltip.active {
-    opacity: 0.5;
-}
-.megamod-tab-link {
-     border-radius: 0px;
+.megamod-tab-link, .megamod-option {
+    cursor: pointer;
+    border-radius: 0px;
     border: none;
     color: var(--kbin-header-text-color);
 }
-.megamod-tab-link:hover{
-    opacity: 0.65;
+.megamod-tab-link:hover,.megamod-option:hover{
+    opacity: 1;
+    color: var(--kbin-header-text-color);
 }
-.megamod-tab-link.active {
+.megamod-tab-link.active,.megamod-option.active {
     color: var(--kbin-sidebar-header-text-color);
+}
+ .tgl {
+	 display: none;
+}
+ .tgl, .tgl:after, .tgl:before, .tgl *, .tgl *:after, .tgl *:before, .tgl + .tgl-btn {
+	 box-sizing: border-box;
+}
+ .tgl::selection, .tgl:after::selection, .tgl:before::selection, .tgl *::selection, .tgl *:after::selection, .tgl *:before::selection, .tgl + .tgl-btn::selection {
+	 background: none;
+}
+ .tgl + .tgl-btn {
+	 outline: 0;
+	 display: block;
+	 width: 2em;
+	 height: 1em;
+	 position: relative;
+	 cursor: pointer;
+	 user-select: none;
+}
+ .tgl + .tgl-btn:after, .tgl + .tgl-btn:before {
+	 position: relative;
+	 display: block;
+	 content: "";
+	 width: 50%;
+	 height: 100%;
+}
+ .tgl + .tgl-btn:after {
+	 left: 0;
+}
+ .tgl + .tgl-btn:before {
+	 display: none;
+}
+ .tgl:checked + .tgl-btn:after {
+	 left: 50%;
+}
+ .megamod-tgl + .tgl-btn {
+	 background: #fbfbfb;
+	 border-radius: 2em;
+	 padding: 2px;
+	 transition: all 0.4s ease;
+}
+ .megamod-tgl + .tgl-btn:after {
+	 border-radius: 2em;
+	 background: gray;
+	 transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
+}
+ .megamod-tgl + .tgl-btn:hover:after {
+	 will-change: padding;
+}
+ .megamod-tgl + .tgl-btn:active:after {
+	 padding-right: 0.8em;
+}
+ .megamod-tgl:checked + .tgl-btn {
+	 background: #86d993;
+}
+ .megamod-tgl:checked + .tgl-btn:active {
+	 box-shadow: none;
+}
+ .megamod-tgl:checked + .tgl-btn:active:after {
+	 margin-left: -0.8em;
 }

@@ -2,7 +2,7 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.6.1
+// @version       0.7.0
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -24,25 +24,31 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
-// @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
+// @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/patch-static-helpbox/megamod.css
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
 
-    const version = GM_info.script.version;
-    const tool = GM_info.script.name;
-    const manifest = "https://github.com/aclist/kbin-megamod/raw/main/manifest.json";
-    const repositoryURL = "https://github.com/aclist/kbin-megamod/";
+const version = GM_info.script.version;
+const tool = GM_info.script.name;
+const manifest = "https://github.com/aclist/kbin-megamod/raw/patch-static-helpbox/manifest.json";
+const repositoryURL = "https://github.com/aclist/kbin-megamod/";
 
-    /*object used for interpolation of function names*/
-    const funcObj = {
-        addMail: addMail,
-        initMags: initMags,
-        labelOp: labelOp,
-        dropdownEntry: dropdownEntry,
-        initCodeHighlights: initCodeHighlights,
-        languageFilterEntry: languageFilterEntry,
-        easyEmoticon: easyEmoticon
-    };
+/*object used for interpolation of function names*/
+const funcObj = {
+	addMail: addMail,
+	initMags: initMags,
+	labelOp: labelOp,
+	dropdownEntry: dropdownEntry,
+	initCodeHighlights: initCodeHighlights,
+	languageFilterEntry: languageFilterEntry,
+	easyEmoticon: easyEmoticon
+};
+const sidebarPages = [
+	"general",
+	"threads",
+	"comments",
+	"profiles"
+]
 
 function fetchManifest() {
     GM_xmlhttpRequest({
@@ -61,7 +67,7 @@ function makeArr(response) {
     var doc = parser.parseFromString(response.responseText, "text/html");
     var content = response.responseText
      const jarr = JSON.parse(content)
-     /*TODO: wait on promise and set warning string if unreachable*/
+     //TODO: wait on promise and set warning string if unreachable
      GM.setValue("json", jarr);
 };
 
@@ -69,8 +75,8 @@ fetchManifest();
 var json = await GM.getValue("json");
 var css = GM_getResourceText("megamod_css");
 GM_addStyle(css);
-	
-	/*instantiate megamod modal*/
+
+	//instantiate megamod modal
         const kbinContainer = document.querySelector(".kbin-container > menu");
         const magazinePanel = document.createElement("aside");
         const magazinePanelUl = document.createElement("ul");
@@ -79,7 +85,7 @@ GM_addStyle(css);
         magazinePanel.appendChild(title);
         kbinContainer.appendChild(magazinePanel);
 
-        /*add settings button*/
+	//add settings button
         const settingsButton = document.createElement("div");
         settingsButton.id = "megamod-settings-button";
         settingsButton.innerHTML = '<i class="fa-solid fa-bug"></i>';
@@ -121,85 +127,107 @@ GM_addStyle(css);
         let sidebarUl = document.createElement('ul');
 
 
-        const sidebarPages = [
-            "general",
-            "threads",
-            "comments",
-            "profiles"
-            ]
+	//TODO: pages.json
         for ( let i = 0; i < sidebarPages.length; ++i) {
             let page = sidebarPages[i];
             let pageUpper = sidebarPages[i].charAt(0).toUpperCase() + sidebarPages[i].slice(1);
             let sidebarListItem = document.createElement('li');
             sidebarListItem.innerHTML = `
-            <a class="megamod-tab-link" onclick="openTab(event, '` + page + `')">` + pageUpper + `</a></li>`
+            <a class="megamod-tab-link">` + pageUpper + `</a></li>`
             sidebarUl.appendChild(sidebarListItem);
         }
        sidebar.appendChild(sidebarUl);
 
-         const hscript = document.createElement("script");
-        hscript.innerHTML = `
-        function openHelpBox(event,author, desc){
+        function openHelpBox(it){
+            const settings = getSettings();
+		let author = json[it].author
+		let desc = json[it].desc
+		let link = json[it].link
+		let linkLabel = json[it].linkLabel
             let kbinPrefix = 'https://kbin.social/u/';
             let url = kbinPrefix + author;
             let hBox = document.querySelector('.megamod-settings-modal-helpbox');
+	    let toggle = '<span class="megamod-toggle"><input type="checkbox" class="tgl megamod-tgl" id="megamod-checkbox" megamod-iter="'
+			+ it + '"/><label class="tgl-btn" for="megamod-checkbox"></label></span>'
+
             hBox.style.cssText = 'display: inline; opacity: 1;'
-            hBox.innerHTML = '<p>' + desc + '<br>Author: ' + '<a href="' + url + '">' + author + '</a>'+ '</p>';
+            if (link === "") {
+            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '</p>';
+            } else {
+            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">'
+			    + linkLabel + '</a><br>' + desc + '</p>'
+            }
             // reset opacity of other helpbox toggles
-            let helpboxToggles = document.querySelectorAll('.megamod-tooltip');
+            let helpboxToggles = document.querySelectorAll('.megamod-option');
             for (let i = 0; i < helpboxToggles.length; ++i) {
-                if (helpboxToggles[i] !== event.target) {
-                    helpboxToggles[i].classList.remove('megamod-tooltip-active');
+                if (i != it) {
+                helpboxToggles[i].style.cssText= 'opacity: 0.5;'
                 } else {
-                    helpboxToggles[i].classList.add('megamod-tooltip-active');
+                helpboxToggles[i].style.cssText= 'opacity: 1;'
                 }
             }
-        };
-        `
-       const cscript = document.createElement("script");
-        cscript.innerHTML = `
-        function closeHelpBox(){
-        let hBox = document.querySelector('.megamod-settings-modal-helpbox');
-        hBox.style.cssText = 'display:none';
-        }
-        `
+     let func = json[it].entrypoint;
+     const check = document.querySelector(`.megamod-settings-modal-helpbox [megamod-iter="` + it + `"]`);
+            if (settings[func] == true) {
+              check.checked = true;
+            } else {
+    check.checked = false;
+            }
+	    // add to crumbs
+	   // let activeChild = document.querySelector('.crumbChild')
+	   // if (activeChild) {
+	   //  activeChild.remove();
+	   // }
+	   // let crumbsRoot = document.querySelector('.megamod-crumbs h2');
+	   // let span = document.createElement('span');
+	   // span.className = "crumbChild"
+	   // let pad = document.createElement('text');
+	   // pad.innerText = ' ';
+	   // let chev = document.createElement('i')
+	   // chev.className = 'fa-solid fa-chevron-right fa-xs';
+	   // let activeMod = document.createElement('text');
+	   // activeMod.innerText = ' ' + event.target.innerText;
+	   // span.appendChild(pad)
+	   // span.appendChild(chev)
+	   // span.appendChild(activeMod)
+	   // crumbsRoot.appendChild(span)
 
-        document.body.appendChild(hscript);
-        document.body.appendChild(cscript);
+        };
 
         // Add script tag with opentab function
-        const script = document.createElement("script");
-        script.innerHTML = `
-        function openTab(event, tabName) {
-            // Change opacity of all tabs to 1
+        function openTab(tabName) {
+            let pageLower = tabName.charAt(0).toLowerCase() + tabName.slice(1);
             const tablinks = document.getElementsByClassName("megamod-tab-link");
             for (let i = 0; i < tablinks.length; i++) {
-                if (tablinks[i] !== event.target) {
-                    tablinks[i].style.opacity = 1;
-                } else {
+                if (tablinks[i].innerText !== tabName) {
                     tablinks[i].style.opacity = 0.5;
+                } else {
+                    tablinks[i].style.opacity = 1;
                 }
             }
             event.stopPropagation();
             // Hide all options not in this tab (without this classname)
             const options = document.getElementsByClassName("megamods-list")[0];
             const optionsChildren = options.children;
-            let helpbox = document.querySelector('.megamod-settings-modal-helpbox');
-            helpbox.style.cssText = 'display: none;'
-
+            const pageToOpen = []
             for (let i = 0; i < optionsChildren.length; i++) {
-                if (optionsChildren[i].className.indexOf(tabName) > -1) {
+                if (optionsChildren[i].className.indexOf(pageLower) > -1) {
                     optionsChildren[i].style.display = "block";
+	           pageToOpen.push(i);
                 } else {
-                    optionsChildren[i].style.display = "none";
-                    let crumbUpper = tabName.charAt(0).toUpperCase() + tabName.slice(1);
+                   optionsChildren[i].style.display = "none";
                    let crumbsRoot = document.querySelector('.megamod-crumbs');
-                   crumbsRoot.innerHTML = '<h2>Megamod Settings <i class="fa-solid fa-chevron-right fa-xs"></i> ' + crumbUpper + '</h2>';
+                   crumbsRoot.innerHTML = '<h2>Megamod Settings <i class="fa-solid fa-chevron-right fa-xs"></i> '
+				+ tabName + '</h2>';
                 }
             }
-        }
-        `;
-        document.body.appendChild(script);
+	 if (pageToOpen.length > 0) {
+           openHelpBox(pageToOpen[0])
+	 } else {
+            let hBox = document.querySelector('.megamod-settings-modal-helpbox');
+		 hBox.style.opacity = 0;
+	 }
+	}
 
         const bodyHolder = document.createElement("div");
              bodyHolder.className = "megamod-settings-modal-body";
@@ -211,14 +239,23 @@ GM_addStyle(css);
         helpBox.className = "megamod-settings-modal-helpbox";
 
 
-        /*inject modal*/
+	//inject modal
         modal.appendChild(modalContent);
         modalContent.appendChild(header);
         modalContent.appendChild(sidebar);
         modalContent.appendChild(helpBox);
         modalContent.appendChild(bodyHolder);
-       bodyHolder.appendChild(megamodUl);
-       document.body.appendChild(modal);
+        bodyHolder.appendChild(megamodUl);
+        document.body.appendChild(modal);
+        document.querySelector('.megamod-settings-modal-sidebar ul').addEventListener("click", (e) =>{
+	       openTab(e.target.outerText);
+       });
+	document.querySelector('.megamods-list').addEventListener("click", (e) => {
+		openHelpBox(e.target.getAttribute('megamod-iter'));
+       });
+	document.querySelector('.megamod-settings-modal-helpbox').addEventListener("change", (e) => {
+		updateState(e.target);
+       });
 
         const dockIcon= document.querySelector('.megamod-dock i');
        if (settings.dock == 'down') {
@@ -230,9 +267,12 @@ GM_addStyle(css);
        }
 
 
-    /*populate modal identifiers*/
-    /*TODO: extend boilerplate*/
-    function insertListItem(func, item, desc,author,type,page, it){
+    //TODO: extend boilerplate
+    function insertListItem(it){
+	    let type = json[it].type
+	    let func = json[it].entrypoint
+	    let item = json[it].label
+	    let page = json[it].page
             switch(type) {
                 case 'checkbox': console.log('toggle type selected');
                 break;
@@ -241,25 +281,16 @@ GM_addStyle(css);
             }
        const megamodListItem = document.createElement("li");
        megamodListItem.className = page;
-       megamodListItem.innerHTML+=`<input type="checkbox" id="megamod-option" megamod-entry="` +
-           func + `"/input>` + item +
-           `<i class="megamod-tooltip fa-solid fa-ellipsis" onclick="openHelpBox(event,'` + author +`','` + desc + `')"></i>`
+       megamodListItem.innerHTML+=`<a class="megamod-option" megamod-iter="` + it + `">` + item + `</a>`
        megamodUl.appendChild(megamodListItem);
 
       }
 
     for (let i = 0; i < json.length; ++i) {
-                insertListItem(json[i].entrypoint, json[i].label, json[i].desc, json[i].author, json[i].type, json[i].page, i);
-        let func = json[i].entrypoint;
-     const check = document.querySelector(`[megamod-entry="` + func + `"]`);
-            if (settings[func] == true) {
-              check.checked = true;
-            } else {
-    check.checked = false;
-            }
+	    insertListItem(i);
          }
 
-        /*dock button*/
+	//dock button
         modal.querySelector('.megamod-dock i').addEventListener("click", (e) =>{
             const settings = getSettings();
             let cn = e.target.className;
@@ -277,7 +308,7 @@ GM_addStyle(css);
         });
 
 
-        /*close button*/
+	//close button
         modal.querySelector(".megamod-settings-modal .close").addEventListener("click", () => {
             modal.remove();
          });
@@ -287,26 +318,27 @@ GM_addStyle(css);
             }
         });
 
-         /*interpolate function names*/
-        document.querySelector('#megamod-option').onchange = function(e) {
+       let startPage = sidebarPages[0].charAt(0).toUpperCase() + sidebarPages[0].slice(1);
+       openTab(startPage);
+     }
+
+	function updateState(target){
         const settings = getSettings();
-        var state
-        var eventTarget = e.target;
-        var func = eventTarget.getAttribute('megamod-entry');
-        if(e.target.checked) {
+        let state;
+        const it = target.getAttribute('megamod-iter');
+        if(target.checked) {
           state = true;
        } else {
           state = false;
        }
+      let func = json[it].entrypoint;
       settings[func] = state;
-      /*save and apply checkbox state*/
+      //save and apply checkbox state
       saveSettings(settings);
       applySettings(func);
-       }
-       openTab(event, 'general');
-     }
-
+      }
     function applySettings(entry) {
+	    console.log(entry)
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
