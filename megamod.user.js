@@ -148,7 +148,7 @@ GM_addStyle(css);
             if (link === "") {
             hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '</p>';
             } else {
-            hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '<br><br>Link: <a href="' + link + '"</a>linkLabel</p>';
+            hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '<br><br>Link: <a href="' + link + '"</a>' + linkLabel + '</p>';
             }
             // reset opacity of other helpbox toggles
             let helpboxToggles = document.querySelectorAll('.megamod-option');
