@@ -16,21 +16,21 @@ function createMags(){
     var split = user.href.split("/");
     var username = split[4];
     var subLink = 'https://kbin.social/u/' + username + '/subscriptions';
-        if ( username == null) {
-            return;
+    if ( username == null) {
+        return;
         } else {
-    const myListItem = document.createElement('li');
-    const mySubsLink = document.createElement('a');
-    mySubsLink.setAttribute('href', subLink);
-    mySubsLink.innerText = 'My mags';
-    mySubsLink.className = 'subs-nav';
-    myListItem.append(mySubsLink);
-
-        nav.appendChild(myListItem);
+            const myListItem = document.createElement('li');
+            const mySubsLink = document.createElement('a');
+            mySubsLink.setAttribute('href', subLink);
+            mySubsLink.innerText = 'My mags';
+            mySubsLink.className = 'subs-nav';
+            myListItem.append(mySubsLink);
+            nav.appendChild(myListItem);
     }
 }
 
 function initMags(toggle){
+    console.log(toggle);
     if (toggle == false) {
         $('.subs-nav').remove();
     } else {
