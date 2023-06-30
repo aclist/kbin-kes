@@ -2,7 +2,7 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.6.0
+// @version       0.6.1
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -30,7 +30,7 @@
 
     const version = GM_info.script.version;
     const tool = GM_info.script.name;
-    const manifest = "https://raw.githubusercontent.com/aclist/kbin-megamod/3a81cc679e0d6a46e9d29fdbed8f251dc02114a3/manifest.json";
+    const manifest = "https://github.com/aclist/kbin-megamod/raw/main/manifest.json";
     const repositoryURL = "https://github.com/aclist/kbin-megamod/";
 
     /*object used for interpolation of function names*/
