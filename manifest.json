@@ -8,7 +8,7 @@
     "class": "addMail",
     "entrypoint": "addMail",
     "type": "checkbox",
-    "page": "top"
+    "page": "general"
   },
   {
     "name": "Add subs to navbar",
@@ -24,7 +24,7 @@
       "b",
       "c"
     ],
-    "page": "top"
+    "page": "general"
   },
   {
     "name": "Label OP",
@@ -46,7 +46,7 @@
     "class": "dropdownEntry",
     "entrypoint": "dropdownEntry",
     "type": "checkbox",
-    "page": "threads"
+    "page": "general"
   },
   {
     "name": "kbin-code-highlighting",
