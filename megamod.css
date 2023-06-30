@@ -140,7 +140,7 @@ border: 1px solid gray
 .megamod-tab-link.active,.megamod-option.active {
     color: var(--kbin-sidebar-header-text-color);
 }
-.megamod-checkbox{
+#megamod-checkbox{
   height: 0;
   width: 0;
   visibility: hidden;
@@ -168,11 +168,11 @@ border: 1px solid gray
   transition: 0.3s;
 }
 
-.megamod-checkbox:checked + .megamod-toggle > label {
+#megamod-checkbox:checked + .megamod-toggle > label {
   background: #bada55;
 }
 
-.megamod-checkbox:checked + .megamod-toggle > label:after {
+#megamod-checkbox:checked + .megamod-toggle > label:after {
   left: calc(100% - 5px);
   transform: translateX(-100%);
 }
