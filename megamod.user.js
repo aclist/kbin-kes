@@ -144,11 +144,13 @@ GM_addStyle(css);
             let kbinPrefix = 'https://kbin.social/u/';
             let url = kbinPrefix + author;
             let hBox = document.querySelector('.megamod-settings-modal-helpbox');
+	    let toggle = '<span class="megamod-toggle"><input type="checkbox" class="megamod-checkbox" /><label for="megamod-checkbox">Toggle</label>'
+
             hBox.style.cssText = 'display: inline; opacity: 1;'
             if (link === "") {
-            hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '</p>';
+            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '</p>';
             } else {
-            hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '<br><br>Link: <a href="' + link + '"</a>' + linkLabel + '</p>';
+            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">' + linkLabel + '</a><br>' + desc + '</p>'
             }
             // reset opacity of other helpbox toggles
             let helpboxToggles = document.querySelectorAll('.megamod-option');
@@ -159,6 +161,25 @@ GM_addStyle(css);
                 helpboxToggles[i].style.cssText= 'opacity: 1;'
                 }
             }
+	    // add to crumbs
+	    let activeChild = document.querySelector('.crumbChild')
+	    if (activeChild) {
+	     activeChild.remove();
+	    }
+	    let crumbsRoot = document.querySelector('.megamod-crumbs h2');
+	    let span = document.createElement('span');
+	    span.className = "crumbChild"
+	    let pad = document.createElement('text');
+	    pad.innerText = ' ';
+	    let chev = document.createElement('i')
+	    chev.className = 'fa-solid fa-chevron-right fa-xs';
+	    let activeMod = document.createElement('text');
+	    activeMod.innerText = ' ' + event.target.innerText;
+	    span.appendChild(pad)
+	    span.appendChild(chev)
+	    span.appendChild(activeMod)
+	    crumbsRoot.appendChild(span)
+
         };
         `
        const cscript = document.createElement("script");
@@ -253,7 +274,7 @@ GM_addStyle(css);
       }
 
     for (let i = 0; i < json.length; ++i) {
-                insertListItem(json[i].entrypoint, json[i].label, json[i].desc, json[i].author, json[i].link, json[i].link_label, json[i].type, json[i].page, i);
+                insertListItem(json[i].entrypoint, json[i].label, json[i].desc, json[i].author, json[i].link, json[i].linkLabel, json[i].type, json[i].page, i);
         let func = json[i].entrypoint;
      const check = document.querySelector(`[megamod-entry="` + func + `"]`);
             if (settings[func] == true) {
