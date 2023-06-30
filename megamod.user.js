@@ -140,6 +140,7 @@ GM_addStyle(css);
        sidebar.appendChild(sidebarUl);
 
         function openHelpBox(it){
+            const settings = getSettings();
 		let author = json[it].author
 		let desc = json[it].desc
 		let link = json[it].link
@@ -147,13 +148,15 @@ GM_addStyle(css);
             let kbinPrefix = 'https://kbin.social/u/';
             let url = kbinPrefix + author;
             let hBox = document.querySelector('.megamod-settings-modal-helpbox');
-	    let toggle = '<span class="megamod-toggle"><input type="checkbox" class="tgl megamod-tgl" id="megamod-checkbox" /><label class="tgl-btn" for="megamod-checkbox"></label></span>'
+	    let toggle = '<span class="megamod-toggle"><input type="checkbox" class="tgl megamod-tgl" id="megamod-checkbox" megamod-iter="'
+			+ it + '"/><label class="tgl-btn" for="megamod-checkbox"></label></span>'
 
             hBox.style.cssText = 'display: inline; opacity: 1;'
             if (link === "") {
             hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '</p>';
             } else {
-            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">' + linkLabel + '</a><br>' + desc + '</p>'
+            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">'
+			    + linkLabel + '</a><br>' + desc + '</p>'
             }
             // reset opacity of other helpbox toggles
             let helpboxToggles = document.querySelectorAll('.megamod-option');
@@ -163,6 +166,13 @@ GM_addStyle(css);
                 } else {
                 helpboxToggles[i].style.cssText= 'opacity: 1;'
                 }
+            }
+     let func = json[it].entrypoint;
+     const check = document.querySelector(`.megamod-settings-modal-helpbox [megamod-iter="` + it + `"]`);
+            if (settings[func] == true) {
+              check.checked = true;
+            } else {
+    check.checked = false;
             }
 	    // add to crumbs
 	   // let activeChild = document.querySelector('.crumbChild')
@@ -200,8 +210,6 @@ GM_addStyle(css);
             // Hide all options not in this tab (without this classname)
             const options = document.getElementsByClassName("megamods-list")[0];
             const optionsChildren = options.children;
-            //let helpbox = document.querySelector('.megamod-settings-modal-helpbox');
-            //helpbox.style.cssText = 'display: none;'
             const pageToOpen = []
             for (let i = 0; i < optionsChildren.length; i++) {
                 if (optionsChildren[i].className.indexOf(pageLower) > -1) {
@@ -210,7 +218,8 @@ GM_addStyle(css);
                 } else {
                    optionsChildren[i].style.display = "none";
                    let crumbsRoot = document.querySelector('.megamod-crumbs');
-                   crumbsRoot.innerHTML = '<h2>Megamod Settings <i class="fa-solid fa-chevron-right fa-xs"></i> ' + tabName + '</h2>';
+                   crumbsRoot.innerHTML = '<h2>Megamod Settings <i class="fa-solid fa-chevron-right fa-xs"></i> '
+				+ tabName + '</h2>';
                 }
             }
 	 if (pageToOpen.length > 0) {
@@ -245,8 +254,8 @@ GM_addStyle(css);
 	document.querySelector('.megamods-list').addEventListener("click", (e) => {
 		openHelpBox(e.target.getAttribute('megamod-iter'));
        });
-	document.querySelector('.megamod-settings-modal-helpbox').addEventListener("click", (e) => {
-		console.log(e.target);
+	document.querySelector('.megamod-settings-modal-helpbox').addEventListener("change", (e) => {
+		updateState(e.target);
        });
 
         const dockIcon= document.querySelector('.megamod-dock i');
@@ -274,21 +283,12 @@ GM_addStyle(css);
        const megamodListItem = document.createElement("li");
        megamodListItem.className = page;
        megamodListItem.innerHTML+=`<a class="megamod-option" megamod-iter="` + it + `">` + item + `</a>`
-//           func + `"  onclick="openHelpBox(event,'` + author +`','` + desc + `','` + link + `','` + linkLabel + `')">` + item + `</a>`
        megamodUl.appendChild(megamodListItem);
 
       }
 
     for (let i = 0; i < json.length; ++i) {
 	    insertListItem(i);
-//                insertListItem(json[i].entrypoint, json[i].label, json[i].desc, json[i].author, json[i].link, json[i].linkLabel, json[i].type, json[i].page, i);
-     let func = json[i].entrypoint;
-     const check = document.querySelector(`[megamod-iter="` + i + `"]`);
-            if (settings[func] == true) {
-              check.checked = true;
-            } else {
-    check.checked = false;
-            }
          }
 
 	//dock button
@@ -319,26 +319,25 @@ GM_addStyle(css);
             }
         });
 
-	//interpolate function names
-        document.querySelector('.megamod-option').onchange = function(e) {
-        const settings = getSettings();
-        var state
-        var eventTarget = e.target;
-        var func = eventTarget.getAttribute('megamod-iter');
-        if(e.target.checked) {
-          state = true;
-       } else {
-          state = false;
-       }
-      settings[func] = state;
-      //save and apply checkbox state
-      saveSettings(settings);
-      applySettings(func);
-       }
        let startPage = sidebarPages[0].charAt(0).toUpperCase() + sidebarPages[0].slice(1);
        openTab(startPage);
      }
 
+	function updateState(target){
+        const settings = getSettings();
+        let state;
+        const it = target.getAttribute('megamod-iter');
+        if(target.checked) {
+          state = true;
+       } else {
+          state = false;
+       }
+      let func = json[it].entrypoint;
+      settings[func] = state;
+      //save and apply checkbox state
+      saveSettings(settings);
+      applySettings(func);
+      }
     function applySettings(entry) {
         const settings = getSettings();
         try {
