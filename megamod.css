@@ -120,13 +120,6 @@ border: 1px solid gray
 .mod-author {
     float: right;
 }
-.megamod-tooltip {
-    margin-left: 0.5rem;
-    transition: opacity 0.25s ease-in-out;
-}
-.megamod-tooltip.active {
-    opacity: 0.5;
-}
 .megamod-tab-link, .megamod-option {
     cursor: pointer;
     border-radius: 0px;
@@ -135,7 +128,7 @@ border: 1px solid gray
 }
 .megamod-tab-link:hover,.megamod-option:hover{
     opacity: 1;
-    color: var(--kbin-sidebar-header-text-color);
+    color: var(--kbin-header-text-color);
 }
 .megamod-tab-link.active,.megamod-option.active {
     color: var(--kbin-sidebar-header-text-color);
