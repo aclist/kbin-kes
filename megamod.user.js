@@ -28,7 +28,6 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
 
-//TODO: fa-icons to top
 const version = GM_info.script.version;
 const tool = GM_info.script.name;
 const manifest = "https://github.com/aclist/kbin-megamod/raw/patch-static-helpbox/manifest.json";
@@ -339,6 +338,7 @@ GM_addStyle(css);
       applySettings(func);
       }
     function applySettings(entry) {
+	    console.log(entry)
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
