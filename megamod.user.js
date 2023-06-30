@@ -1,9 +1,8 @@
-
 // ==UserScript==
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.6.2
+// @version       0.7.0
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -29,21 +28,22 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
 
-    const version = GM_info.script.version;
-    const tool = GM_info.script.name;
-    const manifest = "https://github.com/aclist/kbin-megamod/raw/patch-static-helpbox/manifest.json";
-    const repositoryURL = "https://github.com/aclist/kbin-megamod/";
+//TODO: fa-icons to top
+const version = GM_info.script.version;
+const tool = GM_info.script.name;
+const manifest = "https://github.com/aclist/kbin-megamod/raw/patch-static-helpbox/manifest.json";
+const repositoryURL = "https://github.com/aclist/kbin-megamod/";
 
-    /*object used for interpolation of function names*/
-    const funcObj = {
-        addMail: addMail,
-        initMags: initMags,
-        labelOp: labelOp,
-        dropdownEntry: dropdownEntry,
-        initCodeHighlights: initCodeHighlights,
-        languageFilterEntry: languageFilterEntry,
-        easyEmoticon: easyEmoticon
-    };
+/*object used for interpolation of function names*/
+const funcObj = {
+	addMail: addMail,
+	initMags: initMags,
+	labelOp: labelOp,
+	dropdownEntry: dropdownEntry,
+	initCodeHighlights: initCodeHighlights,
+	languageFilterEntry: languageFilterEntry,
+	easyEmoticon: easyEmoticon
+};
 
 function fetchManifest() {
     GM_xmlhttpRequest({
@@ -62,7 +62,7 @@ function makeArr(response) {
     var doc = parser.parseFromString(response.responseText, "text/html");
     var content = response.responseText
      const jarr = JSON.parse(content)
-     /*TODO: wait on promise and set warning string if unreachable*/
+     //TODO: wait on promise and set warning string if unreachable
      GM.setValue("json", jarr);
 };
 
@@ -71,7 +71,7 @@ var json = await GM.getValue("json");
 var css = GM_getResourceText("megamod_css");
 GM_addStyle(css);
 
-	/*instantiate megamod modal*/
+	//instantiate megamod modal
         const kbinContainer = document.querySelector(".kbin-container > menu");
         const magazinePanel = document.createElement("aside");
         const magazinePanelUl = document.createElement("ul");
@@ -80,7 +80,7 @@ GM_addStyle(css);
         magazinePanel.appendChild(title);
         kbinContainer.appendChild(magazinePanel);
 
-        /*add settings button*/
+	//add settings button
         const settingsButton = document.createElement("div");
         settingsButton.id = "megamod-settings-button";
         settingsButton.innerHTML = '<i class="fa-solid fa-bug"></i>';
@@ -122,6 +122,7 @@ GM_addStyle(css);
         let sidebarUl = document.createElement('ul');
 
 
+	//TODO: pages.json
         const sidebarPages = [
             "general",
             "threads",
@@ -133,7 +134,7 @@ GM_addStyle(css);
             let pageUpper = sidebarPages[i].charAt(0).toUpperCase() + sidebarPages[i].slice(1);
             let sidebarListItem = document.createElement('li');
             sidebarListItem.innerHTML = `
-            <a class="megamod-tab-link" onclick="openTab(event, '` + page + `')">` + pageUpper + `</a></li>`
+            <a class="megamod-tab-link">` + pageUpper + `</a></li>`
             sidebarUl.appendChild(sidebarListItem);
         }
        sidebar.appendChild(sidebarUl);
@@ -144,7 +145,7 @@ GM_addStyle(css);
             let kbinPrefix = 'https://kbin.social/u/';
             let url = kbinPrefix + author;
             let hBox = document.querySelector('.megamod-settings-modal-helpbox');
-	    let toggle = '<span class="megamod-toggle"><input type="checkbox" class="megamod-checkbox" /><label for="megamod-checkbox">Toggle</label>'
+	    let toggle = '<span class="megamod-toggle"><input type="checkbox" id="megamod-checkbox" /><label for="megamod-checkbox">Toggle</label></span>'
 
             hBox.style.cssText = 'display: inline; opacity: 1;'
             if (link === "") {
@@ -194,13 +195,12 @@ GM_addStyle(css);
         document.body.appendChild(cscript);
 
         // Add script tag with opentab function
-        const script = document.createElement("script");
-        script.innerHTML = `
-        function openTab(event, tabName) {
-            // Change opacity of all tabs to 1
+        function openTab(tabName) {
+            let pageLower = tabName.charAt(0).toLowerCase() + tabName.slice(1);
             const tablinks = document.getElementsByClassName("megamod-tab-link");
+		console.log(tablinks);
             for (let i = 0; i < tablinks.length; i++) {
-                if (tablinks[i] !== event.target) {
+                if (tablinks[i].innerText !== tabName) {
                     tablinks[i].style.opacity = 0.5;
                 } else {
                     tablinks[i].style.opacity = 1;
@@ -214,18 +214,15 @@ GM_addStyle(css);
             helpbox.style.cssText = 'display: none;'
 
             for (let i = 0; i < optionsChildren.length; i++) {
-                if (optionsChildren[i].className.indexOf(tabName) > -1) {
+                if (optionsChildren[i].className.indexOf(pageLower) > -1) {
                     optionsChildren[i].style.display = "block";
                 } else {
                     optionsChildren[i].style.display = "none";
-                    let crumbUpper = tabName.charAt(0).toUpperCase() + tabName.slice(1);
                    let crumbsRoot = document.querySelector('.megamod-crumbs');
-                   crumbsRoot.innerHTML = '<h2>Megamod Settings <i class="fa-solid fa-chevron-right fa-xs"></i> ' + crumbUpper + '</h2>';
+                   crumbsRoot.innerHTML = '<h2>Megamod Settings <i class="fa-solid fa-chevron-right fa-xs"></i> ' + tabName + '</h2>';
                 }
             }
         }
-        `;
-        document.body.appendChild(script);
 
         const bodyHolder = document.createElement("div");
              bodyHolder.className = "megamod-settings-modal-body";
@@ -237,14 +234,17 @@ GM_addStyle(css);
         helpBox.className = "megamod-settings-modal-helpbox";
 
 
-        /*inject modal*/
+	//inject modal
         modal.appendChild(modalContent);
         modalContent.appendChild(header);
         modalContent.appendChild(sidebar);
         modalContent.appendChild(helpBox);
         modalContent.appendChild(bodyHolder);
-       bodyHolder.appendChild(megamodUl);
-       document.body.appendChild(modal);
+        bodyHolder.appendChild(megamodUl);
+        document.body.appendChild(modal);
+        document.querySelector('.megamod-settings-modal-sidebar ul').addEventListener("click", (e) =>{
+	       openTab(e.target.outerText);
+       });
 
         const dockIcon= document.querySelector('.megamod-dock i');
        if (settings.dock == 'down') {
@@ -256,8 +256,7 @@ GM_addStyle(css);
        }
 
 
-    /*populate modal identifiers*/
-    /*TODO: extend boilerplate*/
+    //TODO: extend boilerplate
     function insertListItem(func, item, desc,author,link,linkLabel,type,page, it){
             switch(type) {
                 case 'checkbox': console.log('toggle type selected');
@@ -284,7 +283,7 @@ GM_addStyle(css);
             }
          }
 
-        /*dock button*/
+	//dock button
         modal.querySelector('.megamod-dock i').addEventListener("click", (e) =>{
             const settings = getSettings();
             let cn = e.target.className;
@@ -302,7 +301,7 @@ GM_addStyle(css);
         });
 
 
-        /*close button*/
+	//close button
         modal.querySelector(".megamod-settings-modal .close").addEventListener("click", () => {
             modal.remove();
          });
@@ -312,7 +311,7 @@ GM_addStyle(css);
             }
         });
 
-         /*interpolate function names*/
+	//interpolate function names
         document.querySelector('.megamod-option').onchange = function(e) {
         const settings = getSettings();
         var state
@@ -324,11 +323,11 @@ GM_addStyle(css);
           state = false;
        }
       settings[func] = state;
-      /*save and apply checkbox state*/
+      //save and apply checkbox state
       saveSettings(settings);
       applySettings(func);
        }
-       openTab(event, 'general');
+       openTab('general');
      }
 
     function applySettings(entry) {
