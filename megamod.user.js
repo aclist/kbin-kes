@@ -158,7 +158,6 @@ GM_addStyle(css);
             // reset opacity of other helpbox toggles
             let helpboxToggles = document.querySelectorAll('.megamod-option');
             for (let i = 0; i < helpboxToggles.length; ++i) {
-			console.log('i is' + i + ', it is' + it)
                 if (i != it) {
                 helpboxToggles[i].style.cssText= 'opacity: 0.5;'
                 } else {
@@ -166,23 +165,23 @@ GM_addStyle(css);
                 }
             }
 	    // add to crumbs
-	    let activeChild = document.querySelector('.crumbChild')
-	    if (activeChild) {
-	     activeChild.remove();
-	    }
-	    let crumbsRoot = document.querySelector('.megamod-crumbs h2');
-	    let span = document.createElement('span');
-	    span.className = "crumbChild"
-	    let pad = document.createElement('text');
-	    pad.innerText = ' ';
-	    let chev = document.createElement('i')
-	    chev.className = 'fa-solid fa-chevron-right fa-xs';
-	    let activeMod = document.createElement('text');
-	    activeMod.innerText = ' ' + event.target.innerText;
-	    span.appendChild(pad)
-	    span.appendChild(chev)
-	    span.appendChild(activeMod)
-	    crumbsRoot.appendChild(span)
+	   // let activeChild = document.querySelector('.crumbChild')
+	   // if (activeChild) {
+	   //  activeChild.remove();
+	   // }
+	   // let crumbsRoot = document.querySelector('.megamod-crumbs h2');
+	   // let span = document.createElement('span');
+	   // span.className = "crumbChild"
+	   // let pad = document.createElement('text');
+	   // pad.innerText = ' ';
+	   // let chev = document.createElement('i')
+	   // chev.className = 'fa-solid fa-chevron-right fa-xs';
+	   // let activeMod = document.createElement('text');
+	   // activeMod.innerText = ' ' + event.target.innerText;
+	   // span.appendChild(pad)
+	   // span.appendChild(chev)
+	   // span.appendChild(activeMod)
+	   // crumbsRoot.appendChild(span)
 
         };
 
@@ -204,7 +203,6 @@ GM_addStyle(css);
             //let helpbox = document.querySelector('.megamod-settings-modal-helpbox');
             //helpbox.style.cssText = 'display: none;'
             const pageToOpen = []
-	console.log(pageToOpen.length)
             for (let i = 0; i < optionsChildren.length; i++) {
                 if (optionsChildren[i].className.indexOf(pageLower) > -1) {
                     optionsChildren[i].style.display = "block";
@@ -246,6 +244,9 @@ GM_addStyle(css);
        });
 	document.querySelector('.megamods-list').addEventListener("click", (e) => {
 		openHelpBox(e.target.getAttribute('megamod-iter'));
+       });
+	document.querySelector('.megamod-settings-modal-helpbox').addEventListener("click", (e) => {
+		console.log(e.target);
        });
 
         const dockIcon= document.querySelector('.megamod-dock i');
