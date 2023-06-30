@@ -44,6 +44,12 @@ const funcObj = {
 	languageFilterEntry: languageFilterEntry,
 	easyEmoticon: easyEmoticon
 };
+const sidebarPages = [
+	"general",
+	"threads",
+	"comments",
+	"profiles"
+]
 
 function fetchManifest() {
     GM_xmlhttpRequest({
@@ -123,12 +129,6 @@ GM_addStyle(css);
 
 
 	//TODO: pages.json
-        const sidebarPages = [
-            "general",
-            "threads",
-            "comments",
-            "profiles"
-            ]
         for ( let i = 0; i < sidebarPages.length; ++i) {
             let page = sidebarPages[i];
             let pageUpper = sidebarPages[i].charAt(0).toUpperCase() + sidebarPages[i].slice(1);
@@ -327,7 +327,8 @@ GM_addStyle(css);
       saveSettings(settings);
       applySettings(func);
        }
-       openTab('General');
+       let startPage = sidebarPages[0].charAt(0).toUpperCase() + sidebarPages[0].slice(1);
+       openTab(startPage);
      }
 
     function applySettings(entry) {
