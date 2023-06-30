@@ -89,7 +89,7 @@
     "label": "Easy emoticons",
     "desc": "Use slash commands for emoticons.",
     "link": "https://docs.google.com/document/d/1jMeY7GwmgwrV8mEC4jmkEKKWdKuWvjgLgYrtUS5hPYg",
-    "linkLabel": "",
+    "linkLabel": "Command guide",
     "class": "easyEmoticon",
     "entrypoint": "easyEmoticon",
     "type": "checkbox",
