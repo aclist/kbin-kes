@@ -157,7 +157,7 @@ border: 1px solid gray
   position: relative;
 }
 
-.megamod-toggle label:after {
+.megamod-toggle > label:after {
   content: '';
   position: absolute;
   top: 5px;
