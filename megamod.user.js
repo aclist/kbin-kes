@@ -140,15 +140,15 @@ GM_addStyle(css);
 
          const hscript = document.createElement("script");
         hscript.innerHTML = `
-        function openHelpBox(event,author,desc,docs){
+        function openHelpBox(event,author,desc,link,linkLabel){
             let kbinPrefix = 'https://kbin.social/u/';
             let url = kbinPrefix + author;
             let hBox = document.querySelector('.megamod-settings-modal-helpbox');
             hBox.style.cssText = 'display: inline; opacity: 1;'
-            if ( docs != '') {
+            if (link === "") {
             hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '</p>';
             } else {
-            hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + 'Docs: ' + docs + '</p>';
+            hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '<br><br>Link: <a href="' + link + '"</a>linkLabel</p>';
             }
             // reset opacity of other helpbox toggles
             let helpboxToggles = document.querySelectorAll('.megamod-option');
@@ -237,7 +237,7 @@ GM_addStyle(css);
 
     /*populate modal identifiers*/
     /*TODO: extend boilerplate*/
-    function insertListItem(func, item, desc,author,docs,type,page, it){
+    function insertListItem(func, item, desc,author,link,linkLabel,type,page, it){
             switch(type) {
                 case 'checkbox': console.log('toggle type selected');
                 break;
@@ -247,13 +247,13 @@ GM_addStyle(css);
        const megamodListItem = document.createElement("li");
        megamodListItem.className = page;
        megamodListItem.innerHTML+=`<a class="megamod-option" megamod-entry="` +
-           func + `"  onclick="openHelpBox(event,'` + author +`','` + desc + `','` + docs + `')">` + item + `</a>`
+           func + `"  onclick="openHelpBox(event,'` + author +`','` + desc + `','` + link + `','` + linkLabel + `')">` + item + `</a>`
        megamodUl.appendChild(megamodListItem);
 
       }
 
     for (let i = 0; i < json.length; ++i) {
-                insertListItem(json[i].entrypoint, json[i].label, json[i].desc, json[i].author,json[i].docs,json[i].type, json[i].page, i);
+                insertListItem(json[i].entrypoint, json[i].label, json[i].desc, json[i].author, json[i].link, json[i].link_label, json[i].type, json[i].page, i);
         let func = json[i].entrypoint;
      const check = document.querySelector(`[megamod-entry="` + func + `"]`);
             if (settings[func] == true) {
