@@ -160,10 +160,9 @@ border: 1px solid gray
 .megamod-toggle > label:after {
   content: '';
   position: absolute;
-  top: 5px;
-  left: 5px;
-  width: 90px;
-  height: 90px;
+  left: 1px;
+  width: 30px;
+  height: 30px;
   background: #fff;
   border-radius: 90px;
   transition: 0.3s;
@@ -179,5 +178,5 @@ border: 1px solid gray
 }
 
 .megamod-toggle > label:active:after {
-  width: 130px;
+  width: 60px;
 }
