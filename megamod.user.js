@@ -146,12 +146,12 @@ GM_addStyle(css);
             hBox.style.cssText = 'display: inline; opacity: 1;'
             hBox.innerHTML = '<p>' + desc + '<br>Author: ' + '<a href="' + url + '">' + author + '</a>'+ '</p>';
             // reset opacity of other helpbox toggles
-            let helpboxToggles = document.querySelectorAll('.megamod-tooltip');
+            let helpboxToggles = document.querySelectorAll('.megamod-option');
             for (let i = 0; i < helpboxToggles.length; ++i) {
                 if (helpboxToggles[i] !== event.target) {
-                    helpboxToggles[i].classList.remove('megamod-tooltip-active');
+                helpboxToggles[i].style.cssText= 'opacity: 0.5;'
                 } else {
-                    helpboxToggles[i].classList.add('megamod-tooltip-active');
+                helpboxToggles[i].style.cssText= 'opacity: 1;'
                 }
             }
         };
@@ -175,9 +175,9 @@ GM_addStyle(css);
             const tablinks = document.getElementsByClassName("megamod-tab-link");
             for (let i = 0; i < tablinks.length; i++) {
                 if (tablinks[i] !== event.target) {
-                    tablinks[i].style.opacity = 1;
-                } else {
                     tablinks[i].style.opacity = 0.5;
+                } else {
+                    tablinks[i].style.opacity = 1;
                 }
             }
             event.stopPropagation();
@@ -241,9 +241,8 @@ GM_addStyle(css);
             }
        const megamodListItem = document.createElement("li");
        megamodListItem.className = page;
-       megamodListItem.innerHTML+=`<input type="checkbox" id="megamod-option" megamod-entry="` +
-           func + `"/input>` + item +
-           `<i class="megamod-tooltip fa-solid fa-ellipsis" onclick="openHelpBox(event,'` + author +`','` + desc + `')"></i>`
+       megamodListItem.innerHTML+=`<a class="megamod-option" megamod-entry="` +
+           func + `"  onclick="openHelpBox(event,'` + author +`','` + desc + `')">` + item + `</a>`
        megamodUl.appendChild(megamodListItem);
 
       }
@@ -288,7 +287,7 @@ GM_addStyle(css);
         });
 
          /*interpolate function names*/
-        document.querySelector('#megamod-option').onchange = function(e) {
+        document.querySelector('.megamod-option').onchange = function(e) {
         const settings = getSettings();
         var state
         var eventTarget = e.target;

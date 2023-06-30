@@ -127,14 +127,14 @@ border: 1px solid gray
 .megamod-tooltip.active {
     opacity: 0.5;
 }
-.megamod-tab-link {
+.megamod-tab-link, .megamod-option {
      border-radius: 0px;
     border: none;
     color: var(--kbin-header-text-color);
 }
-.megamod-tab-link:hover{
+.megamod-tab-link:hover,.megamod-option:hover{
     opacity: 0.65;
 }
-.megamod-tab-link.active {
+.megamod-tab-link.active,.megamod-option.active {
     color: var(--kbin-sidebar-header-text-color);
 }
