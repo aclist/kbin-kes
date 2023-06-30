@@ -1,7 +1,7 @@
 [
   {
     "name": "Add mail",
-    "author": "aclist",
+    "author": "shazbot",
     "version": "0.1.0",
     "label": "Add mail icon",
     "desc": "Add mail link to usernames if on kbin.social",
@@ -14,7 +14,7 @@
   },
   {
     "name": "Add subs to navbar",
-    "author": "aclist",
+    "author": "shazbot",
     "version": "0.1.0",
     "label": "Add subs to navbar",
     "desc": "Add magazine subscription to navbar",
@@ -32,7 +32,7 @@
   },
   {
     "name": "Label OP",
-    "author": "aclist",
+    "author": "shazbot",
     "version": "0.1.0",
     "label": "Add OP label",
     "desc": "Add OP label to thread author",
@@ -45,7 +45,7 @@
   },
   {
     "name": "Profile dropdown",
-    "author": "aclist",
+    "author": "shazbot",
     "version": "0.1.0",
     "label": "Convert links to dropdown",
     "desc": "Convert activity/profile page links to dropdown [BETA]",
