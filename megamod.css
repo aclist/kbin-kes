@@ -140,46 +140,6 @@ border: 1px solid gray
 .megamod-tab-link.active,.megamod-option.active {
     color: var(--kbin-sidebar-header-text-color);
 }
-#megamod-checkbox{
-  height: 0;
-  width: 0;
-  visibility: hidden;
-}
-
-.megamod-toggle > label {
-  cursor: pointer;
-  text-indent: -9999px;
-  width: 60px;
-  height: 30px;
-  background: grey;
-  display: block;
-  border-radius: 100px;
-  position: relative;
-}
-
-.megamod-toggle > label:after {
-  content: '';
-  position: absolute;
-  left: 1px;
-  width: 30px;
-  height: 30px;
-  background: #fff;
-  border-radius: 90px;
-  transition: 0.3s;
-}
-
-#megamod-checkbox:checked + .megamod-toggle > label {
-  background: #bada55;
-}
-
-#megamod-checkbox:checked + .megamod-toggle > label:after {
-  left: calc(100% - 5px);
-  transform: translateX(-100%);
-}
-
-.megamod-toggle > label:active:after {
-  width: 60px;
-}
  .tgl {
 	 display: none;
 }
