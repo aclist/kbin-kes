@@ -149,6 +149,7 @@ GM_addStyle(css);
             hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '</p>';
             } else {
             hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + 'Docs: ' + docs + '</p>';
+            }
             // reset opacity of other helpbox toggles
             let helpboxToggles = document.querySelectorAll('.megamod-option');
             for (let i = 0; i < helpboxToggles.length; ++i) {
