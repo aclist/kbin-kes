@@ -128,7 +128,8 @@ border: 1px solid gray
     opacity: 0.5;
 }
 .megamod-tab-link, .megamod-option {
-     border-radius: 0px;
+    cursor: pointer;
+    border-radius: 0px;
     border: none;
     color: var(--kbin-header-text-color);
 }
