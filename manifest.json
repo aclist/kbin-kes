@@ -39,7 +39,7 @@
     "link": "",
     "linkLabel": "",
     "class": "labelOp",
-    "entrypoint": "labelop",
+    "entrypoint": "labelOp",
     "type": "checkbox",
     "page": "threads"
   },
@@ -48,7 +48,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Convert links to dropdown",
-    "desc": "Convert activity/profile page links to dropdown [BETA]",
+    "desc": "Convert activity/profile page links to dropdown",
     "link": "",
     "linkLabel": "",
     "class": "dropdownEntry",
