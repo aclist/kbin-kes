@@ -145,7 +145,7 @@ GM_addStyle(css);
             let kbinPrefix = 'https://kbin.social/u/';
             let url = kbinPrefix + author;
             let hBox = document.querySelector('.megamod-settings-modal-helpbox');
-	    let toggle = '<span class="megamod-toggle"><input type="checkbox" class="tgl megamod-tgl" id="megamod-checkbox" /><label for="megamod-checkbox">Toggle</label></span>'
+	    let toggle = '<span class="megamod-toggle"><input type="checkbox" class="tgl megamod-tgl" id="megamod-checkbox" /><label for="megamod-checkbox"></label></span>'
 
             hBox.style.cssText = 'display: inline; opacity: 1;'
             if (link === "") {
