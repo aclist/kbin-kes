@@ -246,7 +246,7 @@ GM_addStyle(css);
        const megamodListItem = document.createElement("li");
        megamodListItem.className = page;
        megamodListItem.innerHTML+=`<a class="megamod-option" megamod-entry="` +
-           func + `"  onclick="openHelpBox(event,'` + author +`','` + desc + `'` + docs + `')">` + item + `</a>`
+           func + `"  onclick="openHelpBox(event,'` + author +`','` + desc + `','` + docs + `')">` + item + `</a>`
        megamodUl.appendChild(megamodListItem);
 
       }
