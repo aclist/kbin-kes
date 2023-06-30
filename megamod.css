@@ -134,7 +134,8 @@ border: 1px solid gray
     color: var(--kbin-header-text-color);
 }
 .megamod-tab-link:hover,.megamod-option:hover{
-    opacity: 0.65;
+    opacity: 1;
+    color: var(--kbin-sidebar-header-text-color);
 }
 .megamod-tab-link.active,.megamod-option.active {
     color: var(--kbin-sidebar-header-text-color);

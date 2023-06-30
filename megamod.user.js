@@ -1,8 +1,9 @@
+
 // ==UserScript==
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.6.1
+// @version       0.6.2
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -24,13 +25,13 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
-// @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
+// @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/patch-static-helpbox/megamod.css
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
 
     const version = GM_info.script.version;
     const tool = GM_info.script.name;
-    const manifest = "https://github.com/aclist/kbin-megamod/raw/main/manifest.json";
+    const manifest = "https://github.com/aclist/kbin-megamod/raw/patch-static-helpbox/manifest.json";
     const repositoryURL = "https://github.com/aclist/kbin-megamod/";
 
     /*object used for interpolation of function names*/
@@ -69,7 +70,7 @@ fetchManifest();
 var json = await GM.getValue("json");
 var css = GM_getResourceText("megamod_css");
 GM_addStyle(css);
-	
+
 	/*instantiate megamod modal*/
         const kbinContainer = document.querySelector(".kbin-container > menu");
         const magazinePanel = document.createElement("aside");
@@ -139,12 +140,15 @@ GM_addStyle(css);
 
          const hscript = document.createElement("script");
         hscript.innerHTML = `
-        function openHelpBox(event,author, desc){
+        function openHelpBox(event,author,desc,docs){
             let kbinPrefix = 'https://kbin.social/u/';
             let url = kbinPrefix + author;
             let hBox = document.querySelector('.megamod-settings-modal-helpbox');
             hBox.style.cssText = 'display: inline; opacity: 1;'
-            hBox.innerHTML = '<p>' + desc + '<br>Author: ' + '<a href="' + url + '">' + author + '</a>'+ '</p>';
+            if ( docs != '') {
+            hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + '</p>';
+            } else {
+            hBox.innerHTML = '<p>Author: <a href="' + url + '">' + author + '</a><br>'+ desc + 'Docs: ' + docs + '</p>';
             // reset opacity of other helpbox toggles
             let helpboxToggles = document.querySelectorAll('.megamod-option');
             for (let i = 0; i < helpboxToggles.length; ++i) {
@@ -232,7 +236,7 @@ GM_addStyle(css);
 
     /*populate modal identifiers*/
     /*TODO: extend boilerplate*/
-    function insertListItem(func, item, desc,author,type,page, it){
+    function insertListItem(func, item, desc,author,docs,type,page, it){
             switch(type) {
                 case 'checkbox': console.log('toggle type selected');
                 break;
@@ -242,13 +246,13 @@ GM_addStyle(css);
        const megamodListItem = document.createElement("li");
        megamodListItem.className = page;
        megamodListItem.innerHTML+=`<a class="megamod-option" megamod-entry="` +
-           func + `"  onclick="openHelpBox(event,'` + author +`','` + desc + `')">` + item + `</a>`
+           func + `"  onclick="openHelpBox(event,'` + author +`','` + desc + `'` + docs + `')">` + item + `</a>`
        megamodUl.appendChild(megamodListItem);
 
       }
 
     for (let i = 0; i < json.length; ++i) {
-                insertListItem(json[i].entrypoint, json[i].label, json[i].desc, json[i].author, json[i].type, json[i].page, i);
+                insertListItem(json[i].entrypoint, json[i].label, json[i].desc, json[i].author,json[i].docs,json[i].type, json[i].page, i);
         let func = json[i].entrypoint;
      const check = document.querySelector(`[megamod-entry="` + func + `"]`);
             if (settings[func] == true) {
