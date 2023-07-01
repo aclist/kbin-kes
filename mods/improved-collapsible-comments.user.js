@@ -12,7 +12,6 @@
 // ==/UserScript==
 
 function initCollapsibleComments(toggle) {
-    console.log('Collapsible comments: ' + toggle ? 'enabled' : 'disabled')
     if (toggle) {
         applyToNewPosts();
         applyCommentStyles();
@@ -60,8 +59,6 @@ function initCollapsibleCommentsListeners(toggle) {
 function toggleReplies(event, comment) {
     var senderElement = event.target
     var parent = event.target.parentElement;
-    console.log('Target ' + senderElement.nodeName);
-    console.log('Parent ' + parent.nodeName);
 
     // Prevent collapsing when text is selected
     const cellText = document.getSelection();
@@ -142,7 +139,6 @@ function nestComments(comments,levels) {
         // Check if the previous element is the parent
         let previousElement = comments[i].previousElementSibling;
         if (previousElement && previousElement.className.match(/nested/)) {
-            console.log('Found parent');
             // Get previous element's children div if it exists
             let previousChildren = previousElement.querySelector(".children");
             if (!previousChildren) {
