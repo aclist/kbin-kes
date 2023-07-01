@@ -27,6 +27,7 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
+// @require       https://github.com/artillect/kbin-megamod/raw/instance-names/mods/instance-names.user.js
 // ==/UserScript==
 
 const version = GM_info.script.version;
@@ -44,7 +45,8 @@ const funcObj = {
 	dropdownEntry: dropdownEntry,
 	initCodeHighlights: initCodeHighlights,
 	languageFilterEntry: languageFilterEntry,
-	easyEmoticon: easyEmoticon
+	easyEmoticon: easyEmoticon,
+    userInstanceEntry: userInstanceEntry,
 };
 const sidebarPages = [
 	"general",
