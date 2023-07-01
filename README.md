@@ -24,9 +24,7 @@ This tool is not ready for mainstream consumption yet.
 
 
 ## TODO
-- Contributors
 - Update this README
-- Should options be dynamically loaded depending on if user is logged in?
-- Externalize css file
+- Specify if option requires login
 
 

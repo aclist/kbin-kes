@@ -1,18 +1,18 @@
+
 #megamod-settings-button {
     position: absolute;
     top: 0;
     right: 0;
     margin: 0.5rem;
     padding: 0.5rem;
-    color: var(--kbin-section-text-color);
+    color: var(--kbin-header-link-color);
     font-size: 0.5em;
     cursor: pointer;
 }
 
 #megamod-settings-button:hover {
-    color: var(--kbin-sidebar-header-text-color);
+    color: var(--kbin-header-link-hover-color);
 }
-
 
 .megamod-settings-modal {
     position: fixed;
@@ -26,16 +26,22 @@
 
 .megamod-settings-modal-content {
     background-color: var(--kbin-section-bg);
-    height:100%
     width: 100%;
     padding: 2rem;
     display: grid;
     grid-template-areas: "header header header" "sidebar body helpbox";
-    grid-template-columns: 0.5fr 3fr 3fr;
+    grid-template-columns: 1fr 3fr 3fr;
 }
 .megamods-list {
 width:fit-content;
 margin-left: 0.5rem;
+}
+/* Hide more info button by default */
+.megamods-list li i {
+    opacity: 0;
+}
+.megamods-list li:hover i {
+    opacity: 1;
 }
 
 .megamod-settings-modal-content {
@@ -60,7 +66,21 @@ border: 1px solid gray
 
 .megamod-version {
     float: right;
- }
+}
+.megamod-version .new {
+    color: var(--kbin-button-primary-bg);
+    background-color: orange;
+    padding: 0.4rem;
+    border-radius: 10px;
+    opacity: 0.9;
+    transition: color 0.15s ease-in-out;
+    margin-right: 0.5rem;
+}
+.megamod-version .new:hover {
+    color: var(--kbin-button-primary-hover-bg);
+    opacity: 1;
+}
+
 .megamod-settings-modal-content .close {
     color: #aaa;
     float: right;
@@ -115,14 +135,76 @@ border: 1px solid gray
 .mod-author {
     float: right;
 }
-.megamod-tooltip {
-margin-left: 0.5rem;
-}
-.megamod-tab-link {
-     border-radius: 0px;
+.megamod-tab-link, .megamod-option {
+    cursor: pointer;
+    border-radius: 0px;
     border: none;
     color: var(--kbin-header-text-color);
 }
-.megamod-tab-link:hover{
-    opacity: 0.65;
+.megamod-tab-link:hover,.megamod-option:hover{
+    opacity: 1;
+    color: var(--kbin-header-text-color);
+}
+.megamod-tab-link.active,.megamod-option.active {
+    color: var(--kbin-sidebar-header-text-color);
+}
+ .tgl {
+	 display: none;
+}
+ .tgl, .tgl:after, .tgl:before, .tgl *, .tgl *:after, .tgl *:before, .tgl + .tgl-btn {
+	 box-sizing: border-box;
+}
+ .tgl::selection, .tgl:after::selection, .tgl:before::selection, .tgl *::selection, .tgl *:after::selection, .tgl *:before::selection, .tgl + .tgl-btn::selection {
+	 background: none;
+}
+ .tgl + .tgl-btn {
+	 outline: 0;
+	 display: block;
+	 width: 2em;
+	 height: 1em;
+	 position: relative;
+	 cursor: pointer;
+	 user-select: none;
+}
+ .tgl + .tgl-btn:after, .tgl + .tgl-btn:before {
+	 position: relative;
+	 display: block;
+	 content: "";
+	 width: 50%;
+	 height: 100%;
+}
+ .tgl + .tgl-btn:after {
+	 left: 0;
+}
+ .tgl + .tgl-btn:before {
+	 display: none;
+}
+ .tgl:checked + .tgl-btn:after {
+	 left: 50%;
+}
+ .megamod-tgl + .tgl-btn {
+	 background: #fbfbfb;
+	 border-radius: 2em;
+	 padding: 2px;
+	 transition: all 0.4s ease;
+}
+ .megamod-tgl + .tgl-btn:after {
+	 border-radius: 2em;
+	 background: gray;
+	 transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
+}
+ .megamod-tgl + .tgl-btn:hover:after {
+	 will-change: padding;
+}
+ .megamod-tgl + .tgl-btn:active:after {
+	 padding-right: 0.8em;
+}
+ .megamod-tgl:checked + .tgl-btn {
+	 background: #86d993;
+}
+ .megamod-tgl:checked + .tgl-btn:active {
+	 box-shadow: none;
+}
+ .megamod-tgl:checked + .tgl-btn:active:after {
+	 margin-left: -0.8em;
 }

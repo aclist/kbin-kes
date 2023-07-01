@@ -1,93 +1,115 @@
 [
-    {
-      "name": "Add mail",
-       "author": "aclist",
-        "version": "0.1.0",
-      "label": "Add mail icon",
-      "desc": "Add mail link to usernames if on kbin.social",
-      "class": "addMail",
-      "entrypoint": "addMail",
-        "type": "checkbox",
-      "page": "top"
+  {
+    "name": "Add mail",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Add mail icon",
+    "desc": "Add mail link to usernames if on kbin.social",
+    "link": "",
+    "linkLabel": "",
+    "class": "addMail",
+    "entrypoint": "addMail",
+    "type": "checkbox",
+    "page": "general"
+  },
+  {
+    "name": "Add subs to navbar",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Add subs to navbar",
+    "desc": "Add magazine subscription to navbar",
+    "link": "",
+    "linkLabel": "",
+    "class": "initMags",
+    "entrypoint": "initMags",
+    "type": "selector",
+    "values": [
+      "a",
+      "b",
+      "c"
+    ],
+    "page": "general"
+  },
+  {
+    "name": "Label OP",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Add OP label",
+    "desc": "Add OP label to thread author",
+    "link": "",
+    "linkLabel": "",
+    "class": "labelOp",
+    "entrypoint": "labelOp",
+    "type": "checkbox",
+    "page": "threads"
+  },
+  {
+    "name": "Profile dropdown",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Convert links to dropdown",
+    "desc": "Convert activity/profile page links to dropdown",
+    "link": "",
+    "linkLabel": "",
+    "class": "dropdownEntry",
+    "entrypoint": "dropdownEntry",
+    "type": "checkbox",
+    "page": "general"
+  },
+  {
+    "name": "kbin-code-highlighting",
+    "author": "0rito",
+    "version": "0.4.2",
+    "label": "Code Syntax Highlighting",
+    "desc": "Adds syntax highlighting for code blocks.",
+    "link": "",
+    "linkLabel": "",
+    "class": "initCodeHighlights",
+    "entrypoint": "initCodeHighlights",
+    "type": "checkbox",
+    "page": "threads"
+  },
+  {
+    "name": "Language filter",
+    "author": "artillect",
+    "version": "0.1.0",
+    "label": "Language filter",
+    "desc": "Filter posts by language",
+    "link": "",
+    "linkLabel": "",
+    "class": "languageFilterEntry",
+    "entrypoint": "languageFilterEntry",
+    "type": "textarea",
+    "page": "threads"
+  },
+  {
+    "name": "Kbin Easy Emoticon",
+    "author": "minnieo",
+    "version": "0.6.1",
+    "label": "Easy emoticons",
+    "desc": "Use slash commands for emoticons.",
+    "link": "https://docs.google.com/document/d/1jMeY7GwmgwrV8mEC4jmkEKKWdKuWvjgLgYrtUS5hPYg",
+    "linkLabel": "Command guide",
+    "class": "easyEmoticon",
+    "entrypoint": "easyEmoticon",
+    "type": "checkbox",
+    "page": "general"
     },
-    {
-      "name": "Add subs to navbar",
-        "author": "aclist",
-        "version": "0.1.0",
-      "label": "Add subs to navbar",
-      "desc": "Add magazine subscription to navbar",
-      "class": "initMags",
-      "entrypoint": "initMags",
-        "type": "selector",
-         "values" : [
-           "a",
-           "b",
-           "c"
-        ],
-      "page": "top"
-    },
-    {
-      "name": "Label OP",
-        "author": "aclist",
-        "version": "0.1.0",
-      "label": "Add 'OP' label",
-      "desc": "Add 'OP' label to thread author",
-      "class": "labelOp",
-      "entrypoint": "labelop",
-        "type": "checkbox",
-         "page": "threads"
-    },
-    {
-      "name": "Profile dropdown",
-        "author": "aclist",
-        "version": "0.1.0",
-      "label": "Convert links to dropdown",
-      "desc": "Convert activity/profile page links to dropdown [BETA]",
-      "class": "dropdownEntry",
-      "entrypoint": "dropdownEntry",
-        "type": "checkbox",
-         "page": "threads"
-    },
-        {
-      "name": "Code syntax highlighting",
-        "author": "0rito",
-            "version": "0.1.0",
-      "label": "Code syntax highlighting",
-      "desc": "Adds syntax highlighting for code blocks [BETA]",
-      "class": "codeHighlighting",
-      "entrypoint": "codeHighlighting",
-        "type": "selector",
-            "values" : [
-           "theme1",
-           "theme2",
-           "theme3"
-        ],
-         "page": "threads"
-    },
-        {
-      "name": "Language filter",
-        "author": "artillect",
-            "version": "0.1.0",
-      "label": "Language filter",
-      "desc": "Filter posts by language",
-      "class": "languageFilterEntry",
-      "entrypoint": "languageFilterEntry",
-        "type": "textarea",
-         "page": "threads"
-    },
-    {
-      "name": "Collapsible comments",
-      "author": "artillect",
-      "version": "1.3.7",
-      "label": "Collapsible comments",
-      "desc": "Collapse comments by clicking on their headers, and the bars to their left",
-      "class": "initCollapsibleComments",
-      "entrypoint": "initCollapsibleComments",
-      "type": "selector",
-      "values" : [
-        "Headers and bars only",
-        "Anywhere on comments"
-      ],
-      "page": "comments"
-    }
-   ]
+  {
+    "name": "Collapsible comments",
+    "author": "artillect",
+    "version": "1.3.7",
+    "label": "Collapsible comments",
+    "desc": "Collapse comments by clicking on their headers, and the bars to their left",
+    "link": "",
+    "linkLabel": "",
+    "class": "initCollapsibleComments",
+    "entrypoint": "initCollapsibleComments",
+    "type": "selector",
+    "values" : [
+      "Headers and bars only",
+      "Anywhere on comments"
+    ],
+    "page": "comments"
+  }
+]

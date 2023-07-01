@@ -1,0 +1,14 @@
+{
+  "header": {
+    "title": "KES",
+    "separator": "fa-solid fa-chevron-right fa-xs",
+    "dock": "fa-solid fa-arrow-down",
+    "close": "fa-solid fa-times"
+  },
+  "pages": [
+    "general",
+    "threads",
+    "comments",
+    "profile"
+  ]
+}
