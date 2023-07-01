@@ -96,7 +96,7 @@
     "page": "general"
   },
   {
-    "name": "Hide Upvotes",
+    "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
     "label": "Hide Upvotes",
@@ -107,7 +107,7 @@
     "page": "general"
   },
   {
-    "name": "Hide Downvotes",
+    "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
     "label": "Hide Downvotes",
@@ -116,5 +116,16 @@
     "entrypoint": "hideDownvotes",
     "type": "checkbox",
     "page": "general"
+  },
+  {
+    "name": "Hide Votes and Reputation",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide Reputation",
+    "desc": "Hide reputation on threads, posts, and comments",
+    "class": "hideReputation",
+    "entrypoint": "hideReputation",
+    "type": "checkbox",
+    "page": "profiles"
   }
 ]
