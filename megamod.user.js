@@ -86,7 +86,7 @@ function checkVersion() {
 
 async function checkUpdates(response) {
     let parser = new DOMParser();
-    let newVersion = '1.0'; //response.responseText;
+    let newVersion = response.responseText;
     
     if (newVersion != version) {
         console.log('New version available: ' + newVersion)
