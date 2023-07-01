@@ -2,7 +2,7 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.7.0
+// @version       0.7.1
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -36,7 +36,7 @@ const repositoryURL = "https://github.com/aclist/kbin-megamod/";
 const versionFile = "https://github.com/aclist/kbin-megamod/raw/main/VERSION";
 const updateURL = "https://github.com/aclist/kbin-megamod/raw/main/megamod.user.js";
 
-/*object used for interpolation of function names*/
+//object used for interpolation of function names
 const funcObj = {
 	addMail: addMail,
 	initMags: initMags,
