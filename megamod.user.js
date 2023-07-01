@@ -34,7 +34,7 @@ const version = GM_info.script.version;
 const tool = GM_info.script.name;
 const manifest = "https://github.com/aclist/kbin-megamod/raw/main/manifest.json";
 const repositoryURL = "https://github.com/aclist/kbin-megamod/";
-const versionFile = "https://raw.githubusercontent.com/artillect/kbin-megamod/version-check/VERSION";
+const versionFile = "https://github.com/aclist/kbin-megamod/raw/main/VERSION";
 const updateURL = "https://github.com/aclist/kbin-megamod/raw/main/megamod.user.js";
 
 /*object used for interpolation of function names*/
