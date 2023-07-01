@@ -94,5 +94,27 @@
     "entrypoint": "easyEmoticon",
     "type": "checkbox",
     "page": "general"
+  },
+  {
+    "name": "Hide Upvotes",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide Upvotes",
+    "desc": "Hide upvotes on threads, posts, and comments",
+    "class": "hideUpvotes",
+    "entrypoint": "hideUpvotes",
+    "type": "checkbox",
+    "page": "general"
+  },
+  {
+    "name": "Hide Downvotes",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide Downvotes",
+    "desc": "Hide downvotes on threads, posts, and comments",
+    "class": "hideDownvotes",
+    "entrypoint": "hideDownvotes",
+    "type": "checkbox",
+    "page": "general"
   }
 ]
