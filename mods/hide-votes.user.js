@@ -29,3 +29,11 @@ function hideDownvotes(toggle) {
         downvoteObserver.disconnect();
     }
 }
+
+function hideReputation(toggle) {
+    if (toggle) {
+        $('#sidebar > section.section.user-info > ul > li:nth-child(2)').hide();
+    } else {
+        $('#sidebar > section.section.user-info > ul > li:nth-child(2)').show();
+    }
+}
