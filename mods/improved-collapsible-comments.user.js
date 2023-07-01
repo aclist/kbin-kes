@@ -78,9 +78,9 @@ function toggleReplies(event, comment) {
     }
 
     // Collapse or expand comment
-    if (comment.className.match(/collapsed/)) {
+    if (comment.className.match(/collapsed-comment/)) {
         // Expand comment
-        comment.classList.remove('collapsed');
+        comment.classList.remove('collapsed-comment');
         // Remove number of children from header
         let header = comment.querySelector('header');
         let numChildrenSpan = header.querySelector('.numChildren');
@@ -92,7 +92,7 @@ function toggleReplies(event, comment) {
         icon.className = 'expando-icon fas fa-minus';
     } else {
         // Collapse comment
-        comment.classList.add('collapsed');
+        comment.classList.add('collapsed-comment');
 
         // Get number of children
         let children = comment.querySelectorAll('.entry-comment');
@@ -210,7 +210,7 @@ function applyCommentStyles() {
         margin-bottom: 8px;
     }
 
-    .collapsed .children, .collapsed .content, .collapsed footer, .collapsed .vote, .collapsed .more {
+    .collapsed-comment .children, .collapsed-comment .content, .collapsed-comment footer, .collapsed-comment .vote, .collapsed-comment .more {
         display: none !important;
     }
 
@@ -219,7 +219,7 @@ function applyCommentStyles() {
         transition: opacity 0.2s ease;
     }
 
-    .collapsed {
+    .collapsed-comment {
         grid-template-areas:"expando-icon avatar header"!important;
         grid-template-columns: 20px 20px auto!important;
         grid-template-rows: min-content!important;
@@ -230,7 +230,7 @@ function applyCommentStyles() {
         transition: margin-left 0.2s ease;
     }
 
-    /*.collapsed figure, .collapsed header {
+    /*.collapsed-comment figure, .collapsed-comment header {
         margin-left: 24px !important;
     }*/
 
@@ -257,7 +257,7 @@ function applyCommentStyles() {
         margin: auto;
     }
 
-    .collapsed .threadLine {
+    .collapsed-comment .threadLine {
         display: none;
     }
 
