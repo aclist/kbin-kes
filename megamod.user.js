@@ -26,7 +26,6 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
-// @resource      version https://raw.githubusercontent.com/artillect/kbin-megamod/version-check/VERSION
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
 
@@ -34,7 +33,7 @@ const version = GM_info.script.version;
 const tool = GM_info.script.name;
 const manifest = "https://github.com/aclist/kbin-megamod/raw/main/manifest.json";
 const repositoryURL = "https://github.com/aclist/kbin-megamod/";
-const versionFile = "https://raw.githubusercontent.com/artillect/kbin-megamod/version-check/VERSION";
+const versionFile = "https://github.com/aclist/kbin-megamod/raw/main/VERSION";
 const updateURL = "https://github.com/aclist/kbin-megamod/raw/main/megamod.user.js";
 
 /*object used for interpolation of function names*/
