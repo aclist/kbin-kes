@@ -69,11 +69,16 @@ border: 1px solid gray
 }
 .megamod-version .new {
     color: var(--kbin-button-primary-bg);
+    background-color: orange;
+    padding: 0.4rem;
+    border-radius: 10px;
+    opacity: 0.9;
     transition: color 0.15s ease-in-out;
     margin-right: 0.5rem;
 }
 .megamod-version .new:hover {
     color: var(--kbin-button-primary-hover-bg);
+    opacity: 1;
 }
 
 .megamod-settings-modal-content .close {
