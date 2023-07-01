@@ -34,8 +34,8 @@ const version = GM_info.script.version;
 const tool = GM_info.script.name;
 const manifest = "https://github.com/aclist/kbin-megamod/raw/main/manifest.json";
 const repositoryURL = "https://github.com/aclist/kbin-megamod/";
+const versionFile = "https://raw.githubusercontent.com/artillect/kbin-megamod/version-check/VERSION";
 const updateURL = "https://github.com/aclist/kbin-megamod/raw/main/megamod.user.js";
-
 
 /*object used for interpolation of function names*/
 const funcObj = {
@@ -71,19 +71,29 @@ const versionElement = document.createElement('a');
 versionElement.innerText = tool + ' ' + version;
 versionElement.setAttribute('href',repositoryURL);
 
-function checkUpdates() {
-    let newVersion = GM_getResourceText("version").trim();
+function checkVersion() {
+    GM_xmlhttpRequest({
+        method: 'GET',
+        url: versionFile,
+        onload: checkUpdates,
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/xml"
+        },
 
-    if (newVersion != version && versionElement.className != 'new') {
-        // Add text with link to update script
-        let megamodVersion = document.querySelector('.megamod-version');
+    });
+};
 
-        let updateElement = document.createElement('a');
-        updateElement.innerText = ' (Install update: ' + newVersion + ')';
-        updateElement.setAttribute('href', updateURL);
-        updateElement.className = 'new';
-
-        megamodVersion.appendChild(updateElement);
+async function checkUpdates(response) {
+    let parser = new DOMParser();
+    let newVersion = '1.0'; //response.responseText;
+    
+    if (newVersion != version) {
+        console.log('New version available: ' + newVersion)
+        // Change link to a button for updating
+        versionElement.innerText = 'Install update: ' + newVersion;
+        versionElement.setAttribute('href', updateURL);
+        versionElement.className = 'new';
     } else {
         return
     }
@@ -284,7 +294,6 @@ GM_addStyle(css);
 		updateState(e.target);
        });
 
-       checkUpdates();
 
         const dockIcon= document.querySelector('.megamod-dock i');
        if (settings.dock == 'down') {
@@ -294,6 +303,7 @@ GM_addStyle(css);
            modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
            dockIcon.className = 'fa-solid fa-arrow-down';
        }
+       checkVersion();
 
 
     //TODO: extend boilerplate
