@@ -122,7 +122,7 @@
     "author": "artillect",
     "version": "0.2",
     "label": "Hide Reputation",
-    "desc": "Hide reputation on threads, posts, and comments",
+    "desc": "Hide reputation on users' profiles",
     "class": "hideReputation",
     "entrypoint": "hideReputation",
     "type": "checkbox",
