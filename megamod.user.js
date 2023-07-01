@@ -46,6 +46,10 @@ const funcObj = {
 	initCodeHighlights: initCodeHighlights,
 	languageFilterEntry: languageFilterEntry,
 	easyEmoticon: easyEmoticon
+	easyEmoticon: easyEmoticon,
+    hideUpvotes: hideUpvotes,
+    hideDownvotes: hideDownvotes,
+    hideReputation: hideReputation,
 };
 const sidebarPages = [
 	"general",
