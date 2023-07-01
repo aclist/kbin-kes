@@ -12,6 +12,7 @@
 // @grant         GM_info
 // @grant         GM.getValue
 // @grant         GM.setValue
+// @grant         GM_getResourceText
 // @grant         GM_setClipboard
 // @connect       raw.githubusercontent.com
 // @connect       github.com
@@ -25,6 +26,7 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
+// @resource      version https://raw.githubusercontent.com/artillect/kbin-megamod/version-check/VERSION
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
 
@@ -32,6 +34,8 @@ const version = GM_info.script.version;
 const tool = GM_info.script.name;
 const manifest = "https://github.com/aclist/kbin-megamod/raw/main/manifest.json";
 const repositoryURL = "https://github.com/aclist/kbin-megamod/";
+const versionFile = "https://raw.githubusercontent.com/artillect/kbin-megamod/version-check/VERSION";
+const updateURL = "https://github.com/aclist/kbin-megamod/raw/main/megamod.user.js";
 
 /*object used for interpolation of function names*/
 const funcObj = {
@@ -61,6 +65,39 @@ function fetchManifest() {
         },
     });
 };
+
+
+const versionElement = document.createElement('a');
+versionElement.innerText = tool + ' ' + version;
+versionElement.setAttribute('href',repositoryURL);
+
+function checkVersion() {
+    GM_xmlhttpRequest({
+        method: 'GET',
+        url: versionFile,
+        onload: checkUpdates,
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/xml"
+        },
+
+    });
+};
+
+async function checkUpdates(response) {
+    let parser = new DOMParser();
+    let newVersion = '1.0'; //response.responseText;
+    
+    if (newVersion != version) {
+        console.log('New version available: ' + newVersion)
+        // Change link to a button for updating
+        versionElement.innerText = 'Install update: ' + newVersion;
+        versionElement.setAttribute('href', updateURL);
+        versionElement.className = 'new';
+    } else {
+        return
+    }
+}
 
 function makeArr(response) {
     var parser = new DOMParser();
@@ -110,8 +147,8 @@ GM_addStyle(css);
         header.className = "megamod-settings-modal-header";
         header.innerHTML = `
             <span class="close"><i class="fa-solid fa-times"></i></span>
-             <span class="megamod-dock"><i class="fa-solid fa-arrow-down"></i></span>
-            <span class="megamod-version">` + tool + ' ' + version + `</span>
+            <span class="megamod-dock"><i class="fa-solid fa-arrow-down"></i></span>
+            <span class="megamod-version">` + versionElement.outerHTML + `</span>
             `
 
         const crumbs = document.createElement("div");
@@ -257,6 +294,7 @@ GM_addStyle(css);
 		updateState(e.target);
        });
 
+
         const dockIcon= document.querySelector('.megamod-dock i');
        if (settings.dock == 'down') {
          modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
@@ -265,6 +303,7 @@ GM_addStyle(css);
            modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
            dockIcon.className = 'fa-solid fa-arrow-down';
        }
+       checkVersion();
 
 
     //TODO: extend boilerplate
