@@ -45,7 +45,6 @@ const funcObj = {
 	dropdownEntry: dropdownEntry,
 	initCodeHighlights: initCodeHighlights,
 	languageFilterEntry: languageFilterEntry,
-	easyEmoticon: easyEmoticon
 	easyEmoticon: easyEmoticon,
     hideUpvotes: hideUpvotes,
     hideDownvotes: hideDownvotes,
