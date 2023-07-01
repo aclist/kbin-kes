@@ -47,6 +47,7 @@ const funcObj = {
 	languageFilterEntry: languageFilterEntry,
 	easyEmoticon: easyEmoticon,
     userInstanceEntry: userInstanceEntry,
+    magInstanceEntry: magInstanceEntry,
 };
 const sidebarPages = [
 	"general",
