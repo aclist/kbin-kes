@@ -1,8 +1,9 @@
+
 // ==UserScript==
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.8.1
+// @version       0.8.2
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -321,9 +322,11 @@ function showSettingsModal() {
     const dockIcon = document.querySelector('.megamod-dock i');
     if (settings.dock == 'down') {
         modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
+        footer.style.cssText = 'position:absolute;bottom:0;width:100%';
         dockIcon.className = 'fa-solid fa-arrow-up';
     } else {
         modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
+        footer.style.cssText = 'position:unset;bottom:unset;width:100%';
         dockIcon.className = 'fa-solid fa-arrow-down';
     }
     checkVersion();
@@ -360,10 +363,12 @@ function showSettingsModal() {
         let cn = e.target.className;
         if (cn == "fa-solid fa-arrow-down") {
             modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
+            footer.style.cssText = 'position:absolute;bottom:0;width:100%';
             e.target.className = 'fa-solid fa-arrow-up';
             settings.dock = 'down';
         } else {
             modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
+            footer.style.cssText = 'position:unset;bottom:unset;width:100%';
             e.target.className = 'fa-solid fa-arrow-down';
             settings.dock = 'up';
 
