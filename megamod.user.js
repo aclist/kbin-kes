@@ -189,7 +189,7 @@ function showSettingsModal() {
         let url = kbinPrefix + author;
         let ns = json[it].namespace
 
-        //set up form fields
+        //populate static fields
         let hBox = document.querySelector('.megamod-settings-modal-helpbox');
         let toggle = '<span class="megamod-toggle"><input type="checkbox" class="tgl megamod-tgl" id="megamod-checkbox" megamod-iter="' +
             it + '"/><label class="tgl-btn" for="megamod-checkbox"></label></span>'
@@ -200,6 +200,7 @@ function showSettingsModal() {
             hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">' +
                 linkLabel + '</a><br>' + desc + '</p>'
         }
+	//populate dynamic fields
         if (json[it].fields) {
             const modSettings = getModSettings(ns)
             for (let i = 0; i < json[it].fields.length; ++i) {
@@ -215,7 +216,10 @@ function showSettingsModal() {
                 }
                 field.setAttribute("megamod-iter", it);
                 field.setAttribute("megamod-key", key);
-                hBox.appendChild(field)
+		let label = document.createElement('p');
+		label.innerText = json[it].fields[i].label;
+		hBox.appendChild(label);
+                hBox.appendChild(field);
             }
         }
         // reset opacity of other helpbox toggles
@@ -335,7 +339,6 @@ function showSettingsModal() {
         openHelpBox(e.target.getAttribute('megamod-iter'));
     });
     document.querySelector('.megamod-settings-modal-helpbox').addEventListener("input", (e) => {
-        console.log(e.target.value)
         updateState(e.target);
     });
 
@@ -428,12 +431,11 @@ function updateState(target) {
 
     //save and apply checkbox state
     saveSettings(settings);
-    saveModSettings(modSettings);
+    saveModSettings(modSettings,ns);
     applySettings(func);
 }
 
 function applySettings(entry) {
-    console.log(entry)
     const settings = getSettings();
     try {
         if (settings[entry] == true) {
