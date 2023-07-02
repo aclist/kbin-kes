@@ -187,6 +187,9 @@ function showSettingsModal() {
         let linkLabel = json[it].linkLabel
         let kbinPrefix = 'https://kbin.social/u/';
         let url = kbinPrefix + author;
+        let ns = json[it].namespace
+
+        //set up form fields
         let hBox = document.querySelector('.megamod-settings-modal-helpbox');
         let toggle = '<span class="megamod-toggle"><input type="checkbox" class="tgl megamod-tgl" id="megamod-checkbox" megamod-iter="' +
             it + '"/><label class="tgl-btn" for="megamod-checkbox"></label></span>'
@@ -197,30 +200,24 @@ function showSettingsModal() {
             hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">' +
                 linkLabel + '</a><br>' + desc + '</p>'
         }
-	    if (json[it].fields) {
-	    for (let i=0; i < json[it].fields.length; ++i){
-		    let megatype = json[it].fields[i].type;
-		    let initial = json[it].fields[i].initial;
-		    let key = json[it].fields[i].key;
-			   const ta = document.createElement('input');
-		           ta.setAttribute("type",megatype);
-		           ta.setAttribute("value",initial);
-				hBox.appendChild(ta)
-	    }
-	    }
-//		switch (type) {
-//		    case 'checkbox':
-//			console.log('toggle type selected');
-//			   const ta = document.createElement(type);
-//				hBox.appendChild(ta)
-//		    case 'selector':
-//			console.log('dropdown type selected');
-//			   const ta = document.createElement(type);
-//				hBox.appendChild(ta)
-//		    case 'textarea':
-//			   const ta = document.createElement(type);
-//				hBox.appendChild(ta)
-//		}
+        if (json[it].fields) {
+            const modSettings = getModSettings(ns)
+            for (let i = 0; i < json[it].fields.length; ++i) {
+                let megatype = json[it].fields[i].type;
+                let initial = json[it].fields[i].initial;
+                let key = json[it].fields[i].key;
+                const field = document.createElement('input');
+                field.setAttribute("type", megatype);
+                if (!modSettings[key]) {
+                    field.setAttribute("value", initial);
+                } else {
+                    field.setAttribute("value", modSettings[key])
+                }
+                field.setAttribute("megamod-iter", it);
+                field.setAttribute("megamod-key", key);
+                hBox.appendChild(field)
+            }
+        }
         // reset opacity of other helpbox toggles
         let helpboxToggles = document.querySelectorAll('.megamod-option');
         for (let i = 0; i < helpboxToggles.length; ++i) {
@@ -338,7 +335,7 @@ function showSettingsModal() {
         openHelpBox(e.target.getAttribute('megamod-iter'));
     });
     document.querySelector('.megamod-settings-modal-helpbox').addEventListener("input", (e) => {
-	    console.log(e.target.value)
+        console.log(e.target.value)
         updateState(e.target);
     });
 
@@ -407,18 +404,31 @@ function showSettingsModal() {
 }
 
 function updateState(target) {
+    //get master settings
     const settings = getSettings();
-    let state;
     const it = target.getAttribute('megamod-iter');
+
+    //get mod settings
+    let ns = json[it].namespace;
+    let key = target.getAttribute('megamod-key');
+    let modValue = target.value
+    const modSettings = getModSettings(ns);
+
+    let state;
     if (target.checked) {
         state = true;
     } else {
         state = false;
     }
+
+    //update master and mod settings
     let func = json[it].entrypoint;
+    modSettings[key] = modValue;
     settings[func] = state;
+
     //save and apply checkbox state
     saveSettings(settings);
+    saveModSettings(modSettings);
     applySettings(func);
 }
 
@@ -436,6 +446,16 @@ function applySettings(entry) {
     }
 }
 
+function getModSettings(namespace) {
+    let settings = localStorage.getItem(namespace)
+    if (!settings) {
+        settings = {};
+    } else {
+        settings = JSON.parse(settings);
+    }
+    return settings;
+}
+
 function getSettings(func) {
     let settings = localStorage.getItem("megamod-settings");
     if (!settings) {
@@ -444,6 +464,10 @@ function getSettings(func) {
         settings = JSON.parse(settings);
     }
     return settings;
+}
+
+function saveModSettings(settings, namespace) {
+    localStorage.setItem(namespace, JSON.stringify(settings));
 }
 
 function saveSettings(settings) {
