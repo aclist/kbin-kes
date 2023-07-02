@@ -14,7 +14,8 @@
       {
         "type": "text",
         "initial": "Mail",
-        "key": "text"
+        "key": "text",
+	"label": "Mail label"
       }
     ],
     "page": "general"
@@ -74,7 +75,8 @@
         "values": [
           "gruvbox",
           "dracula"
-        ]
+        ],
+	"label": "select a theme"
       }
     ],
     "page": "threads"
@@ -94,7 +96,8 @@
       {
         "type": "text",
         "initial": "English",
-        "key": "filter"
+        "key": "filter",
+	"label": "Whitelist"
       }
     ],
     "page": "threads"
@@ -126,7 +129,14 @@
       {
         "type": "color",
         "initial": "#ffff15",
-        "key": "color"
+        "key": "color",
+	"label": "choose a color"
+      },
+      {
+	"type": "text",
+	"initial": "hello",
+	"key": "text",
+	"label": "some text"
       }
     ],
     "page": "general"
