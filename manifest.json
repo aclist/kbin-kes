@@ -9,6 +9,7 @@
     "linkLabel": "",
     "class": "addMail",
     "entrypoint": "addMail",
+    "namespace": "mail",
     "fields": [
       {
         "type": "text",
@@ -64,6 +65,7 @@
     "linkLabel": "",
     "class": "initCodeHighlights",
     "entrypoint": "initCodeHighlights",
+    "namespace": "codehighlights",
     "fields": [
       {
         "type": "selector",
@@ -87,6 +89,7 @@
     "linkLabel": "",
     "class": "languageFilterEntry",
     "entrypoint": "languageFilterEntry",
+    "namespace": "languagefilter",
     "fields": [
       {
         "type": "text",
@@ -118,6 +121,7 @@
     "linkLabel": "",
     "class": "yellowTest",
     "entrypoint": "yellowInit",
+    "namespace": "yellow",
     "fields": [
       {
         "type": "color",
