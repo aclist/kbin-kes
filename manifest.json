@@ -9,7 +9,13 @@
     "linkLabel": "",
     "class": "addMail",
     "entrypoint": "addMail",
-    "type": "checkbox",
+    "fields": [
+      {
+        "type": "textarea",
+        "initial": "Mail",
+        "key": "text"
+      }
+    ],
     "page": "general"
   },
   {
@@ -22,12 +28,6 @@
     "linkLabel": "",
     "class": "initMags",
     "entrypoint": "initMags",
-    "type": "selector",
-    "values": [
-      "a",
-      "b",
-      "c"
-    ],
     "page": "general"
   },
   {
@@ -40,7 +40,6 @@
     "linkLabel": "",
     "class": "labelOp",
     "entrypoint": "labelOp",
-    "type": "checkbox",
     "page": "threads"
   },
   {
@@ -53,7 +52,6 @@
     "linkLabel": "",
     "class": "dropdownEntry",
     "entrypoint": "dropdownEntry",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -66,7 +64,17 @@
     "linkLabel": "",
     "class": "initCodeHighlights",
     "entrypoint": "initCodeHighlights",
-    "type": "checkbox",
+    "fields": [
+      {
+        "type": "selector",
+        "initial": "gruvbox",
+        "key": "style",
+        "values": [
+          "gruvbox",
+          "dracula"
+        ]
+      }
+    ],
     "page": "threads"
   },
   {
@@ -79,7 +87,13 @@
     "linkLabel": "",
     "class": "languageFilterEntry",
     "entrypoint": "languageFilterEntry",
-    "type": "textarea",
+    "fields": [
+      {
+        "type": "textarea",
+        "initial": "English",
+        "key": "filter"
+      }
+    ],
     "page": "threads"
   },
   {
@@ -92,7 +106,6 @@
     "linkLabel": "Command guide",
     "class": "easyEmoticon",
     "entrypoint": "easyEmoticon",
-    "type": "checkbox",
     "page": "general"
   }
 ]
