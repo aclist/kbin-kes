@@ -197,15 +197,17 @@ function showSettingsModal() {
             hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">' +
                 linkLabel + '</a><br>' + desc + '</p>'
         }
-	    console.log("FIELDS FOLLOW")
+	    if (json[it].fields) {
 	    for (let i=0; i < json[it].fields.length; ++i){
-		    let mega-type = json[it].fields[i].type;
+		    let megatype = json[it].fields[i].type;
 		    let initial = json[it].fields[i].initial;
 		    let key = json[it].fields[i].key;
 			   const ta = document.createElement('input');
-		           ta.setAttribute(type,mega-type);
-		           ta.setAttribute(value,initial);
+		           ta.setAttribute("type",megatype);
+		           ta.setAttribute("value",initial);
 				hBox.appendChild(ta)
+	    }
+	    }
 //		switch (type) {
 //		    case 'checkbox':
 //			console.log('toggle type selected');
@@ -219,7 +221,6 @@ function showSettingsModal() {
 //			   const ta = document.createElement(type);
 //				hBox.appendChild(ta)
 //		}
-	    }
         // reset opacity of other helpbox toggles
         let helpboxToggles = document.querySelectorAll('.megamod-option');
         for (let i = 0; i < helpboxToggles.length; ++i) {
@@ -336,8 +337,8 @@ function showSettingsModal() {
     document.querySelector('.megamods-list').addEventListener("click", (e) => {
         openHelpBox(e.target.getAttribute('megamod-iter'));
     });
-    document.querySelector('.megamod-settings-modal-helpbox').addEventListener("change", (e) => {
-	    console.log(e.target)
+    document.querySelector('.megamod-settings-modal-helpbox').addEventListener("input", (e) => {
+	    console.log(e.target.value)
         updateState(e.target);
     });
 
