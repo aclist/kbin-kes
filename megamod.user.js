@@ -289,7 +289,7 @@ function showSettingsModal() {
 
     const bugIcon = document.createElement("span");
     bugIcon.className = "megamod-settings-modal-bug-icon";
-    bugIcon.innerHTML = '<i class="fa-solid fa-bug"></i>';
+    bugIcon.innerHTML = '<i class="fa-solid fa-bug fa-xs"></i>';
     footer.appendChild(bugIcon)
 
     const bugLink = document.createElement("a");
