@@ -30,9 +30,7 @@ function yellowInit(toggle){
 	    setColor('yellow')
     } else {
 	    const settings = readSettings();
-	    console.log(settings);
 	    const userColor = settings.color;
-	    console.log(userColor);
 	    setColor(userColor);
     }
 }
