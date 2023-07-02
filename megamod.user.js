@@ -190,7 +190,6 @@ function showSettingsModal() {
         let hBox = document.querySelector('.megamod-settings-modal-helpbox');
         let toggle = '<span class="megamod-toggle"><input type="checkbox" class="tgl megamod-tgl" id="megamod-checkbox" megamod-iter="' +
             it + '"/><label class="tgl-btn" for="megamod-checkbox"></label></span>'
-
         hBox.style.cssText = 'display: inline; opacity: 1;'
         if (link === "") {
             hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>' + desc + '</p>';
@@ -198,6 +197,29 @@ function showSettingsModal() {
             hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">' +
                 linkLabel + '</a><br>' + desc + '</p>'
         }
+	    console.log("FIELDS FOLLOW")
+	    for (let i=0; i < json[it].fields.length; ++i){
+		    let mega-type = json[it].fields[i].type;
+		    let initial = json[it].fields[i].initial;
+		    let key = json[it].fields[i].key;
+			   const ta = document.createElement('input');
+		           ta.setAttribute(type,mega-type);
+		           ta.setAttribute(value,initial);
+				hBox.appendChild(ta)
+//		switch (type) {
+//		    case 'checkbox':
+//			console.log('toggle type selected');
+//			   const ta = document.createElement(type);
+//				hBox.appendChild(ta)
+//		    case 'selector':
+//			console.log('dropdown type selected');
+//			   const ta = document.createElement(type);
+//				hBox.appendChild(ta)
+//		    case 'textarea':
+//			   const ta = document.createElement(type);
+//				hBox.appendChild(ta)
+//		}
+	    }
         // reset opacity of other helpbox toggles
         let helpboxToggles = document.querySelectorAll('.megamod-option');
         for (let i = 0; i < helpboxToggles.length; ++i) {
@@ -315,6 +337,7 @@ function showSettingsModal() {
         openHelpBox(e.target.getAttribute('megamod-iter'));
     });
     document.querySelector('.megamod-settings-modal-helpbox').addEventListener("change", (e) => {
+	    console.log(e.target)
         updateState(e.target);
     });
 
@@ -332,20 +355,11 @@ function showSettingsModal() {
     checkVersion();
 
 
-    //TODO: extend boilerplate
     function insertListItem(it) {
         let type = json[it].type
         let func = json[it].entrypoint
         let item = json[it].label
         let page = json[it].page
-        switch (type) {
-            case 'checkbox':
-                console.log('toggle type selected');
-                break;
-            case 'selector':
-                console.log('dropdown type selected');
-                break;
-        }
         const megamodListItem = document.createElement("li");
         megamodListItem.className = page;
         megamodListItem.innerHTML += `<a class="megamod-option" megamod-iter="` + it + `">` + item + `</a>`
