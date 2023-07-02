@@ -425,6 +425,7 @@ function updateState(target) {
         state = true;
     } else {
         state = false;
+    }
 
     //update master and mod settings
     let func = json[it].entrypoint;
