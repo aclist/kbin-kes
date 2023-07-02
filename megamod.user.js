@@ -49,7 +49,8 @@ const funcObj = {
     dropdownEntry: dropdownEntry,
     initCodeHighlights: initCodeHighlights,
     languageFilterEntry: languageFilterEntry,
-    easyEmoticon: easyEmoticon
+    easyEmoticon: easyEmoticon,
+    yellow: yellowInit
 };
 const sidebarPages = [
     "general",
