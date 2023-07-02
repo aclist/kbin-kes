@@ -6,6 +6,8 @@
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
+// @match         https://lab2.kbin.pub/*
+// @match         https://lab3.kbin.pub/*
 // @grant         GM_addStyle
 // @grant         GM_getResourceText
 // @grant         GM_xmlhttpRequest
