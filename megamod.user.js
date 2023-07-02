@@ -174,7 +174,7 @@ function showSettingsModal() {
         let pageUpper = sidebarPages[i].charAt(0).toUpperCase() + sidebarPages[i].slice(1);
         let sidebarListItem = document.createElement('li');
         sidebarListItem.innerHTML = `
-            <a class="megamod-tab-link">` + pageUpper + `</a></li>`
+            <a class="megamod-tab-link" target="_blank">` + pageUpper + `</a></li>`
         sidebarUl.appendChild(sidebarListItem);
     }
     sidebar.appendChild(sidebarUl);
@@ -193,9 +193,9 @@ function showSettingsModal() {
 
         hBox.style.cssText = 'display: inline; opacity: 1;'
         if (link === "") {
-            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>' + desc + '</p>';
+            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '" target="_blank">' + author + '</a><br>' + desc + '</p>';
         } else {
-            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">' +
+            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '" target="_blank">' + author + '</a><br>Link: <a href="' + link + '">' +
                 linkLabel + '</a><br>' + desc + '</p>'
         }
         // reset opacity of other helpbox toggles
@@ -348,7 +348,7 @@ function showSettingsModal() {
         }
         const megamodListItem = document.createElement("li");
         megamodListItem.className = page;
-        megamodListItem.innerHTML += `<a class="megamod-option" megamod-iter="` + it + `">` + item + `</a>`
+        megamodListItem.innerHTML += `<a class="megamod-option" megamod-iter="` + it + `" target="_blank">` + item + `</a>`
         megamodUl.appendChild(megamodListItem);
 
     }
