@@ -27,7 +27,7 @@ function setColor(color){
 
 function yellowInit(toggle){
     if (toggle === false) {
-	    setColor('yellow')
+	    setColor('initial')
     } else {
 	    const settings = readSettings();
 	    const userColor = settings.color;

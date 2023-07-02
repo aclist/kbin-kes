@@ -3,7 +3,7 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.8.2
+// @version       0.8.3
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -194,7 +194,7 @@ function showSettingsModal() {
         //populate static fields
         let hBox = document.querySelector('.megamod-settings-modal-helpbox');
         let toggle = '<span class="megamod-toggle"><input type="checkbox" class="tgl megamod-tgl" id="megamod-checkbox" megamod-iter="' +
-            it + '"/><label class="tgl-btn" for="megamod-checkbox"></label></span>'
+            it + '" megamod-key="state"/><label class="tgl-btn" for="megamod-checkbox"></label></span>'
         hBox.style.cssText = 'display: inline; opacity: 1;'
         if (link === "") {
             hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>' + desc + '</p>';
@@ -412,6 +412,7 @@ function updateState(target) {
     //get master settings
     const settings = getSettings();
     const it = target.getAttribute('megamod-iter');
+    const check = document.querySelector(`.megamod-settings-modal-helpbox [megamod-iter="` + it + `"]`);
 
     //get mod settings
     let ns = json[it].namespace;
@@ -420,11 +421,10 @@ function updateState(target) {
     const modSettings = getModSettings(ns);
 
     let state;
-    if (target.checked) {
+    if (check.checked) {
         state = true;
     } else {
         state = false;
-    }
 
     //update master and mod settings
     let func = json[it].entrypoint;
