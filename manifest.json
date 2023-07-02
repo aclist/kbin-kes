@@ -11,7 +11,7 @@
     "entrypoint": "addMail",
     "fields": [
       {
-        "type": "textarea",
+        "type": "text",
         "initial": "Mail",
         "key": "text"
       }
@@ -89,7 +89,7 @@
     "entrypoint": "languageFilterEntry",
     "fields": [
       {
-        "type": "textarea",
+        "type": "text",
         "initial": "English",
         "key": "filter"
       }
@@ -106,6 +106,25 @@
     "linkLabel": "Command guide",
     "class": "easyEmoticon",
     "entrypoint": "easyEmoticon",
+    "page": "general"
+  },
+  {
+    "name": "YELLOWTEST",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "test color picker",
+    "desc": "Used to test colors",
+    "link": "",
+    "linkLabel": "",
+    "class": "yellowTest",
+    "entrypoint": "yellowInit",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "#ffff15",
+        "key": "color"
+      }
+    ],
     "page": "general"
   }
 ]
