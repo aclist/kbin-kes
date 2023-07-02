@@ -2,7 +2,7 @@
 // @name          kbin-megamod
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.8.0
+// @version       0.8.1
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -149,7 +149,7 @@ function showSettingsModal() {
     const header = document.createElement("div");
     header.className = "megamod-settings-modal-header";
     header.innerHTML = `
-            <span class="close"><i class="fa-solid fa-times"></i></span>
+            <span class="megamod-close"><i class="fa-solid fa-times"></i></span>
             <span class="megamod-dock"><i class="fa-solid fa-arrow-down"></i></span>
             <span class="megamod-version">` + versionElement.outerHTML + `</span>
             `
@@ -373,7 +373,7 @@ function showSettingsModal() {
 
 
     //close button
-    modal.querySelector(".megamod-settings-modal .close").addEventListener("click", () => {
+    modal.querySelector(".megamod-settings-modal .megamod-close").addEventListener("click", () => {
         modal.remove();
     });
     modal.addEventListener("click", (e) => {
