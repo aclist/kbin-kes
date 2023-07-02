@@ -8,7 +8,7 @@
 // @license      MIT
 // ==/UserScript==
 
-const ns = yellow
+const ns = 'yellow'
 
 function readSettings(){
     let settings = localStorage.getItem(ns);
