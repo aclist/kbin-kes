@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.10.1
+// @version       0.10.2
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
