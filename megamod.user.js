@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.10.2
+// @version       0.10.3
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -241,6 +241,12 @@ function showSettingsModal() {
                         const sel = document.createElement('select');
                         sel.setAttribute('name', ns);
                         sel.setAttribute("megamod-iter", it);
+                        if (!modSettings[key]) {
+                            sel.setAttribute("value", initial);
+                        } else {
+                            sel.setAttribute("value", modSettings[key])
+                        }
+                        sel.setAttribute("megamod-key", key);
                         for (let j = 0; j < json[it].fields[i].values.length; ++j) {
                             let opt = document.createElement('option');
                             opt.setAttribute('value', json[it].fields[i].values[j]);
@@ -257,6 +263,12 @@ function showSettingsModal() {
                             field.setAttribute('name', ns);
                             field.setAttribute('id', "megamod-radio-" + j);
                             field.setAttribute("megamod-iter", it);
+                            field.setAttribute("megamod-key", key);
+                        if (!modSettings[key]) {
+                            field.setAttribute("value", initial);
+                        } else {
+                            field.setAttribute("value", modSettings[key])
+                        }
                             let label = document.createElement('label');
                             label.setAttribute('for', "megamod-radio-" + j);
                             label.className = ("megamod-radio-label");
