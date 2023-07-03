@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 COLUMNS=1
-file="VERSION"
-vers=$(< $file)
+version_file="VERSION"
+master_file="megamods.user.js"
+vers=$(< $version_file)
 opts=(
-	"major (breaking API change)"
-	"minor (feature)"
-	"patch/hotfix"
-	"chore (static docs/task)"
+	"MAJOR (breaking API change)"
+	"MINOR (feature)"
+	"PATCH (hotfix)"
+	"chore (static docs/task/file manipulation)"
      )
 bump_vers(){
 	local ma=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\1/g')
@@ -25,9 +26,11 @@ bump_vers(){
 			;;
 	esac
 	local newvers="${ma}.${mi}.${pa}"
-	echo "$newvers" > $file
+	echo "$newvers" > $version_file
+	sed -i "s/\(\/\/ @version *\)\([0-9]\+.*\)/\1$newvers/g" megamod.user.js
 	echo "Bumping version from $vers to $newvers"
-	git add $file
+	git add $version_file
+	git add $master_file
 }
 
 
