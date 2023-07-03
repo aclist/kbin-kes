@@ -134,7 +134,7 @@
       },
       {
 	"type": "radio",
-	"initial": "hello",
+	"initial": "111",
 	"values": [
 		"111",
 		"222",
