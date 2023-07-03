@@ -109,7 +109,6 @@
  .megamod-settings-modal-helpbox {
      grid-area: helpbox;
      opacity: 0;
-     padding: 1rem;
      color: var(--kbin-header-text-color);
 }
  .megamod-settings-modal-body label:hover .description {
