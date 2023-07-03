@@ -30,6 +30,7 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/yellow.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
+// @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/main/ui.json
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
 
@@ -55,12 +56,6 @@ const funcObj = {
     easyEmoticon: easyEmoticon,
     yellowInit: yellowInit
 };
-const sidebarPages = [
-    "general",
-    "threads",
-    "comments",
-    "profiles"
-]
 
 function fetchManifest() {
     GM_xmlhttpRequest({
@@ -121,6 +116,11 @@ var json = await GM.getValue("json");
 var css = GM_getResourceText("megamod_css");
 GM_addStyle(css);
 
+var megamod_layout = GM_getResourceText("megamod_layout");
+const layoutArr = JSON.parse(megamod_layout);
+const sidebarPages = layoutArr.pages;
+const headerTitle = layoutArr.header.title
+
 //instantiate megamod modal
 const kbinContainer = document.querySelector(".kbin-container > menu");
 const megamodPanel = document.createElement("aside");
@@ -133,7 +133,7 @@ kbinContainer.appendChild(megamodPanel);
 //add settings button
 const settingsButton = document.createElement("div");
 settingsButton.id = "megamod-settings-button";
-settingsButton.innerHTML = '<i class="fa-solid fa-wrench"></i>';
+settingsButton.innerHTML = '<i class="' + layoutArr.header.open + '"></i>';
 settingsButton.addEventListener("click", () => {
     showSettingsModal();
 });
@@ -180,8 +180,8 @@ function showSettingsModal() {
     const header = document.createElement("div");
     header.className = "megamod-settings-modal-header";
     header.innerHTML = `
-            <span class="megamod-close"><i class="fa-solid fa-times"></i></span>
-            <span class="megamod-dock"><i class="fa-solid fa-arrow-down"></i></span>
+            <span class="megamod-close"><i class="` + layoutArr.header.close + `"></i></span>
+            <span class="megamod-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
             <span class="megamod-version">` + versionElement.outerHTML + `</span>
             `
 
@@ -214,7 +214,7 @@ function showSettingsModal() {
         let author = json[it].author
         let desc = json[it].desc
         let link = json[it].link
-        let linkLabel = json[it].linkLabel
+        let linkLabel = json[it].link_label
         let kbinPrefix = 'https://kbin.social/u/';
         let url = kbinPrefix + author;
         let ns = json[it].namespace
@@ -324,7 +324,8 @@ function showSettingsModal() {
             } else {
                 optionsChildren[i].style.display = "none";
                 let crumbsRoot = document.querySelector('.megamod-crumbs');
-                crumbsRoot.innerHTML = '<h2>Megamod Settings <i class="fa-solid fa-chevron-right fa-xs"></i> ' +
+                crumbsRoot.innerHTML = '<h2>' + headerTitle + ' ' +
+			    '<i class="' + layoutArr.header.separator + '"></i> ' +
                     tabName + '</h2>';
             }
         }
@@ -356,7 +357,7 @@ function showSettingsModal() {
 
     const bugIcon = document.createElement("span");
     bugIcon.className = "megamod-settings-modal-bug-icon";
-    bugIcon.innerHTML = '<i class="fa-solid fa-bug fa-xs"></i>';
+    bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
     footer.appendChild(bugIcon)
 
     const bugLink = document.createElement("a");
@@ -389,11 +390,11 @@ function showSettingsModal() {
     if (settings.dock == 'down') {
         modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
         footer.style.cssText = 'position:absolute;bottom:0;width:100%';
-        dockIcon.className = 'fa-solid fa-arrow-up';
+        dockIcon.className = layoutArr.header.dock_up;
     } else {
         modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
         footer.style.cssText = 'position:unset;bottom:unset;width:100%';
-        dockIcon.className = 'fa-solid fa-arrow-down';
+        dockIcon.className = layoutArr.header.dock_down;
     }
     checkVersion();
 
@@ -418,15 +419,15 @@ function showSettingsModal() {
     modal.querySelector('.megamod-dock i').addEventListener("click", (e) => {
         const settings = getSettings();
         let cn = e.target.className;
-        if (cn == "fa-solid fa-arrow-down") {
+        if (cn == layoutArr.header.dock_down) {
             modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
             footer.style.cssText = 'position:absolute;bottom:0;width:100%';
-            e.target.className = 'fa-solid fa-arrow-up';
+            e.target.className = layoutArr.header.dock_up;
             settings.dock = 'down';
         } else {
             modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
             footer.style.cssText = 'position:unset;bottom:unset;width:100%';
-            e.target.className = 'fa-solid fa-arrow-down';
+            e.target.className = layoutArr.header.dock_down;
             settings.dock = 'up';
 
         }
