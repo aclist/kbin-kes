@@ -26,7 +26,9 @@ Input fields must be of type defined here: https://developer.mozilla.org/en-US/d
 
 
 ## TODO
-- Update this README
-- Specify if option requires login
-
+- Document localstorage settings
+- Responsive layout (mobile)
+- Indicate if option requires login
+- Indicate what pages a mod affects
+- Rename repo
 

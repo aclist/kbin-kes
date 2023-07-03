@@ -1,9 +1,9 @@
 
 // ==UserScript==
-// @name          kbin-megamod
+// @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.9.0
+// @version       0.9.1
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -187,7 +187,7 @@ function showSettingsModal() {
 
     const crumbs = document.createElement("div");
     crumbs.className = 'megamod-crumbs';
-    crumbs.innerText = 'KES'
+    crumbs.innerText = 'Settings'
     header.appendChild(crumbs)
     const headerHr = document.createElement('hr');
     headerHr.className = 'megamod-header-hr'
