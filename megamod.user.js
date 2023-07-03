@@ -37,11 +37,11 @@
 const version = GM_info.script.version;
 const tool = GM_info.script.name;
 const repositoryURL = "https://github.com/aclist/kbin-megamod/";
-const mainBranch = repositoryURL + "raw/main/"
-const manifest = mainBranch + "manifest.json"
-const ui = mainBranch + "ui.json"
-const versionFile = mainBranch + "VERSION";
-const updateURL = mainBranch + "megamod.user.js";
+const branch = repositoryURL + "raw/main/"
+const manifest = branch + "manifest.json"
+const ui = branch + "ui.json"
+const versionFile = branch + "VERSION";
+const updateURL = branch + "megamod.user.js";
 const bugURL = repositoryURL + "issues"
 const magURL = "https://kbin.social/m/enhancement"
 
