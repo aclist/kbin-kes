@@ -21,27 +21,27 @@
 // @connect       github.com
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
-// @require       https://github.com/Oricul/kbin-scripts/raw/main/kbin-mod-options.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/subs.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/yellow.js
-// @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
-// @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/main/ui.json
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
+// @require       https://github.com/Oricul/kbin-scripts/raw/testing/kbin-mod-options.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/mail.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/subs.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/label.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/dropdown.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/code-highlighting.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/language-filter.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/yellow.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/easy-emoticon.user.js
+// @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/testing/megamod.css
+// @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/testing/ui.json
 // ==/UserScript==
 
 const version = GM_info.script.version;
 const tool = GM_info.script.name;
 const repositoryURL = "https://github.com/aclist/kbin-megamod/";
-const mainBranch = repositoryURL + "raw/main/"
-const manifest = mainBranch + "manifest.json"
-const ui = mainBranch + "ui.json"
-const versionFile = mainBranch + "VERSION";
-const updateURL = mainBranch + "megamod.user.js";
+const branch = repositoryURL + "raw/testing/"
+const manifest = branch + "manifest.json"
+const ui = branch + "ui.json"
+const versionFile = branch + "VERSION";
+const updateURL = branch + "megamod.user.js";
 const bugURL = repositoryURL + "issues"
 const magURL = "https://kbin.social/m/enhancement"
 
