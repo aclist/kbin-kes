@@ -73,6 +73,8 @@ const versionElement = document.createElement('a');
 versionElement.innerText = tool + ' ' + version;
 versionElement.setAttribute('href', repositoryURL);
 
+let newVersion = null;
+
 function checkVersion() {
     GM_xmlhttpRequest({
         method: 'GET',
@@ -87,17 +89,15 @@ function checkVersion() {
 };
 
 async function checkUpdates(response) {
-    let parser = new DOMParser();
-    let newVersion = response.responseText;
+    newVersion = response.responseText.trim();
 
-    if (newVersion != version) {
+    if (newVersion && newVersion != version) {
+        // Change version link into a button for updating
         console.log('New version available: ' + newVersion)
-        // Change link to a button for updating
+
         versionElement.innerText = 'Install update: ' + newVersion;
         versionElement.setAttribute('href', updateURL);
         versionElement.className = 'new';
-    } else {
-        return
     }
 }
 
@@ -111,6 +111,7 @@ function makeArr(response) {
 };
 
 fetchManifest();
+checkVersion();
 var json = await GM.getValue("json");
 var css = GM_getResourceText("megamod_css");
 GM_addStyle(css);
@@ -395,7 +396,6 @@ function showSettingsModal() {
         footer.style.cssText = 'position:unset;bottom:unset;width:100%';
         dockIcon.className = layoutArr.header.dock_down;
     }
-    checkVersion();
 
 
     function insertListItem(it) {
