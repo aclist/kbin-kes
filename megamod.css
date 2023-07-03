@@ -21,7 +21,7 @@
      height: 100%;
      overflow: auto;
 }
- .megamod-settings-modal-content {
+.megamod-settings-modal-content {
      background-color: var(--kbin-section-bg);
      width: 100%;
      padding: 2rem;
@@ -29,9 +29,18 @@
      grid-template-areas: "header header header" "sidebar body helpbox";
      grid-template-columns: 1fr 3fr 3fr;
 }
+
+/* Small devices (landscape phones, 576px and below) */
+@media (max-width: 576px) {
+     .megamod-settings-modal-content {
+         grid-template-areas: "header header header" "sidebar sidebar sidebar" "body body body" "helpbox helpbox helpbox";
+         grid-template-columns: 1fr 1fr 1fr;
+         grid-template-rows: auto auto auto auto;
+    }
+}
+
  .megamods-list {
      width:fit-content;
-     margin-left: 0.5rem;
 }
  .megamod-settings-modal-content {
      border: var(--kbin-options-border);
