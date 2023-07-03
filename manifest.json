@@ -9,7 +9,15 @@
     "linkLabel": "",
     "class": "addMail",
     "entrypoint": "addMail",
-    "type": "checkbox",
+    "namespace": "mail",
+    "fields": [
+      {
+        "type": "text",
+        "initial": "Mail",
+        "key": "text",
+	"label": "Mail label"
+      }
+    ],
     "page": "general"
   },
   {
@@ -22,12 +30,6 @@
     "linkLabel": "",
     "class": "initMags",
     "entrypoint": "initMags",
-    "type": "selector",
-    "values": [
-      "a",
-      "b",
-      "c"
-    ],
     "page": "general"
   },
   {
@@ -40,7 +42,6 @@
     "linkLabel": "",
     "class": "labelOp",
     "entrypoint": "labelOp",
-    "type": "checkbox",
     "page": "threads"
   },
   {
@@ -53,7 +54,6 @@
     "linkLabel": "",
     "class": "dropdownEntry",
     "entrypoint": "dropdownEntry",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -66,7 +66,19 @@
     "linkLabel": "",
     "class": "initCodeHighlights",
     "entrypoint": "initCodeHighlights",
-    "type": "checkbox",
+    "namespace": "codehighlights",
+    "fields": [
+      {
+        "type": "selector",
+        "initial": "gruvbox",
+        "key": "style",
+        "values": [
+          "gruvbox",
+          "dracula"
+        ],
+	"label": "select a theme"
+      }
+    ],
     "page": "threads"
   },
   {
@@ -79,7 +91,15 @@
     "linkLabel": "",
     "class": "languageFilterEntry",
     "entrypoint": "languageFilterEntry",
-    "type": "textarea",
+    "namespace": "languagefilter",
+    "fields": [
+      {
+        "type": "text",
+        "initial": "English",
+        "key": "filter",
+	"label": "Whitelist"
+      }
+    ],
     "page": "threads"
   },
   {
@@ -92,7 +112,33 @@
     "linkLabel": "Command guide",
     "class": "easyEmoticon",
     "entrypoint": "easyEmoticon",
-    "type": "checkbox",
+    "page": "general"
+  },
+  {
+    "name": "YELLOWTEST",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "test color picker",
+    "desc": "Used to test colors",
+    "link": "",
+    "linkLabel": "",
+    "class": "yellowTest",
+    "entrypoint": "yellowInit",
+    "namespace": "yellow",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "#ffff15",
+        "key": "color",
+	"label": "choose a color"
+      },
+      {
+	"type": "text",
+	"initial": "hello",
+	"key": "text",
+	"label": "some text"
+      }
+    ],
     "page": "general"
   }
 ]

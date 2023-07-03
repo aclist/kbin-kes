@@ -16,6 +16,8 @@ This tool is not ready for mainstream consumption yet.
 5. Add necessary @grants to megamod.user.js
 6. Submit a PR
 
+Input fields must be of type defined here: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+
 ## Specifications
 
 - Prefer 4 space indentation
