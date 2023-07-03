@@ -187,7 +187,7 @@ function showSettingsModal() {
 
     const crumbs = document.createElement("div");
     crumbs.className = 'megamod-crumbs';
-    crumbs.innerText = 'Megamod Settings'
+    crumbs.innerText = 'KES'
     header.appendChild(crumbs)
     const headerHr = document.createElement('hr');
     headerHr.className = 'megamod-header-hr'
