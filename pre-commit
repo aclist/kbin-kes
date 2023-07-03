@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+COLUMNS=1
+file="VERSION"
+vers=$(< $file)
+opts=(
+	"major (breaking API change)"
+	"minor (feature)"
+	"patch/hotfix"
+	"chore (static docs/task)"
+     )
+bump_vers(){
+	local ma=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\1/g')
+	local mi=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\3/g')
+	local pa=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\5/g')
+	case $1 in
+		"major")
+			ma=$((ma+1))
+			;;
+		"minor")
+			mi=$((mi+1))
+			;;
+		"patch")
+			pa=$((pa+1))
+			;;
+	esac
+	local newvers="${ma}.${mi}.${pa}"
+	echo "$newvers" > $file
+	echo "Bumping version from $vers to $newvers"
+	git add $file
+}
+
+
+echo "This commit change is of type:"
+select opt in "${opts[@]}"; do
+	case $opt in
+	    ${opts[0]}) bump_vers major ;;
+	    ${opts[1]}) bump_vers minor ;;
+	    ${opts[2]}) bump_vers patch ;;
+	    ${opts[3]}) : ;;
+	esac
+	break
+done < /dev/tty
