@@ -6,14 +6,14 @@
     "label": "Add mail icon",
     "desc": "Add mail link to usernames if on kbin.social",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "addMail",
     "entrypoint": "addMail",
     "namespace": "mail",
     "fields": [
       {
         "type": "text",
-        "initial": "Mail",
+        "initial": "PM",
         "key": "text",
 	"label": "Mail label"
       }
@@ -27,7 +27,7 @@
     "label": "Add subs to navbar",
     "desc": "Add magazine subscription to navbar",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "initMags",
     "entrypoint": "initMags",
     "page": "general"
@@ -39,7 +39,7 @@
     "label": "Add OP label",
     "desc": "Add OP label to thread author",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "labelOp",
     "entrypoint": "labelOp",
     "page": "threads"
@@ -51,7 +51,7 @@
     "label": "Convert links to dropdown",
     "desc": "Convert activity/profile page links to dropdown",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "dropdownEntry",
     "entrypoint": "dropdownEntry",
     "page": "general"
@@ -63,7 +63,7 @@
     "label": "Code Syntax Highlighting",
     "desc": "Adds syntax highlighting for code blocks.",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "initCodeHighlights",
     "entrypoint": "initCodeHighlights",
     "namespace": "codehighlights",
@@ -76,7 +76,7 @@
           "gruvbox",
           "dracula"
         ],
-	"label": "select a theme"
+	"label": "Select a theme"
       }
     ],
     "page": "threads"
@@ -88,7 +88,7 @@
     "label": "Language filter",
     "desc": "Filter posts by language",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "languageFilterEntry",
     "entrypoint": "languageFilterEntry",
     "namespace": "languagefilter",
@@ -109,7 +109,7 @@
     "label": "Easy emoticons",
     "desc": "Use slash commands for emoticons.",
     "link": "https://docs.google.com/document/d/1jMeY7GwmgwrV8mEC4jmkEKKWdKuWvjgLgYrtUS5hPYg",
-    "linkLabel": "Command guide",
+    "link_label": "Command guide",
     "class": "easyEmoticon",
     "entrypoint": "easyEmoticon",
     "page": "general"
@@ -121,7 +121,7 @@
     "label": "test color picker",
     "desc": "Used to test colors",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "yellowTest",
     "entrypoint": "yellowInit",
     "namespace": "yellow",
