@@ -69,7 +69,7 @@
     "namespace": "codehighlights",
     "fields": [
       {
-        "type": "selector",
+        "type": "select",
         "initial": "gruvbox",
         "key": "style",
         "values": [
@@ -133,8 +133,13 @@
 	"label": "choose a color"
       },
       {
-	"type": "text",
-	"initial": "hello",
+	"type": "radio",
+	"initial": "111",
+	"values": [
+		"111",
+		"222",
+		"333"
+		],
 	"key": "text",
 	"label": "some text"
       }
