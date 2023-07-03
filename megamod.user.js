@@ -98,9 +98,6 @@ async function checkUpdates(response) {
     if (newVersion && newVersion != version) {
         // Change version link into a button for updating
         console.log('New version available: ' + newVersion)
-        $('.megamod-version a').text('Install Update: ' + newVersion)
-        $('.megamod-version a').attr('href', updateURL);
-        $('.megamod-version a').addClass('new');
 
         versionElement.innerText = 'Install update: ' + newVersion;
         versionElement.setAttribute('href', updateURL);
