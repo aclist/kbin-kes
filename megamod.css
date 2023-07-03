@@ -199,6 +199,9 @@
      float:right;
 }
  .megamod-settings-modal-bug-link{
-     float:right 
+     float:right;
 }
- 
+.megamod-radio-label {
+    dipslay:inline;
+    margin-lef: 5px;
+}

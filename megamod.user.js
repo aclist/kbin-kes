@@ -1,3 +1,4 @@
+
 // ==UserScript==
 // @name          KES
 // @namespace     https://github.com/aclist/
@@ -32,7 +33,6 @@
 // @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/main/ui.json
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
-
 const version = GM_info.script.version;
 const tool = GM_info.script.name;
 const repositoryURL = "https://github.com/aclist/kbin-megamod/";
@@ -143,29 +143,28 @@ megamodPanel.appendChild(megamodPanelUl);
 var keyPressed = {};
 document.addEventListener('keydown', function(e) {
 
-	let modal = document.querySelector('.megamod-settings-modal')
-   keyPressed[e.key] = true;
-	console.log(keyPressed)
+    let modal = document.querySelector('.megamod-settings-modal')
+    keyPressed[e.key] = true;
 
-    if(keyPressed.Shift == true && keyPressed.Control == true && keyPressed.L == true){
-	    if (!modal){
-	    showSettingsModal();
-	    }
+    if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed.L == true) {
+        if (!modal) {
+            showSettingsModal();
+        }
         keyPressed = {};
     }
-    if(keyPressed.Escape == true){
-	    if (modal) {
-	        modal.remove();
-	    }
+    if (keyPressed.Escape == true) {
+        if (modal) {
+            modal.remove();
+        }
         keyPressed = {};
     }
 
 }, false);
 
 document.addEventListener('keyup', function(e) {
-   keyPressed[e.key + e.location] = false;
+    keyPressed[e.key + e.location] = false;
 
-   keyPressed = {};
+    keyPressed = {};
 }, false);
 
 function showSettingsModal() {
@@ -230,40 +229,62 @@ function showSettingsModal() {
             hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">' +
                 linkLabel + '</a><br>' + desc + '</p>'
         }
-	//populate dynamic fields
+        //populate dynamic fields
         if (json[it].fields) {
             const modSettings = getModSettings(ns)
             for (let i = 0; i < json[it].fields.length; ++i) {
-                let megatype = json[it].fields[i].type;
+                let fieldType = json[it].fields[i].type;
                 let initial = json[it].fields[i].initial;
                 let key = json[it].fields[i].key;
-//		switch (megatype) {
-//			case "selector":
-//				// handle dropdown
-//				break;
-//			case "radio":
-//				//handle radio
-//				break;
-//
-//			default: {
-//							
-                const field = document.createElement('input');
-                field.setAttribute("type", megatype);
-                if (!modSettings[key]) {
-                    field.setAttribute("value", initial);
-                } else {
-                    field.setAttribute("value", modSettings[key])
+                let ns = json[it].namespace;
+                switch (fieldType) {
+                    case "select":
+                        const sel = document.createElement('select');
+                        sel.setAttribute('name', ns);
+                        sel.setAttribute("megamod-iter", it);
+                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                            let opt = document.createElement('option');
+                            opt.setAttribute('value', json[it].fields[i].values[j]);
+                            opt.innerText = json[it].fields[i].values[j];
+                            sel.appendChild(opt);
+                        }
+                        hBox.appendChild(sel);
+                        break;
+                    case "radio":
+                        const radioDiv = document.createElement('div');
+                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                            const field = document.createElement('input');
+                            field.setAttribute("type", fieldType);
+                            field.setAttribute('name', ns);
+                            field.setAttribute('id', "megamod-radio-" + j);
+                            field.setAttribute("megamod-iter", it);
+                            let label = document.createElement('label');
+                            label.setAttribute('for', "megamod-radio-" + j);
+                            label.className = ("megamod-radio-label");
+                            label.innerText = json[it].fields[i].values[j];
+                            radioDiv.appendChild(field);
+                            radioDiv.appendChild(label);
+                        }
+                        hBox.appendChild(radioDiv);
+                        break;
+                    default: {
+                        const field = document.createElement('input');
+                        field.setAttribute("type", fieldType);
+                        if (!modSettings[key]) {
+                            field.setAttribute("value", initial);
+                        } else {
+                            field.setAttribute("value", modSettings[key])
+                        }
+                        field.setAttribute("megamod-iter", it);
+                        field.setAttribute("megamod-key", key);
+                        let label = document.createElement('p');
+                        label.innerText = json[it].fields[i].label;
+                        hBox.appendChild(label);
+                        hBox.appendChild(field);
+                    }
                 }
-                field.setAttribute("megamod-iter", it);
-                field.setAttribute("megamod-key", key);
-		let label = document.createElement('p');
-		label.innerText = json[it].fields[i].label;
-		hBox.appendChild(label);
-                hBox.appendChild(field);
-				
-//            }
+            }
         }
-	    }
         // reset opacity of other helpbox toggles
         let helpboxToggles = document.querySelectorAll('.megamod-option');
         for (let i = 0; i < helpboxToggles.length; ++i) {
@@ -325,7 +346,7 @@ function showSettingsModal() {
                 optionsChildren[i].style.display = "none";
                 let crumbsRoot = document.querySelector('.megamod-crumbs');
                 crumbsRoot.innerHTML = '<h2>' + headerTitle + ' ' +
-			    '<i class="' + layoutArr.header.separator + '"></i> ' +
+                    '<i class="' + layoutArr.header.separator + '"></i> ' +
                     tabName + '</h2>';
             }
         }
@@ -382,6 +403,7 @@ function showSettingsModal() {
         openHelpBox(e.target.getAttribute('megamod-iter'));
     });
     document.querySelector('.megamod-settings-modal-helpbox').addEventListener("input", (e) => {
+        console.log(e.target)
         updateState(e.target);
     });
 
@@ -474,7 +496,7 @@ function updateState(target) {
 
     //save and apply checkbox state
     saveSettings(settings);
-    saveModSettings(modSettings,ns);
+    saveModSettings(modSettings, ns);
     applySettings(func);
 }
 
