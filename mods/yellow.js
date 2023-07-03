@@ -29,7 +29,7 @@ function yellowInit(toggle){
     if (toggle === false) {
 	    setColor('initial')
     } else {
-	    const settings = readSettings(ns);
+	    const settings = getModSettings(ns);
 	    const userColor = settings.color;
 	    setColor(userColor);
     }
