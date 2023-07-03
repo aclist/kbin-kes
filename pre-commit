@@ -2,7 +2,7 @@
 
 COLUMNS=1
 version_file="VERSION"
-master_file="megamods.user.js"
+master_file="megamod.user.js"
 vers=$(< $version_file)
 opts=(
 	"MAJOR (breaking API change)"
@@ -17,9 +17,12 @@ bump_vers(){
 	case $1 in
 		"major")
 			ma=$((ma+1))
+			mi=0
+			pa=0
 			;;
 		"minor")
 			mi=$((mi+1))
+			pa=0
 			;;
 		"patch")
 			pa=$((pa+1))
@@ -27,7 +30,7 @@ bump_vers(){
 	esac
 	local newvers="${ma}.${mi}.${pa}"
 	echo "$newvers" > $version_file
-	sed -i "s/\(\/\/ @version *\)\([0-9]\+.*\)/\1$newvers/g" megamod.user.js
+	sed -i "s/\(\/\/ @version *\)\([0-9]\+.*\)/\1$newvers/g" $master_file
 	echo "HOOK========>Bumping version from $vers to $newvers"
 	git add $version_file
 	git add $master_file
