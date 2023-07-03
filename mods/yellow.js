@@ -10,15 +10,15 @@
 
 const ns = 'yellow'
 
-function readSettings(){
-    let settings = localStorage.getItem(ns);
-    if (!settings) {
-        settings = {};
-    } else {
-        settings = JSON.parse(settings);
-    }
-    return settings;
-}
+//function readSettings(){
+//    let settings = localStorage.getItem(ns);
+//    if (!settings) {
+//        settings = {};
+//    } else {
+//        settings = JSON.parse(settings);
+//    }
+//    return settings;
+//}
 
 function setColor(color){
   let bg = document.querySelector('.head-nav')
@@ -29,7 +29,7 @@ function yellowInit(toggle){
     if (toggle === false) {
 	    setColor('initial')
     } else {
-	    const settings = readSettings();
+	    const settings = readSettings(ns);
 	    const userColor = settings.color;
 	    setColor(userColor);
     }
