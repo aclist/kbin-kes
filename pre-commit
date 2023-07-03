@@ -28,7 +28,7 @@ bump_vers(){
 	local newvers="${ma}.${mi}.${pa}"
 	echo "$newvers" > $version_file
 	sed -i "s/\(\/\/ @version *\)\([0-9]\+.*\)/\1$newvers/g" megamod.user.js
-	echo "Bumping version from $vers to $newvers"
+	echo "HOOK========>Bumping version from $vers to $newvers"
 	git add $version_file
 	git add $master_file
 }
