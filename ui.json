@@ -12,6 +12,7 @@
     "general",
     "threads",
     "comments",
-    "profile"
+    "profile",
+    "tests"
   ]
 }
