@@ -54,7 +54,7 @@
     "link_label": "",
     "class": "dropdownEntry",
     "entrypoint": "dropdownEntry",
-    "page": "general"
+    "page": "threads"
   },
   {
     "name": "kbin-code-highlighting",
@@ -144,7 +144,7 @@
 	"label": "Some radio buttons"
       }
     ],
-    "page": "general"
+    "page": "tests"
   },
   {
     "name": "Federated Instance Names",
