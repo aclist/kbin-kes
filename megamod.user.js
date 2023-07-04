@@ -516,6 +516,7 @@ function updateState(target) {
     saveSettings(settings);
     saveModSettings(modSettings, ns);
     applySettings(func);
+    console.log(localStorage);
 }
 
 function applySettings(entry) {
