@@ -26,11 +26,12 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/instance-names.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/yellow.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
 // @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/main/ui.json
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // ==/UserScript==
 const version = GM_info.script.version;
 const tool = GM_info.script.name;
@@ -45,14 +46,16 @@ const magURL = "https://kbin.social/m/enhancement"
 
 //object used for interpolation of function names
 const funcObj = {
-    addMail: addMail,
-    initMags: initMags,
-    labelOp: labelOp,
-    dropdownEntry: dropdownEntry,
-    initCodeHighlights: initCodeHighlights,
-    languageFilterEntry: languageFilterEntry,
-    easyEmoticon: easyEmoticon,
-    yellowInit: yellowInit
+	addMail: addMail,
+	initMags: initMags,
+	labelOp: labelOp,
+	dropdownEntry: dropdownEntry,
+	initCodeHighlights: initCodeHighlights,
+	languageFilterEntry: languageFilterEntry,
+	easyEmoticon: easyEmoticon,
+  userInstanceEntry: userInstanceEntry,
+  magInstanceEntry: magInstanceEntry,
+  yellowInit: yellowInit
 };
 
 function fetchManifest() {
