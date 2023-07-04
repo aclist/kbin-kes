@@ -27,10 +27,10 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/label.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/dropdown.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/code-highlighting.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/instance-names.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/language-filter.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/yellow.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/easy-emoticon.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/instance-names.user.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/testing/megamod.css
 // @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/testing/ui.json
 // @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/megamod.user.js
