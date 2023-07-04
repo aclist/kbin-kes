@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.10.4
+// @version       0.10.5
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -20,7 +20,7 @@
 // @connect       github.com
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
-// @require       https://github.com/Oricul/kbin-scripts/raw/main/kbin-mod-options.js
+// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/kbin-mod-options.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/subs.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
@@ -516,6 +516,7 @@ function updateState(target) {
     saveSettings(settings);
     saveModSettings(modSettings, ns);
     applySettings(func);
+    console.log(localStorage);
 }
 
 function applySettings(entry) {
