@@ -15,7 +15,7 @@
         "type": "text",
         "initial": "PM",
         "key": "text",
-	"label": "Mail label"
+	"label": "Link label"
       }
     ],
     "page": "general"
@@ -25,7 +25,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add subs to navbar",
-    "desc": "Add magazine subscription to navbar",
+    "desc": "Add magazine subscription link to navbar",
     "link": "",
     "link_label": "",
     "class": "initMags",
@@ -37,7 +37,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add OP label",
-    "desc": "Add OP label to thread author",
+    "desc": "Print OP label next to thread author",
     "link": "",
     "link_label": "",
     "class": "labelOp",
@@ -45,11 +45,11 @@
     "page": "threads"
   },
   {
-    "name": "Profile dropdown",
+    "name": "Activity dropdown",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Convert links to dropdown",
-    "desc": "Convert activity/profile page links to dropdown",
+    "label": "Activity dropdown links",
+    "desc": "Convert activity links on threads/profile pages to dropdown",
     "link": "",
     "link_label": "",
     "class": "dropdownEntry",
@@ -97,7 +97,7 @@
         "type": "text",
         "initial": "English",
         "key": "filter",
-	"label": "Whitelist"
+	"label": "Language codes, comma-separated whitelist"
       }
     ],
     "page": "threads"
@@ -141,7 +141,7 @@
 		"333"
 		],
 	"key": "text",
-	"label": "some text"
+	"label": "Some radio buttons"
       }
     ],
     "page": "general"

@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.10.3
+// @version       0.10.4
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -236,24 +236,32 @@ function showSettingsModal() {
                 let initial = json[it].fields[i].initial;
                 let key = json[it].fields[i].key;
                 let ns = json[it].namespace;
+                let label = document.createElement('p');
+                label.className = "megamod-field-label";
+                label.innerText = json[it].fields[i].label;
+                hBox.appendChild(label);
+                if (!modSettings[key]) {
+                    modSettings[key] = initial;
+                    saveModSettings(modSettings, ns);
+                };
                 switch (fieldType) {
                     case "select":
-                        const sel = document.createElement('select');
-                        sel.setAttribute('name', ns);
-                        sel.setAttribute("megamod-iter", it);
-                        if (!modSettings[key]) {
-                            sel.setAttribute("value", initial);
-                        } else {
-                            sel.setAttribute("value", modSettings[key])
-                        }
-                        sel.setAttribute("megamod-key", key);
+                        const field = document.createElement('select');
+                        field.setAttribute('name', ns);
+                        field.setAttribute("megamod-iter", it);
+                        field.setAttribute("megamod-key", key);
                         for (let j = 0; j < json[it].fields[i].values.length; ++j) {
                             let opt = document.createElement('option');
                             opt.setAttribute('value', json[it].fields[i].values[j]);
                             opt.innerText = json[it].fields[i].values[j];
-                            sel.appendChild(opt);
+                            if (modSettings[key] == json[it].fields[i].values[j]) {
+                                opt.selected = 'selected';
+                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                opt.selected = 'selected'
+                            }
+                            field.appendChild(opt);
                         }
-                        hBox.appendChild(sel);
+                        hBox.appendChild(field);
                         break;
                     case "radio":
                         const radioDiv = document.createElement('div');
@@ -264,17 +272,19 @@ function showSettingsModal() {
                             field.setAttribute('id', "megamod-radio-" + j);
                             field.setAttribute("megamod-iter", it);
                             field.setAttribute("megamod-key", key);
-                        if (!modSettings[key]) {
-                            field.setAttribute("value", initial);
-                        } else {
-                            field.setAttribute("value", modSettings[key])
-                        }
-                            let label = document.createElement('label');
-                            label.setAttribute('for', "megamod-radio-" + j);
-                            label.className = ("megamod-radio-label");
-                            label.innerText = json[it].fields[i].values[j];
+                            field.setAttribute("value", json[it].fields[i].values[j]);
+                            if (modSettings[key] == json[it].fields[i].values[j]) {
+                                field.checked = true;
+                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                field.checked = true;
+                            }
+                            let radioLabel = document.createElement('label');
+                            radioLabel.setAttribute('for', "megamod-radio-" + j);
+                            radioLabel.className = ("megamod-radio-label");
+                            radioLabel.innerText = json[it].fields[i].values[j];
                             radioDiv.appendChild(field);
-                            radioDiv.appendChild(label);
+                            console.log(radioLabel);
+                            radioDiv.appendChild(radioLabel);
                         }
                         hBox.appendChild(radioDiv);
                         break;
@@ -288,9 +298,6 @@ function showSettingsModal() {
                         }
                         field.setAttribute("megamod-iter", it);
                         field.setAttribute("megamod-key", key);
-                        let label = document.createElement('p');
-                        label.innerText = json[it].fields[i].label;
-                        hBox.appendChild(label);
                         hBox.appendChild(field);
                     }
                 }
