@@ -15,7 +15,7 @@
         "type": "text",
         "initial": "PM",
         "key": "text",
-        "label": "Link label"
+	"label": "Link label"
       }
     ],
     "page": "general"
@@ -54,7 +54,7 @@
     "link_label": "",
     "class": "dropdownEntry",
     "entrypoint": "dropdownEntry",
-    "page": "general"
+    "page": "threads"
   },
   {
     "name": "kbin-code-highlighting",
@@ -271,7 +271,7 @@
         "type": "text",
         "initial": "English",
         "key": "filter",
-        "label": "Language codes, comma-separated whitelist"
+	"label": "Language codes, comma-separated whitelist"
       }
     ],
     "page": "threads"
@@ -304,20 +304,46 @@
         "type": "color",
         "initial": "#ffff15",
         "key": "color",
-        "label": "choose a color"
+	"label": "choose a color"
       },
       {
-        "type": "radio",
-        "initial": "111",
-        "values": [
-          "111",
-          "222",
-          "333"
-        ],
-        "key": "text",
-        "label": "Some radio buttons"
+	"type": "radio",
+	"initial": "111",
+	"values": [
+		"111",
+		"222",
+		"333"
+		],
+	"key": "text",
+	"label": "Some radio buttons"
       }
     ],
+    "page": "tests"
+  },
+  {
+    "name": "Federated Instance Names",
+    "author": "artillect",
+    "version": "0.1",
+    "label": "User instance names",
+    "desc": "Show instance names next to users",
+    "link": "",
+    "linkLabel": "",
+    "class": "userInstanceEntry",
+    "entrypoint": "userInstanceEntry",
+    "type": "checkbox",
+    "page": "general"
+  },
+  {
+    "name": "Federated Instance Names",
+    "author": "artillect",
+    "version": "0.1",
+    "label": "Magazine instance names",
+    "desc": "Show instance names next to magazines",
+    "link": "",
+    "linkLabel": "",
+    "class": "magInstanceEntry",
+    "entrypoint": "magInstanceEntry",
+    "type": "checkbox",
     "page": "general"
   }
 ]

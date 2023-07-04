@@ -49,14 +49,16 @@ const magURL = "https://kbin.social/m/enhancement"
 
 //object used for interpolation of function names
 const funcObj = {
-    addMail: addMail,
-    initMags: initMags,
-    labelOp: labelOp,
-    dropdownEntry: dropdownEntry,
-    initCodeHighlights: initCodeHighlights,
-    languageFilterEntry: languageFilterEntry,
-    easyEmoticon: easyEmoticon,
-    yellowInit: yellowInit
+	addMail: addMail,
+	initMags: initMags,
+	labelOp: labelOp,
+	dropdownEntry: dropdownEntry,
+	initCodeHighlights: initCodeHighlights,
+	languageFilterEntry: languageFilterEntry,
+	easyEmoticon: easyEmoticon,
+  userInstanceEntry: userInstanceEntry,
+  magInstanceEntry: magInstanceEntry,
+  yellowInit: yellowInit
 };
 
 function fetchManifest() {
