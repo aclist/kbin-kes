@@ -6,10 +6,18 @@
     "label": "Add mail icon",
     "desc": "Add mail link to usernames if on kbin.social",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "addMail",
     "entrypoint": "addMail",
-    "type": "checkbox",
+    "namespace": "mail",
+    "fields": [
+      {
+        "type": "text",
+        "initial": "PM",
+        "key": "text",
+	"label": "Link label"
+      }
+    ],
     "page": "general"
   },
   {
@@ -17,17 +25,11 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add subs to navbar",
-    "desc": "Add magazine subscription to navbar",
+    "desc": "Add magazine subscription link to navbar",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "initMags",
     "entrypoint": "initMags",
-    "type": "selector",
-    "values": [
-      "a",
-      "b",
-      "c"
-    ],
     "page": "general"
   },
   {
@@ -35,25 +37,23 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add OP label",
-    "desc": "Add OP label to thread author",
+    "desc": "Print OP label next to thread author",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "labelOp",
     "entrypoint": "labelOp",
-    "type": "checkbox",
     "page": "threads"
   },
   {
-    "name": "Profile dropdown",
+    "name": "Activity dropdown",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Convert links to dropdown",
-    "desc": "Convert activity/profile page links to dropdown",
+    "label": "Activity dropdown links",
+    "desc": "Convert activity links on threads/profile pages to dropdown",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "dropdownEntry",
     "entrypoint": "dropdownEntry",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -63,10 +63,22 @@
     "label": "Code Syntax Highlighting",
     "desc": "Adds syntax highlighting for code blocks.",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "initCodeHighlights",
     "entrypoint": "initCodeHighlights",
-    "type": "checkbox",
+    "namespace": "codehighlights",
+    "fields": [
+      {
+        "type": "select",
+        "initial": "gruvbox",
+        "key": "style",
+        "values": [
+          "gruvbox",
+          "dracula"
+        ],
+	"label": "Select a theme"
+      }
+    ],
     "page": "threads"
   },
   {
@@ -76,10 +88,18 @@
     "label": "Language filter",
     "desc": "Filter posts by language",
     "link": "",
-    "linkLabel": "",
+    "link_label": "",
     "class": "languageFilterEntry",
     "entrypoint": "languageFilterEntry",
-    "type": "textarea",
+    "namespace": "languagefilter",
+    "fields": [
+      {
+        "type": "text",
+        "initial": "English",
+        "key": "filter",
+	"label": "Language codes, comma-separated whitelist"
+      }
+    ],
     "page": "threads"
   },
   {
@@ -89,10 +109,41 @@
     "label": "Easy emoticons",
     "desc": "Use slash commands for emoticons.",
     "link": "https://docs.google.com/document/d/1jMeY7GwmgwrV8mEC4jmkEKKWdKuWvjgLgYrtUS5hPYg",
-    "linkLabel": "Command guide",
+    "link_label": "Command guide",
     "class": "easyEmoticon",
     "entrypoint": "easyEmoticon",
-    "type": "checkbox",
+    "page": "general"
+  },
+  {
+    "name": "YELLOWTEST",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "test color picker",
+    "desc": "Used to test colors",
+    "link": "",
+    "link_label": "",
+    "class": "yellowTest",
+    "entrypoint": "yellowInit",
+    "namespace": "yellow",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "#ffff15",
+        "key": "color",
+	"label": "choose a color"
+      },
+      {
+	"type": "radio",
+	"initial": "111",
+	"values": [
+		"111",
+		"222",
+		"333"
+		],
+	"key": "text",
+	"label": "Some radio buttons"
+      }
+    ],
     "page": "general"
   },
   {

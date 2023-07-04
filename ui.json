@@ -2,8 +2,11 @@
   "header": {
     "title": "KES",
     "separator": "fa-solid fa-chevron-right fa-xs",
-    "dock": "fa-solid fa-arrow-down",
-    "close": "fa-solid fa-times"
+    "dock_down": "fa-solid fa-arrow-down",
+    "dock_up": "fa-solid fa-arrow-up",
+    "open": "fa-solid fa-wrench",
+    "close": "fa-solid fa-times",
+    "bug": "fa-solid fa-bug fa-xs"
   },
   "pages": [
     "general",
