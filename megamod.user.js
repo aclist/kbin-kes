@@ -18,6 +18,7 @@
 // @grant         GM_setClipboard
 // @connect       raw.githubusercontent.com
 // @connect       github.com
+// @icon          https://kbin.social/favicon.svg
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/kbin-mod-options.js
@@ -32,6 +33,8 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/yellow.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
 // @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/main/ui.json
+// @downloadURL    https://github.com/aclist/kbin-scripts/raw/main/megamod.user.js
+// @updateURL      https://github.com/aclist/kbin-scripts/raw/main/megamod.user.js
 // ==/UserScript==
 const version = GM_info.script.version;
 const tool = GM_info.script.name;
