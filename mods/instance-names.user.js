@@ -46,6 +46,12 @@ function hideUserInstances() {
         $(this).html($(this).html().split('<span class="user-instance">@')[0]);
     });
 }
+function hideCommunityInstances() {
+    $('.magazine-inline.instance').each(function() {
+        $(this).removeClass('instance');
+        $(this).html($(this).html().split('<span class="mag-instance">@')[0]);
+    });
+}
 
 function magInstanceEntry(toggle) {
     if (toggle) {
