@@ -388,10 +388,7 @@
     "version": "0.1",
     "label": "Verbose timestamps",
     "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax",
-    "link": "",
-    "linkLabel": "",
-    "class": "timestamp",
-    "entrypoint": "toggleTimestamp",
+    "entrypoint": "updateTime",
     "page": "general",
     "namespace": "timestamp",
     "fields": [

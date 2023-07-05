@@ -1,9 +1,8 @@
-
 // ==UserScript==
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.11.5
+// @version       0.11.6
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -536,6 +535,7 @@ function applySettings(entry) {
     const settings = getSettings();
     try {
         if (settings[entry] == true) {
+		console.log(entry)
             funcObj[entry](true);
         } else {
             funcObj[entry](false);
