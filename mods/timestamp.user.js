@@ -10,9 +10,9 @@
 
 const timeObserver = new MutationObserver(updateTime);
 const ns = 'timestamp'
+let times = document.querySelectorAll('.timeago')
 function updateTime(toggle) {
     const settings = getModSettings(ns);
-    let times = document.querySelectorAll('.timeago')
     if (toggle) {
     times.forEach((time) => {
 	let oldTime = time.innerText;
