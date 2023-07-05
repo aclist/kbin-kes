@@ -1,4 +1,3 @@
-
 [
   {
     "name": "Add mail",
@@ -16,7 +15,7 @@
         "type": "text",
         "initial": "PM",
         "key": "text",
-	"label": "Link label"
+        "label": "Link label"
       }
     ],
     "page": "general"
@@ -272,7 +271,7 @@
         "type": "text",
         "initial": "English",
         "key": "filter",
-	"label": "Language codes, comma-separated whitelist"
+        "label": "Language codes, comma-separated whitelist"
       }
     ],
     "page": "threads"
@@ -305,18 +304,18 @@
         "type": "color",
         "initial": "#ffff15",
         "key": "color",
-	"label": "choose a color"
+        "label": "choose a color"
       },
       {
-	"type": "radio",
-	"initial": "111",
-	"values": [
-		"111",
-		"222",
-		"333"
-		],
-	"key": "text",
-	"label": "Some radio buttons"
+        "type": "radio",
+        "initial": "111",
+        "values": [
+          "111",
+          "222",
+          "333"
+        ],
+        "key": "text",
+        "label": "Some radio buttons"
       }
     ],
     "page": "tests"
@@ -400,10 +399,11 @@
         "type": "radio",
         "initial": "UTC",
         "key": "offset",
-	"values": [
-		"UTC",
-		"Local time"
-	]
+        "values": [
+          "UTC",
+          "Local time"
+        ]
       }
+    ]
   }
 ]
