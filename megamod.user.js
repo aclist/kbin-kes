@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.11.15
+// @version       0.11.16
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -31,7 +31,6 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/instance-names.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/language-filter.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/hide-votes.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/yellow.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/timestamp.user.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/testing/megamod.css
 // @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/testing/ui.json
@@ -63,8 +62,7 @@ const funcObj = {
     hideReputation: hideReputation,
     userInstanceEntry: userInstanceEntry,
     magInstanceEntry: magInstanceEntry,
-    updateTime: updateTime,
-    yellowInit: yellowInit
+    updateTime: updateTime
 };
 
 function fetchManifest() {
