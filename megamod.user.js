@@ -57,8 +57,11 @@ const funcObj = {
 	initCodeHighlights: initCodeHighlights,
 	languageFilterEntry: languageFilterEntry,
 	easyEmoticon: easyEmoticon,
-        userInstanceEntry: userInstanceEntry,
-        magInstanceEntry: magInstanceEntry,
+    hideUpvotes: hideUpvotes,
+    hideDownvotes: hideDownvotes,
+    hideReputation: hideReputation,
+  userInstanceEntry: userInstanceEntry,
+  magInstanceEntry: magInstanceEntry,
   yellowInit: yellowInit
 };
 
