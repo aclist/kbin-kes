@@ -25,10 +25,16 @@ function updateTime(toggle) {
 	let localTime = new Date(iso);
 	let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
 	    if (settings[offset]) {
+		    console.log("found localstorage key")
 		    switch (offset) {
+			    console.log(offset)
 			    case "UTC":
+			    console.log("UTC")
+			    conosle.log(cleanISOTime)
 				time.innerText = cleanISOTime;
-				case "Local time": 
+			    case "Local time": 
+			    console.log("Local time")
+			    conosle.log(localAsISO)
 				time.innerText = localAsISO;
 		    }
 	    }
