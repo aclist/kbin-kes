@@ -3,7 +3,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.11.1
+// @version       0.11.2
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -31,7 +31,7 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/easy-emoticon.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/instance-names.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/language-filter.user.js
-// @require       https://github.com/artillect/kbin-megamod/raw/hide-votes/mods/hide-votes.user.js
+// @require       https://github.com/artillect/kbin-megamod/raw/testing/mods/hide-votes.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/yellow.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/timestamp.user.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/testing/megamod.css
