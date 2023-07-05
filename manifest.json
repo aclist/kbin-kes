@@ -345,5 +345,38 @@
     "entrypoint": "magInstanceEntry",
     "type": "checkbox",
     "page": "general"
+  },
+  {
+    "name": "Hide Votes and Reputation",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide Favorites",
+    "desc": "Hide favorites (upvotes) on threads, posts, and comments",
+    "class": "hideUpvotes",
+    "entrypoint": "hideUpvotes",
+    "type": "checkbox",
+    "page": "general"
+  },
+  {
+    "name": "Hide Votes and Reputation",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide Reduces",
+    "desc": "Hide reduces (downvotes) on threads, posts, and comments",
+    "class": "hideDownvotes",
+    "entrypoint": "hideDownvotes",
+    "type": "checkbox",
+    "page": "general"
+  },
+  {
+    "name": "Hide Votes and Reputation",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide Reputation",
+    "desc": "Hide reputation on users' profiles",
+    "class": "hideReputation",
+    "entrypoint": "hideReputation",
+    "type": "checkbox",
+    "page": "profiles"
   }
 ]

@@ -30,6 +30,7 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/instance-names.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
+// @require       https://github.com/artillect/kbin-megamod/raw/hide-votes/mods/hide-votes.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/yellow.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
 // @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/main/ui.json
@@ -56,6 +57,9 @@ const funcObj = {
 	initCodeHighlights: initCodeHighlights,
 	languageFilterEntry: languageFilterEntry,
 	easyEmoticon: easyEmoticon,
+    hideUpvotes: hideUpvotes,
+    hideDownvotes: hideDownvotes,
+    hideReputation: hideReputation,
   userInstanceEntry: userInstanceEntry,
   magInstanceEntry: magInstanceEntry,
   yellowInit: yellowInit
