@@ -10,9 +10,8 @@
 
 const timeObserver = new MutationObserver(updateTime);
 const ns = 'timestamp'
-let times = document.querySelectorAll('.timeago')
+const settings = getModSettings(ns);
 function updateTime(toggle) {
-    const settings = getModSettings(ns);
     if (toggle) {
     times.forEach((time) => {
 	let oldTime = time.innerText;
@@ -24,18 +23,17 @@ function updateTime(toggle) {
 	let cleanISOTime = isoYear + " @ " + isoTime;
 	let localTime = new Date(iso);
 	let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
-	    if (settings[offset]) {
+        let offset = "offset"
+	    if (settings.offset) {
 		    console.log("found localstorage key")
-	            console.log(settings[offset])
-		    switch (settings[offset]) {
+	            console.log(settings.offset)
+		    switch (settings.offset) {
 			    case "UTC":
-			    console.log("UTC")
-			    conosle.log(cleanISOTime)
 				time.innerText = cleanISOTime;
-			    case "Local time": 
-			    console.log("Local time")
-			    conosle.log(localAsISO)
+                    break;
+			    case "Local time":
 				time.innerText = localAsISO;
+                    break;
 		    }
 	    }
      });
@@ -49,3 +47,4 @@ function updateTime(toggle) {
         timeObserver.disconnect();
     }
 }
+updateTime(true);
