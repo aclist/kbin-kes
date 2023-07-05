@@ -26,8 +26,8 @@ function updateTime(toggle) {
 	let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
 	    if (settings[offset]) {
 		    console.log("found localstorage key")
-	            console.log(offset)
-		    switch (offset) {
+	            console.log(settings[offset])
+		    switch (settings[offset]) {
 			    case "UTC":
 			    console.log("UTC")
 			    conosle.log(cleanISOTime)
