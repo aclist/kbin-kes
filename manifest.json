@@ -395,6 +395,7 @@
       {
         "type": "radio",
         "initial": "UTC",
+	"label": "Offset",
         "key": "offset",
         "values": [
           "UTC",
