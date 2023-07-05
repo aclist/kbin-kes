@@ -18,7 +18,7 @@ function updateTime(toggle) {
 	let iso = time.getAttribute('datetime');
 	let isoYear = (iso.split('T')[0]);
 	let isoTime = (iso.split('T')[1]);
-	let isoTime = (isoTime.split('+')[0]);
+	isoTime = (isoTime.split('+')[0]);
 	let cleanISOTime = isoYear + " @ " + isoTime;
 	let localTime = new Date(iso);
 	let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
