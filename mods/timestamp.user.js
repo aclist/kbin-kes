@@ -1,4 +1,3 @@
-
 // ==UserScript==
 // @name         kbin-timestamp
 // @namespace    https://github.com/aclist
@@ -14,8 +13,8 @@ function updateTime(toggle) {
     let times = document.querySelectorAll('.timeago')
     if (toggle) {
     times.forEach((time) => {
-	let oldTime = time.innerText
-	time.setAttribute('oldtime', oldTime)
+	let oldTime = time.innerText;
+	time.setAttribute('oldtime', oldTime);
 	let iso = time.getAttribute('datetime');
 	let isoYear = (iso.split('T')[0]);
 	let isoTime = (iso.split('T')[1]);
@@ -27,7 +26,7 @@ function updateTime(toggle) {
      });
     } else {
     times.forEach((time) => {
-	let oldTime = time.getAttribute('oldtime')
+	let oldTime = time.getAttribute('oldtime');
 	time.innerText = oldTime;
      });
         timeObserver.disconnect();
