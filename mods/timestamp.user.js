@@ -7,46 +7,49 @@
 // @match        https://kbin.social/*
 // @license      MIT
 // ==/UserScript==
-
-const timeObserver = new MutationObserver(updateTime);
 const ns = 'timestamp'
-let times = document.querySelectorAll('.timeago')
-const settings = getModSettings(ns);
+
 function updateTime(toggle) {
+    let times = document.querySelectorAll('.timeago')
+    const settings = getModSettings(ns);
     if (toggle) {
-    times.forEach((time) => {
-	let oldTime = time.innerText;
-	time.setAttribute('oldtime', oldTime);
-	let iso = time.getAttribute('datetime');
-	let isoYear = (iso.split('T')[0]);
-	let isoTime = (iso.split('T')[1]);
-	isoTime = (isoTime.split('+')[0]);
-	let cleanISOTime = isoYear + " @ " + isoTime;
-	let localTime = new Date(iso);
-	let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
-        let offset = "offset"
-	    if (settings.offset) {
-		    console.log("found localstorage key")
-	            console.log(settings.offset)
-		    switch (settings.offset) {
-			    case "UTC":
-				time.innerText = cleanISOTime;
+        times.forEach((time) => {
+            let oldTime = time.getAttribute("oldtime");
+            if (!oldTime) {
+                oldTime = time.innerText;
+                time.setAttribute('oldtime', oldTime);
+            }
+            let iso = time.getAttribute('datetime');
+            let isoYear = (iso.split('T')[0]);
+            let isoTime = (iso.split('T')[1]);
+            isoTime = (isoTime.split('+')[0]);
+            let cleanISOTime = isoYear + " @ " + isoTime;
+            let localTime = new Date(iso);
+            let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
+            let offset = "offset";
+            switch (settings[offset]) {
+                case "UTC":
+                    console.log("UTC")
+                    console.log(cleanISOTime)
+                    time.innerText = cleanISOTime;
                     break;
-			    case "Local time":
-				time.innerText = localAsISO;
+                case "Local time":
+                    console.log("Local time")
+                    console.log(localAsISO)
+                    time.innerText = localAsISO;
                     break;
-		    }
-	    }
-        timeObserver.observe(document.body, { childList: true, subtree: true });
-     });
+                default:
+                    return
+                    break;
+            }
+
+        });
     } else {
-    times.forEach((time) => {
-	let oldTime = time.getAttribute('oldtime');
-	if (oldTime){
-	time.innerText = oldTime;
-	}
-    });
-        timeObserver.disconnect();
+        times.forEach((time) => {
+            let oldTime = time.getAttribute('oldtime');
+            if (oldTime) {
+                time.innerText = oldTime;
+            }
+        });
     }
 }
-updateTime(true);
