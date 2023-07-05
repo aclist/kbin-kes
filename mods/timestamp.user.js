@@ -29,13 +29,9 @@ function updateTime(toggle) {
             let offset = "offset";
             switch (settings[offset]) {
                 case "UTC":
-                    console.log("UTC")
-                    console.log(cleanISOTime)
                     time.innerText = cleanISOTime;
                     break;
                 case "Local time":
-                    console.log("Local time")
-                    console.log(localAsISO)
                     time.innerText = localAsISO;
                     break;
                 default:
