@@ -1,3 +1,4 @@
+
 [
   {
     "name": "Add mail",
@@ -350,26 +351,24 @@
     "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
-    "label": "Hide Favorites",
+    "label": "Hide favorites",
     "desc": "Hide favorites (upvotes) on threads, posts, and comments",
     "link": "",
     "linkLabel": "",
     "class": "hideUpvotes",
     "entrypoint": "hideUpvotes",
-    "type": "checkbox",
     "page": "general"
   },
   {
     "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
-    "label": "Hide Reduces",
+    "label": "Hide reduces",
     "desc": "Hide reduces (downvotes) on threads, posts, and comments",
     "link": "",
     "linkLabel": "",
     "class": "hideDownvotes",
     "entrypoint": "hideDownvotes",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -382,7 +381,29 @@
     "linkLabel": "",
     "class": "hideReputation",
     "entrypoint": "hideReputation",
-    "type": "checkbox",
     "page": "profiles"
+  },
+  {
+    "name": "Verbose timestamps",
+    "author": "shazbot",
+    "version": "0.1",
+    "label": "Verbose timestamps",
+    "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax",
+    "link": "",
+    "linkLabel": "",
+    "class": "timestamp",
+    "entrypoint": "toggleTimestamp",
+    "page": "general",
+    "namespace": "timestamp",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "UTC",
+        "key": "offset",
+	"values": [
+		"UTC",
+		"Local time"
+	]
+      }
   }
 ]
