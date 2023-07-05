@@ -37,6 +37,7 @@ function updateTime(toggle) {
                     break;
 		    }
 	    }
+        timeObserver.observe(document.body, { childList: true, subtree: true });
      });
     } else {
     times.forEach((time) => {
