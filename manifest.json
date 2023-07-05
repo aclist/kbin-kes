@@ -9,6 +9,9 @@
     "link_label": "",
     "class": "addMail",
     "entrypoint": "addMail",
+    "obj": {
+	    "addMail": "addMail"
+    },
     "namespace": "mail",
     "fields": [
       {
