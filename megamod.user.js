@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.13.0
+// @version       0.14.0
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -219,13 +219,20 @@ function showSettingsModal() {
 
     function openHelpBox(it) {
         const settings = getSettings();
-        let author = json[it].author
-        let desc = json[it].desc
-        let link = json[it].link
-        let linkLabel = json[it].link_label
+        let author = json[it].author;
+        let desc = json[it].desc;
+        let link = json[it].link;
+        let linkLabel = json[it].link_label;
         let kbinPrefix = 'https://kbin.social/u/';
         let url = kbinPrefix + author;
-        let ns = json[it].namespace
+	let login = json[it].login;
+	let loginHR
+	    if(login) {
+		loginHR = "yes";
+	} else {
+	    loginHR = "no";
+	    }
+        let ns = json[it].namespace;
 
         //populate static fields
         let hBox = document.querySelector('.megamod-settings-modal-helpbox');
@@ -233,10 +240,16 @@ function showSettingsModal() {
             it + '" megamod-key="state"/><label class="tgl-btn" for="megamod-checkbox"></label></span>'
         hBox.style.cssText = 'display: inline; opacity: 1;'
         if (link) {
-            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">' +
-                linkLabel + '</a><br>' + desc + '</p>'
+            hBox.innerHTML = toggle + 
+			'<p>Author: <a href="' + url + '">' + author + '</a><br>' + 
+			'Link: <a href="' + link + '">' + linkLabel + '</a><br>' + 
+			'Login required: ' + loginHR + '<br><br>' +
+			desc + '</p>'
         } else {
-            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>' + desc + '</p>';
+            hBox.innerHTML = toggle +
+			'<p>Author: <a href="' + url + '">' + author + '</a><br>' +
+			'Login required: ' + loginHR + '<br><br>' +
+			desc + '</p>';
         }
         //populate dynamic fields
         if (json[it].fields) {
