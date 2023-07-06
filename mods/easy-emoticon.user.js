@@ -210,6 +210,7 @@ function emoticonGen() {
             if (e.target.value.includes('/help') || e.target.value.includes('/commands')) {
                 displayCommandsModal();
                 e.target.value = e.target.value.replace('/help', '');
+                e.target.value = e.target.value.replace('/commands', '');
             }
         }
     };
