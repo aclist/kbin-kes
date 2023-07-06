@@ -281,9 +281,9 @@
     "author": "minnieo",
     "version": "0.6.1",
     "label": "Easy emoticons",
-    "desc": "Use slash commands for emoticons in textareas. /help to open a list",
-    "link": "https://docs.google.com/document/d/1jMeY7GwmgwrV8mEC4jmkEKKWdKuWvjgLgYrtUS5hPYg",
-    "link_label": "Command guide",
+    "desc": "Use slash commands for emoticons in textareas. Use /help to open a list",
+    "link": "",
+    "link_label": "",
     "class": "easyEmoticon",
     "entrypoint": "easyEmoticon",
     "page": "general"
