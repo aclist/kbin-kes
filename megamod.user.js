@@ -32,6 +32,7 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/language-filter.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/hide-votes.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/timestamp.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/collapsible-comments/mods/improved-collapsible-comments.user.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/testing/megamod.css
 // @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/testing/ui.json
 // @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/megamod.user.js
@@ -55,6 +56,7 @@ const funcObj = {
     labelOp: labelOp,
     dropdownEntry: dropdownEntry,
     initCodeHighlights: initCodeHighlights,
+    initCollapsibleComments: initCollapsibleComments,
     languageFilterEntry: languageFilterEntry,
     easyEmoticon: easyEmoticon,
     hideUpvotes: hideUpvotes,
