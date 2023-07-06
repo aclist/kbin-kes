@@ -51,8 +51,8 @@
 	}
 }
 
-/* Medium devices (tablets, 1360px and below) */
-@media (max-width: 1360px) {
+/* Medium devices (tablets, 1367px and below) */
+@media (max-width: 1367px) {
      .megamod-settings-modal-container {
           min-width: 100%;
           height: 100%;
