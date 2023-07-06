@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.14.0
+// @version       0.14.1
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -590,7 +590,7 @@ for (let i = 0; i < json.length; ++i) {
     obs.takeRecords();
     }
 }
+       const watchedNode = document.querySelector('#content');
        const obs = new MutationObserver(init);
         init();
-        obs.observe(document.body, {subtree: true, childList: true, attributes: false });
-
+        obs.observe(watchedNode, {subtree: true, childList: true, attributes: false });
