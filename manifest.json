@@ -377,5 +377,28 @@
         ]
       }
     ]
+  },
+  {
+    "name": "Toggle logo",
+    "author": "shazbot",
+    "version": "0.1",
+    "label": "Toggle logo",
+    "desc": "Disable or use alternate logo. Placeholder for real script",
+    "entrypoint": "changeLogo",
+    "page": "general",
+    "namespace": "changelogo",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Hide logo",
+	"label": "Choice",
+        "key": "offset",
+        "values": [
+          "Hide logo",
+          "Bird logo",
+	  "3D logo"
+        ]
+      }
+    ]
   }
 ]
