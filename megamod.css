@@ -62,17 +62,21 @@
  .megamod-version {
      float: right;
 }
- .megamod-version .new {
-     color: var(--kbin-button-primary-bg);
-     background-color: orange;
-     border-radius: 10px;
-     opacity: 0.9;
-     transition: color 0.15s ease-in-out;
-     margin-right: 0.5rem;
+.megamod-version .new {
+    color: var(--kbin-link-color);
+    background-color: var(--kbin-success-color);
+    transition: color 0.15s ease-in-out;
+    transition: opacity 0.15s ease-in-out;
+    font-weight: bold;
+    border-radius: 8px;
+    opacity: 0.9;
+    padding: 4px 8px;
+    margin-top: -4px;
+    margin-right: 0.5rem;
 }
- .megamod-version .new:hover {
-     color: var(--kbin-button-primary-hover-bg);
-     opacity: 1;
+.megamod-version .new:hover {
+    color: var(--kbin-link-hover-color);
+    opacity: 1;
 }
  .megamod-settings-modal-content .megamod-close {
      color: #aaa;
@@ -203,6 +207,9 @@
      float:right;
 }
  .megamod-settings-modal-bug-link{
-     float:right 
+     float:right;
 }
- 
+.megamod-radio-label {
+    display: inline;
+    margin-left: 5px;
+}
