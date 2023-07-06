@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: For internal features in the menu itself
 title: "[FEAT] <Your title here>"
 labels: ''
 assignees: ''
