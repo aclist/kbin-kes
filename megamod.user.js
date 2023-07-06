@@ -415,9 +415,13 @@ function showSettingsModal() {
     bugLink.setAttribute('href', bugURL);
     footer.appendChild(bugLink)
 
+    const container = document.createElement("div");
+    container.className = "megamod-settings-modal-container";
+
     //inject modal
-    modal.appendChild(modalContent);
-    modal.appendChild(footer);
+    modal.appendChild(container);
+    container.appendChild(modalContent);
+    container.appendChild(footer);
     modalContent.appendChild(header);
     modalContent.appendChild(sidebar);
     modalContent.appendChild(helpBox);
@@ -438,12 +442,14 @@ function showSettingsModal() {
 
     const dockIcon = document.querySelector('.megamod-dock i');
     if (settings.dock == 'down') {
-        modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
-        footer.style.cssText = 'position:absolute;bottom:0;width:100%';
+        container.style.cssText = 'position:absolute;bottom:0;';
+        //modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
+        //footer.style.cssText = 'position:absolute;bottom:0;width:100%';
         dockIcon.className = layoutArr.header.dock_up;
     } else {
-        modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
-        footer.style.cssText = 'position:unset;bottom:unset;width:100%';
+        container.style.cssText = 'position:relative;bottom:unset;';
+        //modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
+        //footer.style.cssText = 'position:unset;bottom:unset;width:100%';
         dockIcon.className = layoutArr.header.dock_down;
     }
 
@@ -469,13 +475,15 @@ function showSettingsModal() {
         const settings = getSettings();
         let cn = e.target.className;
         if (cn == layoutArr.header.dock_down) {
-            modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
-            footer.style.cssText = 'position:absolute;bottom:0;width:100%';
+            container.style.cssText = 'position:absolute;bottom:0;';
+            // modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
+            // footer.style.cssText = 'position:absolute;bottom:0;width:100%';
             e.target.className = layoutArr.header.dock_up;
             settings.dock = 'down';
         } else {
-            modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
-            footer.style.cssText = 'position:unset;bottom:unset;width:100%';
+            container.style.cssText = 'position:unset;bottom:unset;';
+            // modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
+            // footer.style.cssText = 'position:unset;bottom:unset;width:100%';
             e.target.className = layoutArr.header.dock_down;
             settings.dock = 'up';
 
