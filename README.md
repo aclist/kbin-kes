@@ -9,12 +9,16 @@ This tool is not ready for mainstream consumption yet.
 
 ## Adding a script
 
-1. Add the script to the /mods directory
-2. Add the script's absolute path to the includes (`@require`)
-3. Update manifest.json with appropriate values
-4. Update funcObj with string=>function mappings
-5. Add necessary @grants to megamod.user.js
-6. Submit a PR
+1. Fork and work against the `testing` branch
+2. Add the script to the /mods directory
+3. Add the script's absolute path to the includes (`@require`)
+4. Update manifest.json with appropriate values
+5. Update funcObj with string=>function mappings
+6. Add necessary @grants to megamod.user.js
+7. Submit a PR
+8. After acceptance and integration testing, mod is merged into the `main` branch
+
+Input fields must be of type defined here: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
 
 ## Specifications
 
@@ -24,9 +28,9 @@ This tool is not ready for mainstream consumption yet.
 
 
 ## TODO
-- Contributors
-- Update this README
-- Should options be dynamically loaded depending on if user is logged in?
-- Externalize css file
-
+- Document localstorage settings
+- Responsive layout (mobile)
+- Indicate if option requires login
+- Indicate what pages a mod affects
+- Rename repo
 

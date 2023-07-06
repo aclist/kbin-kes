@@ -8,139 +8,120 @@
 // @license      MIT
 // ==/UserScript==
 
-//lemmy based emoticons
-const emoticons = [
-    '¯\\\\_(ツ)\\_/¯', '( ͡° ͜ʖ ͡°)', '¯\\_( ͡° ͜ʖ ͡°)_/¯', '( ͡° ͜ʖ ͡°)╭∩╮',
-    '( ͡~ ͜ʖ ͡°)', 'ツ', '(͠≖ ͜ʖ͠≖)', '(╯°□°)╯︵ ┻━┻', '┬─┬ノ( º _ ºノ)'
-];
+let eventListener;
 
-const emoticonsCute = [
-    'ʕ •ᴥ•ʔ', 'ʕっ• ᴥ • ʔっ', '(♡ヮ♡)', '╰(´꒳`)╯',
-    '૮ ˙Ⱉ˙ ა', '( ⸝⸝´꒳`⸝⸝)', '(o/////o " )', '⁄(⁄ ⁄•⁄-⁄•⁄ ⁄)⁄', '( ˶ˆ꒳ˆ˵ )',
-    '(⸝⸝⸝• ω •⸝⸝⸝) ♡', '(   ͡º ꒳ ͡º)', '(˘︶˘).｡.:*♡', '( ˘ ³˘)♥', '(  •̀ - •́  )',
-    '(˵ •̀ ᴗ - ˵ ) ✧', '৻(  •̀ ᗜ •́  ৻)', 'ᕙ( •̀ ᗜ •́ )ᕗ', '(ㅅ´ ˘ `)', '(╥﹏╥)',
-    '( • ᴖ • ｡ )', '◝(ᵔᵕᵔ)◜', '♡⟡˙⋆', ' ⋆˙⟡♡', '❤︎', '♡', '★', '✿',
-    '(｡•́︿•̀｡)', '(⸝⸝ᵕᴗᵕ⸝⸝)', '(ﾉ^ヮ^)ﾉ', 'ᐠ( ᐛ )ᐟ', '(¬_¬")', '( ´･･)ﾉ(._.`)',
-    'ಠ_ಠ', 'ᕕ( ᐛ )ᕗ', '（◞‸◟）', '( っ- ‸ - c)', ' ( ͡°⁄ ⁄ ͜⁄ ⁄ʖ ⁄ ⁄ ͡°)',
-    '╮（￣▽￣）╭', '༼ つ ◕_◕ ༽つ', '(งツ)ว', '( •̯́ ^ •̯̀)', '✧⁺⸜(●′▾‵●)⸝⁺✧',
-    '( ་ ⍸ ་ )', '✽-(ˆ▽ˆ)/✽ ✽\(ˆ▽ˆ)-✽', '(•⌓• )⁼³₌₃', '(•-• )', '(ó﹏ò｡)',
-    '(¬‿¬)', '(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧', '(/▽＼)', '(。。\\)', '눈_눈', '(￣▽￣)"',
-    '( ￢ω￢)', '╮(╯-╰)╭', '(๑╹ᆺ╹)', '(≖_≖ )', 'ヽ༼ຈل͜ຈ༽ﾉ', 'ヽ༼° ل͜ °༽ﾉ',
-    'ヽ༼⊙ل͜⊙༽ﾉ', 'ヽ༼≖ل͜≖༽ﾉ', 'ヽ༼ ・ ل͜ ・ ༽ﾉ', 'ヽ༼◉ل͜◉༽ﾉ', 'ヽ༼ ºلº ༽ﾉ', 
-    '(︶^︶)', '(◉ω◉)', '(・へ・)', '(　´_ゝ`)', '\'ㅅ\'', '(_ _;)', '(⚆_⚆)',
-    '( ´▽`）o自自o（\´▽` )', '(　´▽`)ﾉ(´･ω･`)', '♪┏(・o･)┛♪', 'щ(ﾟДﾟщ)', '( ﾟヮﾟ)...'
-];
+const emoticons = {
+    '/shrug': '¯\\\\_(ツ)\\_/¯',
+    '/lenny': '( ͡° ͜ʖ ͡°)',
+    '/lenshrug': '¯\\_( ͡° ͜ʖ ͡°)_/¯',
+    '/flipoff': '( ͡° ͜ʖ ͡°)╭∩╮',
+    '/lenwink': '( ͡~ ͜ʖ ͡°)',
+    '/welp': 'ツ',
+    '/lensexy': '(͠≖ ͜ʖ͠≖)',
+    '/tableflip': '(╯°□°)╯︵ ┻━┻',
+    '/tableback': '┬─┬ノ( º _ ºノ)',
+    '/bear': 'ʕ •ᴥ•ʔ',
+    '/1bear': 'ʕっ• ᴥ • ʔっ',
+    '/3hearteyes': '(♡ヮ♡)',
+    '/happy': '╰(´꒳`)╯',
+    '/rawr': '૮ ˙Ⱉ˙ ა',
+    '/blush': '( ⸝⸝´꒳`⸝⸝)',
+    '/1blush': '(o/////o " )',
+    '/2blush': '⁄(⁄ ⁄•⁄-⁄•⁄ ⁄)⁄',
+    '/1happy': '( ˶ˆ꒳ˆ˵ )',
+    '/3blush': '(⸝⸝⸝• ω •⸝⸝⸝) ♡',
+    '/smirk': '(   ͡º ꒳ ͡º)',
+    '/givelove': '(˘︶˘).｡.:*♡',
+    '/kiss': '( ˘ ³˘)♥',
+    '/frown': '(  •̀ - •́  )',
+    '/wink': '(˵ •̀ ᴗ - ˵ ) ✧',
+    '/awesome': '৻(  •̀ ᗜ •́  ৻)',
+    '/tough': 'ᕙ( •̀ ᗜ •́ )ᕗ',
+    '/pleased': '(ㅅ´ ˘ `)',
+    '/cry': '(╥﹏╥)',
+    '/bummed': '( • ᴖ • ｡ )',
+    '/wave': '◝(ᵔᵕᵔ)◜',
+    '/decor': '♡⟡˙⋆',
+    '/2decor': ' ⋆˙⟡♡',
+    '/heart': '❤︎',
+    '/1heart': '♡',
+    '/star': '★',
+    '/flower': '✿',
+    '/concern': '(｡•́︿•̀｡)',
+    '/4blush': '(⸝⸝ᵕᴗᵕ⸝⸝)',
+    '/3happy': '(ﾉ^ヮ^)ﾉ',
+    '/4happy': 'ᐠ( ᐛ )ᐟ',
+    '/unhappy': '(¬_¬")',
+    'comfort': '( ´･･)ﾉ(._.`)',
+    '/look': 'ಠ_ಠ',
+    '/5happy': 'ᕕ( ᐛ )ᕗ',
+    '/depress': '(◞‸◟）',
+    '/shy': '( っ- ‸ - c)',
+    '/bash': '(/▽＼)',
+    '/lenblush': '( ͡°⁄ ⁄ ͜⁄ ⁄ʖ ⁄ ⁄ ͡°)',
+    '/heh': '╮（￣▽￣）╭',
+    '/energy': '༼ つ ◕_◕ ༽つ',
+    '/1welp': '(งツ)ว',
+    '/plead': '( •̯́ ^ •̯̀)',
+    '/glad': '✧⁺⸜(●′▾‵●)⸝⁺✧',
+    '/stoic': '( ་ ⍸ ་ )',
+    '/cheer': '✽-(ˆ▽ˆ)/✽ ✽\\(ˆ▽ˆ)-✽',
+    '/rush': '(•⌓• )⁼³₌₃',
+    '/um': '(•-• )',
+    '/evil': '(¬‿¬)',
+    '/sparkles': '(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧',
+    '/blank': '(。。\\)',
+    '/sus': '눈_눈',
+    '/2heh': '(￣▽￣)"',
+    '/smug': '( ￢ω￢)',
+    '/3welp': '╮(╯-╰)╭',
+    '/nunnun': '(๑╹ᆺ╹)',
+    '/squint': '(≖_≖ )',
+    '/donger': 'ヽ༼ຈل͜ຈ༽ﾉ',
+    '/2donger': 'ヽ༼° ل͜ °༽ﾉ',
+    '/3donger': 'ヽ༼⊙ل͜⊙༽ﾉ',
+    '/4donger': 'ヽ༼≖ل͜≖༽ﾉ',
+    '/5donger': 'ヽ༼ ・ ل͜ ・ ༽ﾉ',
+    '/6donger': 'ヽ༼◉ل͜◉༽ﾉ',
+    '/7donger': 'ヽ༼ ºلº ༽ﾉ',
+    '/hmpf': '(︶^︶)',
+    '/2awesome': '(◉ω◉)',
+    '/2blank': '(・へ・)',
+    '/3blank': '(　´_ゝ`)',
+    '/4blank': "'ㅅ'",
+    '/5blank': '(_ _;)',
+    '/2um': '(⚆_⚆)',
+    '/2cheer': '( ´▽`）o自自o（´▽` ）',
+    '/patpat': '(　´▽`)ﾉ(´･ω･`)',
+    '/dance': '♪┏(・o･)┛♪',
+    '/why': 'щ(ﾟДﾟщ)',
+    '/6blank': '( ﾟヮﾟ)...'
+};
 
 function emoticonGen() {
-    document.addEventListener('input', (e) => {
+    eventListener = (e) => {
         if (e.target.tagName === 'TEXTAREA') {
             emoticonMake(e.target);
-            console.log('working');
         }
-    });
+    };
+    document.addEventListener('input', eventListener)
 }
+
 
 function emoticonMake(param) {
     let text = param.value;
-    text = text
-        .replace(/\/shrug/, `${emoticons[0]} `)
-        .replace(/\/lenny/, `${emoticons[1]} `)
-        .replace(/\/lenshrug/, `${emoticons[2]} `)
-        .replace(/\/flipoff/, `${emoticons[3]} `)
-        .replace(/\/lenwink/, `${emoticons[4]} `)
-        .replace(/\/welp/, `${emoticons[5]} `)
-        .replace(/\/lensexy/, `${emoticons[6]} `)
-        .replace(/\/tableflip/, `${emoticons[7]} `)
-        .replace(/\/tableback/, `${emoticons[8]} `);
 
-    // cute emoticons
-    text = text
-        .replace(/\/bear/, `${emoticonsCute[0]} `)
-        .replace(/\/1bear/, `${emoticonsCute[1]} `)
-        .replace(/\/3hearteyes/, `${emoticonsCute[2]} `)
-        .replace(/\/happy/, `${emoticonsCute[3]} `)
-        .replace(/\/rawr/, `${emoticonsCute[4]} `)
-        .replace(/\/blush/, `${emoticonsCute[5]} `)
-        .replace(/\/1blush/, `${emoticonsCute[6]} `)
-        .replace(/\/2blush/, `${emoticonsCute[7]} `)
-        .replace(/\/1happy/, `${emoticonsCute[8]} `)
-        .replace(/\/3blush/, `${emoticonsCute[9]} `)
-        .replace(/\/smirk/, `${emoticonsCute[10]} `)
-        .replace(/\/givelove/, `${emoticonsCute[11]} `)
-        .replace(/\/kiss/, `${emoticonsCute[12]} `)
-        .replace(/\/frown/, `${emoticonsCute[13]} `)
-        .replace(/\/wink/, `${emoticonsCute[14]} `)
-        .replace(/\/awesome/, `${emoticonsCute[15]} `)
-        .replace(/\/tough/, `${emoticonsCute[16]} `)
-        .replace(/\/pleased/, `${emoticonsCute[17]} `)
-        .replace(/\/cry/, `${emoticonsCute[18]} `)
-        .replace(/\/bummed/, `${emoticonsCute[19]} `)
-        .replace(/\/wave/, `${emoticonsCute[20]} `)
-        .replace(/\/1s/, `${emoticonsCute[21]} `)
-        .replace(/\/2s/, `${emoticonsCute[22]} `)
-        .replace(/\/heart/, `${emoticonsCute[23]} `)
-        .replace(/\/1heart/, `${emoticonsCute[24]} `)
-        .replace(/\/star/, `${emoticonsCute[25]} `)
-        .replace(/\/flower/, `${emoticonsCute[26]} `)
-        .replace(/\/concern/, `${emoticonsCute[27]} `)
-        .replace(/\/4blush/, `${emoticonsCute[28]} `)
-        .replace(/\/3happy/, `${emoticonsCute[29]} `)
-        .replace(/\/4happy/, `${emoticonsCute[30]} `)
-        .replace(/\/unhappy/, `${emoticonsCute[31]} `)
-        .replace(/\/comfort/, `${emoticonsCute[32]} `)
-        .replace(/\/look/, `${emoticonsCute[33]} `)
-        .replace(/\/5happy/, `${emoticonsCute[34]} `)
-        .replace(/\/depress/, `${emoticonsCute[35]} `)
-        .replace(/\/shy/, `${emoticonsCute[36]} `)
-        .replace(/\/lenblush/, `${emoticonsCute[37]} `)
-        .replace(/\/heh/, `${emoticonsCute[38]} `)
-        .replace(/\/energy/, `${emoticonsCute[39]} `)
-        .replace(/\/1welp/, `${emoticonsCute[40]} `)
-        .replace(/\/plead/, `${emoticonsCute[41]} `)
-        .replace(/\/glad/, `${emoticonsCute[42]} `)
-        .replace(/\/stoic/, `${emoticonsCute[43]} `)
-        .replace(/\/cheer/, `${emoticonsCute[44]} `)
-        .replace(/\/rush/, `${emoticonsCute[45]} `)
-        .replace(/\/um/, `${emoticonsCute[46]} `)
-        .replace(/\/scared/, `${emoticonsCute[47]} `)
-        .replace(/\/evil/, `${emoticonsCute[48]} `)
-        .replace(/\/sparkles/, `${emoticonsCute[49]} `)
-        .replace(/\/bash/, `${emoticonsCute[50]} `)
-        .replace(/\/blank/, `${emoticonsCute[51]} `)
-        .replace(/\/sus/, `${emoticonsCute[52]} `)
-        .replace(/\/2heh/, `${emoticonsCute[53]} `)
-        .replace(/\/smug/, `${emoticonsCute[54]} `)
-        .replace(/\/3welp/, `${emoticonsCute[55]} `)
-        .replace(/\/nunnun/, `${emoticonsCute[56]} `)
-        .replace(/\/squint/, `${emoticonsCute[57]} `)
-        .replace(/\/donger/, `${emoticonsCute[58]} `)
-        .replace(/\/2donger/, `${emoticonsCute[59]} `)
-        .replace(/\/3donger/, `${emoticonsCute[60]} `)
-        .replace(/\/4donger/, `${emoticonsCute[61]} `)
-        .replace(/\/5donger/, `${emoticonsCute[62]} `)
-        .replace(/\/6donger/, `${emoticonsCute[63]} `)
-        .replace(/\/7donger/, `${emoticonsCute[64]} `)
-        .replace(/\/hmpf/, `${emoticonsCute[65]} `)
-        .replace(/\/2awesome/, `${emoticonsCute[66]} `)
-        .replace(/\/2blank/, `${emoticonsCute[67]} `)
-        .replace(/\/3blank/, `${emoticonsCute[68]} `)
-        .replace(/\/4blank/, `${emoticonsCute[69]} `)
-        .replace(/\/5blank/, `${emoticonsCute[70]} `)
-        .replace(/\/2um/, `${emoticonsCute[71]} `)
-        .replace(/\/2cheer/, `${emoticonsCute[72]} `)
-        .replace(/\/patpat/, `${emoticonsCute[73]} `)
-        .replace(/\/dance/, `${emoticonsCute[74]} `)
-        .replace(/\/why/, `${emoticonsCute[75]} `)
-        .replace(/\/6blank/, `${emoticonsCute[76]} `)
-
-        ;
+    for (const [command, emoticon] of Object.entries(emoticons)) {
+        text = text.replace(new RegExp(command, 'g'), `${emoticon} `);
+    }
 
     param.value = text;
-
 }
 
 function easyEmoticon(toggle) {
     if (toggle) {
         emoticonGen();
+    } else {
+        document.removeEventListener('input', eventListener);
     }
 }

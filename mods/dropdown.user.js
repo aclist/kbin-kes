@@ -69,7 +69,8 @@ function removeDropdown(){
             scrollArrows.style.cssText += 'display:grid';
 }
 function dropdownEntry(toggle){
-    if (toggle == false) {
+    console.log(toggle)
+    if (toggle === false) {
         removeDropdown();
     } else {
         addDropdown();
