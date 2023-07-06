@@ -1,9 +1,8 @@
-
 // ==UserScript==
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.9.1
+// @version       0.10.7
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -19,48 +18,52 @@
 // @grant         GM_setClipboard
 // @connect       raw.githubusercontent.com
 // @connect       github.com
+// @icon          https://kbin.social/favicon.svg
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
-// @require       https://github.com/Oricul/kbin-scripts/raw/main/kbin-mod-options.js
+// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/kbin-mod-options.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/subs.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/instance-names.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
+// @require       https://github.com/artillect/kbin-megamod/raw/hide-votes/mods/hide-votes.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/main/mods/yellow.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
+// @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/main/ui.json
+// @downloadURL    https://github.com/aclist/kbin-scripts/raw/main/megamod.user.js
+// @updateURL      https://github.com/aclist/kbin-scripts/raw/main/megamod.user.js
 // ==/UserScript==
-
 const version = GM_info.script.version;
 const tool = GM_info.script.name;
 const repositoryURL = "https://github.com/aclist/kbin-megamod/";
-const mainBranch = repositoryURL + "raw/main/"
-const manifest = mainBranch + "manifest.json"
-const ui = mainBranch + "ui.json"
-const versionFile = mainBranch + "VERSION";
-const updateURL = mainBranch + "megamod.user.js";
+const branch = repositoryURL + "raw/main/"
+const manifest = branch + "manifest.json"
+const ui = branch + "ui.json"
+const versionFile = branch + "VERSION";
+const updateURL = branch + "megamod.user.js";
 const bugURL = repositoryURL + "issues"
 const magURL = "https://kbin.social/m/enhancement"
 
 //object used for interpolation of function names
 const funcObj = {
-    addMail: addMail,
-    initMags: initMags,
-    labelOp: labelOp,
-    dropdownEntry: dropdownEntry,
-    initCodeHighlights: initCodeHighlights,
-    languageFilterEntry: languageFilterEntry,
-    easyEmoticon: easyEmoticon,
-    yellowInit: yellowInit
+	addMail: addMail,
+	initMags: initMags,
+	labelOp: labelOp,
+	dropdownEntry: dropdownEntry,
+	initCodeHighlights: initCodeHighlights,
+	languageFilterEntry: languageFilterEntry,
+	easyEmoticon: easyEmoticon,
+    hideUpvotes: hideUpvotes,
+    hideDownvotes: hideDownvotes,
+    hideReputation: hideReputation,
+  userInstanceEntry: userInstanceEntry,
+  magInstanceEntry: magInstanceEntry,
+  yellowInit: yellowInit
 };
-const sidebarPages = [
-    "general",
-    "threads",
-    "comments",
-    "profiles"
-]
 
 function fetchManifest() {
     GM_xmlhttpRequest({
@@ -79,6 +82,8 @@ const versionElement = document.createElement('a');
 versionElement.innerText = tool + ' ' + version;
 versionElement.setAttribute('href', repositoryURL);
 
+let newVersion = null;
+
 function checkVersion() {
     GM_xmlhttpRequest({
         method: 'GET',
@@ -93,17 +98,15 @@ function checkVersion() {
 };
 
 async function checkUpdates(response) {
-    let parser = new DOMParser();
-    let newVersion = response.responseText;
+    newVersion = response.responseText.trim();
 
-    if (newVersion != version) {
+    if (newVersion && newVersion != version) {
+        // Change version link into a button for updating
         console.log('New version available: ' + newVersion)
-        // Change link to a button for updating
+
         versionElement.innerText = 'Install update: ' + newVersion;
         versionElement.setAttribute('href', updateURL);
         versionElement.className = 'new';
-    } else {
-        return
     }
 }
 
@@ -117,9 +120,15 @@ function makeArr(response) {
 };
 
 fetchManifest();
+checkVersion();
 var json = await GM.getValue("json");
 var css = GM_getResourceText("megamod_css");
 GM_addStyle(css);
+
+var megamod_layout = GM_getResourceText("megamod_layout");
+const layoutArr = JSON.parse(megamod_layout);
+const sidebarPages = layoutArr.pages;
+const headerTitle = layoutArr.header.title
 
 //instantiate megamod modal
 const kbinContainer = document.querySelector(".kbin-container > menu");
@@ -133,7 +142,7 @@ kbinContainer.appendChild(megamodPanel);
 //add settings button
 const settingsButton = document.createElement("div");
 settingsButton.id = "megamod-settings-button";
-settingsButton.innerHTML = '<i class="fa-solid fa-wrench"></i>';
+settingsButton.innerHTML = '<i class="' + layoutArr.header.open + '"></i>';
 settingsButton.addEventListener("click", () => {
     showSettingsModal();
 });
@@ -143,29 +152,28 @@ megamodPanel.appendChild(megamodPanelUl);
 var keyPressed = {};
 document.addEventListener('keydown', function(e) {
 
-	let modal = document.querySelector('.megamod-settings-modal')
-   keyPressed[e.key] = true;
-	console.log(keyPressed)
+    let modal = document.querySelector('.megamod-settings-modal')
+    keyPressed[e.key] = true;
 
-    if(keyPressed.Shift == true && keyPressed.Control == true && keyPressed.L == true){
-	    if (!modal){
-	    showSettingsModal();
-	    }
+    if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed.L == true) {
+        if (!modal) {
+            showSettingsModal();
+        }
         keyPressed = {};
     }
-    if(keyPressed.Escape == true){
-	    if (modal) {
-	        modal.remove();
-	    }
+    if (keyPressed.Escape == true) {
+        if (modal) {
+            modal.remove();
+        }
         keyPressed = {};
     }
 
 }, false);
 
 document.addEventListener('keyup', function(e) {
-   keyPressed[e.key + e.location] = false;
+    keyPressed[e.key + e.location] = false;
 
-   keyPressed = {};
+    keyPressed = {};
 }, false);
 
 function showSettingsModal() {
@@ -180,8 +188,8 @@ function showSettingsModal() {
     const header = document.createElement("div");
     header.className = "megamod-settings-modal-header";
     header.innerHTML = `
-            <span class="megamod-close"><i class="fa-solid fa-times"></i></span>
-            <span class="megamod-dock"><i class="fa-solid fa-arrow-down"></i></span>
+            <span class="megamod-close"><i class="` + layoutArr.header.close + `"></i></span>
+            <span class="megamod-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
             <span class="megamod-version">` + versionElement.outerHTML + `</span>
             `
 
@@ -214,7 +222,7 @@ function showSettingsModal() {
         let author = json[it].author
         let desc = json[it].desc
         let link = json[it].link
-        let linkLabel = json[it].linkLabel
+        let linkLabel = json[it].link_label
         let kbinPrefix = 'https://kbin.social/u/';
         let url = kbinPrefix + author;
         let ns = json[it].namespace
@@ -230,40 +238,81 @@ function showSettingsModal() {
             hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">' +
                 linkLabel + '</a><br>' + desc + '</p>'
         }
-	//populate dynamic fields
+        //populate dynamic fields
         if (json[it].fields) {
             const modSettings = getModSettings(ns)
             for (let i = 0; i < json[it].fields.length; ++i) {
-                let megatype = json[it].fields[i].type;
+                let fieldType = json[it].fields[i].type;
                 let initial = json[it].fields[i].initial;
                 let key = json[it].fields[i].key;
-//		switch (megatype) {
-//			case "selector":
-//				// handle dropdown
-//				break;
-//			case "radio":
-//				//handle radio
-//				break;
-//
-//			default: {
-//							
-                const field = document.createElement('input');
-                field.setAttribute("type", megatype);
+                let ns = json[it].namespace;
+                let label = document.createElement('p');
+                label.className = "megamod-field-label";
+                label.innerText = json[it].fields[i].label;
+                hBox.appendChild(label);
                 if (!modSettings[key]) {
-                    field.setAttribute("value", initial);
-                } else {
-                    field.setAttribute("value", modSettings[key])
+                    modSettings[key] = initial;
+                    saveModSettings(modSettings, ns);
+                };
+                switch (fieldType) {
+                    case "select":
+                        const field = document.createElement('select');
+                        field.setAttribute('name', ns);
+                        field.setAttribute("megamod-iter", it);
+                        field.setAttribute("megamod-key", key);
+                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                            let opt = document.createElement('option');
+                            opt.setAttribute('value', json[it].fields[i].values[j]);
+                            opt.innerText = json[it].fields[i].values[j];
+                            if (modSettings[key] == json[it].fields[i].values[j]) {
+                                opt.selected = 'selected';
+                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                opt.selected = 'selected'
+                            }
+                            field.appendChild(opt);
+                        }
+                        hBox.appendChild(field);
+                        break;
+                    case "radio":
+                        const radioDiv = document.createElement('div');
+                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                            const field = document.createElement('input');
+                            field.setAttribute("type", fieldType);
+                            field.setAttribute('name', ns);
+                            field.setAttribute('id', "megamod-radio-" + j);
+                            field.setAttribute("megamod-iter", it);
+                            field.setAttribute("megamod-key", key);
+                            field.setAttribute("value", json[it].fields[i].values[j]);
+                            if (modSettings[key] == json[it].fields[i].values[j]) {
+                                field.checked = true;
+                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                field.checked = true;
+                            }
+                            let radioLabel = document.createElement('label');
+                            radioLabel.setAttribute('for', "megamod-radio-" + j);
+                            radioLabel.className = ("megamod-radio-label");
+                            radioLabel.innerText = json[it].fields[i].values[j];
+                            radioDiv.appendChild(field);
+                            console.log(radioLabel);
+                            radioDiv.appendChild(radioLabel);
+                        }
+                        hBox.appendChild(radioDiv);
+                        break;
+                    default: {
+                        const field = document.createElement('input');
+                        field.setAttribute("type", fieldType);
+                        if (!modSettings[key]) {
+                            field.setAttribute("value", initial);
+                        } else {
+                            field.setAttribute("value", modSettings[key])
+                        }
+                        field.setAttribute("megamod-iter", it);
+                        field.setAttribute("megamod-key", key);
+                        hBox.appendChild(field);
+                    }
                 }
-                field.setAttribute("megamod-iter", it);
-                field.setAttribute("megamod-key", key);
-		let label = document.createElement('p');
-		label.innerText = json[it].fields[i].label;
-		hBox.appendChild(label);
-                hBox.appendChild(field);
-				
-//            }
+            }
         }
-	    }
         // reset opacity of other helpbox toggles
         let helpboxToggles = document.querySelectorAll('.megamod-option');
         for (let i = 0; i < helpboxToggles.length; ++i) {
@@ -324,7 +373,8 @@ function showSettingsModal() {
             } else {
                 optionsChildren[i].style.display = "none";
                 let crumbsRoot = document.querySelector('.megamod-crumbs');
-                crumbsRoot.innerHTML = '<h2>Megamod Settings <i class="fa-solid fa-chevron-right fa-xs"></i> ' +
+                crumbsRoot.innerHTML = '<h2>' + headerTitle + ' ' +
+                    '<i class="' + layoutArr.header.separator + '"></i> ' +
                     tabName + '</h2>';
             }
         }
@@ -356,7 +406,7 @@ function showSettingsModal() {
 
     const bugIcon = document.createElement("span");
     bugIcon.className = "megamod-settings-modal-bug-icon";
-    bugIcon.innerHTML = '<i class="fa-solid fa-bug fa-xs"></i>';
+    bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
     footer.appendChild(bugIcon)
 
     const bugLink = document.createElement("a");
@@ -381,6 +431,7 @@ function showSettingsModal() {
         openHelpBox(e.target.getAttribute('megamod-iter'));
     });
     document.querySelector('.megamod-settings-modal-helpbox').addEventListener("input", (e) => {
+        console.log(e.target)
         updateState(e.target);
     });
 
@@ -389,13 +440,12 @@ function showSettingsModal() {
     if (settings.dock == 'down') {
         modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
         footer.style.cssText = 'position:absolute;bottom:0;width:100%';
-        dockIcon.className = 'fa-solid fa-arrow-up';
+        dockIcon.className = layoutArr.header.dock_up;
     } else {
         modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
         footer.style.cssText = 'position:unset;bottom:unset;width:100%';
-        dockIcon.className = 'fa-solid fa-arrow-down';
+        dockIcon.className = layoutArr.header.dock_down;
     }
-    checkVersion();
 
 
     function insertListItem(it) {
@@ -418,15 +468,15 @@ function showSettingsModal() {
     modal.querySelector('.megamod-dock i').addEventListener("click", (e) => {
         const settings = getSettings();
         let cn = e.target.className;
-        if (cn == "fa-solid fa-arrow-down") {
+        if (cn == layoutArr.header.dock_down) {
             modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
             footer.style.cssText = 'position:absolute;bottom:0;width:100%';
-            e.target.className = 'fa-solid fa-arrow-up';
+            e.target.className = layoutArr.header.dock_up;
             settings.dock = 'down';
         } else {
             modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
             footer.style.cssText = 'position:unset;bottom:unset;width:100%';
-            e.target.className = 'fa-solid fa-arrow-down';
+            e.target.className = layoutArr.header.dock_down;
             settings.dock = 'up';
 
         }
@@ -474,8 +524,9 @@ function updateState(target) {
 
     //save and apply checkbox state
     saveSettings(settings);
-    saveModSettings(modSettings,ns);
+    saveModSettings(modSettings, ns);
     applySettings(func);
+    console.log(localStorage);
 }
 
 function applySettings(entry) {
