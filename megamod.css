@@ -109,7 +109,7 @@
  .megamod-settings-modal-helpbox {
      grid-area: helpbox;
      opacity: 0;
-     color: var(--kbin-header-text-color);
+     color: var(--kbin-meta-text-color);
 }
  .megamod-settings-modal-body label:hover .description {
      opacity: 1;
@@ -125,11 +125,11 @@
      cursor: pointer;
      border-radius: 0px;
      border: none;
-     color: var(--kbin-header-text-color);
+     color: var(--kbin-meta-link-color);
 }
- .megamod-tab-link:hover,.megamod-option:hover{
+.megamod-tab-link:hover,.megamod-option:hover{
      opacity: 1;
-     color: var(--kbin-header-text-color);
+     color: var(--kbin-meta-link-hover-color);
 }
  .megamod-tab-link.active,.megamod-option.active {
      color: var(--kbin-sidebar-header-text-color);
@@ -195,7 +195,7 @@
      margin-left: -0.8em;
 }
  .megamod-settings-modal-footer{
-     background-color: #333;
+     background-color: var(--kbin-footer-bg);
      padding: 0.4rem;
 }
  .megamod-settings-modal-bug-icon{
