@@ -35,7 +35,21 @@ bump_vers(){
 	git add $version_file
 	git add $master_file
 }
+test_mod(){
+	local added=$(git diff --cached --name-status | awk '/^A/ {print $2}')
+	local ct=$(<<< "$added" wc -l)
+	[[ $ct -gt 1 ]] || [[ $ct -eq 0 ]] && return
+	if [[ $added =~ user.js ]]; then
+		local newmod=$(<<< "$added" awk -F. '{print $1}')
+		local branch=$(git name-rev --name-only HEAD)
+		local url="// @require       https://github.com/aclist/kbin-megamod/raw/$branch/mods/$mod"
+		local func=$(<<< "$mod" awk -F. '{print $1}')
+		awk -v mod="$url" '!f && /resource/ {print mod;f=1}1' $master_file | sponge $master_file
+		awk -v entry="$func" 'f{print "    " entry ": " entry ",";f=0} /const funcObj/{f=1}1' $master_file | sponge $master_file
+	fi
+}
 
+#test_mod
 
 echo "This commit change is of type:"
 select opt in "${opts[@]}"; do
