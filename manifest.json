@@ -11,6 +11,16 @@
     "namespace": "mail",
     "fields": [
       {
+        "type": "radio",
+        "initial": "Text",
+        "key": "type",
+        "label": "Label type",
+	"values": [
+		"Text",
+		"Icon"
+	]
+      },
+      {
         "type": "text",
         "initial": "PM",
         "key": "text",

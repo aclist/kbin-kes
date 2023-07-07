@@ -35,9 +35,15 @@ function addItemLink(item) {
   if (!username) return;
   const link = document.createElement('a');
   link.setAttribute('href', `https://kbin.social/u/${username}/message`);
-  link.innerText = 'Mail';
-  link.className = 'item-link';
-  link.style.cssText += 'margin-left: 5px;text-decoration:underline !important';
+  settings = getModSettings(mail);
+  if (settings["type"] == "Text") {
+     link.className = 'item-link';
+     link.innerText = settings["text"];
+     link.style.cssText += 'margin-left: 5px;text-decoration:underline';
+  } else {
+	  link.className = 'item-link fa fa-envelope'
+          link.style.cssText += 'margin-left: 5px;text-decoration:none';
+  }
   insertElementAfter(item, link);
 }
 
