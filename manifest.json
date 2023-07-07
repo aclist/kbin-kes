@@ -295,37 +295,6 @@
     "page": "general"
   },
   {
-    "name": "YELLOWTEST",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "test color picker",
-    "login": false,
-    "desc": "Used to test colors",
-    "class": "yellowTest",
-    "entrypoint": "yellowInit",
-    "namespace": "yellow",
-    "fields": [
-      {
-        "type": "color",
-        "initial": "#ffff15",
-        "key": "color",
-        "label": "choose a color"
-      },
-      {
-        "type": "radio",
-        "initial": "111",
-        "values": [
-          "111",
-          "222",
-          "333"
-        ],
-        "key": "text",
-        "label": "Some radio buttons"
-      }
-    ],
-    "page": "tests"
-  },
-  {
     "name": "Federated Instance Names",
     "author": "artillect",
     "version": "0.1",
@@ -440,7 +409,7 @@
         "type": "radio",
         "initial": "Hide logo",
 	"label": "Logo type",
-        "key": "offset",
+        "key": "logotype",
         "values": [
           "Hide logo",
           "Bird logo",
