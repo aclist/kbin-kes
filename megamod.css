@@ -27,6 +27,10 @@
     background-color: rgba(0,0,0,0.5);
 }
 
+.megamod-settings-modal:has(.megamod-docked) {
+    background-color: transparent;
+}
+
 .megamod-settings-modal-container {
     background-color: var(--kbin-section-bg);
     border: var(--kbin-options-border);
@@ -37,6 +41,13 @@
     display: grid;
     grid-template-areas: "content" "footer";
     grid-template-rows: auto min-content;
+}
+
+.megamod-docked {
+    position:absolute;
+    bottom:0;
+    min-height: 30vh;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 
 .megamod-settings-modal-content {
