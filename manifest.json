@@ -4,9 +4,8 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add mail icon",
+    "login": false,
     "desc": "Add mail link to usernames if on kbin.social",
-    "link": "",
-    "link_label": "",
     "class": "addMail",
     "entrypoint": "addMail",
     "namespace": "mail",
@@ -15,7 +14,7 @@
         "type": "text",
         "initial": "PM",
         "key": "text",
-	"label": "Link label"
+        "label": "Link label"
       }
     ],
     "page": "general"
@@ -26,8 +25,8 @@
     "version": "0.1.0",
     "label": "Add subs to navbar",
     "desc": "Add magazine subscription link to navbar",
-    "link": "",
-    "link_label": "",
+    "login": true,
+    "desc": "Add magazine subscription link to navbar",
     "class": "initMags",
     "entrypoint": "initMags",
     "page": "general"
@@ -38,8 +37,8 @@
     "version": "0.1.0",
     "label": "Add OP label",
     "desc": "Print OP label next to thread author",
-    "link": "",
-    "link_label": "",
+    "login": false,
+    "desc": "Print OP label next to thread author",
     "class": "labelOp",
     "entrypoint": "labelOp",
     "page": "threads"
@@ -50,8 +49,8 @@
     "version": "0.1.0",
     "label": "Activity dropdown links",
     "desc": "Convert activity links on threads/profile pages to dropdown",
-    "link": "",
-    "link_label": "",
+    "login": false,
+    "desc": "Convert activity links on threads/profile pages to dropdown",
     "class": "dropdownEntry",
     "entrypoint": "dropdownEntry",
     "page": "threads"
@@ -61,9 +60,8 @@
     "author": "0rito",
     "version": "0.4.2",
     "label": "Code Syntax Highlighting",
+    "login": false,
     "desc": "Adds syntax highlighting for code blocks.",
-    "link": "",
-    "link_label": "",
     "class": "initCodeHighlights",
     "entrypoint": "initCodeHighlights",
     "namespace": "codehighlights",
@@ -260,9 +258,8 @@
     "author": "artillect",
     "version": "0.1.0",
     "label": "Language filter",
+    "login": false,
     "desc": "Filter posts by language",
-    "link": "",
-    "link_label": "",
     "class": "languageFilterEntry",
     "entrypoint": "languageFilterEntry",
     "namespace": "languagefilter",
@@ -281,9 +278,8 @@
     "author": "minnieo",
     "version": "0.6.1",
     "label": "Easy emoticons",
+    "login": true,
     "desc": "Use slash commands for emoticons in textareas. /help to open a list",
-    "link": "https://docs.google.com/document/d/1jMeY7GwmgwrV8mEC4jmkEKKWdKuWvjgLgYrtUS5hPYg",
-    "link_label": "Command guide",
     "class": "easyEmoticon",
     "entrypoint": "easyEmoticon",
     "page": "general"
@@ -293,9 +289,8 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "test color picker",
+    "login": false,
     "desc": "Used to test colors",
-    "link": "",
-    "link_label": "",
     "class": "yellowTest",
     "entrypoint": "yellowInit",
     "namespace": "yellow",
@@ -304,18 +299,18 @@
         "type": "color",
         "initial": "#ffff15",
         "key": "color",
-	"label": "choose a color"
+        "label": "choose a color"
       },
       {
-	"type": "radio",
-	"initial": "111",
-	"values": [
-		"111",
-		"222",
-		"333"
-		],
-	"key": "text",
-	"label": "Some radio buttons"
+        "type": "radio",
+        "initial": "111",
+        "values": [
+          "111",
+          "222",
+          "333"
+        ],
+        "key": "text",
+        "label": "Some radio buttons"
       }
     ],
     "page": "tests"
@@ -324,26 +319,11 @@
     "name": "Federated Instance Names",
     "author": "artillect",
     "version": "0.1",
-    "label": "User instance names",
-    "desc": "Show instance names next to users",
-    "link": "",
-    "linkLabel": "",
-    "class": "userInstanceEntry",
-    "entrypoint": "userInstanceEntry",
-    "type": "checkbox",
-    "page": "general"
-  },
-  {
-    "name": "Federated Instance Names",
-    "author": "artillect",
-    "version": "0.1",
     "label": "Magazine instance names",
     "desc": "Show instance names next to magazines",
-    "link": "",
-    "linkLabel": "",
+    "login": false,
     "class": "magInstanceEntry",
     "entrypoint": "magInstanceEntry",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -352,11 +332,9 @@
     "version": "0.2",
     "label": "Hide Favorites",
     "desc": "Hide favorites (upvotes) on threads, posts, and comments",
-    "link": "",
-    "linkLabel": "",
+    "login": false,
     "class": "hideUpvotes",
     "entrypoint": "hideUpvotes",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -365,24 +343,116 @@
     "version": "0.2",
     "label": "Hide Reduces",
     "desc": "Hide reduces (downvotes) on threads, posts, and comments",
-    "link": "",
-    "linkLabel": "",
+    "login": false,
     "class": "hideDownvotes",
     "entrypoint": "hideDownvotes",
-    "type": "checkbox",
+    "page": "general"
+  },
+  {
+    "name": "Federated Instance Names",
+    "author": "artillect",
+    "version": "0.1",
+    "label": "Magazine instance names",
+    "login": false,
+    "desc": "Show instance names next to magazines",
+    "class": "magInstanceEntry",
+    "entrypoint": "magInstanceEntry",
     "page": "general"
   },
   {
     "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
+    "label": "Hide favorites",
+    "login": false,
+    "desc": "Hide favorites (upvotes) on threads, posts, and comments",
+    "class": "hideUpvotes",
+    "entrypoint": "hideUpvotes",
+    "page": "general"
+  },
+  {
+    "name": "Hide Votes and Reputation",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide reduces",
+    "login": false,
+    "desc": "Hide reduces (downvotes) on threads, posts, and comments",
+    "class": "hideDownvotes",
+    "entrypoint": "hideDownvotes",
+    "page": "general"
+  },
+  {
+   "name": "Hide Votes and Reputation",
+    "author": "artillect",
+    "version": "0.2",
     "label": "Hide Reputation",
     "desc": "Hide reputation on users' profiles",
-    "link": "",
-    "linkLabel": "",
+    "login": false,
     "class": "hideReputation",
     "entrypoint": "hideReputation",
-    "type": "checkbox",
     "page": "profiles"
+  },
+  {
+    "name": "Verbose timestamps",
+    "author": "shazbot",
+    "version": "0.1",
+    "label": "Verbose timestamps",
+    "login": false,
+    "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax",
+    "entrypoint": "updateTime",
+    "page": "general",
+    "namespace": "timestamp",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "UTC",
+	"label": "Offset",
+        "key": "offset",
+        "values": [
+          "UTC",
+          "Local time"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Toggle logo",
+    "author": "shazbot",
+    "version": "0.1",
+    "label": "Toggle logo",
+    "login": false,
+    "desc": "Disable or use alternate logo. Placeholder for real script",
+    "entrypoint": "changeLogo",
+    "page": "general",
+    "namespace": "changelogo",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Hide logo",
+	"label": "Logo type",
+        "key": "offset",
+        "values": [
+          "Hide logo",
+          "Bird logo",
+	  "3D logo"
+        ]
+      }
+    ]
+    },
+  {
+    "name": "Collapsible comments",
+    "author": "artillect",
+    "version": "1.3.7",
+    "label": "Collapsible comments",
+    "desc": "Collapse comments by clicking on their headers, and the bars to their left",
+    "login": false,
+    "class": "initCollapsibleComments",
+    "entrypoint": "initCollapsibleComments",
+    "type": "selector",
+    "values" : [
+      "Headers and bars only",
+      "Anywhere on comments"
+    ],
+    "page": "comments"
   }
 ]

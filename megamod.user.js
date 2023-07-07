@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.10.7
+// @version       0.14.4
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -21,26 +21,27 @@
 // @icon          https://kbin.social/favicon.svg
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/kbin-mod-options.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/mail.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/subs.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/label.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/dropdown.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/code-highlighting.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/easy-emoticon.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/instance-names.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/language-filter.user.js
-// @require       https://github.com/artillect/kbin-megamod/raw/hide-votes/mods/hide-votes.user.js
-// @require       https://github.com/aclist/kbin-megamod/raw/main/mods/yellow.js
-// @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/main/megamod.css
-// @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/main/ui.json
-// @downloadURL    https://github.com/aclist/kbin-scripts/raw/main/megamod.user.js
-// @updateURL      https://github.com/aclist/kbin-scripts/raw/main/megamod.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/kbin-mod-options.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/mail.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/subs.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/label.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/dropdown.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/code-highlighting.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/easy-emoticon.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/instance-names.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/language-filter.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/hide-votes.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/timestamp.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/improved-collapsible-comments.user.js
+// @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/testing/megamod.css
+// @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/testing/ui.json
+// @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/megamod.user.js
+// @updateURL      https://github.com/aclist/kbin-scripts/raw/testing/megamod.user.js
 // ==/UserScript==
 const version = GM_info.script.version;
 const tool = GM_info.script.name;
 const repositoryURL = "https://github.com/aclist/kbin-megamod/";
-const branch = repositoryURL + "raw/main/"
+const branch = repositoryURL + "raw/testing/"
 const manifest = branch + "manifest.json"
 const ui = branch + "ui.json"
 const versionFile = branch + "VERSION";
@@ -50,19 +51,20 @@ const magURL = "https://kbin.social/m/enhancement"
 
 //object used for interpolation of function names
 const funcObj = {
-	addMail: addMail,
-	initMags: initMags,
-	labelOp: labelOp,
-	dropdownEntry: dropdownEntry,
-	initCodeHighlights: initCodeHighlights,
-	languageFilterEntry: languageFilterEntry,
-	easyEmoticon: easyEmoticon,
+    addMail: addMail,
+    initMags: initMags,
+    labelOp: labelOp,
+    dropdownEntry: dropdownEntry,
+    initCodeHighlights: initCodeHighlights,
+    initCollapsibleComments: initCollapsibleComments,
+    languageFilterEntry: languageFilterEntry,
+    easyEmoticon: easyEmoticon,
     hideUpvotes: hideUpvotes,
     hideDownvotes: hideDownvotes,
     hideReputation: hideReputation,
-  userInstanceEntry: userInstanceEntry,
-  magInstanceEntry: magInstanceEntry,
-  yellowInit: yellowInit
+    userInstanceEntry: userInstanceEntry,
+    magInstanceEntry: magInstanceEntry,
+    updateTime: updateTime
 };
 
 function fetchManifest() {
@@ -219,24 +221,37 @@ function showSettingsModal() {
 
     function openHelpBox(it) {
         const settings = getSettings();
-        let author = json[it].author
-        let desc = json[it].desc
-        let link = json[it].link
-        let linkLabel = json[it].link_label
+        let author = json[it].author;
+        let desc = json[it].desc;
+        let link = json[it].link;
+        let linkLabel = json[it].link_label;
         let kbinPrefix = 'https://kbin.social/u/';
         let url = kbinPrefix + author;
-        let ns = json[it].namespace
+	let login = json[it].login;
+	let loginHR
+	    if(login) {
+		loginHR = "yes";
+	} else {
+	    loginHR = "no";
+	    }
+        let ns = json[it].namespace;
 
         //populate static fields
         let hBox = document.querySelector('.megamod-settings-modal-helpbox');
         let toggle = '<span class="megamod-toggle"><input type="checkbox" class="tgl megamod-tgl" id="megamod-checkbox" megamod-iter="' +
             it + '" megamod-key="state"/><label class="tgl-btn" for="megamod-checkbox"></label></span>'
         hBox.style.cssText = 'display: inline; opacity: 1;'
-        if (link === "") {
-            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>' + desc + '</p>';
+        if (link) {
+            hBox.innerHTML = toggle + 
+			'<p>Author: <a href="' + url + '">' + author + '</a><br>' + 
+			'Link: <a href="' + link + '">' + linkLabel + '</a><br>' + 
+			'Login required: ' + loginHR + '<br><br>' +
+			desc + '</p>'
         } else {
-            hBox.innerHTML = toggle + '<p>Author: <a href="' + url + '">' + author + '</a><br>Link: <a href="' + link + '">' +
-                linkLabel + '</a><br>' + desc + '</p>'
+            hBox.innerHTML = toggle +
+			'<p>Author: <a href="' + url + '">' + author + '</a><br>' +
+			'Login required: ' + loginHR + '<br><br>' +
+			desc + '</p>';
         }
         //populate dynamic fields
         if (json[it].fields) {
@@ -544,6 +559,7 @@ function applySettings(entry) {
     const settings = getSettings();
     try {
         if (settings[entry] == true) {
+            console.log(entry)
             funcObj[entry](true);
         } else {
             funcObj[entry](false);
@@ -581,6 +597,13 @@ function saveSettings(settings) {
     localStorage.setItem("megamod-settings", JSON.stringify(settings));
 }
 
+function init(){
 for (let i = 0; i < json.length; ++i) {
     applySettings(json[i].entrypoint);
+    obs.takeRecords();
+    }
 }
+       const watchedNode = document.querySelector('#content');
+       const obs = new MutationObserver(init);
+        init();
+        obs.observe(watchedNode, {subtree: true, childList: true, attributes: false });
