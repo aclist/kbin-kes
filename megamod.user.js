@@ -419,20 +419,24 @@ function showSettingsModal() {
     magLink.setAttribute('href', magURL);
     footer.appendChild(magLink)
 
-    const bugIcon = document.createElement("span");
-    bugIcon.className = "megamod-settings-modal-bug-icon";
-    bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
-    footer.appendChild(bugIcon)
-
     const bugLink = document.createElement("a");
     bugLink.className = "megamod-settings-modal-bug-link";
     bugLink.innerText = "Report a bug";
     bugLink.setAttribute('href', bugURL);
     footer.appendChild(bugLink)
 
+    const bugIcon = document.createElement("span");
+    bugIcon.className = "megamod-settings-modal-bug-icon";
+    bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
+    bugLink.appendChild(bugIcon)
+
+    const container = document.createElement("div");
+    container.className = "megamod-settings-modal-container";
+
     //inject modal
-    modal.appendChild(modalContent);
-    modal.appendChild(footer);
+    modal.appendChild(container);
+    container.appendChild(modalContent);
+    container.appendChild(footer);
     modalContent.appendChild(header);
     modalContent.appendChild(sidebar);
     modalContent.appendChild(helpBox);
@@ -453,12 +457,15 @@ function showSettingsModal() {
 
     const dockIcon = document.querySelector('.megamod-dock i');
     if (settings.dock == 'down') {
-        modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
-        footer.style.cssText = 'position:absolute;bottom:0;width:100%';
+        container.classList.add('megamod-docked');
+        //container.style.cssText = 'position:absolute;bottom:0;max-height: 30vh;';
+        //modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
+        //footer.style.cssText = 'position:absolute;bottom:0;width:100%';
         dockIcon.className = layoutArr.header.dock_up;
     } else {
-        modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
-        footer.style.cssText = 'position:unset;bottom:unset;width:100%';
+        //container.style.cssText = 'position:relative;bottom:unset;max-height: 80vh;';
+        //modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
+        //footer.style.cssText = 'position:unset;bottom:unset;width:100%';
         dockIcon.className = layoutArr.header.dock_down;
     }
 
@@ -484,13 +491,17 @@ function showSettingsModal() {
         const settings = getSettings();
         let cn = e.target.className;
         if (cn == layoutArr.header.dock_down) {
-            modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
-            footer.style.cssText = 'position:absolute;bottom:0;width:100%';
+            container.classList.add('megamod-docked');
+            //container.style.cssText = 'position:absolute;bottom:0;';
+            // modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
+            // footer.style.cssText = 'position:absolute;bottom:0;width:100%';
             e.target.className = layoutArr.header.dock_up;
             settings.dock = 'down';
         } else {
-            modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
-            footer.style.cssText = 'position:unset;bottom:unset;width:100%';
+            container.classList.remove('megamod-docked');
+            //container.style.cssText = 'position:unset;bottom:unset;';
+            // modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
+            // footer.style.cssText = 'position:unset;bottom:unset;width:100%';
             e.target.className = layoutArr.header.dock_down;
             settings.dock = 'up';
 

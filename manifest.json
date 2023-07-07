@@ -24,6 +24,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add subs to navbar",
+    "desc": "Add magazine subscription link to navbar",
     "login": true,
     "desc": "Add magazine subscription link to navbar",
     "class": "initMags",
@@ -35,6 +36,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add OP label",
+    "desc": "Print OP label next to thread author",
     "login": false,
     "desc": "Print OP label next to thread author",
     "class": "labelOp",
@@ -46,6 +48,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Activity dropdown links",
+    "desc": "Convert activity links on threads/profile pages to dropdown",
     "login": false,
     "desc": "Convert activity links on threads/profile pages to dropdown",
     "class": "dropdownEntry",
@@ -265,7 +268,7 @@
         "type": "text",
         "initial": "English",
         "key": "filter",
-        "label": "Language codes, comma-separated whitelist"
+	"label": "Language codes, comma-separated whitelist"
       }
     ],
     "page": "threads"
@@ -316,12 +319,33 @@
     "name": "Federated Instance Names",
     "author": "artillect",
     "version": "0.1",
-    "label": "User instance names",
+    "label": "Magazine instance names",
+    "desc": "Show instance names next to magazines",
     "login": false,
-    "desc": "Show instance names next to users",
-    "class": "userInstanceEntry",
-    "entrypoint": "userInstanceEntry",
-    "type": "checkbox",
+    "class": "magInstanceEntry",
+    "entrypoint": "magInstanceEntry",
+    "page": "general"
+  },
+  {
+    "name": "Hide Votes and Reputation",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide Favorites",
+    "desc": "Hide favorites (upvotes) on threads, posts, and comments",
+    "login": false,
+    "class": "hideUpvotes",
+    "entrypoint": "hideUpvotes",
+    "page": "general"
+  },
+  {
+    "name": "Hide Votes and Reputation",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide Reduces",
+    "desc": "Hide reduces (downvotes) on threads, posts, and comments",
+    "login": false,
+    "class": "hideDownvotes",
+    "entrypoint": "hideDownvotes",
     "page": "general"
   },
   {
@@ -333,7 +357,6 @@
     "desc": "Show instance names next to magazines",
     "class": "magInstanceEntry",
     "entrypoint": "magInstanceEntry",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -359,12 +382,12 @@
     "page": "general"
   },
   {
-    "name": "Hide Votes and Reputation",
+   "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
     "label": "Hide Reputation",
-    "login": false,
     "desc": "Hide reputation on users' profiles",
+    "login": false,
     "class": "hideReputation",
     "entrypoint": "hideReputation",
     "page": "profiles"
