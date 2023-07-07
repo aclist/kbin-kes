@@ -20,28 +20,35 @@
 	top: 0;
 	width: 100%;
 	height: 100%;
-	overflow: auto;
-     display: flex;
-     align-items: center;
-     justify-content: center;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: rgba(0,0,0,0.5);
 }
 
 .megamod-settings-modal-container {
-     background-color: var(--kbin-section-bg);
-     border: var(--kbin-options-border);
-     position: relative;
-     min-width: 1360px;
-     min-height: 80vh;
+    background-color: var(--kbin-section-bg);
+    border: var(--kbin-options-border);
+    position: relative;
+    min-width: 1360px;
+    min-height: 80vh;
+    max-height: 100vh;
+    display: grid;
+    grid-template-areas: "content" "footer";
+    grid-template-rows: auto min-content;
 }
 
 .megamod-settings-modal-content {
 	background-color: var(--kbin-section-bg);
 	width: 100%;
+    max-height: calc(100vh - 4rem);
 	padding: 2rem;
 	display: grid;
+    grid-area: content;
 	grid-template-areas: "header header header" "sidebar body helpbox";
 	grid-template-columns: 1fr 3fr 3fr;
+    grid-template-rows: min-content auto;
 }
 /* Small devices (landscape phones, 576px and below) */
 @media (max-width: 576px) {
@@ -151,6 +158,14 @@
 	margin-top: 0;
 	font-size: 1rem;
 }
+
+.megamod-settings-modal-sidebar,
+.megamod-settings-modal-body,
+.megamod-settings-modal-helpbox {
+    overflow-y: auto;
+    min-height: calc(85% - 4rem);
+}
+
 
 .megamod-settings-modal-body {
 	grid-area: body;
@@ -267,11 +282,12 @@
 }
 
 .megamod-settings-modal-footer {
+    grid-area: footer;
 	background-color: var(--kbin-footer-bg);
-	padding: 0.4rem;
+	padding: 0.4rem 2rem;
      width: 100%;
-     position: absolute;
-     bottom: 0;
+     /* position: absolute;
+     bottom: 0; */
 }
 
 .megamod-settings-modal-bug-icon {
