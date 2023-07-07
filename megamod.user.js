@@ -412,3 +412,125 @@ GM_addStyle(css);
         applySettings(json[i].entrypoint);
     }
 
+    //dock button
+    modal.querySelector('.megamod-dock i').addEventListener("click", (e) => {
+        const settings = getSettings();
+        let cn = e.target.className;
+        if (cn == layoutArr.header.dock_down) {
+            container.classList.add('megamod-docked');
+            //container.style.cssText = 'position:absolute;bottom:0;';
+            // modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
+            // footer.style.cssText = 'position:absolute;bottom:0;width:100%';
+            e.target.className = layoutArr.header.dock_up;
+            settings.dock = 'down';
+        } else {
+            container.classList.remove('megamod-docked');
+            //container.style.cssText = 'position:unset;bottom:unset;';
+            // modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
+            // footer.style.cssText = 'position:unset;bottom:unset;width:100%';
+            e.target.className = layoutArr.header.dock_down;
+            settings.dock = 'up';
+
+        }
+        saveSettings(settings);
+    });
+
+
+    //close button
+    modal.querySelector(".megamod-settings-modal .megamod-close").addEventListener("click", () => {
+        modal.remove();
+    });
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+
+    let startPage = sidebarPages[0].charAt(0).toUpperCase() + sidebarPages[0].slice(1);
+    openTab(startPage);
+}
+
+function updateState(target) {
+    //get master settings
+    const settings = getSettings();
+    const it = target.getAttribute('megamod-iter');
+    const check = document.querySelector(`.megamod-settings-modal-helpbox [megamod-iter="` + it + `"]`);
+
+    //get mod settings
+    let ns = json[it].namespace;
+    let key = target.getAttribute('megamod-key');
+    let modValue = target.value
+    const modSettings = getModSettings(ns);
+
+    let state;
+    if (check.checked) {
+        state = true;
+    } else {
+        state = false;
+    }
+
+    //update master and mod settings
+    let func = json[it].entrypoint;
+    modSettings[key] = modValue;
+    settings[func] = state;
+
+    //save and apply checkbox state
+    saveSettings(settings);
+    saveModSettings(modSettings, ns);
+    applySettings(func);
+    console.log(localStorage);
+}
+
+function applySettings(entry) {
+    const settings = getSettings();
+    try {
+        if (settings[entry] == true) {
+            console.log(entry + ' enabled')
+            funcObj[entry](true);
+        } else {
+            console.log(entry + ' disabled')
+            funcObj[entry](false);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function getModSettings(namespace) {
+    let settings = localStorage.getItem(namespace)
+    if (!settings) {
+        settings = {};
+    } else {
+        settings = JSON.parse(settings);
+    }
+    return settings;
+}
+
+function getSettings(func) {
+    let settings = localStorage.getItem("megamod-settings");
+    if (!settings) {
+        settings = {};
+    } else {
+        settings = JSON.parse(settings);
+    }
+    return settings;
+}
+
+function saveModSettings(settings, namespace) {
+    localStorage.setItem(namespace, JSON.stringify(settings));
+}
+
+function saveSettings(settings) {
+    localStorage.setItem("megamod-settings", JSON.stringify(settings));
+}
+
+function init(){
+for (let i = 0; i < json.length; ++i) {
+    applySettings(json[i].entrypoint);
+    obs.takeRecords();
+    }
+}
+       const watchedNode = document.querySelector('#content');
+       const obs = new MutationObserver(init);
+        init();
+        obs.observe(watchedNode, {subtree: true, childList: true, attributes: false });

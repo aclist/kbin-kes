@@ -16,8 +16,8 @@ function initCollapsibleComments(toggle) {
         applyToNewPosts();
         applyCommentStyles();
 
-        let observer = new MutationObserver(applyToNewPosts);
-        observer.observe(document.body, { childList: true, subtree: true });
+        // let observer = new MutationObserver(applyToNewPosts);
+        // observer.observe(document.body, { childList: true, subtree: true });
         initCollapsibleCommentsListeners(false);
     } else {
         if (document.querySelector('.entry-comment.nested')) {
