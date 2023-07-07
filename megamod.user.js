@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.16.2
+// @version       0.16.4
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -288,7 +288,7 @@ function showSettingsModal() {
                             field.appendChild(opt);
                         }
                         hBox.appendChild(field);
-			hBox.appendchild(br);
+			hBox.appendChild(br);
                         break;
                     case "radio":
                         const radioDiv = document.createElement('div');
@@ -327,7 +327,7 @@ function showSettingsModal() {
                         field.setAttribute("megamod-iter", it);
                         field.setAttribute("megamod-key", key);
                         hBox.appendChild(field);
-			hBox.appendchild(br);
+			hBox.appendChild(br);
                     }
                 }
             }
