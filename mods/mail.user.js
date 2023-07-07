@@ -35,7 +35,7 @@ function addItemLink(item) {
   if (!username) return;
   const link = document.createElement('a');
   link.setAttribute('href', `https://kbin.social/u/${username}/message`);
-  settings = getModSettings(mail);
+  settings = getModSettings("mail");
   if (settings["type"] == "Text") {
      link.className = 'item-link';
      link.innerText = settings["text"];
