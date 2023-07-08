@@ -36,6 +36,7 @@
     border: var(--kbin-options-border);
     position: relative;
     min-width: 1360px;
+    max-width: 1360px;
     min-height: 80vh;
     max-height: 100vh;
     display: grid;
@@ -46,8 +47,14 @@
 .megamod-docked {
     position:absolute;
     bottom:0;
-    min-height: 30vh;
+    max-height: 35vh;
+    min-height: 35vh;
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+.megamod-docked .megamod-settings-modal-content {
+    max-height: 30vh;
+    min-height: 30vh;
 }
 
 .megamod-settings-modal-content {
