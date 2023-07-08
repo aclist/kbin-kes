@@ -12,7 +12,11 @@
 // ==/UserScript==
 
 function initCollapsibleComments(toggle) {
+
     if (toggle) {
+        if (document.querySelector('.entry-comment.nested')) {
+            return;
+        }
         applyToNewPosts();
         applyCommentStyles();
 
