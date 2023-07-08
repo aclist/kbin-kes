@@ -2,7 +2,7 @@
 // @name         Kbin Easy Emoticon
 // @namespace    https://github.com/aclist
 // @version      0.7.8
-// @description  Use slash commands for emoticons
+// @description  Use slash commands for emoticons.
 // @author       minnieo
 // @match        https://kbin.social/*
 // @license      MIT
