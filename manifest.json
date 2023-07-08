@@ -430,10 +430,10 @@
       {
         "type": "radio",
         "initial": "Headers and bars only",
-        "label": "Collapse by clicking on:",
+        "label": "Collapse by clicking:",
         "key": "click",
         "values" : [
-          "Headers and bars only",
+          "On headers and bars only (requires reload)",
           "Anywhere on comments"
         ]
       }
