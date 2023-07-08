@@ -14,7 +14,7 @@
 function initCollapsibleComments(toggle) {
 
     if (toggle) {
-        if (document.querySelector('.entry-comment.nested')) {
+        if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
             return;
         }
         applyToNewPosts();
