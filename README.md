@@ -5,8 +5,10 @@
 
 This tool is not ready for mainstream consumption yet.
 
-# Developers
 
+TODO: point to external documentation
+
+# Developers
 ## Adding a script
 
 1. Fork and work against the `testing` branch
@@ -25,12 +27,3 @@ Input fields must be of type defined here: https://developer.mozilla.org/en-US/d
 - Prefer 4 space indentation
 - Prefer [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
 - Script entry point must accept a boolean toggle (true = setup, false = teardown)
-
-
-## TODO
-- Document localstorage settings
-- Responsive layout (mobile)
-- Indicate if option requires login
-- Indicate what pages a mod affects
-- Rename repo
-
