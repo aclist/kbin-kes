@@ -58,7 +58,8 @@
       {
         "type": "checkbox",
         "label": "This is a checkbox",
-	"initial": "INITIAL",
+	"initial": false,
+	"checkbox_label": "Setting 1",
         "key": "box"
       }
     ]
