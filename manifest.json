@@ -53,11 +53,11 @@
     "class": "checks",
     "entrypoint": "checksInit",
     "page": "tests",
+     "namespace": "checkbox-test",
     "fields": [
       {
         "type": "checkbox",
         "label": "This is a checkbox",
-	"namespace": "checkbox-test",
 	"initial": "INITIAL",
         "key": "box"
       }
