@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.18.0
+// @version       0.18.1
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -333,7 +333,6 @@ function showSettingsModal() {
 			let ctext = document.createElement('text')
                         ctext.innerText = json[it].fields[i].checkbox_label;
                         checkboxLabel.appendChild(ctext)
-					//.innerText = json[it].fields[i].checkbox_label;
                         hBox.appendChild(checkboxLabel);
 			break;
                     default: {
@@ -553,14 +552,16 @@ function updateState(target) {
     const settings = getSettings();
     const it = target.getAttribute('megamod-iter');
     const check = document.querySelector(`.megamod-settings-modal-helpbox [megamod-iter="` + it + `"]`);
-	if (target.type === "checkbox"){
-		target.value = target.checked
-	}
 
     //get mod settings
+    let modValue
     let ns = json[it].namespace;
     let key = target.getAttribute('megamod-key');
-    let modValue = target.value
+	if (target.type === "checkbox"){
+           modValue = target.checked
+	} else {
+           modValue = target.value
+	}
     const modSettings = getModSettings(ns);
 
     let state;
