@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.17.1
+// @version       0.17.2
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -318,6 +318,8 @@ function showSettingsModal() {
                         hBox.appendChild(radioDiv);
 			hBox.appendChild(br);
                         break;
+		    case "checkbox":
+				console.log("FOO")
                     default: {
                         const field = document.createElement('input');
                         field.setAttribute("type", fieldType);

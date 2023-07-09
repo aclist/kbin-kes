@@ -57,6 +57,7 @@
       {
         "type": "checkbox",
         "label": "This is a checkbox",
+	"namespace": "checkbox-test",
         "key": "box"
       }
     ]
