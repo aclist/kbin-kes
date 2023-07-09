@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.18.1
+// @version       0.18.2
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -106,7 +106,6 @@ async function checkUpdates(response) {
 
     if (newVersion && newVersion != version) {
         // Change version link into a button for updating
-        console.log('New version available: ' + newVersion)
 
         versionElement.innerText = 'Install update: ' + newVersion;
         versionElement.setAttribute('href', updateURL);
@@ -312,7 +311,6 @@ function showSettingsModal() {
                             radioLabel.className = ("megamod-radio-label");
                             radioLabel.innerText = json[it].fields[i].values[j];
                             radioDiv.appendChild(field);
-                            console.log(radioLabel);
                             radioDiv.appendChild(radioLabel);
                         }
                         hBox.appendChild(radioDiv);
@@ -473,7 +471,6 @@ function showSettingsModal() {
         openHelpBox(e.target.getAttribute('megamod-iter'));
     });
     document.querySelector('.megamod-settings-modal-helpbox').addEventListener("input", (e) => {
-        console.log(e.target)
         updateState(e.target);
     });
 
@@ -580,14 +577,12 @@ function updateState(target) {
     saveSettings(settings);
     saveModSettings(modSettings, ns);
     applySettings(func);
-    console.log(localStorage);
 }
 
 function applySettings(entry) {
     const settings = getSettings();
     try {
         if (settings[entry] == true) {
-            console.log(entry)
             funcObj[entry](true);
         } else {
             funcObj[entry](false);
@@ -633,11 +628,9 @@ for (let i = 0; i < json.length; ++i) {
 function initmut(){
 for (let i = 0; i < json.length; ++i) {
     	    if(json[i].recurs){
-		    console.log("recurs: " +json[i].name );
 		    applySettings(json[i].entrypoint);
     		    obs.takeRecords();
 	    } else {
-            console.log("skipping" + json[i].name);
         }
     }
 }

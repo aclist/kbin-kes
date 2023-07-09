@@ -385,7 +385,6 @@
     "desc": "Hide reputation on users' profiles",
     "login": false,
     "recurs": false,
-    "desc": "Add magazine subscription link to navbar",
     "class": "hideReputation",
     "entrypoint": "hideReputation",
     "page": "profiles"
@@ -449,7 +448,6 @@
     "desc": "Collapse comments by clicking on their headers, and the bars to their left",
     "login": false,
     "recurs": true,
-    "desc": "Add magazine subscription link to navbar",
     "class": "initCollapsibleComments",
     "entrypoint": "initCollapsibleComments",
     "type": "selector",
