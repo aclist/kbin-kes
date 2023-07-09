@@ -43,6 +43,18 @@
     "page": "general"
   },
   {
+    "name": "Test checkboxes",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Test checkboxes",
+    "login": true,
+    "recurs": false,
+    "desc": "Test",
+    "class": "checks",
+    "entrypoint": "checksInit",
+    "page": "tests"
+  },
+  {
     "name": "Label OP",
     "author": "shazbot",
     "version": "0.1.0",
