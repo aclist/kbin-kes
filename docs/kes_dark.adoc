@@ -223,10 +223,14 @@ TODO: inline example
 2. If you are submitting a userscript, limit PRs to one per atomic script. If a collection of functions in the script are semantically related to each other, you may
 choose to group them into one script, but they must be given unique objects, entrypoints, and namespaces within `manifest.json` (one feature per add-on). Generally speaking, different features should be limited to atomic scripts.
 
-3. For testing purposes, you can define remote resources in the `@require` fields of the `kes.user.js` headers when debugging, but the PR itself must not include any
+3. Scripts should not wantonly change the appearance and style of the page in the way a CSS theme would.
+Limit features to small functionality changes that leverage the advantages of JS over CSS.
+KES works best in the aggregate, when its add-ons synergize with each other.
+
+4. For testing purposes, you can define remote resources in the `@require` fields of the `kes.user.js` headers when debugging, but the PR itself must not include any
 modifications to this file or to the `VERSION` file. Only submit a modified `manifest.json` and add your script to the `/mods` directory.
 
-4. Ensure that the `entrypoint` and `namespace` (if applicable) defined in `manifest.json` are globally unique.
+5. Ensure that the `entrypoint` and `namespace` (if applicable) defined in `manifest.json` are globally unique.
 
 [NOTE]
 If you are submitting a PR changing an internal feature of KES itself, feel free to include changes to other files than the above.
