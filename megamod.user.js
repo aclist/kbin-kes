@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.17.4
+// @version       0.17.5
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -326,7 +326,6 @@ function showSettingsModal() {
                         } else {
                             field.setAttribute("value", modSettings[key])
                         }
-                        field.setAttribute('name', ns);
                         field.setAttribute("megamod-iter", it);
                         field.setAttribute("megamod-key", key);
                         hBox.appendChild(field);
@@ -536,6 +535,9 @@ function updateState(target) {
     const settings = getSettings();
     const it = target.getAttribute('megamod-iter');
     const check = document.querySelector(`.megamod-settings-modal-helpbox [megamod-iter="` + it + `"]`);
+	if (target.type === "checkbox"){
+		target.value = target.checked
+	}
 
     //get mod settings
     let ns = json[it].namespace;
