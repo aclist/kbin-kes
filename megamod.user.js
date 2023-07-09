@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.17.0
+// @version       0.17.1
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -244,9 +244,9 @@ function showSettingsModal() {
             it + '" megamod-key="state"/><label class="tgl-btn" for="megamod-checkbox"></label></span>'
         hBox.style.cssText = 'display: inline; opacity: 1;'
         if (link) {
-            hBox.innerHTML = toggle + 
-			'<p>Author: <a href="' + url + '">' + author + '</a><br>' + 
-			'Link: <a href="' + link + '">' + linkLabel + '</a><br>' + 
+            hBox.innerHTML = toggle +
+			'<p>Author: <a href="' + url + '">' + author + '</a><br>' +
+			'Link: <a href="' + link + '">' + linkLabel + '</a><br>' +
 			'Login required: ' + loginHR + '<br><br>' +
 			desc + '</p>'
         } else {
@@ -603,19 +603,24 @@ function saveSettings(settings) {
     localStorage.setItem("megamod-settings", JSON.stringify(settings));
 }
 
-function init(mode){
+function init(){
 for (let i = 0; i < json.length; ++i) {
-    if(mode == "oneshot") {
     applySettings(json[i].entrypoint);
-    } else {
-	    if(json[i].recurs){
-		    console.log(json[i].name + "IS RECURRING");
-		    applySettings(json[i].entrypoint);
-    		    obs.takeRecords();
-	    }
     }
 }
-       init("oneshot");
+function initmut(){
+for (let i = 0; i < json.length; ++i) {
+    	    if(json[i].recurs){
+		    console.log("recurs: " +json[i].name );
+		    applySettings(json[i].entrypoint);
+    		    obs.takeRecords();
+	    } else {
+            console.log("skipping" + json[i].name);
+        }
+    }
+}
+
        const watchedNode = document.querySelector('#content');
-       const obs = new MutationObserver(init("recurring"));
-       obs.observe(watchedNode, {subtree: true, childList: true, attributes: false });
+       const obs = new MutationObserver(initmut);
+        init();
+        obs.observe(watchedNode, {subtree: true, childList: true, attributes: false });
