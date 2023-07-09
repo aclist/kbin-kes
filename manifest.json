@@ -52,7 +52,13 @@
     "desc": "Test",
     "class": "checks",
     "entrypoint": "checksInit",
-    "page": "tests"
+    "page": "tests",
+    "fields": [
+      {
+        "type": "checkbox",
+        "label": "This is a checkbox",
+        "key": "box"
+    ]
   },
   {
     "name": "Label OP",
