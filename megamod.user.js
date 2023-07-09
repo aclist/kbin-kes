@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.16.5
+// @version       0.17.0
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -603,13 +603,19 @@ function saveSettings(settings) {
     localStorage.setItem("megamod-settings", JSON.stringify(settings));
 }
 
-function init(){
+function init(mode){
 for (let i = 0; i < json.length; ++i) {
+    if(mode == "oneshot") {
     applySettings(json[i].entrypoint);
-    obs.takeRecords();
+    } else {
+	    if(json[i].recurs){
+		    console.log(json[i].name + "IS RECURRING");
+		    applySettings(json[i].entrypoint);
+    		    obs.takeRecords();
+	    }
     }
 }
+       init("oneshot");
        const watchedNode = document.querySelector('#content');
-       const obs = new MutationObserver(init);
-        init();
-        obs.observe(watchedNode, {subtree: true, childList: true, attributes: false });
+       const obs = new MutationObserver(init("recurring"));
+       obs.observe(watchedNode, {subtree: true, childList: true, attributes: false });
