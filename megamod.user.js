@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.17.3
+// @version       0.17.4
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -326,6 +326,7 @@ function showSettingsModal() {
                         } else {
                             field.setAttribute("value", modSettings[key])
                         }
+                        field.setAttribute('name', ns);
                         field.setAttribute("megamod-iter", it);
                         field.setAttribute("megamod-key", key);
                         hBox.appendChild(field);
