@@ -35,6 +35,14 @@ seamlessly, and KES will notify you if there is a new version available.
 == Usage
 TODO: remarks on ctrl-shift-l and escape buttons, docking, wrench icon, etc.
 
+To open the KES settings menu, press `Ctrl-Shift-L` or click the wrench icon in the top right corner of the page. Pressing `Esc`, or clicking on the close button or anywhere outside of the menu will close it.
+
+The menu is divided into pages, and each page contains a list of modifications. You can switch between pages by clicking on the page name in the list on the left side of the menu (or the top if on mobile). 
+
+Clicking the name of a modification will open an information panel with a description of the modification, a toggle to enable/disable it. If the modification has any additional settings, they can be configured here.
+
+On devices where the menu doesn't take up the whole screen, it can be docked to the bottom of the screen by clicking the arrow icon in the top right corner of the menu. Clicking the arrow again will undock the menu.
+
 == Developers
 
 If you wish to submit your scripts for integration into KES, a standardized framework is available that
