@@ -2,7 +2,7 @@
 name: Feature request
 about: For internal features in the menu itself
 title: "[FEAT] <Your title here>"
-labels: ''proposal"
+labels: ''
 assignees: "
 ---
 
