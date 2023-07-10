@@ -25,7 +25,7 @@
         "type": "text",
         "initial": "PM",
         "key": "text",
-        "label": "Link label"
+        "label": "Label text"
       }
     ],
     "page": "general"
