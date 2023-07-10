@@ -311,7 +311,7 @@
   {
     "name": "Kbin Easy Emoticon",
     "author": "minnieo",
-    "version": "0.6.1",
+    "version": "0.7.8",
     "label": "Easy emoticons",
     "login": true,
     "recurs": false,
