@@ -70,8 +70,8 @@ function removeDropdown(){
 }
 function dropdownEntry(toggle){
     let loc = window.location.href;
-    let locarr = baseUrl.split("/");
-    let page = urlArr[3];
+    let locArr = loc.split("/");
+    let page = locArr[3];
     if(page === "u") {
 	    if (toggle === false) {
 		removeDropdown();
