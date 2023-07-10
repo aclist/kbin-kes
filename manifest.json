@@ -377,7 +377,7 @@
     "label": "Toggle logo",
     "login": false,
     "recurs": false,
-    "desc": "Disable or use alternate logo. Placeholder for real script",
+    "desc": "Disable or use alternate logo on navbar",
     "entrypoint": "toggleLogo",
     "page": "general",
     "namespace": "changelogo",
