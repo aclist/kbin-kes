@@ -54,10 +54,12 @@ function addDropdown(){
 
 	// clean up old elements
 	//window.addEventListener("load", function () {
-        var horizontalScroll = document.querySelector('.options__main');
-        horizontalScroll.style.cssText += 'display:none';
-        var scrollArrows = document.querySelector('.scroll');
-        scrollArrows.style.cssText += 'display:none';
+	//var horizontalScroll = document.querySelector('.options__main');
+	$('.options__main').hide();
+	$('.scroll').hide();
+	//horizontalScroll.style.cssText += 'display:none';
+	//var scrollArrows = document.querySelector('.scroll');
+	//scrollArrows.style.cssText += 'display:none';
     //});
 }
 function removeDropdown(){
@@ -67,6 +69,8 @@ function removeDropdown(){
             horizontalScroll.style.cssText += 'display:grid';
             var scrollArrows = document.querySelector('.scroll');
             scrollArrows.style.cssText += 'display:grid';
+		$('.options__main').show();
+		$('.scroll').show();
 }
 function dropdownEntry(toggle){
     let testLoc = window.location.href;
