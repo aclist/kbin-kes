@@ -64,7 +64,7 @@ function addDropdown(){
 }
 function removeDropdown(){
             $('#dropdown-select').remove();
-            var detached = $('.#dropdown-select').replaceWith('');
+            var detached = $('#dropdown-select').replaceWith('');
             var horizontalScroll = document.querySelector('.options__main');
             horizontalScroll.style.cssText += 'display:grid';
             var scrollArrows = document.querySelector('.scroll');
