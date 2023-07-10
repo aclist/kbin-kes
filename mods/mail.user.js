@@ -66,10 +66,10 @@ function checkItems(selector) {
 
 function addMail(toggle){
     console.log(toggle);
-    if (toggle == false) {
-	    $('.item-link').remove();
-    } else {
+    if (toggle) {
         checkItems(itemsSelector);
+    } else {
+        $('.item-link').remove();
     }
 }
 
