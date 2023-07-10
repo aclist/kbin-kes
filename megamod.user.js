@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.21.2
+// @version       0.21.3
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -584,6 +584,7 @@ function updateState(target) {
 }
 
 function applySettings(entry) {
+	console.log(entry);
     const settings = getSettings();
     try {
         if (settings[entry] == true) {
@@ -629,17 +630,26 @@ for (let i = 0; i < json.length; ++i) {
     applySettings(json[i].entrypoint);
     }
 }
-function initmut(){
-for (let i = 0; i < json.length; ++i) {
-    	    if(json[i].recurs){
-		    applySettings(json[i].entrypoint);
-    		    obs.takeRecords();
-	    } else {
+function initmut(list) {
+    for (const mutation of list) {
+        if (mutation.target.className === 'timeago') {
+            console.log("Invalid mutation, discarding");
+            return
+        } else {
+            console.log('Valid mutation');
+            for (let i = 0; i < json.length; ++i) {
+                if (json[i].recurs) {
+                    applySettings(json[i].entrypoint);
+                    obs.takeRecords();
+                }
+
+            }
+            return
         }
     }
 }
 
-       const watchedNode = document.querySelector('#content');
-       const obs = new MutationObserver(initmut);
-        init();
-        obs.observe(watchedNode, {subtree: true, childList: true, attributes: false });
+const watchedNode = document.querySelector('[data-controller="subject-list"]');
+const obs = new MutationObserver(initmut);
+init();
+obs.observe(watchedNode, {subtree: true,childList: true,attributes: false});
