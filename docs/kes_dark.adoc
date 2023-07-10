@@ -3,8 +3,8 @@
 :stylesheet: custom.css
 :icons: font
 
-= kBin Enhancement Suite (KES)
-Add-on manager for kBin enhancement scripts | Last updated: {d}
+= kbin Enhancement Suite (KES)
+Add-on manager for kbin enhancement scripts | Last updated: {d}
 
 Click https://aclist.github.io/kes/kes_dark.html[here] for dark mode
 
