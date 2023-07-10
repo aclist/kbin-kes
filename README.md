@@ -1,5 +1,5 @@
 
-![Alt text](/examples/mm2.png)
+![Alt text](/images/mm2.png)
 
 # Note to end users
 
