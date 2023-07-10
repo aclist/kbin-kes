@@ -69,10 +69,10 @@ function removeDropdown(){
             scrollArrows.style.cssText += 'display:grid';
 }
 function dropdownEntry(toggle){
-    let loc = window.location.href;
-    let locArr = loc.split("/");
-    let page = locArr[3];
-    if(page === "u") {
+    let testLoc = window.location.href;
+    let locArr = testLoc.split("/");
+    let testPage = locArr[3];
+    if(testPage === "u") {
 	    if (toggle === false) {
 		removeDropdown();
 	    } else {
