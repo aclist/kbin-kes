@@ -338,7 +338,7 @@
    "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
-    "label": "Hide Reputation",
+    "label": "Hide reputation",
     "desc": "Hide reputation on users' profiles",
     "login": false,
     "recurs": false,
