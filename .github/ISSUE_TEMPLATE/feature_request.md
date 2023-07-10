@@ -1,6 +1,6 @@
 ---
 name: Feature request
-description: For internal features in the menu itself
+about: For internal features in the menu itself
 title: "[FEAT] <Your title here>"
 labels: 'proposal'
 assignees: ''
