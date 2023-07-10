@@ -1,8 +1,8 @@
 ---
-name: Mod request
+name: Add-on request
 about: Suggest an add-on (userscript) to load in the menu
 title: "[MOD] <Your title here>"
-labels: ''
+labels: 'mod'
 assignees: ''
 
 ---
