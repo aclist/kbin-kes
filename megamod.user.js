@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.20.2
+// @version       0.20.3
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -254,7 +254,7 @@ function showSettingsModal() {
 			'Login required: ' + loginHR + '<br><br>' +
 			desc + '</p>';
         }
-	let br = document.createElement('br');
+	const br = document.createElement('br');
         //populate dynamic fields
         if (json[it].fields) {
             const modSettings = getModSettings(ns)
@@ -312,6 +312,8 @@ function showSettingsModal() {
                             radioLabel.innerText = json[it].fields[i].values[j];
                             radioDiv.appendChild(field);
                             radioDiv.appendChild(radioLabel);
+			    let br = document.createElement('br');
+                            radioDiv.appendChild(br);
                         }
                         hBox.appendChild(radioDiv);
 			hBox.appendChild(br);
