@@ -12,7 +12,6 @@ const ns = "changelogo";
 const bird = 'https://raw.githubusercontent.com/aclist/kbin-megamod/testing/images/kbin_logo_kibby.svg'
 const render = "URL";
 const defaultLogo = "/kbin_logo.svg";
-const settings = getModSettings(ns);
 
 function updateLogo(link){
     const img = document.querySelector('.brand a img');
@@ -20,6 +19,7 @@ function updateLogo(link){
 }
 
 function changeLogo(){
+    const settings = getModSettings(ns);
     let opt = settings["logotype"];
 	switch (opt) {
 		case "Hidden":
