@@ -35,7 +35,7 @@ function addItemLink(item) {
   if (!username) return;
   const link = document.createElement('a');
   const ownInstance = window.location.hostname;
-  link.setAttribute('href', 'https://' + ownInstance + '/u/${username}/message');
+  link.setAttribute('href', 'https://' + ownInstance + `/u/${username}/message`);
   settings = getModSettings("mail");
   if (settings["type"] == "Text") {
      link.className = 'item-link';
