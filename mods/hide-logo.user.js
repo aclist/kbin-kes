@@ -27,9 +27,11 @@ function changeLogo(){
     			$('.brand').hide();
 			break;
 		case "Kibby":
+    			$('.brand').show();
 			updateLogo(bird);
 			break;
 		case "3D render":
+    			$('.brand').show();
 			updateLogo(render);
 			break;
 	}
