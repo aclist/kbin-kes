@@ -8,10 +8,10 @@
 // @grant        none
 // ==/UserScript==
 
-const ns = changelogo
+const ns = "changelogo";
 const bird = 'https://raw.githubusercontent.com/aclist/kbin-megamod/testing/images/kbin_logo_kibby.svg'
-const render = URL
-const defaultLogo = "/kbin_logo.svg"
+const render = "URL";
+const defaultLogo = "/kbin_logo.svg";
 const settings = getModSettings(ns);
 
 function updateLogo(link){
@@ -20,7 +20,7 @@ function updateLogo(link){
 }
 
 function changeLogo(){
-    let opt = settings["logotype"]
+    let opt = settings["logotype"];
 	switch (opt) {
 		case "Hidden":
 			updateLogo(defaultLogo)
@@ -35,13 +35,12 @@ function changeLogo(){
 	}
 }
 function restoreLogo(){
-const brand = document.querySelector('.brand')
-	if(brand){
-          updateLogo(defaultLogo)
-
-	} else {
-	$('.brand').show();
-	}
+    const brand = document.querySelector('.brand')
+    if(brand){
+        updateLogo(defaultLogo);
+    } else {
+        $('.brand').show();
+    }
 }
 
 function toggleLogo(toggle){
