@@ -10,8 +10,7 @@ Click https://aclist.github.io/kes/kes_dark.html[here] for dark mode
 
 == Description
 
-KES aims to provide an integrated, paginated menu for managing settings provided by third-party userscripts
-that change or add functionality to the frontend of kBin instances.
+kbin Enhancement Suite (KES) bundles together many userscripts that add various features to kbin, and adds an integrated interface for configuring them.
 
 It also provides a simple, human-readable format for script authors to integrate new options with minimal overhead.
 
