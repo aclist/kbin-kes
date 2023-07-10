@@ -11,7 +11,7 @@
 // @updateURL      https://github.com/aclist/kbin-scripts/raw/main/dropdown.user.js
 // ==/UserScript==
 
-/* globals $ */
+// globals $
 
 function addDropdown(){
     function addOption(item){
@@ -32,7 +32,7 @@ function addDropdown(){
               addOption(item);
           });
     }
-    //inject select menu//
+    //inject select menu
     var leftDiv = document.querySelector(".options__title");
     var selector = '.options__main li a:not(.active)'
     var selectList = document.createElement("select");
@@ -41,8 +41,8 @@ function addDropdown(){
     leftDiv.appendChild(selectList);
     buildDropdown(selector);
 
-    // event listener //
-    $(document).on('change','#dropdown-select',function(){
+    // event listener
+	$(document).on('change','#dropdown-select',function(){
         var page = $('#dropdown-select').val();
         var baseUrl = window.location.href;
         var urlArr = baseUrl.split("/");
@@ -52,13 +52,13 @@ function addDropdown(){
         window.location = finalUrl;
     })
 
-	// clean up old elements //
-        window.addEventListener("load", function () {
+	// clean up old elements
+	//window.addEventListener("load", function () {
         var horizontalScroll = document.querySelector('.options__main');
         horizontalScroll.style.cssText += 'display:none';
         var scrollArrows = document.querySelector('.scroll');
         scrollArrows.style.cssText += 'display:none';
-    });
+    //});
 }
 function removeDropdown(){
             $('#dropdown-select').remove();
