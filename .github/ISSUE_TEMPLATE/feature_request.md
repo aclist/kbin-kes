@@ -2,8 +2,9 @@
 name: Feature request
 about: For internal features in the menu itself
 title: "[FEAT] <Your title here>"
-labels: ''
+labels: ''proposal"
 assignees: "
+
 ---
 
 **Is your feature request related to a problem? Please describe.**
