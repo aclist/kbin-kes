@@ -69,10 +69,14 @@ function removeDropdown(){
             scrollArrows.style.cssText += 'display:grid';
 }
 function dropdownEntry(toggle){
-    console.log(toggle)
-    if (toggle === false) {
-        removeDropdown();
-    } else {
-        addDropdown();
+    let loc = window.location.href;
+    let locarr = baseUrl.split("/");
+    let page = urlArr[3];
+    if(page === "u") {
+	    if (toggle === false) {
+		removeDropdown();
+	    } else {
+		addDropdown();
+	    }
     }
 }
