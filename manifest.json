@@ -311,6 +311,19 @@
     "page": "general"
   },
   {
+    "name": "Federated Instance Names",
+    "author": "artillect",
+    "version": "0.1",
+    "label": "User instance names",
+    "desc": "Show instance names next to users",
+    "link": "",
+    "linkLabel": "",
+    "class": "userInstanceEntry",
+    "entrypoint": "userInstanceEntry",
+    "type": "checkbox",
+    "page": "general"
+  },
+  {
     "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
