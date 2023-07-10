@@ -19,7 +19,7 @@ function updateLogo(link){
     img.setAttribute("src", link);
 }
 
-function removeLogo(){
+function changeLogo(){
     let opt = settings["logotype"]
 	switch (opt) {
 		case "Hide logo":
