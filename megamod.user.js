@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.21.9
+// @version       0.21.10
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -584,7 +584,6 @@ function updateState(target) {
 }
 
 function applySettings(entry) {
-	console.log(entry);
     const settings = getSettings();
     try {
         if (settings[entry] == true) {
@@ -632,6 +631,7 @@ for (let i = 0; i < json.length; ++i) {
 }
 function initmut(list) {
     for (const mutation of list) {
+        console.log(mutation.target)
         if (mutation.target.className === 'timeago') {
             console.log("Invalid mutation, discarding");
             return
@@ -650,6 +650,8 @@ function initmut(list) {
 }
 
 const watchedNode = document.querySelector('[data-controller="subject-list"]');
+const watchedNode2 = document.querySelector('#comments');
 const obs = new MutationObserver(initmut);
 init();
-obs.observe(watchedNode, {subtree: true,childList: true,attributes: false});
+obs.observe(watchedNode, {subtree: false,childList: true,attributes: false});
+obs.observe(watchedNode2, {subtree: false,childList: true,attributes: false});
