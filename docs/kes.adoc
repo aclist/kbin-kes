@@ -20,9 +20,9 @@ It also provides a simple, human-readable format for script authors to integrate
 KES is itself a userscript that bundles other scripts. As such, it requires any of the below 
 browser extensions in the *monkey family:
 
-- TamperMonkey
-- GreaseMonkey
-- ViolentMonkey
+- https://www.tampermonkey.net/[TamperMonkey]
+- https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/[GreaseMonkey] (Firefox only)
+- https://violentmonkey.github.io/[ViolentMonkey]
 
 Versions for Firefox- and Chromium-based browsers can be found on your respective add-on/extensions page.
 
