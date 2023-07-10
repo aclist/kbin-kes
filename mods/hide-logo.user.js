@@ -9,7 +9,7 @@
 // ==/UserScript==
 
 const ns = changelogo
-const bird = URL
+const bird = 'https://raw.githubusercontent.com/aclist/kbin-megamod/testing/images/kbin_logo_kibby.svg'
 const render = URL
 const default = "/kbin_logo.svg"
 const settings = getModSettings(ns);
