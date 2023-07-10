@@ -68,7 +68,7 @@
   },
   {
     "name": "kbin-code-highlighting",
-    "author": "0rito",
+    "author": "@Ori@sacredori.net",
     "version": "0.4.2",
     "label": "Code syntax highlighting",
     "login": false,
@@ -80,7 +80,7 @@
     "fields": [
       {
         "type": "select",
-        "initial": "gruvbox",
+        "initial": "3024",
         "key": "style",
         "values": [
           "3024",
