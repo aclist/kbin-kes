@@ -384,13 +384,13 @@
     "fields": [
       {
         "type": "radio",
-        "initial": "Hide logo",
+        "initial": "Hidden",
 	"label": "Logo type",
         "key": "logotype",
         "values": [
-          "Hide logo",
-          "Bird logo",
-	  "3D logo"
+          "Hidden",
+          "Kibby",
+	  "3D render"
         ]
       }
     ]

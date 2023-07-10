@@ -22,14 +22,14 @@ function updateLogo(link){
 function changeLogo(){
     let opt = settings["logotype"]
 	switch (opt) {
-		case "Hide logo":
+		case "Hidden":
 			updateLogo(default)
     			$('.brand').hide();
 			break;
-		case "Bird logo":
+		case "Kibby":
 			updateLogo(bird);
 			break;
-		case "3D logo":
+		case "3D render":
 			updateLogo(render);
 			break;
 	}
