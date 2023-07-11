@@ -23,10 +23,6 @@ function changeLogo(){
     			$('.brand').show();
 			updateLogo(bird);
 			break;
-		case "3D render":
-    			$('.brand').show();
-			updateLogo(render);
-			break;
 	}
 }
 function restoreLogo(){
