@@ -49,7 +49,7 @@ function addLink() {
 	   } catch (error){
 		   console.log(error)
 	   }
-  settings = getModSettings("mail");
+           settings = getModSettings("mail");
 	  if (settings["type"] == "Text") {
 	     link.className = 'kes-mail-link';
 	     link.innerText = settings["text"];
@@ -59,6 +59,8 @@ function addLink() {
 		  link.className = 'kes-mail-link fa fa-envelope'
 		  link.style.cssText += 'margin-left: 5px;text-decoration:none';
 	  }
+	  let prefix = document.querySelector('.entry > .entry__meta .user-inline')
+	  prefix.style.cssText = 'content:' + settings["prefix"]  + '; color:var(--text);'
    });
 }
 function addMail(toggle){
