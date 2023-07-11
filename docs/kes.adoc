@@ -12,7 +12,7 @@ Click https://aclist.github.io/kes/kes_dark.html[here] for dark mode
 
 kbin Enhancement Suite (KES) bundles together many userscripts that add various features to kbin and adds an integrated interface for configuring them.
 
-As, such KES is three things:
+As such, KES is three things:
 
 - A curated and audited collection of modifications (userscripts)
 - A menu for managing this collection of modifications
