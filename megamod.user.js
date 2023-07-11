@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.23.1
+// @version       0.23.2
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -163,15 +163,17 @@ document.addEventListener('keydown', function(e) {
     if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed.L == true) {
         if (!modal) {
             showSettingsModal();
-        }
+	} else {
+		modal.remove();
+	}
         keyPressed = {};
     }
-    if (keyPressed.Escape == true) {
-        if (modal) {
-            modal.remove();
-        }
-        keyPressed = {};
-    }
+//    if (keyPressed.Escape == true) {
+//        if (modal) {
+//            modal.remove();
+//        }
+//        keyPressed = {};
+//    }
 
 }, false);
 
