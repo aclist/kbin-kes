@@ -7,7 +7,6 @@
     "desc": "Add mail link to usernames if on own instance",
     "login": false,
     "recurs": true,
-    "class": "addMail",
     "entrypoint": "addMail",
     "namespace": "mail",
     "fields": [
@@ -38,7 +37,6 @@
     "login": true,
     "recurs": false,
     "desc": "Add magazine subscription link to navbar",
-    "class": "initMags",
     "entrypoint": "initMags",
     "page": "navbar"
   },
@@ -50,7 +48,6 @@
     "login": false,
     "recurs": true,
     "desc": "Print OP label next to thread author",
-    "class": "labelOp",
     "entrypoint": "labelOp",
     "namespace": "labelcolors",
     "page": "threads",
@@ -77,7 +74,6 @@
     "login": false,
     "recurs": false,
     "desc": "Convert navigation links on profile pages to dropdown",
-    "class": "dropdownEntry",
     "entrypoint": "dropdownEntry",
     "page": "profile"
   },
@@ -89,7 +85,6 @@
     "login": false,
     "recurs": true,
     "desc": "Adds syntax highlighting for code blocks",
-    "class": "initCodeHighlights",
     "entrypoint": "initCodeHighlights",
     "namespace": "codehighlights",
     "fields": [
@@ -288,7 +283,6 @@
     "login": false,
     "recurs": true,
     "desc": "Filter posts by language",
-    "class": "languageFilterEntry",
     "entrypoint": "languageFilterEntry",
     "namespace": "languagefilter",
     "fields": [
@@ -309,7 +303,6 @@
     "login": true,
     "recurs": false,
     "desc": "Use slash commands for emoticons in textareas. /help to open a list",
-    "class": "easyEmoticon",
     "entrypoint": "easyEmoticon",
     "page": "general"
   },
@@ -321,7 +314,6 @@
     "desc": "Show instance names next to magazines",
     "login": false,
     "recurs": true,
-    "class": "magInstanceEntry",
     "entrypoint": "magInstanceEntry",
     "page": "general"
   },
@@ -333,7 +325,6 @@
     "desc": "Show instance names next to users",
     "link": "",
     "linkLabel": "",
-    "class": "userInstanceEntry",
     "entrypoint": "userInstanceEntry",
     "type": "checkbox",
     "page": "general"
@@ -346,7 +337,6 @@
     "login": false,
     "recurs": true,
     "desc": "Hide favorites (upvotes) on threads, posts, and comments",
-    "class": "hideUpvotes",
     "entrypoint": "hideUpvotes",
     "page": "general"
   },
@@ -358,7 +348,6 @@
     "login": false,
     "recurs": true,
     "desc": "Hide reduces (downvotes) on threads, posts, and comments",
-    "class": "hideDownvotes",
     "entrypoint": "hideDownvotes",
     "page": "general"
   },
@@ -370,7 +359,6 @@
     "desc": "Hide reputation on users' profiles",
     "login": false,
     "recurs": false,
-    "class": "hideReputation",
     "entrypoint": "hideReputation",
     "page": "profiles"
   },
@@ -430,7 +418,6 @@
     "desc": "Collapse comments by clicking on their headers, and the bars to their left",
     "login": false,
     "recurs": true,
-    "class": "initCollapsibleComments",
     "entrypoint": "initCollapsibleComments",
     "page": "comments",
     "namespace": "collapsibleComments",
