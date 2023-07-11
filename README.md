@@ -1,5 +1,5 @@
 
-![Alt text](/images/mm2.png)
+![Screenshot of the kbin Enhancement Suite settings screen](/images/kes-config-modal.png)
 
 # Note to end users
 
