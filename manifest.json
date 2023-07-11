@@ -30,7 +30,7 @@
         "type": "text",
         "initial": "submitted by",
         "key": "prefix",
-        "label": "Poster prefix"
+        "label": "Poster prefix (use single space for empty)"
       }
     ],
     "page": "general"
