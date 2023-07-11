@@ -64,7 +64,7 @@ function addMail(toggle){
     settings = getModSettings("mail");
     if (toggle) {
             pref = settings["prefix"]
-	    document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before','content: "' + pref + '"');
+	    document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before','content: "' + pref + '"; color:var(--text)');
 	addLink();
     } else {
 	    document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before','content: ""');
