@@ -4,7 +4,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add mail icon",
-    "desc": "Add mail link to usernames if on kbin.social",
+    "desc": "Add mail link to usernames if on own instance",
     "login": false,
     "recurs": true,
     "class": "addMail",
