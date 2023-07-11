@@ -10,14 +10,26 @@ Click https://aclist.github.io/kes/kes.html[here] for light mode
 
 == Description
 
-kbin Enhancement Suite (KES) bundles together many userscripts that add various features to kbin, and adds an integrated interface for configuring them.
+kbin Enhancement Suite (KES) bundles together many userscripts that add various features to kbin and adds an integrated interface for configuring them.
 
-It also provides a simple, human-readable format for script authors to integrate new options with minimal overhead.
+As such, KES is three things:
+
+- A curated and audited collection of modifications (userscripts)
+- A menu for managing this collection of modifications
+- A framework for authors to add new modifications
+
+For users, it provides a "single pane of glass" from which to manage various usability/customization options.
+
+For script authors, it provides a simple, human-readable format to integrate new options with minimal overhead and describes a
+standardized framework for sharing settings between scripts.
+
+[NOTE]
+Modifications are variously referred to as "features," "add-ons," and "mods" within this document.
 
 == Prerequisites
 
-KES is itself a userscript that bundles other scripts. As such, it requires any of the below 
-browser extensions in the *monkey family:
+KES is itself a userscript that bundles other scripts. It requires any of the below
+browser extensions in the *monkey family to run:
 
 - https://www.tampermonkey.net/[TamperMonkey]
 - https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/[GreaseMonkey] (Firefox only)
@@ -27,23 +39,33 @@ Versions for Firefox- and Chromium-based browsers can be found on your respectiv
 
 == Installation
 
-Navigate to https://github.com/aclist/kbin-megamod/raw/main/megamod.user.js[the install script] and
+Navigate to https://github.com/aclist/kbin-kes/raw/main/kes.user.js[the install script] and
 follow your browser extension's onscreen prompts to install it. Subsequent updates should be handled
 seamlessly, and KES will notify you if there is a new version available.
 
 == Usage
-TODO: remarks on ctrl-shift-l and escape buttons, docking, wrench icon, etc.
 
-To open the KES settings menu, press `Ctrl-Shift-L` or click the wrench icon in the top right corner of the page. Pressing `Esc`, or clicking on the close button or anywhere outside of the menu will close it.
+=== Main menu
+To open the KES settings menu, press `Ctrl-Shift-L` or click the wrench icon in the top right corner of the page.
+Pressing `Ctrl-Shift-L` again, or clicking on the close button or anywhere outside of the menu will close it.
 
-The menu is divided into pages, and each page contains a list of modifications. You can switch between pages by clicking on the page name in the list on the left side of the menu (or the top if on mobile). 
+The menu is divided into pages; each page contains a list of modifications.
+You can switch between pages by clicking on the page name in the list on the left side of the menu (or the top if on mobile).
 
-Clicking the name of a modification will open an information panel with a description of the modification, a toggle to enable/disable it. If the modification has any additional settings, they can be configured here.
+Clicking the name of a modification will open an information panel with a description of the modification and a toggle to enable/disable it.
+If the modification has any additional settings, they can be configured here.
 
-On devices where the menu doesn't take up the whole screen, it can be docked to the bottom of the screen by clicking the arrow icon in the top right corner of the menu. Clicking the arrow again will undock the menu.
+On devices where the menu doesn't take up the whole screen, it can be docked to the bottom of the screen by clicking the arrow
+icon in the top right corner of the menu. Clicking the arrow again will undock the menu.
+
+=== Settings
+The toggle state of a modification and its settings will be saved and persist across browser sessions.
+
+To submit a bug report/feature request or visit the KES home page, follow the links shown within the KES menu itself.
 
 == Developers
 
+=== Basic workflow
 If you wish to submit your scripts for integration into KES, a standardized framework is available that
 makes adaptation and PR submission easy:
 
@@ -60,11 +82,10 @@ logic of your script
 
 Detailed explanations follow.
 
-=== JSON
+=== JSON manifest
 
 `manifest.json` consists of an array of objects that each represent an add-on, that is, an atomic
 feature provided by a function in a third-party userscript.
-Add-ons are variously referred to as "features," "add-ons," and "mods" within this document.
 Add-ons must be given a globally unique entrypoint function name and, if using custom input fields,
 a globally unique namespace.
 
@@ -79,7 +100,7 @@ settings between KES and third-party add-ons, or between third-party add-ons.
 .localStorage
 ----
 Storage {
-    "kes-settings":
+    "kes-settings": <1>
         '{
             "addMail":true,
             "initMags":true,
@@ -91,7 +112,7 @@ Storage {
             "dock":"up",
             "checksInit":true
         }',
-    codehighlights: '{"style":"gruvbox"}',
+    codehighlights: '{"style":"gruvbox"}', <2>
     languagefilter: '{"filter":"English"}',
     mail: '{"type":"Text","text":"PM","state":"on"}',
     timestamp: '{"offset":"Local time","state":"on"}',
@@ -99,15 +120,19 @@ Storage {
 }
 ----
 
-In the above example, KES has saved the state of eight add-ons, seven of which are enabled by the user.
+<1> In the above example, KES has saved the state of eight add-ons, seven of which are enabled by the user.
 In addition, it has stored the position of the KES window to `up`. (This is not controlled by third party add-ons.)
-Finally, the add-ons `codehighlights`, `languagefilter`, `mail`, and `timestamp` have respectively set 
-their own settings in custom namespaces.
+<2> Finally, the four add-ons `codehighlights`, `languagefilter`, `mail`, and `timestamp` have respectively saved
+their own settings in custom namespaces. (The other three add-ons did not request any custom settings fields.)
 
-KES handles toggling of add-ons and passes their state to the recipient script. The recipient script 
-does not need to poll this state, receiving it as an incoming boolean argument.
-The only responsibility of the recipient script is to parse its own namespace under localStorage and 
-retrieve custom settings. To facilitate this, KES provides the `getModSettings()` function. See <<Retrieving custom settings>>.
+KES handles toggling of add-ons and passes their boolean state to the recipient script on pageload events and changes to the thread/post content area.
+
+The recipient script therefore does not need to poll this state or watch for page changes, as it is called as an internal function of KES when needed.
+
+The only responsibilities of the recipient script are:
+
+- Handle setup and teardown of the desired logic (show/hide elements, apply/unapply styling)
+- Parse its own namespace under localStorage and retrieve custom settings. To facilitate this, KES provides the `getModSettings()` function. See <<Retrieving custom settings>>.
 
 .manifest.json
 ----
@@ -118,13 +143,12 @@ retrieve custom settings. To facilitate this, KES provides the `getModSettings()
     "label": "Add mail icon",
     "desc": "Add mail link to usernames if on kbin.social",
     "login": false,
-    "recurs": true,
-    "link": "aclist.github.io",
+    "recurs": true, <1>
+    "link": "mypage.dotcom",
     "link_label" "My link"
-    "class": "addMail",
     "entrypoint": "addMail",
-    "namespace": "mail",
-    "fields": [ <1>
+    "namespace": "mail", <2>
+    "fields": [ <3>
       {
         "type": "radio",
         "initial": "Text",
@@ -135,21 +159,24 @@ retrieve custom settings. To facilitate this, KES provides the `getModSettings()
 		"Icon"
 	]
       },
-      { <2>
+      { <4>
         "type": "text",
         "initial": "PM",
         "key": "text",
         "label": "Link label"
       }
     ],
-    "page": "general" <3>
+    "page": "general" <5>
   }
 ----
-<1> See <<Adding custom input fields>>. In the above example, the descriptive text 'Label type' will be printed on one line, followed by a line break, then two radio buttons respectively labeled 'Text' and 'Icon', in that order,
-will be printed, with the 'Text' radio button initially selected.
-<2> The value 'Text' will be saved under the `mail.type` key and updated if the user changes the radio button. This is followed by a descriptive label reading 'Text label', a line break,
-and then a textarea initially set to the string 'PM', with this value stored under the `mail.text` key.
-<3> The contents of the metadata and custom fields will be added to the 'General' page of the sidebar under the feature 'Add mail icon'. Available pages are stored within the file `ui.json`.
+<1> If the user has enabled lazy loading (infinite scroll) and the add-on modifies new threads and/or comments, setting this value to true will ensure that the script is applied again.
+<2> A globally unique namespace under which the script's custom field settings are stored.
+<3> See <<Adding custom input fields>>. In the above example, the descriptive text 'Label type' will be printed on one line, followed by a line break, then two radio buttons respectively labeled 'Text' and 'Icon', in that order,
+separated by line breaks, with the 'Text' radio button initially selected. The value 'Text' will be saved under the `mail.type` key (i.e., prefer a text label instead of icon) and updated if the user changes the radio button.
+<4> This is followed by a descriptive label reading 'Link label', a line break,
+and then a textarea initially set to the string 'PM', with this value stored under the `mail.text` key. In this example, the link label would be used by the recipient script if `mail.type` was set to `Text`. KES is agnostic to how these settings are parsed and merely populates the fields.
+As far as KES is concerned, functionality of one field does not depend on another; it is up to the author to add additional fields if necessary.
+<5> The contents of the metadata and custom fields will be added to the 'General' page of the sidebar under the feature label 'Add mail icon'. Available pages can be seen within the file `ui.json`.
 
 .basic metadata
 [%autowidth]
@@ -157,10 +184,10 @@ and then a textarea initially set to the string 'PM', with this value stored und
 |Key|Optional?|Type|Value
 
 |name||string|An internal, "official" name of the add-on, possibly more verbose than the user-facing string
-|author||string|The author of the add-on. This is user-facing and links back to the named profile on kBin
+|author||string|The author of the add-on. This is user-facing and links back to the named profile on kbin. If you are on an instance other than kbin.social, include the full @<user>@<instance> designation here
 |version||string|An internal version number
 |label||string|A short, descriptive name of the feature, used when printing it in the list of options. This
-functions as the "name" of the feature seen by users.
+functions as the "name" of the feature seen by users
 |desc||string|A human-readable description of what the feature does
 |login||boolean|Whether the option requires being logged into the site to function/display correctly
 |recurs||boolean|If the feature should recur and apply to new elements in the tree in the event of DOM changes
@@ -182,45 +209,79 @@ This namespace is used when parsing localStorage
 |Key|Optional?|Type|Value
 
 |type||string|The input field type
-|initial||string (if checkbox, bool)|The initial value
-|key||string|A unique key for this atomic setting, stored under the object namespace defined above
-|label|yes|string|A descriptive label of what the setting does, printed above the input field on a newline
+|initial||string (if checkbox, bool)|The initial value the field is set to
+|key||string|A unique key for this setting, stored under the object namespace defined in Table 1
+|label|yes|string|A descriptive label of what the setting does, printed above the input field
 |values|required if `type` is select or radio|array of strings|If the type is `select` or `radio`, an array of human-readable labels, which also function as values, used to populate each option
 |checkbox_label|required if `type` is checkbox|string|A human-readable label printed to the right of a checkbox
 |===
 
 === Script calling logic
-TODO: example of how toggle might work
+A number of pre-existing examples can be found under the `/mods` directory of the repository.
+
+KES calls the recipient script via the entrypoint function defined in `manifest.json` with a boolen argument.
 ----
+function toggleOn(){
+   let el = document.querySelector('.myelement')
+   if (!el) {
+       document.body.appendChild(el);
+   }
+}
+function toggleOff(){
+   $('.myelement').hide();
+}
 function myEntryPoint(toggle) {
     if (toggle)
-	//toggle logic
+        toggleOn();
     } else {
-	//untoggle
+        toggleOff();
 }
 ----
-[NOTE]
-Must check if element already exists and act accordingly, esp. if recurring
+
+Bear in mind that if you have defined custom input fields, such as choosing between different label/icon types or supporting custom strings, or
+when an infinite scroll event occurs (<<Handling infinite scrolling>>), KES may attempt to call the entrypoint function again and apply the new settings.
+
+Therefore, if the element being modified already exists, you should add logic to either override its current value or return gracefully, as seen in the boilerplate example above.
+Otherwise, the same element may be created multiple times.
 
 === Retrieving custom settings
 
-inline example of querying settings with getModSettings and parsing settings
+Parsing your script's setting is as simple as calling `getModSettings()` with the desired namespace and applying those accordingly.
+
+You can also leverage this function to retrieve the settings of other scripts for more synergistic functionality.
 
 ----
-const ns = mymod;
-const settings = getModSettings(myns);
+const myNs = "mymod";
+const settings = getModSettings(myNs);
 const color = settings["color"];
 const mydiv = document.querySelector("mydiv");
-mydiv.style.cssText = 'background-color:' + color;
+mydiv.style.cssText = "background-color:" + color;
 ----
 
+Taking the example function from an earlier section, we can combine it with the above to ensure
+that if the element does not exist, it is created, and if it does exist, it is updated with the
+latest setting the user applied. With this basic flow, a user can change colors/labels/other parameters
+within the KES menu and see them updated immediately.
+
+----
+function toggleOn(){
+   let el = document.querySelector('.myelement')
+   if (!el) {
+       document.body.appendChild(el);
+   }
+   el.style.cssText = "bacground-color:" + color;
+}
+----
 === Handling infinite scrolling
 
-`recurs` boolean
+The `recurs` boolean (<<JSON manifest>>) is used to specify whether the script's entrypoint function should be called again when
+the thread (`'[data-controller="subject-list"]\'`) or post content area (`'#comments'`) has DOM changes. This allows your mod to be applied again in the event of post replies, new threads being loaded in,
+et cetera.
 
-simply set it in the manifest
+Simply set this value in the manifest and the script will be called automatically and applied to the new content.
 
-TODO: inline example
+There is no need to include additional onload event listeners or mutation observers to the script itself or watch for page events, as they are handled
+at the top level by KES.
 
 === Submitting a PR
 
@@ -238,12 +299,33 @@ modifications to this file or to the `VERSION` file. Only submit a modified `man
 
 5. Ensure that the `entrypoint` and `namespace` (if applicable) defined in `manifest.json` are globally unique.
 
+6. If your script has external dependencies (`@require`) that are not included in KES, please request these to be added when making the PR. Note that jQuery is provided by default and can be used to reduce the verbosity of your script.
+
 [NOTE]
 If you are submitting a PR changing an internal feature of KES itself, feel free to include changes to other files than the above.
 
-=== Conventions
+=== Precautions and best practices
 
+- Prefer private functions and local variables to reduce the possibility of collisions
+
+Bear in mind that KES ingests all of the script functions together into its scope, so unique identifiers are important.
+While scripts are integration tested before deployment, you can make the testing process easier by using unique names and limiting the available
+scope.
+
+- No need to handle extra event listeners
+
+Unless you are creating a special button or widget, there is no need to actively watch the page for changes (e.g. `onload`), as KES
+handles this for you and will apply your changes accordingly in the event of infinite scrolling, reload events, etc.
+
+- Aim for minimal, concise features that do one simple thing well
+
+Most scripts can be ported over as-is with little or no changes, but remember that KES is designed to take the complexity of setup out of the
+equation, allowing many small mods to be incorporated and synergize with each other. It is enough to create an entrypoint function that triggers some
+changes, request the desired UI via the JSON manifest, and the rest should work out of the box. Therefore, think of scripts as atomic features rather than
+complex workflows; scripts that make highly opinionated changes or themselves create complex menus may be difficult to adapt.
+
+==== Conventions
 - Prefer 4-space indentation
 - Prefer https://www.conventionalcommits.org/en/v1.0.0/[conventional commits]
-- Anything else? E.g. linting with ES
+- Linting with ESLint is encouraged but not required
 
