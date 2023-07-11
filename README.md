@@ -3,8 +3,6 @@
 
 # Description
 
-This tool is not ready for mainstream consumption yet.
-
 Kbin Enhancement Suite (KES) bundles together many userscripts that add various features to kbin and adds an integrated interface for configuring them.
 
 As such, KES is three things:
@@ -15,8 +13,8 @@ As such, KES is three things:
 
 # Installation and usage
 
-Please refer to the [basic documentation]()
+Please refer to the [basic documentation](https://aclist.github.io/kes/kes.html)
 
 # Developers
 
-Please refer to the [developers section of the documentation]()
+Please refer to the [developers section of the documentation](https://aclist.github.io/kes/kes.html/#_developers)
