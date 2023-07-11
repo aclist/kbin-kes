@@ -33,15 +33,6 @@ function addLink() {
    const itemsSelector = '.user-inline';
    const items = document.querySelectorAll(itemsSelector);
    items.forEach((item) => {
-//  let p = item.previousSibling
-//   if((p) && (p.className === "mail-prefix")) {
-//    p.innerText = settings["prefix"]
-//   } else {
-//    let pre = document.createElement('text')
-//    pre.className = "mail-prefix"
-//    p.innerText = settings["prefix"]
-//    item.parentNode.insertBefore(pre,item)
-//}
    const username = getUsername(item);
    if (!username) return;
    const sib = item.nextSibling
@@ -58,7 +49,6 @@ function addLink() {
 	   } catch (error){
 		   console.log(error)
 	   }
-           settings = getModSettings("mail");
 	  if (settings["type"] == "Text") {
 	     link.className = 'kes-mail-link';
 	     link.innerText = settings["text"];
@@ -71,9 +61,13 @@ function addLink() {
    });
 }
 function addMail(toggle){
+    settings = getModSettings("mail");
     if (toggle) {
+            pref = settings["prefix"]
+	    document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before','content: "' + pref + '"');
 	addLink();
     } else {
+	    document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before','content: ""');
         $('.kes-mail-link').remove();
     }
 }
