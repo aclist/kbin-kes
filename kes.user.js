@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.24.0
+// @version       0.24.1
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -36,6 +36,7 @@
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-thumbs.user.js
 // @resource      kes_css https://github.com/aclist/kbin-kes/raw/testing/kes.css
 // @resource      kes_layout https://github.com/aclist/kbin-kes/raw/testing/ui.json
 // @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
@@ -68,7 +69,8 @@ const funcObj = {
     userInstanceEntry: userInstanceEntry,
     magInstanceEntry: magInstanceEntry,
     updateTime: updateTime,
-    toggleLogo: toggleLogo
+    toggleLogo: toggleLogo,
+    hideThumbs: hideThumbs
 };
 
 function fetchManifest() {
