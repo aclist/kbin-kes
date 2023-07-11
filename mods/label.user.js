@@ -15,7 +15,7 @@ function labelOp(toggle){
 	let fg = settings["fgcolor"]
 	let bg = settings["bgcolor"]
         document.styleSheets[0].addRule('.own.author > header > .user-inline::after','content: " OP";color:' +
-		fgcolor +
+		fg +
 		';background-color:' +
 		bg +
 		';margin-left: 3px;padding-left: 1px;padding-right: 5px');
