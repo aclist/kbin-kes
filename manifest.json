@@ -446,6 +446,16 @@
         ]
       }
     ]
-
+  },
+  {
+    "name": "Hide thumbnails",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Hide thumbnails",
+    "login": false,
+    "recurs": true,
+    "desc": "Hide thumbnails on threads and comments",
+    "entrypoint": "hideThumbs",
+    "page": "general"
   }
 ]
