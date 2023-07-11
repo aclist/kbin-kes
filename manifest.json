@@ -52,7 +52,22 @@
     "desc": "Print OP label next to thread author",
     "class": "labelOp",
     "entrypoint": "labelOp",
-    "page": "threads"
+    "namespace": "labelcolors",
+    "page": "threads",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "#FFFFFF",
+        "key": "fgcolor",
+        "label": "Foreground color"
+      },
+      {
+        "type": "color",
+        "initial": "#111111",
+        "key": "bgcolor",
+        "label": "Background color"
+      }
+    ]
   },
   {
     "name": "Dropdown links",
