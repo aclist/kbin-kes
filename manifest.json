@@ -4,7 +4,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add mail icon",
-    "desc": "Add mail link to usernames if on kbin.social",
+    "desc": "Add mail link to usernames if on own instance",
     "login": false,
     "recurs": true,
     "class": "addMail",
@@ -25,7 +25,7 @@
         "type": "text",
         "initial": "PM",
         "key": "text",
-        "label": "Link label"
+        "label": "Label text"
       }
     ],
     "page": "general"
@@ -40,7 +40,7 @@
     "desc": "Add magazine subscription link to navbar",
     "class": "initMags",
     "entrypoint": "initMags",
-    "page": "general"
+    "page": "navbar"
   },
   {
     "name": "Label OP",
@@ -52,7 +52,22 @@
     "desc": "Print OP label next to thread author",
     "class": "labelOp",
     "entrypoint": "labelOp",
-    "page": "threads"
+    "namespace": "labelcolors",
+    "page": "threads",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "#FFFFFF",
+        "key": "fgcolor",
+        "label": "Foreground color"
+      },
+      {
+        "type": "color",
+        "initial": "#111111",
+        "key": "bgcolor",
+        "label": "Background color"
+      }
+    ]
   },
   {
     "name": "Dropdown links",
@@ -61,26 +76,26 @@
     "label": "Dropdown links",
     "login": false,
     "recurs": false,
-    "desc": "Convert links on profile pages to dropdown",
+    "desc": "Convert navigation links on profile pages to dropdown",
     "class": "dropdownEntry",
     "entrypoint": "dropdownEntry",
     "page": "profile"
   },
   {
     "name": "kbin-code-highlighting",
-    "author": "0rito",
+    "author": "@Ori@sacredori.net",
     "version": "0.4.2",
-    "label": "Code Syntax Highlighting",
+    "label": "Code syntax highlighting",
     "login": false,
     "recurs": true,
-    "desc": "Adds syntax highlighting for code blocks.",
+    "desc": "Adds syntax highlighting for code blocks",
     "class": "initCodeHighlights",
     "entrypoint": "initCodeHighlights",
     "namespace": "codehighlights",
     "fields": [
       {
         "type": "select",
-        "initial": "gruvbox",
+        "initial": "3024",
         "key": "style",
         "values": [
           "3024",
@@ -311,6 +326,19 @@
     "page": "general"
   },
   {
+    "name": "Federated Instance Names",
+    "author": "artillect",
+    "version": "0.1",
+    "label": "User instance names",
+    "desc": "Show instance names next to users",
+    "link": "",
+    "linkLabel": "",
+    "class": "userInstanceEntry",
+    "entrypoint": "userInstanceEntry",
+    "type": "checkbox",
+    "page": "general"
+  },
+  {
     "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
@@ -338,7 +366,7 @@
    "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
-    "label": "Hide Reputation",
+    "label": "Hide reputation",
     "desc": "Hide reputation on users' profiles",
     "login": false,
     "recurs": false,
@@ -377,20 +405,19 @@
     "label": "Toggle logo",
     "login": false,
     "recurs": false,
-    "desc": "Disable or use alternate logo. Placeholder for real script",
+    "desc": "Disable or use alternate logo on navbar",
     "entrypoint": "toggleLogo",
-    "page": "general",
+    "page": "navbar",
     "namespace": "changelogo",
     "fields": [
       {
         "type": "radio",
-        "initial": "Hide logo",
+        "initial": "Hidden",
 	"label": "Logo type",
         "key": "logotype",
         "values": [
-          "Hide logo",
-          "Bird logo",
-	  "3D logo"
+          "Hidden",
+          "Kibby"
         ]
       }
     ]
@@ -398,18 +425,27 @@
   {
     "name": "Collapsible comments",
     "author": "artillect",
-    "version": "1.3.7",
+    "version": "1.3.8",
     "label": "Collapsible comments",
     "desc": "Collapse comments by clicking on their headers, and the bars to their left",
     "login": false,
     "recurs": true,
     "class": "initCollapsibleComments",
     "entrypoint": "initCollapsibleComments",
-    "type": "selector",
-    "values" : [
-      "Headers and bars only",
-      "Anywhere on comments"
-    ],
-    "page": "comments"
+    "page": "comments",
+    "namespace": "collapsibleComments",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Headers and bars only",
+        "label": "Collapse by clicking:",
+        "key": "click",
+        "values" : [
+          "On headers and bars only (requires reload)",
+          "Anywhere on comments"
+        ]
+      }
+    ]
+
   }
 ]

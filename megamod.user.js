@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.20.0
+// @version       0.23.2
 // @description   megamod pack for kbin
 // @author        aclist
 // @match         https://kbin.social/*
@@ -35,6 +35,7 @@
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/hide-votes.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/timestamp.user.js
 // @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/improved-collapsible-comments.user.js
+// @require       https://github.com/aclist/kbin-megamod/raw/testing/mods/hide-logo.user.js
 // @resource      megamod_css https://github.com/aclist/kbin-megamod/raw/testing/megamod.css
 // @resource      megamod_layout https://github.com/aclist/kbin-megamod/raw/testing/ui.json
 // @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/megamod.user.js
@@ -66,7 +67,8 @@ const funcObj = {
     hideReputation: hideReputation,
     userInstanceEntry: userInstanceEntry,
     magInstanceEntry: magInstanceEntry,
-    updateTime: updateTime
+    updateTime: updateTime,
+    toggleLogo: toggleLogo
 };
 
 function fetchManifest() {
@@ -161,15 +163,17 @@ document.addEventListener('keydown', function(e) {
     if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed.L == true) {
         if (!modal) {
             showSettingsModal();
-        }
+	} else {
+		modal.remove();
+	}
         keyPressed = {};
     }
-    if (keyPressed.Escape == true) {
-        if (modal) {
-            modal.remove();
-        }
-        keyPressed = {};
-    }
+//    if (keyPressed.Escape == true) {
+//        if (modal) {
+//            modal.remove();
+//        }
+//        keyPressed = {};
+//    }
 
 }, false);
 
@@ -254,7 +258,7 @@ function showSettingsModal() {
 			'Login required: ' + loginHR + '<br><br>' +
 			desc + '</p>';
         }
-	let br = document.createElement('br');
+	const br = document.createElement('br');
         //populate dynamic fields
         if (json[it].fields) {
             const modSettings = getModSettings(ns)
@@ -312,6 +316,8 @@ function showSettingsModal() {
                             radioLabel.innerText = json[it].fields[i].values[j];
                             radioDiv.appendChild(field);
                             radioDiv.appendChild(radioLabel);
+			    let br = document.createElement('br');
+                            radioDiv.appendChild(br);
                         }
                         hBox.appendChild(radioDiv);
 			hBox.appendChild(br);
@@ -625,17 +631,29 @@ for (let i = 0; i < json.length; ++i) {
     applySettings(json[i].entrypoint);
     }
 }
-function initmut(){
-for (let i = 0; i < json.length; ++i) {
-    	    if(json[i].recurs){
-		    applySettings(json[i].entrypoint);
-    		    obs.takeRecords();
-	    } else {
+function initmut(list) {
+    for (const mutation of list) {
+        console.log(mutation.target)
+        if (mutation.target.className === 'timeago') {
+            console.log("Invalid mutation, discarding");
+            return
+        } else {
+            console.log('Valid mutation');
+            for (let i = 0; i < json.length; ++i) {
+                if (json[i].recurs) {
+                    applySettings(json[i].entrypoint);
+                    obs.takeRecords();
+                }
+
+            }
+            return
         }
     }
 }
 
-       const watchedNode = document.querySelector('#content');
-       const obs = new MutationObserver(initmut);
-        init();
-        obs.observe(watchedNode, {subtree: true, childList: true, attributes: false });
+const watchedNode = document.querySelector('[data-controller="subject-list"]');
+const watchedNode2 = document.querySelector('#comments');
+const obs = new MutationObserver(initmut);
+init();
+obs.observe(watchedNode, {subtree: false,childList: true,attributes: false});
+obs.observe(watchedNode2, {subtree: false,childList: true,attributes: false});

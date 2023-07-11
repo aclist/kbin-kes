@@ -9,7 +9,6 @@
 // @license       MIT
 // ==/UserScript==
 
-const itemsSelector = '.user-inline';
 
 function insertElementAfter(target, element) {
   if (target.nextSibling) {
@@ -30,46 +29,44 @@ function getUsername(item) {
   }
 }
 
-function addItemLink(item) {
-  const username = getUsername(item);
-  if (!username) return;
-  const link = document.createElement('a');
-  const ownInstance = window.location.hostname;
-  link.setAttribute('href', 'https://' + ownInstance + '/u/${username}/message');
+function addLink() {
+   const itemsSelector = '.user-inline';
+   const items = document.querySelectorAll(itemsSelector);
+   items.forEach((item) => {
+   const username = getUsername(item);
+   if (!username) return;
+   const sib = item.nextSibling
+   let link
+	   try {
+		  if ((sib) && (sib.nodeName === "#text")) {
+		  link = document.createElement('a');
+		  const ownInstance = window.location.hostname;
+		  link.setAttribute('href', `https://${ownInstance}/u/${username}/message`);
+		  insertElementAfter(item, link);
+		   } else {
+			   link = sib;
+		   }
+	   } catch (error){
+		   console.log(error)
+	   }
   settings = getModSettings("mail");
-  if (settings["type"] == "Text") {
-     link.className = 'item-link';
-     link.innerText = settings["text"];
-     link.style.cssText += 'margin-left: 5px;text-decoration:underline';
-  } else {
-	  link.className = 'item-link fa fa-envelope'
-          link.style.cssText += 'margin-left: 5px;text-decoration:none';
-  }
-  insertElementAfter(item, link);
+	  if (settings["type"] == "Text") {
+	     link.className = 'kes-mail-link';
+	     link.innerText = settings["text"];
+	     link.style.cssText += 'margin-left: 5px;text-decoration:underline';
+	  } else {
+		  link.innerText = "";
+		  link.className = 'kes-mail-link fa fa-envelope'
+		  link.style.cssText += 'margin-left: 5px;text-decoration:none';
+	  }
+   });
 }
-
-function checkItem(item) {
-  if (item && item.nextElementSibling && item.nextElementSibling.classList) {
-    return !!item
-      .nextElementSibling
-      .classList.contains('item-link');
-  }
-  return false;
-}
-
-function checkItems(selector) {
-  const items = document.querySelectorAll(selector);
-  items.forEach((item) => {
-    if (!checkItem(item)) addItemLink(item);
-  });
-}
-
 function addMail(toggle){
     console.log(toggle);
-    if (toggle == false) {
-	    $('.item-link').remove();
+    if (toggle) {
+	addLink();
     } else {
-        checkItems(itemsSelector);
+        $('.kes-mail-link').remove();
     }
 }
 

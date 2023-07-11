@@ -1,18 +1,6 @@
-// ==UserScript==
-// @name         kbin-hidelogo
-// @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  try to take over the world!
-// @author       You
-// @match        https://kbin.social/*
-// @grant        none
-// ==/UserScript==
-
-const ns = changelogo
-const bird = URL
-const render = URL
-const default = "/kbin_logo.svg"
-const settings = getModSettings(ns);
+const bird = 'https://raw.githubusercontent.com/aclist/kbin-megamod/testing/images/kbin_logo_kibby.svg'
+const render = "URL";
+const defaultLogo = "/kbin_logo.svg";
 
 function updateLogo(link){
     const img = document.querySelector('.brand a img');
@@ -20,35 +8,34 @@ function updateLogo(link){
 }
 
 function changeLogo(){
-    let opt = settings["logotype"]
+  const ns = "changelogo";
+
+
+    const settings = getModSettings(ns);
+    let opt = settings["logotype"];
+	console.log(opt)
 	switch (opt) {
-		case "Hide logo":
-			updateLogo(default)
+		case "Hidden":
+			updateLogo(defaultLogo)
     			$('.brand').hide();
 			break;
-		case "Bird logo":
+		case "Kibby":
+    			$('.brand').show();
 			updateLogo(bird);
-			break;
-		case "3D logo":
-			updateLogo(render);
 			break;
 	}
 }
 function restoreLogo(){
-const brand = document.querySelector('.brand')
-	if(brand){
-          updateLogo(default)
-
-	} else {
 	$('.brand').show();
-	}
+        updateLogo(defaultLogo);
+
 }
 
 function toggleLogo(toggle){
+	console.log(toggle);
 	if(toggle){
 		changeLogo();
 	} else {
 		restoreLogo();
 	}
-
 }

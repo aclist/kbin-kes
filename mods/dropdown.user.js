@@ -53,14 +53,8 @@ function addDropdown(){
     })
 
 	// clean up old elements
-	//window.addEventListener("load", function () {
-	//var horizontalScroll = document.querySelector('.options__main');
 	$('.options__main').hide();
 	$('.scroll').hide();
-	//horizontalScroll.style.cssText += 'display:none';
-	//var scrollArrows = document.querySelector('.scroll');
-	//scrollArrows.style.cssText += 'display:none';
-    //});
 }
 function removeDropdown(){
             $('#dropdown-select').remove();
