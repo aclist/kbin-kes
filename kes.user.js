@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.25.4
+// @version       0.25.5
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -228,6 +228,8 @@ function showSettingsModal() {
 
     function openHelpBox(it) {
         const settings = getSettings();
+	settings.lastPage = it
+	saveSettings(settings);
         let author = json[it].author;
         let desc = json[it].desc;
         let link = json[it].link;
@@ -396,6 +398,13 @@ function showSettingsModal() {
 
     // Add script tag with opentab function
     function openTab(tabName) {
+        const settings = getSettings();
+	if (settings.lastTab != tabName) {
+	    settings.lastPage = null;
+         }
+	settings.lastTab = tabName
+	saveSettings(settings);
+	console.log(settings)
         let pageLower = tabName.charAt(0).toLowerCase() + tabName.slice(1);
         const tablinks = document.getElementsByClassName("kes-tab-link");
         for (let i = 0; i < tablinks.length; i++) {
@@ -423,7 +432,12 @@ function showSettingsModal() {
             }
         }
         if (pageToOpen.length > 0) {
-            openHelpBox(pageToOpen[0])
+	   let lp = settings["lastPage"];
+		if (lp){
+			openHelpBox(lp)
+		} else {
+               openHelpBox(pageToOpen[0])
+		}
         } else {
             let hBox = document.querySelector('.kes-settings-modal-helpbox');
             hBox.style.opacity = 0;
@@ -548,7 +562,14 @@ function showSettingsModal() {
         }
     });
 
-    let startPage = sidebarPages[0].charAt(0).toUpperCase() + sidebarPages[0].slice(1);
+    let pageSettings = getSettings();
+    let lp = pageSettings["lastTab"]
+    let startPage
+    if (lp) {
+	    startPage = lp
+    } else {
+            startPage = sidebarPages[0].charAt(0).toUpperCase() + sidebarPages[0].slice(1);
+    }
     openTab(startPage);
 }
 
