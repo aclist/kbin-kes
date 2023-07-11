@@ -33,6 +33,15 @@ function addLink() {
    const itemsSelector = '.user-inline';
    const items = document.querySelectorAll(itemsSelector);
    items.forEach((item) => {
+//  let p = item.previousSibling
+//   if((p) && (p.className === "mail-prefix")) {
+//    p.innerText = settings["prefix"]
+//   } else {
+//    let pre = document.createElement('text')
+//    pre.className = "mail-prefix"
+//    p.innerText = settings["prefix"]
+//    item.parentNode.insertBefore(pre,item)
+//}
    const username = getUsername(item);
    if (!username) return;
    const sib = item.nextSibling
@@ -59,8 +68,6 @@ function addLink() {
 		  link.className = 'kes-mail-link fa fa-envelope'
 		  link.style.cssText += 'margin-left: 5px;text-decoration:none';
 	  }
-	  let prefix = document.querySelector('.entry > .entry__meta .user-inline')
-	  prefix.style.cssText = 'content:' + settings["prefix"]  + '; color:var(--text);'
    });
 }
 function addMail(toggle){
