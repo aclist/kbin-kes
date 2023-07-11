@@ -279,7 +279,8 @@ the thread (`'[data-controller="subject-list"]\'`) or post content area (`'#comm
 et cetera.
 
 Simply set this value in the manifest and the script will be called automatically and applied to the new content.
-There is no need to include additional onload event listeners to the script itself or watch for page events, as they are handled
+
+There is no need to include additional onload event listeners or mutation observers to the script itself or watch for page events, as they are handled
 at the top level by KES.
 
 === Submitting a PR
