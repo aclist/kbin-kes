@@ -44,18 +44,28 @@ follow your browser extension's onscreen prompts to install it. Subsequent updat
 seamlessly, and KES will notify you if there is a new version available.
 
 == Usage
-TODO: remarks on ctrl-shift-l and escape buttons, docking, wrench icon, etc.
 
-To open the KES settings menu, press `Ctrl-Shift-L` or click the wrench icon in the top right corner of the page. Pressing `Esc`, or clicking on the close button or anywhere outside of the menu will close it.
+=== Main menu
+To open the KES settings menu, press `Ctrl-Shift-L` or click the wrench icon in the top right corner of the page.
+Pressing `Ctrl-Shift-L` again, or clicking on the close button or anywhere outside of the menu will close it.
 
-The menu is divided into pages, and each page contains a list of modifications. You can switch between pages by clicking on the page name in the list on the left side of the menu (or the top if on mobile). 
+The menu is divided into pages; each page contains a list of modifications.
+You can switch between pages by clicking on the page name in the list on the left side of the menu (or the top if on mobile).
 
-Clicking the name of a modification will open an information panel with a description of the modification, a toggle to enable/disable it. If the modification has any additional settings, they can be configured here.
+Clicking the name of a modification will open an information panel with a description of the modification and a toggle to enable/disable it.
+If the modification has any additional settings, they can be configured here.
 
-On devices where the menu doesn't take up the whole screen, it can be docked to the bottom of the screen by clicking the arrow icon in the top right corner of the menu. Clicking the arrow again will undock the menu.
+On devices where the menu doesn't take up the whole screen, it can be docked to the bottom of the screen by clicking the arrow
+icon in the top right corner of the menu. Clicking the arrow again will undock the menu.
+
+=== Settings
+The toggle state of a modification and its settings will be saved and persist across browser sessions.
+
+To submit a bug report/feature request or visit the KES home page, follow the links shown within the KES menu itself.
 
 == Developers
 
+=== Basic workflow
 If you wish to submit your scripts for integration into KES, a standardized framework is available that
 makes adaptation and PR submission easy:
 
@@ -72,7 +82,7 @@ logic of your script
 
 Detailed explanations follow.
 
-=== JSON
+=== JSON manifest
 
 `manifest.json` consists of an array of objects that each represent an add-on, that is, an atomic
 feature provided by a function in a third-party userscript.
@@ -213,8 +223,9 @@ KES calls the recipient script via the entrypoint function defined in `manifest.
 ----
 function toggleOn(){
    let el = document.querySelector('.myelement')
-   if (el) return
-   document.body.appendChild(el);
+   if (!el) {
+       document.body.appendChild(el);
+   }
 }
 function toggleOff(){
    $('.myelement').hide();
@@ -235,23 +246,41 @@ Otherwise, the same element may be created multiple times.
 
 === Retrieving custom settings
 
-You can also retrieve settings of other scripts for more synergistic functionality
+Parsing your script's setting is as simple as calling `getModSettings()` with the desired namespace and applying those accordingly.
+
+You can also leverage this function to retrieve the settings of other scripts for more synergistic functionality.
 
 ----
-const myNs = mymod;
+const myNs = "mymod";
 const settings = getModSettings(myNs);
 const color = settings["color"];
 const mydiv = document.querySelector("mydiv");
-mydiv.style.cssText = 'background-color:' + color;
+mydiv.style.cssText = "background-color:" + color;
 ----
 
+Taking the example function from an earlier section, we can combine it with the above to ensure
+that if the element does not exist, it is created, and if it does exist, it is updated with the
+latest setting the user applied. With this basic flow, a user can change colors/labels/other parameters
+within the KES menu and see them updated immediately.
+
+----
+function toggleOn(){
+   let el = document.querySelector('.myelement')
+   if (!el) {
+       document.body.appendChild(el);
+   }
+   el.style.cssText = "bacground-color:" + color;
+}
+----
 === Handling infinite scrolling
 
-`recurs` boolean
+The `recurs` boolean (<<JSON manifest>>) is used to specify whether the script's entrypoint function should be called again when
+the thread (`'[data-controller="subject-list"]\'`) or post content area (`'#comments'`) has DOM changes. This allows your mod to be applied again in the event of post replies, new threads being loaded in,
+et cetera.
 
-simply set it in the manifest
-
-TODO: inline example of returning if already applied
+Simply set this value in the manifest and the script will be called automatically and applied to the new content.
+There is no need to include additional onload event listeners to the script itself or watch for page events, as they are handled
+at the top level by KES.
 
 === Submitting a PR
 
@@ -269,18 +298,33 @@ modifications to this file or to the `VERSION` file. Only submit a modified `man
 
 5. Ensure that the `entrypoint` and `namespace` (if applicable) defined in `manifest.json` are globally unique.
 
-6. If external dependencies...jquery is provided
+6. If your script has external dependencies (`@require`) that are not included in KES, please request these to be added when making the PR. Note that jQuery is provided by default and can be used to reduce the verbosity of your script.
 
 [NOTE]
 If you are submitting a PR changing an internal feature of KES itself, feel free to include changes to other files than the above.
 
 === Precautions and best practices
 
-- Name collisions
-- Private functions
+- Prefer private functions and local variables to reduce the possibility of collisions
+
+Bear in mind that KES ingests all of the script functions together into its scope, so unique identifiers are important.
+While scripts are integration tested before deployment, you can make the testing process easier by using unique names and limiting the available
+scope.
+
 - No need to handle extra event listeners
 
+Unless you are creating a special button or widget, there is no need to actively watch the page for changes (e.g. `onload`), as KES
+handles this for you and will apply your changes accordingly in the event of infinite scrolling, reload events, etc.
+
+- Aim for minimal, concise features that do one simple thing well
+
+Most scripts can be ported over as-is with little or no changes, but remember that KES is designed to take the complexity of setup out of the
+equation, allowing many small mods to be incorporated and synergize with each other. It is enough to create an entrypoint function that triggers some
+changes, request the desired UI via the JSON manifest, and the rest should work out of the box. Therefore, think of scripts as atomic features rather than
+complex workflows; scripts that make highly opinionated changes or themselves create complex menus may be difficult to adapt.
+
+==== Conventions
 - Prefer 4-space indentation
 - Prefer https://www.conventionalcommits.org/en/v1.0.0/[conventional commits]
-- Anything else? E.g. linting with ES
+- Linting with ESLint is encouraged but not required
 
