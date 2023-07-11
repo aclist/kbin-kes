@@ -10,6 +10,7 @@
   },
   "pages": [
     "general",
+    "navbar",
     "threads",
     "comments",
     "profile",

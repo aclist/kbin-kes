@@ -40,7 +40,7 @@
     "desc": "Add magazine subscription link to navbar",
     "class": "initMags",
     "entrypoint": "initMags",
-    "page": "general"
+    "page": "navbar"
   },
   {
     "name": "Label OP",
@@ -407,7 +407,7 @@
     "recurs": false,
     "desc": "Disable or use alternate logo on navbar",
     "entrypoint": "toggleLogo",
-    "page": "general",
+    "page": "navbar",
     "namespace": "changelogo",
     "fields": [
       {
