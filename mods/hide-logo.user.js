@@ -13,7 +13,6 @@ function changeLogo(){
 
     const settings = getModSettings(ns);
     let opt = settings["logotype"];
-	console.log(opt)
 	switch (opt) {
 		case "Hidden":
 			updateLogo(defaultLogo)
@@ -32,7 +31,6 @@ function restoreLogo(){
 }
 
 function toggleLogo(toggle){
-	console.log(toggle);
 	if(toggle){
 		changeLogo();
 	} else {

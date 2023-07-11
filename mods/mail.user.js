@@ -62,7 +62,6 @@ function addLink() {
    });
 }
 function addMail(toggle){
-    console.log(toggle);
     if (toggle) {
 	addLink();
     } else {

@@ -7,7 +7,6 @@ function startup() {
         addHeaders('code');
 }
 function shutdown() {
-	console.log("HERE")
     injectedCss.remove();
     $('.kch_header').remove();
 }

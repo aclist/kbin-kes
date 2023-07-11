@@ -10,7 +10,6 @@
 
 function labelOp(toggle){
     if (toggle) {
-	console.log("caught toggle")
 	let settings = getModSettings("labelcolors")
 	let fg = settings["fgcolor"]
 	let bg = settings["bgcolor"]
