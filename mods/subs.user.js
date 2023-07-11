@@ -34,10 +34,9 @@ function createMags(){
 }
 
 function initMags(toggle){
-    console.log(toggle);
-    if (toggle == false) {
-        $('.subs-nav').remove();
-    } else {
+    if (toggle) {
         createMags();
+    } else {
+        $('.subs-nav').remove();
     }
 }

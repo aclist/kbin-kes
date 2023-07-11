@@ -4,10 +4,9 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add mail icon",
-    "desc": "Add mail link to usernames if on kbin.social",
+    "desc": "Add mail link to usernames if on own instance",
     "login": false,
     "recurs": true,
-    "class": "addMail",
     "entrypoint": "addMail",
     "namespace": "mail",
     "fields": [
@@ -26,6 +25,12 @@
         "initial": "PM",
         "key": "text",
         "label": "Label text"
+      },
+      {
+        "type": "text",
+        "initial": "submitted by",
+        "key": "prefix",
+        "label": "Poster prefix (use single space for empty)"
       }
     ],
     "page": "general"
@@ -38,9 +43,8 @@
     "login": true,
     "recurs": false,
     "desc": "Add magazine subscription link to navbar",
-    "class": "initMags",
     "entrypoint": "initMags",
-    "page": "general"
+    "page": "navbar"
   },
   {
     "name": "Label OP",
@@ -50,9 +54,23 @@
     "login": false,
     "recurs": true,
     "desc": "Print OP label next to thread author",
-    "class": "labelOp",
     "entrypoint": "labelOp",
-    "page": "threads"
+    "namespace": "labelcolors",
+    "page": "threads",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "#FFFFFF",
+        "key": "fgcolor",
+        "label": "Foreground color"
+      },
+      {
+        "type": "color",
+        "initial": "#111111",
+        "key": "bgcolor",
+        "label": "Background color"
+      }
+    ]
   },
   {
     "name": "Dropdown links",
@@ -62,7 +80,6 @@
     "login": false,
     "recurs": false,
     "desc": "Convert navigation links on profile pages to dropdown",
-    "class": "dropdownEntry",
     "entrypoint": "dropdownEntry",
     "page": "profile"
   },
@@ -74,7 +91,6 @@
     "login": false,
     "recurs": true,
     "desc": "Adds syntax highlighting for code blocks",
-    "class": "initCodeHighlights",
     "entrypoint": "initCodeHighlights",
     "namespace": "codehighlights",
     "fields": [
@@ -273,7 +289,6 @@
     "login": false,
     "recurs": true,
     "desc": "Filter posts by language",
-    "class": "languageFilterEntry",
     "entrypoint": "languageFilterEntry",
     "namespace": "languagefilter",
     "fields": [
@@ -294,7 +309,6 @@
     "login": true,
     "recurs": false,
     "desc": "Use slash commands for emoticons in textareas. /help to open a list",
-    "class": "easyEmoticon",
     "entrypoint": "easyEmoticon",
     "page": "general"
   },
@@ -306,7 +320,6 @@
     "desc": "Show instance names next to magazines",
     "login": false,
     "recurs": true,
-    "class": "magInstanceEntry",
     "entrypoint": "magInstanceEntry",
     "page": "general"
   },
@@ -318,7 +331,6 @@
     "desc": "Show instance names next to users",
     "link": "",
     "linkLabel": "",
-    "class": "userInstanceEntry",
     "entrypoint": "userInstanceEntry",
     "type": "checkbox",
     "page": "general"
@@ -331,7 +343,6 @@
     "login": false,
     "recurs": true,
     "desc": "Hide favorites (upvotes) on threads, posts, and comments",
-    "class": "hideUpvotes",
     "entrypoint": "hideUpvotes",
     "page": "general"
   },
@@ -343,7 +354,6 @@
     "login": false,
     "recurs": true,
     "desc": "Hide reduces (downvotes) on threads, posts, and comments",
-    "class": "hideDownvotes",
     "entrypoint": "hideDownvotes",
     "page": "general"
   },
@@ -355,7 +365,6 @@
     "desc": "Hide reputation on users' profiles",
     "login": false,
     "recurs": false,
-    "class": "hideReputation",
     "entrypoint": "hideReputation",
     "page": "profiles"
   },
@@ -392,7 +401,7 @@
     "recurs": false,
     "desc": "Disable or use alternate logo on navbar",
     "entrypoint": "toggleLogo",
-    "page": "general",
+    "page": "navbar",
     "namespace": "changelogo",
     "fields": [
       {
@@ -402,8 +411,7 @@
         "key": "logotype",
         "values": [
           "Hidden",
-          "Kibby",
-	  "3D render"
+          "Kibby"
         ]
       }
     ]
@@ -416,7 +424,6 @@
     "desc": "Collapse comments by clicking on their headers, and the bars to their left",
     "login": false,
     "recurs": true,
-    "class": "initCollapsibleComments",
     "entrypoint": "initCollapsibleComments",
     "page": "comments",
     "namespace": "collapsibleComments",
@@ -432,6 +439,16 @@
         ]
       }
     ]
-
+  },
+  {
+    "name": "Hide thumbnails",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Hide thumbnails",
+    "login": false,
+    "recurs": true,
+    "desc": "Hide thumbnails on threads and comments",
+    "entrypoint": "hideThumbs",
+    "page": "general"
   }
 ]

@@ -3,21 +3,17 @@ GM_addStyle(`
         display: none !important;
     }
 `);
-function startup(firstBoot = false) {
-    if (firstBoot) {
-        getCodeTags('code');
-    } else {
+function startup() {
         addHeaders('code');
-    }
 }
 function shutdown() {
     injectedCss.remove();
-    document.querySelectorAll('.kch_header').forEach(header => {
-        header.remove();
-    });
+    $('.kch_header').remove();
 }
 function addTags(item) {
-    // Creates the top bar for code section displaying name, copy button - and maybe collapse later.
+    if (item.previousSibling){
+	    if(item.previousSibling.className === "hljs kch_header") return
+    }
     const orig_code = item.textContent;
     let lang;
     for (let name of item.className.split(' ')) {
@@ -77,12 +73,6 @@ function addPreTag(parent, placement, code) {
     pre.appendChild(code);
     hljs.highlightElement(code);
 }
-function getCodeTags(selector) {
-    // Gets all the code sections and starts adding top bars.
-    window.addEventListener("load", function () {
-        addHeaders(selector);
-    });
-}
 function setCss(url) {
     // Downloads css files and sets them on page.
     GM_xmlhttpRequest({
@@ -108,20 +98,20 @@ function addHeaders(selector) {
 }
 
 function initCodeHighlights(toggle) {
-    const settings = getModSettings("codehighlights");
-    let myStyle = settings["style"];
-    let cssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
-    setCss(cssUrl);
     let injectedCss;
         if (toggle) {
+	    const settings = getModSettings("codehighlights");
+	    let myStyle = settings["style"];
+	    let cssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
+	    setCss(cssUrl);
             startup();
+		// Configure HLJS and enable.
+		hljs.configure({
+		    ignoreUnescapedHTML: true
+		});
+		hljs.highlightAll();
         } else {
             shutdown();
         }
 }
 
-// Configure HLJS and enable.
-hljs.configure({
-    ignoreUnescapedHTML: true
-});
-hljs.highlightAll();

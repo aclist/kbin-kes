@@ -2,7 +2,7 @@
 
 COLUMNS=1
 version_file="VERSION"
-master_file="megamod.user.js"
+master_file="kes.user.js"
 vers=$(< $version_file)
 opts=(
 	"MAJOR (breaking API change)"
@@ -42,7 +42,7 @@ test_mod(){
 	if [[ $added =~ user.js ]]; then
 		local newmod=$(<<< "$added" awk -F. '{print $1}')
 		local branch=$(git name-rev --name-only HEAD)
-		local url="// @require       https://github.com/aclist/kbin-megamod/raw/$branch/mods/$mod"
+		local url="// @require       https://github.com/aclist/kbin-kes/raw/$branch/mods/$mod"
 		local func=$(<<< "$mod" awk -F. '{print $1}')
 		awk -v mod="$url" '!f && /resource/ {print mod;f=1}1' $master_file | sponge $master_file
 		awk -v entry="$func" 'f{print "    " entry ": " entry ",";f=0} /const funcObj/{f=1}1' $master_file | sponge $master_file

@@ -49,7 +49,6 @@ function addLink() {
 	   } catch (error){
 		   console.log(error)
 	   }
-  settings = getModSettings("mail");
 	  if (settings["type"] == "Text") {
 	     link.className = 'kes-mail-link';
 	     link.innerText = settings["text"];
@@ -62,10 +61,13 @@ function addLink() {
    });
 }
 function addMail(toggle){
-    console.log(toggle);
+    settings = getModSettings("mail");
     if (toggle) {
+            pref = settings["prefix"]
+	    document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before','content: "' + pref + '"; font-weight: 400');
 	addLink();
     } else {
+	    document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before','content: ""');
         $('.kes-mail-link').remove();
     }
 }
