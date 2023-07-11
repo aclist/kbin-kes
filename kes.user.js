@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.26.4
+// @version       0.26.5
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -500,14 +500,8 @@ function showSettingsModal() {
     const dockIcon = document.querySelector('.kes-dock i');
     if (settings.dock == 'down') {
         container.classList.add('kes-docked');
-        //container.style.cssText = 'position:absolute;bottom:0;max-height: 30vh;';
-        //modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
-        //footer.style.cssText = 'position:absolute;bottom:0;width:100%';
         dockIcon.className = layoutArr.header.dock_up;
     } else {
-        //container.style.cssText = 'position:relative;bottom:unset;max-height: 80vh;';
-        //modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
-        //footer.style.cssText = 'position:unset;bottom:unset;width:100%';
         dockIcon.className = layoutArr.header.dock_down;
     }
 
@@ -534,16 +528,10 @@ function showSettingsModal() {
         let cn = e.target.className;
         if (cn == layoutArr.header.dock_down) {
             container.classList.add('kes-docked');
-            //container.style.cssText = 'position:absolute;bottom:0;';
-            // modalContent.style.cssText = 'position:absolute;bottom:0;width:100%';
-            // footer.style.cssText = 'position:absolute;bottom:0;width:100%';
             e.target.className = layoutArr.header.dock_up;
             settings.dock = 'down';
         } else {
             container.classList.remove('kes-docked');
-            //container.style.cssText = 'position:unset;bottom:unset;';
-            // modalContent.style.cssText = 'position:unset;bottom:unset;width:100%';
-            // footer.style.cssText = 'position:unset;bottom:unset;width:100%';
             e.target.className = layoutArr.header.dock_down;
             settings.dock = 'up';
 
@@ -605,7 +593,13 @@ function updateState(target) {
     //save and apply checkbox state
     saveSettings(settings);
     saveModSettings(modSettings, ns);
+    //necessarily reload the page when verbose timestamps are toggled off
+    //otherwise, triggers a loop of mutations because reverting timeago mutates the watched node
+    if ((func === "updateTime") && (state === false)) {
+    window.location.reload();
+    } else {
     applySettings(func);
+    }
 }
 
 function applySettings(entry) {
@@ -656,18 +650,21 @@ for (let i = 0; i < json.length; ++i) {
 }
 function initmut(list) {
     for (const mutation of list) {
-        console.log(mutation.target)
+        //workaround for timeago ticks changing timestamp textContent
+        //reapply verbose timestamp
         if (mutation.target.className === 'timeago') {
-            console.log("Invalid mutation, discarding");
+            if(mutation.target.textContent.indexOf("ago") >= 0){
+               applySettings("updateTime");
+        }
+            //triggering on the first mutation is sufficient
             return
         } else {
-            console.log('Valid mutation');
+            //normal mutation (lazy load etc.), apply all mods
             for (let i = 0; i < json.length; ++i) {
                 if (json[i].recurs) {
                     applySettings(json[i].entrypoint);
                     obs.takeRecords();
                 }
-
             }
             return
         }
@@ -678,5 +675,5 @@ const watchedNode = document.querySelector('[data-controller="subject-list"]');
 const watchedNode2 = document.querySelector('#comments');
 const obs = new MutationObserver(initmut);
 init();
-obs.observe(watchedNode, {subtree: false,childList: true,attributes: false});
+obs.observe(watchedNode, {subtree: true,childList: true,attributes: false});
 obs.observe(watchedNode2, {subtree: false,childList: true,attributes: false});

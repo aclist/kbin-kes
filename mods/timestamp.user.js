@@ -38,7 +38,6 @@ function updateTime(toggle) {
                     return
                     break;
             }
-
         });
     } else {
         times.forEach((time) => {

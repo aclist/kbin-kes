@@ -375,7 +375,7 @@
     "label": "Verbose timestamps",
     "login": false,
     "recurs": true,
-    "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax",
+    "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax. Note: toggling to off will necessarily reload the page",
     "entrypoint": "updateTime",
     "page": "general",
     "namespace": "timestamp",
