@@ -5,7 +5,7 @@
 
 This tool is not ready for mainstream consumption yet.
 
-kbin Enhancement Suite (KES) bundles together many userscripts that add various features to kbin and adds an integrated interface for configuring them.
+Kbin Enhancement Suite (KES) bundles together many userscripts that add various features to kbin and adds an integrated interface for configuring them.
 
 As such, KES is three things:
 
