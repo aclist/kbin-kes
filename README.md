@@ -19,4 +19,4 @@ Please refer to the [basic documentation](https://aclist.github.io/kes/kes.html)
 
 # Developers
 
-Please refer to the [developers section of the documentation](https://aclist.github.io/kes/kes.html/#_developers)
+Please refer to the [developers section of the documentation](https://aclist.github.io/kes/kes.html#_developers)
