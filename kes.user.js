@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.26.7
+// @version       0.26.8
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -162,7 +162,7 @@ document.addEventListener('keydown', function(e) {
     let modal = document.querySelector('.kes-settings-modal')
     keyPressed[e.key] = true;
 
-    if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed.U == true) {
+    if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed["?"] == true) {
         if (!modal) {
             showSettingsModal();
         } else {
