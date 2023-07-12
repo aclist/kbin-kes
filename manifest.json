@@ -350,7 +350,7 @@
     "label": "Easy emoticons",
     "login": true,
     "recurs": false,
-    "desc": "Use slash commands for emoticons in textareas. /help to open a list",
+    "desc": "Use slash commands for emoticons in text areas. /help to open a list of commands",
     "entrypoint": "easyEmoticon",
     "page": "general"
   },
