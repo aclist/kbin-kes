@@ -72,7 +72,8 @@ const funcObj = {
     toggleLogo: toggleLogo,
     hideThumbs: hideThumbs,
     navbarIcons: navbarIcons,
-    hideSidebar: hideSidebar
+    hideSidebar: hideSidebar,
+    initKFA: initKFA
 };
 
 function fetchManifest() {

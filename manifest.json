@@ -128,7 +128,7 @@
         "initial": 5,
         "min": 1,
         "max": 10,
-        "label": "Bubble Scale"
+        "label": "Bubble Scale (Only works if 'Indicator Style' is set to 'bubble'.)"
       },
       {
         "type": "select",
@@ -139,7 +139,7 @@
           "left",
           "right"
         ],
-        "label": "Border Side"
+        "label": "Border Side (Only works if 'Indicator Style' is set to 'border'.)"
       }
     ],
     "page": "threads"
@@ -370,8 +370,6 @@
     "version": "0.1",
     "label": "User instance names",
     "desc": "Show instance names next to users",
-    "link": "",
-    "linkLabel": "",
     "entrypoint": "userInstanceEntry",
     "type": "checkbox",
     "page": "general"
