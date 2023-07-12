@@ -15,10 +15,10 @@
         "initial": "Text",
         "key": "type",
         "label": "Label type",
-	"values": [
-		"Text",
-		"Icon"
-	]
+        "values": [
+          "Text",
+          "Icon"
+        ]
       },
       {
         "type": "text",
@@ -338,7 +338,7 @@
     "page": "general"
   },
   {
-   "name": "Hide Votes and Reputation",
+    "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
     "label": "Hide reputation",
@@ -363,7 +363,7 @@
       {
         "type": "radio",
         "initial": "UTC",
-	"label": "Offset",
+        "label": "Offset",
         "key": "offset",
         "values": [
           "UTC",
@@ -387,7 +387,7 @@
       {
         "type": "radio",
         "initial": "Hidden",
-	"label": "Logo type",
+        "label": "Logo type",
         "key": "logotype",
         "values": [
           "Hidden",
@@ -395,7 +395,7 @@
         ]
       }
     ]
-    },
+  },
   {
     "name": "Collapsible comments",
     "author": "artillect",
@@ -413,7 +413,7 @@
         "initial": "Headers and bars only",
         "label": "Collapse by clicking:",
         "key": "click",
-        "values" : [
+        "values": [
           "On headers and bars only (requires reload)",
           "Anywhere on comments"
         ]
@@ -459,5 +459,8 @@
         "initial": "Subs",
         "key": "subs",
         "label": "Subs icon"
-      },
-
+      }
+    ],
+    "page": "navbar"
+  }
+]
