@@ -28,6 +28,8 @@
 // @require       https://github.com/aclist/kbin-kes/raw/main/mods/subs.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/main/mods/label.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/main/mods/dropdown.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/main/mods/hide-sidebar.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/main/mods/nav-icons.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/main/mods/code-highlighting.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/main/mods/easy-emoticon.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/main/mods/instance-names.user.js
