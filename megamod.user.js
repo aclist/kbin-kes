@@ -55,14 +55,13 @@ const funcObj = {
 	labelOp: labelOp,
 	dropdownEntry: dropdownEntry,
 	initCodeHighlights: initCodeHighlights,
-	languageFilterEntry: languageFilterEntry,
 	easyEmoticon: easyEmoticon,
     hideUpvotes: hideUpvotes,
     hideDownvotes: hideDownvotes,
     hideReputation: hideReputation,
-  userInstanceEntry: userInstanceEntry,
-  magInstanceEntry: magInstanceEntry,
-  yellowInit: yellowInit
+    userInstanceEntry: userInstanceEntry,
+    magInstanceEntry: magInstanceEntry,
+    yellowInit: yellowInit
 };
 
 function fetchManifest() {

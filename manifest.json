@@ -256,27 +256,6 @@
     "page": "threads"
   },
   {
-    "name": "Language filter",
-    "author": "artillect",
-    "version": "0.1.0",
-    "label": "Language filter",
-    "desc": "Filter posts by language",
-    "link": "",
-    "link_label": "",
-    "class": "languageFilterEntry",
-    "entrypoint": "languageFilterEntry",
-    "namespace": "languagefilter",
-    "fields": [
-      {
-        "type": "text",
-        "initial": "English",
-        "key": "filter",
-	"label": "Language codes, comma-separated whitelist"
-      }
-    ],
-    "page": "threads"
-  },
-  {
     "name": "Kbin Easy Emoticon",
     "author": "minnieo",
     "version": "0.6.1",
