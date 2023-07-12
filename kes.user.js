@@ -14,8 +14,8 @@
 // @grant         GM_getResourceText
 // @grant         GM_xmlhttpRequest
 // @grant         GM_info
-// @grant         GM.getValue
-// @grant         GM.setValue
+// @grant         GM_getValue
+// @grant         GM_setValue
 // @grant         GM_getResourceText
 // @grant         GM_setClipboard
 // @connect       raw.githubusercontent.com
@@ -125,12 +125,12 @@ function makeArr(response) {
     var content = response.responseText
     const jarr = JSON.parse(content)
     //TODO: wait on promise and set warning string if unreachable
-    GM.setValue("json", jarr);
+    GM_setValue("json", jarr);
 };
 
 fetchManifest();
 checkVersion();
-var json = await GM.getValue("json");
+var json = GM_getValue("json");
 var css = GM_getResourceText("kes_css");
 GM_addStyle(css);
 
