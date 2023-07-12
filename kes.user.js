@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       1.0.1
+// @version       1.0.2
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -60,7 +60,6 @@ const funcObj = {
     dropdownEntry: dropdownEntry,
     initCodeHighlights: initCodeHighlights,
     initCollapsibleComments: initCollapsibleComments,
-    languageFilterEntry: languageFilterEntry,
     easyEmoticon: easyEmoticon,
     hideUpvotes: hideUpvotes,
     hideDownvotes: hideDownvotes,
