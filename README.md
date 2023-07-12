@@ -1,6 +1,8 @@
 
 ![Alt text](/images/example.png)
 
+Pictured above in conjunction with [kbin-css](https://github.com/aclist/kbin-css)
+
 # Description
 
 Kbin Enhancement Suite (KES) bundles together many userscripts that add various features to kbin and adds an integrated interface for configuring them.
