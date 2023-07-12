@@ -49,7 +49,6 @@ function addLink(settings) {
 	   } catch (error){
 		   console.log(error)
 	   }
-	   console.log(settings["type"])
 	  if (settings["type"] == "Text") {
 	     link.className = 'kes-mail-link';
 	     link.innerText = settings["text"];
