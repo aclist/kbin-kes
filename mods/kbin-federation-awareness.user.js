@@ -182,7 +182,6 @@ let kfaSettingsScale;
 let kfaLastToggleState = false;
 
 function initKFA(toggle) {
-    console.log('kfa - init; toggle: ' + toggle + '; kfaLastToggleState: ' + kfaLastToggleState);
     if (toggle) {
         const settings = getModSettings('kbinFedAware');
         kfaSettingsFed = settings['kfaFedColor'];

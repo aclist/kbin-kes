@@ -296,16 +296,25 @@ function showSettingsModal() {
                         range.setAttribute("kes-key", key);
                         range.setAttribute('min', json[it].fields[i].min);
                         range.setAttribute('max', json[it].fields[i].max);
-                        if (json[it].fields[i].show_value) {
+                        if (json[it].fields[i].showValue) {
+                            const rangeDiv = document.createElement('div');
                             range.setAttribute('oninput', key + '.innerText = this.value');
+                            range.style.verticalAlign = 'middle';
+                            rangeDiv.appendChild(range);
                             const rangeValue = document.createElement('label');
-                            rangeValue.style.display = 'inline-block';
-                            rangeValue.style.verticalAlign = 'middle';
-                            rangeValue.style.marginLeft = '10px;';
+                            rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
+                            rangeValue.id = key;
                             rangeValue.for = key;
-                            range.appendChild(rangeValue);
+                            if (!modSettings[key]) {
+                                rangeValue.innerText = initial;
+                            } else {
+                                rangeValue.innerText = modSettings[key];
+                            }
+                            rangeDiv.appendChild(rangeValue);
+                            hBox.appendChild(rangeDiv);
+                        } else {
+                            hBox.appendChild(range);
                         }
-                        hBox.appendChild(range);
                         hBox.appendChild(br);
                         break;
                     case "select":
