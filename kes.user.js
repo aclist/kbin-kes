@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       1.0.0
+// @version       1.0.1
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -31,7 +31,6 @@
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/instance-names.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/language-filter.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-votes.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
@@ -61,7 +60,6 @@ const funcObj = {
     dropdownEntry: dropdownEntry,
     initCodeHighlights: initCodeHighlights,
     initCollapsibleComments: initCollapsibleComments,
-    languageFilterEntry: languageFilterEntry,
     easyEmoticon: easyEmoticon,
     hideUpvotes: hideUpvotes,
     hideDownvotes: hideDownvotes,
