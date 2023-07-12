@@ -151,7 +151,7 @@
     "version": "0.5.1",
     "label": "Code Syntax Highlighting",
     "login": false,
-    "recurs": false,
+    "recurs": true,
     "desc": "Adds syntax highlighting to code blocks.",
     "entrypoint": "initCodeHighlights",
     "namespace": "codehighlights",
