@@ -165,9 +165,9 @@ document.addEventListener('keydown', function(e) {
     if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed.U == true) {
         if (!modal) {
             showSettingsModal();
-	} else {
-		modal.remove();
-	}
+        } else {
+            modal.remove();
+        }
         keyPressed = {};
     }
     if (keyPressed.Escape == true) {
@@ -228,21 +228,21 @@ function showSettingsModal() {
 
     function openHelpBox(it) {
         const settings = getSettings();
-	settings.lastPage = it
-	saveSettings(settings);
+        settings.lastPage = it
+        saveSettings(settings);
         let author = json[it].author;
         let desc = json[it].desc;
         let link = json[it].link;
         let linkLabel = json[it].link_label;
         let kbinPrefix = 'https://kbin.social/u/';
         let url = kbinPrefix + author;
-	let login = json[it].login;
-	let loginHR
-	    if(login) {
-		loginHR = "yes";
-	} else {
-	    loginHR = "no";
-	    }
+        let login = json[it].login;
+        let loginHR
+        if (login) {
+            loginHR = "yes";
+        } else {
+            loginHR = "no";
+        }
         let ns = json[it].namespace;
 
         //populate static fields
@@ -252,17 +252,17 @@ function showSettingsModal() {
         hBox.style.cssText = 'display: inline; opacity: 1;'
         if (link) {
             hBox.innerHTML = toggle +
-			'<p>Author: <a href="' + url + '">' + author + '</a><br>' +
-			'Link: <a href="' + link + '">' + linkLabel + '</a><br>' +
-			'Login required: ' + loginHR + '<br><br>' +
-			desc + '</p>'
+                '<p>Author: <a href="' + url + '">' + author + '</a><br>' +
+                'Link: <a href="' + link + '">' + linkLabel + '</a><br>' +
+                'Login required: ' + loginHR + '<br><br>' +
+                desc + '</p>'
         } else {
             hBox.innerHTML = toggle +
-			'<p>Author: <a href="' + url + '">' + author + '</a><br>' +
-			'Login required: ' + loginHR + '<br><br>' +
-			desc + '</p>';
+                '<p>Author: <a href="' + url + '">' + author + '</a><br>' +
+                'Login required: ' + loginHR + '<br><br>' +
+                desc + '</p>';
         }
-	const br = document.createElement('br');
+        const br = document.createElement('br');
         //populate dynamic fields
         if (json[it].fields) {
             const modSettings = getModSettings(ns)
@@ -297,7 +297,7 @@ function showSettingsModal() {
                             field.appendChild(opt);
                         }
                         hBox.appendChild(field);
-			hBox.appendChild(br);
+                        hBox.appendChild(br);
                         break;
                     case "radio":
                         const radioDiv = document.createElement('div');
@@ -320,13 +320,13 @@ function showSettingsModal() {
                             radioLabel.innerText = json[it].fields[i].values[j];
                             radioDiv.appendChild(field);
                             radioDiv.appendChild(radioLabel);
-			    let br = document.createElement('br');
+                            let br = document.createElement('br');
                             radioDiv.appendChild(br);
                         }
                         hBox.appendChild(radioDiv);
-			hBox.appendChild(br);
+                        hBox.appendChild(br);
                         break;
-		    case "checkbox":
+                    case "checkbox":
                         const checkboxLabel = document.createElement('label');
                         const cfield = document.createElement('input');
                         cfield.setAttribute("type", fieldType);
@@ -337,12 +337,12 @@ function showSettingsModal() {
                         }
                         cfield.setAttribute("kes-iter", it);
                         cfield.setAttribute("kes-key", key);
-			checkboxLabel.appendChild(cfield);
-			let ctext = document.createElement('text')
+                        checkboxLabel.appendChild(cfield);
+                        let ctext = document.createElement('text')
                         ctext.innerText = json[it].fields[i].checkbox_label;
                         checkboxLabel.appendChild(ctext)
                         hBox.appendChild(checkboxLabel);
-			break;
+                        break;
                     default: {
                         const field = document.createElement('input');
                         field.setAttribute("type", fieldType);
@@ -354,7 +354,7 @@ function showSettingsModal() {
                         field.setAttribute("kes-iter", it);
                         field.setAttribute("kes-key", key);
                         hBox.appendChild(field);
-			hBox.appendChild(br);
+                        hBox.appendChild(br);
                     }
                 }
             }
@@ -399,11 +399,11 @@ function showSettingsModal() {
     // Add script tag with opentab function
     function openTab(tabName) {
         const settings = getSettings();
-	if (settings.lastTab != tabName) {
-	    settings.lastPage = null;
-         }
-	settings.lastTab = tabName
-	saveSettings(settings);
+        if (settings.lastTab != tabName) {
+            settings.lastPage = null;
+        }
+        settings.lastTab = tabName
+        saveSettings(settings);
         let pageLower = tabName.charAt(0).toLowerCase() + tabName.slice(1);
         const tablinks = document.getElementsByClassName("kes-tab-link");
         for (let i = 0; i < tablinks.length; i++) {
@@ -431,12 +431,12 @@ function showSettingsModal() {
             }
         }
         if (pageToOpen.length > 0) {
-	   let lp = settings["lastPage"];
-		if (lp){
-			openHelpBox(lp)
-		} else {
-               openHelpBox(pageToOpen[0])
-		}
+            let lp = settings["lastPage"];
+            if (lp) {
+                openHelpBox(lp)
+            } else {
+                openHelpBox(pageToOpen[0])
+            }
         } else {
             let hBox = document.querySelector('.kes-settings-modal-helpbox');
             hBox.style.opacity = 0;
@@ -553,9 +553,9 @@ function showSettingsModal() {
     let lp = pageSettings["lastTab"]
     let startPage
     if (lp) {
-	    startPage = lp
+        startPage = lp
     } else {
-            startPage = sidebarPages[0].charAt(0).toUpperCase() + sidebarPages[0].slice(1);
+        startPage = sidebarPages[0].charAt(0).toUpperCase() + sidebarPages[0].slice(1);
     }
     openTab(startPage);
 }
@@ -570,11 +570,11 @@ function updateState(target) {
     let modValue
     let ns = json[it].namespace;
     let key = target.getAttribute('kes-key');
-	if (target.type === "checkbox"){
-           modValue = target.checked
-	} else {
-           modValue = target.value
-	}
+    if (target.type === "checkbox") {
+        modValue = target.checked
+    } else {
+        modValue = target.value
+    }
     const modSettings = getModSettings(ns);
 
     let state;
@@ -595,9 +595,9 @@ function updateState(target) {
     //necessarily reload the page when verbose timestamps are toggled off
     //otherwise, triggers a loop of mutations because reverting timeago mutates the watched node
     if ((func === "updateTime") && (state === false)) {
-    window.location.reload();
+        window.location.reload();
     } else {
-    applySettings(func);
+        applySettings(func);
     }
 }
 
@@ -642,23 +642,24 @@ function saveSettings(settings) {
     localStorage.setItem("kes-settings", JSON.stringify(settings));
 }
 
-function init(){
-for (let i = 0; i < json.length; ++i) {
-    applySettings(json[i].entrypoint);
+function init() {
+    for (let i = 0; i < json.length; ++i) {
+        applySettings(json[i].entrypoint);
     }
 }
+
 function initmut(list) {
     for (const mutation of list) {
         //workaround for timeago ticks changing timestamp textContent
         //reapply verbose timestamp
         if (mutation.target.className === 'timeago') {
-            if(mutation.target.textContent.indexOf("ago") >= 0){
-               applySettings("updateTime");
-        }
+            if (mutation.target.textContent.indexOf("ago") >= 0) {
+                applySettings("updateTime");
+            }
             //triggering on the first mutation is sufficient
             return
         } else {
-            //normal mutation (lazy load etc.), apply all mods
+	    //normal mutation (lazy load etc.), apply all recurring mods
             for (let i = 0; i < json.length; ++i) {
                 if (json[i].recurs) {
                     applySettings(json[i].entrypoint);
@@ -674,5 +675,5 @@ const watchedNode = document.querySelector('[data-controller="subject-list"]');
 const watchedNode2 = document.querySelector('#comments');
 const obs = new MutationObserver(initmut);
 init();
-obs.observe(watchedNode, {subtree: true,childList: true,attributes: false});
-obs.observe(watchedNode2, {subtree: false,childList: true,attributes: false});
+obs.observe(watchedNode, { subtree: true, childList: true, attributes: false});
+obs.observe(watchedNode2, { subtree: false, childList: true, attributes: false});
