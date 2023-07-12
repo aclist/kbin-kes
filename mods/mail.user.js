@@ -29,7 +29,7 @@ function getUsername(item) {
   }
 }
 
-function addLink() {
+function addLink(settings) {
    const itemsSelector = '.user-inline';
    const items = document.querySelectorAll(itemsSelector);
    items.forEach((item) => {
@@ -61,11 +61,11 @@ function addLink() {
    });
 }
 function addMail(toggle){
-    let settings = getModSettings("mail");
+	const settings = getModSettings("mail");
+        const pref = settings["prefix"]
     if (toggle) {
-            pref = settings["prefix"]
 	    document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before','content: "' + pref + '"; font-weight: 400');
-	addLink();
+	addLink(settings);
     } else {
 	    document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before','content: ""');
         $('.kes-mail-link').remove();
