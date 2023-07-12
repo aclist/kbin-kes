@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       1.0.6
+// @version       1.1.0
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -68,7 +68,9 @@ const funcObj = {
     magInstanceEntry: magInstanceEntry,
     updateTime: updateTime,
     toggleLogo: toggleLogo,
-    hideThumbs: hideThumbs
+    hideThumbs: hideThumbs,
+    navbarIcons: navbarIcons,
+    hideSidebar: hideSidebar
 };
 
 function fetchManifest() {

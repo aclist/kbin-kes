@@ -15,10 +15,10 @@
         "initial": "Text",
         "key": "type",
         "label": "Label type",
-	"values": [
-		"Text",
-		"Icon"
-	]
+        "values": [
+          "Text",
+          "Icon"
+        ]
       },
       {
         "type": "text",
@@ -338,7 +338,7 @@
     "page": "general"
   },
   {
-   "name": "Hide Votes and Reputation",
+    "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
     "label": "Hide reputation",
@@ -355,7 +355,7 @@
     "label": "Verbose timestamps",
     "login": false,
     "recurs": true,
-    "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax. NOTE: toggling off will reload the page",
+    "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax. Note: toggling off will reload the page",
     "entrypoint": "updateTime",
     "page": "general",
     "namespace": "timestamp",
@@ -363,7 +363,7 @@
       {
         "type": "radio",
         "initial": "UTC",
-	"label": "Offset",
+        "label": "Offset",
         "key": "offset",
         "values": [
           "UTC",
@@ -387,7 +387,7 @@
       {
         "type": "radio",
         "initial": "Hidden",
-	"label": "Logo type",
+        "label": "Logo type",
         "key": "logotype",
         "values": [
           "Hidden",
@@ -395,13 +395,13 @@
         ]
       }
     ]
-    },
+  },
   {
     "name": "Collapsible comments",
     "author": "artillect",
     "version": "1.3.8",
     "label": "Collapsible comments",
-    "desc": "Collapse comments by clicking on their headers, and the bars to their left. NOTE: toggling off will reload the page",
+    "desc": "Collapse comments by clicking on their headers, and the bars to their left. Note: toggling off will reload the page",
     "login": false,
     "recurs": true,
     "entrypoint": "initCollapsibleComments",
@@ -413,7 +413,7 @@
         "initial": "Headers and bars only",
         "label": "Collapse by clicking:",
         "key": "click",
-        "values" : [
+        "values": [
           "On headers and bars only (requires reload)",
           "Anywhere on comments"
         ]
@@ -430,5 +430,48 @@
     "desc": "Hide thumbnails on threads and comments",
     "entrypoint": "hideThumbs",
     "page": "general"
+  },
+  {
+    "name": "Hide sidebar",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Hide sidebar",
+    "login": false,
+    "recurs": true,
+    "desc": "Hide/unhide sidebar",
+    "entrypoint": "hideSidebar",
+    "page": "general"
+  },
+  {
+    "name": "Navbar icons",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Navbar icons as text",
+    "desc": "Change navbar search/post icons to text strings",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "navbarIcons",
+    "namespace": "nav_icons",
+    "fields": [
+      {
+        "type": "text",
+        "initial": "Search",
+        "key": "search",
+        "label": "Search icon"
+      },
+      {
+        "type": "text",
+        "initial": "Post",
+        "key": "post",
+        "label": "Post icon"
+      },
+      {
+        "type": "text",
+        "initial": "Subs",
+        "key": "subs",
+        "label": "Subs icon"
+      }
+    ],
+    "page": "navbar"
   }
 ]
