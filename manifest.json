@@ -4,18 +4,33 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add mail icon",
-    "desc": "Add mail link to usernames if on kbin.social",
-    "link": "",
-    "link_label": "",
-    "class": "addMail",
+    "desc": "Add mail link to usernames if on own instance",
+    "login": false,
+    "recurs": true,
     "entrypoint": "addMail",
     "namespace": "mail",
     "fields": [
       {
+        "type": "radio",
+        "initial": "Text",
+        "key": "type",
+        "label": "Label type",
+	"values": [
+		"Text",
+		"Icon"
+	]
+      },
+      {
         "type": "text",
         "initial": "PM",
         "key": "text",
-	"label": "Link label"
+        "label": "Label text"
+      },
+      {
+        "type": "text",
+        "initial": "submitted by",
+        "key": "prefix",
+        "label": "Poster prefix (use single space for empty)"
       }
     ],
     "page": "general"
@@ -25,52 +40,63 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add subs to navbar",
+    "login": true,
+    "recurs": false,
     "desc": "Add magazine subscription link to navbar",
-    "link": "",
-    "link_label": "",
-    "class": "initMags",
     "entrypoint": "initMags",
-    "page": "general"
+    "page": "navbar"
   },
   {
     "name": "Label OP",
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add OP label",
+    "login": false,
+    "recurs": true,
     "desc": "Print OP label next to thread author",
-    "link": "",
-    "link_label": "",
-    "class": "labelOp",
     "entrypoint": "labelOp",
-    "page": "threads"
+    "namespace": "labelcolors",
+    "page": "threads",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "#FFFFFF",
+        "key": "fgcolor",
+        "label": "Foreground color"
+      },
+      {
+        "type": "color",
+        "initial": "#111111",
+        "key": "bgcolor",
+        "label": "Background color"
+      }
+    ]
   },
   {
-    "name": "Activity dropdown",
+    "name": "Dropdown links",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Activity dropdown links",
-    "desc": "Convert activity links on threads/profile pages to dropdown",
-    "link": "",
-    "link_label": "",
-    "class": "dropdownEntry",
+    "label": "Dropdown links",
+    "login": false,
+    "recurs": false,
+    "desc": "Convert navigation links on profile pages to dropdown",
     "entrypoint": "dropdownEntry",
-    "page": "threads"
+    "page": "profile"
   },
   {
     "name": "kbin-code-highlighting",
-    "author": "0rito",
+    "author": "@Ori@sacredori.net",
     "version": "0.4.2",
-    "label": "Code Syntax Highlighting",
-    "desc": "Adds syntax highlighting for code blocks.",
-    "link": "",
-    "link_label": "",
-    "class": "initCodeHighlights",
+    "label": "Code syntax highlighting",
+    "login": false,
+    "recurs": true,
+    "desc": "Adds syntax highlighting for code blocks",
     "entrypoint": "initCodeHighlights",
     "namespace": "codehighlights",
     "fields": [
       {
         "type": "select",
-        "initial": "gruvbox",
+        "initial": "3024",
         "key": "style",
         "values": [
           "3024",
@@ -258,46 +284,24 @@
   {
     "name": "Kbin Easy Emoticon",
     "author": "minnieo",
-    "version": "0.6.1",
+    "version": "0.7.8",
     "label": "Easy emoticons",
+    "login": true,
+    "recurs": false,
     "desc": "Use slash commands for emoticons in textareas. /help to open a list",
-    "link": "https://docs.google.com/document/d/1jMeY7GwmgwrV8mEC4jmkEKKWdKuWvjgLgYrtUS5hPYg",
-    "link_label": "Command guide",
-    "class": "easyEmoticon",
     "entrypoint": "easyEmoticon",
     "page": "general"
   },
   {
-    "name": "YELLOWTEST",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "test color picker",
-    "desc": "Used to test colors",
-    "link": "",
-    "link_label": "",
-    "class": "yellowTest",
-    "entrypoint": "yellowInit",
-    "namespace": "yellow",
-    "fields": [
-      {
-        "type": "color",
-        "initial": "#ffff15",
-        "key": "color",
-	"label": "choose a color"
-      },
-      {
-	"type": "radio",
-	"initial": "111",
-	"values": [
-		"111",
-		"222",
-		"333"
-		],
-	"key": "text",
-	"label": "Some radio buttons"
-      }
-    ],
-    "page": "tests"
+    "name": "Federated Instance Names",
+    "author": "artillect",
+    "version": "0.1",
+    "label": "Magazine instance names",
+    "desc": "Show instance names next to magazines",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "magInstanceEntry",
+    "page": "general"
   },
   {
     "name": "Federated Instance Names",
@@ -307,61 +311,124 @@
     "desc": "Show instance names next to users",
     "link": "",
     "linkLabel": "",
-    "class": "userInstanceEntry",
     "entrypoint": "userInstanceEntry",
     "type": "checkbox",
     "page": "general"
   },
   {
-    "name": "Federated Instance Names",
-    "author": "artillect",
-    "version": "0.1",
-    "label": "Magazine instance names",
-    "desc": "Show instance names next to magazines",
-    "link": "",
-    "linkLabel": "",
-    "class": "magInstanceEntry",
-    "entrypoint": "magInstanceEntry",
-    "type": "checkbox",
-    "page": "general"
-  },
-  {
     "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
-    "label": "Hide Favorites",
+    "label": "Hide favorites",
+    "login": false,
+    "recurs": true,
     "desc": "Hide favorites (upvotes) on threads, posts, and comments",
-    "link": "",
-    "linkLabel": "",
-    "class": "hideUpvotes",
     "entrypoint": "hideUpvotes",
-    "type": "checkbox",
     "page": "general"
   },
   {
     "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
-    "label": "Hide Reduces",
+    "label": "Hide reduces",
+    "login": false,
+    "recurs": true,
     "desc": "Hide reduces (downvotes) on threads, posts, and comments",
-    "link": "",
-    "linkLabel": "",
-    "class": "hideDownvotes",
     "entrypoint": "hideDownvotes",
-    "type": "checkbox",
     "page": "general"
   },
   {
-    "name": "Hide Votes and Reputation",
+   "name": "Hide Votes and Reputation",
     "author": "artillect",
     "version": "0.2",
-    "label": "Hide Reputation",
+    "label": "Hide reputation",
     "desc": "Hide reputation on users' profiles",
-    "link": "",
-    "linkLabel": "",
-    "class": "hideReputation",
+    "login": false,
+    "recurs": false,
     "entrypoint": "hideReputation",
-    "type": "checkbox",
     "page": "profiles"
+  },
+  {
+    "name": "Verbose timestamps",
+    "author": "shazbot",
+    "version": "0.1",
+    "label": "Verbose timestamps",
+    "login": false,
+    "recurs": true,
+    "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax. Note: toggling off will reload the page",
+    "entrypoint": "updateTime",
+    "page": "general",
+    "namespace": "timestamp",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "UTC",
+	"label": "Offset",
+        "key": "offset",
+        "values": [
+          "UTC",
+          "Local time"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Toggle logo",
+    "author": "shazbot",
+    "version": "0.1",
+    "label": "Toggle logo",
+    "login": false,
+    "recurs": false,
+    "desc": "Disable or use alternate logo on navbar",
+    "entrypoint": "toggleLogo",
+    "page": "navbar",
+    "namespace": "changelogo",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Hidden",
+	"label": "Logo type",
+        "key": "logotype",
+        "values": [
+          "Hidden",
+          "Kibby"
+        ]
+      }
+    ]
+    },
+  {
+    "name": "Collapsible comments",
+    "author": "artillect",
+    "version": "1.3.8",
+    "label": "Collapsible comments",
+    "desc": "Collapse comments by clicking on their headers, and the bars to their left. Note: toggling off will reload the page",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "initCollapsibleComments",
+    "page": "comments",
+    "namespace": "collapsibleComments",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Headers and bars only",
+        "label": "Collapse by clicking:",
+        "key": "click",
+        "values" : [
+          "On headers and bars only (requires reload)",
+          "Anywhere on comments"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Hide thumbnails",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Hide thumbnails",
+    "login": false,
+    "recurs": true,
+    "desc": "Hide thumbnails on threads and comments",
+    "entrypoint": "hideThumbs",
+    "page": "general"
   }
 ]

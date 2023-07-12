@@ -10,9 +10,9 @@
   },
   "pages": [
     "general",
+    "navbar",
     "threads",
     "comments",
-    "profile",
-    "tests"
+    "profile"
   ]
 }

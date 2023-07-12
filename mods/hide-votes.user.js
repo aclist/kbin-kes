@@ -7,26 +7,26 @@
 // @match        https://kbin.social/*
 // @license      MIT
 // ==/UserScript==
-const upvoteObserver = new MutationObserver(hideUpvotes);
-const downvoteObserver = new MutationObserver(hideDownvotes);
+//const upvoteObserver = new MutationObserver(hideUpvotes);
+//const downvoteObserver = new MutationObserver(hideDownvotes);
 
 function hideUpvotes(toggle) {
     if (toggle) {
         $('form.vote__up').hide();
-        upvoteObserver.observe(document.body, { childList: true, subtree: true });
+	//upvoteObserver.observe(document.body, { childList: true, subtree: true });
     } else {
         $('form.vote__up').show();
-        upvoteObserver.disconnect();
+	//upvoteObserver.disconnect();
     }
 }
 
 function hideDownvotes(toggle) {
     if (toggle) {
         $('form.vote__down').hide();
-        downvoteObserver.observe(document.body, { childList: true, subtree: true });
+  //      downvoteObserver.observe(document.body, { childList: true, subtree: true });
     } else {
         $('form.vote__down').show();
-        downvoteObserver.disconnect();
+    //    downvoteObserver.disconnect();
     }
 }
 

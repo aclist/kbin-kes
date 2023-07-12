@@ -10,7 +10,6 @@
 
 // Get instance url from current page
 const localInstance = window.location.href.split('/')[2];
-console.log(localInstance);
 
 const userInstanceObserver = new MutationObserver(showUserInstances);
 const magInstanceObserver = new MutationObserver(showMagInstances);
