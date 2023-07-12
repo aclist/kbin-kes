@@ -4,26 +4,18 @@ GM_addStyle(`
     }
 `);
 function startup(firstBoot = false) {
-    setCss(kchCssUrl);
     if (firstBoot) {
         addHeaders('code');
     } else {
         addHeaders('code');
     }
-    const targetNode = document.getElementById('content').children[0];
-    const config = { childList: true, subtree: true };
-    const callback = (mutationList, observer) => {
-        for (const mutation of mutationList) {
-            addHeaders('code');
-        }
-    }
-    observer = new MutationObserver(callback);
-    observer.observe(targetNode, config);
+    setCss(kchCssUrl);
 }
 function shutdown() {
-    kchInjectedCss.remove();
+    if (kchInjectedCss) {
+        kchInjectedCss.remove();
+    }
     $('.kch_header').remove();
-    observer.disconnect();
 }
 function addTags(item) {
     if (item.previousSibling) {
@@ -110,14 +102,18 @@ function addHeaders(selector) {
 }
 let kchInjectedCss;
 let kchCssUrl;
-let observer;
+let kchLastToggleState = false;
 function initCodeHighlights(toggle) {
     if (toggle) {
         const settings = getModSettings("codehighlights");
         let myStyle = settings["style"];
         kchCssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
-        setCss(kchCssUrl);
+        if (kchLastToggleState === false) {
+            kchLastToggleState = true;
+            startup(true);
+        } else {
             startup();
+        }
         // Configure HLJS and enable.
         hljs.configure({
             ignoreUnescapedHTML: true
@@ -127,4 +123,3 @@ function initCodeHighlights(toggle) {
         shutdown();
     }
 }
-

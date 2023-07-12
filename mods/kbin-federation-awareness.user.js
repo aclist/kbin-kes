@@ -112,7 +112,9 @@ function kfaStartup() {
 }
 
 function kfaShutdown() {
-    kfaInjectedCss.remove();
+    if (kfaInjectedCss) {
+        kfaInjectedCss.remove();
+    }
 }
 
 function kfaRestart() {
@@ -145,6 +147,29 @@ function kfaInitClasses() {
             articleAside.prepend(articleIndicator);
         }
     });
+
+    document.querySelectorAll('.comments blockquote.entry-comment').forEach(function(comment) {
+            if (!(comment.classList.value.split(' ').some(r=> classList.indexOf(r) >= 0))) {
+                let commentHeader = comment.querySelector('header');
+                const userInfo = commentHeader.querySelector('a.user-inline');
+                if (userInfo) {
+                    const userHostname = userInfo.title.split('@').reverse()[0];
+                    let commentIndicator = document.createElement('div');
+
+                    if (kfaIsStrictlyModerated(userHostname)) {
+                        comment.classList.toggle('data-moderated');
+                        commentIndicator.classList.toggle('data-moderated');
+                    } else if (userHostname !== window.location.hostname) {
+                        comment.classList.toggle('data-federated');
+                        commentIndicator.classList.toggle('data-federated');
+                    } else {
+                        comment.classList.toggle('data-home');
+                        commentIndicator.classList.toggle('data-home');
+                    }
+                    commentHeader.prepend(commentIndicator);
+                }
+            }
+        });
 }
 
 let kfaInjectedCss;
@@ -157,6 +182,7 @@ let kfaSettingsScale;
 let kfaLastToggleState = false;
 
 function initKFA(toggle) {
+    console.log('kfa - init; toggle: ' + toggle + '; kfaLastToggleState: ' + kfaLastToggleState);
     if (toggle) {
         const settings = getModSettings('kbinFedAware');
         kfaSettingsFed = settings['kfaFedColor'];
@@ -169,9 +195,7 @@ function initKFA(toggle) {
             kfaLastToggleState = true;
             kfaStartup();
         } else {
-            kfaShutdown();
-            kfaStartup();
-            //kfaInitClasses();
+            kfaRestart();
         }
     } else {
         kfaLastToggleState = false;

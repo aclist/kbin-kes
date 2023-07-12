@@ -128,6 +128,7 @@
         "initial": 5,
         "min": 1,
         "max": 10,
+        "show_value": true,
         "label": "Bubble Scale (Only works if 'Indicator Style' is set to 'bubble'.)"
       },
       {

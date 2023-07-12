@@ -284,6 +284,30 @@ function showSettingsModal() {
                     saveModSettings(modSettings, ns);
                 };
                 switch (fieldType) {
+                    case "range":
+                        const range = document.createElement('input');
+                        range.setAttribute("type", fieldType);
+                        if (!modSettings[key]) {
+                            range.setAttribute("value", initial);
+                        } else {
+                            range.setAttribute("value", modSettings[key])
+                        }
+                        range.setAttribute("kes-iter", it);
+                        range.setAttribute("kes-key", key);
+                        range.setAttribute('min', json[it].fields[i].min);
+                        range.setAttribute('max', json[it].fields[i].max);
+                        if (json[it].fields[i].show_value) {
+                            range.setAttribute('oninput', key + '.innerText = this.value');
+                            const rangeValue = document.createElement('label');
+                            rangeValue.style.display = 'inline-block';
+                            rangeValue.style.verticalAlign = 'middle';
+                            rangeValue.style.marginLeft = '10px;';
+                            rangeValue.for = key;
+                            range.appendChild(rangeValue);
+                        }
+                        hBox.appendChild(range);
+                        hBox.appendChild(br);
+                        break;
                     case "select":
                         const field = document.createElement('select');
                         field.setAttribute('name', ns);
