@@ -43,11 +43,13 @@ Navigate to https://github.com/aclist/kbin-kes/raw/main/kes.user.js[the install 
 follow your browser extension's onscreen prompts to install it. Subsequent updates should be handled
 seamlessly, and KES will notify you if there is a new version available.
 
+New add-ons are deployed directly within the menu, and the suite of features should grow over time.
+
 == Usage
 
 === Main menu
-To open the KES settings menu, press `Ctrl-Shift-L` or click the wrench icon in the top right corner of the page.
-Pressing `Ctrl-Shift-L` again, or clicking on the close button or anywhere outside of the menu will close it.
+To open the KES settings menu, press `Ctrl-Shift-U` or click the wrench icon in the top right corner of the page.
+Pressing `Ctrl-Shift-U` again, `Escape`, or clicking on the close button or anywhere outside of the menu will close it.
 
 The menu is divided into pages; each page contains a list of modifications.
 You can switch between pages by clicking on the page name in the list on the left side of the menu (or the top if on mobile).
@@ -56,12 +58,14 @@ Clicking the name of a modification will open an information panel with a descri
 If the modification has any additional settings, they can be configured here.
 
 On devices where the menu doesn't take up the whole screen, it can be docked to the bottom of the screen by clicking the arrow
-icon in the top right corner of the menu. Clicking the arrow again will undock the menu.
+icon in the top right corner of the menu. Clicking the arrow again will undock the menu. Docking could also be used to hide the interface
+out of the way in order to see changes that would otherwise be occluded by the main menu.
 
 === Settings
 The toggle state of a modification and its settings will be saved and persist across browser sessions.
 
-To submit a bug report/feature request or visit the KES home page, follow the links shown within the KES menu itself.
+To submit a bug report/feature request or visit the KES home page, follow the links shown within the KES menu itself, or navigate
+https://github.com/aclist/kbin-kes/issues/new/choose[here].
 
 == Developers
 
@@ -125,7 +129,7 @@ In addition, it has stored the position of the KES window to `up`. (This is not 
 <2> Finally, the four add-ons `codehighlights`, `languagefilter`, `mail`, and `timestamp` have respectively saved
 their own settings in custom namespaces. (The other three add-ons did not request any custom settings fields.)
 
-KES handles toggling of add-ons and passes their boolean state to the recipient script on pageload events and changes to the thread/post content area.
+KES handles toggling of add-ons and passes their boolean state to the recipient script on pageload events and mutations to the thread/post content area.
 
 The recipient script therefore does not need to poll this state or watch for page changes, as it is called as an internal function of KES when needed.
 
@@ -169,12 +173,12 @@ The only responsibilities of the recipient script are:
     "page": "general" <5>
   }
 ----
-<1> If the user has enabled lazy loading (infinite scroll) and the add-on modifies new threads and/or comments, setting this value to true will ensure that the script is applied again.
+<1> If the user has enabled lazy loading (infinite scroll) and the add-on is expected to modify these new threads and/or comments, setting this value to true will ensure that the script is applied again.
 <2> A globally unique namespace under which the script's custom field settings are stored.
 <3> See <<Adding custom input fields>>. In the above example, the descriptive text 'Label type' will be printed on one line, followed by a line break, then two radio buttons respectively labeled 'Text' and 'Icon', in that order,
-separated by line breaks, with the 'Text' radio button initially selected. The value 'Text' will be saved under the `mail.type` key (i.e., prefer a text label instead of icon) and updated if the user changes the radio button.
+separated by line breaks, with the 'Text' radio button initially selected. The initial value of 'Text' will be saved under the `mail.type` key (i.e., prefer a text label instead of an icon) and updated if the user changes the radio button.
 <4> This is followed by a descriptive label reading 'Link label', a line break,
-and then a textarea initially set to the string 'PM', with this value stored under the `mail.text` key. In this example, the link label would be used by the recipient script if `mail.type` was set to `Text`. KES is agnostic to how these settings are parsed and merely populates the fields.
+and then a textarea initially set to the string 'PM', with this value stored under the `mail.text` key. In this example, the link label might be used by the recipient script if `mail.type` was set to `Text`. KES is agnostic to how these settings are parsed and merely populates the fields.
 As far as KES is concerned, functionality of one field does not depend on another; it is up to the author to add additional fields if necessary.
 <5> The contents of the metadata and custom fields will be added to the 'General' page of the sidebar under the feature label 'Add mail icon'. Available pages can be seen within the file `ui.json`.
 
@@ -184,36 +188,45 @@ As far as KES is concerned, functionality of one field does not depend on anothe
 |Key|Optional?|Type|Value
 
 |name||string|An internal, "official" name of the add-on, possibly more verbose than the user-facing string
-|author||string|The author of the add-on. This is user-facing and links back to the named profile on kbin. If you are on an instance other than kbin.social, include the full @<user>@<instance> designation here
+|author||string
+a|The author of the add-on. This is user-facing and links back to the named profile on kbin. If you are on an instance other than kbin.social, include the full `@<user>@<instance>` designation here
 |version||string|An internal version number
 |label||string|A short, descriptive name of the feature, used when printing it in the list of options. This
 functions as the "name" of the feature seen by users
-|desc||string|A human-readable description of what the feature does
-|login||boolean|Whether the option requires being logged into the site to function/display correctly
-|recurs||boolean|If the feature should recur and apply to new elements in the tree in the event of DOM changes
-to the `'#content'` area, such as new posts or threads when lazy load (infinite scrolling) is enabled
-|entrypoint||string|A globally unique function entrypoint in the recipient script used to toggle the feature
+|desc||string|A user-facing description of what the feature does
+|login||boolean
+a|Whether the option requires being logged into the site to function/display correctly. `true` and `false` will respectively be styled to the user-facing strings "yes" and "no"
+|recurs||boolean
+a|If the feature should recur and apply to new elements in the tree in the event of DOM changes
+to the content area, such as new posts or threads when lazy load (infinite scrolling) is enabled
+|entrypoint||string|A globally unique entrypoint function in the recipient script used to toggle the feature
 on or off.
-|namespace|yes|string|A globally unique namespace used if the add-on exposes custom input fields (see below)
+|namespace|yes|string|A globally unique namespace used if the add-on exposes custom input fields (see below).
 This namespace is used when parsing localStorage
 |link|yes|string|A link to external content, such as a web site or help file
-|link_label|yes|string|A human-readable label for the link above
+|link_label|yes|string|A user-facing label for the link above
 |fields|yes|string|An array of objects containing custom input fields
 |===
 
 === Adding custom input fields
+
+Custom input fields are themselves optional, but if the `fields` array above has been declared, it must be filled with the requisite keys below.
 
 .The fields array
 [%autowidth]
 |===
 |Key|Optional?|Type|Value
 
-|type||string|The input field type
+|type||string
+a|The input field type. Available types are `select`, `radio`, `checkbox`, and miscellaneous single-value types defined https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input[here]
 |initial||string (if checkbox, bool)|The initial value the field is set to
-|key||string|A unique key for this setting, stored under the object namespace defined in Table 1
+|key||string
+a|A unique key for this setting, stored under the object namespace defined in Table 1. This key is parsed by the recipient script in the format `namespace.key` in order to extract user-defined settings
 |label|yes|string|A descriptive label of what the setting does, printed above the input field
-|values|required if `type` is select or radio|array of strings|If the type is `select` or `radio`, an array of human-readable labels, which also function as values, used to populate each option
-|checkbox_label|required if `type` is checkbox|string|A human-readable label printed to the right of a checkbox
+|values
+a|required if `type` is `select` or `radio`|array of strings|If the type is `select` or `radio`, an array of user-facing labels, which also function as values, used to populate each option
+|checkbox_label
+a|required if `type` is `checkbox`|string|A user-facing label printed to the right of a checkbox
 |===
 
 === Script calling logic
@@ -241,20 +254,20 @@ function myEntryPoint(toggle) {
 Bear in mind that if you have defined custom input fields, such as choosing between different label/icon types or supporting custom strings, or
 when an infinite scroll event occurs (<<Handling infinite scrolling>>), KES may attempt to call the entrypoint function again and apply the new settings.
 
-Therefore, if the element being modified already exists, you should add logic to either override its current value or return gracefully, as seen in the boilerplate example above.
+Therefore, if the element being modified already exists, you should add logic to either override its current value or return gracefully, as seen in the boilerplate examples above and below.
 Otherwise, the same element may be created multiple times.
 
 === Retrieving custom settings
 
-Parsing your script's setting is as simple as calling `getModSettings()` with the desired namespace and applying those accordingly.
+Parsing your script's settings is as simple as calling `getModSettings()` with the desired namespace and applying those accordingly.
 
 You can also leverage this function to retrieve the settings of other scripts for more synergistic functionality.
 
 ----
-const myNs = "mymod";
-const settings = getModSettings(myNs);
-const color = settings["color"];
-const mydiv = document.querySelector("mydiv");
+let myNs = "mymod";
+let settings = getModSettings(myNs);
+let color = settings["color"];
+let mydiv = document.querySelector("mydiv");
 mydiv.style.cssText = "background-color:" + color;
 ----
 
@@ -274,8 +287,8 @@ function toggleOn(){
 ----
 === Handling infinite scrolling
 
-The `recurs` boolean (<<JSON manifest>>) is used to specify whether the script's entrypoint function should be called again when
-the thread (`'[data-controller="subject-list"]\'`) or post content area (`'#comments'`) has DOM changes. This allows your mod to be applied again in the event of post replies, new threads being loaded in,
+The `recurs` boolean (see <<JSON manifest>>) is used to specify whether the script's entrypoint function should be called again when
+the thread (`'[data-controller="subject-list"]\'`) or post content area (`'#comments'`) have DOM changes. This allows your mod to be applied again in the event of post replies, new threads being loaded in,
 et cetera.
 
 Simply set this value in the manifest and the script will be called automatically and applied to the new content.
@@ -314,7 +327,7 @@ scope.
 
 - No need to handle extra event listeners
 
-Unless you are creating a special button or widget, there is no need to actively watch the page for changes (e.g. `onload`), as KES
+Unless you are creating a special button or widget triggering on, e.g., clicks, there is no need to actively watch the page for changes (like `onload`), as KES
 handles this for you and will apply your changes accordingly in the event of infinite scrolling, reload events, etc.
 
 - Aim for minimal, concise features that do one simple thing well
@@ -328,4 +341,3 @@ complex workflows; scripts that make highly opinionated changes or themselves cr
 - Prefer 4-space indentation
 - Prefer https://www.conventionalcommits.org/en/v1.0.0/[conventional commits]
 - Linting with ESLint is encouraged but not required
-
