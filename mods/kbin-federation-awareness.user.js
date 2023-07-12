@@ -173,6 +173,6 @@ function initKfa(toggle) {
         }
     } else {
         kfaLastToggleState = false;
-        shutdown();
+        kfaShutdown();
     }
 }
