@@ -61,7 +61,7 @@ function addLink() {
    });
 }
 function addMail(toggle){
-    settings = getModSettings("mail");
+    let settings = getModSettings("mail");
     if (toggle) {
             pref = settings["prefix"]
 	    document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before','content: "' + pref + '"; font-weight: 400');
