@@ -11,9 +11,9 @@
 // @updateURL      https://github.com/aclist/kbin-scripts/raw/main/dropdown.user.js
 // ==/UserScript==
 
-/* globals $ */
+// globals $
 
-function addDropdown(){
+function addDropdown(user, testMsg){
     function addOption(item){
         var text = item.innerText;
         var val = text.substring(0, text.indexOf(' '));
@@ -26,13 +26,15 @@ function addDropdown(){
 
     function buildDropdown(selector) {
         var active = document.querySelector('.options__main li a.active')
+	if (testMsg !== "message") {
         addOption(active);
+	}
         const items = document.querySelectorAll(selector);
           items.forEach((item) => {
               addOption(item);
           });
     }
-    //inject select menu//
+    //inject select menu
     var leftDiv = document.querySelector(".options__title");
     var selector = '.options__main li a:not(.active)'
     var selectList = document.createElement("select");
@@ -41,38 +43,39 @@ function addDropdown(){
     leftDiv.appendChild(selectList);
     buildDropdown(selector);
 
-    // event listener //
-    $(document).on('change','#dropdown-select',function(){
+    // event listener
+	$(document).on('change','#dropdown-select',function(){
         var page = $('#dropdown-select').val();
-        var baseUrl = window.location.href;
-        var urlArr = baseUrl.split("/");
-        var username = urlArr[4];
         const pref = 'https://kbin.social/u/'
-        var finalUrl = pref + username + "/" + page;
+        var finalUrl = pref + user + "/" + page;
         window.location = finalUrl;
     })
 
-	// clean up old elements //
-        window.addEventListener("load", function () {
-        var horizontalScroll = document.querySelector('.options__main');
-        horizontalScroll.style.cssText += 'display:none';
-        var scrollArrows = document.querySelector('.scroll');
-        scrollArrows.style.cssText += 'display:none';
-    });
+	// clean up old elements
+	$('.options__main').hide();
+	$('.scroll').hide();
 }
 function removeDropdown(){
             $('#dropdown-select').remove();
-            var detached = $('.#dropdown-select').replaceWith('');
+            var detached = $('#dropdown-select').replaceWith('');
             var horizontalScroll = document.querySelector('.options__main');
             horizontalScroll.style.cssText += 'display:grid';
             var scrollArrows = document.querySelector('.scroll');
             scrollArrows.style.cssText += 'display:grid';
+		$('.options__main').show();
+		$('.scroll').show();
 }
 function dropdownEntry(toggle){
-    console.log(toggle)
-    if (toggle === false) {
-        removeDropdown();
-    } else {
-        addDropdown();
+    let testLoc = window.location.href;
+    let locArr = testLoc.split("/");
+    let testPage = locArr[3];
+    let user = locArr[4];
+    let testMsg = locArr[5];
+    if(testPage === "u") {
+	    if (toggle === false) {
+		removeDropdown();
+	    } else {
+		addDropdown(user, testMsg);
+	    }
     }
 }

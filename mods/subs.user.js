@@ -16,9 +16,13 @@ function createMags(){
     var split = user.href.split("/");
     var username = split[4];
     var subLink = 'https://kbin.social/u/' + username + '/subscriptions';
+    var subsNav = document.querySelector('.subs-nav');
     if ( username == null) {
         return;
-        } else {
+    } else if (subsNav) {
+	    return;
+    }
+	else {
             const myListItem = document.createElement('li');
             const mySubsLink = document.createElement('a');
             mySubsLink.setAttribute('href', subLink);
@@ -30,10 +34,9 @@ function createMags(){
 }
 
 function initMags(toggle){
-    console.log(toggle);
-    if (toggle == false) {
-        $('.subs-nav').remove();
-    } else {
+    if (toggle) {
         createMags();
+    } else {
+        $('.subs-nav').remove();
     }
 }

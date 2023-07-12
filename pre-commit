@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+COLUMNS=1
+version_file="VERSION"
+master_file="kes.user.js"
+vers=$(< $version_file)
+opts=(
+	"MAJOR (breaking API change)"
+	"MINOR (feature)"
+	"PATCH (hotfix)"
+	"chore (static docs/task/file manipulation)"
+     )
+bump_vers(){
+	local ma=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\1/g')
+	local mi=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\3/g')
+	local pa=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\5/g')
+	case $1 in
+		"major")
+			ma=$((ma+1))
+			mi=0
+			pa=0
+			;;
+		"minor")
+			mi=$((mi+1))
+			pa=0
+			;;
+		"patch")
+			pa=$((pa+1))
+			;;
+	esac
+	local newvers="${ma}.${mi}.${pa}"
+	echo "$newvers" > $version_file
+	sed -i "s/\(\/\/ @version *\)\([0-9]\+.*\)/\1$newvers/g" $master_file
+	echo "HOOK========>Bumping version from $vers to $newvers"
+	git add $version_file
+	git add $master_file
+}
+test_mod(){
+	local added=$(git diff --cached --name-status | awk '/^A/ {print $2}')
+	local ct=$(<<< "$added" wc -l)
+	[[ $ct -gt 1 ]] || [[ $ct -eq 0 ]] && return
+	if [[ $added =~ user.js ]]; then
+		local newmod=$(<<< "$added" awk -F. '{print $1}')
+		local branch=$(git name-rev --name-only HEAD)
+		local url="// @require       https://github.com/aclist/kbin-kes/raw/$branch/mods/$mod"
+		local func=$(<<< "$mod" awk -F. '{print $1}')
+		awk -v mod="$url" '!f && /resource/ {print mod;f=1}1' $master_file | sponge $master_file
+		awk -v entry="$func" 'f{print "    " entry ": " entry ",";f=0} /const funcObj/{f=1}1' $master_file | sponge $master_file
+	fi
+}
+
+#test_mod
+
+echo "This commit change is of type:"
+select opt in "${opts[@]}"; do
+	case $opt in
+	    ${opts[0]}) bump_vers major ;;
+	    ${opts[1]}) bump_vers minor ;;
+	    ${opts[2]}) bump_vers patch ;;
+	    ${opts[3]}) : ;;
+	esac
+	break
+done < /dev/tty

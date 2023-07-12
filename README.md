@@ -1,30 +1,23 @@
 
-![Alt text](/examples/mm2.png)
+![Alt text](/images/example.png)
 
-# Note to end users
+Pictured above in conjunction with [kbin-css](https://github.com/aclist/kbin-css)
 
-This tool is not ready for mainstream consumption yet.
+# Description
+
+kbin Enhancement Suite (KES) is an add-on manager for userscripts modify kbin. 
+In addition, it provides a turnkey, declarative framework for incorporating new features.
+
+As such, KES is three things:
+
+- A curated and audited collection of modifications (userscripts)
+- A menu for managing this collection of modifications
+- A standardized framework for authors to add new modifications
+
+# Installation and usage
+
+Please refer to the [basic documentation](https://aclist.github.io/kes/kes.html)
 
 # Developers
 
-## Adding a script
-
-1. Add the script to the /mods directory
-2. Add the script's absolute path to the includes (`@require`)
-3. Update manifest.json with appropriate values
-4. Update funcObj with string=>function mappings
-5. Add necessary @grants to megamod.user.js
-6. Submit a PR
-
-## Specifications
-
-- Prefer 4 space indentation
-- Prefer [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
-- Script entry point must accept a boolean toggle (true = setup, false = teardown)
-
-
-## TODO
-- Update this README
-- Specify if option requires login
-
-
+Please refer to the [developers section of the documentation](https://aclist.github.io/kes/kes.html#_developers)
