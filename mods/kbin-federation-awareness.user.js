@@ -156,7 +156,7 @@ let kfaSettingsStyle;
 let kfaSettingsScale;
 let kfaLastToggleState = false;
 
-function initKfa(toggle) {
+function initKFA(toggle) {
     if (toggle) {
         const settings = getModSettings('kbinFedAware');
         kfaSettingsFed = settings['kfaFedColor'];
@@ -169,7 +169,9 @@ function initKfa(toggle) {
             kfaLastToggleState = true;
             kfaStartup();
         } else {
-            kfaInitClasses();
+            kfaShutdown();
+            kfaStartup();
+            //kfaInitClasses();
         }
     } else {
         kfaLastToggleState = false;
