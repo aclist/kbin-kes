@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       1.0.2
+// @version       1.0.3
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -161,6 +161,7 @@ document.addEventListener('keydown', function(e) {
     keyPressed[e.key] = true;
 
     if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed["?"] == true) {
+	e.preventDefault();
         if (!modal) {
             showSettingsModal();
         } else {
