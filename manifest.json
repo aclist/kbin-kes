@@ -141,7 +141,8 @@
         ],
         "label": "Border Side"
       }
-    ]
+    ],
+    "page": "threads"
   },
   {
     "name": "kbin-code-highlighting",
