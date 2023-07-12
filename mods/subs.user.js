@@ -15,7 +15,7 @@ function createMags(){
     var user = document.querySelector('.login');
     var split = user.href.split("/");
     var username = split[4];
-    var subLink = 'https://kbin.social/u/' + username + '/subscriptions';
+    var subLink = 'https://' + window.location.hostname +'/u/' + username + '/subscriptions';
     var subsNav = document.querySelector('.subs-nav');
     if ( username == null) {
         return;
