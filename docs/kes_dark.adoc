@@ -1,6 +1,6 @@
 :nofooter:
 :toc: left
-:stylesheet: custom.css
+:stylesheet: dark.css
 :icons: font
 
 = kbin Enhancement Suite (KES)
