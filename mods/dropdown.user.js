@@ -13,7 +13,7 @@
 
 // globals $
 
-function addDropdown(){
+function addDropdown(user, testMsg){
     function addOption(item){
         var text = item.innerText;
         var val = text.substring(0, text.indexOf(' '));
@@ -26,7 +26,9 @@ function addDropdown(){
 
     function buildDropdown(selector) {
         var active = document.querySelector('.options__main li a.active')
+	if (testMsg !== "message") {
         addOption(active);
+	}
         const items = document.querySelectorAll(selector);
           items.forEach((item) => {
               addOption(item);
@@ -44,11 +46,8 @@ function addDropdown(){
     // event listener
 	$(document).on('change','#dropdown-select',function(){
         var page = $('#dropdown-select').val();
-        var baseUrl = window.location.href;
-        var urlArr = baseUrl.split("/");
-        var username = urlArr[4];
         const pref = 'https://kbin.social/u/'
-        var finalUrl = pref + username + "/" + page;
+        var finalUrl = pref + user + "/" + page;
         window.location = finalUrl;
     })
 
@@ -70,11 +69,13 @@ function dropdownEntry(toggle){
     let testLoc = window.location.href;
     let locArr = testLoc.split("/");
     let testPage = locArr[3];
+    let user = locArr[4];
+    let testMsg = locArr[5];
     if(testPage === "u") {
 	    if (toggle === false) {
 		removeDropdown();
 	    } else {
-		addDropdown();
+		addDropdown(user, testMsg);
 	    }
     }
 }
