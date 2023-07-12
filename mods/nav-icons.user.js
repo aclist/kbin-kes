@@ -7,7 +7,6 @@ function navbarIcons(toggle){
         document.styleSheets[0].addRule('header menu li:nth-of-type(1) .icon ::before','content: "' + search + '";');
         document.styleSheets[0].addRule('header menu li:nth-of-type(2) .icon ::before','content: "' + post + '";');
         document.styleSheets[0].addRule('header menu li:nth-of-type(3) .icon ::before','content: "' + subs + '";');
-	addLink();
     } else {
         document.styleSheets[0].addRule('header menu li:nth-of-type(1) .icon ::before','content:"\\f002" ;');
 	    document.styleSheets[0].addRule('header menu li:nth-of-type(2) .icon ::before','content:"\+" ;');
