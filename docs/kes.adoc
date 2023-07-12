@@ -48,8 +48,8 @@ New add-ons are deployed directly within the menu, and the suite of features sho
 == Usage
 
 === Main menu
-To open the KES settings menu, press `Ctrl-Shift-U` or click the wrench icon in the top right corner of the page.
-Pressing `Ctrl-Shift-U` again, `Escape`, or clicking on the close button or anywhere outside of the menu will close it.
+To open the KES settings menu, press `Ctrl-Shift-?` or click the wrench icon in the top right corner of the page.
+Pressing `Ctrl-Shift-?` again, `Escape`, or clicking on the close button or anywhere outside of the menu will close it.
 
 The menu is divided into pages; each page contains a list of modifications.
 You can switch between pages by clicking on the page name in the list on the left side of the menu (or the top if on mobile).
