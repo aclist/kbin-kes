@@ -1,4 +1,4 @@
-const bird = 'https://raw.githubusercontent.com/aclist/kbin-kes/testing/images/kbin_logo_kibby.svg'
+const bird = 'https://raw.githubusercontent.com/aclist/kbin-kes/main/images/kbin_logo_kibby.svg'
 const render = "URL";
 const defaultLogo = "/kbin_logo.svg";
 
