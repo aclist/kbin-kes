@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       0.26.5
+// @version       0.26.6
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -162,7 +162,7 @@ document.addEventListener('keydown', function(e) {
     let modal = document.querySelector('.kes-settings-modal')
     keyPressed[e.key] = true;
 
-    if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed.L == true) {
+    if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed.U == true) {
         if (!modal) {
             showSettingsModal();
 	} else {
@@ -170,12 +170,12 @@ document.addEventListener('keydown', function(e) {
 	}
         keyPressed = {};
     }
-//    if (keyPressed.Escape == true) {
-//        if (modal) {
-//            modal.remove();
-//        }
-//        keyPressed = {};
-//    }
+    if (keyPressed.Escape == true) {
+        if (modal) {
+            modal.remove();
+        }
+        keyPressed = {};
+    }
 
 }, false);
 
@@ -404,7 +404,6 @@ function showSettingsModal() {
          }
 	settings.lastTab = tabName
 	saveSettings(settings);
-	console.log(settings)
         let pageLower = tabName.charAt(0).toLowerCase() + tabName.slice(1);
         const tablinks = document.getElementsByClassName("kes-tab-link");
         for (let i = 0; i < tablinks.length; i++) {
