@@ -432,6 +432,17 @@
     "page": "general"
   },
   {
+    "name": "Hide sidebar",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Hide sidebar",
+    "login": false,
+    "recurs": true,
+    "desc": "Hide/unhide sidebar",
+    "entrypoint": "hideSidebar",
+    "page": "general"
+  },
+  {
     "name": "Navbar icons",
     "author": "shazbot",
     "version": "0.1.0",

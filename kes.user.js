@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       1.1.2
+// @version       1.2.0
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -26,6 +26,7 @@
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-sidebar.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting.user.js
@@ -70,7 +71,8 @@ const funcObj = {
     updateTime: updateTime,
     toggleLogo: toggleLogo,
     hideThumbs: hideThumbs,
-    navbarIcons: navbarIcons
+    navbarIcons: navbarIcons,
+    hideSidebar: hideSidebar
 };
 
 function fetchManifest() {
