@@ -5,7 +5,8 @@ Pictured above in conjunction with [kbin-css](https://github.com/aclist/kbin-css
 
 # Description
 
-kbin Enhancement Suite (KES) is an add-on manager for userscripts modify kbin, in addition to being a turnkey, declarative framework for incorporating new features.
+kbin Enhancement Suite (KES) is an add-on manager for userscripts modify kbin. 
+In addition, it provides a turnkey, declarative framework for incorporating new features.
 
 As such, KES is three things:
 
