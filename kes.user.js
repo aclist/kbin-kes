@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       1.1.2
+// @version       1.1.3
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -617,7 +617,7 @@ function applySettings(entry) {
     }
 }
 
-function getModSettings(namespace) {
+window.getModSettings = function(namespace) {
     let settings = localStorage.getItem(namespace)
     if (!settings) {
         settings = {};
