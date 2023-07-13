@@ -53,10 +53,5 @@ function textResize(toggle) {
     if (toggle) {
         resizeText();
     } else {
-        reloadFlag = true;
-         if (reloadFlag) {
-            location.reload();
-            reloadFlag = false; 
-        }
     }
 }
