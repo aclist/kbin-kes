@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       1.1.6
+// @version       1.2.0
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -53,6 +53,7 @@ const versionFile = branch + "VERSION";
 const updateURL = branch + "kes.user.js";
 const bugURL = repositoryURL + "issues"
 const magURL = "https://kbin.social/m/enhancement"
+const changelogURL = repositoryURL + "blob/main/CHANGELOG.md"
 
 //object used for interpolation of function names
 const funcObj = {
@@ -202,6 +203,7 @@ function showSettingsModal() {
     header.innerHTML = `
             <span class="kes-close"><i class="` + layoutArr.header.close + `"></i></span>
             <span class="kes-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
+            <span class="kes-changelog"><a href="` + changelogURL + `"><i class="` + layoutArr.header.changelog + `"></i></a></span>
             <span class="kes-version">` + versionElement.outerHTML + `</span>
             `
 
@@ -540,7 +542,6 @@ function showSettingsModal() {
         }
         saveSettings(settings);
     });
-
 
     //close button
     modal.querySelector(".kes-settings-modal .kes-close").addEventListener("click", () => {
