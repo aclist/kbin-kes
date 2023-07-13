@@ -7,33 +7,29 @@
 // @match        https://kbin.social/*
 // @license      MIT
 // ==/UserScript==
-//const upvoteObserver = new MutationObserver(hideUpvotes);
-//const downvoteObserver = new MutationObserver(hideDownvotes);
 
 function hideUpvotes(toggle) {
     if (toggle) {
         $('form.vote__up').hide();
-	//upvoteObserver.observe(document.body, { childList: true, subtree: true });
     } else {
         $('form.vote__up').show();
-	//upvoteObserver.disconnect();
     }
 }
 
 function hideDownvotes(toggle) {
     if (toggle) {
         $('form.vote__down').hide();
-  //      downvoteObserver.observe(document.body, { childList: true, subtree: true });
     } else {
         $('form.vote__down').show();
-    //    downvoteObserver.disconnect();
     }
 }
 
 function hideReputation(toggle) {
     if (toggle) {
         $('#sidebar > section.section.user-info > ul > li:nth-child(2)').hide();
+        document.styleSheets[0].addRule('.user-popover ul li:nth-of-type(2)','display:none')
     } else {
         $('#sidebar > section.section.user-info > ul > li:nth-child(2)').show();
+        document.styleSheets[0].addRule('.user-popover ul li:nth-of-type(2)','display:initial')
     }
 }
