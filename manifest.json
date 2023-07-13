@@ -486,18 +486,29 @@
     "namespace": "resize",
     "page": "comments",
     "fields": [
-      {
+        {
         "type": "radio",
-        "initial": "Normal",
-        "key": "size",
-        "label": "Choose a size:",
+        "initial": "Only comments",
+        "key": "option",
+        "label": "Apply to:",
         "values": [
-          "Small",
-          "Normal",
-          "Large",
-          "Extra Large",
-          "Extra Extra Large"
+          "Only comments",
+          "Only posts",
+          "Comments and posts"
         ]
+      },
+      {
+          "type": "radio",
+          "initial": "Normal",
+          "key": "size",
+          "label": "Choose a size:",
+          "values": [
+            "Small",
+            "Normal",
+            "Large",
+            "Extra Large",
+            "Extra Extra Large"
+          ]
       }
     ]
   }
