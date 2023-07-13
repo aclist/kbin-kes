@@ -249,9 +249,17 @@ function showSettingsModal() {
 
     function kesFormatAuthorUrl(author) {
         if (author.includes('@')) {
-            return 'https://' + window.location.hostname + '/u/' + author;
+            if (window.location.hostname === author.split('@')[2]) {
+                return 'https://' + window.location.hostname + '/u/' + author.split('@')[1];
+            } else {
+                return 'https://' + window.location.hostname + '/u/' + author;
+            }
         } else {
-            return 'https://' + window.location.hostname + '/u/@' + author + '@kbin.social';
+            if (window.location.hostname === 'kbin.social') {
+                return 'https://' + window.location.hostname + '/u/' + author;
+            } else {
+                return 'https://' + window.location.hostname + '/u/@' + author + '@kbin.social';
+            }
         }
     }
 
