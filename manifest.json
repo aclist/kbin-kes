@@ -487,7 +487,7 @@
     "page": "comments",
     "fields": [
         {
-        "type": "radio",
+        "type": "select",
         "initial": "Only comments",
         "key": "option",
         "label": "Apply to:",
