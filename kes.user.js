@@ -141,7 +141,7 @@ const sidebarPages = layoutArr.pages;
 const headerTitle = layoutArr.header.title
 
 //instantiate kes modal
-const kbinContainer = document.querySelector(".kbin-container > menu");
+/*const kbinContainer = document.querySelector(".kbin-container > menu");
 const kesPanel = document.createElement("aside");
 const kesPanelUl = document.createElement("ul");
 const title = document.createElement("h3");
@@ -157,7 +157,21 @@ settingsButton.addEventListener("click", () => {
     showSettingsModal();
 });
 title.appendChild(settingsButton);
-kesPanel.appendChild(kesPanelUl);
+kesPanel.appendChild(kesPanelUl);*/
+const kbinContainer = document.querySelector('.kbin-container > menu');
+const kesPanel = document.createElement('li');
+kesPanel.id = 'kes-settings';
+//kesPanel.classList = layoutArr.header.open;
+kbinContainer.appendChild(kesPanel);
+const settingsButton = document.createElement('i');
+settingsButton.id = 'kes-settings-button';
+settingsButton.classList = layoutArr.header.open;
+//settingsButton.classList = 'fa-solid fa-wrench'
+settingsButton.style.verticalAlign = 'middle';
+settingsButton.addEventListener('click', () => {
+    showSettingsModal();
+});
+kesPanel.appendChild(settingsButton);
 
 var keyPressed = {};
 document.addEventListener('keydown', function(e) {
