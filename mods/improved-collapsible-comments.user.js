@@ -405,7 +405,7 @@ function applyCommentStyles() {
         }
         `;
     }
-    safeGM("addstyle",style);
+    safeGM("addStyle",style);
 }
 
 function applyToNewPosts() {
