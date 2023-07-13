@@ -61,6 +61,11 @@ function resizeComments() {
       }
 }
 
+function iterateComments(param, size) {
+        param.forEach(comment => {
+          comment.style.fontSize = `${size}`;
+        });
+      }
 
 function resizeText() {
     const comment = document.querySelectorAll('blockquote.comment div');
