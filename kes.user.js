@@ -140,33 +140,14 @@ const layoutArr = JSON.parse(kes_layout);
 const sidebarPages = layoutArr.pages;
 const headerTitle = layoutArr.header.title
 
-//instantiate kes modal
-/*const kbinContainer = document.querySelector(".kbin-container > menu");
-const kesPanel = document.createElement("aside");
-const kesPanelUl = document.createElement("ul");
-const title = document.createElement("h3");
-kesPanel.id = "kes-settings";
-kesPanel.appendChild(title);
-kbinContainer.appendChild(kesPanel);
-
-//add settings button
-const settingsButton = document.createElement("div");
-settingsButton.id = "kes-settings-button";
-settingsButton.innerHTML = '<i class="' + layoutArr.header.open + '"></i>';
-settingsButton.addEventListener("click", () => {
-    showSettingsModal();
-});
-title.appendChild(settingsButton);
-kesPanel.appendChild(kesPanelUl);*/
+//instantiate kes modal and button
 const kbinContainer = document.querySelector('.kbin-container > menu');
 const kesPanel = document.createElement('li');
 kesPanel.id = 'kes-settings';
-//kesPanel.classList = layoutArr.header.open;
 kbinContainer.appendChild(kesPanel);
 const settingsButton = document.createElement('i');
 settingsButton.id = 'kes-settings-button';
 settingsButton.classList = layoutArr.header.open;
-//settingsButton.classList = 'fa-solid fa-wrench'
 settingsButton.style.verticalAlign = 'middle';
 settingsButton.addEventListener('click', () => {
     showSettingsModal();

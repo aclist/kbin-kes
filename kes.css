@@ -1,11 +1,9 @@
 #kes-settings-button {
-	/*position: absolute;*/
 	top: 0;
 	right: 0;
 	margin: 0.5rem;
 	padding: 0.5rem;
 	color: var(--kbin-header-link-color);
-	/*font-size: 0.5em;*/
 	cursor: pointer;
 }
 
