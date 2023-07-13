@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       1.2.4
+// @version       1.2.1
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -53,6 +53,7 @@ const versionFile = branch + "VERSION";
 const updateURL = branch + "kes.user.js";
 const bugURL = repositoryURL + "issues"
 const magURL = "https://kbin.social/m/enhancement"
+const changelogURL = repositoryURL + "blob/testing/CHANGELOG.md"
 
 //object used for interpolation of function names
 const funcObj = {
@@ -139,24 +140,19 @@ const layoutArr = JSON.parse(kes_layout);
 const sidebarPages = layoutArr.pages;
 const headerTitle = layoutArr.header.title
 
-//instantiate kes modal
-const kbinContainer = document.querySelector(".kbin-container > menu");
-const kesPanel = document.createElement("aside");
-const kesPanelUl = document.createElement("ul");
-const title = document.createElement("h3");
-kesPanel.id = "kes-settings";
-kesPanel.appendChild(title);
+//instantiate kes modal and button
+const kbinContainer = document.querySelector('.kbin-container > menu');
+const kesPanel = document.createElement('li');
+kesPanel.id = 'kes-settings';
 kbinContainer.appendChild(kesPanel);
-
-//add settings button
-const settingsButton = document.createElement("div");
-settingsButton.id = "kes-settings-button";
-settingsButton.innerHTML = '<i class="' + layoutArr.header.open + '"></i>';
-settingsButton.addEventListener("click", () => {
+const settingsButton = document.createElement('i');
+settingsButton.id = 'kes-settings-button';
+settingsButton.classList = layoutArr.header.open;
+settingsButton.style.verticalAlign = 'middle';
+settingsButton.addEventListener('click', () => {
     showSettingsModal();
 });
-title.appendChild(settingsButton);
-kesPanel.appendChild(kesPanelUl);
+kesPanel.appendChild(settingsButton);
 
 var keyPressed = {};
 document.addEventListener('keydown', function(e) {
@@ -202,6 +198,7 @@ function showSettingsModal() {
     header.innerHTML = `
             <span class="kes-close"><i class="` + layoutArr.header.close + `"></i></span>
             <span class="kes-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
+            <span class="kes-changelog"><a href="` + changelogURL + `"><i class="` + layoutArr.header.changelog + `"></i></a></span>
             <span class="kes-version">` + versionElement.outerHTML + `</span>
             `
 
@@ -540,7 +537,6 @@ function showSettingsModal() {
         }
         saveSettings(settings);
     });
-
 
     //close button
     modal.querySelector(".kes-settings-modal .kes-close").addEventListener("click", () => {
