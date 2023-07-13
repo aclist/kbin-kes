@@ -483,7 +483,8 @@
     "recurs": true,
     "desc": "Change the text size of comments. Note: toggling off will reload the page.",
     "entrypoint": "textResize",
-    "page": "comments"
+    "namespace": "resize",
+    "page": "comments",
     "fields": [
       {
         "type": "radio",
