@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       1.2.1
+// @version       2.0.0
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -18,6 +18,14 @@
 // @grant         GM_setValue
 // @grant         GM_getResourceText
 // @grant         GM_setClipboard
+// @grant         GM.addStyle
+// @grant         GM.getResourceText
+// @grant         GM.xmlHttpRequest
+// @grant         GM.info
+// @grant         GM.getValue
+// @grant         GM.setValue
+// @grant         GM.getResourceText
+// @grant         GM.setClipboard
 // @connect       raw.githubusercontent.com
 // @connect       github.com
 // @icon          https://kbin.social/favicon.svg
@@ -43,8 +51,46 @@
 // @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // @updateURL      https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // ==/UserScript==
-const version = GM_info.script.version;
-const tool = GM_info.script.name;
+let gmPrefix
+try {
+	if(GM_info){
+		gmPrefix = "GM_"
+	} else {
+		gmPrefix = "GM."
+	}
+} catch {
+	console.log(error);
+}
+    console.log("GM prefix is " + gmPrefix);
+    window.safeGM = function(func,...args){
+        let use
+        let underscore = {
+            setValue(...args) { return GM_setValue(...args) },
+            getValue(...args) { return GM_getValue(...args) },
+            addStyle(...args) { return GM_addStyle(...args)},
+            xmlhttpRequest(...args) { return GM_xmlhttpRequest(...args)},
+            setClipboard(...args) { return GM_setClipboard(...args)},
+            getResourceText(...args) { return GM_getResourceText(...args)},
+            info() { return GM_info }
+        }
+        let dot = {
+            setValue(...args) { return GM.setValue(...args) },
+            getValue(...args) { return GM.getValue(...args) },
+            addStyle(...args) { return GM.addStyle(...args)},
+            xmlhttpRequest(...args) { return GM.xmlHttpRequest(...args)},
+            setClipboard(...args) { return GM.setClipboard(...args)},
+            getResourceText(...args) { return GM.getResourceText(...args)},
+            info() { return GM_info }
+        }
+        if (gmPrefix === "GM_") {
+            use = underscore
+        } else {
+            use = dot
+        }
+        return use[func](...args);
+    }
+const version = safeGM("info").script.version;
+const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
 const branch = repositoryURL + "raw/testing/"
 const manifest = branch + "manifest.json"
@@ -75,9 +121,8 @@ const funcObj = {
     navbarIcons: navbarIcons,
     hideSidebar: hideSidebar
 };
-
 function fetchManifest() {
-    GM_xmlhttpRequest({
+    safeGM("xmlhttpRequest",{
         method: 'GET',
         url: manifest,
         onload: makeArr,
@@ -96,7 +141,7 @@ versionElement.setAttribute('href', repositoryURL);
 let newVersion = null;
 
 function checkVersion() {
-    GM_xmlhttpRequest({
+    safeGM("xmlhttpRequest",{
         method: 'GET',
         url: versionFile,
         onload: checkUpdates,
@@ -126,16 +171,24 @@ function makeArr(response) {
     var content = response.responseText
     const jarr = JSON.parse(content)
     //TODO: wait on promise and set warning string if unreachable
-    GM_setValue("json", jarr);
+    safeGM("setValue","json", jarr);
 };
 
 fetchManifest();
 checkVersion();
-var json = GM_getValue("json");
-var css = GM_getResourceText("kes_css");
-GM_addStyle(css);
-
-var kes_layout = GM_getResourceText("kes_layout");
+let json
+let css
+let kes_layout
+if (gmPrefix === "GM_") {
+    json = safeGM("getValue","json");
+    css = safeGM("getResourceText","kes_css");
+    kes_layout = safeGM("getResourceText","kes_layout");
+} else {
+    json = await safeGM("getValue","json");
+    css = await safeGM("getResourceText","kes_css");
+    kes_layout = await safeGM("getResourceText","kes_layout");
+}
+safeGM("addStyle",css);
 const layoutArr = JSON.parse(kes_layout);
 const sidebarPages = layoutArr.pages;
 const headerTitle = layoutArr.header.title
