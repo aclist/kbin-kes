@@ -47,10 +47,16 @@ function resizeText() {
     });
 }
 
+let reloadFlag = false;
+
 function textResize(toggle) {
     if (toggle) {
         resizeText();
     } else {
-        location.reload();
+        reloadFlag = true;
+         if (reloadFlag) {
+            location.reload();
+            reloadFlag = false; 
+        }
     }
 }
