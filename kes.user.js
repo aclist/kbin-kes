@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       2.0.0
+// @version       2.0.1
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -147,9 +147,12 @@ if (gmPrefix === "GM_") {
     css = safeGM("getResourceText","kes_css");
     kes_layout = safeGM("getResourceText","kes_layout");
 } else {
-    json = await safeGM("getValue","json");
-    css = await safeGM("getResourceText","kes_css");
-    kes_layout = await safeGM("getResourceText","kes_layout");
+    async function asyncSafeGM(...args){
+      safeGM(...args);
+    }
+  json = asyncSafeGM("getValue","json")
+  css = asyncSafeGM("getResourceText","kes_css");
+  kes_layout = asyncSafeGM("getResourceText","kes_layout");
 }
 safeGM("addStyle",css);
 const layoutArr = JSON.parse(kes_layout);
