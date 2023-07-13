@@ -481,10 +481,8 @@
     "label": "Resize comment text",
     "login": false,
     "recurs": true,
-    "desc": "Change text size of comments",
+    "desc": "Change the text size of comments. Note: toggling off will reload the page.",
     "entrypoint": "textResize",
     "page": "comments"
-
-
   }
 ]
