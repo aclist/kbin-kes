@@ -296,7 +296,7 @@ function showSettingsModal() {
                         range.setAttribute("kes-key", key);
                         range.setAttribute('min', json[it].fields[i].min);
                         range.setAttribute('max', json[it].fields[i].max);
-                        if (json[it].fields[i].showValue) {
+                        if (json[it].fields[i].show_value) {
                             const rangeDiv = document.createElement('div');
                             range.setAttribute('oninput', key + '.innerText = this.value');
                             range.style.verticalAlign = 'middle';
