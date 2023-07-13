@@ -83,7 +83,7 @@ function setCss(url) {
             "Content-Type": "text/css"
         },
         onload: function(response) {
-            injectedCss = safeGM("addStyle",(response.responseText);
+            injectedCss = safeGM("addStyle",response.responseText);
         }
     });
 }
