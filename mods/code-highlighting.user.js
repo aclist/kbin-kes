@@ -3,16 +3,23 @@ GM_addStyle(`
         display: none !important;
     }
 `);
-function startup() {
+function startup(firstBoot = false) {
+    if (firstBoot) {
         addHeaders('code');
+    } else {
+        addHeaders('code');
+    }
+    setCss(kchCssUrl);
 }
 function shutdown() {
-    injectedCss.remove();
+    if (kchInjectedCss) {
+        kchInjectedCss.remove();
+    }
     $('.kch_header').remove();
 }
 function addTags(item) {
-    if (item.previousSibling){
-	    if(item.previousSibling.className === "hljs kch_header") return
+    if (item.previousSibling) {
+	    if (item.previousSibling.className === "hljs kch_header") return
     }
     const orig_code = item.textContent;
     let lang;
@@ -35,18 +42,12 @@ function addTags(item) {
     icon.setAttribute('aria-hidden', 'true');
     icon.style = 'margin-left: 10px; cursor: pointer;';
     icon.onclick = function() {
-        document.execCommand('copy');
+        navigator.clipboard.writeText(orig_code);
+        tooltip.style.display = 'inline';
+        setTimeout(function () {
+            tooltip.style.display = 'none';
+        }, 1000);
     }
-    icon.addEventListener('copy', function(event) {
-        event.preventDefault();
-        if (event.clipboardData) {
-            event.clipboardData.setData('text/plain', orig_code);
-            tooltip.style.display = 'inline';
-            setTimeout(function() {
-                tooltip.style.display = 'none';
-            }, 1000);
-        }
-    });
     const span_copied = document.createElement('span');
     span_copied.id = 'copied-tooltip';
     span_copied.innerHTML = 'COPIED!';
@@ -82,7 +83,7 @@ function setCss(url) {
             "Content-Type": "text/css"
         },
         onload: function(response) {
-            injectedCss = GM_addStyle(response.responseText);
+            kchInjectedCss = GM_addStyle(response.responseText);
         }
     });
 }
@@ -93,25 +94,32 @@ function addHeaders(selector) {
             const placement = item.nextSibling;
             addPreTag(parent, placement, item);
         }
+        if (!(item.classList.contains('hljs'))) {
+            hljs.highlightElement(item);
+        }
         addTags(item);
     });
 }
-
+let kchInjectedCss;
+let kchCssUrl;
+let kchLastToggleState = false;
 function initCodeHighlights(toggle) {
-    let injectedCss;
-        if (toggle) {
-	    const settings = getModSettings("codehighlights");
-	    let myStyle = settings["style"];
-	    let cssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
-	    setCss(cssUrl);
-            startup();
-		// Configure HLJS and enable.
-		hljs.configure({
-		    ignoreUnescapedHTML: true
-		});
-		hljs.highlightAll();
+    if (toggle) {
+        const settings = getModSettings("codehighlights");
+        let myStyle = settings["style"];
+        kchCssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
+        if (kchLastToggleState === false) {
+            kchLastToggleState = true;
+            startup(true);
         } else {
-            shutdown();
+            startup();
         }
+        // Configure HLJS and enable.
+        hljs.configure({
+            ignoreUnescapedHTML: true
+        });
+        hljs.highlightAll();
+    } else {
+        shutdown();
+    }
 }
-
