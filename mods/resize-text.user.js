@@ -60,10 +60,10 @@ function resizeText() {
 
 }
 
-let reloadFlag = false;
 
 function textResize(toggle) {
     if (toggle) {
+        let settings = getModSettings("resize");
         resizeText();
     } else {
     }
