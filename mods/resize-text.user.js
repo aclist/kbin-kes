@@ -49,7 +49,9 @@ function resizeText() {
   }
 
   function resizePosts() {
-    posts.style.fontSize = sizeValue;
+    posts.forEach(post => {
+      post.style.fontSize = sizeValue;
+    })
   }
 }
 
