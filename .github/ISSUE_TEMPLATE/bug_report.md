@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: "[BUG] <Your title here>"
-labels: ''
+labels: 'bug'
 assignees: ''
 
 ---
@@ -23,7 +23,7 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Megamod version:**
+**KES version:**
 - Version number [e.g. 1.0.0]
 
 **Desktop (please complete the following information):**

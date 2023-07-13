@@ -1,12 +1,14 @@
 #kes-settings-button {
-	position: absolute;
 	top: 0;
 	right: 0;
 	margin: 0.5rem;
 	padding: 0.5rem;
 	color: var(--kbin-header-link-color);
-	font-size: 0.5em;
 	cursor: pointer;
+}
+
+#kes-settings:hover {
+	border-bottom: var(--kbin-header-hover-border);
 }
 
 #kes-settings-button:hover {
@@ -107,6 +109,11 @@
 }
 
 .kes-dock {
+	float: right;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+.kes-changelog {
 	float: right;
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;

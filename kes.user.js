@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       1.2.4
+// @version       2.0.3
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -18,6 +18,15 @@
 // @grant         GM_setValue
 // @grant         GM_getResourceText
 // @grant         GM_setClipboard
+// @grant         GM.addStyle
+// @grant         GM.getResourceText
+// @grant         GM.xmlHttpRequest
+// @grant         GM.info
+// @grant         GM.getValue
+// @grant         GM.setValue
+// @grant         GM.getResourceText
+// @grant         GM.setClipboard
+// @require       https://github.com/aclist/kbin-kes/raw/testing/safegm.user.js
 // @connect       raw.githubusercontent.com
 // @connect       github.com
 // @icon          https://kbin.social/favicon.svg
@@ -34,6 +43,7 @@
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/instance-names.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-votes.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo.user.js
@@ -44,8 +54,8 @@
 // @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // @updateURL      https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // ==/UserScript==
-const version = GM_info.script.version;
-const tool = GM_info.script.name;
+const version = safeGM("info").script.version;
+const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
 const branch = repositoryURL + "raw/testing/"
 const manifest = branch + "manifest.json"
@@ -54,6 +64,7 @@ const versionFile = branch + "VERSION";
 const updateURL = branch + "kes.user.js";
 const bugURL = repositoryURL + "issues"
 const magURL = "https://kbin.social/m/enhancement"
+const changelogURL = repositoryURL + "blob/testing/CHANGELOG.md"
 
 //object used for interpolation of function names
 const funcObj = {
@@ -74,11 +85,10 @@ const funcObj = {
     hideThumbs: hideThumbs,
     navbarIcons: navbarIcons,
     hideSidebar: hideSidebar,
-    textResize: textResize
+    initKFA: initKFA
 };
-
 function fetchManifest() {
-    GM_xmlhttpRequest({
+    safeGM("xmlhttpRequest",{
         method: 'GET',
         url: manifest,
         onload: makeArr,
@@ -97,7 +107,7 @@ versionElement.setAttribute('href', repositoryURL);
 let newVersion = null;
 
 function checkVersion() {
-    GM_xmlhttpRequest({
+    safeGM("xmlhttpRequest",{
         method: 'GET',
         url: versionFile,
         onload: checkUpdates,
@@ -127,38 +137,44 @@ function makeArr(response) {
     var content = response.responseText
     const jarr = JSON.parse(content)
     //TODO: wait on promise and set warning string if unreachable
-    GM_setValue("json", jarr);
+    safeGM("setValue","json", jarr);
 };
 
 fetchManifest();
 checkVersion();
-var json = GM_getValue("json");
-var css = GM_getResourceText("kes_css");
-GM_addStyle(css);
-
-var kes_layout = GM_getResourceText("kes_layout");
+let json
+let css
+let kes_layout
+if (gmPrefix === "GM_") {
+    json = safeGM("getValue","json");
+    css = safeGM("getResourceText","kes_css");
+    kes_layout = safeGM("getResourceText","kes_layout");
+} else {
+    async function asyncSafeGM(...args){
+      safeGM(...args);
+    }
+  json = asyncSafeGM("getValue","json")
+  css = asyncSafeGM("getResourceText","kes_css");
+  kes_layout = asyncSafeGM("getResourceText","kes_layout");
+}
+safeGM("addStyle",css);
 const layoutArr = JSON.parse(kes_layout);
 const sidebarPages = layoutArr.pages;
 const headerTitle = layoutArr.header.title
 
-//instantiate kes modal
-const kbinContainer = document.querySelector(".kbin-container > menu");
-const kesPanel = document.createElement("aside");
-const kesPanelUl = document.createElement("ul");
-const title = document.createElement("h3");
-kesPanel.id = "kes-settings";
-kesPanel.appendChild(title);
+//instantiate kes modal and button
+const kbinContainer = document.querySelector('.kbin-container > menu');
+const kesPanel = document.createElement('li');
+kesPanel.id = 'kes-settings';
 kbinContainer.appendChild(kesPanel);
-
-//add settings button
-const settingsButton = document.createElement("div");
-settingsButton.id = "kes-settings-button";
-settingsButton.innerHTML = '<i class="' + layoutArr.header.open + '"></i>';
-settingsButton.addEventListener("click", () => {
+const settingsButton = document.createElement('i');
+settingsButton.id = 'kes-settings-button';
+settingsButton.classList = layoutArr.header.open;
+settingsButton.style.verticalAlign = 'middle';
+settingsButton.addEventListener('click', () => {
     showSettingsModal();
 });
-title.appendChild(settingsButton);
-kesPanel.appendChild(kesPanelUl);
+kesPanel.appendChild(settingsButton);
 
 var keyPressed = {};
 document.addEventListener('keydown', function(e) {
@@ -204,6 +220,7 @@ function showSettingsModal() {
     header.innerHTML = `
             <span class="kes-close"><i class="` + layoutArr.header.close + `"></i></span>
             <span class="kes-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
+            <span class="kes-changelog"><a href="` + changelogURL + `"><i class="` + layoutArr.header.changelog + `"></i></a></span>
             <span class="kes-version">` + versionElement.outerHTML + `</span>
             `
 
@@ -285,6 +302,39 @@ function showSettingsModal() {
                     saveModSettings(modSettings, ns);
                 };
                 switch (fieldType) {
+                    case "range":
+                        const range = document.createElement('input');
+                        range.setAttribute("type", fieldType);
+                        if (!modSettings[key]) {
+                            range.setAttribute("value", initial);
+                        } else {
+                            range.setAttribute("value", modSettings[key])
+                        }
+                        range.setAttribute("kes-iter", it);
+                        range.setAttribute("kes-key", key);
+                        range.setAttribute('min', json[it].fields[i].min);
+                        range.setAttribute('max', json[it].fields[i].max);
+                        if (json[it].fields[i].show_value) {
+                            const rangeDiv = document.createElement('div');
+                            range.setAttribute('oninput', key + '.innerText = this.value');
+                            range.style.verticalAlign = 'middle';
+                            rangeDiv.appendChild(range);
+                            const rangeValue = document.createElement('label');
+                            rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
+                            rangeValue.id = key;
+                            rangeValue.for = key;
+                            if (!modSettings[key]) {
+                                rangeValue.innerText = initial;
+                            } else {
+                                rangeValue.innerText = modSettings[key];
+                            }
+                            rangeDiv.appendChild(rangeValue);
+                            hBox.appendChild(rangeDiv);
+                        } else {
+                            hBox.appendChild(range);
+                        }
+                        hBox.appendChild(br);
+                        break;
                     case "select":
                         const field = document.createElement('select');
                         field.setAttribute('name', ns);
@@ -542,7 +592,6 @@ function showSettingsModal() {
         }
         saveSettings(settings);
     });
-
 
     //close button
     modal.querySelector(".kes-settings-modal .kes-close").addEventListener("click", () => {
