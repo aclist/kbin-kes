@@ -68,7 +68,18 @@ function resizeText() {
     let settings = getModSettings("resize");
 
     if (settings["option"] == "Only comments") {
-        resizeComments();
+          if (settings["size"] == "Small") {
+            iterateComments(comment, ".8rem");
+        } else if (settings["size"] == "Normal") {
+            iterateComments(comment, ".9rem");
+        } else if (settings["size"] == "Large") {
+            iterateComments(comment, "1rem");
+        } else if (settings["size"] == "Extra Large") {
+            iterateComments(comment, "1.1rem");
+        } else if (settings["size"] == "Extra Extra Large") {
+            iterateComments(comment, "1.3rem");
+        }
+        // resizeComments();
     } else if (settings["option"] == "Only posts") {
         if (settings["size"] == "Small") {
             resizePosts(posts, ".8rem");
