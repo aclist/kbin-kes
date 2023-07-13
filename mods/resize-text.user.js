@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Resize Comment Text
+// @name         Change font size
 // @namespace    https://github.com/aclist
 // @version      0.1
 // @description  Change the size of comment text.
