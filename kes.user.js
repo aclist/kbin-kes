@@ -26,6 +26,7 @@
 // @grant         GM.setValue
 // @grant         GM.getResourceText
 // @grant         GM.setClipboard
+// @require       https://github.com/aclist/kbin-kes/raw/testing/safegm.user.js
 // @connect       raw.githubusercontent.com
 // @connect       github.com
 // @icon          https://kbin.social/favicon.svg
@@ -51,44 +52,6 @@
 // @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // @updateURL      https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // ==/UserScript==
-let gmPrefix
-try {
-	if(GM_info){
-		gmPrefix = "GM_"
-	} else {
-		gmPrefix = "GM."
-	}
-} catch {
-	console.log(error);
-}
-    console.log("GM prefix is " + gmPrefix);
-    window.safeGM = function(func,...args){
-        let use
-        let underscore = {
-            setValue(...args) { return GM_setValue(...args) },
-            getValue(...args) { return GM_getValue(...args) },
-            addStyle(...args) { return GM_addStyle(...args)},
-            xmlhttpRequest(...args) { return GM_xmlhttpRequest(...args)},
-            setClipboard(...args) { return GM_setClipboard(...args)},
-            getResourceText(...args) { return GM_getResourceText(...args)},
-            info() { return GM_info }
-        }
-        let dot = {
-            setValue(...args) { return GM.setValue(...args) },
-            getValue(...args) { return GM.getValue(...args) },
-            addStyle(...args) { return GM.addStyle(...args)},
-            xmlhttpRequest(...args) { return GM.xmlHttpRequest(...args)},
-            setClipboard(...args) { return GM.setClipboard(...args)},
-            getResourceText(...args) { return GM.getResourceText(...args)},
-            info() { return GM_info }
-        }
-        if (gmPrefix === "GM_") {
-            use = underscore
-        } else {
-            use = dot
-        }
-        return use[func](...args);
-    }
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
