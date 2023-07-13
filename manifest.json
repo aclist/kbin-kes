@@ -473,5 +473,18 @@
       }
     ],
     "page": "navbar"
+  },
+  {
+    "name": "Resize Comment Text",
+    "author": "minnieo",
+    "version": "0.1.0",
+    "label": "Resize comment text",
+    "login": false,
+    "recurs": true,
+    "desc": "Change text size of comments",
+    "entrypoint": "textResize",
+    "page": "comments"
+
+
   }
 ]
