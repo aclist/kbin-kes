@@ -85,6 +85,7 @@ const funcObj = {
     hideThumbs: hideThumbs,
     navbarIcons: navbarIcons,
     hideSidebar: hideSidebar,
+    textResize: textResize,
     initKFA: initKFA
 };
 function fetchManifest() {
