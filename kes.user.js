@@ -2,7 +2,8 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       2.0.1
+// @version       2.0.0
+// @version       1.3.0
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -43,6 +44,7 @@
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/instance-names.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-votes.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo.user.js
@@ -82,7 +84,8 @@ const funcObj = {
     toggleLogo: toggleLogo,
     hideThumbs: hideThumbs,
     navbarIcons: navbarIcons,
-    hideSidebar: hideSidebar
+    hideSidebar: hideSidebar,
+    initKFA: initKFA
 };
 function fetchManifest() {
     safeGM("xmlhttpRequest",{
@@ -299,6 +302,39 @@ function showSettingsModal() {
                     saveModSettings(modSettings, ns);
                 };
                 switch (fieldType) {
+                    case "range":
+                        const range = document.createElement('input');
+                        range.setAttribute("type", fieldType);
+                        if (!modSettings[key]) {
+                            range.setAttribute("value", initial);
+                        } else {
+                            range.setAttribute("value", modSettings[key])
+                        }
+                        range.setAttribute("kes-iter", it);
+                        range.setAttribute("kes-key", key);
+                        range.setAttribute('min', json[it].fields[i].min);
+                        range.setAttribute('max', json[it].fields[i].max);
+                        if (json[it].fields[i].show_value) {
+                            const rangeDiv = document.createElement('div');
+                            range.setAttribute('oninput', key + '.innerText = this.value');
+                            range.style.verticalAlign = 'middle';
+                            rangeDiv.appendChild(range);
+                            const rangeValue = document.createElement('label');
+                            rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
+                            rangeValue.id = key;
+                            rangeValue.for = key;
+                            if (!modSettings[key]) {
+                                rangeValue.innerText = initial;
+                            } else {
+                                rangeValue.innerText = modSettings[key];
+                            }
+                            rangeDiv.appendChild(rangeValue);
+                            hBox.appendChild(rangeDiv);
+                        } else {
+                            hBox.appendChild(range);
+                        }
+                        hBox.appendChild(br);
+                        break;
                     case "select":
                         const field = document.createElement('select');
                         field.setAttribute('name', ns);

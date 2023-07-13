@@ -1,5 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 1.3.0
+### Added
+- kbin-federation-awareness mod
+- Support ranges in input fields
+## 1.2.1
+### Fixed
+- Wrench icon occludes navbar elements when magazine title is long
 ## 1.2.0
 ### Added
 - Changelog link in header (flask)
