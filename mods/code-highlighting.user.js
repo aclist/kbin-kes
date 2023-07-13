@@ -1,4 +1,4 @@
-GM_addStyle(`
+safeGM("addStyle",`
     .collapsed {
         display: none !important;
     }
@@ -75,14 +75,14 @@ function addPreTag(parent, placement, code) {
 }
 function setCss(url) {
     // Downloads css files and sets them on page.
-    GM_xmlhttpRequest({
+    safeGM("xmlhttpRequest",{
         method: "GET",
         url: url,
         headers: {
             "Content-Type": "text/css"
         },
         onload: function(response) {
-            injectedCss = GM_addStyle(response.responseText);
+            injectedCss = safeGM("addStyle",(response.responseText);
         }
     });
 }
