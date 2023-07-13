@@ -475,16 +475,16 @@
     "page": "navbar"
   },
   {
-    "name": "Resize Comment Text",
+    "name": "Change font size",
     "author": "minnieo",
     "version": "0.1.0",
-    "label": "Resize comment text",
+    "label": "Change font size",
     "login": false,
     "recurs": true,
-    "desc": "Change the text size of comments. Note: requires reload when turned off.",
+    "desc": "Change the font size of comments and posts. Note: some changes require reload to update.",
     "entrypoint": "textResize",
     "namespace": "resize",
-    "page": "comments",
+    "page": "threads",
     "fields": [
         {
         "type": "select",
