@@ -45,7 +45,8 @@ function iterateComments(param, size) {
 
 function resizeText() {
     const comment = document.querySelectorAll('blockquote.comment div')
-
+    let settings = getModSettings("resize");
+    
     if (settings["size"] == "Small") {
         iterateComments(comment, ".8rem");
     } else if (settings["size"] == "Normal") {
@@ -63,7 +64,6 @@ function resizeText() {
 
 function textResize(toggle) {
     if (toggle) {
-        let settings = getModSettings("resize");
         resizeText();
     } else {
     }
