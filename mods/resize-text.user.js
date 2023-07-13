@@ -37,14 +37,27 @@
 // @grant        none
 // ==/UserScript==
 
-
+function iterateComments(param, size) {
+    param.forEach(comment => {
+        comment.style.fontSize = `${size}`;
+    });
+}
 
 function resizeText() {
     const comment = document.querySelectorAll('blockquote.comment div')
 
-    comment.forEach(comment => {
-        comment.style.fontSize = '30px';
-    });
+    if (settings["size"] == "Small") {
+        iterateComments(comment, ".8rem");
+    } else if (settings["size"] == "Normal") {
+        iterateComments(comment, ".9rem");
+    } else if (settings["size"] == "Large") {
+        iterateComments(comment, "1rem");
+    } else if (settings["size"] == "Extra Large") {
+        iterateComments(comment, "1.1rem");
+    } else if (settings["size"] == "Extra Extra Large") {
+        iterateComments(comment, "1.3rem");
+    }
+
 }
 
 let reloadFlag = false;
