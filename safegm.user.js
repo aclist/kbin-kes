@@ -9,6 +9,11 @@ try {
 	console.log(error);
 }
     console.log("GM prefix is " + gmPrefix);
+if (gmPrefix === "GM_") {
+	if (GM_info.scriptHandler === "Greasemonkey"){
+		gmPrefix = "GM."
+	}
+}
 window.safeGM = function(func,...args){
     let use
     let underscore = {
