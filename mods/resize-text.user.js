@@ -13,27 +13,6 @@
 // @grant        none
 // ==/UserScript==
 
-function resizeComments() {   
-  const sizes = {
-    "Small": ".8rem",
-    "Normal": ".9rem",
-    "Large": "1rem",
-    "Extra Large": "1.1rem",
-    "Extra Extra Large": "1.3rem"
-  };
-
-  const selectedSize = settings["size"];
-  const sizeValue = sizes[selectedSize];
-
-  function iterateComments(param, size) {
-    param.forEach(comment => {
-      comment.style.fontSize = size;
-    });
-  }
-
-  iterateComments(comment, sizeValue);
-}
-
 function resizeText() {
   const comment = document.querySelectorAll('blockquote.comment div');
   const posts = document.querySelectorAll('div.content.formatted');
@@ -54,7 +33,27 @@ function resizeText() {
             resizePosts(posts, "1.3rem");
         }
     }
-    
+
+    function resizeComments() {   
+    const sizes = {
+      "Small": ".8rem",
+      "Normal": ".9rem",
+      "Large": "1rem",
+      "Extra Large": "1.1rem",
+      "Extra Extra Large": "1.3rem"
+    };
+  
+    const selectedSize = settings["size"];
+    const sizeValue = sizes[selectedSize];
+  
+    function iterateComments(param, size) {
+      param.forEach(comment => {
+        comment.style.fontSize = size;
+      });
+    }
+  
+    iterateComments(comment, sizeValue);
+  }
 }
 
 
