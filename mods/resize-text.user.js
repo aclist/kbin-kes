@@ -13,10 +13,6 @@
 // @grant        none
 // ==/UserScript==
 
-const comment = document.querySelectorAll('blockquote.comment div');
-const posts = document.querySelectorAll('div.content.formatted');
-let settings = getModSettings("resize");
-
 function resizeComments() {   
   const sizes = {
     "Small": ".8rem",
@@ -39,6 +35,10 @@ function resizeComments() {
 }
 
 function resizeText() {
+  const comment = document.querySelectorAll('blockquote.comment div');
+  const posts = document.querySelectorAll('div.content.formatted');
+  let settings = getModSettings("resize");
+  
     if (settings["option"] == "Only comments") {
         resizeComments();
     } else if (settings["option"] == "Only posts") {
