@@ -51,6 +51,6 @@ function textResize(toggle) {
     if (toggle) {
         resizeText();
     } else {
-        
+        location.reload();
     }
 }
