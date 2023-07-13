@@ -1,7 +1,0 @@
-
-let c = document.querySelector('.kbin-container > menu li:nth-of-type(2)')
-c.children[0].children[0].innerText = "Post a link"
-c.children[1].children[0].innerText = "Post a thread"
-c.children[2].children[0].innerText = "Post a photo"
-c.children[3].children[0].innerText = "Post a thread"
-c.children[3].children[0].innerText = "Post to microblog"
