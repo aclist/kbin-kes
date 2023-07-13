@@ -45,7 +45,7 @@ function resizeComments() {
     }
 
       if (settings["size"] == "Small") {
-            iterateComments(comment, ".8rem";
+            iterateComments(comment, ".8rem";)
         } else if (settings["size"] == "Normal") {
             iterateComments(comment, ".9rem");
         } else if (settings["size"] == "Large") {
