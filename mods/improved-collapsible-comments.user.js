@@ -7,7 +7,6 @@
 // @match        https://kbin.social/*
 // @match        https://fedia.io/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @grant        GM_addStyle
 // @license      MIT
 // ==/UserScript==
 
