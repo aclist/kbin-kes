@@ -484,5 +484,20 @@
     "desc": "Change the text size of comments. Note: toggling off will reload the page.",
     "entrypoint": "textResize",
     "page": "comments"
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Normal",
+        "key": "size",
+        "label": "Change font size of comment text",
+        "values": [
+          "Small",
+          "Normal",
+          "Large",
+          "Extra Large",
+          "Extra Extra Large"
+        ]
+      }
+    ]
   }
 ]
