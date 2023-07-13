@@ -481,7 +481,7 @@
     "label": "Resize comment text",
     "login": false,
     "recurs": true,
-    "desc": "Change the text size of comments. Note: toggling off will reload the page.",
+    "desc": "Change the text size of comments. Note: requires reload when turned off.",
     "entrypoint": "textResize",
     "namespace": "resize",
     "page": "comments",
@@ -490,7 +490,7 @@
         "type": "radio",
         "initial": "Normal",
         "key": "size",
-        "label": "Change font size of comment text",
+        "label": "Choose a size:",
         "values": [
           "Small",
           "Normal",
