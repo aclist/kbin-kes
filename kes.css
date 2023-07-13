@@ -111,6 +111,11 @@
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
 }
+.kes-changelog {
+	float: right;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
 
 .kes-dock i:hover {
 	opacity: 0.5;
