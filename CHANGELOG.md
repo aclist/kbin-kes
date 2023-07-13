@@ -1,5 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 1.2.0
+### Added
+- Changelog link in header (flask)
 ## 1.1.6
 ### Fixed
 - Reputation not being hidden on user popover cards
