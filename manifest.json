@@ -488,6 +488,17 @@
     "fields": [
       {
         "type": "radio",
+        "initial": "Only comments",
+        "key": "option",
+        "label": "Apply to:",
+        "values": [
+          "Only comments",
+          "Only posts",
+          "Comments and posts"
+        ]
+      }, 
+      {
+        "type": "radio",
         "initial": "Normal",
         "key": "size",
         "label": "Choose a size:",
