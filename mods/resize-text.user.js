@@ -38,6 +38,9 @@
 // ==/UserScript==
 
 function resizeComments() {
+      const selectedSize = settings["size"];
+      const sizeValue = sizes[selectedSize];
+      
       const sizes = {
         "Small": ".8rem",
         "Normal": ".9rem",
@@ -51,21 +54,15 @@ function resizeComments() {
           comment.style.fontSize = size;
         });
       }
-    
-      const selectedSize = settings["size"];
-      const sizeValue = sizes[selectedSize];
-    
-      if (sizeValue) {
-        iterateComments(comment, sizeValue);
-      
-      }
+
+      iterateComments(comment, sizeValue);
 }
 
-function iterateComments(param, size) {
-        param.forEach(comment => {
-          comment.style.fontSize = `${size}`;
-        });
-      }
+// function iterateComments(param, size) {
+//         param.forEach(comment => {
+//           comment.style.fontSize = `${size}`;
+//         });
+//       }
 
 function resizeText() {
     const comment = document.querySelectorAll('blockquote.comment div');
@@ -73,18 +70,18 @@ function resizeText() {
     let settings = getModSettings("resize");
 
     if (settings["option"] == "Only comments") {
-          if (settings["size"] == "Small") {
-            iterateComments(comment, ".8rem");
-        } else if (settings["size"] == "Normal") {
-            iterateComments(comment, ".9rem");
-        } else if (settings["size"] == "Large") {
-            iterateComments(comment, "1rem");
-        } else if (settings["size"] == "Extra Large") {
-            iterateComments(comment, "1.1rem");
-        } else if (settings["size"] == "Extra Extra Large") {
-            iterateComments(comment, "1.3rem");
-        }
-        // resizeComments();
+        //   if (settings["size"] == "Small") {
+        //     iterateComments(comment, ".8rem");
+        // } else if (settings["size"] == "Normal") {
+        //     iterateComments(comment, ".9rem");
+        // } else if (settings["size"] == "Large") {
+        //     iterateComments(comment, "1rem");
+        // } else if (settings["size"] == "Extra Large") {
+        //     iterateComments(comment, "1.1rem");
+        // } else if (settings["size"] == "Extra Extra Large") {
+        //     iterateComments(comment, "1.3rem");
+        // }
+        resizeComments();
     } else if (settings["option"] == "Only posts") {
         if (settings["size"] == "Small") {
             resizePosts(posts, ".8rem");
