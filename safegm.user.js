@@ -19,7 +19,9 @@ try {
         } catch {
 	console.log(error);
 }
+}
 
+console.log(gmPrefix)
 function addCustomCSS(css){
 var style = document.createElement('style');
 style.innerHTML = css;
