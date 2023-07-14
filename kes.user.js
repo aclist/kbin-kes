@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name          KES
-// @namespace     https://github.com/aclist/
+// @namespace     https://github.com/aclist
 // @license       MIT
 // @version       2.0.10
 // @description   Kbin Enhancement Suite
@@ -19,18 +19,16 @@
 // @grant         GM_getResourceText
 // @grant         GM_setClipboard
 // @grant         GM.addStyle
-// @grant         GM.getResourceText
 // @grant         GM.xmlHttpRequest
 // @grant         GM.info
 // @grant         GM.getValue
 // @grant         GM.setValue
-// @grant         GM.getResourceText
 // @grant         GM.setClipboard
-// @require       https://github.com/aclist/kbin-kes/raw/testing/safegm.user.js
-// @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
+// @icon          https://kbin.social/favicon.svg
 // @connect       raw.githubusercontent.com
 // @connect       github.com
-// @icon          https://kbin.social/favicon.svg
+// @require       https://github.com/aclist/kbin-kes/raw/testing/safegm.user.js
+// @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
@@ -54,6 +52,7 @@
 // @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // @updateURL      https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // ==/UserScript==
+//START AUTO MASTHEAD
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
@@ -87,7 +86,7 @@ const funcObj = {
     hideSidebar: hideSidebar,
     initKFA: initKFA
 };
-
+//END AUTO MASTHEAD
 function fetchManifest() {
     safeGM("xmlhttpRequest", {
         method: 'GET',
