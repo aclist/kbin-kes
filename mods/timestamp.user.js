@@ -14,11 +14,8 @@ function updateTime(toggle) {
     const settings = getModSettings(ns);
     if (toggle) {
         times.forEach((time) => {
-            let oldTime = time.getAttribute("oldtime");
-            if (!oldTime) {
-                oldTime = time.innerText;
-                time.setAttribute('oldtime', oldTime);
-            }
+	    if (time.innerText === "just now") return
+	    if (time.innerText.indexOf("seconds") > -1) return
             let iso = time.getAttribute('datetime');
             let isoYear = (iso.split('T')[0]);
             let isoTime = (iso.split('T')[1]);
@@ -40,11 +37,6 @@ function updateTime(toggle) {
             }
         });
     } else {
-        times.forEach((time) => {
-            let oldTime = time.getAttribute('oldtime');
-            if (oldTime) {
-                time.innerText = oldTime;
-            }
-        });
+	    return
     }
 }
