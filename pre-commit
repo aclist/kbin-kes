@@ -39,7 +39,9 @@ bump_vers(){
 	#sed -i "s/\(\/\/ @version *\)\([0-9]\+.*\)/\1$newvers/g" $master_file
 	echo "$newvers" > $version_file
 	./gen.sh
+	echo
 	echo "HOOK========>Bumping version from $vers to $newvers"
+	echo
 	git add $version_file
 	git add $master_file
 }
