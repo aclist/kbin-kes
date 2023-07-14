@@ -480,7 +480,9 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                             numberField.setAttribute("kes-key", key);
                             numberField.setAttribute('min', json[it].fields[i].min);
                             numberField.setAttribute('max', json[it].fields[i].max);
+		            if (json[it].fields[i].step){
                             numberField.setAttribute('step', json[it].fields[i].step);
+			    }
                             hBox.appendChild(numberField);
                             hBox.appendChild(br);
                             break;
