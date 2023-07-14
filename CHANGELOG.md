@@ -1,5 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.0.0
+### Fixed
+- Support across -monkey extensions (GM, TM, VM)
+- Proper links to authors on other instances
+### Added
+- Support for multiple authors in attribution field
 ## 1.3.0
 ### Added
 - kbin-federation-awareness mod

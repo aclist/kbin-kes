@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       2.0.3
+// @version       2.0.10
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -27,6 +27,7 @@
 // @grant         GM.getResourceText
 // @grant         GM.setClipboard
 // @require       https://github.com/aclist/kbin-kes/raw/testing/safegm.user.js
+// @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @connect       raw.githubusercontent.com
 // @connect       github.com
 // @icon          https://kbin.social/favicon.svg
@@ -86,8 +87,9 @@ const funcObj = {
     hideSidebar: hideSidebar,
     initKFA: initKFA
 };
+
 function fetchManifest() {
-    safeGM("xmlhttpRequest",{
+    safeGM("xmlhttpRequest", {
         method: 'GET',
         url: manifest,
         onload: makeArr,
@@ -105,8 +107,21 @@ versionElement.setAttribute('href', repositoryURL);
 
 let newVersion = null;
 
+function genericXMLRequest(url, callback) {
+    safeGM("xmlhttpRequest", {
+        method: 'GET',
+        url: url,
+        onload: callback,
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/xml"
+        },
+
+    });
+};
+
 function checkVersion() {
-    safeGM("xmlhttpRequest",{
+    safeGM("xmlhttpRequest", {
         method: 'GET',
         url: versionFile,
         onload: checkUpdates,
@@ -130,119 +145,144 @@ async function checkUpdates(response) {
     }
 }
 
-function makeArr(response) {
+async function makeArr(response) {
     var parser = new DOMParser();
     var doc = parser.parseFromString(response.responseText, "text/html");
     var content = response.responseText
     const jarr = JSON.parse(content)
-    //TODO: wait on promise and set warning string if unreachable
-    safeGM("setValue","json", jarr);
+    safeGM("setValue", "json", jarr);
 };
 
+async function asyncSafeGM(...args) {
+    const j = await safeGM(...args);
+    return j
+}
+async function setRemoteCSS(response) {
+    const resp = await response.responseText.trim();
+    safeGM("setValue", "kes-css", resp)
+}
+async function setRemoteUI(response) {
+    const resp = await response.response;
+    safeGM("setValue", "layout", resp)
+}
+async function prepareArrs() {
+    let json
+    let css
+    let kes_layout
+    if (gmPrefix === "GM_") {
+        json = safeGM("getValue", "json");
+        css = safeGM("getResourceText", "kes_css");
+        kes_layout = safeGM("getResourceText", "kes_layout");
+    } else {
+	//TODO: use genericXMLRequest
+        json = await asyncSafeGM("getValue", "json")
+
+        let cssURL = "https://github.com/aclist/kbin-kes/raw/testing/kes.css"
+        genericXMLRequest(cssURL, setRemoteCSS);
+        css = await asyncSafeGM("getValue", "kes-css")
+
+        let layoutURL = "https://github.com/aclist/kbin-kes/raw/testing/ui.json"
+        genericXMLRequest(layoutURL, setRemoteUI)
+        kes_layout = await asyncSafeGM("getValue", "layout")
+    }
+    initKES(json, css, kes_layout)
+}
+//preparation begins here
 fetchManifest();
 checkVersion();
-let json
-let css
-let kes_layout
-if (gmPrefix === "GM_") {
-    json = safeGM("getValue","json");
-    css = safeGM("getResourceText","kes_css");
-    kes_layout = safeGM("getResourceText","kes_layout");
-} else {
-    async function asyncSafeGM(...args){
-      safeGM(...args);
-    }
-  json = asyncSafeGM("getValue","json")
-  css = asyncSafeGM("getResourceText","kes_css");
-  kes_layout = asyncSafeGM("getResourceText","kes_layout");
-}
-safeGM("addStyle",css);
-const layoutArr = JSON.parse(kes_layout);
-const sidebarPages = layoutArr.pages;
-const headerTitle = layoutArr.header.title
+prepareArrs();
 
-//instantiate kes modal and button
-const kbinContainer = document.querySelector('.kbin-container > menu');
-const kesPanel = document.createElement('li');
-kesPanel.id = 'kes-settings';
-kbinContainer.appendChild(kesPanel);
-const settingsButton = document.createElement('i');
-settingsButton.id = 'kes-settings-button';
-settingsButton.classList = layoutArr.header.open;
-settingsButton.style.verticalAlign = 'middle';
-settingsButton.addEventListener('click', () => {
-    showSettingsModal();
-});
-kesPanel.appendChild(settingsButton);
+//business logic here
+function initKES(json, css, kes_layout) {
+    safeGM("addStyle", css);
+    const layoutArr = JSON.parse(kes_layout);
+    const sidebarPages = layoutArr.pages;
+    const headerTitle = layoutArr.header.title
 
-var keyPressed = {};
-document.addEventListener('keydown', function(e) {
+    //instantiate kes modal and button
+    const kbinContainer = document.querySelector('.kbin-container > menu');
+    const kesPanel = document.createElement('li');
+    kesPanel.id = 'kes-settings';
+    kbinContainer.appendChild(kesPanel);
+    const settingsButton = document.createElement('i');
+    settingsButton.id = 'kes-settings-button';
+    settingsButton.classList = layoutArr.header.open;
+    console.log(layoutArr.header.open)
+    settingsButton.style.verticalAlign = 'middle';
+    settingsButton.addEventListener('click', () => {
+        showSettingsModal();
+    });
+    kesPanel.appendChild(settingsButton);
 
-    let modal = document.querySelector('.kes-settings-modal')
-    keyPressed[e.key] = true;
+    var keyPressed = {};
+    document.addEventListener('keydown', function(e) {
 
-    if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed["?"] == true) {
-	e.preventDefault();
-        if (!modal) {
-            showSettingsModal();
-        } else {
-            modal.remove();
+        let modal = document.querySelector('.kes-settings-modal')
+        keyPressed[e.key] = true;
+
+        if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed["?"] == true) {
+            e.preventDefault();
+            if (!modal) {
+                showSettingsModal();
+            } else {
+                modal.remove();
+            }
+            keyPressed = {};
         }
-        keyPressed = {};
-    }
-    if (keyPressed.Escape == true) {
-        if (modal) {
-            modal.remove();
+        if (keyPressed.Escape == true) {
+            if (modal) {
+                modal.remove();
+            }
+            keyPressed = {};
         }
+
+    }, false);
+
+    document.addEventListener('keyup', function(e) {
+        keyPressed[e.key + e.location] = false;
+
         keyPressed = {};
-    }
+    }, false);
 
-}, false);
+    function showSettingsModal() {
+        const settings = getSettings();
 
-document.addEventListener('keyup', function(e) {
-    keyPressed[e.key + e.location] = false;
+        const modal = document.createElement("div");
+        modal.className = "kes-settings-modal";
 
-    keyPressed = {};
-}, false);
+        const modalContent = document.createElement("div");
+        modalContent.className = "kes-settings-modal-content";
 
-function showSettingsModal() {
-    const settings = getSettings();
-
-    const modal = document.createElement("div");
-    modal.className = "kes-settings-modal";
-
-    const modalContent = document.createElement("div");
-    modalContent.className = "kes-settings-modal-content";
-
-    const header = document.createElement("div");
-    header.className = "kes-settings-modal-header";
-    header.innerHTML = `
+        const header = document.createElement("div");
+        header.className = "kes-settings-modal-header";
+        header.innerHTML = `
             <span class="kes-close"><i class="` + layoutArr.header.close + `"></i></span>
             <span class="kes-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
             <span class="kes-changelog"><a href="` + changelogURL + `"><i class="` + layoutArr.header.changelog + `"></i></a></span>
             <span class="kes-version">` + versionElement.outerHTML + `</span>
             `
 
-    const crumbs = document.createElement("div");
-    crumbs.className = 'kes-crumbs';
-    crumbs.innerText = 'Settings'
-    header.appendChild(crumbs)
-    const headerHr = document.createElement('hr');
-    headerHr.className = 'kes-header-hr'
-    header.appendChild(headerHr);
+        const crumbs = document.createElement("div");
+        crumbs.className = 'kes-crumbs';
+        crumbs.innerText = 'Settings'
+        header.appendChild(crumbs)
+        const headerHr = document.createElement('hr');
+        headerHr.className = 'kes-header-hr'
+        header.appendChild(headerHr);
 
-    const sidebar = document.createElement("div");
-    sidebar.className = "kes-settings-modal-sidebar";
-    let sidebarUl = document.createElement('ul');
+        const sidebar = document.createElement("div");
+        sidebar.className = "kes-settings-modal-sidebar";
+        let sidebarUl = document.createElement('ul');
 
 
-    //TODO: pages.json
-    for (let i = 0; i < sidebarPages.length; ++i) {
-        let page = sidebarPages[i];
-        let pageUpper = sidebarPages[i].charAt(0).toUpperCase() + sidebarPages[i].slice(1);
-        let sidebarListItem = document.createElement('li');
-        sidebarListItem.innerHTML = `
+        //TODO: pages.json
+        for (let i = 0; i < sidebarPages.length; ++i) {
+            let page = sidebarPages[i];
+            let pageUpper = sidebarPages[i].charAt(0).toUpperCase() + sidebarPages[i].slice(1);
+            let sidebarListItem = document.createElement('li');
+            sidebarListItem.innerHTML = `
             <a class="kes-tab-link">` + pageUpper + `</a></li>`
+
         sidebarUl.appendChild(sidebarListItem);
     }
     sidebar.appendChild(sidebarUl);
@@ -312,7 +352,26 @@ function showSettingsModal() {
         } else {
             loginHR = "no";
         }
-        let ns = json[it].namespace;
+        sidebar.appendChild(sidebarUl);
+
+        function openHelpBox(it) {
+            const settings = getSettings();
+            settings.lastPage = it
+            saveSettings(settings);
+            let author = json[it].author;
+            let desc = json[it].desc;
+            let link = json[it].link;
+            let linkLabel = json[it].link_label;
+            let kbinPrefix = 'https://kbin.social/u/';
+            let url = kbinPrefix + author;
+            let login = json[it].login;
+            let loginHR
+            if (login) {
+                loginHR = "yes";
+            } else {
+                loginHR = "no";
+            }
+            let ns = json[it].namespace;
 
         //populate static fields
         let hBox = document.querySelector('.kes-settings-modal-helpbox');
@@ -412,410 +471,438 @@ function showSettingsModal() {
                             rangeValue.id = key;
                             rangeValue.for = key;
                             if (!modSettings[key]) {
-                                rangeValue.innerText = initial;
+                                range.setAttribute("value", initial);
                             } else {
-                                rangeValue.innerText = modSettings[key];
+                                range.setAttribute("value", modSettings[key])
                             }
-                            rangeDiv.appendChild(rangeValue);
-                            hBox.appendChild(rangeDiv);
-                        } else {
-                            hBox.appendChild(range);
-                        }
-                        hBox.appendChild(br);
-                        break;
-                    case "select":
-                        const field = document.createElement('select');
-                        field.setAttribute('name', ns);
-                        field.setAttribute("kes-iter", it);
-                        field.setAttribute("kes-key", key);
-                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
-                            let opt = document.createElement('option');
-                            opt.setAttribute('value', json[it].fields[i].values[j]);
-                            opt.innerText = json[it].fields[i].values[j];
-                            if (modSettings[key] == json[it].fields[i].values[j]) {
-                                opt.selected = 'selected';
-                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
-                                opt.selected = 'selected'
+                            range.setAttribute("kes-iter", it);
+                            range.setAttribute("kes-key", key);
+                            range.setAttribute('min', json[it].fields[i].min);
+                            range.setAttribute('max', json[it].fields[i].max);
+                            if (json[it].fields[i].show_value) {
+                                const rangeDiv = document.createElement('div');
+                                range.setAttribute('oninput', key + '.innerText = this.value');
+                                range.style.verticalAlign = 'middle';
+                                rangeDiv.appendChild(range);
+                                const rangeValue = document.createElement('label');
+                                rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
+                                rangeValue.id = key;
+                                rangeValue.for = key;
+                                if (!modSettings[key]) {
+                                    rangeValue.innerText = initial;
+                                } else {
+                                    rangeValue.innerText = modSettings[key];
+                                }
+                                rangeDiv.appendChild(rangeValue);
+                                hBox.appendChild(rangeDiv);
+                            } else {
+                                hBox.appendChild(range);
                             }
-                            field.appendChild(opt);
-                        }
-                        hBox.appendChild(field);
-                        hBox.appendChild(br);
-                        break;
-                    case "radio":
-                        const radioDiv = document.createElement('div');
-                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
-                            const field = document.createElement('input');
-                            field.setAttribute("type", fieldType);
+                            hBox.appendChild(br);
+                            break;
+                        case "select":
+                            const field = document.createElement('select');
                             field.setAttribute('name', ns);
-                            field.setAttribute('id', "kes-radio-" + j);
                             field.setAttribute("kes-iter", it);
                             field.setAttribute("kes-key", key);
-                            field.setAttribute("value", json[it].fields[i].values[j]);
-                            if (modSettings[key] == json[it].fields[i].values[j]) {
-                                field.checked = true;
-                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
-                                field.checked = true;
+                            for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                                let opt = document.createElement('option');
+                                opt.setAttribute('value', json[it].fields[i].values[j]);
+                                opt.innerText = json[it].fields[i].values[j];
+                                if (modSettings[key] == json[it].fields[i].values[j]) {
+                                    opt.selected = 'selected';
+                                } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                    opt.selected = 'selected'
+                                }
+                                field.appendChild(opt);
                             }
-                            let radioLabel = document.createElement('label');
-                            radioLabel.setAttribute('for', "kes-radio-" + j);
-                            radioLabel.className = ("kes-radio-label");
-                            radioLabel.innerText = json[it].fields[i].values[j];
-                            radioDiv.appendChild(field);
-                            radioDiv.appendChild(radioLabel);
-                            let br = document.createElement('br');
-                            radioDiv.appendChild(br);
+                            hBox.appendChild(field);
+                            hBox.appendChild(br);
+                            break;
+                        case "radio":
+                            const radioDiv = document.createElement('div');
+                            for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                                const field = document.createElement('input');
+                                field.setAttribute("type", fieldType);
+                                field.setAttribute('name', ns);
+                                field.setAttribute('id', "kes-radio-" + j);
+                                field.setAttribute("kes-iter", it);
+                                field.setAttribute("kes-key", key);
+                                field.setAttribute("value", json[it].fields[i].values[j]);
+                                if (modSettings[key] == json[it].fields[i].values[j]) {
+                                    field.checked = true;
+                                } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                    field.checked = true;
+                                }
+                                let radioLabel = document.createElement('label');
+                                radioLabel.setAttribute('for', "kes-radio-" + j);
+                                radioLabel.className = ("kes-radio-label");
+                                radioLabel.innerText = json[it].fields[i].values[j];
+                                radioDiv.appendChild(field);
+                                radioDiv.appendChild(radioLabel);
+                                let br = document.createElement('br');
+                                radioDiv.appendChild(br);
+                            }
+                            hBox.appendChild(radioDiv);
+                            hBox.appendChild(br);
+                            break;
+                        case "checkbox":
+                            const checkboxLabel = document.createElement('label');
+                            const cfield = document.createElement('input');
+                            cfield.setAttribute("type", fieldType);
+                            if (!modSettings[key]) {
+                                cfield.checked = initial
+                            } else {
+                                cfield.checked = modSettings[key]
+                            }
+                            cfield.setAttribute("kes-iter", it);
+                            cfield.setAttribute("kes-key", key);
+                            checkboxLabel.appendChild(cfield);
+                            let ctext = document.createElement('text')
+                            ctext.innerText = json[it].fields[i].checkbox_label;
+                            checkboxLabel.appendChild(ctext)
+                            hBox.appendChild(checkboxLabel);
+                            break;
+                        default: {
+                            const field = document.createElement('input');
+                            field.setAttribute("type", fieldType);
+                            if (!modSettings[key]) {
+                                field.setAttribute("value", initial);
+                            } else {
+                                field.setAttribute("value", modSettings[key])
+                            }
+                            field.setAttribute("kes-iter", it);
+                            field.setAttribute("kes-key", key);
+                            hBox.appendChild(field);
+                            hBox.appendChild(br);
                         }
-                        hBox.appendChild(radioDiv);
-                        hBox.appendChild(br);
-                        break;
-                    case "checkbox":
-                        const checkboxLabel = document.createElement('label');
-                        const cfield = document.createElement('input');
-                        cfield.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
-                            cfield.checked = initial
-                        } else {
-                            cfield.checked = modSettings[key]
-                        }
-                        cfield.setAttribute("kes-iter", it);
-                        cfield.setAttribute("kes-key", key);
-                        checkboxLabel.appendChild(cfield);
-                        let ctext = document.createElement('text')
-                        ctext.innerText = json[it].fields[i].checkbox_label;
-                        checkboxLabel.appendChild(ctext)
-                        hBox.appendChild(checkboxLabel);
-                        break;
-                    default: {
-                        const field = document.createElement('input');
-                        field.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
-                            field.setAttribute("value", initial);
-                        } else {
-                            field.setAttribute("value", modSettings[key])
-                        }
-                        field.setAttribute("kes-iter", it);
-                        field.setAttribute("kes-key", key);
-                        hBox.appendChild(field);
-                        hBox.appendChild(br);
                     }
                 }
             }
-        }
-        // reset opacity of other helpbox toggles
-        let helpboxToggles = document.querySelectorAll('.kes-option');
-        for (let i = 0; i < helpboxToggles.length; ++i) {
-            if (i != it) {
-                helpboxToggles[i].style.cssText = 'opacity: 0.5;'
-            } else {
-                helpboxToggles[i].style.cssText = 'opacity: 1;'
-            }
-        }
-        let func = json[it].entrypoint;
-        const check = document.querySelector(`.kes-settings-modal-helpbox [kes-iter="` + it + `"]`);
-        if (settings[func] == true) {
-            check.checked = true;
-        } else {
-            check.checked = false;
-        }
-        // add to crumbs
-        // let activeChild = document.querySelector('.crumbChild')
-        // if (activeChild) {
-        //  activeChild.remove();
-        // }
-        // let crumbsRoot = document.querySelector('.kes-crumbs h2');
-        // let span = document.createElement('span');
-        // span.className = "crumbChild"
-        // let pad = document.createElement('text');
-        // pad.innerText = ' ';
-        // let chev = document.createElement('i')
-        // chev.className = 'fa-solid fa-chevron-right fa-xs';
-        // let activeMod = document.createElement('text');
-        // activeMod.innerText = ' ' + event.target.innerText;
-        // span.appendChild(pad)
-        // span.appendChild(chev)
-        // span.appendChild(activeMod)
-        // crumbsRoot.appendChild(span)
-
-    };
-
-    // Add script tag with opentab function
-    function openTab(tabName) {
-        const settings = getSettings();
-        if (settings.lastTab != tabName) {
-            settings.lastPage = null;
-        }
-        settings.lastTab = tabName
-        saveSettings(settings);
-        let pageLower = tabName.charAt(0).toLowerCase() + tabName.slice(1);
-        const tablinks = document.getElementsByClassName("kes-tab-link");
-        for (let i = 0; i < tablinks.length; i++) {
-            if (tablinks[i].innerText !== tabName) {
-                tablinks[i].style.opacity = 0.5;
-            } else {
-                tablinks[i].style.opacity = 1;
-            }
-        }
-        event.stopPropagation();
-        // Hide all options not in this tab (without this classname)
-        const options = document.getElementsByClassName("kess-list")[0];
-        const optionsChildren = options.children;
-        const pageToOpen = []
-        for (let i = 0; i < optionsChildren.length; i++) {
-            if (optionsChildren[i].className.indexOf(pageLower) > -1) {
-                optionsChildren[i].style.display = "block";
-                pageToOpen.push(i);
-            } else {
-                optionsChildren[i].style.display = "none";
-                let crumbsRoot = document.querySelector('.kes-crumbs');
-                crumbsRoot.innerHTML = '<h2>' + headerTitle + ' ' +
-                    '<i class="' + layoutArr.header.separator + '"></i> ' +
-                    tabName + '</h2>';
-            }
-        }
-        if (pageToOpen.length > 0) {
-            let lp = settings["lastPage"];
-            if (lp) {
-                openHelpBox(lp)
-            } else {
-                openHelpBox(pageToOpen[0])
-            }
-        } else {
-            let hBox = document.querySelector('.kes-settings-modal-helpbox');
-            hBox.style.opacity = 0;
-        }
-    }
-
-    const bodyHolder = document.createElement("div");
-    bodyHolder.className = "kes-settings-modal-body";
-
-    const kesUl = document.createElement("ul")
-    kesUl.className = "kess-list";
-
-    const helpBox = document.createElement("div");
-    helpBox.className = "kes-settings-modal-helpbox";
-
-    const footer = document.createElement("div");
-    footer.className = "kes-settings-modal-footer";
-
-    const magLink = document.createElement("a");
-    magLink.className = "kes-settings-modal-magazine";
-    magLink.innerText = "/m/enhancement";
-    magLink.setAttribute('href', magURL);
-    footer.appendChild(magLink)
-
-    const bugLink = document.createElement("a");
-    bugLink.className = "kes-settings-modal-bug-link";
-    bugLink.innerText = "Report a bug";
-    bugLink.setAttribute('href', bugURL);
-    footer.appendChild(bugLink)
-
-    const bugIcon = document.createElement("span");
-    bugIcon.className = "kes-settings-modal-bug-icon";
-    bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
-    bugLink.appendChild(bugIcon)
-
-    const container = document.createElement("div");
-    container.className = "kes-settings-modal-container";
-
-    //inject modal
-    modal.appendChild(container);
-    container.appendChild(modalContent);
-    container.appendChild(footer);
-    modalContent.appendChild(header);
-    modalContent.appendChild(sidebar);
-    modalContent.appendChild(helpBox);
-    modalContent.appendChild(bodyHolder);
-    bodyHolder.appendChild(kesUl);
-    document.body.appendChild(modal);
-    document.querySelector('.kes-settings-modal-sidebar ul').addEventListener("click", (e) => {
-        openTab(e.target.outerText);
-    });
-    document.querySelector('.kess-list').addEventListener("click", (e) => {
-        openHelpBox(e.target.getAttribute('kes-iter'));
-    });
-    document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
-        updateState(e.target);
-    });
-
-
-    const dockIcon = document.querySelector('.kes-dock i');
-    if (settings.dock == 'down') {
-        container.classList.add('kes-docked');
-        dockIcon.className = layoutArr.header.dock_up;
-    } else {
-        dockIcon.className = layoutArr.header.dock_down;
-    }
-
-
-    function insertListItem(it) {
-        let type = json[it].type
-        let func = json[it].entrypoint
-        let item = json[it].label
-        let page = json[it].page
-        const kesListItem = document.createElement("li");
-        kesListItem.className = page;
-        kesListItem.innerHTML += `<a class="kes-option" kes-iter="` + it + `">` + item + `</a>`
-        kesUl.appendChild(kesListItem);
-
-    }
-
-    for (let i = 0; i < json.length; ++i) {
-        insertListItem(i);
-    }
-
-    //dock button
-    modal.querySelector('.kes-dock i').addEventListener("click", (e) => {
-        const settings = getSettings();
-        let cn = e.target.className;
-        if (cn == layoutArr.header.dock_down) {
-            container.classList.add('kes-docked');
-            e.target.className = layoutArr.header.dock_up;
-            settings.dock = 'down';
-        } else {
-            container.classList.remove('kes-docked');
-            e.target.className = layoutArr.header.dock_down;
-            settings.dock = 'up';
-
-        }
-        saveSettings(settings);
-    });
-
-    //close button
-    modal.querySelector(".kes-settings-modal .kes-close").addEventListener("click", () => {
-        modal.remove();
-    });
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.remove();
-        }
-    });
-
-    let pageSettings = getSettings();
-    let lp = pageSettings["lastTab"]
-    let startPage
-    if (lp) {
-        startPage = lp
-    } else {
-        startPage = sidebarPages[0].charAt(0).toUpperCase() + sidebarPages[0].slice(1);
-    }
-    openTab(startPage);
-}
-
-function updateState(target) {
-    //get master settings
-    const settings = getSettings();
-    const it = target.getAttribute('kes-iter');
-    const check = document.querySelector(`.kes-settings-modal-helpbox [kes-iter="` + it + `"]`);
-
-    //get mod settings
-    let modValue
-    let ns = json[it].namespace;
-    let key = target.getAttribute('kes-key');
-    if (target.type === "checkbox") {
-        modValue = target.checked
-    } else {
-        modValue = target.value
-    }
-    const modSettings = getModSettings(ns);
-
-    let state;
-    if (check.checked) {
-        state = true;
-    } else {
-        state = false;
-    }
-
-    //update master and mod settings
-    let func = json[it].entrypoint;
-    modSettings[key] = modValue;
-    settings[func] = state;
-
-    //save and apply checkbox state
-    saveSettings(settings);
-    saveModSettings(modSettings, ns);
-    //necessarily reload the page when verbose timestamps are toggled off
-    //otherwise, triggers a loop of mutations because reverting timeago mutates the watched node
-    if ((func === "updateTime") && (state === false)) {
-        window.location.reload();
-    } else {
-        applySettings(func);
-    }
-}
-
-function applySettings(entry) {
-    const settings = getSettings();
-    try {
-        if (settings[entry] == true) {
-            funcObj[entry](true);
-        } else {
-            funcObj[entry](false);
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-window.getModSettings = function(namespace) {
-    let settings = localStorage.getItem(namespace)
-    if (!settings) {
-        settings = {};
-    } else {
-        settings = JSON.parse(settings);
-    }
-    return settings;
-}
-
-function getSettings(func) {
-    let settings = localStorage.getItem("kes-settings");
-    if (!settings) {
-        settings = {};
-    } else {
-        settings = JSON.parse(settings);
-    }
-    return settings;
-}
-
-function saveModSettings(settings, namespace) {
-    localStorage.setItem(namespace, JSON.stringify(settings));
-}
-
-function saveSettings(settings) {
-    localStorage.setItem("kes-settings", JSON.stringify(settings));
-}
-
-function init() {
-    for (let i = 0; i < json.length; ++i) {
-        applySettings(json[i].entrypoint);
-    }
-}
-
-function initmut(list) {
-    for (const mutation of list) {
-        //workaround for timeago ticks changing timestamp textContent
-        //reapply verbose timestamp
-        if (mutation.target.className === 'timeago') {
-            if (mutation.target.textContent.indexOf("ago") >= 0) {
-                applySettings("updateTime");
-            }
-            //triggering on the first mutation is sufficient
-            return
-        } else {
-	    //normal mutation (lazy load etc.), apply all recurring mods
-            for (let i = 0; i < json.length; ++i) {
-                if (json[i].recurs) {
-                    applySettings(json[i].entrypoint);
-                    obs.takeRecords();
+            // reset opacity of other helpbox toggles
+            let helpboxToggles = document.querySelectorAll('.kes-option');
+            for (let i = 0; i < helpboxToggles.length; ++i) {
+                if (i != it) {
+                    helpboxToggles[i].style.cssText = 'opacity: 0.5;'
+                } else {
+                    helpboxToggles[i].style.cssText = 'opacity: 1;'
                 }
             }
-            return
+            let func = json[it].entrypoint;
+            const check = document.querySelector(`.kes-settings-modal-helpbox [kes-iter="` + it + `"]`);
+            if (settings[func] == true) {
+                check.checked = true;
+            } else {
+                check.checked = false;
+            }
+            // add to crumbs
+            // let activeChild = document.querySelector('.crumbChild')
+            // if (activeChild) {
+            //  activeChild.remove();
+            // }
+            // let crumbsRoot = document.querySelector('.kes-crumbs h2');
+            // let span = document.createElement('span');
+            // span.className = "crumbChild"
+            // let pad = document.createElement('text');
+            // pad.innerText = ' ';
+            // let chev = document.createElement('i')
+            // chev.className = 'fa-solid fa-chevron-right fa-xs';
+            // let activeMod = document.createElement('text');
+            // activeMod.innerText = ' ' + event.target.innerText;
+            // span.appendChild(pad)
+            // span.appendChild(chev)
+            // span.appendChild(activeMod)
+            // crumbsRoot.appendChild(span)
+
+        };
+
+        // Add script tag with opentab function
+        function openTab(tabName) {
+            const settings = getSettings();
+            if (settings.lastTab != tabName) {
+                settings.lastPage = null;
+            }
+            settings.lastTab = tabName
+            saveSettings(settings);
+            let pageLower = tabName.charAt(0).toLowerCase() + tabName.slice(1);
+            const tablinks = document.getElementsByClassName("kes-tab-link");
+            for (let i = 0; i < tablinks.length; i++) {
+                if (tablinks[i].innerText !== tabName) {
+                    tablinks[i].style.opacity = 0.5;
+                } else {
+                    tablinks[i].style.opacity = 1;
+                }
+            }
+            //TODO: fails on GM
+            //event.stopPropagation();
+            // Hide all options not in this tab (without this classname)
+            const options = document.getElementsByClassName("kess-list")[0];
+            const optionsChildren = options.children;
+            const pageToOpen = []
+            for (let i = 0; i < optionsChildren.length; i++) {
+                if (optionsChildren[i].className.indexOf(pageLower) > -1) {
+                    optionsChildren[i].style.display = "block";
+                    pageToOpen.push(i);
+                } else {
+                    optionsChildren[i].style.display = "none";
+                    let crumbsRoot = document.querySelector('.kes-crumbs');
+                    crumbsRoot.innerHTML = '<h2>' + headerTitle + ' ' +
+                        '<i class="' + layoutArr.header.separator + '"></i> ' +
+                        tabName + '</h2>';
+                }
+            }
+            if (pageToOpen.length > 0) {
+                let lp = settings["lastPage"];
+                if (lp) {
+                    openHelpBox(lp)
+                } else {
+                    openHelpBox(pageToOpen[0])
+                }
+            } else {
+                let hBox = document.querySelector('.kes-settings-modal-helpbox');
+                hBox.style.opacity = 0;
+            }
+        }
+
+        const bodyHolder = document.createElement("div");
+        bodyHolder.className = "kes-settings-modal-body";
+
+        const kesUl = document.createElement("ul")
+        kesUl.className = "kess-list";
+
+        const helpBox = document.createElement("div");
+        helpBox.className = "kes-settings-modal-helpbox";
+
+        const footer = document.createElement("div");
+        footer.className = "kes-settings-modal-footer";
+
+        const magLink = document.createElement("a");
+        magLink.className = "kes-settings-modal-magazine";
+        magLink.innerText = "/m/enhancement";
+        magLink.setAttribute('href', magURL);
+        footer.appendChild(magLink)
+
+        const bugLink = document.createElement("a");
+        bugLink.className = "kes-settings-modal-bug-link";
+        bugLink.innerText = "Report a bug";
+        bugLink.setAttribute('href', bugURL);
+        footer.appendChild(bugLink)
+
+        const bugIcon = document.createElement("span");
+        bugIcon.className = "kes-settings-modal-bug-icon";
+        bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
+        bugLink.appendChild(bugIcon)
+
+        const container = document.createElement("div");
+        container.className = "kes-settings-modal-container";
+
+        //inject modal
+        modal.appendChild(container);
+        container.appendChild(modalContent);
+        container.appendChild(footer);
+        modalContent.appendChild(header);
+        modalContent.appendChild(sidebar);
+        modalContent.appendChild(helpBox);
+        modalContent.appendChild(bodyHolder);
+        bodyHolder.appendChild(kesUl);
+        document.body.appendChild(modal);
+        document.querySelector('.kes-settings-modal-sidebar ul').addEventListener("click", (e) => {
+            openTab(e.target.outerText);
+        });
+        document.querySelector('.kess-list').addEventListener("click", (e) => {
+            openHelpBox(e.target.getAttribute('kes-iter'));
+        });
+        document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
+            updateState(e.target);
+        });
+
+
+        const dockIcon = document.querySelector('.kes-dock i');
+        if (settings.dock == 'down') {
+            container.classList.add('kes-docked');
+            dockIcon.className = layoutArr.header.dock_up;
+        } else {
+            dockIcon.className = layoutArr.header.dock_down;
+        }
+
+
+        function insertListItem(it) {
+            let type = json[it].type
+            let func = json[it].entrypoint
+            let item = json[it].label
+            let page = json[it].page
+            const kesListItem = document.createElement("li");
+            kesListItem.className = page;
+            kesListItem.innerHTML += `<a class="kes-option" kes-iter="` + it + `">` + item + `</a>`
+            kesUl.appendChild(kesListItem);
+
+        }
+
+        for (let i = 0; i < json.length; ++i) {
+            insertListItem(i);
+        }
+
+        //dock button
+        modal.querySelector('.kes-dock i').addEventListener("click", (e) => {
+            const settings = getSettings();
+            let cn = e.target.className;
+            if (cn == layoutArr.header.dock_down) {
+                container.classList.add('kes-docked');
+                e.target.className = layoutArr.header.dock_up;
+                settings.dock = 'down';
+            } else {
+                container.classList.remove('kes-docked');
+                e.target.className = layoutArr.header.dock_down;
+                settings.dock = 'up';
+
+            }
+            saveSettings(settings);
+        });
+
+        //close button
+        modal.querySelector(".kes-settings-modal .kes-close").addEventListener("click", () => {
+            modal.remove();
+        });
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+
+        let pageSettings = getSettings();
+        let lp = pageSettings["lastTab"]
+        let startPage
+        if (lp) {
+            startPage = lp
+        } else {
+            startPage = sidebarPages[0].charAt(0).toUpperCase() + sidebarPages[0].slice(1);
+        }
+        openTab(startPage);
+    }
+
+    function updateState(target) {
+        //get master settings
+        const settings = getSettings();
+        const it = target.getAttribute('kes-iter');
+        const check = document.querySelector(`.kes-settings-modal-helpbox [kes-iter="` + it + `"]`);
+
+        //get mod settings
+        let modValue
+        let ns = json[it].namespace;
+        let key = target.getAttribute('kes-key');
+        if (target.type === "checkbox") {
+            modValue = target.checked
+        } else {
+            modValue = target.value
+        }
+        const modSettings = getModSettings(ns);
+
+        let state;
+        if (check.checked) {
+            state = true;
+        } else {
+            state = false;
+        }
+
+        //update master and mod settings
+        let func = json[it].entrypoint;
+        modSettings[key] = modValue;
+        settings[func] = state;
+
+        //save and apply checkbox state
+        saveSettings(settings);
+        saveModSettings(modSettings, ns);
+        //necessarily reload the page when verbose timestamps are toggled off
+        //otherwise, triggers a loop of mutations because reverting timeago mutates the watched node
+        if ((func === "updateTime") && (state === false)) {
+            window.location.reload();
+        } else {
+            applySettings(func);
         }
     }
-}
 
-const watchedNode = document.querySelector('[data-controller="subject-list"]');
-const watchedNode2 = document.querySelector('#comments');
-const obs = new MutationObserver(initmut);
-init();
-obs.observe(watchedNode, { subtree: true, childList: true, attributes: false});
-obs.observe(watchedNode2, { subtree: false, childList: true, attributes: false});
+    function applySettings(entry) {
+        const settings = getSettings();
+        try {
+            if (settings[entry] == true) {
+                funcObj[entry](true);
+            } else {
+                funcObj[entry](false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    window.getModSettings = function(namespace) {
+        let settings = localStorage.getItem(namespace)
+        if (!settings) {
+            settings = {};
+        } else {
+            settings = JSON.parse(settings);
+        }
+        return settings;
+    }
+
+    function getSettings(func) {
+        let settings = localStorage.getItem("kes-settings");
+        if (!settings) {
+            settings = {};
+        } else {
+            settings = JSON.parse(settings);
+        }
+        return settings;
+    }
+
+    function saveModSettings(settings, namespace) {
+        localStorage.setItem(namespace, JSON.stringify(settings));
+    }
+
+    function saveSettings(settings) {
+        localStorage.setItem("kes-settings", JSON.stringify(settings));
+    }
+
+    function init() {
+        for (let i = 0; i < json.length; ++i) {
+            applySettings(json[i].entrypoint);
+        }
+    }
+
+    function initmut(list) {
+        for (const mutation of list) {
+            //workaround for timeago ticks changing timestamp textContent
+            //reapply verbose timestamp
+            if (mutation.target.className === 'timeago') {
+                if (mutation.target.textContent.indexOf("ago") >= 0) {
+                    applySettings("updateTime");
+                }
+                //triggering on the first mutation is sufficient
+                return
+            } else {
+                //normal mutation (lazy load etc.), apply all recurring mods
+                for (let i = 0; i < json.length; ++i) {
+                    if (json[i].recurs) {
+                        applySettings(json[i].entrypoint);
+                        obs.takeRecords();
+                    }
+                }
+                return
+            }
+        }
+    }
+
+    const watchedNode = document.querySelector('[data-controller="subject-list"]');
+    const watchedNode2 = document.querySelector('#comments');
+    const obs = new MutationObserver(initmut);
+    init();
+    obs.observe(watchedNode, {
+        subtree: true,
+        childList: true,
+        attributes: false
+    });
+    obs.observe(watchedNode2, {
+        subtree: false,
+        childList: true,
+        attributes: false
+    });
+}
