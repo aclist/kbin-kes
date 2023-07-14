@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.22
+// @version      2.0.0-rc.23
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -48,6 +48,7 @@
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/subs.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/timestamp.user.js
 // @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/ui.json
+// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/testing/manifest.json
 // @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.css
 // @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
 // @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
@@ -106,6 +107,8 @@ versionElement.setAttribute('href', repositoryURL);
 let newVersion = null;
 
 function genericXMLRequest(url, callback) {
+	console.log(url)
+	console.log(callback)
     safeGM("xmlhttpRequest", {
         method: 'GET',
         url: url,
@@ -144,11 +147,12 @@ async function checkUpdates(response) {
 }
 
 async function makeArr(response) {
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(response.responseText, "text/html");
-    var content = response.responseText
-    const jarr = JSON.parse(content)
-    safeGM("setValue", "json", jarr);
+    const resp = await response.response;
+//    var parser = new DOMParser();
+//    var doc = parser.parseFromString(response.responseText, "text/html");
+//    var content = response.responseText
+    //const jarr = JSON.parse(content)
+    safeGM("setValue", "json", resp);
 };
 
 async function asyncSafeGM(...args) {
@@ -167,33 +171,36 @@ async function prepareArrs() {
     let json
     let css
     let kes_layout
+	console.log(gmPrefix)
     if (gmPrefix === "GM_") {
-        json = safeGM("getValue", "json");
+        json = safeGM("getResourceText", "kes_json");
         css = safeGM("getResourceText", "kes_css");
         kes_layout = safeGM("getResourceText", "kes_layout");
     } else {
-	//TODO: use genericXMLRequest
-        json = await asyncSafeGM("getValue", "json")
+	genericXMLRequest(manifest,makeArr);
+        json = await asyncSafeGM("getValue", "json");
 
-        let cssURL = "https://github.com/aclist/kbin-kes/raw/testing/kes.css"
+        let cssURL = "https://github.com/aclist/kbin-kes/raw/testing/kes.css";
         genericXMLRequest(cssURL, setRemoteCSS);
-        css = await asyncSafeGM("getValue", "kes-css")
+        css = await asyncSafeGM("getValue", "kes-css");
 
-        let layoutURL = "https://github.com/aclist/kbin-kes/raw/testing/ui.json"
-        genericXMLRequest(layoutURL, setRemoteUI)
-        kes_layout = await asyncSafeGM("getValue", "layout")
+        let layoutURL = "https://github.com/aclist/kbin-kes/raw/testing/ui.json";
+        genericXMLRequest(layoutURL, setRemoteUI);
+        kes_layout = await asyncSafeGM("getValue", "layout");
     }
     initKES(json, css, kes_layout)
 }
 //preparation begins here
-fetchManifest();
+//fetchManifest();
 checkVersion();
 prepareArrs();
 
 //business logic here
-function initKES(json, css, kes_layout) {
+function initKES(unparsedJSON, css, unparsedLayout) {
+    //const json = JSON.parse(json)
+    const json = JSON.parse(unparsedJSON);
     safeGM("addStyle", css);
-    const layoutArr = JSON.parse(kes_layout);
+    const layoutArr = JSON.parse(unparsedLayout);
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title
 
