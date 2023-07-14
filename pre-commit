@@ -12,6 +12,7 @@ opts=(
 	"chore (static docs/task/file manipulation)"
      )
 bump_vers(){
+	[[ $1 == chore ]] && return
 	local ma=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\1/g')
 	local mi=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\3/g')
 	local pa=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\5/g')
@@ -61,17 +62,13 @@ bump_vers(){
 
 #test_mod
 
-if [[ $branch == "main" ]]; then
-	echo "This commit change is of type:"
-	select opt in "${opts[@]}"; do
-		case $opt in
-		    ${opts[0]}) bump_vers major ;;
-		    ${opts[1]}) bump_vers minor ;;
-		    ${opts[2]}) bump_vers patch ;;
-		    ${opts[3]}) : ;;
-		esac
-		break
-	done < /dev/tty
-else
-	bump_vers
-fi
+echo "This commit change is of type:"
+select opt in "${opts[@]}"; do
+	case $opt in
+	    ${opts[0]}) bump_vers major ;;
+	    ${opts[1]}) bump_vers minor ;;
+	    ${opts[2]}) bump_vers patch ;;
+	    ${opts[3]}) : ;;
+	esac
+	break
+done < /dev/tty
