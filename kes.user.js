@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       2.0.9
+// @version       2.0.10
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -49,8 +49,8 @@
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-thumbs.user.js
-// @resource      kes_css https://github.com/aclist/kbin-kes/raw/main/kes.css
-// @resource      kes_layout https://github.com/aclist/kbin-kes/raw/main/ui.json
+// @resource      kes_css https://github.com/aclist/kbin-kes/raw/testing/kes.css
+// @resource      kes_layout https://github.com/aclist/kbin-kes/raw/testing/ui.json
 // @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // @updateURL      https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // ==/UserScript==
@@ -207,6 +207,7 @@ function initKES(json, css, kes_layout) {
     const settingsButton = document.createElement('i');
     settingsButton.id = 'kes-settings-button';
     settingsButton.classList = layoutArr.header.open;
+    console.log(layoutArr.header.open)
     settingsButton.style.verticalAlign = 'middle';
     settingsButton.addEventListener('click', () => {
         showSettingsModal();
