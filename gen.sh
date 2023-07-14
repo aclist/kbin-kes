@@ -28,17 +28,16 @@ grants=(
 )
 
 gen_line(){
-	printf "// @%s         %s\n" "$1" "$2"
+	printf "// @%s\t%s\n" "$1" "$2"
 }
 gen_meta(){
 	cat <<-EOF
-	// ==UserScript==
-	// @name          $name
-	// @namespace     https://github.com/$author
-	// @license       $license
-	// @version       $version
-	// @description   $desc
-	// @author        $author
+	// @name	$name
+	// @namespace	https://github.com/$author
+	// @license	$license
+	// @version	$version
+	// @description	$desc
+	// @author	$author
 	EOF
 }
 gen_instances(){
@@ -61,9 +60,9 @@ gen_grants(){
 }
 gen_extra(){
 cat<<-EOF
-	// @icon          https://kbin.social/favicon.svg
-	// @connect       raw.githubusercontent.com
-	// @connect       github.com
+	// @icon	https://kbin.social/favicon.svg
+	// @connect	raw.githubusercontent.com
+	// @connect	github.com
 EOF
 }
 gen_requires(){
@@ -125,13 +124,20 @@ gen_object(){
 		done
 	echo "};"
 }
-gen_meta
-gen_instances
-gen_grants
-gen_extra
-gen_requires
-echo "==/UserScript=="
-echo "//START AUTO MASTHEAD"
-gen_consts
-gen_object
-echo "//END AUTO MASTHEAD"
+columnize(){
+	gen_meta
+	gen_instances
+	gen_grants
+	gen_extra
+	gen_requires
+}
+main(){
+	echo "// ==UserScript=="
+	columnize | column -t -s$'\t' -o"  "
+	echo "==/UserScript=="
+	echo "//START AUTO MASTHEAD"
+	gen_consts
+	gen_object
+	echo "//END AUTO MASTHEAD"
+}
+main
