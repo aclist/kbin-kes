@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       2.0.4
+// @version       2.0.5
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -49,6 +49,8 @@
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo.user.js
 // @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-thumbs.user.js
+// @resource      kes_css https://github.com/aclist/kbin-kes/raw/main/kes.css
+// @resource      kes_layout https://github.com/aclist/kbin-kes/raw/main/ui.json
 // @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // @updateURL      https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // ==/UserScript==
@@ -161,7 +163,6 @@ async function setRemoteCSS(response) {
 }
 async function setRemoteUI(response) {
     const resp = await response.response;
-	console.log(resp)
     safeGM("setValue", "layout", resp)
 }
 async function prepareArrs() {
@@ -173,7 +174,7 @@ async function prepareArrs() {
         css = safeGM("getResourceText", "kes_css");
         kes_layout = safeGM("getResourceText", "kes_layout");
     } else {
-        //TODO: use genericXMLRequest
+	//TODO: use genericXMLRequest
         json = await asyncSafeGM("getValue", "json")
 
         let cssURL = "https://github.com/aclist/kbin-kes/raw/testing/kes.css"
@@ -193,10 +194,8 @@ prepareArrs();
 
 //business logic here
 function initKES(json, css, kes_layout) {
-	console.log(json)
-	console.log(css)
-	console.log(kes_layout)
     safeGM("addStyle", css);
+	console.log(css)
     const layoutArr = JSON.parse(kes_layout);
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title
