@@ -5,6 +5,7 @@ function bugReportInit(toggle) {
     if (toggle) {
         items.forEach((item) => {
         if (item.querySelector('.kes-report-bug')) {
+		$('.kes-report-bug').show();
 		return
 	}
             let postID = item.getAttribute("id");
