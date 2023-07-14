@@ -60,7 +60,7 @@ const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
 const branch = repositoryURL + "raw/testing/"
 const manifest = branch + "helpers/manifest.json"
-const ui = branch + "ui.json"
+const ui = branch + "helpers/ui.json"
 const versionFile = branch + "VERSION";
 const updateURL = branch + "kes.user.js";
 const bugURL = repositoryURL + "issues"
@@ -109,8 +109,8 @@ versionElement.setAttribute('href', repositoryURL);
 let newVersion = null;
 
 function genericXMLRequest(url, callback) {
-	console.log(url)
-	console.log(callback)
+    console.log(url)
+    console.log(callback)
     safeGM("xmlhttpRequest", {
         method: 'GET',
         url: url,
@@ -150,9 +150,9 @@ async function checkUpdates(response) {
 
 async function makeArr(response) {
     const resp = await response.response;
-//    var parser = new DOMParser();
-//    var doc = parser.parseFromString(response.responseText, "text/html");
-//    var content = response.responseText
+    //    var parser = new DOMParser();
+    //    var doc = parser.parseFromString(response.responseText, "text/html");
+    //    var content = response.responseText
     //const jarr = JSON.parse(content)
     safeGM("setValue", "json", resp);
 };
@@ -173,20 +173,20 @@ async function prepareArrs() {
     let json
     let css
     let kes_layout
-	console.log(gmPrefix)
+    console.log(gmPrefix)
     if (gmPrefix === "GM_") {
         json = safeGM("getResourceText", "kes_json");
         css = safeGM("getResourceText", "kes_css");
         kes_layout = safeGM("getResourceText", "kes_layout");
     } else {
-	genericXMLRequest(manifest,makeArr);
+        genericXMLRequest(manifest, makeArr);
         json = await asyncSafeGM("getValue", "json");
 
-        let cssURL = "https://github.com/aclist/kbin-kes/raw/testing/kes.css";
+        let cssURL = "https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css";
         genericXMLRequest(cssURL, setRemoteCSS);
         css = await asyncSafeGM("getValue", "kes-css");
 
-        let layoutURL = "https://github.com/aclist/kbin-kes/raw/testing/ui.json";
+        let layoutURL = "https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json";
         genericXMLRequest(layoutURL, setRemoteUI);
         kes_layout = await asyncSafeGM("getValue", "layout");
     }
@@ -221,7 +221,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
     kesPanel.appendChild(settingsButton);
 
     var keyPressed = {};
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
 
         let modal = document.querySelector('.kes-settings-modal')
         keyPressed[e.key] = true;
@@ -244,7 +244,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
 
     }, false);
 
-    document.addEventListener('keyup', function(e) {
+    document.addEventListener('keyup', function (e) {
         keyPressed[e.key + e.location] = false;
 
         keyPressed = {};
@@ -468,9 +468,9 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                             }
                             hBox.appendChild(br);
                             break;
-			case "number":
-				    const numberField = document.createElement('input');
-				    numberField.setAttribute("type", fieldType);
+                        case "number":
+                            const numberField = document.createElement('input');
+                            numberField.setAttribute("type", fieldType);
                             if (!modSettings[key]) {
                                 numberField.setAttribute("value", initial);
                             } else {
@@ -481,9 +481,9 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                             numberField.setAttribute('min', json[it].fields[i].min);
                             numberField.setAttribute('max', json[it].fields[i].max);
                             numberField.setAttribute('step', json[it].fields[i].step);
-				    hBox.appendChild(numberField);
-				    hBox.appendChild(br);
-				    break;
+                            hBox.appendChild(numberField);
+                            hBox.appendChild(br);
+                            break;
                         case "select":
                             const selectField = document.createElement('select');
                             selectField.setAttribute('name', ns);
@@ -818,7 +818,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
         }
     }
 
-    window.getModSettings = function(namespace) {
+    window.getModSettings = function (namespace) {
         let settings = localStorage.getItem(namespace)
         if (!settings) {
             settings = {};
