@@ -6,6 +6,7 @@ license=MIT
 version=$(cat VERSION)
 desc="Kbin Enhancement Suite"
 branch=$(git name-rev --name-only HEAD)
+base_file="kes.user.js"
 [[ $branch != "main" ]]  && branch="testing"
 slug="${author}/kbin-kes"
 
@@ -91,8 +92,8 @@ gen_requires(){
 		local str="$i ${prefix}${resources[$i]}"
 		gen_line "resource" "$str"
 	done
-	gen_line "downloadURL" "${prefix}kes.user.js"
-	gen_line "updateURL" "${prefix}kes.user.js"
+	gen_line "downloadURL" "${prefix}${base_file}"
+	gen_line "updateURL" "${prefix}${base_file}"
 }
 
 gen_consts(){
@@ -134,10 +135,11 @@ columnize(){
 main(){
 	echo "// ==UserScript=="
 	columnize | column -t -s$'\t' -o"  "
-	echo "==/UserScript=="
+	echo "// ==/UserScript=="
 	echo "//START AUTO MASTHEAD"
 	gen_consts
 	gen_object
 	echo "//END AUTO MASTHEAD"
+	awk 'x==1 {print $0} /END AUTO MASTHEAD/{x=1}' $base_file
 }
 main
