@@ -75,7 +75,7 @@ gen_requires(){
 		"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"
 		"http://code.jquery.com/jquery-3.4.1.min.js"
 	)
-	declare -A resources=([kes_layout]=ui.json [kes_css]=kes.css)
+	declare -A resources=([kes_layout]=ui.json [kes_css]=kes.css [kes_json]=manifest.json)
 	readarray -t mods < <(ls -1 $PWD/mods)
 	for (( i = 0; i < ${#deps[@]}; i++ )); do
 		local str="${prefix}${deps[$i]}"
