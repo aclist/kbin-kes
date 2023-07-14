@@ -206,7 +206,6 @@ function initKES(json, css, kes_layout) {
     const settingsButton = document.createElement('i');
     settingsButton.id = 'kes-settings-button';
     settingsButton.classList = layoutArr.header.open;
-    console.log(layoutArr.header.open)
     settingsButton.style.verticalAlign = 'middle';
     settingsButton.addEventListener('click', () => {
         showSettingsModal();
