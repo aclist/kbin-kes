@@ -27,8 +27,8 @@ If applicable, add screenshots to help explain your problem.
 - Version number [e.g. 1.0.0]
 
 **Extension and version:**
-- [TamperMonkey/GreaseMonkey/ViolentMoney/Userscripts]
-- Version number [e.g. 1.0.0]
+- Extension: [e.g., TamperMonkey/GreaseMonkey]
+- Version number: [e.g. 1.0.0]
 
 **Desktop (please complete the following information):**
  - OS: [e.g. Ubuntu Linux]
