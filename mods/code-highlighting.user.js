@@ -3,7 +3,7 @@ GM_addStyle(`
         display: none !important;
     }
 `);
-function startup(firstBoot = false) {
+function kchStartup(firstBoot = false) {
     if (firstBoot) {
         addHeaders('code');
     } else {
@@ -11,7 +11,7 @@ function startup(firstBoot = false) {
     }
     setCss(kchCssUrl);
 }
-function shutdown() {
+function kchShutdown() {
     if (kchInjectedCss) {
         kchInjectedCss.remove();
     }
@@ -110,9 +110,9 @@ function initCodeHighlights(toggle) {
         kchCssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
         if (kchLastToggleState === false) {
             kchLastToggleState = true;
-            startup(true);
+            kchStartup(true);
         } else {
-            startup();
+            kchStartup();
         }
         // Configure HLJS and enable.
         hljs.configure({
@@ -120,6 +120,6 @@ function initCodeHighlights(toggle) {
         });
         hljs.highlightAll();
     } else {
-        shutdown();
+        kchShutdown();
     }
 }
