@@ -76,9 +76,10 @@ gen_requires(){
 		"http://code.jquery.com/jquery-3.4.1.min.js"
 	)
 	declare -A resources=([kes_layout]=ui.json [kes_css]=kes.css [kes_json]=manifest.json)
+
 	readarray -t mods < <(ls -1 $PWD/mods)
 	for (( i = 0; i < ${#deps[@]}; i++ )); do
-		local str="${prefix}${deps[$i]}"
+		local str="${prefix}helpers/${deps[$i]}"
 		gen_line "require" "$str"
 	done
 	for (( i = 0; i < ${#external[@]}; i++ )); do
@@ -89,7 +90,7 @@ gen_requires(){
 		gen_line "require" "$str"
 	done
 	for i in ${!resources[@]}; do
-		local str="$i ${prefix}${resources[$i]}"
+		local str="$i ${prefix}helpers/${resources[$i]}"
 		gen_line "resource" "$str"
 	done
 	gen_line "downloadURL" "${prefix}${base_file}"
@@ -102,7 +103,7 @@ cat<<-EOF
 	const tool = safeGM("info").script.name;
 	const repositoryURL = "https://github.com/$slug/";
 	const branch = repositoryURL + "raw/$branch/"
-	const manifest = branch + "manifest.json"
+	const manifest = branch + "helpers/manifest.json"
 	const ui = branch + "ui.json"
 	const versionFile = branch + "VERSION";
 	const updateURL = branch + "kes.user.js";
@@ -112,7 +113,7 @@ cat<<-EOF
 EOF
 }
 gen_object(){
-	manifest=manifest.json
+	manifest="./helpers/manifest.json"
 	readarray -t funcs < <(<$manifest jq -r '.[].entrypoint' | sort)
 	echo "const funcObj = {"
 		for (( i = 0; i < ${#funcs[@]}; i++ )); do

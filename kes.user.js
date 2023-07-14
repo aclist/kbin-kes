@@ -27,7 +27,7 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/safegm.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/code-highlighting.user.js
@@ -44,12 +44,13 @@
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/label.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/mail.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/nav-icons.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/numbers.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/report-bug.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/subs.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/timestamp.user.js
-// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/ui.json
-// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/testing/manifest.json
-// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.css
+// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json
+// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/manifest.json
+// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/kes.css
 // @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
 // @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
 // ==/UserScript==
@@ -58,7 +59,7 @@ const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
 const branch = repositoryURL + "raw/testing/"
-const manifest = branch + "manifest.json"
+const manifest = branch + "helpers/manifest.json"
 const ui = branch + "ui.json"
 const versionFile = branch + "VERSION";
 const updateURL = branch + "kes.user.js";
@@ -82,6 +83,7 @@ const funcObj = {
     labelOp: labelOp,
     magInstanceEntry: magInstanceEntry,
     navbarIcons: navbarIcons,
+    numbersInit: numbersInit,
     toggleLogo: toggleLogo,
     updateTime: updateTime,
     userInstanceEntry: userInstanceEntry
