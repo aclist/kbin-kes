@@ -4,6 +4,7 @@ COLUMNS=1
 version_file="VERSION"
 master_file="kes.user.js"
 vers=$(< $version_file)
+branch=$(git name-rev --name-only HEAD)
 opts=(
 	"MAJOR (breaking API change)"
 	"MINOR (feature)"
@@ -14,23 +15,30 @@ bump_vers(){
 	local ma=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\1/g')
 	local mi=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\3/g')
 	local pa=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\5/g')
-	case $1 in
-		"major")
-			ma=$((ma+1))
-			mi=0
-			pa=0
-			;;
-		"minor")
-			mi=$((mi+1))
-			pa=0
-			;;
-		"patch")
-			pa=$((pa+1))
-			;;
-	esac
-	local newvers="${ma}.${mi}.${pa}"
+        if [[ $branch == "main" ]]; then
+		case $1 in
+			"major")
+				ma=$((ma+1))
+				mi=0
+				pa=0
+				;;
+			"minor")
+				mi=$((mi+1))
+				pa=0
+				;;
+			"patch")
+				pa=$((pa+1))
+				;;
+		esac
+		local newvers="${ma}.${mi}.${pa}"
+	else
+		local inc=$(<<< "$vers" awk -F"." '{print $4}')
+		local pref=$(<<< "$vers" awk -F"-" '{print $1}')
+		newvers="${pref}-rc.$((inc+1))"
+	fi
+	#sed -i "s/\(\/\/ @version *\)\([0-9]\+.*\)/\1$newvers/g" $master_file
 	echo "$newvers" > $version_file
-	sed -i "s/\(\/\/ @version *\)\([0-9]\+.*\)/\1$newvers/g" $master_file
+	./gen.sh
 	echo "HOOK========>Bumping version from $vers to $newvers"
 	git add $version_file
 	git add $master_file
@@ -51,13 +59,17 @@ bump_vers(){
 
 #test_mod
 
-echo "This commit change is of type:"
-select opt in "${opts[@]}"; do
-	case $opt in
-	    ${opts[0]}) bump_vers major ;;
-	    ${opts[1]}) bump_vers minor ;;
-	    ${opts[2]}) bump_vers patch ;;
-	    ${opts[3]}) : ;;
-	esac
-	break
-done < /dev/tty
+if [[ $branch == "main" ]]; then
+	echo "This commit change is of type:"
+	select opt in "${opts[@]}"; do
+		case $opt in
+		    ${opts[0]}) bump_vers major ;;
+		    ${opts[1]}) bump_vers minor ;;
+		    ${opts[2]}) bump_vers patch ;;
+		    ${opts[3]}) : ;;
+		esac
+		break
+	done < /dev/tty
+else
+	bump_vers
+fi
