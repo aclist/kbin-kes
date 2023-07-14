@@ -218,7 +218,7 @@ Custom input fields are themselves optional, but if the `fields` array above has
 |Key|Optional?|Type|Value
 
 |type||string
-a|The input field type. Available types are `select`, `radio`, `checkbox`, `range`, `number`, and miscellaneous single-value types defined https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input[here]
+a|The input field type. Available types are `select`, `radio`, `checkbox`, and miscellaneous single-value types defined https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input[here]
 |initial||string (if checkbox, bool)|The initial value the field is set to
 |key||string
 a|A unique key for this setting, stored under the object namespace defined in Table 1. This key is parsed by the recipient script in the format `namespace.key` in order to extract user-defined settings

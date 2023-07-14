@@ -227,6 +227,13 @@ a|A unique key for this setting, stored under the object namespace defined in Ta
 a|required if `type` is `select` or `radio`|array of strings|If the type is `select` or `radio`, an array of user-facing labels, which also function as values, used to populate each option
 |checkbox_label
 a|required if `type` is `checkbox`|string|A user-facing label printed to the right of a checkbox
+|min
+a|required if `type` is `range` or `number`|int|The minimum value in the range
+|max
+a|required if `type` is `range` or `number`|int|The maximum value in the range
+|step
+a|optional if `type` is `number`|int|The interval by which to increment/decrement the range
+
 |===
 
 === Script calling logic
