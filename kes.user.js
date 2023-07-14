@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.14
+// @version      2.0.0-rc.15
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -44,6 +44,7 @@
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/label.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/mail.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/nav-icons.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/report-bug.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/subs.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/timestamp.user.js
 // @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/ui.json
@@ -65,6 +66,7 @@ const magURL = "https://kbin.social/m/enhancement"
 const changelogURL = repositoryURL + "blob/testing/CHANGELOG.md"
 const funcObj = {
     addMail: addMail,
+    bugReportInit: bugReportInit,
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
     hideDownvotes: hideDownvotes,

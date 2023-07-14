@@ -503,6 +503,17 @@
     "page": "general"
   },
   {
+    "name": "Submit post contents as bug report",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Report bug from post",
+    "login": false,
+    "recurs": true,
+    "desc": "Submit the contents of a post as part of a bug report",
+    "entrypoint": "bugReportInit",
+    "page": "general"
+  },
+  {
     "name": "Navbar icons",
     "author": "shazbot",
     "version": "0.1.0",
