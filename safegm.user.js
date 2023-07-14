@@ -1,17 +1,23 @@
 let gmPrefix
+let dotPrefix = "GM."
+let underPrefix = "GM_"
 try {
 	if(GM_info){
-		gmPrefix = "GM_"
-	} else {
-		gmPrefix = "GM."
-	}
-} catch {
+		let scriptHandler = GM_info.scriptHandler;
+		switch (scriptHandler) {
+			case "Greasemonkey":
+				gmPrefix = dotPrefix;
+				break;
+			case "Userscripts":
+				gmPrefix = dotPrefix;
+				break;
+			default:
+				gmPrefix = underPrefix;
+				break;
+				
+		}
+        } catch {
 	console.log(error);
-}
-if (gmPrefix === "GM_") {
-	if ((GM_info.scriptHandler === "Greasemonkey") || (GM_info.scriptHandler === "Userscripts"){
-		gmPrefix = "GM."
-	}
 }
 
 function addCustomCSS(css){
