@@ -9,31 +9,31 @@
 // @license      MIT
 // ==/UserScript==
 
-function createMags(){
-    var nav = document.querySelector('.head-nav__menu');
-    var mags = document.querySelector('[href="/magazines"]');
-    var user = document.querySelector('.login');
-    var split = user.href.split("/");
-    var username = split[4];
-    var subLink = 'https://' + window.location.hostname +'/u/' + username + '/subscriptions';
-    var subsNav = document.querySelector('.subs-nav');
-    if ( username == null) {
+function createMags() {
+    const nav = document.querySelector('.head-nav__menu');
+    const mobileNav = document.querySelector('.section.mobile-nav');
+    const mags = document.querySelector('[href="/magazines"]');
+    const user = document.querySelector('.login');
+    const username = user.href.split('/')[4];
+    const subLink = 'https://' + window.location.hostname + '/u/' + username + '/subscriptions';
+    const subsNav = document.querySelector('.subs-nav');
+    if (username == null) {
         return;
     } else if (subsNav) {
-	    return;
-    }
-	else {
-            const myListItem = document.createElement('li');
-            const mySubsLink = document.createElement('a');
-            mySubsLink.setAttribute('href', subLink);
-            mySubsLink.innerText = 'My mags';
-            mySubsLink.className = 'subs-nav';
-            myListItem.append(mySubsLink);
-            nav.appendChild(myListItem);
+        return;
+    } else {
+        const myListItem = document.createElement('li');
+        const mySubsLink = document.createElement('a');
+        mySubsLink.setAttribute('href', subLink);
+        mySubsLink.innerText = 'My mags';
+        mySubsLink.className = 'subs-nav';
+        myListItem.append(mySubsLink);
+        nav.appendChild(myListItem);
+        mobileNav.appendChild(myListItem.cloneNode(true));
     }
 }
 
-function initMags(toggle){
+function initMags(toggle) {
     if (toggle) {
         createMags();
     } else {
