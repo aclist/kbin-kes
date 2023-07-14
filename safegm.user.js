@@ -14,11 +14,10 @@ try {
 			default:
 				gmPrefix = underPrefix;
 				break;
-				
 		}
-        } catch {
+    }
+        } catch (error) {
 	console.log(error);
-}
 }
 
 console.log(gmPrefix)
