@@ -356,10 +356,7 @@
   },
   {
     "name": "Federated Instance Names",
-    "author": [
-	    "artillect",
-	    "testauthor"
-    ],
+    "author": "artillect",
     "version": "0.1",
     "label": "Magazine instance names",
     "desc": "Show instance names next to magazines",

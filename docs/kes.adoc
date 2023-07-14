@@ -188,7 +188,7 @@ As far as KES is concerned, functionality of one field does not depend on anothe
 |Key|Optional?|Type|Value
 
 |name||string|An internal, "official" name of the add-on, possibly more verbose than the user-facing string
-|author||string
+|author||single author: string; multiple authors: array of strings
 a|The author of the add-on. This is user-facing and links back to the named profile on kbin. If you are on an instance other than kbin.social, include the full `@<user>@<instance>` designation here
 |version||string|An internal version number
 |label||string|A short, descriptive name of the feature, used when printing it in the list of options. This
