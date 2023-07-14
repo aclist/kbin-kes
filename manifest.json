@@ -509,7 +509,7 @@
     "label": "Report bug from post",
     "login": false,
     "recurs": true,
-    "desc": "Submit the contents of a post as part of a bug report",
+    "desc": "Submit the contents of a post as part of a bug report to the KES issue tracker",
     "entrypoint": "bugReportInit",
     "page": "debug"
   },
