@@ -140,7 +140,7 @@ main(){
 	gen_consts
 	gen_object
 	echo "//END AUTO MASTHEAD"
-	cp $base_file $base_file.bak
-	awk 'x==1 {print $0} /END AUTO MASTHEAD/{x=1}' $base_file.bak > $base_file
+	awk 'x==1 {print $0} /END AUTO MASTHEAD/{x=1}' $base_file.bak
 }
-main
+cp $base_file $base_file.bak
+main > $base_file
