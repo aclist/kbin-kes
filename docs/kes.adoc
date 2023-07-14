@@ -303,6 +303,31 @@ Simply set this value in the manifest and the script will be called automaticall
 There is no need to include additional onload event listeners or mutation observers to the script itself or watch for page events, as they are handled
 at the top level by KES.
 
+
+=== API
+
+For compatibility between *monkey extensions, KES provides a shim function called `safeGM()` into which GM API commands can be passed.
+safeGM accepts the name of a GM API function and its respective arguments. Under the hood, safeGM merely passes the function call to the respective
+GM API prefix depending on whether the extension uses the underscore namespace or the GM 4.0 Promise API.
+
+In addition, safeGM natively reimplements some function calls that were dropped in GM 4.0 but are available in other extensions, (as of this 
+writing, `GM_addStyle`).
+
+These changes happen invisibly when calling safeGM, so it is enough to pass one of the function names below with the arguments you would typically pass
+to such a function:
+
+- setValue
+- getValue
+- addStyle
+- xmlhttpRequest
+- setClipboard
+
+Note that if using setValue, getValue, and xmlHttpRequest, you may need to call safeGM asynchronously and await the results to support GM 4.0.
+
+Also note that getResourceText is not available in GM 4.0, so in the unlikely event that you need to use this function in a script, you should fall
+back on xmlhttpRequest and parse the results on callback.
+
+
 === Submitting a PR
 
 1. Clone the repo and prepare a patch against the `testing` branch.
