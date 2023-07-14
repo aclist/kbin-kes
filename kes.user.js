@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       1.2.0
+// @version       2.0.3
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -18,42 +18,52 @@
 // @grant         GM_setValue
 // @grant         GM_getResourceText
 // @grant         GM_setClipboard
+// @grant         GM.addStyle
+// @grant         GM.getResourceText
+// @grant         GM.xmlHttpRequest
+// @grant         GM.info
+// @grant         GM.getValue
+// @grant         GM.setValue
+// @grant         GM.getResourceText
+// @grant         GM.setClipboard
+// @require       https://github.com/aclist/kbin-kes/raw/testing/safegm.user.js
 // @connect       raw.githubusercontent.com
 // @connect       github.com
 // @icon          https://kbin.social/favicon.svg
 // @require       http://code.jquery.com/jquery-3.4.1.min.js
 // @require       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/kbin-mod-options.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/mail.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/subs.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/label.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/dropdown.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/hide-sidebar.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/nav-icons.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/code-highlighting.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/easy-emoticon.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/instance-names.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/hide-votes.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/timestamp.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/improved-collapsible-comments.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/hide-logo.user.js
-// @require       https://github.com/aclist/kbin-kes/raw/main/mods/hide-thumbs.user.js
-// @resource      kes_css https://github.com/aclist/kbin-kes/raw/main/kes.css
-// @resource      kes_layout https://github.com/aclist/kbin-kes/raw/main/ui.json
-// @downloadURL    https://github.com/aclist/kbin-scripts/raw/main/kes.user.js
-// @updateURL      https://github.com/aclist/kbin-scripts/raw/main/kes.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-sidebar.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/instance-names.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-votes.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo.user.js
+// @require       https://github.com/aclist/kbin-kes/raw/testing/mods/hide-thumbs.user.js
+// @resource      kes_css https://github.com/aclist/kbin-kes/raw/testing/kes.css
+// @resource      kes_layout https://github.com/aclist/kbin-kes/raw/testing/ui.json
+// @downloadURL    https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
+// @updateURL      https://github.com/aclist/kbin-scripts/raw/testing/kes.user.js
 // ==/UserScript==
-const version = GM_info.script.version;
-const tool = GM_info.script.name;
+const version = safeGM("info").script.version;
+const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
-const branch = repositoryURL + "raw/main/"
+const branch = repositoryURL + "raw/testing/"
 const manifest = branch + "manifest.json"
 const ui = branch + "ui.json"
 const versionFile = branch + "VERSION";
 const updateURL = branch + "kes.user.js";
 const bugURL = repositoryURL + "issues"
 const magURL = "https://kbin.social/m/enhancement"
-const changelogURL = repositoryURL + "blob/main/CHANGELOG.md"
+const changelogURL = repositoryURL + "blob/testing/CHANGELOG.md"
 
 //object used for interpolation of function names
 const funcObj = {
@@ -76,9 +86,8 @@ const funcObj = {
     hideSidebar: hideSidebar,
     initKFA: initKFA
 };
-
 function fetchManifest() {
-    GM_xmlhttpRequest({
+    safeGM("xmlhttpRequest",{
         method: 'GET',
         url: manifest,
         onload: makeArr,
@@ -97,7 +106,7 @@ versionElement.setAttribute('href', repositoryURL);
 let newVersion = null;
 
 function checkVersion() {
-    GM_xmlhttpRequest({
+    safeGM("xmlhttpRequest",{
         method: 'GET',
         url: versionFile,
         onload: checkUpdates,
@@ -127,38 +136,44 @@ function makeArr(response) {
     var content = response.responseText
     const jarr = JSON.parse(content)
     //TODO: wait on promise and set warning string if unreachable
-    GM_setValue("json", jarr);
+    safeGM("setValue","json", jarr);
 };
 
 fetchManifest();
 checkVersion();
-var json = GM_getValue("json");
-var css = GM_getResourceText("kes_css");
-GM_addStyle(css);
-
-var kes_layout = GM_getResourceText("kes_layout");
+let json
+let css
+let kes_layout
+if (gmPrefix === "GM_") {
+    json = safeGM("getValue","json");
+    css = safeGM("getResourceText","kes_css");
+    kes_layout = safeGM("getResourceText","kes_layout");
+} else {
+    async function asyncSafeGM(...args){
+      safeGM(...args);
+    }
+  json = asyncSafeGM("getValue","json")
+  css = asyncSafeGM("getResourceText","kes_css");
+  kes_layout = asyncSafeGM("getResourceText","kes_layout");
+}
+safeGM("addStyle",css);
 const layoutArr = JSON.parse(kes_layout);
 const sidebarPages = layoutArr.pages;
 const headerTitle = layoutArr.header.title
 
-//instantiate kes modal
-const kbinContainer = document.querySelector(".kbin-container > menu");
-const kesPanel = document.createElement("aside");
-const kesPanelUl = document.createElement("ul");
-const title = document.createElement("h3");
-kesPanel.id = "kes-settings";
-kesPanel.appendChild(title);
+//instantiate kes modal and button
+const kbinContainer = document.querySelector('.kbin-container > menu');
+const kesPanel = document.createElement('li');
+kesPanel.id = 'kes-settings';
 kbinContainer.appendChild(kesPanel);
-
-//add settings button
-const settingsButton = document.createElement("div");
-settingsButton.id = "kes-settings-button";
-settingsButton.innerHTML = '<i class="' + layoutArr.header.open + '"></i>';
-settingsButton.addEventListener("click", () => {
+const settingsButton = document.createElement('i');
+settingsButton.id = 'kes-settings-button';
+settingsButton.classList = layoutArr.header.open;
+settingsButton.style.verticalAlign = 'middle';
+settingsButton.addEventListener('click', () => {
     showSettingsModal();
 });
-title.appendChild(settingsButton);
-kesPanel.appendChild(kesPanelUl);
+kesPanel.appendChild(settingsButton);
 
 var keyPressed = {};
 document.addEventListener('keydown', function(e) {
