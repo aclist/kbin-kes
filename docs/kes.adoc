@@ -310,7 +310,7 @@ For compatibility between *monkey extensions, KES provides a shim function calle
 safeGM accepts the name of a GM API function and its respective arguments. Under the hood, safeGM merely passes the function call to the respective
 GM API prefix depending on whether the extension uses the underscore namespace or the GM 4.0 Promise API.
 
-In addition, safeGM natively reimplements some function calls that were dropped in GM 4.0 but are available in other extensions, (as of this 
+In addition, safeGM natively reimplements some function calls that were dropped in GM 4.0 but are available in other extensions, namely, (as of this
 writing, `GM_addStyle`).
 
 These changes happen invisibly when calling safeGM, so it is enough to pass one of the function names below with the arguments you would typically pass
@@ -327,6 +327,24 @@ Note that if using setValue, getValue, and xmlHttpRequest, you may need to call 
 Also note that getResourceText is not available in GM 4.0, so in the unlikely event that you need to use this function in a script, you should fall
 back on xmlhttpRequest and parse the results on callback.
 
+Lastly, KES provides a utility function called `genericXMLRequest()` that wraps xmlhttpRequest to perform a GET request and obviates setting
+up an object: simply pass the remote URL and callback function as arguments and process the response in your callback function.
+
+.genericXMLRequest()
+----
+function genericXMLRequest (url, callback) {
+    safeGM("xmlhttpRequest", {
+        method: 'GET',
+        url: url,
+        onload: callback,
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/xml"
+        },
+
+    });
+};
+----
 
 === Submitting a PR
 

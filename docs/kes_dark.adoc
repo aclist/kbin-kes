@@ -327,6 +327,24 @@ Note that if using setValue, getValue, and xmlHttpRequest, you may need to call 
 Also note that getResourceText is not available in GM 4.0, so in the unlikely event that you need to use this function in a script, you should fall
 back on xmlhttpRequest and parse the results on callback.
 
+Lastly, KES provides a utility function called `genericXMLRequest()` that wraps xmlhttpRequest to perform a GET request and obviates setting
+up an object: simply pass the remote URL and callback function as arguments and process the response in your callback function.
+
+.genericXMLRequest()
+----
+function genericXMLRequest (url, callback) {
+    safeGM("xmlhttpRequest", {
+        method: 'GET',
+        url: url,
+        onload: callback,
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/xml"
+        },
+
+    });
+};
+----
 
 === Submitting a PR
 
