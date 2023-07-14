@@ -9,8 +9,7 @@ try {
 	console.log(error);
 }
 if (gmPrefix === "GM_") {
-	if (GM_info.scriptHandler === "Greasemonkey"){
-		console.log("Forcing GM to GM. notation")
+	if ((GM_info.scriptHandler === "Greasemonkey") || (GM_info.scriptHandler === "Userscripts"){
 		gmPrefix = "GM."
 	}
 }
@@ -38,7 +37,6 @@ window.safeGM = function(func,...args){
         addStyle(...args) { return addCustomCSS(...args)},
         xmlhttpRequest(...args) { return GM.xmlHttpRequest(...args)},
         setClipboard(...args) { return GM.setClipboard(...args)},
-        getResourceText(...args) { return GM.getResourceText(...args)},
         info() { return GM_info }
     }
 

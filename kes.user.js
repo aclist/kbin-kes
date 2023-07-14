@@ -2,7 +2,7 @@
 // @name          KES
 // @namespace     https://github.com/aclist/
 // @license       MIT
-// @version       2.0.5
+// @version       2.0.6
 // @description   Kbin Enhancement Suite
 // @author        aclist
 // @match         https://kbin.social/*
@@ -195,7 +195,6 @@ prepareArrs();
 //business logic here
 function initKES(json, css, kes_layout) {
     safeGM("addStyle", css);
-	console.log(css)
     const layoutArr = JSON.parse(kes_layout);
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title
