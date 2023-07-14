@@ -1,9 +1,10 @@
 function bugReportInit(toggle) {
+    const reportURL = 'https://github.com/aclist/kbin-kes/issues/new?assignees=&labels=bug&projects=&template=bug_report.md' +
+		'&title=[BUG]+<Your title here>&body="
     const items = document.querySelectorAll('.entry-comment');
     if (toggle) {
-	let exists = document.querySelector('.kes-report-bug');
-        if (exists) return
         items.forEach((item) => {
+        if (item.querySelector('.kes-report-bug')) return
             let postID = item.getAttribute("id");
             let bareURL = window.location.href.split("#")[0];
             let originURL = bareURL + "%23" + postID;
@@ -13,7 +14,7 @@ function bugReportInit(toggle) {
             let newListItem = document.createElement('li');
             let newHref = document.createElement('a');
 	    newListItem.className = "kes-report-bug";
-            newHref.setAttribute("href", `https://github.com/aclist/kbin-kes/issues/new?assignees=&labels=bug&projects=&template=bug_report.md&title=[BUG]+<Your title here>&body=${postBody}+${footer}`);
+            newHref.setAttribute("href", reportURL + postBody + footer);
             newHref.textContent = "REPORT BUG";
             newListItem.appendChild(newHref);
             newListItem.style.cssText = "background-color: #111; color: white; padding: 2px";
