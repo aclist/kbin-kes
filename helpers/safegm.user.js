@@ -20,13 +20,25 @@ try {
 	console.log(error);
 }
 
-function addCustomCSS(css){
-var style = document.createElement('style');
-style.innerHTML = css;
-document.head.appendChild(style);
+function addCustomCSS (css) {
+    var style = document.createElement('style');
+    style.innerHTML = css;
+    document.head.appendChild(style);
+};
+function genericXMLRequest (url, callback) {
+    safeGM("xmlhttpRequest", {
+        method: 'GET',
+        url: url,
+        onload: callback,
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/xml"
+        },
+
+    });
 };
 
-window.safeGM = function(func,...args){
+window.safeGM = function (func,...args){
     let use
     let underscore = {
         setValue(...args) { return GM_setValue(...args) },

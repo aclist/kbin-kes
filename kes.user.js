@@ -108,21 +108,6 @@ versionElement.setAttribute('href', repositoryURL);
 
 let newVersion = null;
 
-function genericXMLRequest(url, callback) {
-    console.log(url)
-    console.log(callback)
-    safeGM("xmlhttpRequest", {
-        method: 'GET',
-        url: url,
-        onload: callback,
-        headers: {
-            "User-Agent": "Mozilla/5.0",
-            "Accept": "text/xml"
-        },
-
-    });
-};
-
 function checkVersion() {
     safeGM("xmlhttpRequest", {
         method: 'GET',
