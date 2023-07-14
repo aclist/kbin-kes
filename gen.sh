@@ -104,7 +104,7 @@ cat<<-EOF
 	const repositoryURL = "https://github.com/$slug/";
 	const branch = repositoryURL + "raw/$branch/"
 	const manifest = branch + "helpers/manifest.json"
-	const ui = branch + "ui.json"
+	const ui = branch + "helpers/ui.json"
 	const versionFile = branch + "VERSION";
 	const updateURL = branch + "kes.user.js";
 	const bugURL = repositoryURL + "issues"
