@@ -1,6 +1,8 @@
 function bugReportInit(toggle) {
     const items = document.querySelectorAll('.entry-comment');
     if (toggle) {
+	let exists = document.querySelector('.kes-report-bug');
+        if (exists) return
         items.forEach((item) => {
             let postID = item.getAttribute("id");
             let bareURL = window.location.href.split("#")[0];
