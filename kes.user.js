@@ -466,11 +466,27 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                             }
                             hBox.appendChild(br);
                             break;
+			case "number":
+				    const numberField = document.createElement('input');
+				    numberField.setAttribute("type", fieldType);
+                            if (!modSettings[key]) {
+                                numberField.setAttribute("value", initial);
+                            } else {
+                                numberField.setAttribute("value", modSettings[key])
+                            }
+                            numberField.setAttribute("kes-iter", it);
+                            numberField.setAttribute("kes-key", key);
+                            numberField.setAttribute('min', json[it].fields[i].min);
+                            numberField.setAttribute('max', json[it].fields[i].max);
+                            numberField.setAttribute('step', json[it].fields[i].step);
+				    hBox.appendChild(numberField);
+				    hBox.appendChild(br);
+				    break;
                         case "select":
-                            const field = document.createElement('select');
-                            field.setAttribute('name', ns);
-                            field.setAttribute("kes-iter", it);
-                            field.setAttribute("kes-key", key);
+                            const selectField = document.createElement('select');
+                            selectField.setAttribute('name', ns);
+                            selectField.setAttribute("kes-iter", it);
+                            selectField.setAttribute("kes-key", key);
                             for (let j = 0; j < json[it].fields[i].values.length; ++j) {
                                 let opt = document.createElement('option');
                                 opt.setAttribute('value', json[it].fields[i].values[j]);
@@ -480,31 +496,31 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                                 } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
                                     opt.selected = 'selected'
                                 }
-                                field.appendChild(opt);
+                                selectField.appendChild(opt);
                             }
-                            hBox.appendChild(field);
+                            hBox.appendChild(selectField);
                             hBox.appendChild(br);
                             break;
                         case "radio":
                             const radioDiv = document.createElement('div');
                             for (let j = 0; j < json[it].fields[i].values.length; ++j) {
-                                const field = document.createElement('input');
-                                field.setAttribute("type", fieldType);
-                                field.setAttribute('name', ns);
-                                field.setAttribute('id', "kes-radio-" + j);
-                                field.setAttribute("kes-iter", it);
-                                field.setAttribute("kes-key", key);
-                                field.setAttribute("value", json[it].fields[i].values[j]);
+                                const radioField = document.createElement('input');
+                                radioField.setAttribute("type", fieldType);
+                                radioField.setAttribute('name', ns);
+                                radioField.setAttribute('id', "kes-radio-" + j);
+                                radioField.setAttribute("kes-iter", it);
+                                radioField.setAttribute("kes-key", key);
+                                radioField.setAttribute("value", json[it].fields[i].values[j]);
                                 if (modSettings[key] == json[it].fields[i].values[j]) {
-                                    field.checked = true;
+                                    radioField.checked = true;
                                 } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
-                                    field.checked = true;
+                                    radioField.checked = true;
                                 }
                                 let radioLabel = document.createElement('label');
                                 radioLabel.setAttribute('for', "kes-radio-" + j);
                                 radioLabel.className = ("kes-radio-label");
                                 radioLabel.innerText = json[it].fields[i].values[j];
-                                radioDiv.appendChild(field);
+                                radioDiv.appendChild(radioField);
                                 radioDiv.appendChild(radioLabel);
                                 let br = document.createElement('br');
                                 radioDiv.appendChild(br);
