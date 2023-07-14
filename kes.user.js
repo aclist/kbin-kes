@@ -282,7 +282,75 @@ function initKES(json, css, kes_layout) {
             let sidebarListItem = document.createElement('li');
             sidebarListItem.innerHTML = `
             <a class="kes-tab-link">` + pageUpper + `</a></li>`
-            sidebarUl.appendChild(sidebarListItem);
+
+        sidebarUl.appendChild(sidebarListItem);
+    }
+    sidebar.appendChild(sidebarUl);
+
+    function kesFormatAuthorUrl(author) {
+        if (author.includes('@')) {
+            if (window.location.hostname === author.split('@')[2]) {
+                return 'https://' + window.location.hostname + '/u/' + author.split('@')[1];
+            } else {
+                return 'https://' + window.location.hostname + '/u/' + author;
+            }
+        } else {
+            if (window.location.hostname === 'kbin.social') {
+                return 'https://' + window.location.hostname + '/u/' + author;
+            } else {
+                return 'https://' + window.location.hostname + '/u/@' + author + '@kbin.social';
+            }
+        }
+    }
+
+    function openHelpBox(it) {
+        const settings = getSettings();
+        settings.lastPage = it;
+        saveSettings(settings);
+        const modInfo = document.createElement('p');
+        const authorP = document.createElement('p');
+        if (Array.isArray(json[it].author)) {
+            const authorLabel = document.createElement('span');
+            authorLabel.style.fontWeight = 'bold';
+            authorLabel.innerText = 'Authors: ';
+            authorP.appendChild(authorLabel);
+            json[it].author.forEach(modAuthor => {
+                const authorA = document.createElement('a');
+                authorA.setAttribute('href', kesFormatAuthorUrl(modAuthor));
+                if (modAuthor.includes('@')) {
+                    authorA.innerText = modAuthor.split('@')[1];
+                } else {
+                    authorA.innerText = modAuthor;
+                }
+                authorP.appendChild(authorA);
+                if (typeof (json[it].author[json[it].author.indexOf(modAuthor) + 1]) !== 'undefined') {
+                    authorP.innerHTML += ', ';
+                }
+            });
+        } else {
+            const authorLabel = document.createElement('span');
+            authorLabel.style.fontWeight = 'bold';
+            authorLabel.innerText = 'Author: ';
+            authorP.appendChild(authorLabel);
+            let author = json[it].author;
+            const authorA = document.createElement('a');
+            authorA.setAttribute('href', kesFormatAuthorUrl(author));
+            if (author.includes('@')) {
+                authorA.innerText = author.split('@')[1];
+            } else {
+                authorA.innerText = author;
+            }
+            authorP.appendChild(authorA);
+        }
+        let desc = json[it].desc;
+        let link = json[it].link;
+        let linkLabel = json[it].link_label;
+        let login = json[it].login;
+        let loginHR;
+        if (login) {
+            loginHR = "yes";
+        } else {
+            loginHR = "no";
         }
         sidebar.appendChild(sidebarUl);
 
@@ -305,44 +373,103 @@ function initKES(json, css, kes_layout) {
             }
             let ns = json[it].namespace;
 
-            //populate static fields
-            let hBox = document.querySelector('.kes-settings-modal-helpbox');
-            let toggle = '<span class="kes-toggle"><input type="checkbox" class="tgl kes-tgl" id="kes-checkbox" kes-iter="' +
-                it + '" kes-key="state"/><label class="tgl-btn" for="kes-checkbox"></label></span>'
-            hBox.style.cssText = 'display: inline; opacity: 1;'
-            if (link) {
-                hBox.innerHTML = toggle +
-                    '<p>Author: <a href="' + url + '">' + author + '</a><br>' +
-                    'Link: <a href="' + link + '">' + linkLabel + '</a><br>' +
-                    'Login required: ' + loginHR + '<br><br>' +
-                    desc + '</p>'
+        //populate static fields
+        let hBox = document.querySelector('.kes-settings-modal-helpbox');
+        hBox.style.cssText = 'display: inline; opacity: 1;'
+        const toggleSpan = document.createElement('span');
+        toggleSpan.classList = 'kes-toggle';
+        const toggleInput = document.createElement('input');
+        toggleInput.setAttribute('type', 'checkbox');
+        toggleInput.classList = 'tgl kes-tgl';
+        toggleInput.id = 'kes-checkbox';
+        toggleInput.setAttribute('kes-iter', it);
+        toggleInput.setAttribute('kes-key', 'state');
+        toggleSpan.appendChild(toggleInput);
+        const toggleLabel = document.createElement('label');
+        toggleLabel.classList = 'tgl-btn';
+        toggleLabel.setAttribute('for', 'kes-checkbox');
+        toggleSpan.appendChild(toggleLabel);
+        modInfo.appendChild(toggleSpan);
+        modInfo.appendChild(authorP);
+        if (link) {
+            const linkSpan = document.createElement('span');
+            const linkSpanLabel = document.createElement('span');
+            linkSpanLabel.style.fontWeight = 'bold';
+            linkSpanLabel.innerText = 'Link: ';
+            linkSpan.appendChild(linkSpanLabel);
+            const linkA = document.createElement('a');
+            linkA.setAttribute('href', link);
+            if (typeof (linkLabel) !== 'undefined') {
+                linkA.innerText = linkLabel;
             } else {
-                hBox.innerHTML = toggle +
-                    '<p>Author: <a href="' + url + '">' + author + '</a><br>' +
-                    'Login required: ' + loginHR + '<br><br>' +
-                    desc + '</p>';
+                linkA.innerText = link;
             }
-            const br = document.createElement('br');
-            //populate dynamic fields
-            if (json[it].fields) {
-                const modSettings = getModSettings(ns)
-                for (let i = 0; i < json[it].fields.length; ++i) {
-                    let fieldType = json[it].fields[i].type;
-                    let initial = json[it].fields[i].initial;
-                    let key = json[it].fields[i].key;
-                    let ns = json[it].namespace;
-                    let label = document.createElement('p');
-                    label.className = "kes-field-label";
-                    label.innerText = json[it].fields[i].label;
-                    hBox.appendChild(label);
-                    if (!modSettings[key]) {
-                        modSettings[key] = initial;
-                        saveModSettings(modSettings, ns);
-                    };
-                    switch (fieldType) {
-                        case "range":
-                            const range = document.createElement('input');
-                            range.setAttribute("type", fieldType);
+            linkSpan.appendChild(linkA);
+            modInfo.appendChild(linkSpan);
+            modInfo.appendChild(document.createElement('br'));
+        }
+        const loginReqSpan = document.createElement('span');
+        const loginReqSpanLabel = document.createElement('span');
+        loginReqSpanLabel.style.fontWeight = 'bold';
+        loginReqSpanLabel.innerText = 'Login Required: ';
+        loginReqSpan.appendChild(loginReqSpanLabel);
+        loginReqSpan.innerHTML += loginHR;
+        modInfo.appendChild(loginReqSpan);
+        modInfo.appendChild(document.createElement('br'));
+        modInfo.appendChild(document.createElement('br'));
+        const descLabel = document.createElement('span');
+        descLabel.style.fontWeight = 'bold';
+        descLabel.innerText = 'Description';
+        modInfo.appendChild(descLabel);
+        modInfo.appendChild(document.createElement('br'));
+        const descSpan = document.createElement('span');
+        descSpan.innerText = desc;
+        modInfo.appendChild(descSpan);
+        modInfo.appendChild(document.createElement('br'));
+        hBox.replaceChildren(modInfo);
+        const br = document.createElement('br');
+        //populate dynamic fields
+        if (json[it].fields) {
+            const settingsLabel = document.createElement('span');
+            settingsLabel.style.fontWeight = 'bold';
+            settingsLabel.innerText = 'Settings';
+            hBox.appendChild(settingsLabel);
+            const modSettings = getModSettings(ns)
+            for (let i = 0; i < json[it].fields.length; ++i) {
+                let fieldType = json[it].fields[i].type;
+                let initial = json[it].fields[i].initial;
+                let key = json[it].fields[i].key;
+                let ns = json[it].namespace;
+                let label = document.createElement('p');
+                label.className = "kes-field-label";
+                label.innerText = json[it].fields[i].label;
+                hBox.appendChild(label);
+                if (!modSettings[key]) {
+                    modSettings[key] = initial;
+                    saveModSettings(modSettings, ns);
+                };
+                switch (fieldType) {
+                    case "range":
+                        const range = document.createElement('input');
+                        range.setAttribute("type", fieldType);
+                        if (!modSettings[key]) {
+                            range.setAttribute("value", initial);
+                        } else {
+                            range.setAttribute("value", modSettings[key])
+                        }
+                        range.setAttribute("kes-iter", it);
+                        range.setAttribute("kes-key", key);
+                        range.setAttribute('min', json[it].fields[i].min);
+                        range.setAttribute('max', json[it].fields[i].max);
+                        if (json[it].fields[i].show_value) {
+                            const rangeDiv = document.createElement('div');
+                            range.setAttribute('oninput', key + '.innerText = this.value');
+                            range.style.verticalAlign = 'middle';
+                            rangeDiv.appendChild(range);
+                            const rangeValue = document.createElement('label');
+                            rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
+                            rangeValue.id = key;
+                            rangeValue.for = key;
                             if (!modSettings[key]) {
                                 range.setAttribute("value", initial);
                             } else {
