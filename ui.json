@@ -14,6 +14,7 @@
     "navbar",
     "threads",
     "comments",
-    "profile"
+    "profile",
+    "debug"
   ]
 }

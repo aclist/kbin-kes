@@ -511,7 +511,7 @@
     "recurs": true,
     "desc": "Submit the contents of a post as part of a bug report",
     "entrypoint": "bugReportInit",
-    "page": "general"
+    "page": "debug"
   },
   {
     "name": "Navbar icons",
