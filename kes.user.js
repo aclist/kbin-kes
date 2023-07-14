@@ -5,6 +5,7 @@
 // @version      2.0.0-rc.17
 // @description  Kbin Enhancement Suite
 // @author       aclist
+// @match        https://sacredori.net/*
 // @match        https://kbin.social/*
 // @match        https://lab2.kbin.pub/*
 // @match        https://lab3.kbin.pub/*
@@ -206,7 +207,7 @@ function initKES(json, css, kes_layout) {
     settingsButton.id = 'kes-settings-button';
     settingsButton.classList = layoutArr.header.open;
     settingsButton.style.verticalAlign = 'middle';
-    settingsButton.addEventListener('click', () => {
+    kesPanel.addEventListener('click', () => {
         showSettingsModal();
     });
     kesPanel.appendChild(settingsButton);
