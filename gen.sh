@@ -112,18 +112,18 @@ cat<<-EOF
 EOF
 }
 gen_object(){
-manifest=manifest.json
-readarray -t funcs < <(<$manifest jq -r '.[].entrypoint' | sort)
-echo "const funcObj = {"
-	for (( i = 0; i < ${#funcs[@]}; i++ )); do
-		if [[ $i -lt $((${#funcs[@]}-1)) ]]; then
-			comma=","
-		else
-			unset comma
-		fi
-		printf "    %s: %s%s\n" "${funcs[$i]}" "${funcs[$i]}" "$comma"
-	done
-echo "};"
+	manifest=manifest.json
+	readarray -t funcs < <(<$manifest jq -r '.[].entrypoint' | sort)
+	echo "const funcObj = {"
+		for (( i = 0; i < ${#funcs[@]}; i++ )); do
+			if [[ $i -lt $((${#funcs[@]}-1)) ]]; then
+				comma=","
+			else
+				unset comma
+			fi
+			printf "    %s: %s%s\n" "${funcs[$i]}" "${funcs[$i]}" "$comma"
+		done
+	echo "};"
 }
 gen_meta
 gen_instances
