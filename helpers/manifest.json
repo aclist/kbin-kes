@@ -506,10 +506,10 @@
     "name": "Submit post contents as bug report",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Report bug from post",
+    "label": "Report bug button on posts",
     "login": false,
     "recurs": true,
-    "desc": "Submit the contents of a post as part of a bug report to the KES issue tracker",
+    "desc": "Submit the contents of a post verbatim as a bug report to the KES issue tracker",
     "entrypoint": "bugReportInit",
     "page": "debug"
   },
