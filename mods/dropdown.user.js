@@ -15,17 +15,17 @@
 
 function addDropdown(user, testMsg){
     function addOption(item){
-        var text = item.innerText;
-        var val = text.substring(0, text.indexOf(' '));
-        var option = document.createElement("option");
-        var selectList = document.querySelector(".options__title select");
+        const text = item.innerText;
+        const val = text.substring(0, text.indexOf(' '));
+        const option = document.createElement("option");
+        const selectList = document.querySelector("#options select");
          option.setAttribute("value", val);
          option.text = text;
          selectList.appendChild(option);
     }
 
     function buildDropdown(selector) {
-        var active = document.querySelector('.options__main li a.active')
+        const active = document.querySelector('.options__main li a.active')
 	if (testMsg !== "message") {
         addOption(active);
 	}
@@ -35,19 +35,19 @@ function addDropdown(user, testMsg){
           });
     }
     //inject select menu
-    var leftDiv = document.querySelector(".options__title");
-    var selector = '.options__main li a:not(.active)'
-    var selectList = document.createElement("select");
+    const leftDiv = document.querySelector("#options");
+    const selector = '.options__main li a:not(.active)'
+    const selectList = document.createElement("select");
     selectList.setAttribute("id", "dropdown-select");
-    selectList.style.cssText += 'margin-left: 10px;height:fit-content;font-size:0.8em;padding:5px';
+    selectList.style.cssText += 'margin-left: 10px;height:fit-content;font-size:0.8em;padding:5px;margin-bottom:10px;width:30%';
     leftDiv.appendChild(selectList);
     buildDropdown(selector);
 
     // event listener
 	$(document).on('change','#dropdown-select',function(){
-        var page = $('#dropdown-select').val();
-        const pref = 'https://kbin.social/u/'
-        var finalUrl = pref + user + "/" + page;
+        const page = $('#dropdown-select').val();
+        const pref = 'https://kbin.social/u/';
+        const finalUrl = pref + user + "/" + page;
         window.location = finalUrl;
     })
 
@@ -57,10 +57,10 @@ function addDropdown(user, testMsg){
 }
 function removeDropdown(){
             $('#dropdown-select').remove();
-            var detached = $('#dropdown-select').replaceWith('');
-            var horizontalScroll = document.querySelector('.options__main');
+            const detached = $('#dropdown-select').replaceWith('');
+            const horizontalScroll = document.querySelector('.options__main');
             horizontalScroll.style.cssText += 'display:grid';
-            var scrollArrows = document.querySelector('.scroll');
+            const scrollArrows = document.querySelector('.scroll');
             scrollArrows.style.cssText += 'display:grid';
 		$('.options__main').show();
 		$('.scroll').show();
