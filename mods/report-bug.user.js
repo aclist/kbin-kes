@@ -20,7 +20,7 @@ function bugReportInit(toggle) {
             newHref.setAttribute("href", reportURL + postBody + footer);
             newHref.textContent = "REPORT BUG";
             newListItem.appendChild(newHref);
-            newListItem.style.cssText = "background-color: #111; color: white; padding: 2px";
+            newListItem.style.cssText = "color: white";
             postFooter.appendChild(newListItem)
         });
     } else {
