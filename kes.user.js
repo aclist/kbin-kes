@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.31
+// @version      2.0.0-rc.32
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -210,6 +210,8 @@ function validateData(rawCSS, rawJSON, rawLayout,isNew) {
 
 function constructMenu(json, layoutArr,isNew) {
     //instantiate kes modal and button
+//	console.log("HEEEERE")
+//	console.log(json[].namespace)
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title;
     const kbinContainer = document.querySelector('.kbin-container > menu');
