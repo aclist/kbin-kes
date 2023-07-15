@@ -525,14 +525,14 @@
     "page": "debug",
     "namespace": "numbertest",
     "fields": [
-	    {
-	    "type": "number",
-	    "initial": 20,
-	    "key": "number",
-	    "min": 10,
-	    "max": 50,
-	    "step": 10
-	    }
+      {
+        "type": "number",
+        "initial": 20,
+        "key": "number",
+        "min": 10,
+        "max": 50,
+        "step": 10
+      }
     ]
   },
   {
