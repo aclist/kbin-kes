@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.35
+// @version      2.0.0-rc.36
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -718,9 +718,9 @@ function constructMenu(json, layoutArr, isNew) {
                 navigator.clipboard.writeText(toPaste);
                 debugClip.className = clipClass + " " + layoutArr.header.check;
 		    function revertIcon(){
-		        debugClip.className = "kes-debug-clipboard " + layoutArr.header.check
+		        debugClip.className = "kes-debug-clipboard " + layoutArr.header.clipboard
 		    }
-	        window.setTimeout(revertIcon,5000);
+	        window.setTimeout(revertIcon,600);
 	    });
 
         const bugLink = document.createElement("a");
