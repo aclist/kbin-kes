@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.38
+// @version      2.0.0-rc.39
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -285,6 +285,16 @@ function constructMenu(json, layoutArr, isNew) {
             window.location.reload();
         }
     }
+	function transparentMode(){
+	modal.remove();
+        const transparentModal = document.createElement("div");
+        transparentModal.className = "kes-transparent-mode-modal";
+        document.body.appendChild(transparentModal);
+		transparentModal.addEventListener('click', ()=> {
+		transparentModal.remove();
+		showSettingsModal();
+		}
+	}
 
     function showSettingsModal() {
         const settings = getSettings();
@@ -302,6 +312,7 @@ function constructMenu(json, layoutArr, isNew) {
             <span class="kes-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
             <span class="kes-changelog"><a href="` + changelogURL + `"><i class="` + layoutArr.header.changelog + `"></i></a></span>
             <span class="kes-version">` + versionElement.outerHTML + `</span>
+            <span class="kes-transparent-mode">` + layoutArr.header.bulb `</span>
             `
 
         const crumbs = document.createElement("div");
@@ -814,6 +825,9 @@ function constructMenu(json, layoutArr, isNew) {
         //close button
         modal.querySelector(".kes-settings-modal .kes-close").addEventListener("click", () => {
             modal.remove();
+        });
+        modal.querySelector(".kes-bulb").addEventListener("click", () => {
+            transparentMode();
         });
         modal.addEventListener("click", (e) => {
             if (e.target === modal) {

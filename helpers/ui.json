@@ -9,7 +9,8 @@
     "bug": "fa-solid fa-bug fa-xs",
     "changelog": "fa-solid fa-flask",
     "clipboard": "fa-solid fa-clipboard",
-    "check": "fa-solid fa-check"
+    "check": "fa-solid fa-check",
+    "bulb": "fa-solid fa-lightbulb-o"
   },
   "pages": [
     "general",
