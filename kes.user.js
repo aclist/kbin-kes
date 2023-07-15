@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.25
+// @version      2.0.0-rc.26
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -150,9 +150,6 @@ async function setRemoteUI(response) {
     const resp = await response.response;
     await safeGM("setValue", "layout", resp)
     const r = await safeGM("getValue", "json")
-    if (!r) {
-        window.location.reload();
-    }
 
 }
 async function preparePayloads() {
@@ -164,7 +161,7 @@ async function preparePayloads() {
         css = safeGM("getResourceText", "kes_css");
         kes_layout = safeGM("getResourceText", "kes_layout");
         safeGM("addStyle", css)
-        constructMenu(json, kes_layout)
+        validateData(json, kes_layout)
     } else {
 
         let cssURL = "https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css";
@@ -177,10 +174,6 @@ async function preparePayloads() {
         unwrapPayloads()
     }
 }
-//preparation begins here
-checkVersion();
-preparePayloads();
-
 async function unwrapPayloads() {
     const storedJSON = GM.getValue("json")
     const storedCSS = GM.getValue("kes-css")
@@ -191,19 +184,35 @@ async function unwrapPayloads() {
         var p1 = items[1]
         var p2 = items[2]
         safeGM("addStyle", p0);
-        constructMenu(p1, p2)
+        validateData(p1, p2)
     });
 }
 
+//preparation begins here
+checkVersion();
+preparePayloads();
+
 //render menu here
-function constructMenu(rawJSON, rawLayout, rawCSS) {
-    //parse helper data
-    const json = JSON.parse(rawJSON)
-    const layoutArr = JSON.parse(rawLayout);
+function validateData(rawJSON, rawLayout) {
+    if (rawJSON && rawLayout) {
+        //parse helper data
+        const json = JSON.parse(rawJSON)
+        const layoutArr = JSON.parse(rawLayout);
 
-    const sidebarPages = layoutArr.pages;
-    const headerTitle = layoutArr.header.title
+        const sidebarPages = layoutArr.pages;
+        const headerTitle = layoutArr.header.title
+        constructMenu(json, layoutArr);
+    } else {
+        var warning = document.createElement('p')
+        warning.style.cssText = "top:0;left:0;position:absolute;z-index: 9999;text-align: center;color: white;" +
+		    "font-size: 12px; height: 20px;background-color:#5e0909;width: 100%";
+        warning.innerText = "[kbin Enhancement Suite] failed to fetch the remote resources. Reload or try again later."
+        container = document.body
+        document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
+    }
+}
 
+function constructMenu(json, layoutArr) {
     //instantiate kes modal and button
     const kbinContainer = document.querySelector('.kbin-container > menu');
     const kesPanel = document.createElement('li');
