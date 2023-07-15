@@ -293,6 +293,7 @@
      color: var(--kbin-input-text-color);
      border: 0px;
      opacity: 0.7;
+     cursor: pointer;
 }
 .kes-reset-button:hover {
      opacity: 1;
