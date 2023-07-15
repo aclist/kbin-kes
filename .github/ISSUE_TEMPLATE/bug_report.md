@@ -23,6 +23,8 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+[When reporting a bug, you can click the clipboard icon on the bottom right of the KES menu to copy system settings to the clipboard and paste them here]
+
 **KES version:**
 - Version number [e.g. 1.0.0]
 
