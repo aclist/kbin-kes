@@ -20,7 +20,20 @@
 #kes-settings-button:hover {
     color: var(--kbin-header-link-hover-color);
 }
+.kes-update-available {
+    color: var(--kbin-alert-info-text-color);
+    position: relative;
+    right: 1.5rem;
+    bottom: 0.3rem;
+}
 
+span.kes-update {
+    display: inline-block;
+    position: absolute;
+}
+#kes-settings:hover .kes-update-available {
+    color: var(--kbin-success-color);
+}
 .kes-transparent-mode-modal {
     position: fixed;
     z-index: 100;
