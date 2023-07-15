@@ -367,4 +367,6 @@
 }
 .kes-reset-button {
 	margin-left: 200px;
+        background-color: var(--kbin-section-bg);
+        color: var(--kbin-input-text-color);
 }
