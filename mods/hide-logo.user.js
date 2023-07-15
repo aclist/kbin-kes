@@ -2,12 +2,12 @@ const bird = 'https://raw.githubusercontent.com/aclist/kbin-kes/main/images/kbin
 const render = "URL";
 const defaultLogo = "/kbin_logo.svg";
 
-function updateLogo(link) {
+function updateLogo (link) {
     const img = document.querySelector('.brand a img');
     img.setAttribute("src", link);
 }
 
-function changeLogo() {
+function changeLogo () {
     const ns = "changelogo";
 
 
@@ -25,13 +25,13 @@ function changeLogo() {
     }
 }
 
-function restoreLogo() {
+function restoreLogo () {
     $('.brand').show();
     updateLogo(defaultLogo);
 
 }
 
-function toggleLogo(toggle) {
+function toggleLogo (toggle) {
     if (toggle) {
         changeLogo();
     } else {

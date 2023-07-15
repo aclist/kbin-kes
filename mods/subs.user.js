@@ -9,10 +9,10 @@
 // @license      MIT
 // ==/UserScript==
 
-function createMags() {
+function createMags () {
     const nav = document.querySelector('.head-nav__menu');
     const mobileNav = document.querySelector('.section.mobile-nav');
-    const mags = document.querySelector('[href="/magazines"]');
+    //const mags = document.querySelector('[href="/magazines"]');
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
     const subLink = 'https://' + window.location.hostname + '/u/' + username + '/subscriptions';
@@ -33,7 +33,7 @@ function createMags() {
     }
 }
 
-function initMags(toggle) {
+function initMags (toggle) {
     if (toggle) {
         createMags();
     } else {

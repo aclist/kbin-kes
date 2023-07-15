@@ -1,6 +1,6 @@
 const ns = 'timestamp'
 
-function updateTime(toggle) {
+function updateTime (toggle) {
     let times = document.querySelectorAll('.timeago')
     const settings = getModSettings(ns);
     if (toggle) {
