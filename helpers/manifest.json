@@ -24,7 +24,9 @@
         "type": "text",
         "initial": "PM",
         "key": "text",
-        "label": "Label text"
+        "label": "Label text",
+        "depends_on": "type",
+        "depends_value": "Text"
       },
       {
         "type": "text",
@@ -129,7 +131,9 @@
         "min": 1,
         "max": 10,
         "show_value": true,
-        "label": "Bubble Scale (Only works if 'Indicator Style' is set to 'bubble'.)"
+        "label": "Bubble Scale (Only works if 'Indicator Style' is set to 'bubble'.)",
+        "depends_on": "kfaStyle",
+        "depends_value": "bubble"
       },
       {
         "type": "select",
@@ -140,7 +144,9 @@
           "left",
           "right"
         ],
-        "label": "Border Side (Only works if 'Indicator Style' is set to 'border'.)"
+        "label": "Border Side (Only works if 'Indicator Style' is set to 'border'.)",
+        "depends_on": "kfaStyle",
+        "depends_value": "border"
       }
     ],
     "page": "threads"
@@ -525,14 +531,14 @@
     "page": "debug",
     "namespace": "numbertest",
     "fields": [
-	    {
-	    "type": "number",
-	    "initial": 20,
-	    "key": "number",
-	    "min": 10,
-	    "max": 50,
-	    "step": 10
-	    }
+      {
+        "type": "number",
+        "initial": 20,
+        "key": "number",
+        "min": 10,
+        "max": 50,
+        "step": 10
+      }
     ]
   },
   {

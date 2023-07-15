@@ -1,3 +1,7 @@
+.kes-settings-disabled {
+	color: var(--kbin-alert-danger-bg) !important;
+}
+
 #kes-settings-button {
 	top: 0;
 	right: 0;

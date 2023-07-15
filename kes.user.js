@@ -158,7 +158,6 @@ async function prepareArrs() {
     let json
     let css
     let kes_layout
-    console.log(gmPrefix)
     if (gmPrefix === "GM_") {
         json = safeGM("getResourceText", "kes_json");
         css = safeGM("getResourceText", "kes_css");
@@ -293,6 +292,24 @@ function initKES(unparsedJSON, css, unparsedLayout) {
             }
         }
 
+        function kesDisableNode(elementNode) {
+            elementNode.setAttribute('disabled', true);
+            elementNode.classList.toggle('kes-settings-disabled');
+        }
+
+        function kesCheckSettingsOptionDisabled(elementNode, dependsValue, currentValue, enabledState) {
+            if (typeof (dependsValue) !== 'undefined') {
+                if (dependsValue !== currentValue) {
+                    kesDisableNode(elementNode);
+                }
+            }
+            if (!enabledState) {
+                if (!elementNode.classList.contains('kes-settings-disabled')) {
+                    kesDisableNode(elementNode);
+                }
+            }
+        }
+
         function openHelpBox(it) {
             const settings = getSettings();
             settings.lastPage = it;
@@ -414,6 +431,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                     let label = document.createElement('p');
                     label.className = "kes-field-label";
                     label.innerText = json[it].fields[i].label;
+                    kesCheckSettingsOptionDisabled(label, json[it].fields[i].depends_value, getModSettings(json[it].namespace)[json[it].fields[i].depends_on], getModSettings(json[it].namespace).state);
                     hBox.appendChild(label);
                     if (!modSettings[key]) {
                         modSettings[key] = initial;
@@ -432,6 +450,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                             range.setAttribute("kes-key", key);
                             range.setAttribute('min', json[it].fields[i].min);
                             range.setAttribute('max', json[it].fields[i].max);
+                            kesCheckSettingsOptionDisabled(range, json[it].fields[i].depends_value, getModSettings(json[it].namespace)[json[it].fields[i].depends_on], getModSettings(json[it].namespace).state);
                             if (json[it].fields[i].show_value) {
                                 const rangeDiv = document.createElement('div');
                                 range.setAttribute('oninput', key + '.innerText = this.value');
@@ -465,9 +484,10 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                             numberField.setAttribute("kes-key", key);
                             numberField.setAttribute('min', json[it].fields[i].min);
                             numberField.setAttribute('max', json[it].fields[i].max);
-		            if (json[it].fields[i].step){
-                            numberField.setAttribute('step', json[it].fields[i].step);
-			    }
+                            if (json[it].fields[i].step) {
+                                numberField.setAttribute('step', json[it].fields[i].step);
+                            }
+                            kesCheckSettingsOptionDisabled(numberField, json[it].fields[i].depends_value, getModSettings(json[it].namespace)[json[it].fields[i].depends_on], getModSettings(json[it].namespace).state);
                             hBox.appendChild(numberField);
                             hBox.appendChild(br);
                             break;
@@ -487,6 +507,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                                 }
                                 selectField.appendChild(opt);
                             }
+                            kesCheckSettingsOptionDisabled(selectField, json[it].fields[i].depends_value, getModSettings(json[it].namespace)[json[it].fields[i].depends_on], getModSettings(json[it].namespace).state);
                             hBox.appendChild(selectField);
                             hBox.appendChild(br);
                             break;
@@ -509,11 +530,13 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                                 radioLabel.setAttribute('for', "kes-radio-" + j);
                                 radioLabel.className = ("kes-radio-label");
                                 radioLabel.innerText = json[it].fields[i].values[j];
+                                kesCheckSettingsOptionDisabled(radioField, json[it].fields[i].depends_value, getModSettings(json[it].namespace)[json[it].fields[i].depends_on], getModSettings(json[it].namespace).state);
                                 radioDiv.appendChild(radioField);
                                 radioDiv.appendChild(radioLabel);
                                 let br = document.createElement('br');
                                 radioDiv.appendChild(br);
                             }
+                            kesCheckSettingsOptionDisabled(radioDiv, json[it].fields[i].depends_value, getModSettings(json[it].namespace)[json[it].fields[i].depends_on], getModSettings(json[it].namespace).state);
                             hBox.appendChild(radioDiv);
                             hBox.appendChild(br);
                             break;
@@ -528,10 +551,12 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                             }
                             cfield.setAttribute("kes-iter", it);
                             cfield.setAttribute("kes-key", key);
+                            kesCheckSettingsOptionDisabled(cfield, json[it].fields[i].depends_value, getModSettings(json[it].namespace)[json[it].fields[i].depends_on], getModSettings(json[it].namespace).state);
                             checkboxLabel.appendChild(cfield);
                             let ctext = document.createElement('text')
                             ctext.innerText = json[it].fields[i].checkbox_label;
                             checkboxLabel.appendChild(ctext)
+                            kesCheckSettingsOptionDisabled(checkboxLabel, json[it].fields[i].depends_value, getModSettings(json[it].namespace)[json[it].fields[i].depends_on], getModSettings(json[it].namespace).state);
                             hBox.appendChild(checkboxLabel);
                             break;
                         default: {
@@ -544,6 +569,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                             }
                             field.setAttribute("kes-iter", it);
                             field.setAttribute("kes-key", key);
+                            kesCheckSettingsOptionDisabled(field, json[it].fields[i].depends_value, getModSettings(json[it].namespace)[json[it].fields[i].depends_on], getModSettings(json[it].namespace).state);
                             hBox.appendChild(field);
                             hBox.appendChild(br);
                         }
@@ -685,6 +711,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
         });
         document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
             updateState(e.target);
+            openHelpBox(e.target.getAttribute('kes-iter'));
         });
 
 
