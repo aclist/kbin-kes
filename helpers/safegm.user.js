@@ -2,24 +2,23 @@ let gmPrefix
 let dotPrefix = "GM."
 let underPrefix = "GM_"
 try {
-	if(GM_info){
-		let scriptHandler = GM_info.scriptHandler;
-		switch (scriptHandler) {
-			case "Greasemonkey":
-				gmPrefix = dotPrefix;
-				break;
-			case "Userscripts":
-				gmPrefix = dotPrefix;
-				break;
-			default:
-				gmPrefix = underPrefix;
-				break;
-		}
+    if (GM_info) {
+        let scriptHandler = GM_info.scriptHandler;
+        switch (scriptHandler) {
+            case "Greasemonkey":
+                gmPrefix = dotPrefix;
+                break;
+            case "Userscripts":
+                gmPrefix = dotPrefix;
+                break;
+            default:
+                gmPrefix = underPrefix;
+                break;
+        }
     }
-        } catch (error) {
-	console.log(error);
+} catch (error) {
+    console.log(error);
 }
-
 function addCustomCSS (css) {
     var style = document.createElement('style');
     style.innerHTML = css;

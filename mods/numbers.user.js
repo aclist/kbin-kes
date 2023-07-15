@@ -1,8 +1,7 @@
-function numbersInit(toggle){
+function numbersInit(toggle) {
     if (toggle) {
-	    console.log("on")
+        console.log("on")
     } else {
-	    console.log("off")
+        console.log("off")
     }
 }
-
