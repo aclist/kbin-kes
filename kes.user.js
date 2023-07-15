@@ -105,8 +105,6 @@ function fetchManifest() {
     });
 };
 
-
-
 function checkVersion() {
     safeGM("xmlhttpRequest", {
         method: 'GET',
@@ -218,23 +216,22 @@ function constructMenu(json, layoutArr, isNew) {
     const kesPanel = document.createElement('li');
     kesPanel.id = 'kes-settings';
     kbinContainer.appendChild(kesPanel);
-    const stackSpan = document.createElement('span')
-    stackSpan.className = "fa-stack"
     const settingsButton = document.createElement('i');
     settingsButton.id = 'kes-settings-button';
     settingsButton.classList = layoutArr.header.open;
     settingsButton.style.verticalAlign = 'middle';
-    stackSpan.appendChild(settingsButton)
-    let stackStrong = document.createElement('strong');
-    stackStrong.className = "fa-stack-1x fa-stack-text kes-new-notifier"
     if (isNew === "yes") {
-        stackStrong.innerText = "!"
+        const stackSpan = document.createElement('span');
+        stackSpan.classList = 'kes-update';
+        let stackStrong = document.createElement('i');
+        stackStrong.classList = 'fa-solid fa-circle-up fa-sm kes-update-available';
         stackSpan.appendChild(stackStrong);
+        settingsButton.appendChild(stackSpan);
     }
     kesPanel.addEventListener('click', () => {
         showSettingsModal();
     });
-    kesPanel.appendChild(stackSpan);
+    kesPanel.appendChild(settingsButton);
 
     var keyPressed = {};
     document.addEventListener('keydown', function(e) {
