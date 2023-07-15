@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.32
+// @version      2.0.0-rc.33
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -121,7 +121,7 @@ function checkVersion() {
 };
 
 async function checkUpdates(response) {
-    newVersion = response.responseText.trim();
+    const newVersion = await response.responseText.trim();
 
     if (newVersion && newVersion != version) {
         // Change version link into a button for updating
@@ -130,6 +130,8 @@ async function checkUpdates(response) {
         versionElement.setAttribute('href', updateURL);
         versionElement.className = 'new';
 	await safeGM("setValue","isnew","yes");
+    } else {
+	await safeGM("setValue","isnew","no");
     }
 }
 
@@ -210,8 +212,6 @@ function validateData(rawCSS, rawJSON, rawLayout,isNew) {
 
 function constructMenu(json, layoutArr,isNew) {
     //instantiate kes modal and button
-//	console.log("HEEEERE")
-//	console.log(json[].namespace)
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title;
     const kbinContainer = document.querySelector('.kbin-container > menu');
@@ -265,6 +265,24 @@ function constructMenu(json, layoutArr,isNew) {
 
         keyPressed = {};
     }, false);
+    function cleanNamespaces(){
+	const kesSettings = "kes-settings"
+	for(let i = 0; i < json.length; ++i){
+		let foundNs = json[i].namespace;
+		if(foundNs) {
+			localStorage.removeItem(foundNs);
+		}
+	}
+		localStorage.removeItem(kesSettings);
+    }
+	function resetAll(){
+	    const deleteMsg = "This will delete and reset all KES settings to the default and toggle off all options. Really proceed?";
+	    const deleteConfirm = confirm(deleteMsg);
+	    if (deleteConfirm) {
+		    cleanNamespaces();
+		    window.location.reload();
+	}
+	}
 
     function showSettingsModal() {
         const settings = getSettings();
@@ -694,6 +712,15 @@ function constructMenu(json, layoutArr,isNew) {
         bugIcon.className = "kes-settings-modal-bug-icon";
         bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
         bugLink.appendChild(bugIcon)
+	
+	//reset all localStorage related to KES
+        const resetButton = document.createElement('button')
+	resetButton.innerText = "RESET"
+	resetButton.className = "kes-reset-button"
+	footer.appendChild(resetButton)
+	resetButton.addEventListener('click', () => {
+	   resetAll();
+	});
 
         const container = document.createElement("div");
         container.className = "kes-settings-modal-container";
@@ -717,6 +744,7 @@ function constructMenu(json, layoutArr,isNew) {
         document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
             updateState(e.target);
         });
+
 
 
         const dockIcon = document.querySelector('.kes-dock i');
