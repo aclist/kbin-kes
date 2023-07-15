@@ -8,7 +8,8 @@
     "close": "fa-solid fa-times",
     "bug": "fa-solid fa-bug fa-xs",
     "changelog": "fa-solid fa-flask",
-    "clipboard": "fa-solid fa-clipboard"
+    "clipboard": "fa-solid fa-clipboard",
+    "check": "fa-solid fa-check"
   },
   "pages": [
     "general",

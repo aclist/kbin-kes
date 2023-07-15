@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.34
+// @version      2.0.0-rc.35
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -705,7 +705,8 @@ function constructMenu(json, layoutArr, isNew) {
         footer.appendChild(magLink)
 
         const debugClip = document.createElement("i");
-        debugClip.className = layoutArr.header.clipboard;
+	const clipClass = "kes-debug-clipboard"
+        debugClip.className = clipClass + " " + layoutArr.header.clipboard;
         footer.appendChild(debugClip)
 	    debugClip.addEventListener('click', ()=> {
 		const userPlatform = navigator.platform;
@@ -713,20 +714,13 @@ function constructMenu(json, layoutArr, isNew) {
 		const handler = safeGM("info").scriptHandler;
 		const incog = safeGM("info").isIncognito;
 		const kesUserSettings = localStorage["kes-settings"];
-	        const toPaste = `
-		            OS: ${userPlatform}
-			    Agent: ${userAgent}
-			    Handler: ${handler}
-			    Incog: ${incog}
-			    Settings: ${kesUserSettings}
-			    Version: ${version}
-			    `
+	        const toPaste = `OS: ${userPlatform}\nAgent: ${userAgent}\nKES version: ${version}\nHandler: ${handler}\nIncog: ${incog}\nSettings: ${kesUserSettings}`
                 navigator.clipboard.writeText(toPaste);
-		debugClip.className = "kes-debug-clipboard fa-solid fa-check"
+                debugClip.className = clipClass + " " + layoutArr.header.check;
 		    function revertIcon(){
-		        debugClip.className = layoutArr.header.clipboard;
+		        debugClip.className = "kes-debug-clipboard " + layoutArr.header.check
 		    }
-	        window.setTimeout(revertIcon,10000);
+	        window.setTimeout(revertIcon,5000);
 	    });
 
         const bugLink = document.createElement("a");
