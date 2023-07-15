@@ -10,7 +10,7 @@
     "changelog": "fa-solid fa-flask",
     "clipboard": "fa-solid fa-clipboard",
     "check": "fa-solid fa-check",
-    "transparent": "fa-solid fa-bolt"
+    "transparent": "fa-solid fa-eye-slash"
   },
   "pages": [
     "general",
