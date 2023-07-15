@@ -2,253 +2,269 @@
 	color: var(--kbin-alert-danger-bg) !important;
 }
 
+.kes-update-available {
+    color: var(--kbin-alert-info-text-color);
+    position: relative;
+    right: 1.5rem;
+    bottom: 0.3rem;
+}
+
+span.kes-update {
+    display: inline-block;
+    position: absolute;
+}
+
+#kes-settings:hover .kes-update-available {
+    color: var(--kbin-success-color);
+}
+
 #kes-settings-button {
-	top: 0;
-	right: 0;
-	padding: 3px 1rem 0;
-	min-width: 3rem;
-	color: var(--kbin-header-link-color);
-	cursor: pointer;
+    top: 0;
+    right: 0;
+    padding: 3px 1rem 0;
+    min-width: 3rem;
+    cursor: pointer;
 }
 
 #kes-settings {
-	border-bottom: 3px solid transparent;
+    color: var(--kbin-header-link-color);
+    border-bottom: 3px solid transparent;
 }
 
 #kes-settings:hover {
-	border-bottom: var(--kbin-header-hover-border);
-	cursor: pointer;
+    border-bottom: var(--kbin-header-hover-border);
+    color: var(--kbin-header-link-hover-color);
+    cursor: pointer;
 }
 
 #kes-settings-button:hover {
-	color: var(--kbin-header-link-hover-color);
+    color: var(--kbin-header-link-hover-color);
 }
 
 .kes-settings-modal {
-	position: fixed;
-	z-index: 100;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .kes-settings-modal:has(.kes-docked) {
-	background-color: transparent;
+    background-color: transparent;
 }
 
 .kes-settings-modal-container {
-	background-color: var(--kbin-section-bg);
-	border: var(--kbin-options-border);
-	position: relative;
-	min-width: 1360px;
-	max-width: 1360px;
-	min-height: 80vh;
-	max-height: 100vh;
-	display: grid;
-	grid-template-areas: "content" "footer";
-	grid-template-rows: auto min-content;
+    background-color: var(--kbin-section-bg);
+    border: var(--kbin-options-border);
+    position: relative;
+    min-width: 1360px;
+    max-width: 1360px;
+    min-height: 80vh;
+    max-height: 100vh;
+    display: grid;
+    grid-template-areas: "content" "footer";
+    grid-template-rows: auto min-content;
 }
 
 .kes-docked {
-	position: absolute;
-	bottom: 0;
-	max-height: 35vh;
-	min-height: 35vh;
-	box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+    position: absolute;
+    bottom: 0;
+    max-height: 35vh;
+    min-height: 35vh;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
 .kes-docked .kes-settings-modal-content {
-	max-height: 30vh;
-	min-height: 30vh;
+    max-height: 30vh;
+    min-height: 30vh;
 }
 
 .kes-settings-modal-content {
-	background-color: var(--kbin-section-bg);
-	width: 100%;
-	max-height: calc(100vh - 4rem);
-	padding: 2rem;
-	display: grid;
-	grid-area: content;
-	grid-template-areas: "header header header" "sidebar body helpbox";
-	grid-template-columns: 1fr 2fr 2fr;
-	grid-template-rows: min-content auto;
+    background-color: var(--kbin-section-bg);
+    width: 100%;
+    max-height: calc(100vh - 4rem);
+    padding: 2rem;
+    display: grid;
+    grid-area: content;
+    grid-template-areas: "header header header" "sidebar body helpbox";
+    grid-template-columns: 1fr 2fr 2fr;
+    grid-template-rows: min-content auto;
 }
 
 /* Small devices (landscape phones, 576px and below) */
 @media (max-width: 576px) {
-	.kes-settings-modal-content {
-		grid-template-areas: "header" "sidebar" "body" "helpbox";
-		grid-template-columns: 1fr;
-		grid-template-rows: min-content min-content min-content min-content;
-		overflow: auto;
-	}
+    .kes-settings-modal-content {
+        grid-template-areas: "header" "sidebar" "body" "helpbox";
+        grid-template-columns: 1fr;
+        grid-template-rows: min-content min-content min-content min-content;
+        overflow: auto;
+    }
 }
 
 /* Medium devices (tablets, 1367px and below) */
 @media (max-width: 1367px) {
-	.kes-settings-modal-container {
-		min-width: 100%;
-		height: 100%;
-	}
+    .kes-settings-modal-container {
+        min-width: 100%;
+        height: 100%;
+    }
 
-	.kes-dock {
-		display: none;
-	}
+    .kes-dock {
+        display: none;
+    }
 
-	.kes-version {
-		margin-right: 0.5rem;
-	}
+    .kes-version {
+        margin-right: 0.5rem;
+    }
 
-	.kes-settings-modal-content {
-		border: none !important;
-	}
+    .kes-settings-modal-content {
+        border: none !important;
+    }
 }
 
 .kess-list {
-	width: fit-content;
+    width: fit-content;
 }
 
 .kes-settings-modal-header {
-	grid-area: header;
+    grid-area: header;
 }
 
 .kes-dock {
-	float: right;
-	padding-left: 0.5rem;
-	padding-right: 0.5rem;
+    float: right;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 .kes-changelog {
-	float: right;
-	padding-left: 0.5rem;
-	padding-right: 0.5rem;
+    float: right;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 .kes-dock i:hover {
-	opacity: 0.5;
+    opacity: 0.5;
 }
 
 .kes-header-hr {
-	border: 1px solid gray;
+    border: 1px solid gray;
 }
 
 .kes-version {
-	float: right;
+    float: right;
 }
 
 .kes-version .new {
-	color: var(--kbin-link-color);
-	background-color: var(--kbin-success-color);
-	transition: color 0.15s ease-in-out;
-	transition: opacity 0.15s ease-in-out;
-	font-weight: bold;
-	border-radius: 8px;
-	opacity: 0.9;
-	padding: 4px 8px;
-	margin-top: -4px;
-	margin-right: 0.5rem;
+    color: var(--kbin-link-color);
+    background-color: var(--kbin-success-color);
+    transition: color 0.15s ease-in-out;
+    transition: opacity 0.15s ease-in-out;
+    font-weight: bold;
+    border-radius: 8px;
+    opacity: 0.9;
+    padding: 4px 8px;
+    margin-top: -4px;
+    margin-right: 0.5rem;
 }
 
 .kes-version .new:hover {
-	color: var(--kbin-link-hover-color);
-	opacity: 1;
+    color: var(--kbin-link-hover-color);
+    opacity: 1;
 }
 
 .kes-settings-modal-content .kes-close {
-	color: #aaa;
-	float: right;
-	cursor: pointer;
+    color: #aaa;
+    float: right;
+    cursor: pointer;
 }
 
 .kes-settings-modal-content .kes-close:hover {
-	opacity: 0.5;
+    opacity: 0.5;
 }
 
 .kes-settings-modal-content ul {
-	list-style: none;
-	padding-inline: 0;
+    list-style: none;
+    padding-inline: 0;
 }
 
 .kes-settings-modal-content ul li label {
-	display: block;
-	margin-bottom: 0.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
 }
 
 .kes-settings-modal-content ul li .description {
-	font-size: 0.8em;
-	padding-left: 20px;
-	text-align: justify;
-	color: #b9b9b9;
+    font-size: 0.8em;
+    padding-left: 20px;
+    text-align: justify;
+    color: #b9b9b9;
 }
 
 .kes-settings-modal-content ul li input[type="checkbox"] {
-	margin-right: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 .kes-settings-modal-content h2 {
-	margin-top: 0;
-	font-size: 1rem;
+    margin-top: 0;
+    font-size: 1rem;
 }
 
 .kes-settings-modal-sidebar,
 .kes-settings-modal-body,
 .kes-settings-modal-helpbox {
-	overflow-y: auto;
-	min-height: calc(85% - 4rem);
+    overflow-y: auto;
+    min-height: calc(85% - 4rem);
 }
 
-
 .kes-settings-modal-body {
-	grid-area: body;
+    grid-area: body;
 }
 
 .kes-settings-modal-helpbox {
-	grid-area: helpbox;
-	opacity: 0;
-	color: var(--kbin-meta-text-color);
-	margin-top: 1rem;
+    grid-area: helpbox;
+    opacity: 0;
+    color: var(--kbin-meta-text-color);
+    margin-top: 1rem;
 }
 
 .kes-settings-modal-body label:hover .description {
-	opacity: 1;
+    opacity: 1;
 }
 
 .kes-settings-modal-body label .description {
-	transition: opacity 0.15s ease-in-out;
-	opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+    opacity: 0;
 }
 
 .mod-author {
-	float: right;
+    float: right;
 }
 
 .kes-tab-link,
 .kes-option {
-	cursor: pointer;
-	border-radius: 0px;
-	border: none;
-	color: var(--kbin-meta-link-color);
+    cursor: pointer;
+    border-radius: 0px;
+    border: none;
+    color: var(--kbin-meta-link-color);
 }
 
 .kes-tab-link:hover,
 .kes-option:hover {
-	opacity: 1;
-	color: var(--kbin-meta-link-hover-color);
+    opacity: 1;
+    color: var(--kbin-meta-link-hover-color);
 }
 
 .kes-tab-link.active,
 .kes-option.active {
-	color: var(--kbin-sidebar-header-text-color);
+    color: var(--kbin-sidebar-header-text-color);
 }
 
 .tgl {
-	display: none;
+    display: none;
 }
 
 .tgl,
@@ -258,7 +274,7 @@
 .tgl *:after,
 .tgl *:before,
 .tgl+.tgl-btn {
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .tgl::selection,
@@ -268,100 +284,125 @@
 .tgl *:after::selection,
 .tgl *:before::selection,
 .tgl+.tgl-btn::selection {
-	background: none;
+    background: none;
 }
 
 .tgl+.tgl-btn {
-	outline: 0;
-	display: block;
-	width: 2em;
-	height: 1em;
-	position: relative;
-	cursor: pointer;
-	user-select: none;
+    outline: 0;
+    display: block;
+    width: 2em;
+    height: 1em;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
 }
 
 .tgl+.tgl-btn:after,
 .tgl+.tgl-btn:before {
-	position: relative;
-	display: block;
-	content: "";
-	width: 50%;
-	height: 100%;
+    position: relative;
+    display: block;
+    content: "";
+    width: 50%;
+    height: 100%;
 }
 
 .tgl+.tgl-btn:after {
-	left: 0;
+    left: 0;
 }
 
 .tgl+.tgl-btn:before {
-	display: none;
+    display: none;
 }
 
 .tgl:checked+.tgl-btn:after {
-	left: 50%;
+    left: 50%;
 }
 
 .kes-tgl+.tgl-btn {
-	background: #fbfbfb;
-	border-radius: 2em;
-	padding: 2px;
-	transition: all 0.4s ease;
+    background: #fbfbfb;
+    border-radius: 2em;
+    padding: 2px;
+    transition: all 0.4s ease;
 }
 
 .kes-tgl+.tgl-btn:after {
-	border-radius: 2em;
-	background: gray;
-	transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
+    border-radius: 2em;
+    background: gray;
+    transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
 }
 
 .kes-tgl+.tgl-btn:hover:after {
-	will-change: padding;
+    will-change: padding;
 }
 
 .kes-tgl+.tgl-btn:active:after {
-	padding-right: 0.8em;
+    padding-right: 0.8em;
 }
 
 .kes-tgl:checked+.tgl-btn {
-	background: #86d993;
+    background: #86d993;
 }
 
 .kes-tgl:checked+.tgl-btn:active {
-	box-shadow: none;
+    box-shadow: none;
 }
 
 .kes-tgl:checked+.tgl-btn:active:after {
-	margin-left: -0.8em;
+    margin-left: -0.8em;
 }
 
 .kes-settings-modal-footer {
-	grid-area: footer;
-	background-color: var(--kbin-footer-bg);
-	padding: 0.4rem 2rem;
-	width: 100%;
-	/* position: absolute;
-     bottom: 0; */
+    grid-area: footer;
+    background-color: var(--kbin-footer-bg);
+    padding: 0.4rem 2rem;
+    width: 100%;
+    /* position: absolute;
+     bottom: 0;
+     */
 }
 
 .kes-settings-modal-bug-icon {
-	padding-left: 0.4rem;
-	float: right;
+    padding-left: 0.4rem;
+    float: right;
 }
 
 .kes-settings-modal-bug-icon i {
-	vertical-align: baseline;
+    vertical-align: baseline;
 }
 
 .kes-settings-modal-bug-link {
-	float: right;
+    float: right;
 }
 
 .kes-radio-label {
-	display: inline;
-	margin-left: 5px;
+    display: inline;
+    margin-left: 5px;
 }
 
 .kes-field-label {
-	margin-bottom: 1px;
+    margin-bottom: 1px;
+}
+
+.kes-new-notifier {
+    color: orange;
+    padding-right: 20px;
+}
+
+.kes-reset-button {
+    margin-left: 200px;
+    background-color: var(--kbin-section-bg);
+    color: var(--kbin-input-text-color);
+    border: 0px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.kes-reset-button:hover {
+    opacity: 1;
+}
+
+.kes-debug-clipboard {
+    float: right;
+    margin-top: 5px;
+    padding-left: 10px
 }

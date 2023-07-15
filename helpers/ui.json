@@ -7,7 +7,10 @@
     "open": "fa-solid fa-wrench",
     "close": "fa-solid fa-times",
     "bug": "fa-solid fa-bug fa-xs",
-    "changelog": "fa-solid fa-flask"
+    "changelog": "fa-solid fa-flask",
+    "clipboard": "fa-solid fa-clipboard",
+    "check": "fa-solid fa-check",
+    "transparent": "fa-solid fa-eye-slash"
   },
   "pages": [
     "general",
