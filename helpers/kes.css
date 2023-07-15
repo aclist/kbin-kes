@@ -361,3 +361,7 @@
 .kes-field-label {
 	margin-bottom: 1px;
 }
+.kes-new-notifier {
+	color: orange;
+	padding-right: 15px;
+}

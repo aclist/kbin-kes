@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.30
+// @version      2.0.0-rc.31
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -129,6 +129,7 @@ async function checkUpdates(response) {
         versionElement.innerText = 'Install update: ' + newVersion;
         versionElement.setAttribute('href', updateURL);
         versionElement.className = 'new';
+	await safeGM("setValue","isnew","yes");
     }
 }
 
@@ -155,14 +156,14 @@ async function preparePayloads() {
     let json
     let css
     let kes_layout
+    let isNew
     if (gmPrefix === "GM_") {
         json = safeGM("getResourceText", "kes_json");
         css = safeGM("getResourceText", "kes_css");
         kes_layout = safeGM("getResourceText", "kes_layout");
-//        safeGM("addStyle", css)
-        validateData(css, json, kes_layout)
+	isNew = safeGM("getValue","isnew")
+        validateData(css, json, kes_layout,isNew)
     } else {
-
 
         genericXMLRequest(layoutURL, setRemoteUI);
         genericXMLRequest(manifest, makeArr);
@@ -172,19 +173,22 @@ async function preparePayloads() {
     }
 }
 async function unwrapPayloads() {
-    const storedJSON = GM.getValue("json")
-    const storedCSS = GM.getValue("kes-css")
-    const storedUI = GM.getValue("layout")
-    let payload = Promise.all([storedCSS, storedJSON, storedUI]);
+    const storedJSON = safeGM("getValue","json")
+    const storedCSS = safeGM("getValue","kes-css")
+    const storedUI = safeGM("getValue","layout")
+    const storedState = safeGM("getValue","layout")
+    const storedNew = safeGM("getValue","isnew")
+    let payload = Promise.all([storedCSS, storedJSON, storedUI,storedNew]);
     payload.then(items => {
         let p0 = items[0]
-        var p1 = items[1]
-        var p2 = items[2]
-        validateData(p0, p1, p2)
+        let p1 = items[1]
+        let p2 = items[2]
+        let p3 = items[3]
+        validateData(p0, p1, p2,p3)
     });
 }
 
-function validateData(rawCSS, rawJSON, rawLayout) {
+function validateData(rawCSS, rawJSON, rawLayout,isNew) {
 	if (![rawCSS, rawJSON, rawLayout].every(Boolean)) {
 		//if any of the remote resources are missing, block execution of the 
 		//rest of the script and print warning header; style data must be hardcoded here
@@ -200,11 +204,11 @@ function validateData(rawCSS, rawJSON, rawLayout) {
         const json = JSON.parse(rawJSON);
         const layoutArr = JSON.parse(rawLayout);
 
-        constructMenu(json, layoutArr);
+        constructMenu(json, layoutArr,isNew);
     }
 }
 
-function constructMenu(json, layoutArr) {
+function constructMenu(json, layoutArr,isNew) {
     //instantiate kes modal and button
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title;
@@ -212,14 +216,23 @@ function constructMenu(json, layoutArr) {
     const kesPanel = document.createElement('li');
     kesPanel.id = 'kes-settings';
     kbinContainer.appendChild(kesPanel);
+    const stackSpan = document.createElement('span')
+    stackSpan.className = "fa-stack"
     const settingsButton = document.createElement('i');
     settingsButton.id = 'kes-settings-button';
     settingsButton.classList = layoutArr.header.open;
     settingsButton.style.verticalAlign = 'middle';
+    stackSpan.appendChild(settingsButton)
+    let stackStrong = document.createElement('strong');
+    stackStrong.className = "fa-stack-1x fa-stack-text kes-new-notifier"
+    if (isNew === "yes"){
+        stackStrong.innerText = "!"
+        stackSpan.appendChild(stackStrong);
+    }
     kesPanel.addEventListener('click', () => {
         showSettingsModal();
     });
-    kesPanel.appendChild(settingsButton);
+    kesPanel.appendChild(stackSpan);
 
     var keyPressed = {};
     document.addEventListener('keydown', function(e) {
