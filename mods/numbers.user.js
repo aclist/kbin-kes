@@ -1,4 +1,4 @@
-function numbersInit(toggle) {
+function numbersInit (toggle) {
     if (toggle) {
         console.log("on")
     } else {
