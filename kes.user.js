@@ -93,25 +93,11 @@ const funcObj = {
     userInstanceEntry: userInstanceEntry
 };
 //END AUTO MASTHEAD
-function checkVersion () {
-    safeGM("xmlhttpRequest", {
-        method: 'GET',
-        url: versionFile,
-        onload: checkUpdates,
-        headers: {
-            "User-Agent": "Mozilla/5.0",
-            "Accept": "text/xml"
-        },
-
-    });
-}
-
 async function checkUpdates (response) {
     const newVersion = await response.responseText.trim();
 
     if (newVersion && newVersion != version) {
         // Change version link into a button for updating
-
         versionElement.innerText = 'Install update: ' + newVersion;
         versionElement.setAttribute('href', updateURL);
         versionElement.className = 'new';
@@ -611,25 +597,6 @@ function constructMenu (json, layoutArr, isNew) {
             } else {
                 check.checked = false;
             }
-            // add to crumbs
-            // let activeChild = document.querySelector('.crumbChild')
-            // if (activeChild) {
-            //  activeChild.remove();
-            // }
-            // let crumbsRoot = document.querySelector('.kes-crumbs h2');
-            // let span = document.createElement('span');
-            // span.className = "crumbChild"
-            // let pad = document.createElement('text');
-            // pad.innerText = ' ';
-            // let chev = document.createElement('i')
-            // chev.className = 'fa-solid fa-chevron-right fa-xs';
-            // let activeMod = document.createElement('text');
-            // activeMod.innerText = ' ' + event.target.innerText;
-            // span.appendChild(pad)
-            // span.appendChild(chev)
-            // span.appendChild(activeMod)
-            // crumbsRoot.appendChild(span)
-
         }
 
         // Add script tag with opentab function
@@ -919,6 +886,7 @@ function constructMenu (json, layoutArr, isNew) {
         for (const mutation of list) {
             //workaround for timeago ticks changing timestamp textContent
             //reapply verbose timestamp
+            //see also updateState()
             if (mutation.target.className === 'timeago') {
                 if (mutation.target.textContent.indexOf("ago") >= 0) {
                     applySettings("updateTime");
@@ -958,5 +926,5 @@ const versionElement = document.createElement('a');
 versionElement.innerText = tool + ' ' + version;
 versionElement.setAttribute('href', repositoryURL);
 let newVersion = null;
-checkVersion();
+genericXMLRequest(versionFile,checkUpdates);
 preparePayloads();
