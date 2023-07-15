@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.26
+// @version      2.0.0-rc.27
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -196,16 +196,14 @@ preparePayloads();
 function validateData(rawJSON, rawLayout) {
     if (rawJSON && rawLayout) {
         //parse helper data
-        const json = JSON.parse(rawJSON)
+        const json = JSON.parse(rawJSON);
         const layoutArr = JSON.parse(rawLayout);
 
-        const sidebarPages = layoutArr.pages;
-        const headerTitle = layoutArr.header.title
         constructMenu(json, layoutArr);
     } else {
         var warning = document.createElement('p')
         warning.style.cssText = "top:0;left:0;position:absolute;z-index: 9999;text-align: center;color: white;" +
-		    "font-size: 12px; height: 20px;background-color:#5e0909;width: 100%";
+            "font-size: 12px; height: 20px;background-color:#5e0909;width: 100%";
         warning.innerText = "[kbin Enhancement Suite] failed to fetch the remote resources. Reload or try again later."
         container = document.body
         document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
@@ -214,6 +212,8 @@ function validateData(rawJSON, rawLayout) {
 
 function constructMenu(json, layoutArr) {
     //instantiate kes modal and button
+    const sidebarPages = layoutArr.pages;
+    const headerTitle = layoutArr.header.title;
     const kbinContainer = document.querySelector('.kbin-container > menu');
     const kesPanel = document.createElement('li');
     kesPanel.id = 'kes-settings';
