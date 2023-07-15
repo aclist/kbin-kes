@@ -408,7 +408,7 @@ function constructMenu (json, layoutArr, isNew) {
             const loginReqSpan = document.createElement('span');
             const loginReqSpanLabel = document.createElement('span');
             loginReqSpanLabel.style.fontWeight = 'bold';
-            loginReqSpanLabel.innerText = 'Login Required: ';
+            loginReqSpanLabel.innerText = 'Login required: ';
             loginReqSpan.appendChild(loginReqSpanLabel);
             loginReqSpan.innerHTML += loginHR;
             modInfo.appendChild(loginReqSpan);
