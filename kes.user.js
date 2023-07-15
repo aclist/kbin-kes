@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.39
+// @version      2.0.0-rc.40
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -285,15 +285,17 @@ function constructMenu(json, layoutArr, isNew) {
             window.location.reload();
         }
     }
-	function transparentMode(){
-	modal.remove();
-        const transparentModal = document.createElement("div");
-        transparentModal.className = "kes-transparent-mode-modal";
-        document.body.appendChild(transparentModal);
+	function transparentMode(modal){
+		console.log(modal)
+		console.log("transparent")
+	    modal.remove();
+            const transparentModal = document.createElement("div");
+            transparentModal.className = "kes-transparent-mode-modal";
+            document.body.appendChild(transparentModal);
 	transparentModal.addEventListener('click', ()=> {
-		transparentModal.remove();
-		showSettingsModal();
-		}
+		    transparentModal.remove();
+  		    showSettingsModal();
+	});
 	}
 
     function showSettingsModal() {
@@ -826,8 +828,8 @@ function constructMenu(json, layoutArr, isNew) {
         modal.querySelector(".kes-settings-modal .kes-close").addEventListener("click", () => {
             modal.remove();
         });
-        modal.querySelector(".kes-bulb").addEventListener("click", () => {
-            transparentMode();
+        modal.querySelector(".kes-transparent-mode").addEventListener("click", () => {
+            transparentMode(modal);
         });
         modal.addEventListener("click", (e) => {
             if (e.target === modal) {
