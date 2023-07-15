@@ -135,11 +135,7 @@ async function checkUpdates(response) {
 
 async function makeArr(response) {
     const resp = await response.response;
-    //    var parser = new DOMParser();
-    //    var doc = parser.parseFromString(response.responseText, "text/html");
-    //    var content = response.responseText
-    //const jarr = JSON.parse(content)
-    safeGM("setValue", "json", resp);
+    await safeGM("setValue", "json", resp);
 };
 
 async function asyncSafeGM(...args) {
@@ -148,13 +144,18 @@ async function asyncSafeGM(...args) {
 }
 async function setRemoteCSS(response) {
     const resp = await response.responseText.trim();
-    safeGM("setValue", "kes-css", resp)
+    await safeGM("setValue", "kes-css", resp)
 }
 async function setRemoteUI(response) {
     const resp = await response.response;
-    safeGM("setValue", "layout", resp)
+    await safeGM("setValue", "layout", resp)
+    const r = await safeGM("getValue", "json")
+    if (!r) {
+        window.location.reload();
+    }
+
 }
-async function prepareArrs() {
+async function preparePayloads() {
     let json
     let css
     let kes_layout
@@ -162,31 +163,44 @@ async function prepareArrs() {
         json = safeGM("getResourceText", "kes_json");
         css = safeGM("getResourceText", "kes_css");
         kes_layout = safeGM("getResourceText", "kes_layout");
+        safeGM("addStyle", css)
+        constructMenu(json, kes_layout)
     } else {
-        genericXMLRequest(manifest, makeArr);
-        json = await asyncSafeGM("getValue", "json");
 
         let cssURL = "https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css";
-        genericXMLRequest(cssURL, setRemoteCSS);
-        css = await asyncSafeGM("getValue", "kes-css");
-
         let layoutURL = "https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json";
+
         genericXMLRequest(layoutURL, setRemoteUI);
-        kes_layout = await asyncSafeGM("getValue", "layout");
+        genericXMLRequest(manifest, makeArr);
+        genericXMLRequest(cssURL, setRemoteCSS);
+
+        unwrapPayloads()
     }
-    initKES(json, css, kes_layout)
 }
 //preparation begins here
-//fetchManifest();
 checkVersion();
-prepareArrs();
+preparePayloads();
 
-//business logic here
-function initKES(unparsedJSON, css, unparsedLayout) {
-    //const json = JSON.parse(json)
-    const json = JSON.parse(unparsedJSON);
-    safeGM("addStyle", css);
-    const layoutArr = JSON.parse(unparsedLayout);
+async function unwrapPayloads() {
+    const storedJSON = GM.getValue("json")
+    const storedCSS = GM.getValue("kes-css")
+    const storedUI = GM.getValue("layout")
+    let payload = Promise.all([storedCSS, storedJSON, storedUI]);
+    payload.then(items => {
+        let p0 = items[0]
+        var p1 = items[1]
+        var p2 = items[2]
+        safeGM("addStyle", p0);
+        constructMenu(p1, p2)
+    });
+}
+
+//render menu here
+function constructMenu(rawJSON, rawLayout, rawCSS) {
+    //parse helper data
+    const json = JSON.parse(rawJSON)
+    const layoutArr = JSON.parse(rawLayout);
+
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title
 
@@ -205,7 +219,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
     kesPanel.appendChild(settingsButton);
 
     var keyPressed = {};
-    document.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', function(e) {
 
         let modal = document.querySelector('.kes-settings-modal')
         keyPressed[e.key] = true;
@@ -228,7 +242,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
 
     }, false);
 
-    document.addEventListener('keyup', function (e) {
+    document.addEventListener('keyup', function(e) {
         keyPressed[e.key + e.location] = false;
 
         keyPressed = {};
@@ -330,7 +344,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                         authorA.innerText = modAuthor;
                     }
                     authorP.appendChild(authorA);
-                    if (typeof (json[it].author[json[it].author.indexOf(modAuthor) + 1]) !== 'undefined') {
+                    if (typeof(json[it].author[json[it].author.indexOf(modAuthor) + 1]) !== 'undefined') {
                         authorP.innerHTML += ', ';
                     }
                 });
@@ -387,7 +401,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
                 linkSpan.appendChild(linkSpanLabel);
                 const linkA = document.createElement('a');
                 linkA.setAttribute('href', link);
-                if (typeof (linkLabel) !== 'undefined') {
+                if (typeof(linkLabel) !== 'undefined') {
                     linkA.innerText = linkLabel;
                 } else {
                     linkA.innerText = link;
@@ -832,7 +846,7 @@ function initKES(unparsedJSON, css, unparsedLayout) {
         }
     }
 
-    window.getModSettings = function (namespace) {
+    window.getModSettings = function(namespace) {
         let settings = localStorage.getItem(namespace)
         if (!settings) {
             settings = {};
