@@ -129,9 +129,9 @@ async function checkUpdates(response) {
         versionElement.innerText = 'Install update: ' + newVersion;
         versionElement.setAttribute('href', updateURL);
         versionElement.className = 'new';
-	await safeGM("setValue","isnew","yes");
+        await safeGM("setValue", "isnew", "yes");
     } else {
-	await safeGM("setValue","isnew","no");
+        await safeGM("setValue", "isnew", "no");
     }
 }
 
@@ -163,8 +163,8 @@ async function preparePayloads() {
         json = safeGM("getResourceText", "kes_json");
         css = safeGM("getResourceText", "kes_css");
         kes_layout = safeGM("getResourceText", "kes_layout");
-	isNew = safeGM("getValue","isnew")
-        validateData(css, json, kes_layout,isNew)
+        isNew = safeGM("getValue", "isnew")
+        validateData(css, json, kes_layout, isNew)
     } else {
 
         genericXMLRequest(layoutURL, setRemoteUI);
@@ -175,42 +175,42 @@ async function preparePayloads() {
     }
 }
 async function unwrapPayloads() {
-    const storedJSON = safeGM("getValue","json")
-    const storedCSS = safeGM("getValue","kes-css")
-    const storedUI = safeGM("getValue","layout")
-    const storedState = safeGM("getValue","layout")
-    const storedNew = safeGM("getValue","isnew")
-    let payload = Promise.all([storedCSS, storedJSON, storedUI,storedNew]);
+    const storedJSON = safeGM("getValue", "json")
+    const storedCSS = safeGM("getValue", "kes-css")
+    const storedUI = safeGM("getValue", "layout")
+    const storedState = safeGM("getValue", "layout")
+    const storedNew = safeGM("getValue", "isnew")
+    let payload = Promise.all([storedCSS, storedJSON, storedUI, storedNew]);
     payload.then(items => {
         let p0 = items[0]
         let p1 = items[1]
         let p2 = items[2]
         let p3 = items[3]
-        validateData(p0, p1, p2,p3)
+        validateData(p0, p1, p2, p3)
     });
 }
 
-function validateData(rawCSS, rawJSON, rawLayout,isNew) {
-	if (![rawCSS, rawJSON, rawLayout].every(Boolean)) {
-		//if any of the remote resources are missing, block execution of the 
-		//rest of the script and print warning header; style data must be hardcoded here
-		//as an emergency logic
-		const warning = document.createElement('p')
-		warning.style.cssText = "top:0;left:0;position:absolute;z-index: 9999;text-align: center;color: white;" +
-		    "font-size: 12px; height: 20px;background-color:#5e0909;width: 100%";
-		warning.innerText = "[kbin Enhancement Suite] Failed to fetch the remote resources. Reload or try again later."
-		container = document.body
-		document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
-	} else {
+function validateData(rawCSS, rawJSON, rawLayout, isNew) {
+    if (![rawCSS, rawJSON, rawLayout].every(Boolean)) {
+        //if any of the remote resources are missing, block execution of the 
+        //rest of the script and print warning header; style data must be hardcoded here
+        //as an emergency logic
+        const warning = document.createElement('p')
+        warning.style.cssText = "top:0;left:0;position:absolute;z-index: 9999;text-align: center;color: white;" +
+            "font-size: 12px; height: 20px;background-color:#5e0909;width: 100%";
+        warning.innerText = "[kbin Enhancement Suite] Failed to fetch the remote resources. Reload or try again later."
+        container = document.body
+        document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
+    } else {
         safeGM("addStyle", rawCSS);
         const json = JSON.parse(rawJSON);
         const layoutArr = JSON.parse(rawLayout);
 
-        constructMenu(json, layoutArr,isNew);
+        constructMenu(json, layoutArr, isNew);
     }
 }
 
-function constructMenu(json, layoutArr,isNew) {
+function constructMenu(json, layoutArr, isNew) {
     //instantiate kes modal and button
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title;
@@ -227,7 +227,7 @@ function constructMenu(json, layoutArr,isNew) {
     stackSpan.appendChild(settingsButton)
     let stackStrong = document.createElement('strong');
     stackStrong.className = "fa-stack-1x fa-stack-text kes-new-notifier"
-    if (isNew === "yes"){
+    if (isNew === "yes") {
         stackStrong.innerText = "!"
         stackSpan.appendChild(stackStrong);
     }
@@ -265,24 +265,26 @@ function constructMenu(json, layoutArr,isNew) {
 
         keyPressed = {};
     }, false);
-    function cleanNamespaces(){
-	const kesSettings = "kes-settings"
-	for(let i = 0; i < json.length; ++i){
-		let foundNs = json[i].namespace;
-		if(foundNs) {
-			localStorage.removeItem(foundNs);
-		}
-	}
-		localStorage.removeItem(kesSettings);
+
+    function cleanNamespaces() {
+        const kesSettings = "kes-settings"
+        for (let i = 0; i < json.length; ++i) {
+            let foundNs = json[i].namespace;
+            if (foundNs) {
+                localStorage.removeItem(foundNs);
+            }
+        }
+        localStorage.removeItem(kesSettings);
     }
-	function resetAll(){
-	    const deleteMsg = "This will delete and reset all KES settings to the default and toggle off all options. Really proceed?";
-	    const deleteConfirm = confirm(deleteMsg);
-	    if (deleteConfirm) {
-		    cleanNamespaces();
-		    window.location.reload();
-	}
-	}
+
+    function resetAll() {
+        const deleteMsg = "This will delete and reset all KES settings to the default and toggle off all options. Really proceed?";
+        const deleteConfirm = confirm(deleteMsg);
+        if (deleteConfirm) {
+            cleanNamespaces();
+            window.location.reload();
+        }
+    }
 
     function showSettingsModal() {
         const settings = getSettings();
@@ -712,15 +714,15 @@ function constructMenu(json, layoutArr,isNew) {
         bugIcon.className = "kes-settings-modal-bug-icon";
         bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
         bugLink.appendChild(bugIcon)
-	
-	//reset all localStorage related to KES
+
+        //reset all localStorage related to KES
         const resetButton = document.createElement('button')
-	resetButton.innerText = "RESET"
-	resetButton.className = "kes-reset-button"
-	footer.appendChild(resetButton)
-	resetButton.addEventListener('click', () => {
-	   resetAll();
-	});
+        resetButton.innerText = "RESET"
+        resetButton.className = "kes-reset-button"
+        footer.appendChild(resetButton)
+        resetButton.addEventListener('click', () => {
+            resetAll();
+        });
 
         const container = document.createElement("div");
         container.className = "kes-settings-modal-container";
