@@ -292,6 +292,10 @@
      background-color: var(--kbin-section-bg);
      color: var(--kbin-input-text-color);
      border: 0px;
+     opacity: 0.7;
+}
+.kes-reset-button:hover {
+     opacity: 1;
 }
 .kes-debug-clipboard {
    float: right;
