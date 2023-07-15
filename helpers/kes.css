@@ -120,7 +120,7 @@
      padding-left: 0.5rem;
      padding-right: 0.5rem;
 }
- .kes-dock i:hover {
+.kes-dock i:hover, .kes-debug-clipboard:hover, .kes-transparent-mode i:hover {
      opacity: 0.5;
 }
  .kes-header-hr {

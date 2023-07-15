@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.40
+// @version      2.0.0-rc.41
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -312,9 +312,9 @@ function constructMenu(json, layoutArr, isNew) {
         header.innerHTML = `
             <span class="kes-close"><i class="` + layoutArr.header.close + `"></i></span>
             <span class="kes-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
+            <span class="kes-transparent-mode"><i class ="` + layoutArr.header.transparent + `"></i></span>
             <span class="kes-changelog"><a href="` + changelogURL + `"><i class="` + layoutArr.header.changelog + `"></i></a></span>
             <span class="kes-version">` + versionElement.outerHTML + `</span>
-            <span class="kes-transparent-mode"><i class ="` + layoutArr.header.transparent + `"></i></span>
             `
 
         const crumbs = document.createElement("div");
