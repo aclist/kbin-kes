@@ -1,19 +1,9 @@
-// ==UserScript==
-// @name         megamod-kbin-labelop
-// @namespace    https://github.com/aclist
-// @version      0.3
-// @description  label thread author
-// @author       aclist
-// @match        https://kbin.social/*
-// @license      MIT
-// ==/UserScript==
-
 function labelOp(toggle) {
-	if (toggle) {
-		let settings = getModSettings("labelcolors");
-		let fg = settings["fgcolor"];
-		let bg = settings["bgcolor"];
-		safeGM('addStyle', `
+    if (toggle) {
+        let settings = getModSettings("labelcolors");
+        let fg = settings["fgcolor"];
+        let bg = settings["bgcolor"];
+        safeGM('addStyle', `
             blockquote.author a.user-inline::after {
                 content: 'OP';
                 font-weight: bold;
@@ -26,7 +16,7 @@ function labelOp(toggle) {
                 border-radius: var(--kbin-rounded-edges-radius);
             }
         `);
-	} else {
-		safeGM('addStyle', 'blockquote.author a.user-inline::after { content: ""; background-color: unset; padding: unset; margin-left: unset; }');
-	}
+    } else {
+        safeGM('addStyle', 'blockquote.author a.user-inline::after { content: ""; background-color: unset; padding: unset; margin-left: unset; }');
+    }
 }

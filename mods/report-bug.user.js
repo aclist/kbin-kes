@@ -1,13 +1,14 @@
+
 function bugReportInit(toggle) {
     const reportURL = 'https://github.com/aclist/kbin-kes/issues/new?assignees=&labels=bug&projects=&template=bug_report.md' +
-		'&title=[BUG]+<Your title here>&body="'
+        '&title=[BUG]+<Your title here>&body="'
     const items = document.querySelectorAll('.entry-comment');
     if (toggle) {
         items.forEach((item) => {
-        if (item.querySelector('.kes-report-bug')) {
-		$('.kes-report-bug').show();
-		return
-	}
+            if (item.querySelector('.kes-report-bug')) {
+                $('.kes-report-bug').show();
+                return
+            }
             let postID = item.getAttribute("id");
             let bareURL = window.location.href.split("#")[0];
             let originURL = bareURL + "%23" + postID;
@@ -16,7 +17,7 @@ function bugReportInit(toggle) {
             let postFooter = item.querySelector('footer menu');
             let newListItem = document.createElement('li');
             let newHref = document.createElement('a');
-	    newListItem.className = "kes-report-bug";
+            newListItem.className = "kes-report-bug";
             newHref.setAttribute("href", reportURL + postBody + footer);
             newHref.textContent = "REPORT BUG";
             newListItem.appendChild(newHref);
@@ -24,7 +25,6 @@ function bugReportInit(toggle) {
             postFooter.appendChild(newListItem)
         });
     } else {
-      $('.kes-report-bug').hide();
+        $('.kes-report-bug').hide();
     }
 }
-
