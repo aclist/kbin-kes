@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.33
+// @version      2.0.0-rc.34
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -704,11 +704,37 @@ function constructMenu(json, layoutArr, isNew) {
         magLink.setAttribute('href', magURL);
         footer.appendChild(magLink)
 
+        const debugClip = document.createElement("i");
+        debugClip.className = layoutArr.header.clipboard;
+        footer.appendChild(debugClip)
+	    debugClip.addEventListener('click', ()=> {
+		const userPlatform = navigator.platform;
+		const userAgent = navigator.userAgent;
+		const handler = safeGM("info").scriptHandler;
+		const incog = safeGM("info").isIncognito;
+		const kesUserSettings = localStorage["kes-settings"];
+	        const toPaste = `
+		            OS: ${userPlatform}
+			    Agent: ${userAgent}
+			    Handler: ${handler}
+			    Incog: ${incog}
+			    Settings: ${kesUserSettings}
+			    Version: ${version}
+			    `
+                navigator.clipboard.writeText(toPaste);
+		debugClip.className = "kes-debug-clipboard fa-solid fa-check"
+		    function revertIcon(){
+		        debugClip.className = layoutArr.header.clipboard;
+		    }
+	        window.setTimeout(revertIcon,10000);
+	    });
+
         const bugLink = document.createElement("a");
         bugLink.className = "kes-settings-modal-bug-link";
         bugLink.innerText = "Report a bug";
         bugLink.setAttribute('href', bugURL);
         footer.appendChild(bugLink)
+
 
         const bugIcon = document.createElement("span");
         bugIcon.className = "kes-settings-modal-bug-icon";

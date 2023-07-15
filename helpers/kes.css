@@ -293,3 +293,8 @@
      color: var(--kbin-input-text-color);
      border: 0px;
 }
+.kes-debug-clipboard {
+   float: right;
+   margin-top: 5px;
+   padding-left:10px
+}
