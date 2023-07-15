@@ -1,17 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 ## 2.0.0
+### Added
+- Support for multiple authors in attribution field
+- Support for number field minimum, maximum, and step increments
+- Debug page
+- Button to attach contents of post to KES bug report
+- Notifier on wrench icon if updates are available
 ### Fixed
 - Support across -monkey extensions (GM, TM, VM)
 - Proper link format for authors on other instances
 - Fix collision between kbin-federation-awareness and Improved Collapsible Comments when bubbles were enabled
 - Show 'My Mags' link when using mobile view
 - Make wrench icon easier to click on
-### Added
-- Support for multiple authors in attribution field
-- Support for number field minimum, maximum, and step increments
-- Debug page
-- Button to attach contents of post to KES bug report
 ### Security
 - Parametric generation of script masthead
 - Fix for KES menu contents missing on first-time boot
