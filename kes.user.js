@@ -290,7 +290,7 @@ function constructMenu(json, layoutArr, isNew) {
         const transparentModal = document.createElement("div");
         transparentModal.className = "kes-transparent-mode-modal";
         document.body.appendChild(transparentModal);
-		transparentModal.addEventListener('click', ()=> {
+	transparentModal.addEventListener('click', ()=> {
 		transparentModal.remove();
 		showSettingsModal();
 		}
@@ -312,7 +312,7 @@ function constructMenu(json, layoutArr, isNew) {
             <span class="kes-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
             <span class="kes-changelog"><a href="` + changelogURL + `"><i class="` + layoutArr.header.changelog + `"></i></a></span>
             <span class="kes-version">` + versionElement.outerHTML + `</span>
-            <span class="kes-transparent-mode">` + layoutArr.header.bulb `</span>
+            <span class="kes-transparent-mode"><i class ="` + layoutArr.header.transparent + `"></i></span>
             `
 
         const crumbs = document.createElement("div");
