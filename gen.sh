@@ -98,19 +98,23 @@ gen_requires(){
 }
 
 gen_consts(){
-cat<<-EOF
+	cat<<-EOF
 	const version = safeGM("info").script.version;
 	const tool = safeGM("info").script.name;
 	const repositoryURL = "https://github.com/$slug/";
-	const branch = repositoryURL + "raw/$branch/"
-	const manifest = branch + "helpers/manifest.json"
-	const ui = branch + "helpers/ui.json"
-	const versionFile = branch + "VERSION";
-	const updateURL = branch + "kes.user.js";
+	const branch = "$branch"
+	const helpersPath = "helpers/"
+	const branchPath = repositoryURL + "raw/" + branch + "/"
+	const versionFile = branchPath + "VERSION";
+	const updateURL = branchPath + "kes.user.js";
 	const bugURL = repositoryURL + "issues"
+	const changelogURL = repositoryURL + "blob/" + branch + "/CHANGELOG.md"
 	const magURL = "https://kbin.social/m/enhancement"
-	const changelogURL = repositoryURL + "blob/$branch/CHANGELOG.md"
-EOF
+	//resource URLs used by legacy GM. API
+	const manifest = branchPath + helpersPath + "manifest.json"
+	const cssURL = branchPath + helpersPath + "kes.css"
+	const layoutURL = branchPath + helpersPath + "ui.json"
+	EOF
 }
 gen_object(){
 	manifest="./helpers/manifest.json"

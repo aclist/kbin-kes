@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.27
+// @version      2.0.0-rc.28
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -58,14 +58,18 @@
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
-const branch = repositoryURL + "raw/testing/"
-const manifest = branch + "helpers/manifest.json"
-const ui = branch + "helpers/ui.json"
-const versionFile = branch + "VERSION";
-const updateURL = branch + "kes.user.js";
+const branch = "testing"
+const helpersPath = "helpers/"
+const branchPath = repositoryURL + "raw/" + branch + "/"
+const versionFile = branchPath + "VERSION";
+const updateURL = branchPath + "kes.user.js";
 const bugURL = repositoryURL + "issues"
+const changelogURL = repositoryURL + "blob/" + branch + "/CHANGELOG.md"
 const magURL = "https://kbin.social/m/enhancement"
-const changelogURL = repositoryURL + "blob/testing/CHANGELOG.md"
+//resource URLs used by legacy GM. API
+const manifest = branchPath + helpersPath + "manifest.json"
+const cssURL = branchPath + helpersPath + "kes.css"
+const layoutURL = branchPath + helpersPath + "ui.json"
 const funcObj = {
     addMail: addMail,
     bugReportInit: bugReportInit,
@@ -102,11 +106,6 @@ function fetchManifest() {
 };
 
 
-const versionElement = document.createElement('a');
-versionElement.innerText = tool + ' ' + version;
-versionElement.setAttribute('href', repositoryURL);
-
-let newVersion = null;
 
 function checkVersion() {
     safeGM("xmlhttpRequest", {
@@ -160,12 +159,10 @@ async function preparePayloads() {
         json = safeGM("getResourceText", "kes_json");
         css = safeGM("getResourceText", "kes_css");
         kes_layout = safeGM("getResourceText", "kes_layout");
-        safeGM("addStyle", css)
-        validateData(json, kes_layout)
+//        safeGM("addStyle", css)
+        validateData(css, json, kes_layout)
     } else {
 
-        let cssURL = "https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css";
-        let layoutURL = "https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json";
 
         genericXMLRequest(layoutURL, setRemoteUI);
         genericXMLRequest(manifest, makeArr);
@@ -183,30 +180,27 @@ async function unwrapPayloads() {
         let p0 = items[0]
         var p1 = items[1]
         var p2 = items[2]
-        safeGM("addStyle", p0);
-        validateData(p1, p2)
+        validateData(p0, p1, p2)
     });
 }
 
-//preparation begins here
-checkVersion();
-preparePayloads();
-
-//render menu here
-function validateData(rawJSON, rawLayout) {
-    if (rawJSON && rawLayout) {
-        //parse helper data
+function validateData(rawCSS, rawJSON, rawLayout) {
+	if (![rawCSS, rawJSON, rawLayout].every(Boolean)) {
+		//if any of the remote resources are missing, block execution of the 
+		//rest of the script and print warning header; style data must be hardcoded here
+		//as an emergency logic
+		const warning = document.createElement('p')
+		warning.style.cssText = "top:0;left:0;position:absolute;z-index: 9999;text-align: center;color: white;" +
+		    "font-size: 12px; height: 20px;background-color:#5e0909;width: 100%";
+		warning.innerText = "[kbin Enhancement Suite] Failed to fetch the remote resources. Reload or try again later."
+		container = document.body
+		document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
+	} else {
+        safeGM("addStyle", rawCSS);
         const json = JSON.parse(rawJSON);
         const layoutArr = JSON.parse(rawLayout);
 
         constructMenu(json, layoutArr);
-    } else {
-        var warning = document.createElement('p')
-        warning.style.cssText = "top:0;left:0;position:absolute;z-index: 9999;text-align: center;color: white;" +
-            "font-size: 12px; height: 20px;background-color:#5e0909;width: 100%";
-        warning.innerText = "[kbin Enhancement Suite] failed to fetch the remote resources. Reload or try again later."
-        container = document.body
-        document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
     }
 }
 
@@ -899,3 +893,10 @@ function constructMenu(json, layoutArr) {
         attributes: false
     });
 }
+
+const versionElement = document.createElement('a');
+versionElement.innerText = tool + ' ' + version;
+versionElement.setAttribute('href', repositoryURL);
+let newVersion = null;
+checkVersion();
+preparePayloads();
