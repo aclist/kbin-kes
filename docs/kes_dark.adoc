@@ -188,7 +188,7 @@ As far as KES is concerned, functionality of one field does not depend on anothe
 |Key|Optional?|Type|Value
 
 |name||string|An internal, "official" name of the add-on, possibly more verbose than the user-facing string
-|author||string
+|author||single author: string; multiple authors: array of strings
 a|The author of the add-on. This is user-facing and links back to the named profile on kbin. If you are on an instance other than kbin.social, include the full `@<user>@<instance>` designation here
 |version||string|An internal version number
 |label||string|A short, descriptive name of the feature, used when printing it in the list of options. This
@@ -227,6 +227,13 @@ a|A unique key for this setting, stored under the object namespace defined in Ta
 a|required if `type` is `select` or `radio`|array of strings|If the type is `select` or `radio`, an array of user-facing labels, which also function as values, used to populate each option
 |checkbox_label
 a|required if `type` is `checkbox`|string|A user-facing label printed to the right of a checkbox
+|min
+a|required if `type` is `range` or `number`|int|The minimum value in the range
+|max
+a|required if `type` is `range` or `number`|int|The maximum value in the range
+|step
+a|optional if `type` is `number`|int|The interval by which to increment/decrement the range
+
 |===
 
 === Script calling logic
@@ -295,6 +302,49 @@ Simply set this value in the manifest and the script will be called automaticall
 
 There is no need to include additional onload event listeners or mutation observers to the script itself or watch for page events, as they are handled
 at the top level by KES.
+
+
+=== API
+
+For compatibility between *monkey extensions, KES provides a shim function called `safeGM()` into which GM API commands can be passed.
+safeGM accepts the name of a GM API function and its respective arguments. Under the hood, safeGM merely passes the function call to the respective
+GM API prefix depending on whether the extension uses the underscore namespace or the GM 4.0 Promise API.
+
+In addition, safeGM natively reimplements some function calls that were dropped in GM 4.0 but are available in other extensions, (as of this 
+writing, `GM_addStyle`).
+
+These changes happen invisibly when calling safeGM, so it is enough to pass one of the function names below with the arguments you would typically pass
+to such a function:
+
+- setValue
+- getValue
+- addStyle
+- xmlhttpRequest
+- setClipboard
+
+Note that if using setValue, getValue, and xmlHttpRequest, you may need to call safeGM asynchronously and await the results to support GM 4.0.
+
+Also note that getResourceText is not available in GM 4.0, so in the unlikely event that you need to use this function in a script, you should fall
+back on xmlhttpRequest and parse the results on callback.
+
+Lastly, KES provides a utility function called `genericXMLRequest()` that wraps xmlhttpRequest to perform a GET request and obviates setting
+up an object: simply pass the remote URL and callback function as arguments and process the response in your callback function.
+
+.genericXMLRequest()
+----
+function genericXMLRequest (url, callback) {
+    safeGM("xmlhttpRequest", {
+        method: 'GET',
+        url: url,
+        onload: callback,
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/xml"
+        },
+
+    });
+};
+----
 
 === Submitting a PR
 

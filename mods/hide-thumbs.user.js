@@ -8,7 +8,7 @@
 // @license      MIT
 // ==/UserScript==
 
-function hideThumbs(toggle) {
+function hideThumbs (toggle) {
     let cl = '.entry.section.subject figure, .thumb, .no-image-placeholder'
     if (toggle) {
         $(cl).hide();

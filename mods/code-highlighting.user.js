@@ -3,7 +3,7 @@ safeGM("addStyle",`
         display: none !important;
     }
 `);
-function startup(firstBoot = false) {
+function kchStartup (firstBoot = false) {
     if (firstBoot) {
         addHeaders('code');
     } else {
@@ -11,15 +11,15 @@ function startup(firstBoot = false) {
     }
     setCss(kchCssUrl);
 }
-function shutdown() {
+function kchShutdown () {
     if (kchInjectedCss) {
         kchInjectedCss.remove();
     }
     $('.kch_header').remove();
 }
-function addTags(item) {
+function addTags (item) {
     if (item.previousSibling) {
-	    if (item.previousSibling.className === "hljs kch_header") return
+        if (item.previousSibling.className === "hljs kch_header") return
     }
     const orig_code = item.textContent;
     let lang;
@@ -41,7 +41,7 @@ function addTags(item) {
     icon.className = 'fa-solid fa-copy hljs-section';
     icon.setAttribute('aria-hidden', 'true');
     icon.style = 'margin-left: 10px; cursor: pointer;';
-    icon.onclick = function() {
+    icon.onclick = function () {
         navigator.clipboard.writeText(orig_code);
         tooltip.style.display = 'inline';
         setTimeout(function () {
@@ -56,7 +56,7 @@ function addTags(item) {
     hide_icon.className = 'fa-solid fa-chevron-up hljs-section';
     hide_icon.setAttribute('aria-hidden', 'true');
     hide_icon.style = 'float: right; margin-right: 20px; cursor: pointer;';
-    hide_icon.addEventListener('click', function() {
+    hide_icon.addEventListener('click', function () {
         hide_icon.classList.toggle('fa-chevron-up');
         hide_icon.classList.toggle('fa-chevron-down');
         item.classList.toggle('collapsed');
@@ -67,14 +67,14 @@ function addTags(item) {
     header.appendChild(hide_icon);
     item.parentElement.prepend(header);
 }
-function addPreTag(parent, placement, code) {
+function addPreTag (parent, placement, code) {
     // For some reason, sometimes code isn't wrapped in pre. Let's fix that.
     const pre = document.createElement('pre');
     parent.replaceChild(pre, code);
     pre.appendChild(code);
     hljs.highlightElement(code);
 }
-function setCss(url) {
+function setCss (url) {
     // Downloads css files and sets them on page.
     safeGM("xmlhttpRequest",{
         method: "GET",
@@ -82,12 +82,12 @@ function setCss(url) {
         headers: {
             "Content-Type": "text/css"
         },
-        onload: function(response) {
+        onload: function (response) {
             injectedCss = safeGM("addStyle",response.responseText);
         }
     });
 }
-function addHeaders(selector) {
+function addHeaders (selector) {
     document.querySelectorAll('code').forEach(item => {
         const parent = item.parentElement;
         if (parent.nodeName !== 'PRE') {
@@ -103,16 +103,16 @@ function addHeaders(selector) {
 let kchInjectedCss;
 let kchCssUrl;
 let kchLastToggleState = false;
-function initCodeHighlights(toggle) {
+function initCodeHighlights (toggle) {
     if (toggle) {
         const settings = getModSettings("codehighlights");
         let myStyle = settings["style"];
         kchCssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
         if (kchLastToggleState === false) {
             kchLastToggleState = true;
-            startup(true);
+            kchStartup(true);
         } else {
-            startup();
+            kchStartup();
         }
         // Configure HLJS and enable.
         hljs.configure({
@@ -120,6 +120,6 @@ function initCodeHighlights(toggle) {
         });
         hljs.highlightAll();
     } else {
-        shutdown();
+        kchShutdown();
     }
 }

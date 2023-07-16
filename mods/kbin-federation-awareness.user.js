@@ -8,20 +8,20 @@ const kfaHasStrictModerationRules = [
     'lemmy.ml'
 ];
 
-function kfaIsStrictlyModerated(hostname) {
+function kfaIsStrictlyModerated (hostname) {
     return kfaHasStrictModerationRules.indexOf(hostname) !== -1;
 }
 
-function kfaComponentToHex(c) {
+function kfaComponentToHex (c) {
     const hex = c.toString(16);
     return hex.length == 1 ? "0" + hex : hex;
 }
 
-function kfaRgbToHex(r, g, b) {
+function kfaRgbToHex (r, g, b) {
     return "#" + kfaComponentToHex(r) + kfaComponentToHex(g) + kfaComponentToHex(b);
 }
 
-function kfaHexToRgb(hex) {
+function kfaHexToRgb (hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
         r: parseInt(result[1], 16),
@@ -30,7 +30,7 @@ function kfaHexToRgb(hex) {
     } : null;
 }
 
-function kfaSubtractColor(hex, amount) {
+function kfaSubtractColor (hex, amount) {
     let rgb = kfaHexToRgb(hex);
     if (rgb.r > amount) {
         rgb.r -= amount;
@@ -50,15 +50,15 @@ function kfaSubtractColor(hex, amount) {
     return kfaRgbToHex(rgb.r, rgb.g, rgb.b);
 }
 
-function kfaGetCss() {
+function kfaGetCss () {
     let fedColor0 = kfaSettingsFed;
     let fedColor1 = kfaSubtractColor(fedColor0, 50);
     let fedColor2 = kfaSubtractColor(fedColor1, 50);
     let fedColor3 = kfaSubtractColor(fedColor2, 50);
     let modColor0 = kfaSettingsMod;
     let modColor1 = kfaSubtractColor(modColor0, 50);
-    let modColor2 = kfaSubtractColor(modColor1, 50);;
-    let modColor3 = kfaSubtractColor(modColor2, 50);;
+    let modColor2 = kfaSubtractColor(modColor1, 50);
+    let modColor3 = kfaSubtractColor(modColor2, 50);
     let homeColor0 = kfaSettingsHome;
     let homeColor1 = kfaSubtractColor(homeColor0, 50);
     let homeColor2 = kfaSubtractColor(homeColor1, 50);
@@ -96,33 +96,33 @@ function kfaGetCss() {
         // Scale 1-10; Default 5 (i.e., 50%); 10 is 50% of 20. 20 * (x * 0.1)
         const defaultScale = 20;
         const setScale = defaultScale * (kfaSettingsScale * 0.1);
-        let fedStyle = ` .comment .data-federated, article .data-federated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-        let modStyle = ` .comment .data-moderated, article .data-moderated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-        let homeStyle = ` .comment .data-home, article .data-home { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-        modStyle += `0 0 3px 2px ` + modColor0 + `; background-color: ` + modColor0 + `; margin-right: 4px; }`;
-        fedStyle += `0 0 3px 2px ` + fedColor0 + `; background-color: ` + fedColor0 + `; margin-right: 4px; }`;
-        homeStyle += `0 0 3px 2px ` + homeColor0 + `; background-color: ` + homeColor0 + `; margin-right: 4px; }`;
+        let fedStyle = ` .comment div.data-federated, article .data-federated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
+        let modStyle = ` .comment div.data-moderated, article .data-moderated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
+        let homeStyle = ` .comment div.data-home, article .data-home { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
+        modStyle += `0 0 3px 2px ` + modColor0 + `; background-color: ` + modColor0 + `; margin-right: 4px; margin-left: 4px; }`;
+        fedStyle += `0 0 3px 2px ` + fedColor0 + `; background-color: ` + fedColor0 + `; margin-right: 4px; margin-left: 4px; }`;
+        homeStyle += `0 0 3px 2px ` + homeColor0 + `; background-color: ` + homeColor0 + `; margin-right: 4px; margin-left: 4px; }`;
         return modStyle + fedStyle + homeStyle;
     }
 }
 
-function kfaStartup() {
+function kfaStartup () {
     kfaInitClasses();
-    kfaInjectedCss = GM_addStyle(kfaGetCss());
+    kfaInjectedCss = safeGM("addStyle",kfaGetCss());
 }
 
-function kfaShutdown() {
+function kfaShutdown () {
     if (kfaInjectedCss) {
         kfaInjectedCss.remove();
     }
 }
 
-function kfaRestart() {
+function kfaRestart () {
     kfaShutdown();
     kfaStartup();
 }
 
-function kfaInitClasses() {
+function kfaInitClasses () {
     const classList = [
         'data-moderated',
         'data-federated',
@@ -148,7 +148,7 @@ function kfaInitClasses() {
         }
     });
 
-    document.querySelectorAll('.comments blockquote.entry-comment').forEach(function(comment) {
+    document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
             if (!(comment.classList.value.split(' ').some(r=> classList.indexOf(r) >= 0))) {
                 let commentHeader = comment.querySelector('header');
                 const userInfo = commentHeader.querySelector('a.user-inline');
@@ -181,7 +181,7 @@ let kfaSettingsStyle;
 let kfaSettingsScale;
 let kfaLastToggleState = false;
 
-function initKFA(toggle) {
+function initKFA (toggle) {
     if (toggle) {
         const settings = getModSettings('kbinFedAware');
         kfaSettingsFed = settings['kfaFedColor'];
