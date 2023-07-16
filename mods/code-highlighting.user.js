@@ -99,19 +99,18 @@ function addHeaders(selector) {
 
 function initCodeHighlights(toggle) {
     let injectedCss;
-        if (toggle) {
-	    const settings = getModSettings("codehighlights");
-	    let myStyle = settings["style"];
-	    let cssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
-	    setCss(cssUrl);
-            startup();
-		// Configure HLJS and enable.
-		hljs.configure({
-		    ignoreUnescapedHTML: true
-		});
-		hljs.highlightAll();
-        } else {
-            shutdown();
-        }
+    if (toggle) {
+        const settings = getModSettings("codehighlights");
+        let myStyle = settings["style"];
+        let cssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
+        setCss(cssUrl); startup();
+        // Configure HLJS and enable.
+        hljs.configure({
+            ignoreUnescapedHTML: true
+        });
+        hljs.highlightAll();
+    } else {
+        shutdown();
+    }
 }
 
