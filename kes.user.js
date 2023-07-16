@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.44
+// @version      2.0.0-rc.45
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -695,6 +695,27 @@ function constructMenu (json, layoutArr, isNew) {
         magLink.setAttribute('href', magURL);
         footer.appendChild(magLink)
 
+
+        //reset all localStorage related to KES
+        const resetButton = document.createElement('button')
+        resetButton.innerText = "RESET"
+        resetButton.className = "kes-reset-button"
+        footer.appendChild(resetButton)
+        resetButton.addEventListener('click', () => {
+            resetAll();
+        });
+
+        const bugLink = document.createElement("a");
+        bugLink.className = "kes-settings-modal-bug-link";
+        bugLink.innerText = "Report a bug";
+        bugLink.setAttribute('href', bugURL);
+        footer.appendChild(bugLink)
+
+        const bugIcon = document.createElement("span");
+        bugIcon.className = "kes-settings-modal-bug-icon";
+        bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
+        bugLink.appendChild(bugIcon)
+
         const debugClip = document.createElement("i");
         const clipClass = "kes-debug-clipboard"
         debugClip.className = clipClass + " " + layoutArr.header.clipboard;
@@ -712,27 +733,6 @@ function constructMenu (json, layoutArr, isNew) {
                 debugClip.className = "kes-debug-clipboard " + layoutArr.header.clipboard
             }
             window.setTimeout(revertIcon,600);
-        });
-
-        const bugLink = document.createElement("a");
-        bugLink.className = "kes-settings-modal-bug-link";
-        bugLink.innerText = "Report a bug";
-        bugLink.setAttribute('href', bugURL);
-        footer.appendChild(bugLink)
-
-
-        const bugIcon = document.createElement("span");
-        bugIcon.className = "kes-settings-modal-bug-icon";
-        bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
-        bugLink.appendChild(bugIcon)
-
-        //reset all localStorage related to KES
-        const resetButton = document.createElement('button')
-        resetButton.innerText = "RESET"
-        resetButton.className = "kes-reset-button"
-        footer.appendChild(resetButton)
-        resetButton.addEventListener('click', () => {
-            resetAll();
         });
 
         const container = document.createElement("div");
