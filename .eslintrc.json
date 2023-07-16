@@ -1,17 +1,17 @@
 {
-    "extends": ["airbnb", "prettier"],
-    "plugins": ["prettier"],
-    "rules": {
-        "indent": ["error", 4],
-        "no-unused-vars": "warn",
-        "prettier/prettier": "error",
-        "func-names": "off",
-        "object-shorthand": "off",
-        "spaced-comment": "warn",
-        "class-methods-use-this": "off",
-        "no-undef": "warn",
-        "prefer-destructuring": "off",
-        "prefer-template": "off"
-    }
+  "root": true,
+  "parserOptions": {
+    "ecmaVersion": 2021,
+      "sourceType": "module"
+  },
+    "env": {
+        "browser": true,
+        "jquery": true
+    },
+  "extends": "eslint:recommended",
+  "rules": {
+      "space-before-function-paren": ["error", "always"],
+      "space-before-blocks": ["error", "always"],
+      "indent": ["error", 4]
+  }
 }
-
