@@ -15,7 +15,9 @@ function createMags () {
     //const mags = document.querySelector('[href="/magazines"]');
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
+    const subsPage = window.location.href.split('/')[5];
     const subLink = 'https://' + window.location.hostname + '/u/' + username + '/subscriptions';
+    let peopleLink = document.querySelector('.head-nav__menu a[href="/people"]')
     const subsNav = document.querySelector('.subs-nav');
     if (username == null) {
         return;
@@ -26,7 +28,13 @@ function createMags () {
         const mySubsLink = document.createElement('a');
         mySubsLink.setAttribute('href', subLink);
         mySubsLink.innerText = 'My mags';
-        mySubsLink.className = 'subs-nav';
+        if (subsPage) {
+            console.log("page is subs")
+            mySubsLink.className = 'subs-nav active';
+            peopleLink.className = ""
+        } else {
+            mySubsLink.className = 'subs-nav';
+        }
         myListItem.append(mySubsLink);
         nav.appendChild(myListItem);
         mobileNav.appendChild(myListItem.cloneNode(true));

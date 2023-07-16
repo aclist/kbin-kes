@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.42
+// @version      2.0.0-rc.43
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -73,6 +73,7 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 const funcObj = {
     addMail: addMail,
     bugReportInit: bugReportInit,
+    catchResetInit: catchResetInit,
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
     hideDownvotes: hideDownvotes,
@@ -479,6 +480,18 @@ function constructMenu (json, layoutArr, isNew) {
                             }
                             hBox.appendChild(br);
                             break;
+                        }
+                        case "reset": {
+                            const resetField = document.createElement('input');
+                            resetField.setAttribute("type",fieldType);
+                            resetField.addEventListener('click', ()=> {
+                                for (let i = 0; i < json[it].catch_reset.length, ++i) {
+                                    let found = document.querySelector('.kes-settings-modal-helpbox input[kes-key="' + json[it].catch_reset[i] + '"]')
+                                    console.log(found)
+                                    settings[json[it].catch_reset[i]] = initial
+                                    saveSettings(settings);
+                                }
+                            }
                         }
                         case "number": {
                             const numberField = document.createElement('input');
