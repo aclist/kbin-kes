@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.47
+// @version      2.0.0-rc.48
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -101,6 +101,7 @@ const funcObj = {
 };
 //END AUTO MASTHEAD
 
+
 async function checkUpdates (response) {
     const newVersion = await response.responseText.trim();
 
@@ -157,7 +158,7 @@ async function unwrapPayloads () {
     const storedUI = safeGM("getValue", "layout")
     const storedNew = safeGM("getValue", "isnew")
     let payload = Promise.all([storedCSS, storedJSON, storedUI, storedNew]);
-    payload.then(items => {
+    payload.then((items) => {
         let p0 = items[0]
         let p1 = items[1]
         let p2 = items[2]
@@ -337,7 +338,7 @@ function constructMenu (json, layoutArr, isNew) {
                 authorLabel.style.fontWeight = 'bold';
                 authorLabel.innerText = 'Authors: ';
                 authorP.appendChild(authorLabel);
-                json[it].author.forEach(modAuthor => {
+                json[it].author.forEach((modAuthor) => {
                     const authorA = document.createElement('a');
                     authorA.setAttribute('href', kesFormatAuthorUrl(modAuthor));
                     if (modAuthor.includes('@')) {
@@ -959,5 +960,4 @@ function constructMenu (json, layoutArr, isNew) {
 const versionElement = document.createElement('a');
 versionElement.innerText = tool + ' ' + version;
 versionElement.setAttribute('href', repositoryURL);
-let newVersion = null;
 genericXMLRequest(versionFile,checkUpdates);
