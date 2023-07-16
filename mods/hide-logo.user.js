@@ -14,14 +14,14 @@ function changeLogo () {
     const settings = getModSettings(ns);
     let opt = settings["logotype"];
     switch (opt) {
-        case "Hidden":
-            updateLogo(defaultLogo)
-            $('.brand').hide();
-            break;
-        case "Kibby":
-            $('.brand').show();
-            updateLogo(bird);
-            break;
+    case "Hidden":
+        updateLogo(defaultLogo)
+        $('.brand').hide();
+        break;
+    case "Kibby":
+        $('.brand').show();
+        updateLogo(bird);
+        break;
     }
 }
 

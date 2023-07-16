@@ -9,8 +9,79 @@ const customPanelCss = `
         border-bottom:var(--kbin-header-hover-border)
     }
 `
+const customStyleElementCss = `
+        .pills,h1{
+             display:inline-block;
+        }
+         #middle,body{
+             background:var(--kbin-section-bg);
+        }
+         #footer,#header,#scroll-top,#sidebar,#subscription-panel,#topbar{
+             display:none!important;
+        }
+         #middle,.kbin-container{
+             margin-top:0!important
+        }
+         h1{
+             font-size:1rem;
+             padding-left:.5rem
+        }
+         .section--small{
+             padding:.5rem
+        }
+         .btn__secondary,form{
+             height:25px
+        }
+         .btn{
+             padding:0 6px
+        }
+         .page-notifications #main .notification{
+             grid-template-areas:"a a a b" "a a a b";
+            display:grid;
+             width:100%;
+            font-size:.8rem;
+            margin-bottom:0;
+            border-bottom:0;
+            border-left:0;
+            border-right:0
+        }
+         .page-notifications #main .notification:hover{
+             background:var(--kbin-bg)
+        }
+         .page-notifications #main .notification>div{
+             grid-area:a
+        }
+         .page-notifications #main .notification>span{
+             grid-area:b;
+        }
+         body::-webkit-scrollbar{
+             width:8px;
+        }
+         body::-webkit-scrollbar-track{
+             background:var(--kbin-section-bg)
+        }
+         body::-webkit-scrollbar-thumb{
+             background-color:rgb(112 112 112 / 50%);
+             border-radius:5px;
+             border:2px solid transparent;
+        }
+         .pills{
+             padding:0;
+             float:right;
+             margin:.67em;
+        }
+         html{
+            margin:0
+        }
+        body{
+            min-height:100vmax
+        }
+        .section--muted{
+            border:0
+        }
+`
 safeGM('addStyle',customPanelCss);
-function startup() {
+function startup () {
     const notiPanel = document.querySelector('li.notification-button');
     if (notiPanel === null) {
         const parentElement = document.querySelector('.header .kbin-container');
@@ -40,8 +111,7 @@ function startup() {
                 counterElement.classList.add('notification-counter');
                 listItem.appendChild(counterElement);
             }
-
-            function toggleIframe() {
+            function toggleIframe () {
                 const existingIframe = listItem.querySelector('.notifications-iframe');
 
                 if (existingIframe) {
@@ -66,7 +136,7 @@ function startup() {
                         }
 
                         const styleElement = iframeDocument.createElement('style');
-                        styleElement.textContent = `.pills,h1{display:inline-block}#middle,body{background:var(--kbin-section-bg)}#footer,#header,#scroll-top,#sidebar,#subscription-panel,#topbar{display:none!important}#middle,.kbin-container{margin-top:0!important}h1{font-size:1rem;padding-left:.5rem}.section--small{padding:.5rem}.btn__secondary,form{height:25px}.btn{padding:0 6px}.page-notifications #main .notification{grid-template-areas:"a a a b" "a a a b";display:grid;width:100%;font-size:.8rem;margin-bottom:0;border-bottom:0;border-left:0;border-right:0}.page-notifications #main .notification:hover{background:var(--kbin-bg)}.page-notifications #main .notification>div{grid-area:a}.page-notifications #main .notification>span{grid-area:b}body::-webkit-scrollbar{width:8px}body::-webkit-scrollbar-track{background:var(--kbin-section-bg)}body::-webkit-scrollbar-thumb{background-color:rgb(112 112 112 / 50%);border-radius:5px;border:2px solid transparent}.pills{padding:0;float:right;margin:.67em}html{margin:0}body{min-height:100vmax}.section--muted{border:0}`;
+                        styleElement.textContent = customStyleElementCss;
                         iframeDocument.head.appendChild(styleElement);
                     });
                 }
@@ -91,12 +161,12 @@ function startup() {
     }
 }
 
-function shutdown() {
+function shutdown () {
     const notiPanel = document.querySelector('li.notification-button');
     notiPanel.remove();
 }
 
-function notificationsPanel(toggle) {
+function notificationsPanel (toggle) {
     if (toggle) {
         startup();
     } else {

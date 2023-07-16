@@ -388,6 +388,14 @@ changes, request the desired UI via the JSON manifest, and the rest should work 
 complex workflows; scripts that make highly opinionated changes or themselves create complex menus may be difficult to adapt.
 
 ==== Conventions
-- Prefer 4-space indentation
-- Prefer https://www.conventionalcommits.org/en/v1.0.0/[conventional commits]
-- Linting with ESLint is encouraged but not required
+- MUST: 4-space indentation on *.js files
+- MUST: 2-space indentation on *.json files
+- MUST: space before function paren
+- MUST: space before code blocks
+- MUST NOT: comma dangle
+- MUST NOT: spaces in curly objects
+- PREFER: 80 line width
+
+See .eslintrc.json for details.
+
+- PREFER: https://www.conventionalcommits.org/en/v1.0.0/[conventional commits]
