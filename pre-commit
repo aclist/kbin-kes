@@ -1,62 +1,68 @@
 #!/usr/bin/env bash
 ./sane.sh
+npm_flag="--no-git-tag-version"
 COLUMNS=1
 version_file="VERSION"
 master_file="kes.user.js"
 vers=$(< $version_file)
 branch=$(git name-rev --name-only HEAD)
-opts=(
-	"MAJOR (breaking API change)"
-	"MINOR (feature)"
-	"PATCH (hotfix)"
-	"chore (static docs/task/file manipulation)"
-     )
-bump_vers(){
-	[[ $1 == chore ]] && return
-	local ma=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\1/g')
-	local mi=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\3/g')
-	local pa=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\5/g')
-        if [[ $branch == "main" ]]; then
-		case $1 in
-			"major")
-				ma=$((ma+1))
-				mi=0
-				pa=0
-				npm version major
-				;;
-			"minor")
-				mi=$((mi+1))
-				pa=0
-				npm version minor
-				;;
-			"patch")
-				pa=$((pa+1))
-				npm version patch
-				;;
-		esac
-		local newvers="${ma}.${mi}.${pa}"
-	else
-		local inc=$(<<< "$vers" awk -F"." '{print $4}')
-		local pref=$(<<< "$vers" awk -F"-" '{print $1}')
-		newvers="${pref}-rc.$((inc+1))"
-		npm version prerelease --preid=rc
-	fi
-	#sed -i "s/\(\/\/ @version *\)\([0-9]\+.*\)/\1$newvers/g" $master_file
-	echo "$newvers" > $version_file
-	./gen.sh
-	echo
-	echo "HOOK========>Bumping version from $vers to $newvers"
-	echo
-	git add $version_file
-	git add $master_file
+    opts=(
+            "MAJOR (breaking API change)"
+            "MINOR (feature)"
+            "PATCH (hotfix)"
+            "chore (static docs/task/file manipulation)"
+         )
+bump_npm(){
+    if [[ $1 == "prerelease" ]]; then
+        npm version "$1" --preid=rc "$npm_flag"
+    else
+        npm version "$1" "$npm_flag"
+    fi
 }
+bump_vers(){
+    [[ $1 == chore ]] && return
+    local ma=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\1/g')
+    local mi=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\3/g')
+    local pa=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\5/g')
+    if [[ $branch == "main" ]]; then
+        bump_npm "$1"
+        case $1 in
+            "major")
+            ma=$((ma+1))
+            mi=0
+            pa=0
+            ;;
+        "minor")
+            mi=$((mi+1))
+            pa=0
+            ;;
+        "patch")
+            pa=$((pa+1))
+            ;;
+        esac
+        local newvers="${ma}.${mi}.${pa}"
+    else
+        local inc=$(<<< "$vers" awk -F"." '{print $4}')
+        local pref=$(<<< "$vers" awk -F"-" '{print $1}')
+        newvers="${pref}-rc.$((inc+1))"
+        bump_npm prerelease
+    fi
+        echo "$newvers" > $version_file
+        ./gen.sh
+        echo
+        echo "HOOK========>Bumping version from $vers to $newvers"
+        echo
+        git add $version_file
+        git add $master_file
+}
+
 echo "This commit change is of type:"
 select opt in "${opts[@]}"; do
-	case $opt in
-	    ${opts[0]}) bump_vers major ;;
-	    ${opts[1]}) bump_vers minor ;;
-	    ${opts[2]}) bump_vers patch ;;
-	    ${opts[3]}) : ;;
-	esac
-	break
+case $opt in
+${opts[0]}) bump_vers major ;;
+${opts[1]}) bump_vers minor ;;
+${opts[2]}) bump_vers patch ;;
+${opts[3]}) : ;;
+esac
+break
 done < /dev/tty
