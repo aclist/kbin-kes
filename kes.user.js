@@ -55,7 +55,10 @@
 // @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
 // @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
 // ==/UserScript==
+
 //START AUTO MASTHEAD
+/* global addMail, bugReportInit, catchResetInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
+
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
@@ -67,10 +70,12 @@ const updateURL = branchPath + "kes.user.js";
 const bugURL = repositoryURL + "issues"
 const changelogURL = repositoryURL + "blob/" + branch + "/CHANGELOG.md"
 const magURL = "https://kbin.social/m/enhancement"
+
 //resource URLs used by legacy GM. API
 const manifest = branchPath + helpersPath + "manifest.json"
 const cssURL = branchPath + helpersPath + "kes.css"
 const layoutURL = branchPath + helpersPath + "ui.json"
+
 const funcObj = {
     addMail: addMail,
     bugReportInit: bugReportInit,
@@ -95,6 +100,7 @@ const funcObj = {
     userInstanceEntry: userInstanceEntry
 };
 //END AUTO MASTHEAD
+
 async function checkUpdates (response) {
     const newVersion = await response.responseText.trim();
 
