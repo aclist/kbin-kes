@@ -1,0 +1,36 @@
+{
+    "devDependencies": {
+        "eslint": "^8.2.0",
+        "eslint-config-airbnb": "^19.0.4",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-import": "^2.25.3",
+        "eslint-plugin-jsx-a11y": "^6.5.1",
+        "eslint-plugin-prettier": "^5.0.0",
+        "eslint-plugin-react": "^7.28.0",
+        "eslint-plugin-react-hooks": "^4.3.0",
+        "prettier": "^3.0.0"
+    },
+    "scripts": {
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
+    },
+    "name": "kbin-kes",
+    "description": "kbin Enhancement Suite (KES) is an add-on manager for userscripts modify kbin. In addition, it provides a turnkey, declarative framework for incorporating new features.",
+    "version": "2.0.0-rc.41",
+    "main": "kes.user.js",
+    "directories": {
+        "doc": "docs"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/aclist/kbin-kes.git"
+    },
+    "keywords": [],
+    "author": "aclist",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/aclist/kbin-kes/issues"
+    },
+    "homepage": "https://github.com/aclist/kbin-kes#readme"
+}
