@@ -12,8 +12,8 @@
 // ==/UserScript==
 
 // globals $
-function addDropdown(user, testMsg) {
-    function addOption(item) {
+function addDropdown (user, testMsg) {
+    function addOption (item) {
         const text = item.innerText;
         const val = text.substring(0, text.indexOf(' '));
         const option = document.createElement("option");
@@ -23,7 +23,7 @@ function addDropdown(user, testMsg) {
         selectList.appendChild(option);
     }
 
-    function buildDropdown(selector) {
+    function buildDropdown (selector) {
         const active = document.querySelector('.options__main li a.active')
         if (testMsg !== "message") {
             addOption(active);
@@ -43,7 +43,7 @@ function addDropdown(user, testMsg) {
     buildDropdown(selector);
 
     // event listener
-    $(document).on('change', '#dropdown-select', function() {
+    $(document).on('change', '#dropdown-select', function () {
         const page = $('#dropdown-select').val();
         const pref = 'https://kbin.social/u/';
         const finalUrl = pref + user + "/" + page;
@@ -55,7 +55,7 @@ function addDropdown(user, testMsg) {
     $('.scroll').hide();
 }
 
-function removeDropdown() {
+function removeDropdown () {
     $('#dropdown-select').remove();
     const detached = $('#dropdown-select').replaceWith('');
     const horizontalScroll = document.querySelector('.options__main');
@@ -66,7 +66,7 @@ function removeDropdown() {
     $('.scroll').show();
 }
 
-function dropdownEntry(toggle) {
+function dropdownEntry (toggle) {
     let testLoc = window.location.href;
     let locArr = testLoc.split("/");
     let testPage = locArr[3];

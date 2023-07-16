@@ -98,7 +98,7 @@ const emoticons = {
     '/6blank': '( ﾟヮﾟ)...'
 };
 
-function displayCommandsModal() {
+function displayCommandsModal () {
     const modalBackdrop = document.createElement('div');
     modalBackdrop.style.cssText = `
     position: fixed;
@@ -202,7 +202,7 @@ creds.style.cssText = `
 
 } // end of displayCommandsModal()
 
-function emoticonGen() {
+function emoticonGen () {
     eventListener = (e) => {
         if (e.target.tagName === 'TEXTAREA') {
             emoticonMake(e.target);
@@ -217,7 +217,7 @@ function emoticonGen() {
     document.addEventListener('input', eventListener);
 }
 
-function emoticonMake(param) {
+function emoticonMake (param) {
     let text = param.value;
     for (const [command, emoticon] of Object.entries(emoticons)) {
         text = text.replace(new RegExp(command, 'g'), `${emoticon} `);
@@ -225,7 +225,7 @@ function emoticonMake(param) {
     param.value = text;
 }
 
-function easyEmoticon(toggle) {
+function easyEmoticon (toggle) {
     if (toggle) {
         emoticonGen();
     } else {

@@ -93,37 +93,11 @@ const funcObj = {
     userInstanceEntry: userInstanceEntry
 };
 //END AUTO MASTHEAD
-function fetchManifest() {
-    safeGM("xmlhttpRequest", {
-        method: 'GET',
-        url: manifest,
-        onload: makeArr,
-        headers: {
-            "User-Agent": "Mozilla/5.0",
-            "Accept": "text/xml"
-        },
-    });
-};
-
-function checkVersion() {
-    safeGM("xmlhttpRequest", {
-        method: 'GET',
-        url: versionFile,
-        onload: checkUpdates,
-        headers: {
-            "User-Agent": "Mozilla/5.0",
-            "Accept": "text/xml"
-        },
-
-    });
-};
-
-async function checkUpdates(response) {
+async function checkUpdates (response) {
     const newVersion = await response.responseText.trim();
 
     if (newVersion && newVersion != version) {
         // Change version link into a button for updating
-
         versionElement.innerText = 'Install update: ' + newVersion;
         versionElement.setAttribute('href', updateURL);
         versionElement.className = 'new';
@@ -133,26 +107,22 @@ async function checkUpdates(response) {
     }
 }
 
-async function makeArr(response) {
+async function makeArr (response) {
     const resp = await response.response;
     await safeGM("setValue", "json", resp);
-};
-
-async function asyncSafeGM(...args) {
-    const j = await safeGM(...args);
-    return j
 }
-async function setRemoteCSS(response) {
+
+async function setRemoteCSS (response) {
     const resp = await response.responseText.trim();
     await safeGM("setValue", "kes-css", resp)
 }
-async function setRemoteUI(response) {
+async function setRemoteUI (response) {
     const resp = await response.response;
     await safeGM("setValue", "layout", resp)
-    const r = await safeGM("getValue", "json")
+    await safeGM("getValue", "json")
 
 }
-async function preparePayloads() {
+async function preparePayloads () {
     let json
     let css
     let kes_layout
@@ -172,11 +142,10 @@ async function preparePayloads() {
         unwrapPayloads()
     }
 }
-async function unwrapPayloads() {
+async function unwrapPayloads () {
     const storedJSON = safeGM("getValue", "json")
     const storedCSS = safeGM("getValue", "kes-css")
     const storedUI = safeGM("getValue", "layout")
-    const storedState = safeGM("getValue", "layout")
     const storedNew = safeGM("getValue", "isnew")
     let payload = Promise.all([storedCSS, storedJSON, storedUI, storedNew]);
     payload.then(items => {
@@ -188,7 +157,7 @@ async function unwrapPayloads() {
     });
 }
 
-function validateData(rawCSS, rawJSON, rawLayout, isNew) {
+function validateData (rawCSS, rawJSON, rawLayout, isNew) {
     if (![rawCSS, rawJSON, rawLayout].every(Boolean)) {
         //if any of the remote resources are missing, block execution of the 
         //rest of the script and print warning header; style data must be hardcoded here
@@ -197,7 +166,6 @@ function validateData(rawCSS, rawJSON, rawLayout, isNew) {
         warning.style.cssText = "top:0;left:0;position:absolute;z-index: 9999;text-align: center;color: white;" +
             "font-size: 12px; height: 20px;background-color:#5e0909;width: 100%";
         warning.innerText = "[kbin Enhancement Suite] Failed to fetch the remote resources. Reload or try again later."
-        container = document.body
         document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
     } else {
         safeGM("addStyle", rawCSS);
@@ -208,7 +176,7 @@ function validateData(rawCSS, rawJSON, rawLayout, isNew) {
     }
 }
 
-function constructMenu(json, layoutArr, isNew) {
+function constructMenu (json, layoutArr, isNew) {
     //instantiate kes modal and button
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title;
@@ -234,7 +202,7 @@ function constructMenu(json, layoutArr, isNew) {
     kesPanel.appendChild(settingsButton);
 
     var keyPressed = {};
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
 
         let modal = document.querySelector('.kes-settings-modal')
         keyPressed[e.key] = true;
@@ -257,13 +225,13 @@ function constructMenu(json, layoutArr, isNew) {
 
     }, false);
 
-    document.addEventListener('keyup', function(e) {
+    document.addEventListener('keyup', function (e) {
         keyPressed[e.key + e.location] = false;
 
         keyPressed = {};
     }, false);
 
-    function cleanNamespaces() {
+    function cleanNamespaces () {
         const kesSettings = "kes-settings"
         for (let i = 0; i < json.length; ++i) {
             let foundNs = json[i].namespace;
@@ -274,7 +242,7 @@ function constructMenu(json, layoutArr, isNew) {
         localStorage.removeItem(kesSettings);
     }
 
-    function resetAll() {
+    function resetAll () {
         const deleteMsg = "This will delete and reset all KES settings to the default and toggle off all options. Really proceed?";
         const deleteConfirm = confirm(deleteMsg);
         if (deleteConfirm) {
@@ -282,20 +250,20 @@ function constructMenu(json, layoutArr, isNew) {
             window.location.reload();
         }
     }
-	function transparentMode(modal){
-		console.log(modal)
-		console.log("transparent")
-	    modal.remove();
+    function transparentMode (modal) {
+        console.log(modal)
+        console.log("transparent")
+        modal.remove();
             const transparentModal = document.createElement("div");
             transparentModal.className = "kes-transparent-mode-modal";
             document.body.appendChild(transparentModal);
-	transparentModal.addEventListener('click', ()=> {
-		    transparentModal.remove();
-  		    showSettingsModal();
-	});
-	}
+        transparentModal.addEventListener('click', ()=> {
+        transparentModal.remove();
+        showSettingsModal();
+    });
+    }
 
-    function showSettingsModal() {
+    function showSettingsModal () {
         const settings = getSettings();
 
         const modal = document.createElement("div");
@@ -326,10 +294,7 @@ function constructMenu(json, layoutArr, isNew) {
         sidebar.className = "kes-settings-modal-sidebar";
         let sidebarUl = document.createElement('ul');
 
-
-        //TODO: pages.json
         for (let i = 0; i < sidebarPages.length; ++i) {
-            let page = sidebarPages[i];
             let pageUpper = sidebarPages[i].charAt(0).toUpperCase() + sidebarPages[i].slice(1);
             let sidebarListItem = document.createElement('li');
             sidebarListItem.innerHTML = `
@@ -338,7 +303,7 @@ function constructMenu(json, layoutArr, isNew) {
         }
         sidebar.appendChild(sidebarUl);
 
-        function kesFormatAuthorUrl(author) {
+        function kesFormatAuthorUrl (author) {
             if (author.includes('@')) {
                 if (window.location.hostname === author.split('@')[2]) {
                     return 'https://' + window.location.hostname + '/u/' + author.split('@')[1];
@@ -350,6 +315,24 @@ function constructMenu(json, layoutArr, isNew) {
                     return 'https://' + window.location.hostname + '/u/' + author;
                 } else {
                     return 'https://' + window.location.hostname + '/u/@' + author + '@kbin.social';
+                }
+            }
+        }
+
+        function kesDisableNode(elementNode) {
+            elementNode.setAttribute('disabled', true);
+            elementNode.classList.toggle('kes-settings-disabled');
+        }
+
+        function kesCheckSettingsOptionDisabled(elementNode, dependsValue, currentValue, enabledState) {
+            if (typeof (dependsValue) !== 'undefined') {
+                if (dependsValue !== currentValue) {
+                    kesDisableNode(elementNode);
+                }
+            }
+            if (!enabledState) {
+                if (!elementNode.classList.contains('kes-settings-disabled')) {
+                    kesDisableNode(elementNode);
                 }
             }
         }
@@ -461,7 +444,7 @@ function constructMenu(json, layoutArr, isNew) {
             const loginReqSpan = document.createElement('span');
             const loginReqSpanLabel = document.createElement('span');
             loginReqSpanLabel.style.fontWeight = 'bold';
-            loginReqSpanLabel.innerText = 'Login Required: ';
+            loginReqSpanLabel.innerText = 'Login required: ';
             loginReqSpan.appendChild(loginReqSpanLabel);
             loginReqSpan.innerHTML += loginHR;
             modInfo.appendChild(loginReqSpan);
@@ -498,9 +481,9 @@ function constructMenu(json, layoutArr, isNew) {
                     if (!modSettings[key]) {
                         modSettings[key] = initial;
                         saveModSettings(modSettings, ns);
-                    };
+                    }
                     switch (fieldType) {
-                        case "range":
+                        case "range": {
                             const range = document.createElement('input');
                             range.setAttribute("type", fieldType);
                             if (!modSettings[key]) {
@@ -534,7 +517,8 @@ function constructMenu(json, layoutArr, isNew) {
                             }
                             hBox.appendChild(br);
                             break;
-                        case "number":
+                        }
+                        case "number": {
                             const numberField = document.createElement('input');
                             numberField.setAttribute("type", fieldType);
                             if (!modSettings[key]) {
@@ -553,7 +537,8 @@ function constructMenu(json, layoutArr, isNew) {
                             hBox.appendChild(numberField);
                             hBox.appendChild(br);
                             break;
-                        case "select":
+                        }
+                        case "select": {
                             const selectField = document.createElement('select');
                             selectField.setAttribute('name', ns);
                             selectField.setAttribute("kes-iter", it);
@@ -573,7 +558,8 @@ function constructMenu(json, layoutArr, isNew) {
                             hBox.appendChild(selectField);
                             hBox.appendChild(br);
                             break;
-                        case "radio":
+                        }
+                        case "radio": {
                             const radioDiv = document.createElement('div');
                             for (let j = 0; j < json[it].fields[i].values.length; ++j) {
                                 const radioField = document.createElement('input');
@@ -602,7 +588,8 @@ function constructMenu(json, layoutArr, isNew) {
                             hBox.appendChild(radioDiv);
                             hBox.appendChild(br);
                             break;
-                        case "checkbox":
+                        }
+                        case "checkbox": {
                             const checkboxLabel = document.createElement('label');
                             const cfield = document.createElement('input');
                             cfield.setAttribute("type", fieldType);
@@ -621,6 +608,7 @@ function constructMenu(json, layoutArr, isNew) {
                             kesCheckSettingsOptionDisabled(checkboxLabel, json[it].fields[i].depends_value, getModSettings(json[it].namespace)[json[it].fields[i].depends_on], getModSettings(json[it].namespace).state);
                             hBox.appendChild(checkboxLabel);
                             break;
+                        }
                         default: {
                             const field = document.createElement('input');
                             field.setAttribute("type", fieldType);
@@ -654,29 +642,10 @@ function constructMenu(json, layoutArr, isNew) {
             } else {
                 check.checked = false;
             }
-            // add to crumbs
-            // let activeChild = document.querySelector('.crumbChild')
-            // if (activeChild) {
-            //  activeChild.remove();
-            // }
-            // let crumbsRoot = document.querySelector('.kes-crumbs h2');
-            // let span = document.createElement('span');
-            // span.className = "crumbChild"
-            // let pad = document.createElement('text');
-            // pad.innerText = ' ';
-            // let chev = document.createElement('i')
-            // chev.className = 'fa-solid fa-chevron-right fa-xs';
-            // let activeMod = document.createElement('text');
-            // activeMod.innerText = ' ' + event.target.innerText;
-            // span.appendChild(pad)
-            // span.appendChild(chev)
-            // span.appendChild(activeMod)
-            // crumbsRoot.appendChild(span)
-
-        };
+        }
 
         // Add script tag with opentab function
-        function openTab(tabName) {
+        function openTab (tabName) {
             const settings = getSettings();
             if (settings.lastTab != tabName) {
                 settings.lastPage = null;
@@ -742,23 +711,23 @@ function constructMenu(json, layoutArr, isNew) {
         footer.appendChild(magLink)
 
         const debugClip = document.createElement("i");
-	const clipClass = "kes-debug-clipboard"
+        const clipClass = "kes-debug-clipboard"
         debugClip.className = clipClass + " " + layoutArr.header.clipboard;
         footer.appendChild(debugClip)
-	    debugClip.addEventListener('click', ()=> {
-		const userPlatform = navigator.platform;
-		const userAgent = navigator.userAgent;
-		const handler = safeGM("info").scriptHandler;
-		const incog = safeGM("info").isIncognito;
-		const kesUserSettings = localStorage["kes-settings"];
-	        const toPaste = `OS: ${userPlatform}\nAgent: ${userAgent}\nKES version: ${version}\nHandler: ${handler}\nIncog: ${incog}\nSettings: ${kesUserSettings}`
+        debugClip.addEventListener('click', ()=> {
+            const userPlatform = navigator.platform;
+            const userAgent = navigator.userAgent;
+            const handler = safeGM("info").scriptHandler;
+            const incog = safeGM("info").isIncognito;
+            const kesUserSettings = localStorage["kes-settings"];
+            const toPaste = `OS: ${userPlatform}\nAgent: ${userAgent}\nKES version: ${version}\nHandler: ${handler}\nIncog: ${incog}\nSettings: ${kesUserSettings}`
                 navigator.clipboard.writeText(toPaste);
                 debugClip.className = clipClass + " " + layoutArr.header.check;
-		    function revertIcon(){
-		        debugClip.className = "kes-debug-clipboard " + layoutArr.header.clipboard
-		    }
-	        window.setTimeout(revertIcon,600);
-	    });
+            function revertIcon () {
+                debugClip.className = "kes-debug-clipboard " + layoutArr.header.clipboard
+            }
+            window.setTimeout(revertIcon,600);
+        });
 
         const bugLink = document.createElement("a");
         bugLink.className = "kes-settings-modal-bug-link";
@@ -816,9 +785,7 @@ function constructMenu(json, layoutArr, isNew) {
         }
 
 
-        function insertListItem(it) {
-            let type = json[it].type
-            let func = json[it].entrypoint
+        function insertListItem (it) {
             let item = json[it].label
             let page = json[it].page
             const kesListItem = document.createElement("li");
@@ -873,7 +840,7 @@ function constructMenu(json, layoutArr, isNew) {
         openTab(startPage);
     }
 
-    function updateState(target) {
+    function updateState (target) {
         //get master settings
         const settings = getSettings();
         const it = target.getAttribute('kes-iter');
@@ -914,7 +881,7 @@ function constructMenu(json, layoutArr, isNew) {
         }
     }
 
-    function applySettings(entry) {
+    function applySettings (entry) {
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
@@ -927,7 +894,7 @@ function constructMenu(json, layoutArr, isNew) {
         }
     }
 
-    window.getModSettings = function(namespace) {
+    window.getModSettings = function (namespace) {
         let settings = localStorage.getItem(namespace)
         if (!settings) {
             settings = {};
@@ -937,7 +904,7 @@ function constructMenu(json, layoutArr, isNew) {
         return settings;
     }
 
-    function getSettings(func) {
+    function getSettings () {
         let settings = localStorage.getItem("kes-settings");
         if (!settings) {
             settings = {};
@@ -947,24 +914,25 @@ function constructMenu(json, layoutArr, isNew) {
         return settings;
     }
 
-    function saveModSettings(settings, namespace) {
+    function saveModSettings (settings, namespace) {
         localStorage.setItem(namespace, JSON.stringify(settings));
     }
 
-    function saveSettings(settings) {
+    function saveSettings (settings) {
         localStorage.setItem("kes-settings", JSON.stringify(settings));
     }
 
-    function init() {
+    function init () {
         for (let i = 0; i < json.length; ++i) {
             applySettings(json[i].entrypoint);
         }
     }
 
-    function initmut(list) {
+    function initmut (list) {
         for (const mutation of list) {
             //workaround for timeago ticks changing timestamp textContent
             //reapply verbose timestamp
+            //see also updateState()
             if (mutation.target.className === 'timeago') {
                 if (mutation.target.textContent.indexOf("ago") >= 0) {
                     applySettings("updateTime");
@@ -1004,5 +972,5 @@ const versionElement = document.createElement('a');
 versionElement.innerText = tool + ' ' + version;
 versionElement.setAttribute('href', repositoryURL);
 let newVersion = null;
-checkVersion();
+genericXMLRequest(versionFile,checkUpdates);
 preparePayloads();

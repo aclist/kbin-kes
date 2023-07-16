@@ -1,4 +1,4 @@
-function navbarIcons(toggle) {
+function navbarIcons (toggle) {
     let settings = getModSettings("nav_icons");
     let search = settings.search
     let post = settings.post

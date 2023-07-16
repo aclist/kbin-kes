@@ -1,4 +1,4 @@
-function insertElementAfter(target, element) {
+function insertElementAfter (target, element) {
     if (target.nextSibling) {
         target.parentNode.insertBefore(element, target.nextSibling);
     } else {
@@ -6,7 +6,7 @@ function insertElementAfter(target, element) {
     }
 }
 
-function getUsername(item) {
+function getUsername (item) {
     try {
         if (item.href.split('/u/')[1].charAt(0) == '@') {
             return null
@@ -17,7 +17,7 @@ function getUsername(item) {
     }
 }
 
-function addLink(settings) {
+function addLink (settings) {
     const itemsSelector = '.user-inline';
     const items = document.querySelectorAll(itemsSelector);
     items.forEach((item) => {
@@ -49,7 +49,7 @@ function addLink(settings) {
     });
 }
 
-function addMail(toggle) {
+function addMail (toggle) {
     const settings = getModSettings("mail");
     const pref = settings["prefix"]
     if (toggle) {

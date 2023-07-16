@@ -1,4 +1,4 @@
-function labelOp(toggle) {
+function labelOp (toggle) {
     if (toggle) {
         let settings = getModSettings("labelcolors");
         let fg = settings["fgcolor"];

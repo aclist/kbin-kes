@@ -1,4 +1,4 @@
-function hideSidebar(toggle) {
+function hideSidebar (toggle) {
     if (toggle) {
         $('#sidebar').hide();
     } else {
