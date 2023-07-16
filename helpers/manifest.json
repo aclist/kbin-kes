@@ -598,5 +598,16 @@
       }
     ],
     "page": "debug"
+  },
+  {
+    "name": "Notifications panel",
+    "author": "blobcat",
+    "version": "0.2.8",
+    "label": "Add a notifications panel",
+    "login": true,
+    "recurs": false,
+    "desc": "Adds a floating notifications panel to the navbar",
+    "entrypoint": "notificationsPanel",
+    "page": "navbar"
   }
 ]
