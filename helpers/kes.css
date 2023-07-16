@@ -23,6 +23,7 @@ span.kes-update {
     right: 0;
     padding: 3px 1rem 0;
     min-width: 3rem;
+    color: var(--kbin-header-link-color);
     cursor: pointer;
 }
 
@@ -132,8 +133,6 @@ span.kes-update {
         grid-template-columns: 1fr;
         grid-template-rows: min-content min-content min-content min-content;
         overflow: auto;
-    }
-}
 
 /* Medium devices (tablets, 1367px and below) */
 @media (max-width: 1367px) {
@@ -428,6 +427,7 @@ span.kes-update {
 }
 
 .kes-reset-button:hover {
+    opacity: 1;
     opacity: 1;
 }
 

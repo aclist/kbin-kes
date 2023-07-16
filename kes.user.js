@@ -202,7 +202,7 @@ function constructMenu (json, layoutArr, isNew) {
     kesPanel.appendChild(settingsButton);
 
     var keyPressed = {};
-    document.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', function  (e) {
 
         let modal = document.querySelector('.kes-settings-modal')
         keyPressed[e.key] = true;
@@ -250,17 +250,17 @@ function constructMenu (json, layoutArr, isNew) {
             window.location.reload();
         }
     }
-    function transparentMode (modal) {
+    function transparentMode(modal) {
         console.log(modal)
         console.log("transparent")
         modal.remove();
-            const transparentModal = document.createElement("div");
-            transparentModal.className = "kes-transparent-mode-modal";
-            document.body.appendChild(transparentModal);
-        transparentModal.addEventListener('click', ()=> {
-        transparentModal.remove();
-        showSettingsModal();
-    });
+        const transparentModal = document.createElement("div");
+        transparentModal.className = "kes-transparent-mode-modal";
+        document.body.appendChild(transparentModal);
+        transparentModal.addEventListener('click', () => {
+            transparentModal.remove();
+            showSettingsModal();
+        });
     }
 
     function showSettingsModal () {
@@ -303,21 +303,22 @@ function constructMenu (json, layoutArr, isNew) {
         }
         sidebar.appendChild(sidebarUl);
 
-        function kesFormatAuthorUrl (author) {
-            if (author.includes('@')) {
-                if (window.location.hostname === author.split('@')[2]) {
-                    return 'https://' + window.location.hostname + '/u/' + author.split('@')[1];
+        function kesSettingsBuilder() {
+            function kesFormatAuthorUrl (author) {
+                if (author.includes('@')) {
+                    if (window.location.hostname === author.split('@')[2]) {
+                        return 'https://' + window.location.hostname + '/u/' + author.split('@')[1];
+                    } else {
+                        return 'https://' + window.location.hostname + '/u/' + author;
+                    }
                 } else {
-                    return 'https://' + window.location.hostname + '/u/' + author;
-                }
-            } else {
-                if (window.location.hostname === 'kbin.social') {
-                    return 'https://' + window.location.hostname + '/u/' + author;
-                } else {
-                    return 'https://' + window.location.hostname + '/u/@' + author + '@kbin.social';
+                    if (window.location.hostname === 'kbin.social') {
+                        return 'https://' + window.location.hostname + '/u/' + author;
+                    } else {
+                        return 'https://' + window.location.hostname + '/u/@' + author + '@kbin.social';
+                    }
                 }
             }
-        }
 
         function kesDisableNode(elementNode) {
             elementNode.setAttribute('disabled', true);
@@ -337,10 +338,10 @@ function constructMenu (json, layoutArr, isNew) {
             }
         }
 
-        function kesDisableNode(elementNode) {
-            elementNode.setAttribute('disabled', true);
-            elementNode.classList.toggle('kes-settings-disabled');
-        }
+            function kesDisableNode(elementNode) {
+                elementNode.setAttribute('disabled', true);
+                elementNode.classList.toggle('kes-settings-disabled');
+            }
 
         function kesCheckSettingsOptionDisabled(elementNode, dependsValue, currentValue, enabledState) {
             if (typeof (dependsValue) !== 'undefined') {
@@ -356,9 +357,12 @@ function constructMenu (json, layoutArr, isNew) {
         }
 
         function openHelpBox(it) {
+            // Init of kesSettingsBuilder is required to access child functions.
+            kesSettingsBuilder();
             const settings = getSettings();
             settings.lastPage = it;
             saveSettings(settings);
+            console.log(ns);
             const modInfo = document.createElement('p');
             const authorP = document.createElement('p');
             if (Array.isArray(json[it].author)) {
@@ -375,7 +379,7 @@ function constructMenu (json, layoutArr, isNew) {
                         authorA.innerText = modAuthor;
                     }
                     authorP.appendChild(authorA);
-                    if (typeof(json[it].author[json[it].author.indexOf(modAuthor) + 1]) !== 'undefined') {
+                    if (typeof (json[it].author[json[it].author.indexOf(modAuthor) + 1]) !== 'undefined') {
                         authorP.innerHTML += ', ';
                     }
                 });
@@ -432,7 +436,7 @@ function constructMenu (json, layoutArr, isNew) {
                 linkSpan.appendChild(linkSpanLabel);
                 const linkA = document.createElement('a');
                 linkA.setAttribute('href', link);
-                if (typeof(linkLabel) !== 'undefined') {
+                if (typeof (linkLabel) !== 'undefined') {
                     linkA.innerText = linkLabel;
                 } else {
                     linkA.innerText = link;
@@ -714,19 +718,19 @@ function constructMenu (json, layoutArr, isNew) {
         const clipClass = "kes-debug-clipboard"
         debugClip.className = clipClass + " " + layoutArr.header.clipboard;
         footer.appendChild(debugClip)
-        debugClip.addEventListener('click', ()=> {
+        debugClip.addEventListener('click', () => {
             const userPlatform = navigator.platform;
             const userAgent = navigator.userAgent;
             const handler = safeGM("info").scriptHandler;
             const incog = safeGM("info").isIncognito;
             const kesUserSettings = localStorage["kes-settings"];
             const toPaste = `OS: ${userPlatform}\nAgent: ${userAgent}\nKES version: ${version}\nHandler: ${handler}\nIncog: ${incog}\nSettings: ${kesUserSettings}`
-                navigator.clipboard.writeText(toPaste);
-                debugClip.className = clipClass + " " + layoutArr.header.check;
-            function revertIcon () {
+            navigator.clipboard.writeText(toPaste);
+            debugClip.className = clipClass + " " + layoutArr.header.check;
+            function revertIcon() {
                 debugClip.className = "kes-debug-clipboard " + layoutArr.header.clipboard
             }
-            window.setTimeout(revertIcon,600);
+            window.setTimeout(revertIcon, 600);
         });
 
         const bugLink = document.createElement("a");
