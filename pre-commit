@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+./sane.sh
 COLUMNS=1
 version_file="VERSION"
 master_file="kes.user.js"
@@ -50,7 +50,6 @@ bump_vers(){
 	git add $version_file
 	git add $master_file
 }
-./sane.sh
 echo "This commit change is of type:"
 select opt in "${opts[@]}"; do
 	case $opt in
