@@ -29,7 +29,6 @@ function createMags () {
         mySubsLink.setAttribute('href', subLink);
         mySubsLink.innerText = 'My mags';
         if (subsPage) {
-            console.log("page is subs")
             mySubsLink.className = 'subs-nav active';
             peopleLink.className = ""
         } else {
