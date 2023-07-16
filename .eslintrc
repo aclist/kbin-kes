@@ -1,0 +1,24 @@
+{
+    "root": true,
+    "parserOptions": {
+        "ecmaVersion": 2021,
+        "sourceType": "module"
+    },
+    "globals": {
+        "Promise": "readonly",
+        "safeGM": "readonly",
+        "genericXMLRequest": "readonly",
+        "getModSettings": "readonly"
+    },
+    "env": {
+        "browser": true,
+        "jquery": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "space-before-function-paren": ["error", "always"],
+        "space-before-blocks": ["error", "always"],
+        "indent": ["error", 4],
+        "max-len": ["warn", 80]
+    }
+}
