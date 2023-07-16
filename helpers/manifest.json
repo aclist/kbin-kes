@@ -542,7 +542,7 @@
     "label": "Navbar icons as text",
     "desc": "Change navbar search/post icons to text strings",
     "login": false,
-    "recurs": false,
+    "recurs": true,
     "entrypoint": "navbarIcons",
     "namespace": "nav_icons",
     "fields": [
