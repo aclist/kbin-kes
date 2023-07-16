@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.43
+// @version      2.0.0-rc.44
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -46,6 +46,7 @@
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/nav-icons.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/numbers.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/report-bug.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/reset.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/subs.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/timestamp.user.js
 // @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json
@@ -482,16 +483,28 @@ function constructMenu (json, layoutArr, isNew) {
                             break;
                         }
                         case "reset": {
+                            console.log('reset')
                             const resetField = document.createElement('input');
                             resetField.setAttribute("type",fieldType);
                             resetField.addEventListener('click', ()=> {
-                                for (let i = 0; i < json[it].catch_reset.length, ++i) {
-                                    let found = document.querySelector('.kes-settings-modal-helpbox input[kes-key="' + json[it].catch_reset[i] + '"]')
-                                    console.log(found)
-                                    settings[json[it].catch_reset[i]] = initial
-                                    saveSettings(settings);
+                                for (let j = 0; j < json[it].catch_reset.length; ++j) {
+                                    let fieldToReset = json[it].catch_reset[j];
+                                    let resetClassName = `.kes-settings-modal-helpbox input[kes-key="${fieldToReset}"]`
+                                    let found = document.querySelector(resetClassName)
+                                    let matchKey = found.getAttribute("kes-key")
+                                    for (let k = 0 ; k < json[it].fields.length; ++k) {
+                                        if(json[it].fields[k].key === matchKey) {
+                                            let initial = json[it].fields[k].initial
+                                            found.setAttribute("value",initial)
+                                            found.value = initial
+                                        }
+                                    }
+                                    updateState(found);
                                 }
-                            }
+                            });
+                            hBox.appendChild(resetField)
+                            hBox.appendChild(br)
+                            break;
                         }
                         case "number": {
                             const numberField = document.createElement('input');
@@ -508,6 +521,10 @@ function constructMenu (json, layoutArr, isNew) {
                             if (json[it].fields[i].step) {
                                 numberField.setAttribute('step', json[it].fields[i].step);
                             }
+                            numberField.addEventListener('change', (e)=> {
+                                let numTarg = e.target
+                                numTarg.setAttribute("value",numTarg.value)
+                            });
                             hBox.appendChild(numberField);
                             hBox.appendChild(br);
                             break;

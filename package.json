@@ -17,7 +17,7 @@
     },
     "name": "kbin-kes",
     "description": "kbin Enhancement Suite (KES) is an add-on manager for userscripts modify kbin. In addition, it provides a turnkey, declarative framework for incorporating new features.",
-    "version": "2.0.0-rc.43",
+    "version": "2.0.0-rc.44",
     "main": "kes.user.js",
     "directories": {
         "doc": "docs"
