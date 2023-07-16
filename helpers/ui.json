@@ -1,23 +1,23 @@
 {
-  "header": {
-    "title": "KES",
-    "separator": "fa-solid fa-chevron-right fa-xs",
-    "dock_down": "fa-solid fa-arrow-down",
-    "dock_up": "fa-solid fa-arrow-up",
-    "open": "fa-solid fa-wrench",
-    "close": "fa-solid fa-times",
-    "bug": "fa-solid fa-bug fa-xs",
-    "changelog": "fa-solid fa-flask",
-    "clipboard": "fa-solid fa-clipboard",
-    "check": "fa-solid fa-check",
-    "transparent": "fa-solid fa-eye-slash"
-  },
-  "pages": [
-    "general",
-    "navbar",
-    "threads",
-    "comments",
-    "profile",
-    "debug"
-  ]
+    "header": {
+        "title": "KES",
+        "separator": "fa-solid fa-chevron-right fa-xs",
+        "dock_down": "fa-solid fa-arrow-down",
+        "dock_up": "fa-solid fa-arrow-up",
+        "open": "fa-solid fa-wrench",
+        "close": "fa-solid fa-times",
+        "bug": "fa-solid fa-bug fa-xs",
+        "changelog": "fa-solid fa-flask",
+        "clipboard": "fa-solid fa-clipboard",
+        "check": "fa-solid fa-check",
+        "transparent": "fa-solid fa-eye-slash"
+    },
+    "pages": [
+        "general",
+        "navbar",
+        "threads",
+        "comments",
+        "profile",
+        "debug"
+    ]
 }
