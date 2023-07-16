@@ -22,13 +22,16 @@ bump_vers(){
 				ma=$((ma+1))
 				mi=0
 				pa=0
+				npm version major
 				;;
 			"minor")
 				mi=$((mi+1))
 				pa=0
+				npm version minor
 				;;
 			"patch")
 				pa=$((pa+1))
+				npm version patch
 				;;
 		esac
 		local newvers="${ma}.${mi}.${pa}"
@@ -36,6 +39,7 @@ bump_vers(){
 		local inc=$(<<< "$vers" awk -F"." '{print $4}')
 		local pref=$(<<< "$vers" awk -F"-" '{print $1}')
 		newvers="${pref}-rc.$((inc+1))"
+		npm version prerelease --preid=rc
 	fi
 	#sed -i "s/\(\/\/ @version *\)\([0-9]\+.*\)/\1$newvers/g" $master_file
 	echo "$newvers" > $version_file
@@ -46,7 +50,7 @@ bump_vers(){
 	git add $version_file
 	git add $master_file
 }
-
+./sane.sh
 echo "This commit change is of type:"
 select opt in "${opts[@]}"; do
 	case $opt in
