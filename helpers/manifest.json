@@ -596,6 +596,7 @@
         "initial": 12,
         "key": "secondNumber"
       }
-    ]
+    ],
+    "page": "debug"
   }
 ]
