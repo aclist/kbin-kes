@@ -514,28 +514,6 @@
     "page": "debug"
   },
   {
-    "name": "TEST NUMBERS",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "TEST NUMBERS",
-    "login": false,
-    "recurs": true,
-    "desc": "TEST NUMBERS",
-    "entrypoint": "numbersInit",
-    "page": "debug",
-    "namespace": "numbertest",
-    "fields": [
-      {
-        "type": "number",
-        "initial": 20,
-        "key": "number",
-        "min": 10,
-        "max": 50,
-        "step": 10
-      }
-    ]
-  },
-  {
     "name": "Navbar icons",
     "author": "shazbot",
     "version": "0.1.0",

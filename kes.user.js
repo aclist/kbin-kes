@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.45
+// @version      2.0.0-rc.46
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -44,7 +44,7 @@
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/label.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/mail.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/nav-icons.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/numbers.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/notifications-panel.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/report-bug.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/reset.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/subs.user.js
@@ -89,7 +89,7 @@ const funcObj = {
     labelOp: labelOp,
     magInstanceEntry: magInstanceEntry,
     navbarIcons: navbarIcons,
-    numbersInit: numbersInit,
+    notificationsPanel: notificationsPanel,
     toggleLogo: toggleLogo,
     updateTime: updateTime,
     userInstanceEntry: userInstanceEntry
@@ -107,6 +107,7 @@ async function checkUpdates (response) {
     } else {
         await safeGM("setValue", "isnew", "no");
     }
+    preparePayloads();
 }
 
 async function makeArr (response) {
@@ -253,8 +254,6 @@ function constructMenu (json, layoutArr, isNew) {
         }
     }
     function transparentMode (modal) {
-        console.log(modal)
-        console.log("transparent")
         modal.remove();
             const transparentModal = document.createElement("div");
             transparentModal.className = "kes-transparent-mode-modal";
@@ -483,7 +482,6 @@ function constructMenu (json, layoutArr, isNew) {
                             break;
                         }
                         case "reset": {
-                            console.log('reset')
                             const resetField = document.createElement('input');
                             resetField.setAttribute("type",fieldType);
                             resetField.addEventListener('click', ()=> {
@@ -957,4 +955,3 @@ versionElement.innerText = tool + ' ' + version;
 versionElement.setAttribute('href', repositoryURL);
 let newVersion = null;
 genericXMLRequest(versionFile,checkUpdates);
-preparePayloads();
