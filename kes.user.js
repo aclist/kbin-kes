@@ -255,13 +255,13 @@ function constructMenu (json, layoutArr, isNew) {
     }
     function transparentMode (modal) {
         modal.remove();
-            const transparentModal = document.createElement("div");
-            transparentModal.className = "kes-transparent-mode-modal";
-            document.body.appendChild(transparentModal);
+        const transparentModal = document.createElement("div");
+        transparentModal.className = "kes-transparent-mode-modal";
+        document.body.appendChild(transparentModal);
         transparentModal.addEventListener('click', ()=> {
-        transparentModal.remove();
-        showSettingsModal();
-    });
+            transparentModal.remove();
+            showSettingsModal();
+        });
     }
 
     function showSettingsModal () {
@@ -447,165 +447,165 @@ function constructMenu (json, layoutArr, isNew) {
                         saveModSettings(modSettings, ns);
                     }
                     switch (fieldType) {
-                        case "range": {
-                            const range = document.createElement('input');
-                            range.setAttribute("type", fieldType);
-                            if (!modSettings[key]) {
-                                range.setAttribute("value", initial);
-                            } else {
-                                range.setAttribute("value", modSettings[key])
-                            }
-                            range.setAttribute("kes-iter", it);
-                            range.setAttribute("kes-key", key);
-                            range.setAttribute('min', json[it].fields[i].min);
-                            range.setAttribute('max', json[it].fields[i].max);
-                            if (json[it].fields[i].show_value) {
-                                const rangeDiv = document.createElement('div');
-                                range.setAttribute('oninput', key + '.innerText = this.value');
-                                range.style.verticalAlign = 'middle';
-                                rangeDiv.appendChild(range);
-                                const rangeValue = document.createElement('label');
-                                rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
-                                rangeValue.id = key;
-                                rangeValue.for = key;
-                                if (!modSettings[key]) {
-                                    rangeValue.innerText = initial;
-                                } else {
-                                    rangeValue.innerText = modSettings[key];
-                                }
-                                rangeDiv.appendChild(rangeValue);
-                                hBox.appendChild(rangeDiv);
-                            } else {
-                                hBox.appendChild(range);
-                            }
-                            hBox.appendChild(br);
-                            break;
+                    case "range": {
+                        const range = document.createElement('input');
+                        range.setAttribute("type", fieldType);
+                        if (!modSettings[key]) {
+                            range.setAttribute("value", initial);
+                        } else {
+                            range.setAttribute("value", modSettings[key])
                         }
-                        case "reset": {
-                            const resetField = document.createElement('input');
-                            resetField.setAttribute("type",fieldType);
-                            resetField.addEventListener('click', ()=> {
-                                for (let j = 0; j < json[it].catch_reset.length; ++j) {
-                                    let fieldToReset = json[it].catch_reset[j];
-                                    let resetClassName = `.kes-settings-modal-helpbox input[kes-key="${fieldToReset}"]`
-                                    let found = document.querySelector(resetClassName)
-                                    let matchKey = found.getAttribute("kes-key")
-                                    for (let k = 0 ; k < json[it].fields.length; ++k) {
-                                        if(json[it].fields[k].key === matchKey) {
-                                            let initial = json[it].fields[k].initial
-                                            found.setAttribute("value",initial)
-                                            found.value = initial
-                                        }
+                        range.setAttribute("kes-iter", it);
+                        range.setAttribute("kes-key", key);
+                        range.setAttribute('min', json[it].fields[i].min);
+                        range.setAttribute('max', json[it].fields[i].max);
+                        if (json[it].fields[i].show_value) {
+                            const rangeDiv = document.createElement('div');
+                            range.setAttribute('oninput', key + '.innerText = this.value');
+                            range.style.verticalAlign = 'middle';
+                            rangeDiv.appendChild(range);
+                            const rangeValue = document.createElement('label');
+                            rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
+                            rangeValue.id = key;
+                            rangeValue.for = key;
+                            if (!modSettings[key]) {
+                                rangeValue.innerText = initial;
+                            } else {
+                                rangeValue.innerText = modSettings[key];
+                            }
+                            rangeDiv.appendChild(rangeValue);
+                            hBox.appendChild(rangeDiv);
+                        } else {
+                            hBox.appendChild(range);
+                        }
+                        hBox.appendChild(br);
+                        break;
+                    }
+                    case "reset": {
+                        const resetField = document.createElement('input');
+                        resetField.setAttribute("type",fieldType);
+                        resetField.addEventListener('click', ()=> {
+                            for (let j = 0; j < json[it].catch_reset.length; ++j) {
+                                let fieldToReset = json[it].catch_reset[j];
+                                let resetClassName = `.kes-settings-modal-helpbox input[kes-key="${fieldToReset}"]`
+                                let found = document.querySelector(resetClassName)
+                                let matchKey = found.getAttribute("kes-key")
+                                for (let k = 0 ; k < json[it].fields.length; ++k) {
+                                    if(json[it].fields[k].key === matchKey) {
+                                        let initial = json[it].fields[k].initial
+                                        found.setAttribute("value",initial)
+                                        found.value = initial
                                     }
-                                    updateState(found);
                                 }
-                            });
-                            hBox.appendChild(resetField)
-                            hBox.appendChild(br)
-                            break;
-                        }
-                        case "number": {
-                            const numberField = document.createElement('input');
-                            numberField.setAttribute("type", fieldType);
-                            if (!modSettings[key]) {
-                                numberField.setAttribute("value", initial);
-                            } else {
-                                numberField.setAttribute("value", modSettings[key])
+                                updateState(found);
                             }
-                            numberField.setAttribute("kes-iter", it);
-                            numberField.setAttribute("kes-key", key);
-                            numberField.setAttribute('min', json[it].fields[i].min);
-                            numberField.setAttribute('max', json[it].fields[i].max);
-                            if (json[it].fields[i].step) {
-                                numberField.setAttribute('step', json[it].fields[i].step);
-                            }
-                            numberField.addEventListener('change', (e)=> {
-                                let numTarg = e.target
-                                numTarg.setAttribute("value",numTarg.value)
-                            });
-                            hBox.appendChild(numberField);
-                            hBox.appendChild(br);
-                            break;
+                        });
+                        hBox.appendChild(resetField)
+                        hBox.appendChild(br)
+                        break;
+                    }
+                    case "number": {
+                        const numberField = document.createElement('input');
+                        numberField.setAttribute("type", fieldType);
+                        if (!modSettings[key]) {
+                            numberField.setAttribute("value", initial);
+                        } else {
+                            numberField.setAttribute("value", modSettings[key])
                         }
-                        case "select": {
-                            const selectField = document.createElement('select');
-                            selectField.setAttribute('name', ns);
-                            selectField.setAttribute("kes-iter", it);
-                            selectField.setAttribute("kes-key", key);
-                            for (let j = 0; j < json[it].fields[i].values.length; ++j) {
-                                let opt = document.createElement('option');
-                                opt.setAttribute('value', json[it].fields[i].values[j]);
-                                opt.innerText = json[it].fields[i].values[j];
-                                if (modSettings[key] == json[it].fields[i].values[j]) {
-                                    opt.selected = 'selected';
-                                } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
-                                    opt.selected = 'selected'
-                                }
-                                selectField.appendChild(opt);
-                            }
-                            hBox.appendChild(selectField);
-                            hBox.appendChild(br);
-                            break;
+                        numberField.setAttribute("kes-iter", it);
+                        numberField.setAttribute("kes-key", key);
+                        numberField.setAttribute('min', json[it].fields[i].min);
+                        numberField.setAttribute('max', json[it].fields[i].max);
+                        if (json[it].fields[i].step) {
+                            numberField.setAttribute('step', json[it].fields[i].step);
                         }
-                        case "radio": {
-                            const radioDiv = document.createElement('div');
-                            for (let j = 0; j < json[it].fields[i].values.length; ++j) {
-                                const radioField = document.createElement('input');
-                                radioField.setAttribute("type", fieldType);
-                                radioField.setAttribute('name', ns);
-                                radioField.setAttribute('id', "kes-radio-" + j);
-                                radioField.setAttribute("kes-iter", it);
-                                radioField.setAttribute("kes-key", key);
-                                radioField.setAttribute("value", json[it].fields[i].values[j]);
-                                if (modSettings[key] == json[it].fields[i].values[j]) {
-                                    radioField.checked = true;
-                                } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
-                                    radioField.checked = true;
-                                }
-                                let radioLabel = document.createElement('label');
-                                radioLabel.setAttribute('for', "kes-radio-" + j);
-                                radioLabel.className = ("kes-radio-label");
-                                radioLabel.innerText = json[it].fields[i].values[j];
-                                radioDiv.appendChild(radioField);
-                                radioDiv.appendChild(radioLabel);
-                                let br = document.createElement('br');
-                                radioDiv.appendChild(br);
+                        numberField.addEventListener('change', (e)=> {
+                            let numTarg = e.target
+                            numTarg.setAttribute("value",numTarg.value)
+                        });
+                        hBox.appendChild(numberField);
+                        hBox.appendChild(br);
+                        break;
+                    }
+                    case "select": {
+                        const selectField = document.createElement('select');
+                        selectField.setAttribute('name', ns);
+                        selectField.setAttribute("kes-iter", it);
+                        selectField.setAttribute("kes-key", key);
+                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                            let opt = document.createElement('option');
+                            opt.setAttribute('value', json[it].fields[i].values[j]);
+                            opt.innerText = json[it].fields[i].values[j];
+                            if (modSettings[key] == json[it].fields[i].values[j]) {
+                                opt.selected = 'selected';
+                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                opt.selected = 'selected'
                             }
-                            hBox.appendChild(radioDiv);
-                            hBox.appendChild(br);
-                            break;
+                            selectField.appendChild(opt);
                         }
-                        case "checkbox": {
-                            const checkboxLabel = document.createElement('label');
-                            const cfield = document.createElement('input');
-                            cfield.setAttribute("type", fieldType);
-                            if (!modSettings[key]) {
-                                cfield.checked = initial
-                            } else {
-                                cfield.checked = modSettings[key]
+                        hBox.appendChild(selectField);
+                        hBox.appendChild(br);
+                        break;
+                    }
+                    case "radio": {
+                        const radioDiv = document.createElement('div');
+                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                            const radioField = document.createElement('input');
+                            radioField.setAttribute("type", fieldType);
+                            radioField.setAttribute('name', ns);
+                            radioField.setAttribute('id', "kes-radio-" + j);
+                            radioField.setAttribute("kes-iter", it);
+                            radioField.setAttribute("kes-key", key);
+                            radioField.setAttribute("value", json[it].fields[i].values[j]);
+                            if (modSettings[key] == json[it].fields[i].values[j]) {
+                                radioField.checked = true;
+                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                radioField.checked = true;
                             }
-                            cfield.setAttribute("kes-iter", it);
-                            cfield.setAttribute("kes-key", key);
-                            checkboxLabel.appendChild(cfield);
-                            let ctext = document.createElement('text')
-                            ctext.innerText = json[it].fields[i].checkbox_label;
-                            checkboxLabel.appendChild(ctext)
-                            hBox.appendChild(checkboxLabel);
-                            break;
+                            let radioLabel = document.createElement('label');
+                            radioLabel.setAttribute('for', "kes-radio-" + j);
+                            radioLabel.className = ("kes-radio-label");
+                            radioLabel.innerText = json[it].fields[i].values[j];
+                            radioDiv.appendChild(radioField);
+                            radioDiv.appendChild(radioLabel);
+                            let br = document.createElement('br');
+                            radioDiv.appendChild(br);
                         }
-                        default: {
-                            const field = document.createElement('input');
-                            field.setAttribute("type", fieldType);
-                            if (!modSettings[key]) {
-                                field.setAttribute("value", initial);
-                            } else {
-                                field.setAttribute("value", modSettings[key])
-                            }
-                            field.setAttribute("kes-iter", it);
-                            field.setAttribute("kes-key", key);
-                            hBox.appendChild(field);
-                            hBox.appendChild(br);
+                        hBox.appendChild(radioDiv);
+                        hBox.appendChild(br);
+                        break;
+                    }
+                    case "checkbox": {
+                        const checkboxLabel = document.createElement('label');
+                        const cfield = document.createElement('input');
+                        cfield.setAttribute("type", fieldType);
+                        if (!modSettings[key]) {
+                            cfield.checked = initial
+                        } else {
+                            cfield.checked = modSettings[key]
                         }
+                        cfield.setAttribute("kes-iter", it);
+                        cfield.setAttribute("kes-key", key);
+                        checkboxLabel.appendChild(cfield);
+                        let ctext = document.createElement('text')
+                        ctext.innerText = json[it].fields[i].checkbox_label;
+                        checkboxLabel.appendChild(ctext)
+                        hBox.appendChild(checkboxLabel);
+                        break;
+                    }
+                    default: {
+                        const field = document.createElement('input');
+                        field.setAttribute("type", fieldType);
+                        if (!modSettings[key]) {
+                            field.setAttribute("value", initial);
+                        } else {
+                            field.setAttribute("value", modSettings[key])
+                        }
+                        field.setAttribute("kes-iter", it);
+                        field.setAttribute("kes-key", key);
+                        hBox.appendChild(field);
+                        hBox.appendChild(br);
+                    }
                     }
                 }
             }
@@ -725,8 +725,8 @@ function constructMenu (json, layoutArr, isNew) {
             const incog = safeGM("info").isIncognito;
             const kesUserSettings = localStorage["kes-settings"];
             const toPaste = `OS: ${userPlatform}\nAgent: ${userAgent}\nKES version: ${version}\nHandler: ${handler}\nIncog: ${incog}\nSettings: ${kesUserSettings}`
-                navigator.clipboard.writeText(toPaste);
-                debugClip.className = clipClass + " " + layoutArr.header.check;
+            navigator.clipboard.writeText(toPaste);
+            debugClip.className = clipClass + " " + layoutArr.header.check;
             function revertIcon () {
                 debugClip.className = "kes-debug-clipboard " + layoutArr.header.clipboard
             }

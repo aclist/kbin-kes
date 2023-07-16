@@ -10,7 +10,7 @@ const customPanelCss = `
     }
 `
 safeGM('addStyle',customPanelCss);
-function startup() {
+function startup () {
     const notiPanel = document.querySelector('li.notification-button');
     if (notiPanel === null) {
         const parentElement = document.querySelector('.header .kbin-container');
@@ -41,7 +41,7 @@ function startup() {
                 listItem.appendChild(counterElement);
             }
 
-            function toggleIframe() {
+            function toggleIframe () {
                 const existingIframe = listItem.querySelector('.notifications-iframe');
 
                 if (existingIframe) {
@@ -91,12 +91,12 @@ function startup() {
     }
 }
 
-function shutdown() {
+function shutdown () {
     const notiPanel = document.querySelector('li.notification-button');
     notiPanel.remove();
 }
 
-function notificationsPanel(toggle) {
+function notificationsPanel (toggle) {
     if (toggle) {
         startup();
     } else {

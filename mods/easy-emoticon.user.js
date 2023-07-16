@@ -164,9 +164,9 @@ function displayCommandsModal () {
    margin-bottom: 10px;
 `;
 
-const creds = document.createElement('p');
-creds.innerHTML = `<a href="https://kbin.social/u/minnieo" target="_blank">by minnie</a>`
-creds.style.cssText = `
+    const creds = document.createElement('p');
+    creds.innerHTML = `<a href="https://kbin.social/u/minnieo" target="_blank">by minnie</a>`
+    creds.style.cssText = `
     opacity: 0.3;
     display: flex;
     justify-content: center;

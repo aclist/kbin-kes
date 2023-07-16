@@ -149,27 +149,27 @@ function kfaInitClasses () {
     });
 
     document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
-            if (!(comment.classList.value.split(' ').some(r=> classList.indexOf(r) >= 0))) {
-                let commentHeader = comment.querySelector('header');
-                const userInfo = commentHeader.querySelector('a.user-inline');
-                if (userInfo) {
-                    const userHostname = userInfo.title.split('@').reverse()[0];
-                    let commentIndicator = document.createElement('div');
+        if (!(comment.classList.value.split(' ').some(r=> classList.indexOf(r) >= 0))) {
+            let commentHeader = comment.querySelector('header');
+            const userInfo = commentHeader.querySelector('a.user-inline');
+            if (userInfo) {
+                const userHostname = userInfo.title.split('@').reverse()[0];
+                let commentIndicator = document.createElement('div');
 
-                    if (kfaIsStrictlyModerated(userHostname)) {
-                        comment.classList.toggle('data-moderated');
-                        commentIndicator.classList.toggle('data-moderated');
-                    } else if (userHostname !== window.location.hostname) {
-                        comment.classList.toggle('data-federated');
-                        commentIndicator.classList.toggle('data-federated');
-                    } else {
-                        comment.classList.toggle('data-home');
-                        commentIndicator.classList.toggle('data-home');
-                    }
-                    commentHeader.prepend(commentIndicator);
+                if (kfaIsStrictlyModerated(userHostname)) {
+                    comment.classList.toggle('data-moderated');
+                    commentIndicator.classList.toggle('data-moderated');
+                } else if (userHostname !== window.location.hostname) {
+                    comment.classList.toggle('data-federated');
+                    commentIndicator.classList.toggle('data-federated');
+                } else {
+                    comment.classList.toggle('data-home');
+                    commentIndicator.classList.toggle('data-home');
                 }
+                commentHeader.prepend(commentIndicator);
             }
-        });
+        }
+    });
 }
 
 let kfaInjectedCss;
