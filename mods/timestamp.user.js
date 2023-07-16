@@ -29,7 +29,6 @@ function updateTime (toggle) {
                 time.innerText = localAsISO;
                 break;
             default:
-                return
                 break;
             }
         });
