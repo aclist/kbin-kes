@@ -336,7 +336,7 @@ There is no need to include additional onload event listeners or mutation observ
 at the top level by KES.
 
 
-=== API
+=== Compatibility API
 
 For compatibility between *monkey extensions, KES provides a shim function called `safeGM()` into which GM API commands can be passed.
 safeGM accepts the name of a GM API function and its respective arguments. Under the hood, safeGM merely passes the function call to the respective
