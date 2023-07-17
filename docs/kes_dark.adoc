@@ -2,6 +2,8 @@
 :toc: left
 :stylesheet: custom.css
 :icons: font
+:iconfont-remote:
+:iconfont-cdn: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css
 
 = kbin Enhancement Suite (KES)
 Add-on manager for kbin enhancement scripts | Last updated: {d}
