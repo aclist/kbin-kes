@@ -80,7 +80,6 @@ const customStyleElementCss = `
             border:0
         }
 `
-
 safeGM('addStyle',customPanelCss);
 function startup () {
     const notiPanel = document.querySelector('li.notification-button');
@@ -112,7 +111,6 @@ function startup () {
                 counterElement.classList.add('notification-counter');
                 listItem.appendChild(counterElement);
             }
-
             function toggleIframe () {
                 const existingIframe = listItem.querySelector('.notifications-iframe');
 
