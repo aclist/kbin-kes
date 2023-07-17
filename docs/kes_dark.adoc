@@ -1,6 +1,6 @@
 :nofooter:
 :toc: left
-:stylesheet: dark.css
+:stylesheet: custom.css
 :icons: font
 
 = kbin Enhancement Suite (KES)
@@ -61,8 +61,34 @@ On devices where the menu doesn't take up the whole screen, it can be docked to 
 icon in the top right corner of the menu. Clicking the arrow again will undock the menu. Docking could also be used to hide the interface
 out of the way in order to see changes that would otherwise be occluded by the main menu.
 
+=== Header and footer buttons
+
+icon:flask[] **Changelog**: a link to the KES changelog, listing all user-facing changes to date.
+
+icon:eye-slash[] **Transparent Mode**: hides the KES menu so that you can "see through" to the rest of the page and inspect how changes were applied.
+This mode draws a thin border around the screen edge to indicate you are in a special mode. Click anywhere on the screen to revert to
+the KES menu.
+
+icon:arrow-down[] **Docked Mode**: docks the KES menu to the bottom of the screen in a smaller size.
+
+icon:times[] **Close**: closes the KES menu.
+
+icon:clipboard[] **Copy system info**: click to copy system information to the clipboard for use when submitting a bug report. The information copied is:
+
+- Operating system
+- User agent (identifies the type of browser)
+- KES version number
+- Script handler (GreaseMonkey, TamperMonkey, etc.)
+- Incognito: whether private browsing is on (used to troubleshoot issues)
+- Settings: the currently saved KES settings, such as which options are on, and what settings they have
+
+Reset button: prompts the user to confirm whether they would like to reset all internal KES settings to the default. This reverts the state of toggles to
+OFF and flushes any custom settings.
+
 === Settings
 The toggle state of a modification and its settings will be saved and persist across browser sessions.
+
+=== Troubleshooting
 
 To submit a bug report/feature request or visit the KES home page, follow the links shown within the KES menu itself, or navigate
 https://github.com/aclist/kbin-kes/issues/new/choose[here].
@@ -218,11 +244,11 @@ Custom input fields are themselves optional, but if the `fields` array above has
 |Key|Optional?|Type|Value
 
 |type||string
-a|The input field type. Available types are `select`, `radio`, `checkbox`, and miscellaneous single-value types defined https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input[here]
+a|The input field type. Available types are `select`, `radio`, `checkbox`, `reset`, and miscellaneous single-value types defined https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input[here]. If using `reset`, limit to one per script.
 |initial||string (if checkbox, bool)|The initial value the field is set to
 |key||string
 a|A unique key for this setting, stored under the object namespace defined in Table 1. This key is parsed by the recipient script in the format `namespace.key` in order to extract user-defined settings
-|label|yes|string|A descriptive label of what the setting does, printed above the input field
+|label||string|A descriptive label of what the setting does, printed above the input field
 |values
 a|required if `type` is `select` or `radio`|array of strings|If the type is `select` or `radio`, an array of user-facing labels, which also function as values, used to populate each option
 |checkbox_label
@@ -233,6 +259,10 @@ a|required if `type` is `range` or `number`|int|The minimum value in the range
 a|required if `type` is `range` or `number`|int|The maximum value in the range
 |step
 a|optional if `type` is `number`|int|The interval by which to increment/decrement the range
+|show_value|required if `type` is `range`|bool|Whether to print the current numerical value of the range slider
+|catch_reset
+a|required if `type` is `reset`|array of strings|The verbatim names of input field keys that should respond to reset button events. When a reset
+button is pressed, those named fields will reset to their `initial` values
 
 |===
 
@@ -310,7 +340,7 @@ For compatibility between *monkey extensions, KES provides a shim function calle
 safeGM accepts the name of a GM API function and its respective arguments. Under the hood, safeGM merely passes the function call to the respective
 GM API prefix depending on whether the extension uses the underscore namespace or the GM 4.0 Promise API.
 
-In addition, safeGM natively reimplements some function calls that were dropped in GM 4.0 but are available in other extensions, (as of this 
+In addition, safeGM natively reimplements some function calls that were dropped in GM 4.0 but are available in other extensions (as of this
 writing, `GM_addStyle`).
 
 These changes happen invisibly when calling safeGM, so it is enough to pass one of the function names below with the arguments you would typically pass
@@ -322,7 +352,10 @@ to such a function:
 - xmlhttpRequest
 - setClipboard
 
-Note that if using setValue, getValue, and xmlHttpRequest, you may need to call safeGM asynchronously and await the results to support GM 4.0.
+Additional, `GM_info` can be invoked using `safeGM("info")` and the properties of the resulting object parsed out, e.g., `safeGM("info").script.version`.
+
+Note that if using setValue, getValue, and xmlHttpRequest, you will need to call safeGM asynchronously and await the results to support GM 4.0. This
+should generally not be necessary, as KES handles storage of settings.
 
 Also note that getResourceText is not available in GM 4.0, so in the unlikely event that you need to use this function in a script, you should fall
 back on xmlhttpRequest and parse the results on callback.
@@ -396,6 +429,6 @@ complex workflows; scripts that make highly opinionated changes or themselves cr
 - MUST NOT: spaces in curly objects
 - PREFER: 80 line width
 
-See .eslintrc.json for details.
+See `.eslintrc.json` in the repository root for details.
 
 - PREFER: https://www.conventionalcommits.org/en/v1.0.0/[conventional commits]
