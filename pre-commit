@@ -55,6 +55,8 @@ bump_vers(){
         git add $version_file
         git add $master_file
         git add package.json
+        git tag $newvers
+        git push origin $newvers
 }
 
 echo "This commit change is of type:"
