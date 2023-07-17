@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+version=$(cat VERSION)
+git tag $version 2>/dev/null
+rc=$?
+[[ $rc -eq 0 ]] && git push origin $version
