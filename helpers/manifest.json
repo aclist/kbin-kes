@@ -546,38 +546,6 @@
     "page": "navbar"
   },
   {
-    "name": "Catch Reset Test",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "TEST",
-    "desc": "TEST",
-    "login": false,
-    "recurs": true,
-    "entrypoint": "catchResetInit",
-    "namespace": "catchResetTest",
-    "catch_reset": [
-      "firstNumber",
-      "secondNumber"
-    ],
-    "fields": [
-      {
-        "type": "reset",
-        "key": "resetAllFields"
-      },
-      {
-        "type": "number",
-        "initial": 12,
-        "key": "firstNumber"
-      },
-      {
-        "type": "number",
-        "initial": 12,
-        "key": "secondNumber"
-      }
-    ],
-    "page": "debug"
-  },
-  {
     "name": "Notifications panel",
     "author": "blobcat",
     "version": "0.2.8",
