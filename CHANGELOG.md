@@ -3,13 +3,13 @@ All notable changes to this project will be documented in this file.
 ## 2.0.0
 ### Added
 - Transparent Mode: click the icon to see behind the KES menu and check changes on the page; click again to return
-- Notifier on wrench icon if updates are available
-- Reset button: clear all saved settings and reset
+- Notifier on wrench icon if updates to KES are available
+- Reset button: clear all saved KES settings and reset
 - Clipboard button: copy system information to clipboard (for bug reports)
 - Support for multiple authors in attribution field
 - Support for number field minimum, maximum, and step increments
-- Debug page to sidebar
-- Bug-report-from-post: post contents directly to KES bug tracker
+- Debug page on sidebar
+- Bug-report-from-post: post contents of a message directly to the KES bug tracker
 ### Fixed
 - Support across -monkey extensions (GM, TM, VM)
 - Proper link format for authors on other instances
