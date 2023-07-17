@@ -8,6 +8,7 @@ desc="Kbin Enhancement Suite"
 branch=$(git name-rev --name-only HEAD)
 base_file="kes.user.js"
 manifest="./helpers/manifest.json"
+[[ $branch =~ ^release/ ]]  && branch="main"
 [[ $branch != "main" ]]  && branch="testing"
 slug="${author}/kbin-kes"
 
