@@ -46,7 +46,6 @@
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/nav-icons.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/notifications-panel.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/report-bug.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/reset.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/subs.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/timestamp.user.js
 // @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json
@@ -57,7 +56,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, bugReportInit, catchResetInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -79,7 +78,6 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 const funcObj = {
     addMail: addMail,
     bugReportInit: bugReportInit,
-    catchResetInit: catchResetInit,
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
     hideDownvotes: hideDownvotes,
@@ -100,7 +98,6 @@ const funcObj = {
     userInstanceEntry: userInstanceEntry
 };
 //END AUTO MASTHEAD
-
 
 async function checkUpdates (response) {
     const newVersion = await response.responseText.trim();
