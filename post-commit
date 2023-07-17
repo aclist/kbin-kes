@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
+echo "Generating tags"
 version=$(cat VERSION)
 git tag $version 2>/dev/null
 rc=$?
-[[ $rc -eq 0 ]] && git push origin $version
+if [[ $rc -eq 0 ]]; then
+    echo "Found new tag for $version"
+    git push origin $version
+fi
