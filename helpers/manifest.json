@@ -451,7 +451,9 @@
         "key": "logotype",
         "values": [
           "Hidden",
-          "Kibby"
+	  "Kbin (no text)",
+          "Kibby",
+	  "Kibby (no text)"
         ]
       }
     ]
