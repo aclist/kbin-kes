@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
-echo "Generating tags"
 version=$(cat VERSION)
-git tag $version 2>/dev/null
-rc=$?
-if [[ $rc -eq 0 ]]; then
-    echo "Found new tag for $version"
-    git push origin $version
+branch=$(git name-rev --name-only HEAD)
+if [[ ! $branch =~ release/ ]]; then
+    echo "Generating tags"
+    git tag $version 2>/dev/null
+    rc=$?
+    if [[ $rc -eq 0 ]]; then
+        echo "Found new tag for $version"
+        git push origin $version
+    fi
 fi
