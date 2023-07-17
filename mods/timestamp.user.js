@@ -1,6 +1,6 @@
 const ns = 'timestamp'
 
-function updateTime(toggle) {
+function updateTime (toggle) {
     let times = document.querySelectorAll('.timeago')
     const settings = getModSettings(ns);
     if (toggle) {
@@ -22,15 +22,14 @@ function updateTime(toggle) {
             let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
             let offset = "offset";
             switch (settings[offset]) {
-                case "UTC":
-                    time.innerText = cleanISOTime;
-                    break;
-                case "Local time":
-                    time.innerText = localAsISO;
-                    break;
-                default:
-                    return
-                    break;
+            case "UTC":
+                time.innerText = cleanISOTime;
+                break;
+            case "Local time":
+                time.innerText = localAsISO;
+                break;
+            default:
+                break;
             }
         });
     } else {

@@ -8,20 +8,20 @@ const kfaHasStrictModerationRules = [
     'lemmy.ml'
 ];
 
-function kfaIsStrictlyModerated(hostname) {
+function kfaIsStrictlyModerated (hostname) {
     return kfaHasStrictModerationRules.indexOf(hostname) !== -1;
 }
 
-function kfaComponentToHex(c) {
+function kfaComponentToHex (c) {
     const hex = c.toString(16);
     return hex.length == 1 ? "0" + hex : hex;
 }
 
-function kfaRgbToHex(r, g, b) {
+function kfaRgbToHex (r, g, b) {
     return "#" + kfaComponentToHex(r) + kfaComponentToHex(g) + kfaComponentToHex(b);
 }
 
-function kfaHexToRgb(hex) {
+function kfaHexToRgb (hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
         r: parseInt(result[1], 16),
@@ -30,7 +30,7 @@ function kfaHexToRgb(hex) {
     } : null;
 }
 
-function kfaSubtractColor(hex, amount) {
+function kfaSubtractColor (hex, amount) {
     let rgb = kfaHexToRgb(hex);
     if (rgb.r > amount) {
         rgb.r -= amount;
@@ -50,15 +50,15 @@ function kfaSubtractColor(hex, amount) {
     return kfaRgbToHex(rgb.r, rgb.g, rgb.b);
 }
 
-function kfaGetCss() {
+function kfaGetCss () {
     let fedColor0 = kfaSettingsFed;
     let fedColor1 = kfaSubtractColor(fedColor0, 50);
     let fedColor2 = kfaSubtractColor(fedColor1, 50);
     let fedColor3 = kfaSubtractColor(fedColor2, 50);
     let modColor0 = kfaSettingsMod;
     let modColor1 = kfaSubtractColor(modColor0, 50);
-    let modColor2 = kfaSubtractColor(modColor1, 50);;
-    let modColor3 = kfaSubtractColor(modColor2, 50);;
+    let modColor2 = kfaSubtractColor(modColor1, 50);
+    let modColor3 = kfaSubtractColor(modColor2, 50);
     let homeColor0 = kfaSettingsHome;
     let homeColor1 = kfaSubtractColor(homeColor0, 50);
     let homeColor2 = kfaSubtractColor(homeColor1, 50);
@@ -106,23 +106,23 @@ function kfaGetCss() {
     }
 }
 
-function kfaStartup() {
+function kfaStartup () {
     kfaInitClasses();
-    kfaInjectedCss = GM_addStyle(kfaGetCss());
+    kfaInjectedCss = safeGM("addStyle",kfaGetCss());
 }
 
-function kfaShutdown() {
+function kfaShutdown () {
     if (kfaInjectedCss) {
         kfaInjectedCss.remove();
     }
 }
 
-function kfaRestart() {
+function kfaRestart () {
     kfaShutdown();
     kfaStartup();
 }
 
-function kfaInitClasses() {
+function kfaInitClasses () {
     const classList = [
         'data-moderated',
         'data-federated',
@@ -148,28 +148,28 @@ function kfaInitClasses() {
         }
     });
 
-    document.querySelectorAll('.comments blockquote.entry-comment').forEach(function(comment) {
-            if (!(comment.classList.value.split(' ').some(r=> classList.indexOf(r) >= 0))) {
-                let commentHeader = comment.querySelector('header');
-                const userInfo = commentHeader.querySelector('a.user-inline');
-                if (userInfo) {
-                    const userHostname = userInfo.title.split('@').reverse()[0];
-                    let commentIndicator = document.createElement('div');
+    document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
+        if (!(comment.classList.value.split(' ').some(r=> classList.indexOf(r) >= 0))) {
+            let commentHeader = comment.querySelector('header');
+            const userInfo = commentHeader.querySelector('a.user-inline');
+            if (userInfo) {
+                const userHostname = userInfo.title.split('@').reverse()[0];
+                let commentIndicator = document.createElement('div');
 
-                    if (kfaIsStrictlyModerated(userHostname)) {
-                        comment.classList.toggle('data-moderated');
-                        commentIndicator.classList.toggle('data-moderated');
-                    } else if (userHostname !== window.location.hostname) {
-                        comment.classList.toggle('data-federated');
-                        commentIndicator.classList.toggle('data-federated');
-                    } else {
-                        comment.classList.toggle('data-home');
-                        commentIndicator.classList.toggle('data-home');
-                    }
-                    commentHeader.prepend(commentIndicator);
+                if (kfaIsStrictlyModerated(userHostname)) {
+                    comment.classList.toggle('data-moderated');
+                    commentIndicator.classList.toggle('data-moderated');
+                } else if (userHostname !== window.location.hostname) {
+                    comment.classList.toggle('data-federated');
+                    commentIndicator.classList.toggle('data-federated');
+                } else {
+                    comment.classList.toggle('data-home');
+                    commentIndicator.classList.toggle('data-home');
                 }
+                commentHeader.prepend(commentIndicator);
             }
-        });
+        }
+    });
 }
 
 let kfaInjectedCss;
@@ -181,7 +181,7 @@ let kfaSettingsStyle;
 let kfaSettingsScale;
 let kfaLastToggleState = false;
 
-function initKFA(toggle) {
+function initKFA (toggle) {
     if (toggle) {
         const settings = getModSettings('kbinFedAware');
         kfaSettingsFed = settings['kfaFedColor'];

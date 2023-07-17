@@ -91,7 +91,7 @@ ourSection.className = 'kmo-settings-list';
 document.querySelector('#settings.section').appendChild(ourSection);
 const settingsList = ourSection;
 
-function kmoAddHeader(title, info = {}) {
+function kmoAddHeader (title, info = {}) {
     if (typeof title === 'undefined') {
         throw new Error('kmoAddHeader - title is undefined')
     }
@@ -141,7 +141,7 @@ function kmoAddHeader(title, info = {}) {
     return childDiv;
 }
 
-function kmoToggleSettings(toggle, settingDiv) {
+function kmoToggleSettings (toggle, settingDiv) {
     if (typeof toggle === 'undefined') {
         throw new Error('kmoToggleSettings - toggle is undefined');
     }
@@ -153,7 +153,7 @@ function kmoToggleSettings(toggle, settingDiv) {
     settingDiv.classList.toggle('expanded');
 }
 
-function kmo_createSettingRow(title = '') {
+function kmo_createSettingRow (title = '') {
     const settingDiv = document.createElement('div');
     settingDiv.className = 'row';
     settingDiv.style = 'align-items: center;';
@@ -163,14 +163,14 @@ function kmo_createSettingRow(title = '') {
     return settingDiv;
 }
 
-function kmo_createSettingName(name) {
+function kmo_createSettingName (name) {
     const settingSpan = document.createElement('span');
     settingSpan.style = 'margin-left: 10px;';
     settingSpan.textContent = name;
     return settingSpan;
 }
 
-function kmo_createDropDownOption(name, value, selected = false) {
+function kmo_createDropDownOption (name, value, selected = false) {
     const option = document.createElement('option');
     option.innerHTML = name;
     option.label = name;
@@ -181,7 +181,7 @@ function kmo_createDropDownOption(name, value, selected = false) {
     return option;
 }
 
-function kmoAddToggle(settingDiv, settingName, currentValue, description = '') {
+function kmoAddToggle (settingDiv, settingName, currentValue, description = '') {
     if (typeof settingDiv === 'undefined') {
         throw new Error('kmoAddToggle - settingDiv is undefined');
     }
@@ -214,11 +214,11 @@ function kmoAddToggle(settingDiv, settingName, currentValue, description = '') {
     return toggleInput;
 }
 
-function kmoGetToggle(toggle) {
+function kmoGetToggle (toggle) {
     return toggle.checked;
 }
 
-function kmoAddDropDown(settingDiv, settingName, options, currentValue, description = '') {
+function kmoAddDropDown (settingDiv, settingName, options, currentValue, description = '') {
     if (typeof settingDiv === 'undefined') {
         throw new Error('kmoAddDropDown - settingDiv is undefined');
     }
@@ -252,11 +252,11 @@ function kmoAddDropDown(settingDiv, settingName, options, currentValue, descript
     return dropDown;
 }
 
-function kmoGetDropDown(dropDown) {
+function kmoGetDropDown (dropDown) {
     return dropDown.value;
 }
 
-function kmoAddButton(settingDiv, settingName, buttonLabel, description = '') {
+function kmoAddButton (settingDiv, settingName, buttonLabel, description = '') {
     if (typeof settingDiv === 'undefined') {
         throw new Error('kmoAddButton - settingDiv is undefined');
     }
@@ -277,7 +277,7 @@ function kmoAddButton(settingDiv, settingName, buttonLabel, description = '') {
     return button;
 }
 
-function kmoAddColorDropper(settingDiv, settingName, currentColor, description = '') {
+function kmoAddColorDropper (settingDiv, settingName, currentColor, description = '') {
     if (typeof settingDiv === 'undefined') {
         throw new Error('kmoAddColorDropper - settingDiv is undefined');
     }
