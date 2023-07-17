@@ -150,7 +150,6 @@ main(){
     gen_consts
     gen_object
     echo "//END AUTO MASTHEAD"
-    echo ""
     awk 'x==1 {print $0} /END AUTO MASTHEAD/{x=1}' $base_file.bak
 }
 readarray -t funcs < <(<$manifest jq -r '.[].entrypoint' | sort)
