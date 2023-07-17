@@ -6,10 +6,11 @@ All notable changes to this project will be documented in this file.
 - Notifier on wrench icon if updates to KES are available
 - Reset button: clear all saved KES settings and reset
 - Clipboard button: copy system information to clipboard (for bug reports)
+- Notifications Panel (@blobcat): adds a navbar bell icon that opens notifications in an iframe
+- Bug-report-from-post: post contents of a message directly to the KES bug tracker
 - Support for multiple authors in attribution field
 - Support for number field minimum, maximum, and step increments
 - Debug page on sidebar
-- Bug-report-from-post: post contents of a message directly to the KES bug tracker
 ### Fixed
 - Support across -monkey extensions (GM, TM, VM)
 - Proper link format for authors on other instances
