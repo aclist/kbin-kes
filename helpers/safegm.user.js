@@ -32,8 +32,7 @@ function genericXMLRequest (url, callback) {
         headers: {
             "User-Agent": "Mozilla/5.0",
             "Accept": "text/xml"
-        },
-
+        }
     });
 }
 
