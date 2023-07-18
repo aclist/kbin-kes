@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-beta.51
+// @version      2.0.0-beta.52
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -266,6 +266,21 @@ function constructMenu (json, layoutArr, isNew) {
             transparentModal.remove();
             showSettingsModal();
         });
+    }
+    function activeModCount(){
+        const set = JSON.parse(localStorage["kes-settings"])
+        const totalMods = Object.keys(set).length
+        let activeMods = 0
+        let c
+        let key
+        for (key in set) {
+            c = set[key]
+            if (c === true) {
+                ++activeMods
+            }
+        }
+        let modsHR = " (" + activeMods + "/" + totalMods + ")"
+        return modsHR
     }
 
     function showSettingsModal () {
@@ -664,8 +679,15 @@ function constructMenu (json, layoutArr, isNew) {
                     crumbsRoot.innerHTML = '<h2>' + headerTitle + ' ' +
                         '<i class="' + layoutArr.header.separator + '"></i> ' +
                         tabName + '</h2>';
+                    let crumbsChild = crumbsRoot.children[0]
+                    let modCounter = document.createElement('text');
+                    crumbsChild.appendChild(modCounter);
+                    modCounter.className = "kes-mod-count"
                 }
             }
+
+            updateCrumbs();
+
             if (pageToOpen.length > 0) {
                 let lp = settings["lastPage"];
                 if (lp) {
@@ -825,6 +847,11 @@ function constructMenu (json, layoutArr, isNew) {
         }
         openTab(startPage);
     }
+    function updateCrumbs(){
+        const myMods = activeModCount();
+        let modCount = document.querySelector('.kes-mod-count')
+        modCount.innerText = myMods
+    }
 
     function updateState (target) {
         //get master settings
@@ -858,6 +885,8 @@ function constructMenu (json, layoutArr, isNew) {
         //save and apply checkbox state
         saveSettings(settings);
         saveModSettings(modSettings, ns);
+
+        updateCrumbs();
         //necessarily reload the page when verbose timestamps are toggled off
         //otherwise, triggers a loop of mutations because reverting timeago mutates the watched node
         if ((func === "updateTime") && (state === false)) {
