@@ -27,7 +27,7 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/code-highlighting.user.js
@@ -61,7 +61,7 @@
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
-const branch = "testing"
+const branch = "main"
 const helpersPath = "helpers/"
 const branchPath = repositoryURL + "raw/" + branch + "/"
 const versionFile = branchPath + "VERSION";
