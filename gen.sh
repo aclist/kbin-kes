@@ -63,12 +63,11 @@ gen_grants(){
 gen_extra(){
 cat<<-EOF
 	// @icon	https://kbin.social/favicon.svg
-	// @connect	raw.githubusercontent.com
 	// @connect	github.com
 EOF
 }
 gen_requires(){
-    prefix="https://raw.githubusercontent.com/$slug/$branch/"
+    prefix="https://github.com/$slug/raw/$branch/"
     deps=(
         "safegm.user.js"
     )
