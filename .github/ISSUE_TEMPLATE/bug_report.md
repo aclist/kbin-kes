@@ -26,6 +26,10 @@ If applicable, add screenshots to help explain your problem.
 **KES version:**
 - Version number [e.g. 1.0.0]
 
+**Extension and version:**
+- Extension: [e.g., TamperMonkey/GreaseMonkey]
+- Version number: [e.g. 1.0.0]
+
 **Desktop (please complete the following information):**
  - OS: [e.g. Ubuntu Linux]
  - Browser [e.g. chrome, safari]
