@@ -27,32 +27,32 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/code-highlighting.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/dropdown.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/easy-emoticon.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/hide-logo.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/hide-sidebar.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/hide-thumbs.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/hide-votes.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/improved-collapsible-comments.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/instance-names.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/kbin-federation-awareness.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/kbin-mod-options.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/label.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/mail.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/nav-icons.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/notifications-panel.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/report-bug.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/subs.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/timestamp.user.js
-// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json
-// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/manifest.json
-// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/kes.css
-// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
-// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/code-highlighting.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/dropdown.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/easy-emoticon.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/hide-logo.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/hide-sidebar.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/hide-thumbs.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/hide-votes.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/improved-collapsible-comments.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/instance-names.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/kbin-federation-awareness.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/kbin-mod-options.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/label.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/mail.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/nav-icons.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/notifications-panel.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/report-bug.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/subs.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/mods/timestamp.user.js
+// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/helpers/ui.json
+// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/helpers/manifest.json
+// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/helpers/kes.css
+// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/kes.user.js
+// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/patch-notipanel/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
@@ -61,7 +61,7 @@
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
-const branch = "testing"
+const branch = "patch-notipanel"
 const helpersPath = "helpers/"
 const branchPath = repositoryURL + "raw/" + branch + "/"
 const versionFile = branchPath + "VERSION";
