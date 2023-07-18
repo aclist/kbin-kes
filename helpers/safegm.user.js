@@ -1,6 +1,6 @@
 let gmPrefix
-let dotPrefix = "GM."
-let underPrefix = "GM_"
+const dotPrefix = "GM."
+const underPrefix = "GM_"
 try {
     if (GM_info) {
         let scriptHandler = GM_info.scriptHandler;
@@ -20,7 +20,7 @@ try {
     console.log(error);
 }
 function addCustomCSS (css) {
-    var style = document.createElement('style');
+    const style = document.createElement('style');
     style.innerHTML = css;
     document.head.appendChild(style);
 }
@@ -38,7 +38,7 @@ function genericXMLRequest (url, callback) {
 
 window.safeGM = function (func,...args) {
     let use
-    let underscore = {
+    const underscore = {
         setValue (...args) { return GM_setValue(...args) },
         getValue (...args) { return GM_getValue(...args) },
         addStyle (...args) { return GM_addStyle(...args)},
@@ -47,7 +47,7 @@ window.safeGM = function (func,...args) {
         getResourceText (...args) { return GM_getResourceText(...args)},
         info () { return GM_info }
     }
-    let dot = {
+    const dot = {
         setValue (...args) { return GM.setValue(...args) },
         getValue (...args) { return GM.getValue(...args) },
         addStyle (...args) { return addCustomCSS(...args)},
