@@ -21,7 +21,7 @@ function initCollapsibleComments (toggle) {
 
         let observer = new MutationObserver(applyToNewPosts);
         observer.observe(document.body, { childList: true, subtree: true });
-        
+
         // Get settings
         const settings = getModSettings('collapsibleComments');
         const clickAnywhere = settings.click == "Anywhere on comments";
@@ -36,10 +36,14 @@ function initCollapsibleComments (toggle) {
 
 function initCollapsibleCommentsListeners (toggle) {
     // Get all comments
-    let comments = document.querySelectorAll('.entry-comment');
+    let comments = document.querySelectorAll('.entry-comment:not(.listened)');
+
 
     // Add event listeners to comments
     for (let i = 0; i < comments.length; i++) {
+        // Add class to comment
+        comments[i].classList.add('listened');
+
         if (!toggle) {
             // Get expando
             let expandos = comments[i].querySelectorAll('.expando');
@@ -420,9 +424,10 @@ function applyToNewPosts () {
     // Get all comment levels
     let levels = [];
     for (let i = 0; i < comments.length; i++) {
-        let level = comments[i].className.match(/comment-level--(\d)/)[1];
+        let level = comments[i].className.match(/comment-level--(\d+)/)[1];
         levels.push(level);
     }
 
+    console.log(levels);
     nestComments(comments,levels);
 }
