@@ -1,166 +1,200 @@
-const customPanelCss = `
-    #header .notification-button .badge {
-        font-size:.8em;padding:.1em .4em
+const spinnerCSS = `
+@keyframes spinner {
+    0% {
+        transform: translate3d(-50%, -50%, 0) rotate(0deg);
     }
-    #header menu .notification-button a:not(.fa-solid.fa-bell){
-    border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-left:1.6em
-    }
-    #header menu li a:has(~.notification-counter:hover){
-        border-bottom:var(--kbin-header-hover-border)
-    }
-`
-const customStyleElementCss = `
-        .pills,h1{
-             display:inline-block;
-        }
-         #middle,body{
-             background:var(--kbin-section-bg);
-        }
-         #footer,#header,#scroll-top,#sidebar,#subscription-panel,#topbar{
-             display:none!important;
-        }
-         #middle,.kbin-container{
-             margin-top:0!important
-        }
-         h1{
-             font-size:1rem;
-             padding-left:.5rem
-        }
-         .section--small{
-             padding:.5rem
-        }
-         .btn__secondary,form{
-             height:25px
-        }
-         .btn{
-             padding:0 6px
-        }
-         .page-notifications #main .notification{
-             grid-template-areas:"a a a b" "a a a b";
-            display:grid;
-             width:100%;
-            font-size:.8rem;
-            margin-bottom:0;
-            border-bottom:0;
-            border-left:0;
-            border-right:0
-        }
-         .page-notifications #main .notification:hover{
-             background:var(--kbin-bg)
-        }
-         .page-notifications #main .notification>div{
-             grid-area:a
-        }
-         .page-notifications #main .notification>span{
-             grid-area:b;
-        }
-         body::-webkit-scrollbar{
-             width:8px;
-        }
-         body::-webkit-scrollbar-track{
-             background:var(--kbin-section-bg)
-        }
-         body::-webkit-scrollbar-thumb{
-             background-color:rgb(112 112 112 / 50%);
-             border-radius:5px;
-             border:2px solid transparent;
-        }
-         .pills{
-             padding:0;
-             float:right;
-             margin:.67em;
-        }
-         html{
-            margin:0
-        }
-        body{
-            min-height:100vmax
-        }
-        .section--muted{
-            border:0
-        }
-`
-safeGM('addStyle',customPanelCss);
-function startup () {
-    const notiPanel = document.querySelector('li.notification-button');
-    if (notiPanel === null) {
-        const parentElement = document.querySelector('.header .kbin-container');
-        if (parentElement) {
-            const listItem = document.createElement('li');
-            listItem.classList.add('notification-button');
-            listItem.style.cursor = 'pointer';
-
-            const anchorElement = document.createElement('a');
-            anchorElement.textContent = ' ';
-            anchorElement.classList.add('fa-solid', 'fa-bell');
-            anchorElement.setAttribute('aria-label', 'Notifications');
-            anchorElement.setAttribute('title', 'Notifications');
-
-            listItem.appendChild(anchorElement);
-
-            const siblingElement = document.querySelector('.dropdown .login').parentElement;
-
-            if (siblingElement) {
-                siblingElement.parentElement.insertBefore(listItem, siblingElement);
-            }
-
-            const counterElement = document.querySelector('.counter > [href="/settings/notifications"]');
-
-            if (counterElement) {
-                counterElement.removeAttribute('href');
-                counterElement.classList.add('notification-counter');
-                listItem.appendChild(counterElement);
-            }
-            function toggleIframe () {
-                const existingIframe = listItem.querySelector('.notifications-iframe');
-
-                if (existingIframe) {
-                    existingIframe.remove();
-                } else {
-                    const iframe = document.createElement('iframe');
-                    iframe.src = 'https://' + window.location.hostname + '/settings/notifications';
-                    iframe.className = 'notifications-iframe dropdown__menu';
-                    iframe.style.cssText = `position:absolute;z-index:99;top:100%;right:0;left:auto;transform:rotateX(0) translateX(-50%);resize:vertical;min-height:360px;user-select:none;opacity:1;visibility:visible;`;
-
-                    listItem.appendChild(iframe);
-
-                    iframe.addEventListener('load', () => {
-                        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                        const links = iframeDocument.getElementsByTagName('a');
-
-                        for (let i = 0; i < links.length; i++) {
-                            links[i].addEventListener('click', (event) => {
-                                event.preventDefault();
-                                window.location.href = event.target.href;
-                            });
-                        }
-
-                        const styleElement = iframeDocument.createElement('style');
-                        styleElement.textContent = customStyleElementCss;
-                        iframeDocument.head.appendChild(styleElement);
-                    });
-                }
-            }
-
-
-            listItem.addEventListener('click', toggleIframe);
-
-            document.addEventListener('click', (event) => {
-                const target = event.target;
-                const isListItem = target === listItem || listItem.contains(target);
-                const isIframe = target.classList.contains('notifications-iframe');
-
-                if (!isListItem && !isIframe) {
-                    const existingIframe = listItem.querySelector('.notifications-iframe');
-                    if (existingIframe) {
-                        existingIframe.remove();
-                    }
-                }
-            });
-        }
+    100% {
+        transform: translate3d(-50%, -50%, 0) rotate(360deg);
     }
 }
+.loadingmsg::before {
+    animation: 1.5s linear infinite spinner;
+    animation-play-state: inherit;
+    border: solid 5px #cfd0d1;
+    border-bottom-color: #1c87c9;
+    border-radius: 50%;
+    content: "";
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform;
+}
+`;
+const iframeCSS = `
+position: absolute;
+z-index: 9999;
+top:100%;
+right: 0;
+left: auto;
+transform: rotateX(0)translateX(-50%);
+resize: vertical;
+min-height: 360px;
+user-select: none;
+opacity: 1;
+visibility: visible;
+`;
+const customPanelCss = `
+#header .notification-button .badge {
+    font-size:.8em;padding:.1em .4em
+}
+#header menu .notification-button a:not(.fa-solid.fa-bell){
+border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-left:1.6em
+}
+#header menu li a:has(~.notification-counter:hover){
+    border-bottom:var(--kbin-header-hover-border)
+}
+`;
 
+const clickModalCSS = `
+position: fixed;
+z-index: 98;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+`
+async function insertMsgs (response) {
+    let iff = document.querySelector('.notifications-iframe')
+    var parser = new DOMParser();
+    var notificationsXML = parser.parseFromString(response.responseText, "text/html");
+    let sects = notificationsXML.querySelectorAll('.notification')
+    const links = []
+    const names = []
+    const times = []
+    const msgs = []
+
+    sects.forEach((item) => {
+        let rawName = item.querySelector('a:nth-of-type(1)').href
+        let hrName = rawName.split('/')[4]
+        let remoteMsg = item.querySelector('a:nth-of-type(2)').innerText
+        let rawLink = item.querySelector('a:nth-of-type(2)').href
+        let remoteLink = rawLink.replace('?id=','/')
+        let remoteTime = item.querySelector('.timeago').innerText;
+        names.push(hrName);
+        links.push(remoteLink);
+        times.push(remoteTime);
+        msgs.push(remoteMsg);
+    });
+    let div
+    let nameEl
+    let msgEl
+    let timeEl
+    let clearLoading = document.querySelector('.loadingmsg')
+    clearLoading.remove();
+    for(let i = 0; i < msgs.length; i++) {
+        div = document.createElement('div')
+        div.className = "noti-panel-message"
+
+        msgEl = document.createElement('a')
+        nameEl = document.createElement('a')
+        timeEl = document.createElement('text')
+
+        timeEl.innerText = times[i]
+        timeEl.style.cssText = "margin-left: 10px; color:white"
+        timeEl.className = "noti-panel-time"
+
+        msgEl.href= links[i]
+        msgEl.innerText = msgs[i]
+        msgEl.style.cssText = "margin-left: 10px"
+        msgEl.className = "noti-panel-snippet"
+
+        nameEl.href = "https://kbin.social/u/" + names[i];
+        nameEl.innerText = names[i];
+        nameEl.className = "noti-panel-sender"
+
+        div.appendChild(nameEl);
+        div.appendChild(msgEl);
+        div.appendChild(timeEl);
+        iff.appendChild(div);
+
+        //user-inline instance
+        //section section--small notification opacity-50
+        //timeago
+
+        //wrote a message => href="/profile"
+        //replied to your comment => everything else
+        //POST https://kbin.social/settings/notifications/clear
+        //POST https://kbin.social/settings/notifications/read
+    }
+}
+function startup () {
+    safeGM("addStyle",customPanelCss);
+    safeGM("addStyle",spinnerCSS);
+    build();
+}
+function toggleIframe (listItem) {
+    const existingIframe = listItem.querySelector('.notifications-iframe');
+
+    if (existingIframe) {
+        existingIframe.remove();
+        return
+    }
+
+    const iframe = document.createElement('div');
+    iframe.className = 'notifications-iframe dropdown__menu';
+    iframe.style.cssText = iframeCSS
+
+    console.log("making iframe")
+    let loading = document.createElement('div')
+    loading.className = "loadingmsg"
+    loading.style.cssText = spinnerCSS
+    iframe.appendChild(loading)
+
+    iframe.addEventListener('click', () => {
+        iframe.remove();
+    });
+
+    console.log("making click modal")
+    let clickModal = document.createElement('div')
+    clickModal.className = "clickmodal"
+    clickModal.style.cssText = clickModalCSS
+    clickModal.addEventListener('click', () => {
+        iframe.remove();
+        clickModal.remove();
+    })
+    document.querySelector('.kbin-container').appendChild(clickModal)
+    console.log("pushing frame below list")
+    listItem.appendChild(iframe);
+    genericXMLRequest("https://kbin.social/settings/notifications",insertMsgs);
+}
+function build () {
+    const notiPanel = document.querySelector('li.notification-button');
+    if (notiPanel) return
+    const parentElement = document.querySelector('.header .kbin-container');
+    if (parentElement) {
+        const listItem = document.createElement('li');
+        listItem.classList.add('notification-button');
+        listItem.style.cursor = 'pointer';
+
+        const anchorElement = document.createElement('a');
+        anchorElement.textContent = ' ';
+        anchorElement.classList.add('fa-solid', 'fa-bell');
+        anchorElement.setAttribute('aria-label', 'Notifications');
+        anchorElement.setAttribute('title', 'Notifications');
+
+        listItem.appendChild(anchorElement);
+
+        const siblingElement = document.querySelector('.dropdown .login').parentElement;
+
+        if (siblingElement) {
+            siblingElement.parentElement.insertBefore(listItem, siblingElement);
+        }
+
+        const counterElement = document.querySelector('.counter > [href="/settings/notifications"]');
+
+        if (counterElement) {
+            counterElement.removeAttribute('href');
+            counterElement.classList.add('notification-counter');
+            listItem.appendChild(counterElement);
+        }
+        listItem.addEventListener('click', () => {
+            toggleIframe(listItem)
+        });
+    }
+}
 function shutdown () {
     const notiPanel = document.querySelector('li.notification-button');
     notiPanel.remove();
