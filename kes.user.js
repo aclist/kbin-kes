@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-beta.53
+// @version      2.0.0
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -27,32 +27,32 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/helpers/safegm.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/code-highlighting.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/dropdown.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/easy-emoticon.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/hide-logo.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/hide-sidebar.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/hide-thumbs.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/hide-votes.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/improved-collapsible-comments.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/instance-names.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/kbin-federation-awareness.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/kbin-mod-options.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/label.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/mail.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/nav-icons.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/notifications-panel.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/report-bug.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/subs.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/mods/timestamp.user.js
-// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/helpers/ui.json
-// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/helpers/manifest.json
-// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/helpers/kes.css
-// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/kes.user.js
-// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/pre-release/2.0.0/kes.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/code-highlighting.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/dropdown.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/easy-emoticon.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/hide-logo.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/hide-sidebar.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/hide-thumbs.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/hide-votes.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/improved-collapsible-comments.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/instance-names.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/kbin-federation-awareness.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/kbin-mod-options.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/label.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/mail.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/nav-icons.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/notifications-panel.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/report-bug.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/subs.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/mods/timestamp.user.js
+// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/ui.json
+// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/manifest.json
+// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/kes.css
+// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/main/kes.user.js
+// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/main/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
@@ -61,7 +61,7 @@
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
-const branch = "pre-release/2.0.0"
+const branch = "main"
 const helpersPath = "helpers/"
 const branchPath = repositoryURL + "raw/" + branch + "/"
 const versionFile = branchPath + "VERSION";
