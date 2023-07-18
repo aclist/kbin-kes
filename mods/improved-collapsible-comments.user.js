@@ -19,8 +19,9 @@ function initCollapsibleComments (toggle) {
         applyToNewPosts();
         applyCommentStyles();
 
-        // let observer = new MutationObserver(applyToNewPosts);
-        // observer.observe(document.body, { childList: true, subtree: true });
+        let observer = new MutationObserver(applyToNewPosts);
+        observer.observe(document.body, { childList: true, subtree: true });
+        
         // Get settings
         const settings = getModSettings('collapsibleComments');
         const clickAnywhere = settings.click == "Anywhere on comments";
