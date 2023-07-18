@@ -267,7 +267,7 @@ function constructMenu (json, layoutArr, isNew) {
             showSettingsModal();
         });
     }
-    function activeModCount(){
+    function activeModCount () {
         const set = JSON.parse(localStorage["kes-settings"])
         const totalMods = Object.keys(set).length
         let activeMods = 0
@@ -847,7 +847,7 @@ function constructMenu (json, layoutArr, isNew) {
         }
         openTab(startPage);
     }
-    function updateCrumbs(){
+    function updateCrumbs () {
         const myMods = activeModCount();
         let modCount = document.querySelector('.kes-mod-count')
         modCount.innerText = myMods
