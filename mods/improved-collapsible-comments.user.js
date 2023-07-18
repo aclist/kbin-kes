@@ -428,6 +428,5 @@ function applyToNewPosts () {
         levels.push(level);
     }
 
-    console.log(levels);
     nestComments(comments,levels);
 }
