@@ -20,7 +20,7 @@ function initCollapsibleComments (toggle) {
         applyCommentStyles();
 
         let observer = new MutationObserver(applyToNewPosts);
-        observer.observe(document.body, { childList: true, subtree: true });
+        observer.observe(document.querySelector(".comments"), { childList: true, subtree: true });
 
         // Get settings
         const settings = getModSettings('collapsibleComments');
