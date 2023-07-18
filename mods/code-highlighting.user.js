@@ -1,18 +1,25 @@
-GM_addStyle(`
+safeGM("addStyle",`
     .collapsed {
         display: none !important;
     }
 `);
-function startup() {
+function kchStartup (firstBoot = false) {
+    if (firstBoot) {
         addHeaders('code');
+    } else {
+        addHeaders('code');
+    }
+    setCss(kchCssUrl);
 }
-function shutdown() {
-    injectedCss.remove();
+function kchShutdown () {
+    if (kchInjectedCss) {
+        kchInjectedCss.remove();
+    }
     $('.kch_header').remove();
 }
-function addTags(item) {
-    if (item.previousSibling){
-	    if(item.previousSibling.className === "hljs kch_header") return
+function addTags (item) {
+    if (item.previousSibling) {
+        if (item.previousSibling.className === "hljs kch_header") return
     }
     const orig_code = item.textContent;
     let lang;
@@ -34,19 +41,13 @@ function addTags(item) {
     icon.className = 'fa-solid fa-copy hljs-section';
     icon.setAttribute('aria-hidden', 'true');
     icon.style = 'margin-left: 10px; cursor: pointer;';
-    icon.onclick = function() {
-        document.execCommand('copy');
+    icon.onclick = function () {
+        navigator.clipboard.writeText(orig_code);
+        tooltip.style.display = 'inline';
+        setTimeout(function () {
+            tooltip.style.display = 'none';
+        }, 1000);
     }
-    icon.addEventListener('copy', function(event) {
-        event.preventDefault();
-        if (event.clipboardData) {
-            event.clipboardData.setData('text/plain', orig_code);
-            tooltip.style.display = 'inline';
-            setTimeout(function() {
-                tooltip.style.display = 'none';
-            }, 1000);
-        }
-    });
     const span_copied = document.createElement('span');
     span_copied.id = 'copied-tooltip';
     span_copied.innerHTML = 'COPIED!';
@@ -55,7 +56,7 @@ function addTags(item) {
     hide_icon.className = 'fa-solid fa-chevron-up hljs-section';
     hide_icon.setAttribute('aria-hidden', 'true');
     hide_icon.style = 'float: right; margin-right: 20px; cursor: pointer;';
-    hide_icon.addEventListener('click', function() {
+    hide_icon.addEventListener('click', function () {
         hide_icon.classList.toggle('fa-chevron-up');
         hide_icon.classList.toggle('fa-chevron-down');
         item.classList.toggle('collapsed');
@@ -66,51 +67,59 @@ function addTags(item) {
     header.appendChild(hide_icon);
     item.parentElement.prepend(header);
 }
-function addPreTag(parent, placement, code) {
+function addPreTag (parent, placement, code) {
     // For some reason, sometimes code isn't wrapped in pre. Let's fix that.
     const pre = document.createElement('pre');
     parent.replaceChild(pre, code);
     pre.appendChild(code);
     hljs.highlightElement(code);
 }
-function setCss(url) {
+function setCss (url) {
     // Downloads css files and sets them on page.
-    GM_xmlhttpRequest({
+    safeGM("xmlhttpRequest",{
         method: "GET",
         url: url,
         headers: {
             "Content-Type": "text/css"
         },
-        onload: function(response) {
-            injectedCss = GM_addStyle(response.responseText);
+        onload: function (response) {
+            injectedCss = safeGM("addStyle",response.responseText);
         }
     });
 }
-function addHeaders(selector) {
+function addHeaders (selector) {
     document.querySelectorAll('code').forEach(item => {
         const parent = item.parentElement;
         if (parent.nodeName !== 'PRE') {
             const placement = item.nextSibling;
             addPreTag(parent, placement, item);
         }
+        if (!(item.classList.contains('hljs'))) {
+            hljs.highlightElement(item);
+        }
         addTags(item);
     });
 }
-
-function initCodeHighlights(toggle) {
-    let injectedCss;
+let kchInjectedCss;
+let kchCssUrl;
+let kchLastToggleState = false;
+function initCodeHighlights (toggle) {
     if (toggle) {
         const settings = getModSettings("codehighlights");
         let myStyle = settings["style"];
-        let cssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
-        setCss(cssUrl); startup();
+        kchCssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
+        if (kchLastToggleState === false) {
+            kchLastToggleState = true;
+            kchStartup(true);
+        } else {
+            kchStartup();
+        }
         // Configure HLJS and enable.
         hljs.configure({
             ignoreUnescapedHTML: true
         });
         hljs.highlightAll();
     } else {
-        shutdown();
+        kchShutdown();
     }
 }
-

@@ -14,7 +14,7 @@ const localInstance = window.location.href.split('/')[2];
 const userInstanceObserver = new MutationObserver(showUserInstances);
 const magInstanceObserver = new MutationObserver(showMagInstances);
 
-function userInstanceEntry(toggle) {
+function userInstanceEntry (toggle) {
     if (toggle) {
         showUserInstances();
         userInstanceObserver.observe(document.body, { childList: true, subtree: true });
@@ -24,8 +24,8 @@ function userInstanceEntry(toggle) {
     }
 }
 
-function showUserInstances() {
-    $('.user-inline').each(function() {
+function showUserInstances () {
+    $('.user-inline').each(function () {
         if (!$(this).hasClass('instance')) {
             $(this).addClass('instance');
             // Get user's instance from their profile link
@@ -39,20 +39,20 @@ function showUserInstances() {
     });
 }
 
-function hideUserInstances() {
-    $('.user-inline.instance').each(function() {
+function hideUserInstances () {
+    $('.user-inline.instance').each(function () {
         $(this).removeClass('instance');
         $(this).html($(this).html().split('<span class="user-instance">@')[0]);
     });
 }
-function hideCommunityInstances() {
-    $('.magazine-inline.instance').each(function() {
+function hideCommunityInstances () {
+    $('.magazine-inline.instance').each(function () {
         $(this).removeClass('instance');
         $(this).html($(this).html().split('<span class="mag-instance">@')[0]);
     });
 }
 
-function magInstanceEntry(toggle) {
+function magInstanceEntry (toggle) {
     if (toggle) {
         showMagInstances();
         magInstanceObserver.observe(document.body, { childList: true, subtree: true });
@@ -62,8 +62,8 @@ function magInstanceEntry(toggle) {
     }
 }
 
-function showMagInstances() {
-    $('.magazine-inline').each(function() {
+function showMagInstances () {
+    $('.magazine-inline').each(function () {
         // Check if community is local
         if (!$(this).hasClass('instance')) {
             $(this).addClass('instance');

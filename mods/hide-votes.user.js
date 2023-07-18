@@ -8,7 +8,7 @@
 // @license      MIT
 // ==/UserScript==
 
-function hideUpvotes(toggle) {
+function hideUpvotes (toggle) {
     if (toggle) {
         $('form.vote__up').hide();
     } else {
@@ -16,7 +16,7 @@ function hideUpvotes(toggle) {
     }
 }
 
-function hideDownvotes(toggle) {
+function hideDownvotes (toggle) {
     if (toggle) {
         $('form.vote__down').hide();
     } else {
@@ -24,7 +24,7 @@ function hideDownvotes(toggle) {
     }
 }
 
-function hideReputation(toggle) {
+function hideReputation (toggle) {
     if (toggle) {
         $('#sidebar > section.section.user-info > ul > li:nth-child(2)').hide();
         document.styleSheets[0].addRule('.user-popover ul li:nth-of-type(2)','display:none')

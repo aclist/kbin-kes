@@ -7,11 +7,10 @@
 // @match        https://kbin.social/*
 // @match        https://fedia.io/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @grant        GM_addStyle
 // @license      MIT
 // ==/UserScript==
 
-function initCollapsibleComments(toggle) {
+function initCollapsibleComments (toggle) {
 
     if (toggle) {
         if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
@@ -22,7 +21,6 @@ function initCollapsibleComments(toggle) {
 
         // let observer = new MutationObserver(applyToNewPosts);
         // observer.observe(document.body, { childList: true, subtree: true });
-        
         // Get settings
         const settings = getModSettings('collapsibleComments');
         const clickAnywhere = settings.click == "Anywhere on comments";
@@ -35,7 +33,7 @@ function initCollapsibleComments(toggle) {
     }
 }
 
-function initCollapsibleCommentsListeners(toggle) {
+function initCollapsibleCommentsListeners (toggle) {
     // Get all comments
     let comments = document.querySelectorAll('.entry-comment');
 
@@ -52,20 +50,20 @@ function initCollapsibleCommentsListeners(toggle) {
             let header = comments[i].querySelector('header');
 
             // Add event listeners
-            expando.addEventListener('click', function(){toggleReplies(event,comments[i])});
-            header.addEventListener('click', function(){toggleReplies(event,comments[i])});
-            icon.addEventListener('click', function(){toggleReplies(event, comments[i])});
+            expando.addEventListener('click', function () {toggleReplies(event,comments[i])});
+            header.addEventListener('click', function () {toggleReplies(event,comments[i])});
+            icon.addEventListener('click', function () {toggleReplies(event, comments[i])});
 
             // Remove comment event listener if it exists
-            comments[i].removeEventListener('click', function(){toggleReplies(event, comments[i])});
+            comments[i].removeEventListener('click', function () {toggleReplies(event, comments[i])});
         } else {
             // Add event listener to comment
-            comments[i].addEventListener('click', function(){toggleReplies(event, comments[i])});
+            comments[i].addEventListener('click', function () {toggleReplies(event, comments[i])});
         }
     }
 }
 
-function toggleReplies(event, comment) {
+function toggleReplies (event, comment) {
     var senderElement = event.target
     var parent = event.target.parentElement;
 
@@ -126,7 +124,7 @@ function toggleReplies(event, comment) {
     event.stopPropagation();
 }
 
-function nestComments(comments,levels) {
+function nestComments (comments,levels) {
     // Go through comments in reverse order
     for (let i = comments.length-1; i >= 0; i--) {
         // Add nested class to comment
@@ -184,7 +182,7 @@ function nestComments(comments,levels) {
     }
 }
 
-function applyCommentStyles() {
+function applyCommentStyles () {
     // Add styles to comments
     var style = `
     .entry-comment {
@@ -406,10 +404,10 @@ function applyCommentStyles() {
         }
         `;
     }
-    GM_addStyle(style);
+    safeGM("addStyle",style);
 }
 
-function applyToNewPosts() {
+function applyToNewPosts () {
     // Get all comments
     let comments = document.querySelectorAll(".entry-comment:not(.nested)");
     // Get all comment levels
