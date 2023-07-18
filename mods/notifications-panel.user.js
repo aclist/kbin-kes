@@ -65,8 +65,15 @@ async function insertMsgs (response) {
     const names = []
     const times = []
     const msgs = []
+    const read = []
 
     sects.forEach((item) => {
+        let readStatus = item.className
+        if (readStatus.indexOf('opacity-50') > -1) {
+            read.push("read")
+        } else {
+            read.push("unread")
+        }
         let rawName = item.querySelector('a:nth-of-type(1)').href
         let hrName = rawName.split('/')[4]
         let remoteMsg = item.querySelector('a:nth-of-type(2)').innerText
@@ -86,7 +93,11 @@ async function insertMsgs (response) {
     clearLoading.remove();
     for(let i = 0; i < msgs.length; i++) {
         div = document.createElement('div')
-        div.className = "noti-panel-message"
+        if (read[i] === "read") {
+            div.className = "noti-panel-message opacity-50"
+        } else {
+            div.className = "noti-panel-message"
+        }
 
         msgEl = document.createElement('a')
         nameEl = document.createElement('a')
@@ -99,15 +110,21 @@ async function insertMsgs (response) {
         msgEl.href= links[i]
         msgEl.innerText = msgs[i]
         msgEl.style.cssText = "margin-left: 10px"
-        msgEl.className = "noti-panel-snippet"
+        let msgIndex = msgEl.href.split('/')[4]
+        console.log("is PM:",msgIndex)
+        if (msgIndex === "messages" ) {
+            msgEl.className = "noti-panel-snippet noti-message"
+        } else {
+            msgEl.className = "noti-panel-snippet"
+        }
 
         nameEl.href = "https://kbin.social/u/" + names[i];
         nameEl.innerText = names[i];
         nameEl.className = "noti-panel-sender"
 
         div.appendChild(nameEl);
-        div.appendChild(msgEl);
         div.appendChild(timeEl);
+        div.appendChild(msgEl);
         iff.appendChild(div);
 
         //user-inline instance
