@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.1
+// @version      2.0.2
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -25,6 +25,7 @@
 // @grant        GM.setValue
 // @grant        GM.setClipboard
 // @icon         https://kbin.social/favicon.svg
+// @connect      raw.githubusercontent.com
 // @connect      github.com
 // @require      https://github.com/aclist/kbin-kes/raw/main/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
