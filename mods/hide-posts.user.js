@@ -18,7 +18,6 @@ async function addToArr (idArr,toHideID) {
 function setup (array) {
     const rawIdArr = array;
     const idArr = JSON.parse(rawIdArr);
-    console.log(idArr);
     const posts = document.querySelectorAll('#content .entry')
     posts.forEach((item) => {
         const entryID = item.id.split('-')[1]
