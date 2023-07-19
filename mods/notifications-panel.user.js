@@ -256,14 +256,8 @@ async function insertMsgs (response) {
         div.appendChild(msgEl);
         iff.appendChild(div);
 
-        //user-inline instance
-        //section section--small notification opacity-50
-        //timeago
-
-        //wrote a message => href="/profile"
-        //replied to your comment => everything else
-        //POST https://kbin.social/settings/notifications/clear
         //POST https://kbin.social/settings/notifications/read
+        //POST https://kbin.social/settings/notifications/clear
     }
 }
 function startup () {
