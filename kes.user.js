@@ -10,6 +10,7 @@
 // @match        https://lab3.kbin.pub/*
 // @match        https://fedia.io/*
 // @match        https://karab.in/*
+// @match        https://kbin.cafe/*
 // @grant        GM_addStyle
 // @grant        GM_getResourceText
 // @grant        GM_xmlhttpRequest
