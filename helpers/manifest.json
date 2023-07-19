@@ -527,6 +527,37 @@
     "namespace": "nav_icons",
     "fields": [
       {
+        "type": "select",
+        "initial": "Segoe UI",
+        "key": "font",
+        "label": "Select a font",
+        "values": [
+          "Segoe UI",
+          "Quicksand",
+          "Calibri",
+          "Arial",
+          "Times New Roman",
+          "Helvetica",
+          "DM Serif Display",
+          "Lato",
+          "Roboto",
+          "Anton",
+          "Poppins",
+          "Bebas Neue",
+          "Oswald"
+        ]
+      },
+      {
+        "type": "range",
+        "initial": 5,
+        "key": "fontWeight",
+        "label": "Select a font weight",
+        "step": 1,
+        "min": 3,
+        "max": 9,
+        "show_value": true
+      },
+      {
         "type": "text",
         "initial": "Search",
         "key": "search",
