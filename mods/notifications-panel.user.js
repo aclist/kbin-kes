@@ -32,6 +32,7 @@ left: auto;
 transform: rotateX(0)translateX(-50%);
 resize: vertical;
 min-height: 360px;
+height: 360px;
 user-select: none;
 opacity: 1;
 visibility: visible;
