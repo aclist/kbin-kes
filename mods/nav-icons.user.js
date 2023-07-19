@@ -16,8 +16,8 @@ function navbarIcons (toggle) {
         postText.innerText = "" ;
         subsText.innerText = "" ;
     } else {
-        document.styleSheets[0].addRule('header menu li a[aria-label="Search"] i::before', 'content:"\\f002" ; font-family: "initial"; font-weight: initial;');
-        document.styleSheets[0].addRule('header menu li a[aria-label="Add"] i::before', 'content:"\+" ; font-family: "initial"; font-weight: initial;');
-        document.styleSheets[0].addRule('header menu li a[aria-label="Select a channel"] i::before', 'content:"\\f03a" ; font-family: "initial"; font-weight: initial;');
+        document.styleSheets[0].addRule('header menu li a[aria-label="Search"] i::before', 'content:"\\f002" ; font-family: "Font Awesome 6 Free"; font-weight: initial;');
+        document.styleSheets[0].addRule('header menu li a[aria-label="Add"] i::before', 'content:"\+" ; font-family: "Font Awesome 6 Free"; font-weight: initial;');
+        document.styleSheets[0].addRule('header menu li a[aria-label="Select a channel"] i::before', 'content:"\\f03a" ; font-family: "Font Awesome 6 Free"; font-weight: initial;');
     }
 }
