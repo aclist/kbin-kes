@@ -38,7 +38,7 @@ opacity: 1;
 visibility: visible;
 overflow-y: scroll;
 `;
-const customPanelCss = `
+const customPanelCSS = `
 #header .notification-button .badge {
     font-size:.8em;padding:.1em .4em
 }
@@ -107,6 +107,18 @@ left: 0;
 top: 0;
 width: 100%;
 height: 100%;
+`
+const forceDropdownCSS = `
+.dropdown__menu a, .dropdown__menu button {
+    display: initial !important;
+    padding: initial !important;
+}
+`
+const resetDropdownCSS = `
+.dropdown__menu a, .dropdown__menu button {
+    display: block !important;
+    padding: .5rem 1rem !important;
+}
 `
 async function insertMsgs (response) {
     let iff = document.querySelector('.notifications-iframe')
@@ -190,7 +202,7 @@ async function insertMsgs (response) {
     }
 }
 function startup () {
-    safeGM("addStyle",customPanelCss);
+    safeGM("addStyle",customPanelCSS);
     safeGM("addStyle",spinnerCSS);
     build();
 }
@@ -223,6 +235,7 @@ function toggleIframe (listItem) {
     clickModal.addEventListener('click', () => {
         iframe.remove();
         clickModal.remove();
+        safeGM("addStyle",resetDropdownCSS)
     })
     document.querySelector('.kbin-container').appendChild(clickModal)
     console.log("pushing frame below list")
@@ -260,6 +273,7 @@ function build () {
             listItem.appendChild(counterElement);
         }
         listItem.addEventListener('click', () => {
+            safeGM("addStyle",forceDropdownCSS);
             toggleIframe(listItem)
         });
     }
