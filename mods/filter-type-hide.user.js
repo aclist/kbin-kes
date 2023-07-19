@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         kbin filter hider
+// @name         kbin filter type hider
 // @namespace    https://github.com/twelph/kbin-mobile-userscripts/
 // @version      0.1
 // @description  Hide filter by type button
