@@ -143,7 +143,6 @@ async function insertMsgs (response) {
     let parser = new DOMParser();
     let notificationsXML = parser.parseFromString(response.responseText, "text/html");
     let currentPage = notificationsXML.URL.split('=')[1]
-    console.log(currentPage)
     let sects = notificationsXML.querySelectorAll('.notification')
     const links = []
     const names = []
@@ -197,7 +196,7 @@ async function insertMsgs (response) {
 
     notiHeader.appendChild(readButton);
     notiHeader.appendChild(purgeButton);
-    if (currentPage === 1){
+    if (!currentPage === '1'){
         console.log("adding back button")
         arrowHolder.appendChild(backButton);
     }
