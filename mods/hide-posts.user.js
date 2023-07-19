@@ -1,5 +1,5 @@
 async function wipeArray () {
-    await safe_GM("setValue","hidden-posts","[]")
+    await safeGM("setValue","hidden-posts","[]")
 }
 async function setArray () {
     const val = await safeGM("getValue","hidden-posts")
