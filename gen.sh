@@ -17,6 +17,7 @@ instances=(
     "https://lab3.kbin.pub/*"
     "https://fedia.io/*"
     "https://karab.in/*"
+    "https://kbin.cafe/*"
 )
 grants=(
     "addStyle"
