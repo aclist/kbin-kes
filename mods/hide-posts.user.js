@@ -1,14 +1,14 @@
 async function wipeArray () {
     await safeGM("setValue","hidden-posts","[]")
-    setup();
+    setup('[]',"teardown")
 }
 async function setArray () {
     const val = await safeGM("getValue","hidden-posts")
     if(val) {
-        setup(val)
+        setup(val,"setup")
     } else {
         await safeGM("setValue","hidden-posts","[]")
-        setup('[]')
+        setup('[]',"setup")
     }
 }
 async function addToArr (idArr,toHideID) {
@@ -16,11 +16,15 @@ async function addToArr (idArr,toHideID) {
     const updatedArr = JSON.stringify(idArr)
     await safeGM("setValue","hidden-posts",updatedArr)
 }
-function setup (array) {
+function setup (array,mode) {
     const rawIdArr = array;
     const idArr = JSON.parse(rawIdArr);
     const posts = document.querySelectorAll('#content .entry')
     posts.forEach((item) => {
+        if (mode === "teardown") {
+            item.show();
+            return
+        }
         const entryID = item.id.split('-')[1]
         if (idArr.includes(entryID)) {
             item.remove();
