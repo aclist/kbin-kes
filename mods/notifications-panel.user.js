@@ -36,6 +36,7 @@ height: 360px;
 user-select: none;
 opacity: 1;
 visibility: visible;
+overflow-y: scroll;
 `;
 const customPanelCss = `
 #header .notification-button .badge {
