@@ -1,5 +1,6 @@
 async function wipeArray () {
     await safeGM("setValue","hidden-posts","[]")
+    setup();
 }
 async function setArray () {
     const val = await safeGM("getValue","hidden-posts")
@@ -24,10 +25,14 @@ function setup (array) {
         if (idArr.includes(entryID)) {
             item.remove();
         } else {
+            const toHide = item.querySelector('kes-hide-posts');
+            if (toHide) {
+                return
+            }
             const hideButtonHolder = document.createElement('li');
             const hideButton = document.createElement('a');
             hideButtonHolder.appendChild(hideButton)
-            hideButton.className = "stretched-link"
+            hideButton.className = "stretched-link kes-hide-posts"
             hideButton.innerText = "hide post";
             hideButton.setAttribute("hide-post-id",entryID);
             const footer = item.querySelector('footer menu');
