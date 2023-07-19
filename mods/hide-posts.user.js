@@ -25,7 +25,7 @@ function setup (array) {
         if (idArr.includes(entryID)) {
             item.remove();
         } else {
-            const toHide = item.querySelector('kes-hide-posts');
+            const toHide = item.querySelector('.kes-hide-posts');
             if (toHide) {
                 return
             }
