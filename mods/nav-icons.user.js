@@ -3,7 +3,7 @@ function navbarIcons (toggle) {
     let search = settings.search
     let post = settings.post
     let subs = settings.subs
-    let font = "sans-serif"
+    let font = "var(--kbin-body-font-family)"
     let weight = settings.fontWeight
     let searchText = document.querySelector('header menu li a[aria-label="Search"] i')
     let postText = document.querySelector('header menu li a[aria-label="Add"] i')
