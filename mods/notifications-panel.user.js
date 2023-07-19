@@ -17,8 +17,8 @@ const spinnerCSS = `
     height: 40px;
     width: 40px;
     position: absolute;
-    top: 10%;
-    left: 10%;
+    top: 50%;
+    left: 50%;
     transform: translate3d(-50%, -50%, 0);
     will-change: transform;
 }
@@ -40,7 +40,7 @@ const customPanelCss = `
 #header .notification-button .badge {
     font-size:.8em;padding:.1em .4em
 }
-#header menu .notification-button a:not(.fa-solid.fa-bell){
+#header menu .notification-button > a:not(.fa-solid.fa-bell){
 border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-left:1.6em
 }
 #header menu li a:has(~.notification-counter:hover){
