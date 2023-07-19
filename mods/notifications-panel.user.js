@@ -98,6 +98,22 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
     content: "·";
     margin: 0 5px;
 }
+.noti-panel-header {
+    background: var(--kbin-button-primary-bg);
+    display: flex;
+    padding: 5px;
+}
+.noti-back {
+    margin-left: auto;
+}
+.noti-read, .noti-purge {
+    background: var(--kbin-button-secondary-hover-bg);
+    margin-left: 7px;
+}
+
+.noti-read,.noti-purge,.noti-back,.noti-forward {
+    padding: 5px;
+}
 `;
 
 const clickModalCSS = `
@@ -155,6 +171,32 @@ async function insertMsgs (response) {
     let timeEl
     let clearLoading = document.querySelector('.loadingmsg')
     clearLoading.remove();
+
+    const notiHeader = document.createElement('div');
+    notiHeader.className = 'noti-panel-header';
+    const readButton = document.createElement('span');
+    const purgeButton = document.createElement('span');
+    const backButton = document.createElement('span');
+    const forwardButton = document.createElement('span');
+
+    readButton.className = 'noti-read';
+    readButton.innerText = 'Read';
+
+    purgeButton.className = 'noti-purge';
+    purgeButton.innerText = 'Purge';
+
+    backButton.className = 'noti-back';
+    backButton.innerText = '←';
+
+    forwardButton.className = 'noti-forward';
+    forwardButton.innerText = '→';
+
+    notiHeader.appendChild(readButton);
+    notiHeader.appendChild(purgeButton);
+    notiHeader.appendChild(backButton);
+    notiHeader.appendChild(forwardButton);
+    iff.appendChild(notiHeader)
+
     for(let i = 0; i < msgs.length; i++) {
         div = document.createElement('div')
         if (read[i] === "read") {
