@@ -35,7 +35,6 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-posts.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-sidebar.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-thumbs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-votes.user.js
@@ -83,7 +82,6 @@ const funcObj = {
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
     hideDownvotes: hideDownvotes,
-    hidePostsInit: hidePostsInit,
     hideReputation: hideReputation,
     hideSidebar: hideSidebar,
     hideThumbs: hideThumbs,
