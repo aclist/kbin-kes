@@ -47,6 +47,56 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
 #header menu li a:has(~.notification-counter:hover){
     border-bottom:var(--kbin-header-hover-border)
 }
+.notifications-iframe::-webkit-scrollbar {
+    width: 8px;
+}
+.notifications-iframe::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 5px;
+    border: 2px solid transparent;
+}
+#header menu .notification-button > a:not(.fa-solid.fa-bell) {
+    border: 0!important;
+    padding: 0;
+    display: inline;
+    position: absolute;
+    top: .5em;
+    margin-left: 1.6em;
+}
+.notifications-iframe {
+    overflow: hidden scroll;
+    width: 300px;
+}
+.noti-panel-sender,
+.noti-panel-snippet {
+    padding: 0 !important;
+}
+.noti-panel-snippet {
+    display: block !important;
+    margin-top: .5rem;
+}
+.noti-panel-sender {
+    width: fit-content !important;
+    display: inline !important;
+}
+.noti-panel-message {
+    padding: .8rem;
+    border: var(--kbin-section-border);
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+}
+.noti-panel-message:hover {
+    background: var(--kbin-bg);
+}
+.noti-panel-time {
+    display: inline-block;
+    opacity: .5;
+}
+.noti-panel-time:before {
+    content: "·";
+    margin: 0 5px;
+}
 `;
 
 const clickModalCSS = `
