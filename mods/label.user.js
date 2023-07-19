@@ -4,7 +4,7 @@ function labelOp (toggle) {
         let fg = settings["fgcolor"];
         let bg = settings["bgcolor"];
         safeGM('addStyle', `
-            blockquote.author a.user-inline::after {
+            blockquote.author > header > a.user-inline::after {
                 content: 'OP';
                 font-weight: bold;
                 color: ${fg};

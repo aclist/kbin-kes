@@ -1,5 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.0.3
+### Fixed
+- Add OP label: OP label appears on other usernames when OP replies in thread
+- Navbar-icons-as-text: text does not respect browser defaults
+### Added
+- Navbar-icons-as-text: custom slider for font weight
+## 2.0.2
+### Fixed
+- Restore dropped URL used when fetching updates
+## 2.0.1
+### Fixed
+- KES not auto-updating in ViolentMonkey
 ## 2.0.0
 ### Added
 - Transparent Mode: click the icon to see behind the KES menu and check changes on the page; click again to return

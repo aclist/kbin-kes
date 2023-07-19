@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.2
+// @version      2.0.3
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -10,6 +10,7 @@
 // @match        https://lab3.kbin.pub/*
 // @match        https://fedia.io/*
 // @match        https://karab.in/*
+// @match        https://kbin.cafe/*
 // @grant        GM_addStyle
 // @grant        GM_getResourceText
 // @grant        GM_xmlhttpRequest

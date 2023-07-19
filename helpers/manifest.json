@@ -527,6 +527,16 @@
     "namespace": "nav_icons",
     "fields": [
       {
+        "type": "range",
+        "initial": 5,
+        "key": "fontWeight",
+        "label": "Select a font weight",
+        "step": 1,
+        "min": 3,
+        "max": 9,
+        "show_value": true
+      },
+      {
         "type": "text",
         "initial": "Search",
         "key": "search",
