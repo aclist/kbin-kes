@@ -116,6 +116,9 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
 .noti-read:hover,.noti-purge:hover,.noti-back:hover,.noti-forward:hover{
     opacity: 0.7;
 }
+.noti-no-messages {
+    font-size: 1rem;
+}
 `;
 
 const clickModalCSS = `
@@ -139,11 +142,20 @@ const resetDropdownCSS = `
 }
 `
 async function insertMsgs (response) {
-    let iff = document.querySelector('.notifications-iframe')
+    const noMsgs = document.createElement('text');
+    noMsgs.className = 'noti-no-messages';
+    noMsgs.innerText = 'No new notifications!';
+    let loadingSpinner = document.querySelector('.loadingmsg')
+    let iff = document.querySelector('.notifications-iframe');
     let parser = new DOMParser();
     let notificationsXML = parser.parseFromString(response.responseText, "text/html");
     let currentPage = notificationsXML.URL.split('=')[1]
-    let sects = notificationsXML.querySelectorAll('.notification')
+    let sects = notificationsXML.querySelectorAll('.notification');
+    if (sects.length === 0) {
+        loadingSpinner.remove();
+        iff.appendChild(noMsgs);
+        return;
+    }
     const links = []
     const names = []
     const times = []
@@ -172,8 +184,7 @@ async function insertMsgs (response) {
     let nameEl
     let msgEl
     let timeEl
-    let clearLoading = document.querySelector('.loadingmsg')
-    clearLoading.remove();
+    loadingSpinner.remove();
 
     const notiHeader = document.createElement('div');
     notiHeader.className = 'noti-panel-header';
@@ -196,11 +207,16 @@ async function insertMsgs (response) {
 
     notiHeader.appendChild(readButton);
     notiHeader.appendChild(purgeButton);
-    if (!currentPage === '1'){
+    if (!currentPage === '1') {
         console.log("adding back button")
         arrowHolder.appendChild(backButton);
     }
-    arrowHolder.appendChild(forwardButton);
+    let testNextPage = notificationsXML.querySelector('.pagination__item--next-page')
+    console.log(testNextPage)
+    if (testNextPage) {
+        console.log("next page exists")
+        arrowHolder.appendChild(forwardButton);
+    }
     notiHeader.appendChild(arrowHolder);
     iff.appendChild(notiHeader);
 
