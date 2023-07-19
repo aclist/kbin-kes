@@ -110,9 +110,11 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
     background: var(--kbin-button-secondary-hover-bg);
     margin-left: 7px;
 }
-
 .noti-read,.noti-purge,.noti-back,.noti-forward {
     padding: 5px;
+}
+.noti-read:hover,.noti-purge:hover,.noti-back:hover,.noti-forward:hover{
+    opacity: 0.7;
 }
 `;
 
@@ -176,8 +178,8 @@ async function insertMsgs (response) {
     notiHeader.className = 'noti-panel-header';
     const readButton = document.createElement('span');
     const purgeButton = document.createElement('span');
-    const backButton = document.createElement('span');
-    const forwardButton = document.createElement('span');
+    const backButton = document.createElement('i');
+    const forwardButton = document.createElement('i');
 
     readButton.className = 'noti-read';
     readButton.innerText = 'Read';
@@ -185,11 +187,8 @@ async function insertMsgs (response) {
     purgeButton.className = 'noti-purge';
     purgeButton.innerText = 'Purge';
 
-    backButton.className = 'noti-back';
-    backButton.innerText = '←';
-
-    forwardButton.className = 'noti-forward';
-    forwardButton.innerText = '→';
+    backButton.className = 'noti-back fa-solid fa-arrow-left';
+    forwardButton.className = 'noti-forward fa-solid fa-arrow-right';
 
     notiHeader.appendChild(readButton);
     notiHeader.appendChild(purgeButton);
