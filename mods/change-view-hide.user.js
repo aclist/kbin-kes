@@ -9,7 +9,7 @@
 // ==/UserScript==
 
 function hideChangeViewButton(toggle) {
-  const btn = document.querySelector('button[aria-label="Change view"]');
+  let btn = document.querySelector('button[aria-label="Change view"]');
 
   if (btn) {
     btn.style.display = toggle ? 'none' : 'block';
