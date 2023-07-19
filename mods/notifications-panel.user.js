@@ -103,8 +103,8 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
     display: flex;
     padding: 5px;
 }
-.noti-back {
-    margin-left: auto;
+.noti-arrow-holder {
+    margin-left: auto
 }
 .noti-read, .noti-purge {
     background: var(--kbin-button-secondary-hover-bg);
@@ -140,8 +140,10 @@ const resetDropdownCSS = `
 `
 async function insertMsgs (response) {
     let iff = document.querySelector('.notifications-iframe')
-    var parser = new DOMParser();
-    var notificationsXML = parser.parseFromString(response.responseText, "text/html");
+    let parser = new DOMParser();
+    let notificationsXML = parser.parseFromString(response.responseText, "text/html");
+    let currentPage = notificationsXML.URL.split('=')[1]
+    console.log(currentPage)
     let sects = notificationsXML.querySelectorAll('.notification')
     const links = []
     const names = []
@@ -176,8 +178,11 @@ async function insertMsgs (response) {
 
     const notiHeader = document.createElement('div');
     notiHeader.className = 'noti-panel-header';
+
     const readButton = document.createElement('span');
     const purgeButton = document.createElement('span');
+    const arrowHolder = document.createElement('span');
+    arrowHolder.className = 'noti-arrow-holder'
     const backButton = document.createElement('i');
     const forwardButton = document.createElement('i');
 
@@ -192,9 +197,13 @@ async function insertMsgs (response) {
 
     notiHeader.appendChild(readButton);
     notiHeader.appendChild(purgeButton);
-    notiHeader.appendChild(backButton);
-    notiHeader.appendChild(forwardButton);
-    iff.appendChild(notiHeader)
+    if (currentPage === 1){
+        console.log("adding back button")
+        arrowHolder.appendChild(backButton);
+    }
+    arrowHolder.appendChild(forwardButton);
+    notiHeader.appendChild(arrowHolder);
+    iff.appendChild(notiHeader);
 
     for(let i = 0; i < msgs.length; i++) {
         div = document.createElement('div')
