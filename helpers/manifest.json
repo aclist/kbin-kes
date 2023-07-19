@@ -573,8 +573,8 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Hide posts from thread index",
-    "login": true,
-    "recurs": false,
+    "login": false,
+    "recurs": true,
     "desc": "Adds a button to hide posts. Toggle to off to reset and clear hidden post storage.",
     "entrypoint": "hidePostsInit",
     "page": "threads"
