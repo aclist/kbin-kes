@@ -63,6 +63,7 @@ gen_grants(){
 gen_extra(){
 cat<<-EOF
 	// @icon	https://kbin.social/favicon.svg
+	// @connect	raw.githubusercontent.com
 	// @connect	github.com
 EOF
 }
