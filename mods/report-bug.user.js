@@ -1,6 +1,6 @@
 function bugReportInit (toggle) {
     const reportURL = 'https://github.com/aclist/kbin-kes/issues/new?assignees=&labels=bug&projects=&template=bug_report.md' +
-        '&title=[BUG]+<Your title here>&body="'
+        '&title=[BUG]+<Your title here>&body='
     const items = document.querySelectorAll('.entry-comment');
     if (toggle) {
         items.forEach((item) => {
