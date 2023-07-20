@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.5
+// @version      2.0.6
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -189,13 +189,14 @@ function constructMenu (json, layoutArr, isNew) {
     let kbinContainer
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title;
+    const kesPanel = document.createElement('li');
+    kesPanel.id = 'kes-settings';
     if (window.innerWidth > 512) {
         kbinContainer = document.querySelector('.kbin-container > menu');
     } else {
-        kbinContainer = document.querySelector('.head-nav__menu')
+        kbinContainer = document.querySelector('.sidebar-options > .section')
+        kesPanel.className = "kes-panel-mobile"
     }
-    const kesPanel = document.createElement('li');
-    kesPanel.id = 'kes-settings';
     kbinContainer.appendChild(kesPanel);
     const settingsButton = document.createElement('i');
     settingsButton.id = 'kes-settings-button';
