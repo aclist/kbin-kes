@@ -61,6 +61,36 @@
 //START AUTO MASTHEAD
 /* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, moreInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
 
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-sidebar.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-thumbs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-votes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/instance-names.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mobile-cleanup.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
+// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
+// @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
+// @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
+// @downloadURL  https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
+// @updateURL    https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
+// ==/UserScript==
+
+//START AUTO MASTHEAD
+/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
+
+
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
@@ -95,6 +125,7 @@ const funcObj = {
     labelOp: labelOp,
     magInstanceEntry: magInstanceEntry,
     moreInit: moreInit,
+    mobileHideInit: mobileHideInit,
     navbarIcons: navbarIcons,
     notificationsPanel: notificationsPanel,
     toggleLogo: toggleLogo,

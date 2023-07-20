@@ -372,7 +372,6 @@
     "label": "User instance names",
     "desc": "Show instance names next to users",
     "entrypoint": "userInstanceEntry",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -451,9 +450,9 @@
         "key": "logotype",
         "values": [
           "Hidden",
-	  "Kbin (no text)",
+          "Kbin (no text)",
           "Kibby",
-	  "Kibby (no text)"
+          "Kibby (no text)"
         ]
       }
     ]
@@ -569,6 +568,32 @@
     "page": "navbar"
   },
   {
+    "name": "Mobile view cleanup",
+    "author": "Twelph",
+    "version": "0.1.0",
+    "label": "Mobile view cleanup",
+    "login": false,
+    "recurs": false,
+    "desc": "Hide elements to reduce clutter in mobile view",
+    "namespace": "mobilehide",
+    "entrypoint": "mobileHideInit",
+    "page": "debug",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "filter",
+        "checkbox_label": "Filter icon",
+        "label": "Hides filter icon in navbar"
+      },
+      {
+        "type": "checkbox",
+        "key": "view",
+        "checkbox_label": "View icon",
+        "label": "Hides view icon in navbar"
+      }
+    ]
+  },
+   {
     "name": "Always expand post bodies",
     "author": "shazbot",
     "version": "0.1.0",
@@ -578,5 +603,5 @@
     "desc": "Auto-expands long post bodies instead of starting collapsed",
     "entrypoint": "moreInit",
     "page": "threads"
-  }
+   }
 ]
