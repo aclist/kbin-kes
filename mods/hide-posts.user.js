@@ -28,7 +28,7 @@ function teardown (hp) {
         console.log(toShow)
         $(toShow).show();
     }
-    let hideThisPage = ""
+    let hideThisPage = []
     storeCurrentPage(hideThisPage);
 }
 async function storeCurrentPage (hideThisPage) {
