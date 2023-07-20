@@ -16,17 +16,25 @@ async function addToArr (idArr,toHideID) {
     const updatedArr = JSON.stringify(idArr)
     await safeGM("setValue","hidden-posts",updatedArr)
 }
-async function teardown() {
-    console.log(hideThisPage.length)
-    for (i = 0; i < hideThisPage.length; ++i) {
-        console.log(hideThisPage[i])
-        const toHide = document.querySelector('#entry-' + hideThisPage[i]);
-        console.log(toHide)
-        $(toHide).show();
+async function fetchCurrentPage () {
+    const hp = await safeGM("setValue","hide-this-page",hideThisPage)
+    teardown(hp)
+}
+function teardown(hp) {
+    console.log(hp.length)
+    for (i = 0; i < hp.length; ++i) {
+        console.log(hp[i])
+        const toShow = document.querySelector('#entry-' + hp[i]);
+        console.log(toShow)
+        $(toShow).show();
         return
     }
 }
+async function storeCurrentPage (hideThisPage) {
+    await safeGM("setValue","hide-this-page",hideThisPage)
+}
 function setup (array) {
+    const hideThisPage = []
     const rawIdArr = array;
     const idArr = JSON.parse(rawIdArr);
     const posts = document.querySelectorAll('#content .entry')
@@ -34,6 +42,7 @@ function setup (array) {
         const entryID = item.id.split('-')[1]
         if (idArr.includes(entryID)) {
             $(item).hide();
+            hideThisPage.push(entryID)
         } else {
             const toHide = item.querySelector('.kes-hide-posts');
             if (toHide) {
@@ -56,15 +65,15 @@ function setup (array) {
                 addToArr(idArr,toHideID);
             });
         }
+        storeCurrentPage(hideThisPage)
 
     });
 
 }
 function hidePostsInit (toggle) {
-    const hideThisPage = []
     if (toggle) {
         setArray();
     } else {
-        teardown();
+        fetchCurrentPage();
     }
 }
