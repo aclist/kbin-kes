@@ -567,5 +567,16 @@
     "desc": "Adds a floating notifications panel to the navbar",
     "entrypoint": "notificationsPanel",
     "page": "navbar"
+  },
+  {
+    "name": "Always expand post bodies",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Always expand post bodies",
+    "login": false,
+    "recurs": false,
+    "desc": "Auto-expands long post bodies instead of starting collapsed",
+    "entrypoint": "moreInit",
+    "page": "threads"
   }
 ]
