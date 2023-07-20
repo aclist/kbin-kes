@@ -17,11 +17,11 @@ async function addToArr (idArr,toHideID) {
     await safeGM("setValue","hidden-posts",updatedArr)
 }
 async function fetchCurrentPage () {
-    const hp = await safeGM("setValue","hide-this-page")
-    teardown(hp)
+    const hp = await safeGM("setValue","hide-this-page");
+    teardown(hp);
 }
-function teardown(hp) {
-    console.log(hp.length)
+function teardown (hp) {
+    console.log(hp.length);
     for (i = 0; i < hp.length; ++i) {
         console.log(hp[i])
         const toShow = document.querySelector('#entry-' + hp[i]);
