@@ -44,6 +44,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mobile-cleanup.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
@@ -57,7 +58,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -92,6 +93,7 @@ const funcObj = {
     initMags: initMags,
     labelOp: labelOp,
     magInstanceEntry: magInstanceEntry,
+    mobileHideInit: mobileHideInit,
     navbarIcons: navbarIcons,
     notificationsPanel: notificationsPanel,
     toggleLogo: toggleLogo,
