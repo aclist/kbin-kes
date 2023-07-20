@@ -372,7 +372,6 @@
     "label": "User instance names",
     "desc": "Show instance names next to users",
     "entrypoint": "userInstanceEntry",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -451,9 +450,9 @@
         "key": "logotype",
         "values": [
           "Hidden",
-	  "Kbin (no text)",
+          "Kbin (no text)",
           "Kibby",
-	  "Kibby (no text)"
+          "Kibby (no text)"
         ]
       }
     ]
@@ -569,14 +568,29 @@
     "page": "navbar"
   },
   {
-    "name": "Hide posts",
+    "name": "Mobile view cleanup",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Hide posts from thread index",
+    "label": "Mobile view cleanup",
     "login": false,
-    "recurs": true,
-    "desc": "Adds a button to hide posts. Toggle to off to reset and clear hidden post storage.",
-    "entrypoint": "hidePostsInit",
-    "page": "threads"
+    "recurs": false,
+    "desc": "Hide elements to reduce clutter in mobile view",
+    "namespace": "mobilehide",
+    "entrypoint": "mobileHideInit",
+    "page": "debug",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "filter",
+        "checkbox_label": "Filter icon",
+        "label": "Hides filter icon in navbar"
+      },
+      {
+        "type": "checkbox",
+        "key": "view",
+        "checkbox_label": "View icon",
+        "label": "Hides view icon in navbar"
+      }
+    ]
   }
 ]
