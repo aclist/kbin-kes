@@ -74,11 +74,11 @@ function setup (array) {
                 hideThisPage.push(toHideID)
                 console.log("HTP ARR:",hideThisPage)
                 addToArr(idArr,toHideID);
+                console.log("sending array to GM storage:",hideThisPage)
+                storeCurrentPage(hideThisPage)
             });
         }
     });
-        console.log("sending array to GM storage:",hideThisPage)
-        storeCurrentPage(hideThisPage)
 
 }
 function hidePostsInit (toggle) {
