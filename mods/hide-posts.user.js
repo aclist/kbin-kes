@@ -27,7 +27,6 @@ function teardown (hp) {
         const toShow = document.querySelector('#entry-' + hp[i]);
         console.log(toShow)
         $(toShow).show();
-        return
     }
 }
 async function storeCurrentPage (hideThisPage) {
