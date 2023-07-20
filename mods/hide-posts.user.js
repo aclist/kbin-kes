@@ -17,7 +17,7 @@ async function addToArr (idArr,toHideID) {
     await safeGM("setValue","hidden-posts",updatedArr)
 }
 async function fetchCurrentPage () {
-    const hp = await safeGM("setValue","hide-this-page");
+    const hp = await safeGM("getValue","hide-this-page");
     teardown(hp);
 }
 function teardown (hp) {
