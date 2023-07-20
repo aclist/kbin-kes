@@ -17,6 +17,7 @@ async function addToArr (idArr,toHideID) {
 }
 function teardown (hp) {
     console.log("hiding post buttons")
+    console.log(hp)
     $('.kes-hide-posts').hide();
     for (i = 0; i < hp.length; ++i) {
         console.log("showing hidden post", hp[i])
@@ -36,7 +37,7 @@ async function fetchCurrentPage () {
     teardown(hp);
 }
 async function storeCurrentPage (hideThisPage) {
-    console.log(hideThisPage)
+    console.log("stored page id:",hideThisPage)
     await safeGM("setValue","hide-this-page",hideThisPage)
 }
 function setup (array) {
