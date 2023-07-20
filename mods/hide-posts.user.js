@@ -70,7 +70,7 @@ function setup (array) {
                 const toHideID = event.target.getAttribute("hide-post-id");
                 const toHide = document.querySelector('#entry-' + toHideID);
                 console.log("hiding post:",toHide)
-                $(toHide).remove();
+                $(toHide).hide();
                 hideThisPage.push(toHideID)
                 console.log("sending ID to PERMA GM storage:",toHideID)
                 addToArr(idArr,toHideID);
