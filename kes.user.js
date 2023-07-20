@@ -28,7 +28,7 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://github.com/aclist/kbin-kes/raw/main/helpers/safegm.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting.user.js
@@ -45,6 +45,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mobile-cleanup.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
@@ -58,12 +59,12 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
-const branch = "main"
+const branch = "testing"
 const helpersPath = "helpers/"
 const branchPath = repositoryURL + "raw/" + branch + "/"
 const versionFile = branchPath + "VERSION";
@@ -83,7 +84,6 @@ const funcObj = {
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
     hideDownvotes: hideDownvotes,
-    hidePostsInit: hidePostsInit,
     hideReputation: hideReputation,
     hideSidebar: hideSidebar,
     hideThumbs: hideThumbs,
@@ -94,6 +94,7 @@ const funcObj = {
     initMags: initMags,
     labelOp: labelOp,
     magInstanceEntry: magInstanceEntry,
+    mobileHideInit: mobileHideInit,
     navbarIcons: navbarIcons,
     notificationsPanel: notificationsPanel,
     toggleLogo: toggleLogo,
