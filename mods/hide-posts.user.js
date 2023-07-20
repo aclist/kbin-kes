@@ -16,10 +16,6 @@ async function addToArr (idArr,toHideID) {
     const updatedArr = JSON.stringify(idArr)
     await safeGM("setValue","hidden-posts",updatedArr)
 }
-async function fetchCurrentPage () {
-    const hp = await safeGM("getValue","hide-this-page");
-    teardown(hp);
-}
 function teardown (hp) {
     $('.kes-hide-posts').hide();
     for (i = 0; i < hp.length; ++i) {
@@ -29,9 +25,15 @@ function teardown (hp) {
         $(toShow).show();
     }
     let hideThisPage = []
+    console.log("emptying array")
     storeCurrentPage(hideThisPage);
 }
+async function fetchCurrentPage () {
+    const hp = await safeGM("getValue","hide-this-page");
+    teardown(hp);
+}
 async function storeCurrentPage (hideThisPage) {
+    console.log(hideThisPage)
     await safeGM("setValue","hide-this-page",hideThisPage)
 }
 function setup (array) {
