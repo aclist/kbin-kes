@@ -73,10 +73,9 @@ function setup (array) {
                 addToArr(idArr,toHideID);
             });
         }
+    });
         console.log("sending array to GM storage:",hideThisPage)
         storeCurrentPage(hideThisPage)
-
-    });
 
 }
 function hidePostsInit (toggle) {
