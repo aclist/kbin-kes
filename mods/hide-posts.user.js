@@ -12,7 +12,7 @@ async function setArray () {
 }
 async function addToArr (idArr,toHideID) {
     idArr.push(toHideID)
-    console.log("pushing to permanent storage:",toHideID)
+    console.log("pushing to PERMA GM storage:",toHideID)
     const updatedArr = JSON.stringify(idArr)
     await safeGM("setValue","hidden-posts",updatedArr)
 }
@@ -72,9 +72,9 @@ function setup (array) {
                 console.log("hiding post:",toHide)
                 $(toHide).remove();
                 hideThisPage.push(toHideID)
-                console.log("HTP ARR:",hideThisPage)
+                console.log("sending ID to PERMA GM storage:",toHideID)
                 addToArr(idArr,toHideID);
-                console.log("sending array to GM storage:",hideThisPage)
+                console.log("sending array to TEMP GM storage:",hideThisPage)
                 storeCurrentPage(hideThisPage)
             });
         }
