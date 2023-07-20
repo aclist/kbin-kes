@@ -149,7 +149,11 @@ async function insertMsgs (response) {
     let iff = document.querySelector('.notifications-iframe');
     let parser = new DOMParser();
     let notificationsXML = parser.parseFromString(response.responseText, "text/html");
-    let currentPage = notificationsXML.URL.split('=')[1]
+    //let currentPage = notificationsXML.URL.split('=')[1]
+    console.log(notificationsXML)
+    let currentPage = notificationsXML.all[6].content.split('=')[1]
+    console.log(currentPage)
+    let currentPageInt = parseInt(currentPage)
     let sects = notificationsXML.querySelectorAll('.notification');
     if (sects.length === 0) {
         loadingSpinner.remove();
@@ -186,6 +190,9 @@ async function insertMsgs (response) {
     let timeEl
     loadingSpinner.remove();
 
+    const notiHolder = document.createElement('div')
+    notiHolder.className = 'noti-panel-holder'
+
     const notiHeader = document.createElement('div');
     notiHeader.className = 'noti-panel-header';
 
@@ -193,8 +200,14 @@ async function insertMsgs (response) {
     const purgeButton = document.createElement('span');
     const arrowHolder = document.createElement('span');
     arrowHolder.className = 'noti-arrow-holder'
+
+    const backButtonLink = document.createElement('a');
     const backButton = document.createElement('i');
+    backButton.className = 'noti-back fa-solid fa-arrow-left';
+
+    const forwardButtonLink = document.createElement('a');
     const forwardButton = document.createElement('i');
+    forwardButton.className = 'noti-forward fa-solid fa-arrow-right';
 
     readButton.className = 'noti-read';
     readButton.innerText = 'Read';
@@ -202,23 +215,33 @@ async function insertMsgs (response) {
     purgeButton.className = 'noti-purge';
     purgeButton.innerText = 'Purge';
 
-    backButton.className = 'noti-back fa-solid fa-arrow-left';
-    forwardButton.className = 'noti-forward fa-solid fa-arrow-right';
-
     notiHeader.appendChild(readButton);
     notiHeader.appendChild(purgeButton);
-    if (!currentPage === '1') {
+
+    //POST https://kbin.social/settings/notifications/read
+    //POST https://kbin.social/settings/notifications/clear
+    console.log("current page is:",currentPageInt)
+
+    if (currentPageInt != 1) {
+        console.log("not on page 1")
         console.log("adding back button")
         arrowHolder.appendChild(backButton);
+        backButton.addEventListener('click', (e) => {
+            genericXMLRequest("https://kbin.social/settings/notifications?p=" + (currentPageInt - 1),insertMsgs);
+        });
     }
-    let testNextPage = notificationsXML.querySelector('.pagination__item--next-page')
+    let testNextPage = notificationsXML.querySelector('a.pagination__item--next-page')
     console.log(testNextPage)
     if (testNextPage) {
         console.log("next page exists")
         arrowHolder.appendChild(forwardButton);
+        forwardButton.addEventListener('click', (e) => {
+            $('.noti-panel-holder').remove();
+            genericXMLRequest("https://kbin.social/settings/notifications?p=" + (currentPageInt + 1),insertMsgs);
+        });
     }
     notiHeader.appendChild(arrowHolder);
-    iff.appendChild(notiHeader);
+    notiHolder.appendChild(notiHeader);
 
     for(let i = 0; i < msgs.length; i++) {
         div = document.createElement('div')
@@ -254,11 +277,10 @@ async function insertMsgs (response) {
         div.appendChild(nameEl);
         div.appendChild(timeEl);
         div.appendChild(msgEl);
-        iff.appendChild(div);
+        notiHolder.appendChild(div)
 
-        //POST https://kbin.social/settings/notifications/read
-        //POST https://kbin.social/settings/notifications/clear
     }
+        iff.appendChild(notiHolder);
 }
 function startup () {
     safeGM("addStyle",customPanelCSS);
@@ -299,7 +321,7 @@ function toggleIframe (listItem) {
     document.querySelector('.kbin-container').appendChild(clickModal)
     console.log("pushing frame below list")
     listItem.appendChild(iframe);
-    genericXMLRequest("https://kbin.social/settings/notifications",insertMsgs);
+    genericXMLRequest("https://kbin.social/settings/notifications?p=1",insertMsgs);
 }
 function build () {
     const notiPanel = document.querySelector('li.notification-button');
