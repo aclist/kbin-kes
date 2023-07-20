@@ -1,6 +1,5 @@
 async function wipeArray () {
     await safeGM("setValue","hidden-posts","[]")
-    teardown();
 }
 async function setArray () {
     const val = await safeGM("getValue","hidden-posts")
@@ -27,6 +26,7 @@ function teardown (hp) {
     let hideThisPage = []
     console.log("emptying array")
     storeCurrentPage(hideThisPage);
+    wipeArray();
 }
 async function fetchCurrentPage () {
     const hp = await safeGM("getValue","hide-this-page");
