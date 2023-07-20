@@ -37,7 +37,7 @@ async function fetchCurrentPage () {
     teardown(hp);
 }
 async function storeCurrentPage (hideThisPage) {
-    console.log("stored page id:",hideThisPage)
+    console.log("GM storage received:", hideThisPage)
     await safeGM("setValue","hide-this-page",hideThisPage)
 }
 function setup (array) {
@@ -73,6 +73,7 @@ function setup (array) {
                 addToArr(idArr,toHideID);
             });
         }
+        console.log("sending array to GM storage:",hideThisPage)
         storeCurrentPage(hideThisPage)
 
     });
