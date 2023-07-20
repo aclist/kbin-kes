@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.11
+// @version      2.1.0-beta.12
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -194,7 +194,7 @@ function constructMenu (json, layoutArr, isNew) {
     if (window.innerWidth > 512) {
         kbinContainer = document.querySelector('.kbin-container > menu');
     } else {
-        kbinContainer = document.querySelector('.head-nav__menu')
+        kbinContainer = document.querySelector('.sidebar-options > .section')
     }
     const kesPanel = document.createElement('li');
     kesPanel.id = 'kes-settings';
