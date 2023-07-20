@@ -12,6 +12,7 @@ async function setArray () {
 }
 async function addToArr (idArr,toHideID) {
     idArr.push(toHideID)
+    console.log("pushing to permanent storage:",toHideID)
     const updatedArr = JSON.stringify(idArr)
     await safeGM("setValue","hidden-posts",updatedArr)
 }
@@ -68,8 +69,10 @@ function setup (array) {
             hideButton.addEventListener('click',(event) => {
                 const toHideID = event.target.getAttribute("hide-post-id");
                 const toHide = document.querySelector('#entry-' + toHideID);
+                console.log("hiding post:",toHide)
                 $(toHide).remove();
                 hideThisPage.push(toHideID)
+                console.log("HTP ARR:",hideThisPage)
                 addToArr(idArr,toHideID);
             });
         }
