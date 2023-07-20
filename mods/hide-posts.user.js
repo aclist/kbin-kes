@@ -28,6 +28,8 @@ function teardown (hp) {
         console.log(toShow)
         $(toShow).show();
     }
+    let hideThisPage = ""
+    storeCurrentPage(hideThisPage);
 }
 async function storeCurrentPage (hideThisPage) {
     await safeGM("setValue","hide-this-page",hideThisPage)
