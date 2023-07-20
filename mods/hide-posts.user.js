@@ -21,7 +21,7 @@ async function fetchCurrentPage () {
     teardown(hp);
 }
 function teardown (hp) {
-    console.log(hp.length);
+    $('.kes-hide-posts').hide();
     for (i = 0; i < hp.length; ++i) {
         console.log(hp[i])
         const toShow = document.querySelector('#entry-' + hp[i]);
