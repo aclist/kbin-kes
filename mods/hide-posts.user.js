@@ -31,7 +31,7 @@ function teardown(hp) {
     }
 }
 async function storeCurrentPage (hideThisPage) {
-    await safeGM("setValue","hide-this-page",hideThisPage)
+    await safeGM("setValue","hide-this-page")
 }
 function setup (array) {
     const hideThisPage = []
