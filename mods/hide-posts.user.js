@@ -49,7 +49,8 @@ function setup (array) {
         } else {
             const toHide = item.querySelector('.kes-hide-posts');
             if (toHide) {
-                console.log("hide button already on page")
+                console.log("hide button already on page, re-showing")
+                $(toHide).show();
                 return
             }
             const hideButtonHolder = document.createElement('li');
