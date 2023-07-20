@@ -23,11 +23,10 @@ async function teardown() {
         const toHide = document.querySelector('#entry-' + hideThisPage[i]);
         console.log(toHide)
         $(toHide).show();
-    return
-}
+        return
+    }
 }
 function setup (array) {
-    const hideThisPage = []
     const rawIdArr = array;
     const idArr = JSON.parse(rawIdArr);
     const posts = document.querySelectorAll('#content .entry')
@@ -62,6 +61,7 @@ function setup (array) {
 
 }
 function hidePostsInit (toggle) {
+    const hideThisPage = []
     if (toggle) {
         setArray();
     } else {
