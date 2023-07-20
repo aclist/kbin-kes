@@ -18,6 +18,7 @@
     "threads",
     "comments",
     "profile",
-    "debug"
+    "debug",
+    "mobile"
   ]
 }

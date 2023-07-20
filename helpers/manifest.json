@@ -513,7 +513,7 @@
     "recurs": true,
     "desc": "Submit the contents of a post verbatim as a bug report to the KES issue tracker. Button is available from the 'More' menu under comments.",
     "entrypoint": "bugReportInit",
-    "page": "debug"
+    "page": "mobile"
   },
   {
     "name": "Navbar icons",
