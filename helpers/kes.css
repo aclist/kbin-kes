@@ -24,7 +24,7 @@
     background: var(--kbin-button-secondary-bg);
     padding: .7rem;
 }
-.kes-panel-mobile{
+.kes-panel-mobile {
     list-style: none;
 }
 .kes-panel-mobile:hover {
