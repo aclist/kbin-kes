@@ -50,6 +50,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/resize-text.user.js
 // @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
 // @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
 // @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
@@ -58,7 +59,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry, textResize */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -98,7 +99,8 @@ const funcObj = {
     notificationsPanel: notificationsPanel,
     toggleLogo: toggleLogo,
     updateTime: updateTime,
-    userInstanceEntry: userInstanceEntry
+    userInstanceEntry: userInstanceEntry,
+    textResize: textResize
 };
 //END AUTO MASTHEAD
 
