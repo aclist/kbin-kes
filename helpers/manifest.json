@@ -466,7 +466,7 @@
     "login": false,
     "recurs": true,
     "entrypoint": "initCollapsibleComments",
-    "page": "comments",
+    "page": "threads",
     "namespace": "collapsibleComments",
     "fields": [
       {
