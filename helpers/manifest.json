@@ -512,7 +512,7 @@
     "recurs": true,
     "desc": "Submit the contents of a post verbatim as a bug report to the KES issue tracker. Button is available from the 'More' menu under comments.",
     "entrypoint": "bugReportInit",
-    "page": "mobile"
+    "page": "debug"
   },
   {
     "name": "Navbar icons",
@@ -577,7 +577,7 @@
     "desc": "Hide elements to reduce clutter in mobile view",
     "namespace": "mobilehide",
     "entrypoint": "mobileHideInit",
-    "page": "debug",
+    "page": "mobile",
     "fields": [
       {
         "type": "checkbox",
