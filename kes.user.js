@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.17
+// @version      2.1.0-beta.18
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -904,11 +904,11 @@ function constructMenu (json, layoutArr, isNew) {
         }
     }
 
-    function applySettings (entry) {
+    function applySettings (entry,mutation) {
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
-                funcObj[entry](true);
+                funcObj[entry](true, mutation);
             } else {
                 funcObj[entry](false);
             }
@@ -966,7 +966,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //normal mutation (lazy load etc.), apply all recurring mods
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i].entrypoint);
+                        applySettings(json[i].entrypoint,mutation);
                         obs.takeRecords();
                     }
                 }
