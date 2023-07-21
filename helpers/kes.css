@@ -16,9 +16,19 @@
     color: var(--kbin-header-link-hover-color);
     cursor: pointer;
 }
-
 #kes-settings-button:hover {
     color: var(--kbin-header-link-hover-color);
+}
+.kes-panel-mobile > #kes-settings-button {
+    color: var(--kbin-button-secondary-text-hover-color);
+    background: var(--kbin-button-secondary-bg);
+    padding: .7rem;
+}
+.kes-panel-mobile {
+    list-style: none;
+}
+.kes-panel-mobile:hover {
+    border: 0px !important;
 }
 .kes-update-available {
     color: var(--kbin-alert-info-text-color);
