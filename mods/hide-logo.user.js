@@ -17,7 +17,7 @@ function changeLogo () {
     switch (opt) {
     case "Hidden":
         updateLogo(defaultLogo)
-        $('.brand').hide();
+	$('.brand a').hide();
         break;
     case "Kibby":
         updateLogo(kibby);
