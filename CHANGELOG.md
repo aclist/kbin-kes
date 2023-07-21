@@ -1,11 +1,37 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.1.0
+### Added
+- Always open (shazbot)
+- Hide threads permanently (shazbot)
+- Async panel collab (blobcat shazbot)
+- Resize fonts globally (minnieo)
+- Mobile cleanup (Twelph)
+### Fixed
+- Hamburger menu lost when toggling logo
+- Collapsible comments
+### Changed
+- Notifier and settings icons: better vis across all themes
+- Audit control flow and error handling to reduce verbosity of messages printed to console
+## 2.0.7
+### Fixed
+- Settings icon on mobile view not visible on light themes
+## 2.0.6
+### Fixed
+- Insert settings icon into proper part of hamburger menu on mobile
+## 2.0.5
+### Fixed
+- Settings icon not visible on narrow mobile device screens
+## 2.0.4
+### Fixed:
+- Navbar-icons-as-text: use kbin fallback font settings
 ## 2.0.3
 ### Fixed
 - Add OP label: OP label appears on other usernames when OP replies in thread
 - Navbar-icons-as-text: text does not respect browser defaults
 ### Added
 - Navbar-icons-as-text: custom slider for font weight
+- Added kbin.cafe to includes
 ## 2.0.2
 ### Fixed
 - Restore dropped URL used when fetching updates
