@@ -867,11 +867,11 @@ function constructMenu (json, layoutArr, isNew) {
         }
     }
 
-    function applySettings (entry) {
+    function applySettings (entry,mutation) {
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
-                funcObj[entry](true);
+                funcObj[entry](true, mutation);
             } else {
                 funcObj[entry](false);
             }
@@ -929,7 +929,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //normal mutation (lazy load etc.), apply all recurring mods
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i].entrypoint);
+                        applySettings(json[i].entrypoint, mutation);
                         obs.takeRecords();
                     }
                 }

@@ -10,40 +10,43 @@
 // @license      MIT
 // ==/UserScript==
 
-function initCollapsibleComments (toggle) {
-
+function initCollapsibleComments (toggle, mutation) {
     if (toggle) {
-        if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
+        console.log("caught mutation event")
+        console.log("iterating thru comments")
+        if (mutation) {
+            console.log(mutation)
+            if (mutation.addedNodes[0].className.indexOf('nested') === -1) {
+                console.log("not nested!")
+                enterMain();
+            }
+        } else if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
+            console.log("RETURNING")
             return;
+        } else {
+            enterMain();
         }
-        applyToNewPosts();
-        applyCommentStyles();
-
-        let observer = new MutationObserver(applyToNewPosts);
-        observer.observe(document.querySelector(".comments"), { childList: true, subtree: true });
-
-        // Get settings
-        const settings = getModSettings('collapsibleComments');
-        const clickAnywhere = settings.click == "Anywhere on comments";
-
-        initCollapsibleCommentsListeners(clickAnywhere);
-    } else {
-        if (document.querySelector('.entry-comment.nested')) {
-            location.reload();
-        }
+    } else if (document.querySelector('.entry-comment.nested')) {
+        window.location.reload();
     }
+}
+function enterMain () {
+    applyToNewPosts();
+    applyCommentStyles();
+
+    const settings = getModSettings('collapsibleComments');
+    const clickAnywhere = settings.click == "Anywhere on comments";
+
+    initCollapsibleCommentsListeners(clickAnywhere);
 }
 
 function initCollapsibleCommentsListeners (toggle) {
     // Get all comments
     let comments = document.querySelectorAll('.entry-comment:not(.listened)');
 
-
     // Add event listeners to comments
     for (let i = 0; i < comments.length; i++) {
-        // Add class to comment
         comments[i].classList.add('listened');
-
         if (!toggle) {
             // Get expando
             let expandos = comments[i].querySelectorAll('.expando');
@@ -400,12 +403,6 @@ function applyCommentStyles () {
 
     .entry-comment header {
         cursor: pointer;
-    }
-
-    .entry-comment .js-container {
-        margin-bottom: 0 !important;
-        display: block;
-        margin-top: 0 !important;
     }
     `;
     for (let i = 1; i < 10; i++) {
