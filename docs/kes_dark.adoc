@@ -251,7 +251,7 @@ a|The input field type. Available types are `select`, `radio`, `checkbox`, `rese
 |initial||string (if checkbox, bool)|The initial value the field is set to
 |key||string
 a|A unique key for this setting, stored under the object namespace defined in Table 1. This key is parsed by the recipient script in the format `namespace.key` in order to extract user-defined settings
-|label||string|A descriptive label of what the setting does, printed above the input field
+|label|yes|string|A descriptive label of what the setting does, printed above the input field. If stacking multiple options above each other, such as checkboxes, omitting the label field and adding a single one in the first object is supported.
 |values
 a|required if `type` is `select` or `radio`|array of strings|If the type is `select` or `radio`, an array of user-facing labels, which also function as values, used to populate each option
 |checkbox_label

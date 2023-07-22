@@ -587,7 +587,7 @@
     "label": "Mobile view cleanup",
     "login": false,
     "recurs": false,
-    "desc": "Hide elements to reduce clutter in mobile view",
+    "desc": "Hide elements in navbar to reduce clutter in mobile view",
     "namespace": "mobilehide",
     "entrypoint": "mobileHideInit",
     "page": "mobile",
@@ -595,14 +595,12 @@
       {
         "type": "checkbox",
         "key": "filter",
-        "checkbox_label": "Filter icon",
-        "label": "Hides filter icon in navbar"
+        "checkbox_label": "Hide filter icon"
       },
       {
         "type": "checkbox",
         "key": "view",
-        "checkbox_label": "View icon",
-        "label": "Hides view icon in navbar"
+        "checkbox_label": "Hide view icon"
       }
     ]
   }
