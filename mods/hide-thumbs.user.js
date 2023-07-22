@@ -10,8 +10,8 @@
 
 function hideThumbs (toggle) {
     settings = getModSettings('hidethumbs')
-    const indexThumbs = '.entry.section.subject figure'
-    const inlineThumbs = '.thumb, .no-image-placeholder'
+    const indexThumbs = '.entry.section.subject figure, .no-image-placeholder'
+    const inlineThumbs = '.thumb'
     if (toggle) {
         if (settings["index"]) {
             $(indexThumbs).hide();
