@@ -462,7 +462,7 @@
     "author": "artillect",
     "version": "1.4.0",
     "label": "Collapsible comments",
-    "desc": "Collapse comments by clicking on their headers, and the bars to their left. Note: disabling will reload the page",
+    "desc": "Collapse comments by clicking on their headers, and the bars to their left.",
     "login": false,
     "recurs": false,
     "entrypoint": "initCollapsibleComments",
