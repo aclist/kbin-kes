@@ -1,5 +1,5 @@
 function moreInit(toggle){
-    const more = document.querySelectorAll('more')
+    const more = document.querySelectorAll('.more')
     if (toggle) {
         more.forEach((item) => {
             item.click();
