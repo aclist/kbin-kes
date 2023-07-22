@@ -31,6 +31,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/always-more.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon.user.js
@@ -59,7 +60,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -95,6 +96,7 @@ const funcObj = {
     labelOp: labelOp,
     magInstanceEntry: magInstanceEntry,
     mobileHideInit: mobileHideInit,
+    moreInit: moreInit,
     navbarIcons: navbarIcons,
     notificationsPanel: notificationsPanel,
     toggleLogo: toggleLogo,
