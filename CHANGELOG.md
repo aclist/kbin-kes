@@ -7,12 +7,16 @@ All notable changes to this project will be documented in this file.
 - Async panel collab (blobcat shazbot)
 - Resize fonts globally (minnieo)
 - Mobile cleanup (Twelph)
+- Hide thumbnails: granular toggles for thread index/inline thumbnails
+- Add accessibility category
 ### Fixed
-- Hamburger menu lost when toggling logo
+- Hamburger menu lost when using toggle logo mod on mobile
 - Collapsible comments
 ### Changed
-- Notifier and settings icons: better vis across all themes
+- Notifier and settings icons: better visibility across all themes
 - Audit control flow and error handling to reduce verbosity of messages printed to console
+### API
+- Pass mutation events through to mods for parsing
 ## 2.0.7
 ### Fixed
 - Settings icon on mobile view not visible on light themes
