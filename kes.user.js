@@ -51,7 +51,6 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/what
 // @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
 // @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
 // @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
