@@ -603,7 +603,7 @@
     "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes. Note: reload required when toggling off.",
     "entrypoint": "textResize",
     "namespace": "resize",
-    "page": "general",
+    "page": "accessibility",
     "catch_reset": [
       "optionHeader",
       "optionPosts",
