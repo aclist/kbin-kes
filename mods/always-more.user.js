@@ -1,4 +1,4 @@
-function moreInit(toggle){
+function moreInit (toggle) {
     const more = document.querySelectorAll('.entry__body > .more')
     if (toggle) {
         more.forEach((item) => {
@@ -8,6 +8,7 @@ function moreInit(toggle){
     } else {
         more.forEach((item) => {
             $(item).show();
+            item.click();
         });
 
     }
