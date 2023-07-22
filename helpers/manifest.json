@@ -372,7 +372,6 @@
     "label": "User instance names",
     "desc": "Show instance names next to users",
     "entrypoint": "userInstanceEntry",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -451,7 +450,9 @@
         "key": "logotype",
         "values": [
           "Hidden",
-          "Kibby"
+          "Kbin (no text)",
+          "Kibby",
+          "Kibby (no text)"
         ]
       }
     ]
@@ -465,7 +466,7 @@
     "login": false,
     "recurs": false,
     "entrypoint": "initCollapsibleComments",
-    "page": "comments",
+    "page": "threads",
     "namespace": "collapsibleComments",
     "fields": [
       {
@@ -509,7 +510,7 @@
     "label": "Report bug button on posts",
     "login": false,
     "recurs": true,
-    "desc": "Submit the contents of a post verbatim as a bug report to the KES issue tracker",
+    "desc": "Submit the contents of a post verbatim as a bug report to the KES issue tracker. Button is available from the 'More' menu under comments.",
     "entrypoint": "bugReportInit",
     "page": "debug"
   },
@@ -524,6 +525,16 @@
     "entrypoint": "navbarIcons",
     "namespace": "nav_icons",
     "fields": [
+      {
+        "type": "range",
+        "initial": 5,
+        "key": "fontWeight",
+        "label": "Select a font weight",
+        "step": 1,
+        "min": 3,
+        "max": 9,
+        "show_value": true
+      },
       {
         "type": "text",
         "initial": "Search",
@@ -555,5 +566,31 @@
     "desc": "Adds a floating notifications panel to the navbar",
     "entrypoint": "notificationsPanel",
     "page": "navbar"
+  },
+  {
+    "name": "Mobile view cleanup",
+    "author": "Twelph",
+    "version": "0.1.0",
+    "label": "Mobile view cleanup",
+    "login": false,
+    "recurs": false,
+    "desc": "Hide elements to reduce clutter in mobile view",
+    "namespace": "mobilehide",
+    "entrypoint": "mobileHideInit",
+    "page": "mobile",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "filter",
+        "checkbox_label": "Filter icon",
+        "label": "Hides filter icon in navbar"
+      },
+      {
+        "type": "checkbox",
+        "key": "view",
+        "checkbox_label": "View icon",
+        "label": "Hides view icon in navbar"
+      }
+    ]
   }
 ]

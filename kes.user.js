@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.0-rc.49
+// @version      2.1.0-beta.19
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -10,6 +10,7 @@
 // @match        https://lab3.kbin.pub/*
 // @match        https://fedia.io/*
 // @match        https://karab.in/*
+// @match        https://kbin.cafe/*
 // @grant        GM_addStyle
 // @grant        GM_getResourceText
 // @grant        GM_xmlhttpRequest
@@ -27,36 +28,37 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/code-highlighting.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/dropdown.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/easy-emoticon.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/hide-logo.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/hide-sidebar.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/hide-thumbs.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/hide-votes.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/improved-collapsible-comments.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/instance-names.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/kbin-federation-awareness.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/kbin-mod-options.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/label.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/mail.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/nav-icons.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/notifications-panel.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/report-bug.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/subs.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/mods/timestamp.user.js
-// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json
-// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/manifest.json
-// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/kes.css
-// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
-// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-sidebar.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-thumbs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-votes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/instance-names.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mobile-cleanup.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
+// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
+// @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
+// @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
+// @downloadURL  https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
+// @updateURL    https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -91,6 +93,7 @@ const funcObj = {
     initMags: initMags,
     labelOp: labelOp,
     magInstanceEntry: magInstanceEntry,
+    mobileHideInit: mobileHideInit,
     navbarIcons: navbarIcons,
     notificationsPanel: notificationsPanel,
     toggleLogo: toggleLogo,
@@ -185,9 +188,14 @@ function validateData (rawCSS, rawJSON, rawLayout, isNew) {
 
 function constructMenu (json, layoutArr, isNew) {
     //instantiate kes modal and button
+    let kbinContainer
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title;
-    const kbinContainer = document.querySelector('.kbin-container > menu');
+    if (window.innerWidth > 512) {
+        kbinContainer = document.querySelector('.kbin-container > menu');
+    } else {
+        kbinContainer = document.querySelector('.sidebar-options > .section')
+    }
     const kesPanel = document.createElement('li');
     kesPanel.id = 'kes-settings';
     kbinContainer.appendChild(kesPanel);
@@ -266,6 +274,21 @@ function constructMenu (json, layoutArr, isNew) {
             transparentModal.remove();
             showSettingsModal();
         });
+    }
+    function activeModCount () {
+        const set = JSON.parse(localStorage["kes-settings"])
+        const totalMods = Object.keys(set).length
+        let activeMods = 0
+        let c
+        let key
+        for (key in set) {
+            c = set[key]
+            if (c === true) {
+                ++activeMods
+            }
+        }
+        let modsHR = " (" + activeMods + "/" + totalMods + ")"
+        return modsHR
     }
 
     function showSettingsModal () {
@@ -664,8 +687,15 @@ function constructMenu (json, layoutArr, isNew) {
                     crumbsRoot.innerHTML = '<h2>' + headerTitle + ' ' +
                         '<i class="' + layoutArr.header.separator + '"></i> ' +
                         tabName + '</h2>';
+                    let crumbsChild = crumbsRoot.children[0]
+                    let modCounter = document.createElement('text');
+                    crumbsChild.appendChild(modCounter);
+                    modCounter.className = "kes-mod-count"
                 }
             }
+
+            updateCrumbs();
+
             if (pageToOpen.length > 0) {
                 let lp = settings["lastPage"];
                 if (lp) {
@@ -825,6 +855,11 @@ function constructMenu (json, layoutArr, isNew) {
         }
         openTab(startPage);
     }
+    function updateCrumbs () {
+        const myMods = activeModCount();
+        let modCount = document.querySelector('.kes-mod-count')
+        modCount.innerText = myMods
+    }
 
     function updateState (target) {
         //get master settings
@@ -858,6 +893,8 @@ function constructMenu (json, layoutArr, isNew) {
         //save and apply checkbox state
         saveSettings(settings);
         saveModSettings(modSettings, ns);
+
+        updateCrumbs();
         //necessarily reload the page when verbose timestamps are toggled off
         //otherwise, triggers a loop of mutations because reverting timeago mutates the watched node
         if ((func === "updateTime") && (state === false)) {

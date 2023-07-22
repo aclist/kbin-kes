@@ -23,7 +23,7 @@
         "space-before-function-paren": ["error", "always"],
         "space-before-blocks": ["error", "always"],
         "indent": ["error", 4],
-        "max-len": ["warn", 80]
+        "max-len": ["warn", 100]
     },
     "overrides": [
         {

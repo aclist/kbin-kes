@@ -2,7 +2,7 @@
 
 version=$(cat VERSION)
 branch=$(git name-rev --name-only HEAD)
-if [[ $branch =~ release/ ]] || [[ $branch == "main" ]]; then
+if [[ $branch == "main" ]]; then
     echo "Generating tags"
     git tag $version 2>/dev/null
     rc=$?

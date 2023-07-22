@@ -2,4 +2,4 @@ kes.user.js.bak
 /node_modules
 package-lock.json
 sane.sh
-*.html
+/docs/*.html

@@ -34,17 +34,18 @@ function addLink (settings) {
             } else {
                 link = sib;
             }
-        } catch (error) {
-            console.log(error)
-        }
-        if (settings["type"] == "Text") {
-            link.className = 'kes-mail-link';
-            link.innerText = settings["text"];
-            link.style.cssText += 'margin-left: 5px;text-decoration:underline';
-        } else {
-            link.innerText = "";
-            link.className = 'kes-mail-link fa fa-envelope'
-            link.style.cssText += 'margin-left: 5px;text-decoration:none';
+        } finally {
+            if (link) {
+                if (settings["type"] == "Text") {
+                    link.className = 'kes-mail-link';
+                    link.innerText = settings["text"];
+                    link.style.cssText += 'margin-left: 5px;text-decoration:underline';
+                } else {
+                    link.innerText = "";
+                    link.className = 'kes-mail-link fa fa-envelope'
+                    link.style.cssText += 'margin-left: 5px;text-decoration:none';
+                }
+            }
         }
     });
 }

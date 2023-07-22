@@ -1,6 +1,6 @@
 :nofooter:
 :toc: left
-:stylesheet: custom.css
+:stylesheet: dark.css
 :icons: font
 :iconfont-remote:
 :iconfont-cdn: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css
@@ -108,7 +108,8 @@ its pages and assigns your add-on to the category requested, filling its content
 2. Receive a boolean toggle argument from KES passed to the above function indicating
 whether the user has toggled the script on or off
 3. If the script defines custom input fields, use the `getModSettings()` function exposed by KES
-with your script's namespace as the argument (See <<Retrieving custom settings>>)
+with your script's namespace as the argument (See <<Retrieving custom settings>>). If you wish to call internal GreaseMonkey API
+functions, see <<Compatibility API>> for details on cross-compatibility and some utility functions that facilitate this.
 4. Parse the resulting settings object for your desired keys and use these settings in the business
 logic of your script
 
@@ -345,6 +346,15 @@ GM API prefix depending on whether the extension uses the underscore namespace o
 In addition, safeGM natively reimplements some function calls that were dropped in GM 4.0 but are available in other extensions (as of this
 writing, `GM_addStyle`).
 
+.addStyle()
+----
+function addCustomCSS (css) {
+    const style = document.createElement('style');
+    style.innerHTML = css;
+    document.head.appendChild(style);
+}
+----
+
 These changes happen invisibly when calling safeGM, so it is enough to pass one of the function names below with the arguments you would typically pass
 to such a function:
 
@@ -354,15 +364,18 @@ to such a function:
 - xmlhttpRequest
 - setClipboard
 
+These are the functions currently supported, but more may be added if necessary. Given that KES handles the setting and fetching of configs, we have not
+seen many scripts need to leverage extra functionality through GreaseMonkey itself.
+
 Additional, `GM_info` can be invoked using `safeGM("info")` and the properties of the resulting object parsed out, e.g., `safeGM("info").script.version`.
 
-Note that if using setValue, getValue, and xmlHttpRequest, you will need to call safeGM asynchronously and await the results to support GM 4.0. This
+Note that if using `setValue`, `getValue`, and `xmlHttpRequest`, you will need to call safeGM asynchronously and await the results to support GM 4.0. This
 should generally not be necessary, as KES handles storage of settings.
 
-Also note that getResourceText is not available in GM 4.0, so in the unlikely event that you need to use this function in a script, you should fall
-back on xmlhttpRequest and parse the results on callback.
+Also note that getResourceText is not available in GM 4.0, so in the unlikely event that you need to use this function in a script, rather than defining
+`@resource` fields, you should fall back on `xmlhttpRequest`, or in this case, `genericXMLRequest` (outlined below), and parse the results on callback.
 
-Lastly, KES provides a utility function called `genericXMLRequest()` that wraps xmlhttpRequest to perform a GET request and obviates setting
+Lastly, KES provides a utility function called `genericXMLRequest()` that wraps `xmlhttpRequest` to perform a GET request and obviates setting
 up an object: simply pass the remote URL and callback function as arguments and process the response in your callback function.
 
 .genericXMLRequest()
@@ -392,12 +405,13 @@ choose to group them into one script, but they must be given unique objects, ent
 Limit features to small functionality changes that leverage the advantages of JS over CSS.
 KES works best in the aggregate, when its add-ons synergize with each other.
 
-4. For testing purposes, you can define remote resources in the `@require` fields of the `kes.user.js` headers when debugging, but the PR itself must not include any
+4. For testing purposes, you can define remote resources in the `@require` fields of your local copy of the `kes.user.js` headers when debugging, but the PR itself must not include any
 modifications to this file or to the `VERSION` file. Only submit a modified `manifest.json` and add your script to the `/mods` directory.
 
 5. Ensure that the `entrypoint` and `namespace` (if applicable) defined in `manifest.json` are globally unique.
 
-6. If your script has external dependencies (`@require`) that are not included in KES, please request these to be added when making the PR. Note that jQuery is provided by default and can be used to reduce the verbosity of your script.
+6. If your script has external dependencies (`@require`) that are not included in KES, please request these to be added when making the PR so that they
+can be added at the top level. Note that jQuery is provided by default and can be used to reduce the verbosity of your script.
 
 [NOTE]
 If you are submitting a PR changing an internal feature of KES itself, feel free to include changes to other files than the above.

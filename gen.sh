@@ -6,10 +6,9 @@ license=MIT
 version=$(cat VERSION)
 desc="Kbin Enhancement Suite"
 branch=$(git name-rev --name-only HEAD)
+[[ -n $1 ]] && branch=$1
 base_file="kes.user.js"
 manifest="./helpers/manifest.json"
-[[ $branch =~ ^release/ ]]  && branch="main"
-[[ $branch != "main" ]]  && branch="testing"
 slug="${author}/kbin-kes"
 
 instances=(
@@ -18,6 +17,7 @@ instances=(
     "https://lab3.kbin.pub/*"
     "https://fedia.io/*"
     "https://karab.in/*"
+    "https://kbin.cafe/*"
 )
 grants=(
     "addStyle"
@@ -69,7 +69,7 @@ cat<<-EOF
 EOF
 }
 gen_requires(){
-    prefix="https://raw.githubusercontent.com/$slug/$branch/"
+    prefix="https://github.com/$slug/raw/$branch/"
     deps=(
         "safegm.user.js"
     )
