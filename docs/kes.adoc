@@ -436,6 +436,10 @@ equation, allowing many small mods to be incorporated and synergize with each ot
 changes, request the desired UI via the JSON manifest, and the rest should work out of the box. Therefore, think of scripts as atomic features rather than
 complex workflows; scripts that make highly opinionated changes or themselves create complex menus may be difficult to adapt.
 
+- If changing colors on a page, it is best to respect kbin's internal themes by using the variables provided. These can be explored under the `var(--kbin-*)` prefix.
+A number of variables for success, alerts, backgrounds, text, hover, etc. are provided. These map to different colors within the theme a user has selected. If you hardcode
+an element to a specific color, there is a high likelihood it may not be visible on a dark or light theme, respectively.
+
 ==== Conventions
 - MUST: 4-space indentation on *.js files
 - MUST: 2-space indentation on *.json files

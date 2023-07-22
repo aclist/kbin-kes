@@ -2,19 +2,19 @@
 All notable changes to this project will be documented in this file.
 ## 2.1.0
 ### Added
-- Always open (shazbot)
+- Always expand post bodies (shazbot)
 - Hide threads permanently (shazbot)
-- Async panel collab (blobcat shazbot)
 - Resize fonts globally (minnieo)
 - Mobile cleanup (Twelph)
-- Hide thumbnails: granular toggles for thread index/inline thumbnails
 - Add accessibility category
 ### Fixed
 - Hamburger menu lost when using toggle logo mod on mobile
 - Collapsible comments
 ### Changed
+- Notifications panel: smoother load and pagination (collab: blobcat & shazbot)
+- Hide thumbnails: granular toggles for thread index/inline thumbnails
 - Notifier and settings icons: better visibility across all themes
-- Audit control flow and error handling to reduce verbosity of messages printed to console
+- Improved collapsible commments: TODO: list fixes
 ### API
 - Pass mutation events through to mods for parsing
 ## 2.0.7
