@@ -27,7 +27,15 @@ function initCollapsibleComments (toggle, mutation) {
             enterMain();
         }
     } else if (document.querySelector('.entry-comment.nested')) {
-        window.location.reload();
+        document.querySelectorAll('.expando').forEach((item) => {
+            item.remove();
+        });
+        document.querySelectorAll('.expando-icon').forEach((item) => {
+            item.remove();
+        });
+        document.querySelectorAll('.entry-comment.nested').forEach((item) => {
+            item.classList.remove('nested');
+        });
     }
 }
 function enterMain () {
