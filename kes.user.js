@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.19
+// @version      2.1.0-beta.20
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -50,6 +50,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/what
 // @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
 // @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
 // @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
@@ -465,10 +466,12 @@ function constructMenu (json, layoutArr, isNew) {
                     let initial = json[it].fields[i].initial;
                     let key = json[it].fields[i].key;
                     let ns = json[it].namespace;
-                    let label = document.createElement('p');
-                    label.className = "kes-field-label";
-                    label.innerText = json[it].fields[i].label;
-                    hBox.appendChild(label);
+                    if (json[it].fields[i].label) {
+                        let label = document.createElement('p');
+                        label.className = "kes-field-label";
+                        label.innerText = json[it].fields[i].label;
+                        hBox.appendChild(label);
+                    }
                     if (!modSettings[key]) {
                         modSettings[key] = initial;
                         saveModSettings(modSettings, ns);

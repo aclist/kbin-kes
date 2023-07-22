@@ -490,7 +490,20 @@
     "recurs": true,
     "desc": "Hide thumbnails on threads and comments",
     "entrypoint": "hideThumbs",
-    "page": "general"
+    "page": "general",
+    "namespace": "hidethumbs",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "index",
+        "checkbox_label": "Hide on thread index"
+      },
+      {
+        "type": "checkbox",
+        "key": "inline",
+        "checkbox_label": "Hide inline thumbnails"
+      }
+    ]
   },
   {
     "name": "Hide sidebar",
