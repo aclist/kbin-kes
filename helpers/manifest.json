@@ -600,7 +600,7 @@
     "label": "Change font size",
     "login": false,
     "recurs": true,
-    "desc": "Customize the font size site-wide. Use opacity to see your changes. Reload required when toggling off.",
+    "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes. Note: reload required when toggling off.",
     "entrypoint": "textResize",
     "namespace": "resize",
     "page": "general",
@@ -617,20 +617,9 @@
       "optionSortBy",
       "optionNotifs",
       "optionFooter",
-      "optionActivity",
-      "opacity"
+      "optionActivity"
     ],
     "fields": [
-      {
-        "type": "range",
-        "initial": 10,
-        "key": "opacity",
-        "label": "Opacity:",
-        "step": 3,
-        "min": 0,
-        "max": 10,
-        "show_value": true
-      },
       {
         "type": "reset",
         "key": "resetNumFields",
@@ -645,7 +634,7 @@
         "step": "0.1",
         "min": "5",
         "max": "50"
-      }, 
+      },
       {
         "type": "number",
         "initial": 14,
@@ -654,7 +643,7 @@
         "step": "0.1",
         "min": "5",
         "max": "50"
-      }, 
+      },
       {
         "type": "number",
         "initial": 14,
@@ -707,7 +696,7 @@
         "label": "Magazine Sidebar:",
         "step": "0.1",
         "min": "5",
-        "max": "50" 
+        "max": "50"
       },
       {
         "type": "number",
@@ -725,7 +714,7 @@
         "label": "Create (threads, mags, links, etc):",
         "step": "0.1",
         "min": "5",
-        "max": "50" 
+        "max": "50"
       },
       {
         "type": "number",
@@ -734,7 +723,7 @@
         "label": "Profiles:",
         "step": "0.1",
         "min": "5",
-        "max": "50" 
+        "max": "50"
       },
       {
         "type": "number",
@@ -743,7 +732,7 @@
         "label": "Messages:",
         "step": "0.1",
         "min": "5",
-        "max": "50" 
+        "max": "50"
       },
       {
         "type": "number",
@@ -752,7 +741,7 @@
         "label": "Footer:",
         "step": "0.1",
         "min": "5",
-        "max": "50" 
+        "max": "50"
       }
     ]
   }
