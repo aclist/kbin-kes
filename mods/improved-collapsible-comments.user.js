@@ -404,6 +404,11 @@ function applyCommentStyles () {
     .entry-comment header {
         cursor: pointer;
     }
+    .entry-comment .js-container {
+        margin-bottom: 0 !important;
+        display: block;
+        margin-top: 0 !important;
+    }
     `;
     for (let i = 1; i < 10; i++) {
         style += `
