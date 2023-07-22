@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.25
+// @version      2.1.0-beta.26
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -32,6 +32,7 @@
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/always-more.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/clarify-recipient.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon.user.js
@@ -59,7 +60,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -81,6 +82,7 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 const funcObj = {
     addMail: addMail,
     bugReportInit: bugReportInit,
+    clarifyRecipientInit: clarifyRecipientInit,
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
     hideDownvotes: hideDownvotes,

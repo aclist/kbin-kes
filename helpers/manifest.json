@@ -614,5 +614,16 @@
     "desc": "Auto-expands long post bodies instead of starting collapsed",
     "entrypoint": "moreInit",
     "page": "threads"
+   },
+   {
+    "name": "Clearer PM box",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Clarify recipient when composing message",
+    "login": true,
+    "recurs": false,
+    "desc": "Lists the recipient in the message box title",
+    "entrypoint": "clarifyRecipientInit",
+    "page": "profile"
    }
 ]
