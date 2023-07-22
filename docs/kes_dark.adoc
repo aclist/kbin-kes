@@ -438,7 +438,8 @@ complex workflows; scripts that make highly opinionated changes or themselves cr
 
 - If changing colors on a page, it is best to respect kbin's internal themes by using the variables provided. These can be explored under the `var(--kbin-*)` prefix.
 A number of variables for success, alerts, backgrounds, text, hover, etc. are provided. These map to different colors within the theme a user has selected. If you hardcode
-an element to a specific color, there is a high likelihood it may not be visible on a dark or light theme, respectively.
+an element to a specific color, there is a high likelihood it may not be visible on a dark or light theme, respectively. Similarly, do not set fonts verbatim, but use the 
+`var(--kbin-body-font-family)` for a set of fallback fonts.
 
 ==== Conventions
 - MUST: 4-space indentation on *.js files
