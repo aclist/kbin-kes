@@ -16,12 +16,22 @@
     color: var(--kbin-header-link-hover-color);
     cursor: pointer;
 }
-
 #kes-settings-button:hover {
     color: var(--kbin-header-link-hover-color);
 }
+.kes-panel-mobile > #kes-settings-button {
+    color: var(--kbin-button-secondary-text-hover-color);
+    background: var(--kbin-button-secondary-bg);
+    padding: .7rem;
+}
+.kes-panel-mobile {
+    list-style: none;
+}
+.kes-panel-mobile:hover {
+    border: 0px !important;
+}
 .kes-update-available {
-    color: var(--kbin-alert-info-text-color);
+    color: var(--kbin-success-color);
     position: relative;
     right: 1.5rem;
     bottom: 0.3rem;
@@ -30,9 +40,6 @@
 span.kes-update {
     display: inline-block;
     position: absolute;
-}
-#kes-settings:hover .kes-update-available {
-    color: var(--kbin-success-color);
 }
 .kes-transparent-mode-modal {
     position: fixed;
@@ -174,7 +181,9 @@ span.kes-update {
 
 .kes-version .new {
     color: var(--kbin-link-color);
-    background-color: var(--kbin-success-color);
+	background-color: var(--kbin-vote-bg);
+	border: 2px solid var(--kbin-vote-text-color);
+	opacity: 0.4;
     transition: color 0.15s ease-in-out;
     transition: opacity 0.15s ease-in-out;
     font-weight: bold;
@@ -186,8 +195,7 @@ span.kes-update {
 }
 
 .kes-version .new:hover {
-    color: var(--kbin-link-hover-color);
-    opacity: 1;
+    opacity: 0.8;
 }
 
 .kes-settings-modal-content .kes-close {

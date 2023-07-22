@@ -13,11 +13,17 @@ branch=$(git name-rev --name-only HEAD)
             "chore (static docs/task/file manipulation)"
          )
 bump_npm(){
-    if [[ $1 == "prerelease" ]]; then
-        npm version "$1" --preid=rc "$npm_flag"
-    else
-        npm version "$1" "$npm_flag"
-    fi
+    case "$1" in
+        "prerelease")
+            npm version "$1" --preid=rc "$npm_flag"
+            ;;
+        "beta")
+            npm version "$1" --preid=beta "$npm_flag"
+            ;;
+        *)
+            npm version "$1" "$npm_flag"
+            ;;
+        esac
 }
 bump_vers(){
     [[ $1 == chore ]] && return
@@ -41,11 +47,15 @@ bump_vers(){
             ;;
         esac
         local newvers="${ma}.${mi}.${pa}"
-    else
+    elif [[ $branch =~ ^release/ ]]; then
         local inc=$(<<< "$vers" awk -F"." '{print $4}')
         local pref=$(<<< "$vers" awk -F"-" '{print $1}')
         newvers="${pref}-rc.$((inc+1))"
         bump_npm prerelease
+    else
+        local inc=$(<<< "$vers" awk -F"." '{print $4}')
+        local pref=$(<<< "$vers" awk -F"-" '{print $1}')
+        newvers="${pref}-beta.$((inc+1))"
     fi
         echo "$newvers" > $version_file
         ./gen.sh

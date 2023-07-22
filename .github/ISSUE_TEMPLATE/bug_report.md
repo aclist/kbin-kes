@@ -23,8 +23,14 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+[When submitting a bug report, you can click the clipboard icon on the bottom right of the KES menu to copy system settings to the clipboard. Alternatively, you can manually enter that information below.]
+
 **KES version:**
 - Version number [e.g. 1.0.0]
+
+**Extension and version:**
+- Extension: [e.g., TamperMonkey/GreaseMonkey]
+- Version number: [e.g. 1.0.0]
 
 **Desktop (please complete the following information):**
  - OS: [e.g. Ubuntu Linux]
