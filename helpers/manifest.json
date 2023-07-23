@@ -634,6 +634,7 @@
     "login": false,
     "recurs": false,
     "desc": "Rearrange the order elements appear inside threads",
+    "namespace": "rearrange",
     "entrypoint": "rearrangeInit",
     "page": "threads",
     "fields": [
