@@ -124,7 +124,15 @@ span.kes-update {
         padding: 0.4rem 0.2rem !important;
     }
     .kes-version {
-        margin-bottom: 30px;
+        position: fixed;
+        top: 110px;
+    }
+    .kes-settings-modal-header span {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    .kes-settings-modal-sidebar {
+        padding-top: 30px
     }
 }
 
