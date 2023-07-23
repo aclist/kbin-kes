@@ -151,9 +151,7 @@ async function insertMsgs (response) {
     let iff = document.querySelector('.notifications-iframe');
     let parser = new DOMParser();
     let notificationsXML = parser.parseFromString(response.responseText, "text/html");
-    console.log(notificationsXML)
     let currentPage = notificationsXML.all[6].content.split('=')[1]
-    console.log(currentPage)
     let currentPageInt = parseInt(currentPage)
     let sects = notificationsXML.querySelectorAll('.notification');
     if (sects.length === 0) {
@@ -219,22 +217,38 @@ async function insertMsgs (response) {
     notiHeader.appendChild(readButton);
     notiHeader.appendChild(purgeButton);
 
-    //POST https://kbin.social/settings/notifications/read
     //POST https://kbin.social/settings/notifications/clear
-    console.log("current page is:",currentPageInt)
+    readButton.addEventListener('click', () => {
+        console.log("sending POST request to clear read")
+        genericPOSTRequest("https://kbin.social/settings/notifications/read", readAndReset, );
+
+    });
+function readAndReset () {
+    console.log("cleared read, resetting page")
+    genericXMLRequest("https://kbin.social/settings/notifications?p=1", insertMsgs);
+}
+//TODO: generate data token
+function genericPOSTRequest (url, callback) {
+    safeGM("xmlhttpRequest", {
+        method: 'POST',
+        onload: callback,
+        url: url,
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/xml",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+    });
+}
 
     if (currentPageInt != 1) {
-        console.log("not on page 1")
-        console.log("adding back button")
         arrowHolder.appendChild(backButton);
         backButton.addEventListener('click', (e) => {
             genericXMLRequest("https://kbin.social/settings/notifications?p=" + (currentPageInt - 1),insertMsgs);
         });
     }
     let testNextPage = notificationsXML.querySelector('a.pagination__item--next-page')
-    console.log(testNextPage)
     if (testNextPage) {
-        console.log("next page exists")
         arrowHolder.appendChild(forwardButton);
         forwardButton.addEventListener('click', (e) => {
             $('.noti-panel-holder').remove();
@@ -267,7 +281,6 @@ async function insertMsgs (response) {
         msgEl.innerText = msgs[i]
         msgEl.style.cssText = "margin-left: 10px"
         let msgIndex = msgEl.href.split('/')[4]
-        console.log("is PM:",msgIndex)
         if (msgIndex === "messages" ) {
             msgEl.className = "noti-panel-snippet noti-message"
         } else {
@@ -301,7 +314,6 @@ function toggleIframe (listItem) {
     iframe.className = 'notifications-iframe dropdown__menu';
     iframe.style.cssText = iframeCSS
 
-    console.log("making iframe")
     let loading = document.createElement('div')
     loading.className = "loadingmsg"
     loading.style.cssText = spinnerCSS
@@ -311,7 +323,6 @@ function toggleIframe (listItem) {
         iframe.remove();
     });
 
-    console.log("making click modal")
     let clickModal = document.createElement('div')
     clickModal.className = "clickmodal"
     clickModal.style.cssText = clickModalCSS
@@ -321,7 +332,6 @@ function toggleIframe (listItem) {
         safeGM("addStyle",resetDropdownCSS)
     })
     document.querySelector('.kbin-container').appendChild(clickModal)
-    console.log("pushing frame below list")
     listItem.appendChild(iframe);
     genericXMLRequest("https://kbin.social/settings/notifications?p=1",insertMsgs);
 }
