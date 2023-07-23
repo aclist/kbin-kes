@@ -9,13 +9,13 @@ All notable changes to this project will be documented in this file.
 - Rearrange thread element order (shazbot)
 - Add accessibility category
 ### Fixed
-- Hamburger menu lost when using toggle logo mod on mobile
-- Collapsible comments
+- Hamburger menu disappears when using toggle logo mod on mobile
+- Alignment of wrench icon in hamburger menu
+- Collapsible comments: list fixes (TODO)
 ### Changed
 - Notifications panel: smoother load and pagination (collab: blobcat & shazbot)
 - Hide thumbnails: granular toggles for thread index/inline thumbnails
 - Notifier and settings icons: better visibility across all themes
-- Improved collapsible commments: TODO: list fixes
 ### API
 - Pass mutation events through to mods for parsing
 ## 2.0.7
