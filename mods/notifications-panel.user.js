@@ -176,8 +176,7 @@ async function insertMsgs (response) {
     const readTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/read"] input')
     const readToken = readTokenEl.value
     const purgeTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/clear"] input')
-    //console.log(purgeTokenEl)
-    //const purgeToken = purgeTokenEl.value
+    const purgeToken = purgeTokenEl.value
     let currentPage = notificationsXML.all[6].content.split('=')[1]
     let currentPageInt = parseInt(currentPage)
     let sects = notificationsXML.querySelectorAll('.notification');
@@ -313,6 +312,7 @@ function startup () {
     build();
 }
 function toggleIframe (listItem) {
+    console.log("toggling iframe")
     const existingIframe = listItem.querySelector('.notifications-iframe');
 
     if (existingIframe) {
@@ -393,3 +393,6 @@ function notificationsPanel (toggle) {
         shutdown();
     }
 }
+//TODO: if no unread, gray out read butto
+//TODO: frame click event causes race condition
+//TODO: don't redraw frame if clicking its body
