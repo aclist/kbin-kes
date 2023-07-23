@@ -143,6 +143,28 @@ const resetDropdownCSS = `
     padding: .5rem 1rem !important;
 }
 `
+function readAndReset (response) {
+    console.log("cleared read, resetting page")
+    //clearPanel();
+    genericXMLRequest("https://kbin.social/settings/notifications?p=1", insertMsgs);
+}
+function genericPOSTRequest (url, callback, data) {
+    safeGM("xmlhttpRequest", {
+        method: 'POST',
+        onload: callback,
+        data: 'token=' + data,
+        url: url,
+        headers: {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/xml",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+    });
+}
+function clearPanel () {
+    $('.noti-panel-header').remove();
+    $('.noti-panel-message-holder').remove();
+}
 async function insertMsgs (response) {
     const noMsgs = document.createElement('text');
     noMsgs.className = 'noti-no-messages';
@@ -151,6 +173,11 @@ async function insertMsgs (response) {
     let iff = document.querySelector('.notifications-iframe');
     let parser = new DOMParser();
     let notificationsXML = parser.parseFromString(response.responseText, "text/html");
+    const readTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/read"] input')
+    const readToken = readTokenEl.value
+    const purgeTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/clear"] input')
+    //console.log(purgeTokenEl)
+    //const purgeToken = purgeTokenEl.value
     let currentPage = notificationsXML.all[6].content.split('=')[1]
     let currentPageInt = parseInt(currentPage)
     let sects = notificationsXML.querySelectorAll('.notification');
@@ -219,31 +246,14 @@ async function insertMsgs (response) {
 
     //POST https://kbin.social/settings/notifications/clear
     readButton.addEventListener('click', () => {
-        console.log("sending POST request to clear read")
-        genericPOSTRequest("https://kbin.social/settings/notifications/read", readAndReset, );
-
+        clearPanel();
+        genericPOSTRequest("https://kbin.social/settings/notifications/read", readAndReset, readToken);
     });
-function readAndReset () {
-    console.log("cleared read, resetting page")
-    genericXMLRequest("https://kbin.social/settings/notifications?p=1", insertMsgs);
-}
-//TODO: generate data token
-function genericPOSTRequest (url, callback) {
-    safeGM("xmlhttpRequest", {
-        method: 'POST',
-        onload: callback,
-        url: url,
-        headers: {
-            "User-Agent": "Mozilla/5.0",
-            "Accept": "text/xml",
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    });
-}
 
     if (currentPageInt != 1) {
         arrowHolder.appendChild(backButton);
         backButton.addEventListener('click', (e) => {
+            clearPanel();
             genericXMLRequest("https://kbin.social/settings/notifications?p=" + (currentPageInt - 1),insertMsgs);
         });
     }
@@ -251,7 +261,7 @@ function genericPOSTRequest (url, callback) {
     if (testNextPage) {
         arrowHolder.appendChild(forwardButton);
         forwardButton.addEventListener('click', (e) => {
-            $('.noti-panel-holder').remove();
+            clearPanel();
             genericXMLRequest("https://kbin.social/settings/notifications?p=" + (currentPageInt + 1),insertMsgs);
         });
     }
