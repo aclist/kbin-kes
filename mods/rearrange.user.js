@@ -1,4 +1,4 @@
-function setup () {
+function rearrangeSetup () {
     if (window.location.href.split('#')[1] != 'comments') return
     settings = getModSettings('rearrange');
     const content = document.querySelector('#content');
@@ -17,7 +17,7 @@ function setup () {
 }
 function rearrangeInit (toggle) {
     if (toggle) {
-        setup();
+        rearrangeSetup();
     } else {
         const content = document.querySelector('#content');
         content.style.display = 'unset';

@@ -1,4 +1,4 @@
-function teardown () {
+function mobileHideTeardown () {
     let filterBtn
     let viewBtn
     try {
@@ -13,7 +13,7 @@ function teardown () {
         }
     }
 }
-function setup () {
+function mobileHideSetup () {
     let filterBtn
     let viewBtn
     const settings = getModSettings('mobilehide')
@@ -39,8 +39,8 @@ function setup () {
 }
 function mobileHideInit (toggle) {
     if (toggle) {
-        setup();
+        mobileHideSetup();
     } else {
-        teardown();
+        mobileHideTeardown();
     }
 }
