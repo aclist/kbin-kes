@@ -121,6 +121,12 @@ span.kes-update {
         grid-template-rows: min-content min-content min-content min-content;
         overflow: auto;
     }
+    .kes-settings-modal-footer {
+        padding: 0.4rem 0.2rem;
+    }
+    .kes-version {
+        margin-bottom: 30px;
+    }
 }
 
 /* Medium devices (tablets, 1367px and below) */
