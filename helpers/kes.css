@@ -121,7 +121,7 @@ span.kes-update {
         overflow: auto;
     }
     .kes-settings-modal-footer {
-        padding: 0.4rem 0.2rem;
+        padding: 0.4rem 0.2rem !important;
     }
     .kes-version {
         margin-bottom: 30px;
