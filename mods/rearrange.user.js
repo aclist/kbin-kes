@@ -1,12 +1,13 @@
 function setup () {
+    if (window.location.href.split('#')[1] != 'comments') return
     settings = getModSettings('rearrange');
     const content = document.querySelector('#content');
     content.style.display = 'grid';
-    const op = document.querySelectr('.section--top');
-    const activity = document.querySelectr('#activity');
-    const post = document.querySelectr('#comment-add');
-    const options = document.querySelectr('#options');
-    const comments = document.querySelectr('#comments');
+    const op = document.querySelector('.section--top');
+    const activity = document.querySelector('#activity');
+    const post = document.querySelector('#comment-add');
+    const options = document.querySelector('#options');
+    const comments = document.querySelector('#comments');
 
     op.style.order = settings["op"]
     activity.style.order = settings["activity"]
