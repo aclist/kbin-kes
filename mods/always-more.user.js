@@ -2,13 +2,17 @@ function moreInit (toggle) {
     const more = document.querySelectorAll('.entry__body > .more')
     if (toggle) {
         more.forEach((item) => {
-            item.click();
-            $(item).hide();
+            const arrow = item.firstChild.className
+            if (arrow === 'fa-solid fa-angles-up') {
+                item.click();
+            }
         });
     } else {
         more.forEach((item) => {
-            $(item).show();
-            item.click();
+            const arrow = item.firstChild.className
+            if (arrow === 'fa-solid fa-angles-down') {
+                item.click();
+            }
         });
 
     }
