@@ -23,7 +23,6 @@
     color: var(--kbin-button-secondary-text-hover-color);
     background: var(--kbin-button-secondary-bg);
     padding: .7rem;
-    display: flex;
 }
 .kes-panel-mobile {
     list-style: none;
