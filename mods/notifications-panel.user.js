@@ -36,7 +36,6 @@ height: 360px;
 user-select: none;
 opacity: 1;
 visibility: visible;
-overflow-y: scroll;
 `;
 const customPanelCSS = `
 #header .notification-button .badge {
@@ -65,8 +64,11 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
     margin-left: 1.6em;
 }
 .notifications-iframe {
-    overflow: hidden scroll;
     width: 300px;
+}
+.noti-panel-message-holder {
+    overflow-y: scroll;
+    height: 90%;
 }
 .noti-panel-sender,
 .noti-panel-snippet {
@@ -149,7 +151,6 @@ async function insertMsgs (response) {
     let iff = document.querySelector('.notifications-iframe');
     let parser = new DOMParser();
     let notificationsXML = parser.parseFromString(response.responseText, "text/html");
-    //let currentPage = notificationsXML.URL.split('=')[1]
     console.log(notificationsXML)
     let currentPage = notificationsXML.all[6].content.split('=')[1]
     console.log(currentPage)
@@ -241,7 +242,10 @@ async function insertMsgs (response) {
         });
     }
     notiHeader.appendChild(arrowHolder);
-    notiHolder.appendChild(notiHeader);
+    iff.appendChild(notiHeader)
+    const notiMsgHolder = document.createElement('div')
+    iff.appendChild(notiMsgHolder)
+    notiMsgHolder.className = "noti-panel-message-holder"
 
     for(let i = 0; i < msgs.length; i++) {
         div = document.createElement('div')
@@ -277,10 +281,8 @@ async function insertMsgs (response) {
         div.appendChild(nameEl);
         div.appendChild(timeEl);
         div.appendChild(msgEl);
-        notiHolder.appendChild(div)
-
+        notiMsgHolder.appendChild(div)
     }
-        iff.appendChild(notiHolder);
 }
 function startup () {
     safeGM("addStyle",customPanelCSS);
