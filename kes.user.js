@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.34
+// @version      2.1.0-beta.35
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -43,7 +43,6 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/instance-names.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-kes
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
