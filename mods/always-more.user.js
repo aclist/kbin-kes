@@ -3,14 +3,14 @@ function moreInit (toggle) {
     if (toggle) {
         more.forEach((item) => {
             const arrow = item.firstChild.className
-            if (arrow === 'fa-solid fa-angles-up') {
+            if (arrow === 'fa-solid fa-angles-down') {
                 item.click();
             }
         });
     } else {
         more.forEach((item) => {
             const arrow = item.firstChild.className
-            if (arrow === 'fa-solid fa-angles-down') {
+            if (arrow === 'fa-solid fa-angles-up') {
                 item.click();
             }
         });
