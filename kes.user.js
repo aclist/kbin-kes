@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.40
+// @version      2.1.0-beta.41
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -205,7 +205,9 @@ function constructMenu (json, layoutArr, isNew) {
     const kesPanel = document.createElement('li');
     kesPanel.id = 'kes-settings';
     kbinContainer.appendChild(kesPanel);
+    const wrenchOuter = document.createElement('a')
     const settingsButton = document.createElement('i');
+    wrenchOuter.appendChild(settingsButton)
     settingsButton.id = 'kes-settings-button';
     settingsButton.classList = layoutArr.header.open;
     settingsButton.style.verticalAlign = 'middle';
@@ -220,7 +222,7 @@ function constructMenu (json, layoutArr, isNew) {
     kesPanel.addEventListener('click', () => {
         showSettingsModal();
     });
-    kesPanel.appendChild(settingsButton);
+    kesPanel.appendChild(wrenchOuter);
 
     var keyPressed = {};
     document.addEventListener('keydown', function (e) {
