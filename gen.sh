@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+get_owner(){
+    local raw=$(git config --get remote.origin.url)
+    local raw=$(git config --get remote.origin.url)
+    local owner=$(<<< "$raw" awk -F[:,/] '{print $2}')
+    echo "$owner"
+}
+
 name=KES
 author=aclist
 license=MIT
@@ -9,7 +16,8 @@ branch=$(git name-rev --name-only HEAD)
 [[ -n $1 ]] && branch=$1
 base_file="kes.user.js"
 manifest="./helpers/manifest.json"
-slug="${author}/kbin-kes"
+owner=$(get_owner)
+slug="${owner}/kbin-kes"
 
 instances=(
     "https://kbin.social/*"
@@ -29,7 +37,6 @@ grants=(
     "getResourceText"
     "setClipboard"
 )
-
 gen_line(){
 	printf "// @%s\t%s\n" "$1" "$2"
 }

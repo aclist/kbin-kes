@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.47
+// @version      2.1.0-beta.49
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -285,7 +285,7 @@ function constructMenu (json, layoutArr, isNew) {
     }
     function activeModCount () {
         const set = JSON.parse(localStorage["kes-settings"])
-        const totalMods = Object.keys(set).length
+        const totalMods = Object.keys(set).length - 3 // exclude lastTab, lastPage, and dock keys
         let activeMods = 0
         let c
         let key
