@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - Hide threads permanently (shazbot)
 - Resize fonts globally (minnieo)
 - Mobile cleanup (Twelph)
+- Rearrange thread element order (shazbot)
 - Add accessibility category
 ### Fixed
 - Hamburger menu lost when using toggle logo mod on mobile
