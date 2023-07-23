@@ -633,7 +633,7 @@
     "label": "Rearrange post order",
     "login": false,
     "recurs": false,
-    "desc": "Rearrange the order elements appear inside threads.",
+    "desc": "Rearrange the order elements appear inside threads",
     "entrypoint": "rearrangeInit",
     "page": "threads",
     "fields": [
@@ -642,7 +642,7 @@
         "min": 1,
         "max": 5,
         "step": 1,
-	"initial": 1,
+        "initial": 1,
         "label": "Original post",
         "key": "op"
       },
@@ -651,7 +651,7 @@
         "min": 1,
         "max": 5,
         "step": 1,
-	"initial": 2,
+        "initial": 2,
         "label": "Activity panel",
         "key": "activity"
       },
@@ -660,7 +660,7 @@
         "min": 1,
         "max": 5,
         "step": 1,
-	"initial": 3,
+        "initial": 3,
         "label": "Add comment",
         "key": "post"
       },
@@ -669,7 +669,7 @@
         "min": 1,
         "max": 5,
         "step": 1,
-	"initial": 4,
+        "initial": 4,
         "label": "Thread sort options",
         "key": "options"
       },
@@ -678,7 +678,7 @@
         "min": 1,
         "max": 5,
         "step": 1,
-	"initial": 5,
+        "initial": 5,
         "label": "Comments",
         "key": "comments"
       }
