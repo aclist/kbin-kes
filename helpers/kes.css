@@ -123,12 +123,12 @@ span.kes-update {
     .kes-settings-modal-footer {
         padding: 0.4rem 0.2rem !important;
     }
-    .kes-version .new{
+    .kes-version {
         margin-top: 65px;
         margin-right: 100px !important;
         margin-bottom: -100px;
     }
-    .kes-version {
+    .kes-version .new {
         margin-top: 35px;
         margin-right: 78px !important;
         margin-bottom: -50px;
