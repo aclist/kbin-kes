@@ -47,6 +47,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mobile-cleanup.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/move-federation-warning.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/rearrange.user.js
@@ -61,7 +62,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, navbarIcons, notificationsPanel, rearrangeInit, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -99,6 +100,7 @@ const funcObj = {
     magInstanceEntry: magInstanceEntry,
     mobileHideInit: mobileHideInit,
     moreInit: moreInit,
+    moveFederationWarningEntry: moveFederationWarningEntry,
     navbarIcons: navbarIcons,
     notificationsPanel: notificationsPanel,
     rearrangeInit: rearrangeInit,
