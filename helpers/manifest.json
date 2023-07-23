@@ -616,6 +616,18 @@
     "page": "threads"
   },
   {
+    "name": "Move federation warning to sidebar",
+    "author": "PrinzKasper",
+    "version": "1.0.0",
+    "label": "Move federation warning to sidebar",
+    "login": false,
+    "recurs": false,
+    "desc": "When viewing a magazine from another instance, kbin displays a warning at the top of the feed. This mod moves the warning to the sidebar's magazine info panel.",
+    "entrypoint": "moveFederationWarningEntry",
+    "namespace": "moveFederationWarning",
+    "page": "threads"
+  },
+  {
     "name": "Clearer PM box",
     "author": "shazbot",
     "version": "0.1.0",
