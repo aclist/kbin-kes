@@ -622,9 +622,21 @@
     "label": "Move federation warning to sidebar",
     "login": false,
     "recurs": false,
-    "desc": "When viewing a magazine from another instance, kbin displays a warning at the top of the feed. This mod moves the warning to the sidebar's magazine info panel.",
+    "desc": "When viewing a magazine from another instance, kbin displays a warning at the top of the feed. This mod moves the warning to the sidebar's magazine info panel, or hides it completely.",
     "entrypoint": "moveFederationWarningEntry",
     "namespace": "moveFederationWarning",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Move to Sidebar",
+        "key": "action",
+        "label": "Choose which action to take",
+        "values": [
+          "Move to Sidebar",
+          "Hide completely"
+        ]
+      }
+    ],
     "page": "threads"
   },
   {

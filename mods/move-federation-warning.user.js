@@ -15,20 +15,30 @@
 // ==/UserScript==
 
 function moveFederationWarningEntry (toggle) {
-    
-    let alertBox = document.querySelector(".alert.alert__info");
 
-    let instertAfterQuery = "";
-
-    if(toggle) {
-        instertAfterQuery = "#sidebar .magazine .magazine__subscribe";
-    } else {   
-        instertAfterQuery = "#main #options";
+    if (window.location.href.split('/')[3] !== "m") {
+        return; // only run on magazine pages
     }
 
-    let insertAfter = document.querySelector(instertAfterQuery);
+    let settings = getModSettings("moveFederationWarning");
+    
+    let alertBox = $(".alert.alert__info");
+    let insertAfterQuery = "";
+
+    if(toggle) {
+        insertAfterQuery = "#sidebar .magazine .magazine__subscribe";
+
+        if(settings["action"] === "Hide completely") {
+            alertBox.hide();
+        }
+    } else {   
+        insertAfterQuery = "#main #options";
+        alertBox.show();
+    }
+
+    let insertAfter = $(insertAfterQuery);
 
     if(alertBox !== null && insertAfter !== null) {
-        insertAfter.insertAdjacentElement('afterend', alertBox);
+        insertAfter.after(alertBox);
     }
 }
