@@ -2,10 +2,11 @@
 All notable changes to this project will be documented in this file.
 ## 2.1.0
 ### Added
-- Always expand post bodies (shazbot)
-- Hide threads permanently (shazbot)
 - Resize fonts globally (minnieo)
+- Hide threads permanently (shazbot)
 - Mobile cleanup (Twelph)
+- Move/hide federation warning (PrinzKasper)
+- Always expand post bodies (shazbot)
 - Rearrange thread element order (shazbot)
 - Add accessibility category
 ### Fixed
