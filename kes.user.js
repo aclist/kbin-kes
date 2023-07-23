@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.29
+// @version      2.1.0-beta.30
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -43,12 +43,14 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/instance-names.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-kes
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mobile-cleanup.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/rearrange.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
@@ -60,7 +62,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, navbarIcons, notificationsPanel, rearrangeInit, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -100,6 +102,7 @@ const funcObj = {
     moreInit: moreInit,
     navbarIcons: navbarIcons,
     notificationsPanel: notificationsPanel,
+    rearrangeInit: rearrangeInit,
     toggleLogo: toggleLogo,
     updateTime: updateTime,
     userInstanceEntry: userInstanceEntry
