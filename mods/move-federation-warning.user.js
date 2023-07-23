@@ -30,6 +30,8 @@ function moveFederationWarningEntry (toggle) {
 
         if(settings["action"] === "Hide completely") {
             alertBox.hide();
+        } else {
+            alertBox.show();
         }
     } else {   
         insertAfterQuery = "#main #options";
