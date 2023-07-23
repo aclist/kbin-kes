@@ -627,6 +627,17 @@
     "page": "profile"
   },
   {
+    "name": "Permanently hide posts",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Permanently hide posts",
+    "login": false,
+    "recurs": true,
+    "desc": "Adds a hide button to permanently hide posts from your feed. Untoggle to wipe the history of hidden posts and reset.",
+    "entrypoint": "hidePostsInit",
+    "page": "threads"
+  },
+  {
     "name": "Rearrange comments",
     "author": "shazbot",
     "version": "0.1.0",
