@@ -1,11 +1,42 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.1.0
+### Added
+- Always expand post bodies (shazbot)
+- Hide threads permanently (shazbot)
+- Resize fonts globally (minnieo)
+- Mobile cleanup (Twelph)
+- Rearrange thread element order (shazbot)
+- Add accessibility category
+### Fixed
+- Hamburger menu disappears when using toggle logo mod on mobile
+- Alignment of wrench icon in hamburger menu
+- Collapsible comments: list fixes (TODO)
+### Changed
+- Notifications panel: smoother load and pagination (collab: blobcat & shazbot)
+- Hide thumbnails: granular toggles for thread index/inline thumbnails
+- Notifier and settings icons: better visibility across all themes
+### API
+- Pass mutation events through to mods for parsing
+## 2.0.7
+### Fixed
+- Settings icon on mobile view not visible on light themes
+## 2.0.6
+### Fixed
+- Insert settings icon into proper part of hamburger menu on mobile
+## 2.0.5
+### Fixed
+- Settings icon not visible on narrow mobile device screens
+## 2.0.4
+### Fixed:
+- Navbar-icons-as-text: use kbin fallback font settings
 ## 2.0.3
 ### Fixed
 - Add OP label: OP label appears on other usernames when OP replies in thread
 - Navbar-icons-as-text: text does not respect browser defaults
 ### Added
 - Navbar-icons-as-text: custom slider for font weight
+- Added kbin.cafe to includes
 ## 2.0.2
 ### Fixed
 - Restore dropped URL used when fetching updates

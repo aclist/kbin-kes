@@ -372,7 +372,6 @@
     "label": "User instance names",
     "desc": "Show instance names next to users",
     "entrypoint": "userInstanceEntry",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -451,9 +450,9 @@
         "key": "logotype",
         "values": [
           "Hidden",
-	  "Kbin (no text)",
+          "Kbin (no text)",
           "Kibby",
-	  "Kibby (no text)"
+          "Kibby (no text)"
         ]
       }
     ]
@@ -467,7 +466,7 @@
     "login": false,
     "recurs": true,
     "entrypoint": "initCollapsibleComments",
-    "page": "comments",
+    "page": "threads",
     "namespace": "collapsibleComments",
     "fields": [
       {
@@ -491,7 +490,20 @@
     "recurs": true,
     "desc": "Hide thumbnails on threads and comments",
     "entrypoint": "hideThumbs",
-    "page": "general"
+    "page": "general",
+    "namespace": "hidethumbs",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "index",
+        "checkbox_label": "Hide on thread index"
+      },
+      {
+        "type": "checkbox",
+        "key": "inline",
+        "checkbox_label": "Hide inline thumbnails"
+      }
+    ]
   },
   {
     "name": "Hide sidebar",
@@ -569,14 +581,108 @@
     "page": "navbar"
   },
   {
-    "name": "Hide posts",
+    "name": "Mobile view cleanup",
+    "author": "Twelph",
+    "version": "0.1.0",
+    "label": "Mobile view cleanup",
+    "login": false,
+    "recurs": false,
+    "desc": "Hide elements in navbar to reduce clutter in mobile view",
+    "namespace": "mobilehide",
+    "entrypoint": "mobileHideInit",
+    "page": "mobile",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "filter",
+        "checkbox_label": "Hide filter icon"
+      },
+      {
+        "type": "checkbox",
+        "key": "view",
+        "checkbox_label": "Hide view icon"
+      }
+    ]
+  },
+  {
+    "name": "Always expand post bodies",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Hide posts from thread index",
+    "label": "Always expand post bodies",
     "login": false,
-    "recurs": true,
-    "desc": "Adds a button to hide posts. Toggle to off to reset and clear hidden post storage.",
-    "entrypoint": "hidePostsInit",
+    "recurs": false,
+    "desc": "Auto-expands long post bodies instead of starting collapsed",
+    "entrypoint": "moreInit",
     "page": "threads"
+  },
+  {
+    "name": "Clearer PM box",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Show recipient on compose",
+    "login": true,
+    "recurs": false,
+    "desc": "Lists the recipient in the message box title",
+    "entrypoint": "clarifyRecipientInit",
+    "page": "profile"
+  },
+  {
+    "name": "Rearrange comments",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Rearrange post order",
+    "login": false,
+    "recurs": false,
+    "desc": "Rearrange the order elements appear inside threads. Recommended sort order is 1, 4, 5, 3, 2",
+    "namespace": "rearrange",
+    "entrypoint": "rearrangeInit",
+    "page": "threads",
+    "fields": [
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 1,
+        "label": "Original post",
+        "key": "op"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 2,
+        "label": "Thread sort options",
+        "key": "options"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 3,
+        "label": "Comments",
+        "key": "comments"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 4,
+        "label": "Add comment",
+        "key": "post"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 5,
+        "label": "Activity panel",
+        "key": "activity"
+      }
+    ]
   }
 ]
