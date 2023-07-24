@@ -114,12 +114,19 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
 }
 .noti-read,.noti-purge,.noti-back,.noti-forward {
     padding: 5px;
+    cursor: pointer;
 }
-.noti-read:hover,.noti-purge:hover,.noti-back:hover,.noti-forward:hover{
+.noti-read:hover,.noti-purge:hover {
+    opacity: var(--noti-button-opacity);
+}
+.noti-back:hover,.noti-forward:hover{
     opacity: 0.7;
 }
 .noti-no-messages {
     font-size: 1rem;
+    position: absolute;
+    top: 30%;
+    margin-left: 55px;
 }
 `;
 
@@ -144,8 +151,7 @@ const resetDropdownCSS = `
 }
 `
 function readAndReset (response) {
-    console.log("cleared read, resetting page")
-    //clearPanel();
+    console.log(response)
     genericXMLRequest("https://kbin.social/settings/notifications?p=1", insertMsgs);
 }
 function genericPOSTRequest (url, callback, data) {
@@ -164,6 +170,11 @@ function genericPOSTRequest (url, callback, data) {
 function clearPanel () {
     $('.noti-panel-header').remove();
     $('.noti-panel-message-holder').remove();
+    let oldPanel = document.querySelector('.notifications-iframe.dropdown__menu')
+    let loading = document.createElement('div')
+    loading.className = "loadingmsg"
+    loading.style.cssText = spinnerCSS
+    oldPanel.appendChild(loading)
 }
 async function insertMsgs (response) {
     const noMsgs = document.createElement('text');
@@ -226,11 +237,9 @@ async function insertMsgs (response) {
     const arrowHolder = document.createElement('span');
     arrowHolder.className = 'noti-arrow-holder'
 
-    const backButtonLink = document.createElement('a');
     const backButton = document.createElement('i');
     backButton.className = 'noti-back fa-solid fa-arrow-left';
 
-    const forwardButtonLink = document.createElement('a');
     const forwardButton = document.createElement('i');
     forwardButton.className = 'noti-forward fa-solid fa-arrow-right';
 
@@ -239,19 +248,37 @@ async function insertMsgs (response) {
 
     purgeButton.className = 'noti-purge';
     purgeButton.innerText = 'Purge';
+    purgeButton.style.setProperty('--noti-button-opacity', '0.7')
 
     notiHeader.appendChild(readButton);
     notiHeader.appendChild(purgeButton);
 
-    //POST https://kbin.social/settings/notifications/clear
-    readButton.addEventListener('click', () => {
+    let unreads
+    for (let i = 0; i < read.length; ++i) {
+        if (read[i] === "unread") {
+            unreads = true;
+            break;
+        }
+    }
+    if (unreads) {
+        console.log("found unreads")
+        readButton.style.setProperty('--noti-button-opacity','0.7')
+        readButton.addEventListener('click', () => {
+            clearPanel();
+            genericPOSTRequest("https://kbin.social/settings/notifications/read", readAndReset, readToken);
+        });
+    } else {
+        readButton.style.opacity = 0.7;
+        readButton.style.cursor = 'unset';
+    }
+    purgeButton.addEventListener('click', () => {
         clearPanel();
-        genericPOSTRequest("https://kbin.social/settings/notifications/read", readAndReset, readToken);
+        genericPOSTRequest("https://kbin.social/settings/notifications/clear", readAndReset, purgeToken);
     });
 
     if (currentPageInt != 1) {
         arrowHolder.appendChild(backButton);
-        backButton.addEventListener('click', (e) => {
+        backButton.addEventListener('click', () => {
             clearPanel();
             genericXMLRequest("https://kbin.social/settings/notifications?p=" + (currentPageInt - 1),insertMsgs);
         });
@@ -259,7 +286,7 @@ async function insertMsgs (response) {
     let testNextPage = notificationsXML.querySelector('a.pagination__item--next-page')
     if (testNextPage) {
         arrowHolder.appendChild(forwardButton);
-        forwardButton.addEventListener('click', (e) => {
+        forwardButton.addEventListener('click', () => {
             clearPanel();
             genericXMLRequest("https://kbin.social/settings/notifications?p=" + (currentPageInt + 1),insertMsgs);
         });
@@ -329,10 +356,6 @@ function toggleIframe (listItem) {
     loading.style.cssText = spinnerCSS
     iframe.appendChild(loading)
 
-    iframe.addEventListener('click', () => {
-        iframe.remove();
-    });
-
     let clickModal = document.createElement('div')
     clickModal.className = "clickmodal"
     clickModal.style.cssText = clickModalCSS
@@ -352,11 +375,11 @@ function build () {
     if (parentElement) {
         const listItem = document.createElement('li');
         listItem.classList.add('notification-button');
-        listItem.style.cursor = 'pointer';
 
         const anchorElement = document.createElement('a');
         anchorElement.textContent = ' ';
         anchorElement.classList.add('fa-solid', 'fa-bell');
+        anchorElement.style.cursor = 'pointer';
         anchorElement.setAttribute('aria-label', 'Notifications');
         anchorElement.setAttribute('title', 'Notifications');
 
@@ -375,7 +398,7 @@ function build () {
             counterElement.classList.add('notification-counter');
             listItem.appendChild(counterElement);
         }
-        listItem.addEventListener('click', () => {
+        anchorElement.addEventListener('click', () => {
             safeGM("addStyle",forceDropdownCSS);
             toggleIframe(listItem)
         });
@@ -393,6 +416,3 @@ function notificationsPanel (toggle) {
         shutdown();
     }
 }
-//TODO: if no unread, gray out read butto
-//TODO: frame click event causes race condition
-//TODO: don't redraw frame if clicking its body
