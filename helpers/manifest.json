@@ -509,12 +509,46 @@
     "name": "Hide sidebar",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Hide sidebar",
+    "label": "Hide sidebar elements",
     "login": false,
     "recurs": true,
-    "desc": "Hide/unhide sidebar",
+    "desc": "Hide/unhide sidebar elements",
     "entrypoint": "hideSidebar",
-    "page": "general"
+    "namespace": "hide-sidebar",
+    "page": "general",
+    "fields": [
+      {
+        "label": "Elements to hide",
+        "key": "sidebar",
+        "type": "checkbox",
+        "checkbox_label": "Hide sidebar entirely"
+      },
+      {
+        "key": "mags",
+        "type": "checkbox",
+        "checkbox_label": "Random mags"
+      },
+      {
+        "key": "users",
+        "type": "checkbox",
+        "checkbox_label": "Active users"
+      },
+      {
+        "key": "posts",
+        "type": "checkbox",
+        "checkbox_label": "Random posts"
+      },
+      {
+        "key": "threads",
+        "type": "checkbox",
+        "checkbox_label": "Random threads"
+      },
+      {
+        "key": "instance",
+        "type": "checkbox",
+        "checkbox_label": "Create your own instance promo"
+      }
+    ]
   },
   {
     "name": "Submit post contents as bug report",
