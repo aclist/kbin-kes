@@ -1,27 +1,26 @@
-function alphaSortInit(toggle){
+function alphaSortInit (toggle) {
     if (window.location.href.split('/')[5] !== "subscriptions") return
     const ul = document.querySelector('.section.magazines.magazines-columns ul')
 
     if (toggle) {
-        var mags = document.querySelectorAll('.section.magazines.magazines-columns ul li a');
-        var magsArr = []
-        var namesArr = []
+        const mags = document.querySelectorAll('.section.magazines.magazines-columns ul li a');
+        const magsArr = []
+        const namesArr = []
 
         mags.forEach((item) => {
-            var toLower = item.href.toLowerCase();
+            const toLower = item.href.toLowerCase();
             magsArr.push(toLower);
-            var hrName = item.innerText.toLowerCase();
+            const hrName = item.innerText.toLowerCase();
             namesArr.push(hrName);
         });
 
         namesArr.sort();
         magsArr.sort();
 
-        var outer = document.querySelector('.section.magazines.magazines-columns')
-        var ul = document.querySelector('.section.magazines.magazines-columns ul')
+        const outer = document.querySelector('.section.magazines.magazines-columns')
         $(ul).hide();
 
-        for (let i =0; i<magsArr.length; ++i){
+        for (let i =0; i<magsArr.length; ++i) {
             const myListItem = document.createElement('li');
             myListItem.className = "alpha-sorted-subs"
             const mySubsLink = document.createElement('a');

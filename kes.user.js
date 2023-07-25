@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.53
+// @version      2.1.0-beta.54
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -52,6 +52,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/move-federation-warning.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/rand.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/rearrange.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
