@@ -11,7 +11,7 @@ wid=$(xdotool getactivewindow)
 sleep 4s
 xdotool keydown ctrl keydown shift keydown question
 sleep 0.1s
-scrot -a 1080,120,2560,1320 "$scrot"
+scrot -a 1080,120,2560,1320 -o "$scrot"
 xdotool keyup ctrl keyup shift keyup question
 feh "$scrot" &
 wmctrl -a feh
