@@ -6,13 +6,13 @@ function hideSidebar (toggle) {
         users: '#sidebar > .active-users',
         posts: '#sidebar > .posts',
         threads: '#sidebar > .entries',
-        instance: '#sidebar > .kbin-promo'
+        instance: '#sidebar > .kbin-promo',
         intro: '#sidebar > .intro'
     }
 
-    const settings = getModSettings('hide-sidebar')
+    const settings = getModSettings('hide-sidebar');
 
-    const keys = Object.keys(obj)
+    const keys = Object.keys(obj);
 
     if (toggle) {
         for (let i = 0; i< keys.length; i++) {
