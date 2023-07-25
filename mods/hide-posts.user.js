@@ -12,21 +12,16 @@ async function setArray () {
 }
 async function addToArr (idArr,toHideID) {
     idArr.push(toHideID)
-    console.log("pushing to PERMA GM storage:",toHideID)
     const updatedArr = JSON.stringify(idArr)
     await safeGM("setValue","hidden-posts",updatedArr)
 }
 function teardown (hp) {
     $('.kes-hide-posts').hide();
     for (i = 0; i < hp.length; ++i) {
-        console.log("showing hidden post", hp[i])
-        console.log(hp[i])
         const toShow = document.querySelector('#entry-' + hp[i]);
-        console.log(toShow)
         $(toShow).show();
     }
     let hideThisPage = []
-    console.log("emptying array")
     storeCurrentPage(hideThisPage);
     wipeArray();
 }
@@ -37,7 +32,6 @@ async function fetchCurrentPage () {
        }
 }
 async function storeCurrentPage (hideThisPage) {
-    console.log("GM storage received:", hideThisPage)
     await safeGM("setValue","hide-this-page",hideThisPage)
 }
 function setup (array) {
@@ -53,7 +47,6 @@ function setup (array) {
         } else {
             const toHide = item.querySelector('.kes-hide-posts');
             if (toHide) {
-                console.log("hide button already on page, re-showing")
                 $(toHide).show();
                 return
             }
@@ -68,12 +61,9 @@ function setup (array) {
             hideButton.addEventListener('click',(event) => {
                 const toHideID = event.target.getAttribute("hide-post-id");
                 const toHide = document.querySelector('#entry-' + toHideID);
-                console.log("hiding post:",toHide)
                 $(toHide).hide();
                 hideThisPage.push(toHideID)
-                console.log("sending ID to PERMA GM storage:",toHideID)
                 addToArr(idArr,toHideID);
-                console.log("sending array to TEMP GM storage:",hideThisPage)
                 storeCurrentPage(hideThisPage)
             });
         }
