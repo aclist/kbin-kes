@@ -795,8 +795,8 @@
       {
         "type": "number",
         "initial": 14,
-        "key": "optionUserSettings",
-        "label": "Settings:",
+        "key": "optionHeader",
+        "label": "Header:",
         "step": "0.1",
         "min": "5",
         "max": "50"
@@ -840,8 +840,8 @@
       {
         "type": "number",
         "initial": 14,
-        "key": "optionHeader",
-        "label": "Header:",
+        "key": "optionUserSettings",
+        "label": "Settings:",
         "step": "0.1",
         "min": "5",
         "max": "50"
