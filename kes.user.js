@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.55
+// @version      2.1.0-beta.56
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -50,6 +50,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mobile-cleanup.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/move-federation-warning.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/n.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/rearrange.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
@@ -688,7 +689,7 @@ function constructMenu (json, layoutArr, isNew) {
             //TODO: fails on GM
             //event.stopPropagation();
             // Hide all options not in this tab (without this classname)
-            const options = document.getElementsByClassName("kess-list")[0];
+            const options = document.getElementsByClassName("kes-list")[0];
             const optionsChildren = options.children;
             const pageToOpen = []
             for (let i = 0; i < optionsChildren.length; i++) {
@@ -727,7 +728,7 @@ function constructMenu (json, layoutArr, isNew) {
         bodyHolder.className = "kes-settings-modal-body";
 
         const kesUl = document.createElement("ul")
-        kesUl.className = "kess-list";
+        kesUl.className = "kes-list";
 
         const helpBox = document.createElement("div");
         helpBox.className = "kes-settings-modal-helpbox";
@@ -797,7 +798,7 @@ function constructMenu (json, layoutArr, isNew) {
         document.querySelector('.kes-settings-modal-sidebar ul').addEventListener("click", (e) => {
             openTab(e.target.outerText);
         });
-        document.querySelector('.kess-list').addEventListener("click", (e) => {
+        document.querySelector('.kes-list').addEventListener("click", (e) => {
             openHelpBox(e.target.getAttribute('kes-iter'));
         });
         document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
