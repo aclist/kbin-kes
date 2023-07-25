@@ -17,7 +17,7 @@ function createMags () {
     const username = user.href.split('/')[4];
     const subsPage = window.location.href.split('/')[5];
     const subLink = 'https://' + window.location.hostname + '/u/' + username + '/subscriptions';
-    let peopleLink = document.querySelector('.head-nav__menu a[href="/people"]')
+    let peopleLink = document.querySelector('.head-nav__menu a[href*="people"]')
     const subsNav = document.querySelector('.subs-nav');
     if (username == null) {
         return;

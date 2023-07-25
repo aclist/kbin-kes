@@ -9,10 +9,22 @@
 // ==/UserScript==
 
 function hideThumbs (toggle) {
-    let cl = '.entry.section.subject figure, .thumb, .no-image-placeholder'
+    settings = getModSettings('hidethumbs')
+    const indexThumbs = '.entry.section.subject figure, .no-image-placeholder'
+    const inlineThumbs = '.thumb'
     if (toggle) {
-        $(cl).hide();
+        if (settings["index"]) {
+            $(indexThumbs).hide();
+        } else {
+            $(indexThumbs).show();
+        }
+        if (settings["inline"]) {
+            $(inlineThumbs).hide();
+        } else {
+            $(inlineThumbs).show();
+        }
     } else {
-        $(cl).show();
+        $(indexThumbs).show();
+        $(inlineThumbs).show();
     }
 }

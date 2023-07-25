@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.54
+// @version      2.1.0-beta.57
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -63,7 +63,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, toggleLogo, updateTime, userInstanceEntry, textResize */
+/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -689,7 +689,7 @@ function constructMenu (json, layoutArr, isNew) {
             //TODO: fails on GM
             //event.stopPropagation();
             // Hide all options not in this tab (without this classname)
-            const options = document.getElementsByClassName("kess-list")[0];
+            const options = document.getElementsByClassName("kes-list")[0];
             const optionsChildren = options.children;
             const pageToOpen = []
             for (let i = 0; i < optionsChildren.length; i++) {
@@ -728,7 +728,7 @@ function constructMenu (json, layoutArr, isNew) {
         bodyHolder.className = "kes-settings-modal-body";
 
         const kesUl = document.createElement("ul")
-        kesUl.className = "kess-list";
+        kesUl.className = "kes-list";
 
         const helpBox = document.createElement("div");
         helpBox.className = "kes-settings-modal-helpbox";
@@ -798,7 +798,7 @@ function constructMenu (json, layoutArr, isNew) {
         document.querySelector('.kes-settings-modal-sidebar ul').addEventListener("click", (e) => {
             openTab(e.target.outerText);
         });
-        document.querySelector('.kess-list').addEventListener("click", (e) => {
+        document.querySelector('.kes-list').addEventListener("click", (e) => {
             openHelpBox(e.target.getAttribute('kes-iter'));
         });
         document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
@@ -981,7 +981,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //normal mutation (lazy load etc.), apply all recurring mods
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i].entrypoint,mutation);
+                        applySettings(json[i].entrypoint, mutation);
                         obs.takeRecords();
                     }
                 }

@@ -4,7 +4,7 @@ const kbinMini = 'https://raw.githubusercontent.com/aclist/kbin-kes/main/images/
 const defaultLogo = "/kbin_logo.svg";
 
 function updateLogo (link) {
-    $('.brand').show();
+    $('.brand a').show();
     const img = document.querySelector('.brand a img');
     img.setAttribute("src", link);
 }
@@ -17,7 +17,7 @@ function changeLogo () {
     switch (opt) {
     case "Hidden":
         updateLogo(defaultLogo)
-        $('.brand').hide();
+	$('.brand a').hide();
         break;
     case "Kibby":
         updateLogo(kibby);
