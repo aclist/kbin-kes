@@ -980,7 +980,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //normal mutation (lazy load etc.), apply all recurring mods
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i].entrypoint,mutation);
+                        applySettings(json[i].entrypoint, mutation);
                         obs.takeRecords();
                     }
                 }
