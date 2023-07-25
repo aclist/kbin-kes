@@ -44,7 +44,6 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/instance-names.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-kes
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
