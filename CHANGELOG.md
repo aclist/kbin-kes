@@ -2,18 +2,21 @@
 All notable changes to this project will be documented in this file.
 ## 2.1.0
 ### Added
-- Always expand post bodies (shazbot)
-- Hide threads permanently (shazbot)
 - Resize fonts globally (minnieo)
+- Hide threads permanently (shazbot)
 - Mobile cleanup (Twelph)
+- Move/hide federation warning (PrinzKasper)
+- Always expand post bodies (shazbot)
 - Rearrange thread element order (shazbot)
+- Alpha sort subs list (shazbot)
 - Add accessibility category
 ### Fixed
 - Hamburger menu disappears when using toggle logo mod on mobile
 - Alignment of wrench icon in hamburger menu
-- Collapsible comments: list fixes (TODO)
+- Collapsible comments: several fixes for nested replies, reply threads 10+ comments deep, infinite scrolling
 ### Changed
-- Notifications panel: smoother load and pagination (collab: blobcat & shazbot)
+- Notifications panel: smoother load and pagination
+- Hide sidebar: show/hide specific elements of the sidebar, such as random posts/threads
 - Hide thumbnails: granular toggles for thread index/inline thumbnails
 - Notifier and settings icons: better visibility across all themes
 ### API

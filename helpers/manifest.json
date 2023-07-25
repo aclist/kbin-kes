@@ -460,11 +460,11 @@
   {
     "name": "Collapsible comments",
     "author": "artillect",
-    "version": "1.3.8",
+    "version": "1.4.0",
     "label": "Collapsible comments",
-    "desc": "Collapse comments by clicking on their headers, and the bars to their left. Note: toggling off will reload the page",
+    "desc": "Collapse comments by clicking on their headers, and the bars to their left.",
     "login": false,
-    "recurs": true,
+    "recurs": false,
     "entrypoint": "initCollapsibleComments",
     "page": "threads",
     "namespace": "collapsibleComments",
@@ -509,12 +509,51 @@
     "name": "Hide sidebar",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Hide sidebar",
+    "label": "Hide sidebar elements",
     "login": false,
     "recurs": true,
-    "desc": "Hide/unhide sidebar",
+    "desc": "Hide/unhide sidebar elements",
     "entrypoint": "hideSidebar",
-    "page": "general"
+    "namespace": "hide-sidebar",
+    "page": "general",
+    "fields": [
+      {
+        "label": "Elements to hide",
+        "key": "sidebar",
+        "type": "checkbox",
+        "checkbox_label": "Hide sidebar entirely"
+      },
+      {
+        "key": "mags",
+        "type": "checkbox",
+        "checkbox_label": "Random mags"
+      },
+      {
+        "key": "users",
+        "type": "checkbox",
+        "checkbox_label": "Active users"
+      },
+      {
+        "key": "posts",
+        "type": "checkbox",
+        "checkbox_label": "Random posts"
+      },
+      {
+        "key": "threads",
+        "type": "checkbox",
+        "checkbox_label": "Random threads"
+      },
+      {
+        "key": "instance",
+        "type": "checkbox",
+        "checkbox_label": "Create your own instance promo"
+      },
+      {
+        "key": "intro",
+        "type": "checkbox",
+        "checkbox_label": "Explore the fediverse intro text"
+      }
+    ]
   },
   {
     "name": "Submit post contents as bug report",
@@ -571,8 +610,11 @@
   },
   {
     "name": "Notifications panel",
-    "author": "blobcat",
-    "version": "0.2.8",
+    "author": [
+	    "blobcat",
+	    "shazbot"
+    ],
+    "version": "0.3.0",
     "label": "Add a notifications panel",
     "login": true,
     "recurs": false,
@@ -616,6 +658,30 @@
     "page": "threads"
   },
   {
+    "name": "Move federation warning to sidebar",
+    "author": "PrinzKasper",
+    "version": "1.0.0",
+    "label": "Move federation warning to sidebar",
+    "login": false,
+    "recurs": false,
+    "desc": "When viewing a magazine from another instance, kbin displays a warning at the top of the feed. This mod moves the warning to the sidebar's magazine info panel, or hides it completely.",
+    "entrypoint": "moveFederationWarningEntry",
+    "namespace": "moveFederationWarning",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Move to Sidebar",
+        "key": "action",
+        "label": "Choose which action to take",
+        "values": [
+          "Move to Sidebar",
+          "Hide completely"
+        ]
+      }
+    ],
+    "page": "threads"
+  },
+  {
     "name": "Clearer PM box",
     "author": "shazbot",
     "version": "0.1.0",
@@ -636,6 +702,17 @@
     "desc": "Adds a hide button to permanently hide posts from your feed. Untoggle to wipe the history of hidden posts and reset.",
     "entrypoint": "hidePostsInit",
     "page": "threads"
+  },
+  {
+    "name": "Alpha sort subs",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Alpha sort subs list",
+    "login": true,
+    "recurs": false,
+    "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions)",
+    "entrypoint": "alphaSortInit",
+    "page": "profile"
   },
   {
     "name": "Rearrange comments",
@@ -693,6 +770,158 @@
         "initial": 5,
         "label": "Activity panel",
         "key": "activity"
+      }
+    ]
+  },
+  {
+    "name": "Customize font size",
+    "author": "minnieo",
+    "version": "0.1.0",
+    "label": "Change font size",
+    "login": false,
+    "recurs": true,
+    "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes. Note: reload required when toggling off.",
+    "entrypoint": "textResize",
+    "namespace": "resize",
+    "page": "accessibility",
+    "catch_reset": [
+      "optionHeader",
+      "optionPosts",
+      "optionComments",
+      "optionMagSidebar",
+      "optionHomeSidebar",
+      "optionCreate",
+      "optionProfile",
+      "optionUserSettings",
+      "optionMessages",
+      "optionSortBy",
+      "optionNotifs",
+      "optionFooter",
+      "optionActivity"
+    ],
+    "fields": [
+      {
+        "type": "reset",
+        "key": "resetNumFields",
+        "label": "Reset values to defaults:",
+        "value": "reset"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionHeader",
+        "label": "Header:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionPosts",
+        "label": "Posts:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionComments",
+        "label": "Comments:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionActivity",
+        "label": "Activity:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionNotifs",
+        "label": "Notifications:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionUserSettings",
+        "label": "Settings:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionSortBy",
+        "label": "Sort by bar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionMagSidebar",
+        "label": "Magazine Sidebar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 13,
+        "key": "optionHomeSidebar",
+        "label": "Front page Sidebar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionCreate",
+        "label": "Create (threads, mags, links, etc):",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionProfile",
+        "label": "Profiles:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionMessages",
+        "label": "Messages:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionFooter",
+        "label": "Footer:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
       }
     ]
   }
