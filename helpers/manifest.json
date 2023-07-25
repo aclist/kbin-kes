@@ -547,6 +547,11 @@
         "key": "instance",
         "type": "checkbox",
         "checkbox_label": "Create your own instance promo"
+      },
+      {
+        "key": "intro",
+        "type": "checkbox",
+        "checkbox_label": "Explore the fediverse intro text"
       }
     ]
   },

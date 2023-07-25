@@ -7,6 +7,7 @@ function hideSidebar (toggle) {
         posts: '#sidebar > .posts',
         threads: '#sidebar > .entries',
         instance: '#sidebar > .kbin-promo'
+        intro: '#sidebar > .intro'
     }
 
     const settings = getModSettings('hide-sidebar')
