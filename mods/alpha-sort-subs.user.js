@@ -37,4 +37,3 @@ function alphaSortInit(toggle){
         $(ul).show();
     }
 }
-alphaSortInit(true)
