@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.51
+// @version      2.1.0-beta.52
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -31,6 +31,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/alpha-sort-subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/always-more.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/clarify-recipient.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting.user.js
@@ -63,7 +64,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -84,6 +85,7 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 
 const funcObj = {
     addMail: addMail,
+    alphaSortInit: alphaSortInit,
     bugReportInit: bugReportInit,
     clarifyRecipientInit: clarifyRecipientInit,
     dropdownEntry: dropdownEntry,

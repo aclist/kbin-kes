@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Move/hide federation warning (PrinzKasper)
 - Always expand post bodies (shazbot)
 - Rearrange thread element order (shazbot)
+- Alpha sort subs list (shazbot)
 - Add accessibility category
 ### Fixed
 - Hamburger menu disappears when using toggle logo mod on mobile
