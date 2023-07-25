@@ -108,7 +108,8 @@ const funcObj = {
     rearrangeInit: rearrangeInit,
     toggleLogo: toggleLogo,
     updateTime: updateTime,
-    userInstanceEntry: userInstanceEntry
+    userInstanceEntry: userInstanceEntry,
+    textResize: textResize
 };
 //END AUTO MASTHEAD
 
