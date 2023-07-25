@@ -406,7 +406,9 @@ function build () {
 }
 function shutdown () {
     const notiPanel = document.querySelector('li.notification-button');
-    notiPanel.remove();
+    if (notiPanel) {
+        notiPanel.remove();
+    }
 }
 
 function notificationsPanel (toggle) {
