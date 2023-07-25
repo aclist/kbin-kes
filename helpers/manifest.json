@@ -610,8 +610,11 @@
   },
   {
     "name": "Notifications panel",
-    "author": "blobcat",
-    "version": "0.2.8",
+    "author": [
+	    "blobcat",
+	    "shazbot"
+    ],
+    "version": "0.3.0",
     "label": "Add a notifications panel",
     "login": true,
     "recurs": false,
