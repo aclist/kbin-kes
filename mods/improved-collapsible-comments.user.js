@@ -12,16 +12,11 @@
 
 function initCollapsibleComments (toggle, mutation) {
     if (toggle) {
-        console.log("caught mutation event")
-        console.log("iterating thru comments")
         if (mutation) {
-            console.log(mutation)
             if (mutation.addedNodes[0].className.indexOf('nested') === -1) {
-                console.log("not nested!")
                 enterMain();
             }
         } else if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
-            console.log("RETURNING")
             return;
         } else {
             enterMain();

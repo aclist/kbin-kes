@@ -54,7 +54,6 @@ function resizeText () {
             kesModalContainer.style.setProperty('background-color', `rgba(44, 44, 44, 0.2)`);
         }
     }
-    console.log("iterating")
 
     // === HEADER === //
     //header *variables*
