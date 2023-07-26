@@ -982,7 +982,7 @@
         "initial": 0,
         "key": "contrast",
         "label": "Contrast",
-        "step": 0.1,
+        "step": "0.1",
         "min": 0,
         "max": 10,
         "show_value": true
