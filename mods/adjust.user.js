@@ -14,9 +14,9 @@ function adjustColors() {
     let settings = getModSettings('adjust');
     let sepia = `${settings.sepia * 10}%`;
     let hue = `${settings.hueRotate * 10}deg`;
-    let bright = `${settings.bright + 100}%`;
-    let saturate = `${settings.saturate + 100}%`;
-    let contrast = `${settings.contrast +  100}%`;
+    let bright = `${(settings.bright * 10) + 100}%`;
+    let saturate = `${(settings.saturate * 10) + 100}%`;
+    let contrast = `${(settings.contrast * 10) + 100}%`;
 
     if (adjustStyle && adjustStyle.parentNode) {
         adjustStyle.parentNode.removeChild(adjustStyle);
