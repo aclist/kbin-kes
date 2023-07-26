@@ -19,6 +19,7 @@ function adjustColors() {
     let contrast = `${(settings.contrast * 10) + 100}%`;
     let upvoteCol = settings.upvote;
     let downvoteCol = settings.downvote;
+    let boostCol = settings.boost;
 
     if (adjustStyle && adjustStyle.parentNode) {
         adjustStyle.parentNode.removeChild(adjustStyle);
@@ -37,8 +38,12 @@ function adjustColors() {
         color: ${downvoteCol};
         ${settings.border ? 'border: 2px solid ' + downvoteCol + ';' : ''}
     }
+    .entry footer menu > a.active, .entry footer menu > li button.active {
+        color: ${boostCol};
+        text-decoration: none;
+    }
     `;
-    
+
     adjustStyle.innerText = css;
     document.head.appendChild(adjustStyle);
 

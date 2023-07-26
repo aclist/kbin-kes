@@ -1000,6 +1000,12 @@
         "label": "Downvote color"
       },
       {
+        "type": "color",
+        "initial": "#FFFFFF",
+        "key": "boost",
+        "label": "Boost color"
+      }
+      {
         "type": "checkbox",
         "key": "border",
         "checkbox_label": "Border around up/downvote buttons"
