@@ -17,15 +17,19 @@ function adjustColors() {
     let bright = `${(settings.bright * 10) + 100}%`;
     let saturate = `${(settings.saturate * 10) + 100}%`;
     let contrast = `${(settings.contrast * 10) + 100}%`;
+    let upvoteCol = settings.upvote;
+    let downvoteCol = settings.downvote;
 
     if (adjustStyle && adjustStyle.parentNode) {
         adjustStyle.parentNode.removeChild(adjustStyle);
     }
 
     adjustStyle = document.createElement('style');
-    const css = `html {filter: sepia(${sepia}) hue-rotate(${hue}) brightness(${bright}) saturate(${saturate}) contrast(${contrast});}`;
+    const css = `html {filter: sepia(${sepia}) hue-rotate(${hue}) brightness(${bright}) saturate(${saturate}) contrast(${contrast});}
+    button[aria-label="Favourite"] {color: ${upvoteCol};} button[aria-label="Reduce"] {color: ${downvoteCol};}`;
     adjustStyle.innerText = css;
     document.head.appendChild(adjustStyle);
+
 
 }
 

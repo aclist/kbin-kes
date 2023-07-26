@@ -986,6 +986,18 @@
         "min": "0",
         "max": "10",
         "show_value": true
+      },
+      {
+        "type": "color",
+        "initial": "#24B270",
+        "key": "upvote",
+        "label": "Upvote color"
+      },
+      {
+        "type": "color",
+        "initial": "#DC2F3F",
+        "key": "downvote",
+        "label": "Downvote color"
       }
     ]
   }
