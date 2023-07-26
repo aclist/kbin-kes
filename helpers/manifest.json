@@ -1004,7 +1004,7 @@
         "initial": "#FFFFFF",
         "key": "boost",
         "label": "Boost color"
-      }
+      },
       {
         "type": "checkbox",
         "key": "border",
