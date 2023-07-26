@@ -959,7 +959,7 @@
       },
       {
         "type": "range",
-        "initial": 0,
+        "initial": 10,
         "key": "bright",
         "label": "Brightness",
         "step": 1,
@@ -969,7 +969,7 @@
       },
       {
         "type": "range",
-        "initial": 0,
+        "initial": 10,
         "key": "saturate",
         "label": "Saturation",
         "step": 1,
@@ -979,7 +979,7 @@
       },
       {
         "type": "range",
-        "initial": 0,
+        "initial": 10,
         "key": "contrast",
         "label": "Contrast",
         "step": 1,
