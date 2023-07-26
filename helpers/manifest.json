@@ -782,5 +782,156 @@
         "key": "thickness"
       }
     ]
-  }
+  },
+  {
+    "name": "Customize font size",
+    "author": "minnieo",
+    "version": "0.1.0",
+    "label": "Change font size",
+    "login": false,
+    "recurs": true,
+    "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes. Note: reload required when toggling off.",
+    "entrypoint": "textResize",
+    "namespace": "resize",
+    "page": "accessibility",
+    "catch_reset": [
+      "optionHeader",
+      "optionPosts",
+      "optionComments",
+      "optionMagSidebar",
+      "optionHomeSidebar",
+      "optionCreate",
+      "optionProfile",
+      "optionUserSettings",
+      "optionMessages",
+      "optionSortBy",
+      "optionNotifs",
+      "optionFooter",
+      "optionActivity"
+    ],
+    "fields": [
+      {
+        "type": "reset",
+        "key": "resetNumFields",
+        "label": "Reset values to defaults:",
+        "value": "reset"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionHeader",
+        "label": "Header:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionPosts",
+        "label": "Posts:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionComments",
+        "label": "Comments:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionActivity",
+        "label": "Activity:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionNotifs",
+        "label": "Notifications:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionUserSettings",
+        "label": "Settings:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionSortBy",
+        "label": "Sort by bar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionMagSidebar",
+        "label": "Magazine Sidebar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 13,
+        "key": "optionHomeSidebar",
+        "label": "Front page Sidebar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionCreate",
+        "label": "Create (threads, mags, links, etc):",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionProfile",
+        "label": "Profiles:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionMessages",
+        "label": "Messages:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionFooter",
+        "label": "Footer:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      }
+   }
 ]
