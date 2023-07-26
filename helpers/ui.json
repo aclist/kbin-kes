@@ -16,8 +16,9 @@
     "general",
     "navbar",
     "threads",
-    "comments",
     "profile",
+    "accessibility",
+    "mobile",
     "debug"
   ]
 }
