@@ -54,7 +54,7 @@ function setup (array) {
             const hideButton = document.createElement('a');
             hideButtonHolder.appendChild(hideButton)
             hideButton.className = "stretched-link kes-hide-posts"
-            hideButton.innerText = "hide post";
+            hideButton.innerText = "hide";
             hideButton.setAttribute("hide-post-id",entryID);
             const footer = item.querySelector('footer menu');
             footer.appendChild(hideButtonHolder);
