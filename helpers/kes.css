@@ -129,9 +129,9 @@ span.kes-update {
         margin-bottom: -100px;
     }
     .kes-version .new {
-        margin-top: 35px;
+        margin-top: 35px !important;
         margin-right: 78px !important;
-        margin-bottom: -50px;
+        margin-bottom: -50px !important;
     }
     .kes-settings-modal-header span {
         padding-right: 10px;
