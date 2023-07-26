@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Mobile cleanup (Twelph)
 - Move/hide federation warning (PrinzKasper)
 - Always expand post bodies (shazbot)
+- Clarify recipient on compose (shazbot)
 - Rearrange thread element order (shazbot)
 - Alpha sort subs list (shazbot)
 - Add accessibility category
@@ -52,7 +53,7 @@ All notable changes to this project will be documented in this file.
 - Notifier on wrench icon if updates to KES are available
 - Reset button: clear all saved KES settings and reset
 - Clipboard button: copy system information to clipboard (for bug reports)
-- Notifications Panel (@blobcat): adds a navbar bell icon that opens notifications in an iframe
+- Notifications Panel (blobcat): adds a navbar bell icon that opens notifications in an iframe
 - Bug-report-from-post: post contents of a message directly to the KES bug tracker
 - Support for multiple authors in attribution field
 - Support for number field minimum, maximum, and step increments

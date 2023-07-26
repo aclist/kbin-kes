@@ -10,35 +10,46 @@
 // @license      MIT
 // ==/UserScript==
 
-function initCollapsibleComments (toggle) {
-
+function initCollapsibleComments (toggle, mutation) {
     if (toggle) {
-        if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
+        if (mutation) {
+            if (mutation.addedNodes[0].className.indexOf('nested') === -1) {
+                enterMain();
+            }
+        } else if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
             return;
+        } else {
+            enterMain();
         }
-        applyToNewPosts();
-        applyCommentStyles();
-
-        // let observer = new MutationObserver(applyToNewPosts);
-        // observer.observe(document.body, { childList: true, subtree: true });
-        // Get settings
-        const settings = getModSettings('collapsibleComments');
-        const clickAnywhere = settings.click == "Anywhere on comments";
-
-        initCollapsibleCommentsListeners(clickAnywhere);
-    } else {
-        if (document.querySelector('.entry-comment.nested')) {
-            location.reload();
-        }
+    } else if (document.querySelector('.entry-comment.nested')) {
+        document.querySelectorAll('.expando').forEach((item) => {
+            item.remove();
+        });
+        document.querySelectorAll('.expando-icon').forEach((item) => {
+            item.remove();
+        });
+        document.querySelectorAll('.entry-comment.nested').forEach((item) => {
+            item.classList.remove('nested');
+        });
     }
+}
+function enterMain () {
+    applyToNewPosts();
+    applyCommentStyles();
+
+    const settings = getModSettings('collapsibleComments');
+    const clickAnywhere = settings.click == "Anywhere on comments";
+
+    initCollapsibleCommentsListeners(clickAnywhere);
 }
 
 function initCollapsibleCommentsListeners (toggle) {
     // Get all comments
-    let comments = document.querySelectorAll('.entry-comment');
+    let comments = document.querySelectorAll('.entry-comment:not(.listened)');
 
     // Add event listeners to comments
     for (let i = 0; i < comments.length; i++) {
+        comments[i].classList.add('listened');
         if (!toggle) {
             // Get expando
             let expandos = comments[i].querySelectorAll('.expando');
@@ -396,6 +407,11 @@ function applyCommentStyles () {
     .entry-comment header {
         cursor: pointer;
     }
+    .entry-comment .js-container {
+        margin-bottom: 0 !important;
+        display: block;
+        margin-top: 0 !important;
+    }
     `;
     for (let i = 1; i < 10; i++) {
         style += `
@@ -413,7 +429,7 @@ function applyToNewPosts () {
     // Get all comment levels
     let levels = [];
     for (let i = 0; i < comments.length; i++) {
-        let level = comments[i].className.match(/comment-level--(\d)/)[1];
+        let level = comments[i].className.match(/comment-level--(\d+)/)[1];
         levels.push(level);
     }
 

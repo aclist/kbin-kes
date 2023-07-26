@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.54
+// @version      2.1.0-beta.68
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -28,47 +28,49 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/alpha-sort-subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/always-more.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/clarify-recipient.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-sidebar.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-thumbs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-votes.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/instance-names.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mobile-cleanup.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/move-federation-warning.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/rearrange.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
-// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
-// @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
-// @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
-// @downloadURL  https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
-// @updateURL    https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/alpha-sort-subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/always-more.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/clarify-recipient.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/code-highlighting.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/dropdown.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/easy-emoticon.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/hide-logo.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/hide-posts.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/hide-sidebar.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/hide-thumbs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/hide-votes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/improved-collapsible-comments.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/instance-names.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/kbin-federation-awareness.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/kbin-mod-options.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/label.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/mail.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/mobile-cleanup.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/move-federation-warning.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/nav-icons.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/notifications-panel.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/rearrange.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/report-bug.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/resize-text.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/timestamp.user.js
+// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/helpers/ui.json
+// @resource     kes_json https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/helpers/manifest.json
+// @resource     kes_css https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/helpers/kes.css
+// @downloadURL  https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/kes.user.js
+// @updateURL    https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, textResize, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
-const branch = "testing"
+const branch = "tags/2.1.0^2^2~2"
 const helpersPath = "helpers/"
 const branchPath = repositoryURL + "raw/" + branch + "/"
 const versionFile = branchPath + "VERSION";
@@ -90,6 +92,7 @@ const funcObj = {
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
     hideDownvotes: hideDownvotes,
+    hidePostsInit: hidePostsInit,
     hideReputation: hideReputation,
     hideSidebar: hideSidebar,
     hideThumbs: hideThumbs,
@@ -106,6 +109,7 @@ const funcObj = {
     navbarIcons: navbarIcons,
     notificationsPanel: notificationsPanel,
     rearrangeInit: rearrangeInit,
+    textResize: textResize,
     toggleLogo: toggleLogo,
     updateTime: updateTime,
     userInstanceEntry: userInstanceEntry
@@ -201,7 +205,7 @@ function constructMenu (json, layoutArr, isNew) {
     let kbinContainer
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title;
-    if (window.innerWidth > 512) {
+    if (window.innerWidth > 576) {
         kbinContainer = document.querySelector('.kbin-container > menu');
     } else {
         kbinContainer = document.querySelector('.sidebar-options > .section > menu > ul')
@@ -688,7 +692,7 @@ function constructMenu (json, layoutArr, isNew) {
             //TODO: fails on GM
             //event.stopPropagation();
             // Hide all options not in this tab (without this classname)
-            const options = document.getElementsByClassName("kess-list")[0];
+            const options = document.getElementsByClassName("kes-list")[0];
             const optionsChildren = options.children;
             const pageToOpen = []
             for (let i = 0; i < optionsChildren.length; i++) {
@@ -727,7 +731,7 @@ function constructMenu (json, layoutArr, isNew) {
         bodyHolder.className = "kes-settings-modal-body";
 
         const kesUl = document.createElement("ul")
-        kesUl.className = "kess-list";
+        kesUl.className = "kes-list";
 
         const helpBox = document.createElement("div");
         helpBox.className = "kes-settings-modal-helpbox";
@@ -797,7 +801,7 @@ function constructMenu (json, layoutArr, isNew) {
         document.querySelector('.kes-settings-modal-sidebar ul').addEventListener("click", (e) => {
             openTab(e.target.outerText);
         });
-        document.querySelector('.kess-list').addEventListener("click", (e) => {
+        document.querySelector('.kes-list').addEventListener("click", (e) => {
             openHelpBox(e.target.getAttribute('kes-iter'));
         });
         document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
@@ -980,7 +984,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //normal mutation (lazy load etc.), apply all recurring mods
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i].entrypoint,mutation);
+                        applySettings(json[i].entrypoint, mutation);
                         obs.takeRecords();
                     }
                 }
