@@ -755,35 +755,6 @@
     ]
   },
   {
-    "name": "Hover indicator",
-    "author": "minnieo",
-    "version": "0.1.0",
-    "label": "Hover indicator",
-    "login": false,
-    "recurs": false,
-    "desc": "Apply an outline to elements that are being hovered over.",
-    "namespace": "hover",
-    "entrypoint": "hoverIndicator",
-    "page": "accessibility",
-    "fields": [
-      {
-        "type": "color",
-        "initial": "#FFFFFF",
-        "key": "color",
-        "label": "Outline color"
-      },
-      {
-        "type": "number",
-        "min": 1,
-        "max": 10,
-        "step": 1,
-        "initial": 2,
-        "label": "Thickness of outline",
-        "key": "thickness"
-      }
-    ]
-  },
-  {
     "name": "Customize font size",
     "author": "minnieo",
     "version": "0.1.0",
@@ -933,5 +904,35 @@
         "min": "5",
         "max": "50"
       }
-   }
+    ]
+  },
+  { 
+    "name": "Hover indicator",
+    "author": "minnieo",
+    "version": "0.1.0",
+    "label": "Hover indicator",
+    "login": false,
+    "recurs": false,
+    "desc": "Apply an outline to elements that are being hovered over.",
+    "namespace": "hover",
+    "entrypoint": "hoverIndicator",
+    "page": "accessibility",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "#FFFFFF",
+        "key": "color",
+        "label": "Outline color"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "initial": 2,
+        "label": "Thickness of outline",
+        "key": "thickness"
+      }
+    ]
+  }
 ]
