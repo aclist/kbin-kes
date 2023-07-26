@@ -1,5 +1,27 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.1.0
+### Added
+- Resize fonts globally (minnieo)
+- Hide threads permanently (shazbot)
+- Mobile cleanup (Twelph)
+- Move/hide federation warning (PrinzKasper)
+- Always expand post bodies (shazbot)
+- Clarify recipient on compose (shazbot)
+- Rearrange thread element order (shazbot)
+- Alpha sort subs list (shazbot)
+- Add accessibility category
+### Fixed
+- Hamburger menu disappears when using toggle logo mod on mobile
+- Alignment of wrench icon in hamburger menu
+- Collapsible comments: several fixes for nested replies, reply threads 10+ comments deep, infinite scrolling
+### Changed
+- Notifications panel: smoother load and pagination
+- Hide sidebar: show/hide specific elements of the sidebar, such as random posts/threads
+- Hide thumbnails: granular toggles for thread index/inline thumbnails
+- Notifier and settings icons: better visibility across all themes
+### API
+- Pass mutation events through to mods for parsing
 ## 2.0.7
 ### Fixed
 - Settings icon on mobile view not visible on light themes
@@ -31,7 +53,7 @@ All notable changes to this project will be documented in this file.
 - Notifier on wrench icon if updates to KES are available
 - Reset button: clear all saved KES settings and reset
 - Clipboard button: copy system information to clipboard (for bug reports)
-- Notifications Panel (@blobcat): adds a navbar bell icon that opens notifications in an iframe
+- Notifications Panel (blobcat): adds a navbar bell icon that opens notifications in an iframe
 - Bug-report-from-post: post contents of a message directly to the KES bug tracker
 - Support for multiple authors in attribution field
 - Support for number field minimum, maximum, and step increments

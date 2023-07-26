@@ -18,7 +18,7 @@ function bugReportInit (toggle) {
             let newHref = document.createElement('a');
             newListItem.className = "kes-report-bug";
             newHref.setAttribute("href", reportURL + postBody + footer);
-            newHref.textContent = "REPORT BUG";
+            newHref.textContent = "Report KES bug";
             newListItem.appendChild(newHref);
             newListItem.style.cssText = "color: white";
             postFooter.appendChild(newListItem)

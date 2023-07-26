@@ -372,7 +372,6 @@
     "label": "User instance names",
     "desc": "Show instance names next to users",
     "entrypoint": "userInstanceEntry",
-    "type": "checkbox",
     "page": "general"
   },
   {
@@ -451,9 +450,9 @@
         "key": "logotype",
         "values": [
           "Hidden",
-	  "Kbin (no text)",
+          "Kbin (no text)",
           "Kibby",
-	  "Kibby (no text)"
+          "Kibby (no text)"
         ]
       }
     ]
@@ -461,13 +460,13 @@
   {
     "name": "Collapsible comments",
     "author": "artillect",
-    "version": "1.3.8",
+    "version": "1.4.0",
     "label": "Collapsible comments",
-    "desc": "Collapse comments by clicking on their headers, and the bars to their left. Note: toggling off will reload the page",
+    "desc": "Collapse comments by clicking on their headers, and the bars to their left.",
     "login": false,
-    "recurs": true,
+    "recurs": false,
     "entrypoint": "initCollapsibleComments",
-    "page": "comments",
+    "page": "threads",
     "namespace": "collapsibleComments",
     "fields": [
       {
@@ -491,18 +490,70 @@
     "recurs": true,
     "desc": "Hide thumbnails on threads and comments",
     "entrypoint": "hideThumbs",
-    "page": "general"
+    "page": "general",
+    "namespace": "hidethumbs",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "index",
+        "checkbox_label": "Hide on thread index"
+      },
+      {
+        "type": "checkbox",
+        "key": "inline",
+        "checkbox_label": "Hide inline thumbnails"
+      }
+    ]
   },
   {
     "name": "Hide sidebar",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Hide sidebar",
+    "label": "Hide sidebar elements",
     "login": false,
     "recurs": true,
-    "desc": "Hide/unhide sidebar",
+    "desc": "Hide/unhide sidebar elements",
     "entrypoint": "hideSidebar",
-    "page": "general"
+    "namespace": "hide-sidebar",
+    "page": "general",
+    "fields": [
+      {
+        "label": "Elements to hide",
+        "key": "sidebar",
+        "type": "checkbox",
+        "checkbox_label": "Hide sidebar entirely"
+      },
+      {
+        "key": "mags",
+        "type": "checkbox",
+        "checkbox_label": "Random mags"
+      },
+      {
+        "key": "users",
+        "type": "checkbox",
+        "checkbox_label": "Active users"
+      },
+      {
+        "key": "posts",
+        "type": "checkbox",
+        "checkbox_label": "Random posts"
+      },
+      {
+        "key": "threads",
+        "type": "checkbox",
+        "checkbox_label": "Random threads"
+      },
+      {
+        "key": "instance",
+        "type": "checkbox",
+        "checkbox_label": "Create your own instance promo"
+      },
+      {
+        "key": "intro",
+        "type": "checkbox",
+        "checkbox_label": "Explore the fediverse intro text"
+      }
+    ]
   },
   {
     "name": "Submit post contents as bug report",
@@ -559,13 +610,319 @@
   },
   {
     "name": "Notifications panel",
-    "author": "blobcat",
-    "version": "0.2.8",
+    "author": [
+	    "blobcat",
+	    "shazbot"
+    ],
+    "version": "0.3.0",
     "label": "Add a notifications panel",
     "login": true,
     "recurs": false,
     "desc": "Adds a floating notifications panel to the navbar",
     "entrypoint": "notificationsPanel",
     "page": "navbar"
+  },
+  {
+    "name": "Mobile view cleanup",
+    "author": "Twelph",
+    "version": "0.1.0",
+    "label": "Mobile view cleanup",
+    "login": false,
+    "recurs": false,
+    "desc": "Hide elements in navbar to reduce clutter in mobile view",
+    "namespace": "mobilehide",
+    "entrypoint": "mobileHideInit",
+    "page": "mobile",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "filter",
+        "checkbox_label": "Hide filter icon"
+      },
+      {
+        "type": "checkbox",
+        "key": "view",
+        "checkbox_label": "Hide view icon"
+      }
+    ]
+  },
+  {
+    "name": "Always expand post bodies",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Always expand post bodies",
+    "login": false,
+    "recurs": false,
+    "desc": "Auto-expands long post bodies instead of starting collapsed",
+    "entrypoint": "moreInit",
+    "page": "threads"
+  },
+  {
+    "name": "Move federation warning to sidebar",
+    "author": "PrinzKasper",
+    "version": "1.0.0",
+    "label": "Move federation warning to sidebar",
+    "login": false,
+    "recurs": false,
+    "desc": "When viewing a magazine from another instance, kbin displays a warning at the top of the feed. This mod moves the warning to the sidebar's magazine info panel, or hides it completely.",
+    "entrypoint": "moveFederationWarningEntry",
+    "namespace": "moveFederationWarning",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Move to Sidebar",
+        "key": "action",
+        "label": "Choose which action to take",
+        "values": [
+          "Move to Sidebar",
+          "Hide completely"
+        ]
+      }
+    ],
+    "page": "threads"
+  },
+  {
+    "name": "Clearer PM box",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Show recipient on compose",
+    "login": true,
+    "recurs": false,
+    "desc": "Lists the recipient in the message box title",
+    "entrypoint": "clarifyRecipientInit",
+    "page": "profile"
+  },
+  {
+    "name": "Permanently hide posts",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Permanently hide posts",
+    "login": false,
+    "recurs": true,
+    "desc": "Adds a hide button to permanently hide posts from your feed. Untoggle to wipe the history of hidden posts and reset.",
+    "entrypoint": "hidePostsInit",
+    "page": "threads"
+  },
+  {
+    "name": "Alpha sort subs",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Alpha sort subs list",
+    "login": true,
+    "recurs": false,
+    "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions)",
+    "entrypoint": "alphaSortInit",
+    "page": "profile"
+  },
+  {
+    "name": "Rearrange comments",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Rearrange post order",
+    "login": false,
+    "recurs": false,
+    "desc": "Rearrange the order elements appear inside threads. Recommended sort order is 1, 4, 5, 3, 2",
+    "namespace": "rearrange",
+    "entrypoint": "rearrangeInit",
+    "page": "threads",
+    "fields": [
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 1,
+        "label": "Original post",
+        "key": "op"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 2,
+        "label": "Thread sort options",
+        "key": "options"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 3,
+        "label": "Comments",
+        "key": "comments"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 4,
+        "label": "Add comment",
+        "key": "post"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 5,
+        "label": "Activity panel",
+        "key": "activity"
+      }
+    ]
+  },
+  {
+    "name": "Customize font size",
+    "author": "minnieo",
+    "version": "0.1.0",
+    "label": "Change font size",
+    "login": false,
+    "recurs": true,
+    "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes. Note: reload required when toggling off.",
+    "entrypoint": "textResize",
+    "namespace": "resize",
+    "page": "accessibility",
+    "catch_reset": [
+      "optionHeader",
+      "optionPosts",
+      "optionComments",
+      "optionMagSidebar",
+      "optionHomeSidebar",
+      "optionCreate",
+      "optionProfile",
+      "optionUserSettings",
+      "optionMessages",
+      "optionSortBy",
+      "optionNotifs",
+      "optionFooter",
+      "optionActivity"
+    ],
+    "fields": [
+      {
+        "type": "reset",
+        "key": "resetNumFields",
+        "label": "Reset values to defaults:",
+        "value": "reset"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionHeader",
+        "label": "Header:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionPosts",
+        "label": "Posts:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionComments",
+        "label": "Comments:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionActivity",
+        "label": "Activity:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionNotifs",
+        "label": "Notifications:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionUserSettings",
+        "label": "Settings:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionSortBy",
+        "label": "Sort by bar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionMagSidebar",
+        "label": "Magazine Sidebar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 13,
+        "key": "optionHomeSidebar",
+        "label": "Front page Sidebar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionCreate",
+        "label": "Create (threads, mags, links, etc):",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionProfile",
+        "label": "Profiles:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionMessages",
+        "label": "Messages:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionFooter",
+        "label": "Footer:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      }
+    ]
   }
 ]

@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.0.7
+// @version      2.1.0
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -31,10 +31,14 @@
 // @require      https://github.com/aclist/kbin-kes/raw/main/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/alpha-sort-subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/always-more.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/clarify-recipient.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/code-highlighting.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/dropdown.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/easy-emoticon.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-logo.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-posts.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-sidebar.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-thumbs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-votes.user.js
@@ -44,9 +48,13 @@
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/kbin-mod-options.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/label.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/mail.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mobile-cleanup.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/move-federation-warning.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/nav-icons.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/notifications-panel.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/rearrange.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/report-bug.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/resize-text.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/timestamp.user.js
 // @resource     kes_layout https://github.com/aclist/kbin-kes/raw/main/helpers/ui.json
@@ -57,7 +65,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, bugReportInit, dropdownEntry, easyEmoticon, hideDownvotes, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, navbarIcons, notificationsPanel, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, textResize, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -78,10 +86,13 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 
 const funcObj = {
     addMail: addMail,
+    alphaSortInit: alphaSortInit,
     bugReportInit: bugReportInit,
+    clarifyRecipientInit: clarifyRecipientInit,
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
     hideDownvotes: hideDownvotes,
+    hidePostsInit: hidePostsInit,
     hideReputation: hideReputation,
     hideSidebar: hideSidebar,
     hideThumbs: hideThumbs,
@@ -92,8 +103,13 @@ const funcObj = {
     initMags: initMags,
     labelOp: labelOp,
     magInstanceEntry: magInstanceEntry,
+    mobileHideInit: mobileHideInit,
+    moreInit: moreInit,
+    moveFederationWarningEntry: moveFederationWarningEntry,
     navbarIcons: navbarIcons,
     notificationsPanel: notificationsPanel,
+    rearrangeInit: rearrangeInit,
+    textResize: textResize,
     toggleLogo: toggleLogo,
     updateTime: updateTime,
     userInstanceEntry: userInstanceEntry
@@ -189,16 +205,17 @@ function constructMenu (json, layoutArr, isNew) {
     let kbinContainer
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title;
-    const kesPanel = document.createElement('li');
-    kesPanel.id = 'kes-settings';
-    if (window.innerWidth > 512) {
+    if (window.innerWidth > 576) {
         kbinContainer = document.querySelector('.kbin-container > menu');
     } else {
-        kbinContainer = document.querySelector('.sidebar-options > .section')
-        kesPanel.className = "kes-panel-mobile"
+        kbinContainer = document.querySelector('.sidebar-options > .section > menu > ul')
     }
+    const kesPanel = document.createElement('li');
+    kesPanel.id = 'kes-settings';
     kbinContainer.appendChild(kesPanel);
+    const wrenchOuter = document.createElement('a')
     const settingsButton = document.createElement('i');
+    wrenchOuter.appendChild(settingsButton)
     settingsButton.id = 'kes-settings-button';
     settingsButton.classList = layoutArr.header.open;
     settingsButton.style.verticalAlign = 'middle';
@@ -213,7 +230,7 @@ function constructMenu (json, layoutArr, isNew) {
     kesPanel.addEventListener('click', () => {
         showSettingsModal();
     });
-    kesPanel.appendChild(settingsButton);
+    kesPanel.appendChild(wrenchOuter);
 
     var keyPressed = {};
     document.addEventListener('keydown', function (e) {
@@ -276,7 +293,7 @@ function constructMenu (json, layoutArr, isNew) {
     }
     function activeModCount () {
         const set = JSON.parse(localStorage["kes-settings"])
-        const totalMods = Object.keys(set).length
+        const totalMods = Object.keys(funcObj).length
         let activeMods = 0
         let c
         let key
@@ -464,10 +481,12 @@ function constructMenu (json, layoutArr, isNew) {
                     let initial = json[it].fields[i].initial;
                     let key = json[it].fields[i].key;
                     let ns = json[it].namespace;
-                    let label = document.createElement('p');
-                    label.className = "kes-field-label";
-                    label.innerText = json[it].fields[i].label;
-                    hBox.appendChild(label);
+                    if (json[it].fields[i].label) {
+                        let label = document.createElement('p');
+                        label.className = "kes-field-label";
+                        label.innerText = json[it].fields[i].label;
+                        hBox.appendChild(label);
+                    }
                     if (!modSettings[key]) {
                         modSettings[key] = initial;
                         saveModSettings(modSettings, ns);
@@ -673,7 +692,7 @@ function constructMenu (json, layoutArr, isNew) {
             //TODO: fails on GM
             //event.stopPropagation();
             // Hide all options not in this tab (without this classname)
-            const options = document.getElementsByClassName("kess-list")[0];
+            const options = document.getElementsByClassName("kes-list")[0];
             const optionsChildren = options.children;
             const pageToOpen = []
             for (let i = 0; i < optionsChildren.length; i++) {
@@ -712,7 +731,7 @@ function constructMenu (json, layoutArr, isNew) {
         bodyHolder.className = "kes-settings-modal-body";
 
         const kesUl = document.createElement("ul")
-        kesUl.className = "kess-list";
+        kesUl.className = "kes-list";
 
         const helpBox = document.createElement("div");
         helpBox.className = "kes-settings-modal-helpbox";
@@ -782,7 +801,7 @@ function constructMenu (json, layoutArr, isNew) {
         document.querySelector('.kes-settings-modal-sidebar ul').addEventListener("click", (e) => {
             openTab(e.target.outerText);
         });
-        document.querySelector('.kess-list').addEventListener("click", (e) => {
+        document.querySelector('.kes-list').addEventListener("click", (e) => {
             openHelpBox(e.target.getAttribute('kes-iter'));
         });
         document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
@@ -903,11 +922,11 @@ function constructMenu (json, layoutArr, isNew) {
         }
     }
 
-    function applySettings (entry) {
+    function applySettings (entry,mutation) {
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
-                funcObj[entry](true);
+                funcObj[entry](true, mutation);
             } else {
                 funcObj[entry](false);
             }
@@ -965,7 +984,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //normal mutation (lazy load etc.), apply all recurring mods
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i].entrypoint);
+                        applySettings(json[i].entrypoint, mutation);
                         obs.takeRecords();
                     }
                 }

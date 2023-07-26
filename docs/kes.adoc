@@ -50,7 +50,9 @@ New add-ons are deployed directly within the menu, and the suite of features sho
 == Usage
 
 === Main menu
-To open the KES settings menu, press `Ctrl-Shift-?` or click the wrench icon in the top right corner of the page.
+To open the KES settings menu, press `Ctrl-Shift-?` or click the wrench icon in the top right corner of the page. On mobile devices narrower than
+512px, the icon can be found inside of the hamburger menu on the top left of the screen, next to the kbin logo.
+
 Pressing `Ctrl-Shift-?` again, `Escape`, or clicking on the close button or anywhere outside of the menu will close it.
 
 The menu is divided into pages; each page contains a list of modifications.
@@ -251,7 +253,7 @@ a|The input field type. Available types are `select`, `radio`, `checkbox`, `rese
 |initial||string (if checkbox, bool)|The initial value the field is set to
 |key||string
 a|A unique key for this setting, stored under the object namespace defined in Table 1. This key is parsed by the recipient script in the format `namespace.key` in order to extract user-defined settings
-|label||string|A descriptive label of what the setting does, printed above the input field
+|label|yes|string|A descriptive label of what the setting does, printed above the input field. If stacking multiple options above each other, such as checkboxes, omitting the label field and adding a single one in the first object is supported.
 |values
 a|required if `type` is `select` or `radio`|array of strings|If the type is `select` or `radio`, an array of user-facing labels, which also function as values, used to populate each option
 |checkbox_label
@@ -435,6 +437,11 @@ Most scripts can be ported over as-is with little or no changes, but remember th
 equation, allowing many small mods to be incorporated and synergize with each other. It is enough to create an entrypoint function that triggers some
 changes, request the desired UI via the JSON manifest, and the rest should work out of the box. Therefore, think of scripts as atomic features rather than
 complex workflows; scripts that make highly opinionated changes or themselves create complex menus may be difficult to adapt.
+
+- If changing colors on a page, it is best to respect kbin's internal themes by using the variables provided. These can be explored under the `var(--kbin-*)` prefix.
+A number of variables for success, alerts, backgrounds, text, hover, etc. are provided. These map to different colors within the theme a user has selected. If you hardcode
+an element to a specific color, there is a high likelihood it may not be visible on a dark or light theme, respectively. Similarly, do not set fonts verbatim, but use the 
+`var(--kbin-body-font-family)` for a set of fallback fonts.
 
 ==== Conventions
 - MUST: 4-space indentation on *.js files
