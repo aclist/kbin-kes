@@ -936,7 +936,23 @@
     "entrypoint": "adjustSite",
     "namespace": "adjust",
     "page": "accessibility",
+    "catch_reset": [
+      "sepia",
+      "hueRotate",
+      "bright",
+      "saturate",
+      "contrast",
+      "upvote",
+      "downvote",
+      "boost"
+    ],
     "fields": [
+      {
+        "type": "reset",
+        "key": "resetAdjust",
+        "label": "Reset values to defaults:",
+        "value": "reset"
+      },
       {
         "type": "range",
         "initial": 0,
