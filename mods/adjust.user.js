@@ -11,7 +11,7 @@
 let adjustStyle;
 
 function adjustColors() {
-    let settings = getModSettings("adjust");
+    let settings = getModSettings('adjust');
     let sepia = `${settings.sepia * 10}%`;
     let hue = `${settings.hueRotate * 10}deg`;
     let bright = `${settings.bright * 10}%`;
@@ -25,7 +25,7 @@ function adjustColors() {
 
     adjustStyle = document.createElement('style');
     const css = `html {filter: sepia(${sepia}) hue-rotate(${hue}) brightness(${bright}) saturate(${saturate}) contrast(${contrast});}`;
-    style2.innerText = css;
+    adjustStyle.innerText = css;
     document.head.appendChild(adjustStyle);
 
 }
