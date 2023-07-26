@@ -942,7 +942,7 @@
         "initial": 0,
         "key": "sepia",
         "label": "Sepia",
-        "step": 1,
+        "step": 0.1,
         "min": 0,
         "max": 10,
         "show_value": true
@@ -962,7 +962,7 @@
         "initial": 0,
         "key": "bright",
         "label": "Brightness",
-        "step": 1,
+        "step": 0.1,
         "min": 0,
         "max": 10,
         "show_value": true
@@ -972,7 +972,7 @@
         "initial": 0,
         "key": "saturate",
         "label": "Saturation",
-        "step": 1,
+        "step": 0.1,
         "min": 0,
         "max": 10,
         "show_value": true
@@ -982,7 +982,7 @@
         "initial": 0,
         "key": "contrast",
         "label": "Contrast",
-        "step": 1,
+        "step": 0.1,
         "min": 0,
         "max": 10,
         "show_value": true
