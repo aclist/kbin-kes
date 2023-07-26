@@ -12,11 +12,11 @@ let adjustStyle;
 
 function adjustColors() {
     let settings = getModSettings('adjust');
-    let sepia = settings.sepia === 0 ? 'unset' : `${settings.sepia * 10}%`;
-    let hue = settings.hueRotate === 0 ? 'unset' : `${settings.hueRotate * 10}deg`;
-    let bright = settings.bright === 0 ? 'unset' : `${settings.bright * 10}%`;
-    let saturate = settings.saturate === 0 ? 'unset' : `${settings.saturate * 10}%`;
-    let contrast = settings.contrast === 0 ? 'unset' : `${settings.contrast * 10}%`;
+    let sepia = `${settings.sepia * 10}%`;
+    let hue = `${settings.hueRotate * 10}deg`;
+    let bright = `${settings.bright + 100}%`;
+    let saturate = `${settings.saturate + 100}%`;
+    let contrast = `${settings.contrast +  100}%`;
 
     if (adjustStyle && adjustStyle.parentNode) {
         adjustStyle.parentNode.removeChild(adjustStyle);
