@@ -125,7 +125,7 @@ span.kes-update {
     }
     .kes-version {
         margin-top: 40px;
-        margin-right: 120px;
+        margin-right: 120px; !important
         margin-bottom: -100px;
     }
     /*.kes-version .new {
