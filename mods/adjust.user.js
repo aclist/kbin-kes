@@ -25,11 +25,22 @@ function adjustColors() {
     }
 
     adjustStyle = document.createElement('style');
-    const css = `html {filter: sepia(${sepia}) hue-rotate(${hue}) brightness(${bright}) saturate(${saturate}) contrast(${contrast});}
-    .vote .active.vote__up button {color: ${upvoteCol};} .vote .active.vote__down button {color: ${downvoteCol};}`;
+    const css = `
+    html {
+        filter: sepia(${sepia}) hue-rotate(${hue}) brightness(${bright}) saturate(${saturate}) contrast(${contrast});
+    }
+    .vote .active.vote__up button {
+        color: ${upvoteCol};
+        ${settings.border ? 'border: 2px solid ' + upvoteCol + ';' : ''}
+    }
+    .vote .active.vote__down button {
+        color: ${downvoteCol};
+        ${settings.border ? 'border: 2px solid ' + downvoteCol + ';' : ''}
+    }
+    `;
+    
     adjustStyle.innerText = css;
     document.head.appendChild(adjustStyle);
-
 
 }
 

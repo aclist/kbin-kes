@@ -998,6 +998,11 @@
         "initial": "#DC2F3F",
         "key": "downvote",
         "label": "Downvote color"
+      },
+      {
+        "type": "checkbox",
+        "key": "border",
+        "checkbox_label": "Border around up/downvote buttons"
       }
     ]
   }
