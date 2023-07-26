@@ -26,7 +26,7 @@ function adjustColors() {
 
     adjustStyle = document.createElement('style');
     const css = `html {filter: sepia(${sepia}) hue-rotate(${hue}) brightness(${bright}) saturate(${saturate}) contrast(${contrast});}
-    button[aria-label="Favourite"] {color: ${upvoteCol};} button[aria-label="Reduce"] {color: ${downvoteCol};}`;
+    .vote .active.vote__up button {color: ${upvoteCol};} .vote .active.vote__down button {color: ${downvoteCol};}`;
     adjustStyle.innerText = css;
     document.head.appendChild(adjustStyle);
 
