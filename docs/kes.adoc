@@ -51,7 +51,7 @@ New add-ons are deployed directly within the menu, and the suite of features sho
 
 === Main menu
 To open the KES settings menu, press `Ctrl-Shift-?` or click the wrench icon in the top right corner of the page. On mobile devices narrower than
-512px, the icon can be found inside of the hamburger menu on the top left of the screen, next to the kbin logo.
+576px, the icon can be found inside of the hamburger menu on the top left of the screen, next to the kbin logo.
 
 Pressing `Ctrl-Shift-?` again, `Escape`, or clicking on the close button or anywhere outside of the menu will close it.
 

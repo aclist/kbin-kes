@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0
+// @version      2.1.1
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -504,7 +504,11 @@ function constructMenu (json, layoutArr, isNew) {
                         range.setAttribute("kes-key", key);
                         range.setAttribute('min', json[it].fields[i].min);
                         range.setAttribute('max', json[it].fields[i].max);
+                        if (json[it].fields[i].step) {
+                            range.setAttribute('step', json[it].fields[i].step);
+                        }
                         if (json[it].fields[i].show_value) {
+                        //TODO: value should always be visible
                             const rangeDiv = document.createElement('div');
                             range.setAttribute('oninput', key + '.innerText = this.value');
                             range.style.verticalAlign = 'middle';

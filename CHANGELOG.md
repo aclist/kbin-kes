@@ -1,5 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.1.1
+### Fixed
+- Notifications panel going missing due to change in upstream kbin CSS
+### Added
+- Support for incremental values in range sliders
 ## 2.1.0
 ### Added
 - Resize fonts globally (minnieo)
