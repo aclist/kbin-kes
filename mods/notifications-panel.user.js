@@ -143,6 +143,9 @@ const forceDropdownCSS = `
     display: initial !important;
     padding: initial !important;
 }
+#header .dropdown__menu {
+    display: block !important
+}
 `
 const resetDropdownCSS = `
 .dropdown__menu a, .dropdown__menu button {
