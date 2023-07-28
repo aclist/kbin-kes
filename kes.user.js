@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.69
+// @version      2.2.0-beta.12
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -551,6 +551,19 @@ function constructMenu (json, layoutArr, isNew) {
                         });
                         hBox.appendChild(resetField)
                         hBox.appendChild(br)
+                        break;
+                    }
+                    case "color": {
+                        const colorField = document.createElement('input');
+                        colorField.setAttribute("type",fieldType);
+                        const firstChar = Array.from(initial)[0]
+                        if (firstChar === "-") {
+                            realHex = getComputedStyle(document.documentElement).getPropertyValue(initial);
+                            initial = realHex
+                        }
+                        colorField.setAttribute("value",initial);
+                        hBox.appendChild(colorField);
+                        hBox.appendChild(br);
                         break;
                     }
                     case "number": {
