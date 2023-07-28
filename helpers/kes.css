@@ -133,7 +133,7 @@ span.kes-update {
         padding: 0.4rem 0.2rem !important;
     }
     .kes-version {
-        float: none
+        float: none !important;
     }
     .kes-settings-modal-header span {
         padding-right: 10px;
