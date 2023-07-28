@@ -25,10 +25,12 @@ function adjustColors(mode) {
         upvoteCol = 'initial';
         downvoteCol = 'initial';
         boostCol = 'initial';
+        console.log('revert');
     } else {
         upvoteCol = getHex(settings.upvote);
         downvoteCol = getHex(settings.downvote);
         boostCol = getHex(settings.boost);
+        console.log('custom');
     }
 
     const css = `
@@ -49,7 +51,7 @@ function adjustColors(mode) {
     }
     `;
 
-    // safeGM("addStyle", css);
+    safeGM("addStyle", css);
 
     
 function getHex (value) {
