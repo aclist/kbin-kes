@@ -1,4 +1,4 @@
-function adjustSite(toggle) {
+function adjustSite (toggle) {
     const sheetName = "custom-kes-colors"
 
     if (toggle) {
@@ -7,7 +7,7 @@ function adjustSite(toggle) {
         safeGM("removeStyle", sheetName)
     }
 
-    function adjustColors(sheetName) {
+    function adjustColors (sheetName) {
         let settings = getModSettings('adjust');
         let sepia = `${settings.sepia * 10}%`;
         let hue = `${settings.hueRotate * 10}deg`;
