@@ -49,7 +49,7 @@ function adjustColors(mode) {
     }
     `;
 
-    safeGM("addStyle", css);
+    // safeGM("addStyle", css);
 
     
 function getHex (value) {
