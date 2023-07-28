@@ -27,19 +27,28 @@ function adjustColors() {
 
     adjustStyle = document.createElement('style');
     const css = `
+    :root {
+        chosen-upvote-color: ${upvoteCol}
+        chosen-downvote-color: ${downvoteCol}
+        chosen-boost-color: ${boostCol}
+    }
+
     html {
         filter: sepia(${sepia}) hue-rotate(${hue}) brightness(${bright}) saturate(${saturate}) contrast(${contrast});
     }
+
     .vote .active.vote__up button {
-        color: ${upvoteCol};
-        ${settings.border ? `border: 2px solid ${upvoteCol};` : ''}
+        color: var(--chosen-upvote-color);
+        ${settings.border ? `border: 2px solid var(--chosen-upvote-color);` : ''}
     }
+
     .vote .active.vote__down button {
-        color: ${downvoteCol};
-        ${settings.border ? `border: 2px solid ${downvoteCol};` : ''}
+        color: var(--chosen-downvote-color);
+        ${settings.border ? `border: 2px solid var(--chosen-downvote-color);` : ''}
     }
+
     .entry footer menu > a.active, .entry footer menu > li button.active {
-        color: ${boostCol};
+        color: var(--chosen-boost-color);
         text-decoration: none;
     }
     `;
