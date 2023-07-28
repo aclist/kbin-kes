@@ -120,25 +120,24 @@ span.kes-update {
         grid-template-rows: min-content min-content min-content min-content;
         overflow: auto;
     }
+    #kes-settings {
+        border-bottom: 0px !important;
+    }
+    #kes-settings:hover {
+        border-bottom: 0px !important;
+    }
+    #kes-settings-button:hover {
+        color: unset !important;
+    }
     .kes-settings-modal-footer {
         padding: 0.4rem 0.2rem !important;
     }
     .kes-version {
-        margin-top: 40px;
-        margin-right: 120px; !important
-        margin-bottom: -100px;
+        float: none !important;
     }
-    /*.kes-version .new {
-        margin-top: 35px !important;
-        margin-right: 78px !important;
-        margin-bottom: -50px !important;
-    }*/
     .kes-settings-modal-header span {
         padding-right: 10px;
         padding-left: 10px;
-    }
-    .kes-settings-modal-sidebar {
-        padding-top: 30px;
     }
 }
 
@@ -303,7 +302,9 @@ span.kes-update {
 .kes-option.active {
     color: var(--kbin-sidebar-header-text-color);
 }
-
+#sidebar.open {
+    display: block !important;
+}
 .tgl {
     display: none;
 }
