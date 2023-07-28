@@ -120,7 +120,7 @@ span.kes-update {
         grid-template-rows: min-content min-content min-content min-content;
         overflow: auto;
     }
-    #kes-settings {
+    #kes-settings: hover {
         border-bottom: 0px
     }
     .kes-settings-modal-footer {
