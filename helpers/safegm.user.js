@@ -29,10 +29,11 @@ function addCustomCSS (css, id) {
     document.head.appendChild(style);
 }
 function removeCustomCSS (id) {
+    console.log("remove css:", id)
     const toRemove = document.querySelector(id)
-    if (toRemove) {
-        document.head.removeChild(toRemove);
-    }
+    if (!toRemove) return
+    console.log("el exists:", toRemove)
+    document.head.removeChild(toRemove);
 }
 function getHex (value) {
     const firstChar = Array.from(value)[0];

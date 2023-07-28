@@ -4,7 +4,8 @@ function adjustSite (toggle) {
     if (toggle) {
         adjustColors(sheetName);
     } else {
-        safeGM("removeStyle", sheetName)
+        console.log("requesting to remove:" sheetName);
+        safeGM("removeStyle", sheetName);
     }
 
     function adjustColors (sheetName) {
