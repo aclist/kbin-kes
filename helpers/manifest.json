@@ -1011,7 +1011,7 @@
       },
       {
         "type": "color",
-        "initial": "#FFFFFF",
+        "initial": "--kbin-upvoted-color",
         "key": "downvote",
         "label": "Downvote color"
       },
