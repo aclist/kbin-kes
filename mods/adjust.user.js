@@ -17,9 +17,9 @@ function adjustColors() {
     let bright = `${(settings.bright * 10) + 100}%`;
     let saturate = `${(settings.saturate * 10) + 100}%`;
     let contrast = `${(settings.contrast * 10) + 100}%`;
-    let upvoteCol = settings.upvote;
-    let downvoteCol = settings.downvote;
-    let boostCol = settings.boost;
+    let upvoteCol = getHex(settings.upvote);
+    let downvoteCol = getHex(settings.downvote);
+    let boostCol = getHex(settings.boost);
 
     if (adjustStyle && adjustStyle.parentNode) {
         adjustStyle.parentNode.removeChild(adjustStyle);
@@ -27,34 +27,37 @@ function adjustColors() {
 
     adjustStyle = document.createElement('style');
     const css = `
-    :root {
-        chosen-upvote-color: ${upvoteCol}
-        chosen-downvote-color: ${downvoteCol}
-        chosen-boost-color: ${boostCol}
-    }
-
     html {
         filter: sepia(${sepia}) hue-rotate(${hue}) brightness(${bright}) saturate(${saturate}) contrast(${contrast});
     }
-
     .vote .active.vote__up button {
-        color: var(--chosen-upvote-color);
-        ${settings.border ? `border: 2px solid var(--chosen-upvote-color);` : ''}
+        color: ${upvoteCol};
+        ${settings.border ? `border: 2px solid ${upvoteCol};` : ''}
     }
-
     .vote .active.vote__down button {
-        color: var(--chosen-downvote-color);
-        ${settings.border ? `border: 2px solid var(--chosen-downvote-color);` : ''}
+        color: ${downvoteCol};
+        ${settings.border ? `border: 2px solid ${downvoteCol};` : ''}
     }
-
     .entry footer menu > a.active, .entry footer menu > li button.active {
-        color: var(--chosen-boost-color);
+        color: ${boostCol};
         text-decoration: none;
     }
     `;
 
     adjustStyle.innerText = css;
     document.head.appendChild(adjustStyle);
+
+    
+function getHex (value) {
+    const firstChar = Array.from(value)[0];
+    let realHex;
+    if (firstChar === "-") {
+        realHex = getComputedStyle(document.documentElement).getPropertyValue(initial);
+    } else {
+        realHex = value;
+    }
+    return realHex;
+}
 
 }
 
