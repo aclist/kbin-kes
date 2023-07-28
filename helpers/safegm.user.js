@@ -30,7 +30,9 @@ function addCustomCSS (css, id) {
 }
 function removeCustomCSS (id) {
     const toRemove = document.querySelector(id)
-    document.head.removeChild(toRemove);
+    if (toRemove) {
+        document.head.removeChild(toRemove);
+    }
 }
 function getHex (value) {
     const firstChar = Array.from(value)[0];
