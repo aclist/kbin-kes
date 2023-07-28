@@ -59,7 +59,7 @@ window.safeGM = function (func,...args) {
         setValue (...args) { return GM_setValue(...args) },
         getValue (...args) { return GM_getValue(...args) },
         addStyle (...args) { return addCustomCSS(...args)},
-        removeStyle (...args) { return removeCustomCSS (...) },
+        removeStyle (...args) { return removeCustomCSS (...args) },
         xmlhttpRequest (...args) { return GM_xmlhttpRequest(...args)},
         setClipboard (...args) { return GM_setClipboard(...args)},
         getResourceText (...args) { return GM_getResourceText(...args)},
@@ -69,7 +69,7 @@ window.safeGM = function (func,...args) {
         setValue (...args) { return GM.setValue(...args) },
         getValue (...args) { return GM.getValue(...args) },
         addStyle (...args) { return addCustomCSS(...args)},
-        removeStyle (...args) { return removeCustomCSS (...) },
+        removeStyle (...args) { return removeCustomCSS (...args) },
         xmlhttpRequest (...args) { return GM.xmlHttpRequest(...args)},
         setClipboard (...args) { return GM.setClipboard(...args)},
         info () { return GM_info }
