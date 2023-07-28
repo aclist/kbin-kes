@@ -1005,19 +1005,19 @@
       },
       {
         "type": "color",
-        "initial": "#24B270",
+        "initial": "--voteup-color",
         "key": "upvote",
         "label": "Upvote color"
       },
       {
         "type": "color",
-        "initial": "#DC2F3F",
+        "initial": "--votedown-color",
         "key": "downvote",
         "label": "Downvote color"
       },
       {
         "type": "color",
-        "initial": "#FFFFFF",
+        "initial": "--kbin-meta-link-color",
         "key": "boost",
         "label": "Boost color"
       },

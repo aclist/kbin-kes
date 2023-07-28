@@ -32,11 +32,11 @@ function adjustColors() {
     }
     .vote .active.vote__up button {
         color: ${upvoteCol};
-        ${settings.border ? 'border: 2px solid ' + upvoteCol + ';' : ''}
+        ${settings.border ? `border: 2px solid ${upvoteCol};` : ''}
     }
     .vote .active.vote__down button {
         color: ${downvoteCol};
-        ${settings.border ? 'border: 2px solid ' + downvoteCol + ';' : ''}
+        ${settings.border ? `border: 2px solid ${downvoteCol};` : ''}
     }
     .entry footer menu > a.active, .entry footer menu > li button.active {
         color: ${boostCol};
