@@ -1,5 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.1.2
+### Fixed
+- Initial support for FireMonkey extension
+- Ensure hamburger menu opens correctly
+- Make KES icon comply with hamburger menu styling
+### Added
+- API: support inheriting kbin theme vars when setting color input fields
 ## 2.1.1
 ### Fixed
 - Notifications panel going missing due to change in upstream kbin CSS
