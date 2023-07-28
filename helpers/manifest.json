@@ -1005,13 +1005,13 @@
       },
       {
         "type": "color",
-        "initial": "--voteup-color",
+        "initial": "--kbin-upvoted-color",
         "key": "upvote",
         "label": "Upvote color"
       },
       {
         "type": "color",
-        "initial": "--votedown-color",
+        "initial": "--kbin-downvoted-color",
         "key": "downvote",
         "label": "Downvote color"
       },
