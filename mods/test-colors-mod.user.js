@@ -1,21 +1,20 @@
 function adjustSite (toggle) {
-    const sheetName = "custom-kes-colors"
+    const sheetName = "#custom-kes-colors"
 
     if (toggle) {
         adjustColors(sheetName);
     } else {
-        console.log("requesting to remove:", sheetName);
         safeGM("removeStyle", sheetName);
     }
 
     function adjustColors (sheetName) {
+        safeGM("removeStyle", sheetName)
         let settings = getModSettings('adjust');
         let sepia = `${settings.sepia * 10}%`;
         let hue = `${settings.hueRotate * 10}deg`;
         let bright = `${(settings.bright * 10) + 100}%`;
         let saturate = `${(settings.saturate * 10) + 100}%`;
         let contrast = `${(settings.contrast * 10) + 100}%`;
-        console.log(settings.upvote)
         let upvoteCol = getHex(settings.upvote);
         let downvoteCol = getHex(settings.downvote);
         let boostCol = getHex(settings.boost);

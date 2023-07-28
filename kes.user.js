@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.0-beta.25
+// @version      2.2.0-beta.26
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -595,9 +595,11 @@ function constructMenu (json, layoutArr, isNew) {
                     }
                     case "color": {
                         const colorField = document.createElement('input');
-                        colorField.setAttribute("type",fieldType);
                         const realHex = getHex(initial);
+                        colorField.setAttribute("type",fieldType);
                         colorField.setAttribute("value",realHex);
+                        colorField.setAttribute("kes-iter", it);
+                        colorField.setAttribute("kes-key", key);
                         hBox.appendChild(colorField);
                         hBox.appendChild(br);
                         break;
