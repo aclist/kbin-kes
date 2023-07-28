@@ -52,7 +52,7 @@ function getHex (value) {
     const firstChar = Array.from(value)[0];
     let realHex;
     if (firstChar === "-") {
-        realHex = getComputedStyle(document.documentElement).getPropertyValue(initial);
+        realHex = getComputedStyle(document.documentElement).getPropertyValue(value);
     } else {
         realHex = value;
     }
