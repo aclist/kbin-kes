@@ -14,7 +14,9 @@ function adjustSite (toggle) {
         let bright = `${(settings.bright * 10) + 100}%`;
         let saturate = `${(settings.saturate * 10) + 100}%`;
         let contrast = `${(settings.contrast * 10) + 100}%`;
+        console.log(settings.upvote)
         let upvoteCol = getHex(settings.upvote);
+        console.log(upvoteCol)
         let downvoteCol = getHex(settings.downvote);
         let boostCol = getHex(settings.boost);
 
