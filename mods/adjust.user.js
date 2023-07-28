@@ -10,7 +10,7 @@
 
 let adjustStyle;
 
-function adjustColors(mode) {
+function adjustColors() {
     let settings = getModSettings('adjust');
     let sepia = `${settings.sepia * 10}%`;
     let hue = `${settings.hueRotate * 10}deg`;
@@ -21,18 +21,11 @@ function adjustColors(mode) {
     let downvoteCol = getHex(settings.downvote);
     let boostCol = getHex(settings.boost);
 
-    if (mode === "revert") {
-        upvoteCol = 'initial';
-        downvoteCol = 'initial';
-        boostCol = 'initial';
-        console.log('revert');
-    } else {
-        upvoteCol = getHex(settings.upvote);
-        downvoteCol = getHex(settings.downvote);
-        boostCol = getHex(settings.boost);
-        console.log('custom');
+    if (adjustStyle && adjustStyle.parentNode) {
+        adjustStyle.parentNode.removeChild(adjustStyle);
     }
 
+    adjustStyle = document.createElement('style');
     const css = `
     html {
         filter: sepia(${sepia}) hue-rotate(${hue}) brightness(${bright}) saturate(${saturate}) contrast(${contrast});
@@ -51,14 +44,15 @@ function adjustColors(mode) {
     }
     `;
 
-    safeGM("addStyle", css);
+    adjustStyle.innerText = css;
+    document.head.appendChild(adjustStyle);
 
     
 function getHex (value) {
     const firstChar = Array.from(value)[0];
     let realHex;
     if (firstChar === "-") {
-        realHex = getComputedStyle(document.documentElement).getPropertyValue(value);
+        realHex = getComputedStyle(document.documentElement).getPropertyValue(initial);
     } else {
         realHex = value;
     }
@@ -69,8 +63,8 @@ function getHex (value) {
 
 function adjustSite(toggle) {
     if (toggle) {
-        adjustColors("custom");
+        adjustColors();
     } else {
-        adjustColors("revert");
+        document.head.removeChild(adjustStyle);
     }
 }
