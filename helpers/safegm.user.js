@@ -34,9 +34,11 @@ function removeCustomCSS (id) {
 function getHex (value) {
     const firstChar = Array.from(value)[0];
     let realHex;
-    const theme = document.querySelector('.fixed-navbar')
+    console.log("searching hex:", value)
+    const theme = document.querySelector('.fixed-navbar');
+    console.log("theme is:", theme)
     if (firstChar === "-") {
-        getComputedStyle(theme).getPropertyValue(value)
+        realHex = getComputedStyle(theme).getPropertyValue(value);
     } else {
         realHex = value;
     }
