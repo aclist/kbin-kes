@@ -8,7 +8,7 @@ Clarify what this PR adds or changes. You can include screenshots, videos, or de
 
 If this PR introduces additional dependencies or changes the underlying framework, explain the rationale.
 
-## TODO
+## To-do list/next steps
 
 List any pending issues, cosmetic or otherwise, that this patch still needs, or future considerations.
 
