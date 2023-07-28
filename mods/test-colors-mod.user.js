@@ -4,7 +4,7 @@ function adjustSite (toggle) {
     if (toggle) {
         adjustColors(sheetName);
     } else {
-        console.log("requesting to remove:" sheetName);
+        console.log("requesting to remove:", sheetName);
         safeGM("removeStyle", sheetName);
     }
 
@@ -17,7 +17,6 @@ function adjustSite (toggle) {
         let contrast = `${(settings.contrast * 10) + 100}%`;
         console.log(settings.upvote)
         let upvoteCol = getHex(settings.upvote);
-        console.log(upvoteCol)
         let downvoteCol = getHex(settings.downvote);
         let boostCol = getHex(settings.boost);
 
