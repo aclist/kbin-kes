@@ -133,15 +133,8 @@ span.kes-update {
         padding: 0.4rem 0.2rem !important;
     }
     .kes-version {
-        margin-top: 40px;
-        margin-right: 120px !important;
-        margin-bottom: -100px;
+        float: none
     }
-    /*.kes-version .new {
-        margin-top: 35px !important;
-        margin-right: 78px !important;
-        margin-bottom: -50px !important;
-    }*/
     .kes-settings-modal-header span {
         padding-right: 10px;
         padding-left: 10px;

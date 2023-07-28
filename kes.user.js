@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.0-beta.12
+// @version      2.2.0-beta.13
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -318,21 +318,59 @@ function constructMenu (json, layoutArr, isNew) {
 
         const header = document.createElement("div");
         header.className = "kes-settings-modal-header";
-        header.innerHTML = `
-            <span class="kes-close"><i class="` + layoutArr.header.close + `"></i></span>
-            <span class="kes-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
-            <span class="kes-transparent-mode"><i class ="` + layoutArr.header.transparent + `"></i></span>
-            <span class="kes-changelog"><a href="` + changelogURL + `"><i class="` + layoutArr.header.changelog + `"></i></a></span>
-            <span class="kes-version">` + versionElement.outerHTML + `</span>
-            `
 
         const crumbs = document.createElement("div");
         crumbs.className = 'kes-crumbs';
         crumbs.innerText = 'Settings'
-        header.appendChild(crumbs)
+
+        const headerCloseButton = document.createElement('span')
+        headerCloseButton.className = 'kes-close'
+        const headerCloseIcon = document.createElement('i')
+        headerCloseIcon.className = layoutArr.header.close
+        headerCloseButton.appendChild(headerCloseIcon)
+
+        const headerDockButton = document.createElement('span')
+        headerDockButton.className = 'kes-dock'
+        const headerDockIcon = document.createElement('i')
+        headerDockIcon.className = layoutArr.header.dock_down
+        headerDockButton.appendChild(headerDockIcon)
+
+        const headerEyeButton = document.createElement('span')
+        headerEyeButton.className = 'kes-transparent-mode'
+        const headerEyeIcon = document.createElement('i')
+        headerEyeIcon.className = layoutArr.header.transparent
+        headerEyeButton.appendChild(headerEyeIcon)
+
+        const headerChangelogButton = document.createElement('span')
+        headerChangelogButton.className = 'kes-changelog'
+        const headerChangelogIcon = document.createElement('i')
+        const headerChangelogLink = document.createElement('a')
+        headerChangelogLink.href = changelogURL
+        headerChangelogLink.appendChild(headerChangelogIcon)
+        headerChangelogIcon.className = layoutArr.header.changelog
+        headerChangelogButton.appendChild(headerChangelogLink)
+
+        const headerVersionButton = document.createElement('span');
+        headerVersionButton.className = 'kes-version'
+        headerVersionButton.appendChild(versionElement);
+
         const headerHr = document.createElement('hr');
         headerHr.className = 'kes-header-hr'
-        header.appendChild(headerHr);
+
+        header.appendChild(headerCloseButton)
+        header.appendChild(headerDockButton)
+        header.appendChild(headerEyeButton)
+        header.appendChild(headerChangelogButton)
+
+        if (window.innerWidth > 576) {
+            header.appendChild(headerVersionButton);
+            header.appendChild(crumbs)
+            header.appendChild(headerHr);
+        } else {
+            header.appendChild(crumbs)
+            header.appendChild(headerHr);
+            header.appendChild(headerVersionButton);
+        }
 
         const sidebar = document.createElement("div");
         sidebar.className = "kes-settings-modal-sidebar";
