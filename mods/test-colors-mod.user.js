@@ -1,7 +1,7 @@
 function adjustSite (toggle) {
     const sheetName = "custom-kes-colors"
 
-    if (toggle === "true") {
+    if (toggle) {
         adjustColors(sheetName);
     } else {
         console.log("requesting to remove:", sheetName);
