@@ -56,6 +56,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/resize-text.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/test-colors-mod.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
 // @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
 // @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
@@ -65,7 +66,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, textResize, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, textResize, toggleLogo, updateTime, userInstanceEntry */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -86,6 +87,7 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 
 const funcObj = {
     addMail: addMail,
+    adjustSite: adjustSite,
     alphaSortInit: alphaSortInit,
     bugReportInit: bugReportInit,
     clarifyRecipientInit: clarifyRecipientInit,

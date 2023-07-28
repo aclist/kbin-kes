@@ -22,10 +22,24 @@ try {
 } catch (error) {
     console.log(error);
 }
-function addCustomCSS (css) {
+function addCustomCSS (css, id) {
     const style = document.createElement('style');
+    style.id = id;
     style.innerHTML = css;
     document.head.appendChild(style);
+}
+function removeCustomCSS (id) {
+    document.head.removeChild(id);
+}
+function getHex (value) {
+    const firstChar = Array.from(value)[0];
+    let realHex;
+    if (firstChar === "-") {
+        realHex = getComputedStyle(document.documentElement).getPropertyValue(initial);
+    } else {
+        realHex = value;
+    }
+    return realHex;
 }
 function genericXMLRequest (url, callback) {
     safeGM("xmlhttpRequest", {
@@ -44,7 +58,8 @@ window.safeGM = function (func,...args) {
     const underscore = {
         setValue (...args) { return GM_setValue(...args) },
         getValue (...args) { return GM_getValue(...args) },
-        addStyle (...args) { return GM_addStyle(...args)},
+        addStyle (...args) { return addCustomCSS(...args)},
+        removeStyle (...args) { return removeCustomCSS (...) },
         xmlhttpRequest (...args) { return GM_xmlhttpRequest(...args)},
         setClipboard (...args) { return GM_setClipboard(...args)},
         getResourceText (...args) { return GM_getResourceText(...args)},
@@ -54,6 +69,7 @@ window.safeGM = function (func,...args) {
         setValue (...args) { return GM.setValue(...args) },
         getValue (...args) { return GM.getValue(...args) },
         addStyle (...args) { return addCustomCSS(...args)},
+        removeStyle (...args) { return removeCustomCSS (...) },
         xmlhttpRequest (...args) { return GM.xmlHttpRequest(...args)},
         setClipboard (...args) { return GM.setClipboard(...args)},
         info () { return GM_info }
