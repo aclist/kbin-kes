@@ -120,8 +120,14 @@ span.kes-update {
         grid-template-rows: min-content min-content min-content min-content;
         overflow: auto;
     }
+    #kes-settings {
+        border-bottom: 0px;
+    }
     #kes-settings: hover {
-        border-bottom: 0px
+        border-bottom: 0px;
+    }
+    #kes-settings-button:hover {
+        color: unset;
     }
     .kes-settings-modal-footer {
         padding: 0.4rem 0.2rem !important;
