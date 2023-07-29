@@ -64,7 +64,7 @@ const customPanelCSS = `
 .notifications-iframe {
     width: 300px;
 }
-.notification-counter {
+.notification-button,.notification-counter {
     cursor: pointer;
 }
 .noti-panel-message-holder {
