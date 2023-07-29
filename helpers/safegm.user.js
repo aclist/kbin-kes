@@ -40,7 +40,7 @@ function removeCustomCSS (id) {
 function getHex (value) {
     const firstChar = Array.from(value)[0];
     let realHex;
-    const theme = document.querySelector('.fixed-navbar');
+    const theme = document.querySelector('body').className;
     if (firstChar === "-") {
         realHex = getComputedStyle(theme).getPropertyValue(value);
     } else {
