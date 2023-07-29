@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.0-beta.12
+// @version      2.2.0-beta.34
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -31,6 +31,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/adjust-site.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/alpha-sort-subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/always-more.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/clarify-recipient.user.js
@@ -57,6 +58,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/resize-text.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/unblur.user.js
 // @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
 // @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
 // @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
@@ -65,7 +67,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, textResize, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -86,6 +88,7 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 
 const funcObj = {
     addMail: addMail,
+    adjustSite: adjustSite,
     alphaSortInit: alphaSortInit,
     bugReportInit: bugReportInit,
     clarifyRecipientInit: clarifyRecipientInit,
@@ -111,6 +114,7 @@ const funcObj = {
     rearrangeInit: rearrangeInit,
     textResize: textResize,
     toggleLogo: toggleLogo,
+    unblurInit: unblurInit,
     updateTime: updateTime,
     userInstanceEntry: userInstanceEntry
 };
@@ -318,21 +322,59 @@ function constructMenu (json, layoutArr, isNew) {
 
         const header = document.createElement("div");
         header.className = "kes-settings-modal-header";
-        header.innerHTML = `
-            <span class="kes-close"><i class="` + layoutArr.header.close + `"></i></span>
-            <span class="kes-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
-            <span class="kes-transparent-mode"><i class ="` + layoutArr.header.transparent + `"></i></span>
-            <span class="kes-changelog"><a href="` + changelogURL + `"><i class="` + layoutArr.header.changelog + `"></i></a></span>
-            <span class="kes-version">` + versionElement.outerHTML + `</span>
-            `
 
         const crumbs = document.createElement("div");
         crumbs.className = 'kes-crumbs';
         crumbs.innerText = 'Settings'
-        header.appendChild(crumbs)
+
+        const headerCloseButton = document.createElement('span')
+        headerCloseButton.className = 'kes-close'
+        const headerCloseIcon = document.createElement('i')
+        headerCloseIcon.className = layoutArr.header.close
+        headerCloseButton.appendChild(headerCloseIcon)
+
+        const headerDockButton = document.createElement('span')
+        headerDockButton.className = 'kes-dock'
+        const headerDockIcon = document.createElement('i')
+        headerDockIcon.className = layoutArr.header.dock_down
+        headerDockButton.appendChild(headerDockIcon)
+
+        const headerEyeButton = document.createElement('span')
+        headerEyeButton.className = 'kes-transparent-mode'
+        const headerEyeIcon = document.createElement('i')
+        headerEyeIcon.className = layoutArr.header.transparent
+        headerEyeButton.appendChild(headerEyeIcon)
+
+        const headerChangelogButton = document.createElement('span')
+        headerChangelogButton.className = 'kes-changelog'
+        const headerChangelogIcon = document.createElement('i')
+        const headerChangelogLink = document.createElement('a')
+        headerChangelogLink.href = changelogURL
+        headerChangelogLink.appendChild(headerChangelogIcon)
+        headerChangelogIcon.className = layoutArr.header.changelog
+        headerChangelogButton.appendChild(headerChangelogLink)
+
+        const headerVersionButton = document.createElement('span');
+        headerVersionButton.className = 'kes-version'
+        headerVersionButton.appendChild(versionElement);
+
         const headerHr = document.createElement('hr');
         headerHr.className = 'kes-header-hr'
-        header.appendChild(headerHr);
+
+        header.appendChild(headerCloseButton)
+        header.appendChild(headerDockButton)
+        header.appendChild(headerEyeButton)
+        header.appendChild(headerChangelogButton)
+
+        if (window.innerWidth > 576) {
+            header.appendChild(headerVersionButton);
+            header.appendChild(crumbs)
+            header.appendChild(headerHr);
+        } else {
+            header.appendChild(crumbs)
+            header.appendChild(headerHr);
+            header.appendChild(headerVersionButton);
+        }
 
         const sidebar = document.createElement("div");
         sidebar.className = "kes-settings-modal-sidebar";
@@ -542,8 +584,11 @@ function constructMenu (json, layoutArr, isNew) {
                                 for (let k = 0 ; k < json[it].fields.length; ++k) {
                                     if(json[it].fields[k].key === matchKey) {
                                         let initial = json[it].fields[k].initial
-                                        found.setAttribute("value",initial)
-                                        found.value = initial
+                                        if (json[it].fields[k].type === "color") {
+                                            initial = getHex(initial);
+                                        }
+                                        found.setAttribute("value",initial);
+                                        found.value = initial;
                                     }
                                 }
                                 updateState(found);
@@ -555,13 +600,11 @@ function constructMenu (json, layoutArr, isNew) {
                     }
                     case "color": {
                         const colorField = document.createElement('input');
+                        const realHex = getHex(initial);
                         colorField.setAttribute("type",fieldType);
-                        const firstChar = Array.from(initial)[0]
-                        if (firstChar === "-") {
-                            realHex = getComputedStyle(document.documentElement).getPropertyValue(initial);
-                            initial = realHex
-                        }
-                        colorField.setAttribute("value",initial);
+                        colorField.setAttribute("value",realHex);
+                        colorField.setAttribute("kes-iter", it);
+                        colorField.setAttribute("kes-key", key);
                         hBox.appendChild(colorField);
                         hBox.appendChild(br);
                         break;

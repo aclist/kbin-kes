@@ -400,6 +400,10 @@ function build () {
             counterElement.removeAttribute('href');
             counterElement.classList.add('notification-counter');
             listItem.appendChild(counterElement);
+            counterElement.addEventListener('click', () => {
+                safeGM("addStyle",forceDropdownCSS);
+                toggleIframe(listItem)
+            });
         }
         anchorElement.addEventListener('click', () => {
             safeGM("addStyle",forceDropdownCSS);

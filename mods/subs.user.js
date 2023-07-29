@@ -15,7 +15,6 @@ function createMags () {
     //const mags = document.querySelector('[href="/magazines"]');
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
-    const subsPage = window.location.href.split('/')[5];
     const subLink = 'https://' + window.location.hostname + '/u/' + username + '/subscriptions';
     let peopleLink = document.querySelector('.head-nav__menu a[href*="people"]')
     const subsNav = document.querySelector('.subs-nav');
@@ -24,11 +23,12 @@ function createMags () {
     } else if (subsNav) {
         return;
     } else {
+        const subsPage = window.location.href.split('/')[5];
         const myListItem = document.createElement('li');
         const mySubsLink = document.createElement('a');
         mySubsLink.setAttribute('href', subLink);
         mySubsLink.innerText = 'My mags';
-        if (subsPage) {
+        if (subsPage === "subscriptions") {
             mySubsLink.className = 'subs-nav active';
             peopleLink.className = ""
         } else {
