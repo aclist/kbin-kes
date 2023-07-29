@@ -9,10 +9,10 @@ const fields = {
 }
 const customFields = {
     "Type": true,
-    "Initial": true,
     "Key": true,
     "Label": false, //only label is optional
     "Values": true,
+    "Initial": true,
     //    csv: catch_reset
     //    csv: values
 }
@@ -55,10 +55,14 @@ const fieldHolder = document.createElement('div')
 fieldHolder.id = 'entryfields'
 let fieldct = 1
 function insertFields(objname){
+    let type;
+    const customHolder = document.createElement('div');
     if (Object.keys(objname)[0] === "Type") {
+        type = "custom";
         if (fieldct === 1) {
             const ns = document.createElement('p')
             ns.innerText = "Namespace"
+            //TODO: ast function
             let ast
             ast = document.createElement('span')
             ast.innerText = "*"
@@ -71,13 +75,16 @@ function insertFields(objname){
             fieldHolder.appendChild(ns)
 
         }
+        customHolder.id = 'customFieldHolder' + fieldct;
         const lab = document.createElement('h3')
         lab.innerText = 'Field ' + fieldct;
         const hr = document.createElement('hr')
-        fieldHolder.appendChild(lab)
-        fieldHolder.appendChild(hr)
+        customHolder.appendChild(lab)
+        customHolder.appendChild(hr)
+        fieldHolder.appendChild(customHolder)
         ++fieldct
     }
+    //TODO: abstract obj name
     for (let i = 0; i<Object.keys(objname).length; ++i){
 
         field = document.createElement('p')
@@ -93,10 +100,19 @@ function insertFields(objname){
         field.appendChild(ast)
         if (Object.keys(objname)[i] === "Type") {
             fieldLabel = document.createElement('select')
-            const opt = document.createElement('option')
-            opt.value = 'test'
-            opt.innerText = 'test'
-            fieldLabel.appendChild(opt)
+            for (let j = 0; j < Object.keys(types).length; ++j) {
+                const opt = document.createElement('option')
+                opt.value = Object.keys(types)[j]
+                opt.innerText = Object.keys(types)[j]
+                fieldLabel.appendChild(opt)
+            }
+            fieldLabel.addEventListener('change', (e) => {
+                //TODO: if checkbox, remove values field
+                //TODO: if number or range, add fields pulled from object
+                //TODO: custom fields must be required
+                //TODO: if reset, add catch_reset field
+                console.log(e.target.value)
+            });
         } else {
             fieldLabel = document.createElement('textarea')
         }
@@ -108,28 +124,18 @@ function insertFields(objname){
         const sep = document.createElement('br')
         field.appendChild(sep)
         field.appendChild(fieldLabel)
-        fieldHolder.appendChild(field)
+        if (type === "custom") {
+            customHolder.appendChild(field)
+        } else {
+            fieldHolder.appendChild(field)
+        }
 
     }
 }
 insertFields(fields)
 s.appendChild(fieldHolder)
 
-const copyButton = document.querySelector('#copybutton')
-copyButton.addEventListener('click', (e) =>{
-    const tocopy = e.target.previousElementSibling.innerText
-    navigator.clipboard.writeText(tocopy);
-});
 submit.addEventListener('click', (e) => {
-    const oldHolder = document.querySelector('#HOLDER')
-    if (oldHolder){
-        oldHolder.remove();
-    }
-    const ex = document.querySelector('#box')
-    ex.innerText = "";
-    const h = document.createElement('div')
-    h.id = 'HOLDER'
-    ex.appendChild(h)
     const par = document.querySelector('#entryfields')
     const ar = []
     par.querySelectorAll('.COPY').forEach((item) => {
@@ -142,21 +148,58 @@ submit.addEventListener('click', (e) => {
     "name": "${vals["name"]}",
     "authors": "${vals["authors"]}",
     "label": "${vals["label"]}",
-    "desc": "${vals["desc"]}"
+    "desc": "${vals["desc"]}",
     "login": "${vals["login"]}",
     "recurs": "${vals["recurs"]}",
-    "entrypoint": "${vals["entrypoint"]}",
-    "namespace": "${vals["namespace"]}"
+    "entrypoint": "${vals["entrypoint"]}"
     }
     `
+    const oldmsg = document.querySelector('#validation')
+    const oldbtn = document.querySelector('#copyButton')
+    if(oldmsg) {
+        oldmsg.remove();
+    }
+    if(oldbtn) {
+        oldbtn.remove();
+    }
+    const gutter = document.querySelector('#json')
     const pre = document.querySelector('#textpreview')
+    const outputmsg = document.createElement('text')
+    outputmsg.id = 'validation'
     pre.innerText = boiler
-    console.log(boiler)
-    let pf
-    for (let i = 0; i<ar.length; ++i) {
+    try {
+        JSON.parse(boiler)
+    } catch (error) {
+        outputmsg.style.color = "red"
+        outputmsg.innerText = "JSON validation failed"
+        gutter.appendChild(outputmsg)
+        return false;
+    }
+        outputmsg.style.color = "lightgreen"
+        outputmsg.innerText = "JSON validation OK "
+        gutter.appendChild(outputmsg)
+    const copyButton = document.createElement('button')
+    copyButton.id = 'copyButton'
+    copyButton.innerText = 'COPY'
+    gutter.appendChild(copyButton)
+    copyButton.addEventListener('click', (e) =>{
+        const tocopy = e.target.previousElementSibling.innerText
+        navigator.clipboard.writeText(tocopy);
+    });
+    const oldHolder = document.querySelector('#HOLDER')
+    if (oldHolder){
+        oldHolder.remove();
+    }
+    const ex = document.querySelector('#box')
+    ex.innerText = "";
+    const h = document.createElement('div')
+    h.id = 'HOLDER'
+    ex.appendChild(h)
+        console.log(boiler)
+        let pf
+        for (let i = 0; i<ar.length; ++i) {
         pf = document.createElement('p')
         pf.innerText = ar[i]
         h.appendChild(pf)
     }
-
 });
