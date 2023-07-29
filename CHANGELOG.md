@@ -1,5 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.1.3
+### Fixed
+- Make notipanel button more clickable
+- Merge unread message/thread notification counters into one count
+- Cleanly restore message badges when notipanel is toggled off
 ## 2.1.2
 ### Fixed
 - Initial support for FireMonkey extension
