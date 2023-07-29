@@ -26,17 +26,16 @@ const types = {
     "number": {"min": true, "max": true, "step": true},
     "checkbox": {"checkbox_label": false},
 }
-//const boiler = `
-//{
-//"name": "${name}",
-//"author": "${author}",
-//"label": "${label}",
-//"desc": "${desc}"
-//"login": "${login}",
-//"recurs": "${recurs}",
-//"entrypoint": "${entrypoint}",
-//"namespace": "${namespace}"
-//}
+const vals = {
+    name: "",
+    authors: "",
+    label: "",
+    desc: "",
+    login: "",
+    recurs: "",
+    entrypoint: "",
+    namespace: ""
+}
 //`
 //TODO: validate json
 const a = document.querySelector('#header')
@@ -67,6 +66,7 @@ for (let i = 0; i<Object.keys(fields).length; ++i){
     field.appendChild(ast)
     fieldLabel = document.createElement('textarea')
     fieldLabel.className = 'COPY'
+    fieldLabel.setAttribute("key",Object.keys(fields)[i].toLowerCase())
     if (Object.keys(fields)[i] === "Description") {
         fieldLabel.setAttribute("rows", "8")
     }
@@ -93,11 +93,26 @@ submit.addEventListener('click', (e) => {
     const h = document.createElement('div')
     h.id = 'HOLDER'
     ex.appendChild(h)
-    const par = e.target.parentElement
+    const par = document.querySelector('#entryfields')
     const ar = []
     par.querySelectorAll('.COPY').forEach((item) => {
         ar.push(item.value)
+        let elKey = item.getAttribute("key")
+        console.log(elKey)
+        vals[elKey] = item.value
     });
+    const boiler = `{
+    "name": "${vals["name"]}",
+    "authors": "${vals["authors"]}",
+    "label": "${vals["label"]}",
+    "desc": "${vals["desc"]}"
+    "login": "${vals["login"]}",
+    "recurs": "${vals["recurs"]}",
+    "entrypoint": "${vals["entrypoint"]}",
+    "namespace": "${vals["namespace"]}"
+    }
+    `
+    console.log(boiler)
     let pf
     for (let i = 0; i<ar.length; ++i) {
         pf = document.createElement('p')
