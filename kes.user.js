@@ -28,40 +28,40 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/helpers/safegm.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/alpha-sort-subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/always-more.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/clarify-recipient.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/code-highlighting.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/dropdown.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/easy-emoticon.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/hide-logo.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/hide-posts.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/hide-sidebar.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/hide-thumbs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/hide-votes.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/improved-collapsible-comments.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/instance-names.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/kbin-federation-awareness.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/kbin-mod-options.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/label.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/mail.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/mobile-cleanup.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/move-federation-warning.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/nav-icons.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/notifications-panel.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/rearrange.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/report-bug.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/resize-text.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/mods/timestamp.user.js
-// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/helpers/ui.json
-// @resource     kes_json https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/helpers/manifest.json
-// @resource     kes_css https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/helpers/kes.css
-// @downloadURL  https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/kes.user.js
-// @updateURL    https://github.com/aclist/kbin-kes/raw/patch/notipanel-clickability/kes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/alpha-sort-subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/always-more.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/clarify-recipient.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/code-highlighting.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/dropdown.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/easy-emoticon.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-logo.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-posts.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-sidebar.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-thumbs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-votes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/improved-collapsible-comments.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/instance-names.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/kbin-federation-awareness.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/kbin-mod-options.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/label.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mail.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mobile-cleanup.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/move-federation-warning.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/nav-icons.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/notifications-panel.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/rearrange.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/report-bug.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/resize-text.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/timestamp.user.js
+// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/main/helpers/ui.json
+// @resource     kes_json https://github.com/aclist/kbin-kes/raw/main/helpers/manifest.json
+// @resource     kes_css https://github.com/aclist/kbin-kes/raw/main/helpers/kes.css
+// @downloadURL  https://github.com/aclist/kbin-kes/raw/main/kes.user.js
+// @updateURL    https://github.com/aclist/kbin-kes/raw/main/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
@@ -70,7 +70,7 @@
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
-const branch = "patch/notipanel-clickability"
+const branch = "main"
 const helpersPath = "helpers/"
 const branchPath = repositoryURL + "raw/" + branch + "/"
 const versionFile = branchPath + "VERSION";
