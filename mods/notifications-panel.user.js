@@ -419,7 +419,8 @@ function build () {
             notiBadge.innerText = notiPanelCount;
             anchorOuterElement.appendChild(notiBadgeHolder);
         }
-        listItem.addEventListener('click', () => {
+        listItem.addEventListener('click', (e) => {
+            console.log(e.target)
             safeGM("addStyle",forceDropdownCSS);
             toggleIframe(listItem)
         });
