@@ -924,5 +924,16 @@
         "max": "50"
       }
     ]
+  },
+  {
+    "name": "Unblur NSFW",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Unblur NSFW thumbnails",
+    "desc": "Makes NSFW thumbnails start unblurred by default.",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "unblurInit",
+    "namespace": "unblur"
   }
 ]

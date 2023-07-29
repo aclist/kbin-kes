@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.0-beta.28
+// @version      2.2.0-beta.29
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -57,6 +57,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/resize-text.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/unblur.user.js
 // @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
 // @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
 // @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
@@ -65,7 +66,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, textResize, toggleLogo, updateTime, userInstanceEntry, safeGM, getHex */
+/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -111,6 +112,7 @@ const funcObj = {
     rearrangeInit: rearrangeInit,
     textResize: textResize,
     toggleLogo: toggleLogo,
+    unblurInit: unblurInit,
     updateTime: updateTime,
     userInstanceEntry: userInstanceEntry
 };
