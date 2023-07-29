@@ -54,7 +54,7 @@ const customPanelCSS = `
 }
 #header .notification-button .notification-counter {
     border: 0 !important;
-    padding: 3px;
+    padding: 4.5px;
     display: inline;
     position: absolute;
     top: .5em;
