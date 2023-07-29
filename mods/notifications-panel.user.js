@@ -112,7 +112,7 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
     background: var(--kbin-button-secondary-hover-bg);
     margin-left: 7px;
 }
-.noti-read,.noti-purge,.noti-back,.noti-forward {
+.noti-read,.noti-purge,.noti-back,.noti-forward, .notification-counter {
     padding: 5px;
     cursor: pointer;
 }
