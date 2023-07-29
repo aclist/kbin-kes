@@ -1,13 +1,13 @@
 function unblurInit (toggle) {
 
-    unblurCSS = `
+    const unblurCSS = `
     .thumb-subject {
     filter: none !important;
     }
     `;
 
     if (toggle) {
-        safeGM("addStyle",unblurCSS, 'unblurred');
+        safeGM("addStyle", unblurCSS, 'unblurred');
     } else {
         safeGM("removeStyle", 'unblurred');
     }
