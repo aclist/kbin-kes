@@ -1,6 +1,6 @@
 const fields = {
     "Name": true,
-    "Author": true,
+    "Authors": true,
     "Page": true,
     "Description": true,
     "Entrypoint": true,
@@ -38,6 +38,16 @@ const types = {
 //"namespace": "${namespace}"
 //}
 //`
+//TODO: validate json
+const a = document.querySelector('#header')
+const b = document.createElement('input')
+//const la = document.createElement('label')
+const submit = document.createElement('button')
+submit.innerText = 'SUBMIT'
+const add = document.createElement('button')
+add.innerText = 'ADD CUSTOM FIELD'
+a.appendChild(add)
+a.appendChild(submit)
 const s = document.querySelector('#buttons')
 let field
 const fieldHolder = document.createElement('div')
@@ -63,14 +73,6 @@ for (let i = 0; i<Object.keys(fields).length; ++i){
 
 }
 s.appendChild(fieldHolder)
-const b = document.createElement('input')
-const la = document.createElement('label')
-const submit = document.createElement('button')
-submit.innerText = 'SUBMIT'
-const add = document.createElement('button')
-add.innerText = 'ADD CUSTOM FIELD'
-s.appendChild(add)
-s.appendChild(submit)
 
 const copyButton = document.querySelector('#copybutton')
 copyButton.addEventListener('click', (e) =>{

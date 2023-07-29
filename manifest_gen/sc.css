@@ -2,6 +2,11 @@ body {
     background-color: #333;
     color: lightgray;
 }
+#header {
+    padding: 10px;
+    margin-left: 1.5rem;
+    margin-top: 2rem;
+}
 #entryfields {
     height: 90%;
     overflow-y: scroll;
@@ -19,15 +24,15 @@ body {
     overflow-y: scroll;
 }
 #example {
-    margin-left: 300px;
+    margin-left: auto;
 }
 #json {
     margin-left: auto;
 }
 #box {
     background-color: #222;
-    height: 500px;
-    width: 500px;
+    height: 15rem;
+    width: 20rem;
     color: lightgray;
     padding: 50px;
     overflow-y: scroll;
