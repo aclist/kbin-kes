@@ -25,9 +25,24 @@ function adjustSite (toggle) {
         let bright = `${(settings.bright * 10) + 100}%`;
         let saturate = `${(settings.saturate * 10) + 100}%`;
         let contrast = `${(settings.contrast * 10) + 100}%`;
-        let upvoteCol = getHex(settings.upvote);
-        let downvoteCol = getHex(settings.downvote);
-        let boostCol = getHex(settings.boost);
+        let upvoteCol
+        let downvoteCol
+        let boostCol
+        if (settings.upvote) {
+            upvoteCol = getHex(settings.upvote);
+        } else {
+            upvoteCol = getHex('--kbin-upvoted-color');
+        }
+        if (settings.downvote) {
+            downvoteCol = getHex(settings.downvote);
+        } else {
+            downvoteCol = getHex('--kbin-downvoted-color');
+        }
+        if (settings.boost) {
+            boostCol = getHex(settings.boost);
+        } else {
+            boostCol = getHex('--kbin-boost-color');
+        }
 
         const customCSS = `
             html {
