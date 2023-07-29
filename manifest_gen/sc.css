@@ -7,13 +7,10 @@ body {
     margin-left: 1.5rem;
     margin-top: 2rem;
 }
-#entryfields {
-    height: 90%;
-    overflow-y: scroll;
-}
 #holder {
     display: flex;
-    padding: 50px;
+    padding-left: 5rem;
+    padding-right: 5rem;
 }
 #textpreview {
     border: 1px solid gray;
@@ -46,7 +43,7 @@ button {
     margin: 5px;
     cursor: pointer;
 }
-input {
+textarea, input {
     background-color: #555;
     border: 0px;
     margin: 5px;

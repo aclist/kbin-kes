@@ -65,9 +65,13 @@ for (let i = 0; i<Object.keys(fields).length; ++i){
     }
     field.innerText = Object.keys(fields)[i]
     field.appendChild(ast)
-    fieldLabel = document.createElement('input')
-    fieldLabel.setAttribute("type", "textarea")
+    fieldLabel = document.createElement('textarea')
     fieldLabel.className = 'COPY'
+    if (Object.keys(fields)[i] === "Description") {
+        fieldLabel.setAttribute("rows", "8")
+    }
+    const sep = document.createElement('br')
+    field.appendChild(sep)
     field.appendChild(fieldLabel)
     fieldHolder.appendChild(field)
 
