@@ -412,7 +412,6 @@ function build () {
         }
         const notiPanelCount = msgCount + oldCount
         if (notiPanelCount > 0) {
-            console.log("greater than 0 notis")
             const notiBadgeHolder = document.createElement('li')
             const notiBadge = document.createElement('span');
             notiBadgeHolder.appendChild(notiBadge);
