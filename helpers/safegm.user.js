@@ -40,7 +40,7 @@ function removeCustomCSS (id) {
 function getHex (value) {
     const firstChar = Array.from(value)[0];
     let realHex;
-    const theme = document.querySelector('body').className;
+    const theme = document.querySelector('body').className.split(' ')[0];
     if (firstChar === "-") {
         realHex = getComputedStyle(theme).getPropertyValue(value);
     } else {
