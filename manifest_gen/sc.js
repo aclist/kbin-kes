@@ -7,16 +7,15 @@ const fields = {
     "Link": false,
     "Link label": false,
 }
-const customFields = [
-    "namespace",
-    "initial",
-    "key",
-    "label", //only label is optional
-    "type",
-    "values"
+const customFields = {
+    "Type": true,
+    "Initial": true,
+    "Key": true,
+    "Label": false, //only label is optional
+    "Values": true,
     //    csv: catch_reset
     //    csv: values
-]
+}
 const types = {
     "text": null,
     "radio": null,
@@ -36,46 +35,84 @@ const vals = {
     entrypoint: "",
     namespace: ""
 }
-//`
 //TODO: validate json
 const a = document.querySelector('#header')
 const b = document.createElement('input')
-//const la = document.createElement('label')
 const submit = document.createElement('button')
 submit.innerText = 'SUBMIT'
 const add = document.createElement('button')
 add.innerText = 'ADD CUSTOM FIELD'
 a.appendChild(add)
 a.appendChild(submit)
+add.addEventListener('click', () => {
+    const ent = document.querySelector('#entryfields');
+    console.log("inserting")
+        insertFields(customFields);
+});
 const s = document.querySelector('#buttons')
 let field
 const fieldHolder = document.createElement('div')
 fieldHolder.id = 'entryfields'
-for (let i = 0; i<Object.keys(fields).length; ++i){
+let fieldct = 1
+function insertFields(objname){
+    if (Object.keys(objname)[0] === "Type") {
+        if (fieldct === 1) {
+            const ns = document.createElement('p')
+            ns.innerText = "Namespace"
+            let ast
+            ast = document.createElement('span')
+            ast.innerText = "*"
+            ast.style.color = 'orange'
+            ns.appendChild(ast)
+            fieldLabel = document.createElement('textarea')
+            const sep = document.createElement('br')
+            ns.appendChild(sep)
+            ns.appendChild(fieldLabel);
+            fieldHolder.appendChild(ns)
 
-    field = document.createElement('p')
-    let ast
-    if (fields[Object.keys(fields)[i]] === true) {
-        ast = document.createElement('span')
-        ast.innerText = "*"
-        ast.style.color = 'orange'
-    } else {
-        ast = document.createElement('text')
+        }
+        const lab = document.createElement('h3')
+        lab.innerText = 'Field ' + fieldct;
+        const hr = document.createElement('hr')
+        fieldHolder.appendChild(lab)
+        fieldHolder.appendChild(hr)
+        ++fieldct
     }
-    field.innerText = Object.keys(fields)[i]
-    field.appendChild(ast)
-    fieldLabel = document.createElement('textarea')
-    fieldLabel.className = 'COPY'
-    fieldLabel.setAttribute("key",Object.keys(fields)[i].toLowerCase())
-    if (Object.keys(fields)[i] === "Desc") {
-        fieldLabel.setAttribute("rows", "8")
-    }
-    const sep = document.createElement('br')
-    field.appendChild(sep)
-    field.appendChild(fieldLabel)
-    fieldHolder.appendChild(field)
+    for (let i = 0; i<Object.keys(objname).length; ++i){
 
+        field = document.createElement('p')
+        let ast
+        if (fields[Object.keys(objname)[i]] === true) {
+            ast = document.createElement('span')
+            ast.innerText = "*"
+            ast.style.color = 'orange'
+        } else {
+            ast = document.createElement('text')
+        }
+        field.innerText = Object.keys(objname)[i]
+        field.appendChild(ast)
+        if (Object.keys(objname)[i] === "Type") {
+            fieldLabel = document.createElement('select')
+            const opt = document.createElement('option')
+            opt.value = 'test'
+            opt.innerText = 'test'
+            fieldLabel.appendChild(opt)
+        } else {
+            fieldLabel = document.createElement('textarea')
+        }
+        fieldLabel.className = 'COPY'
+        fieldLabel.setAttribute("key",Object.keys(objname)[i].toLowerCase())
+        if (Object.keys(objname)[i] === "Desc") {
+            fieldLabel.setAttribute("rows", "8")
+        }
+        const sep = document.createElement('br')
+        field.appendChild(sep)
+        field.appendChild(fieldLabel)
+        fieldHolder.appendChild(field)
+
+    }
 }
+insertFields(fields)
 s.appendChild(fieldHolder)
 
 const copyButton = document.querySelector('#copybutton')
