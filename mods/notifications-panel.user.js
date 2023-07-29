@@ -66,6 +66,9 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
 .notifications-iframe {
     width: 300px;
 }
+.notification-counter {
+    cursor: pointer;
+}
 .noti-panel-message-holder {
     overflow-y: scroll;
     height: 90%;
@@ -112,7 +115,7 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
     background: var(--kbin-button-secondary-hover-bg);
     margin-left: 7px;
 }
-.noti-read,.noti-purge,.noti-back,.noti-forward, .notification-counter {
+.noti-read,.noti-purge,.noti-back,.noti-forward {
     padding: 5px;
     cursor: pointer;
 }
