@@ -2,7 +2,7 @@ const fields = {
     "Name": true,
     "Authors": true,
     "Page": true,
-    "Description": true,
+    "Desc": true,
     "Entrypoint": true,
     "Link": false,
     "Link label": false,
@@ -67,7 +67,7 @@ for (let i = 0; i<Object.keys(fields).length; ++i){
     fieldLabel = document.createElement('textarea')
     fieldLabel.className = 'COPY'
     fieldLabel.setAttribute("key",Object.keys(fields)[i].toLowerCase())
-    if (Object.keys(fields)[i] === "Description") {
+    if (Object.keys(fields)[i] === "Desc") {
         fieldLabel.setAttribute("rows", "8")
     }
     const sep = document.createElement('br')
@@ -112,6 +112,8 @@ submit.addEventListener('click', (e) => {
     "namespace": "${vals["namespace"]}"
     }
     `
+    const pre = document.querySelector('#textpreview')
+    pre.innerText = boiler
     console.log(boiler)
     let pf
     for (let i = 0; i<ar.length; ++i) {
