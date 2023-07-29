@@ -156,6 +156,10 @@ const resetDropdownCSS = `
 `
 function readAndReset (response) {
     console.log(response)
+    const counter = document.querySelector('.notification-counter');
+    if (counter) {
+        counter.remove();
+    }
     genericXMLRequest("https://kbin.social/settings/notifications?p=1", insertMsgs);
 }
 function genericPOSTRequest (url, callback, data) {
@@ -404,13 +408,14 @@ function build () {
             msgCount = parseInt(msgCounterElement.querySelector('.badge').innerText);
             $(msgCounterElement).hide();
         }
-        let notiCount;
-        let oldCount;
+        let notiCount = 0;
+        let oldCount = 0;
         if (counterElement) {
             oldCount = parseInt(counterElement.querySelector('.badge').innerText);
             $(counterElement).hide();
         }
         const notiPanelCount = msgCount + oldCount
+        console.log(notiPanelCount)
         if (notiPanelCount > 0) {
             const notiBadgeHolder = document.createElement('li')
             const notiBadge = document.createElement('span');
@@ -419,7 +424,7 @@ function build () {
             notiBadge.innerText = notiPanelCount;
             anchorOuterElement.appendChild(notiBadgeHolder);
         }
-        listItem.addEventListener('click', (e) => {
+        anchorOuterElement.addEventListener('click', (e) => {
             console.log(e.target)
             safeGM("addStyle",forceDropdownCSS);
             toggleIframe(listItem)
