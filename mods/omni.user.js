@@ -119,7 +119,7 @@ function omniInit (toggle) {
             const dataStr = setMagString(mode);
             console.log("data is:", dataStr)
             const loaded = await safeGM("getValue", dataStr)
-            if (loaded.length < 1) {
+            if ((loaded.length < 1) || (!loaded)) {
                 console.log("data not present, fetching")
                 fetchMags(username);
             } else {
@@ -239,6 +239,7 @@ function omniInit (toggle) {
                 } else {
                     $(exists).show();
                     if (window.innerWidth > 576) {
+                        console.log("larger")
                         document.querySelector("#kes-omni-search").focus();
                     }
                 }
@@ -321,7 +322,7 @@ function omniInit (toggle) {
                             visiEl[i].style.display = "";
                         } else {
                             visiEl[i].style.display= "none";
-                            makeInactive(VB[i])
+                            makeInactive(visiEl[i])
                         }
                     }
                     for (let k = 0; k < visi.length; ++k) {
