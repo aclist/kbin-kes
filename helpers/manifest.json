@@ -1038,5 +1038,32 @@
         "checkbox_label": "Border around up/downvote buttons"
       }
     ]
+  },
+  {
+    "name": "Subs omnibar",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Subscriptions omnibar",
+    "desc": "Quickly jump to mag subscriptions via a floating search panel. Use the meta key to open/close the omnibar. Meta key will not take effect inside of text fields.",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "omniInit",
+    "namespace": "omni",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Backtick",
+        "key": "meta",
+        "label": "Meta key",
+        "values": [
+          "Backtick",
+          "Tab",
+	  "Equals",
+	  "Left bracket",
+	  "Right bracket",
+	  "Backslash"
+        ]
+      },
+    "page": "general"
   }
 ]
