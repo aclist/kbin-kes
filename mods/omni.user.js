@@ -96,12 +96,12 @@ function omniInit (toggle) {
         safeGM("addStyle", omniCSS, "omni-css")
 
         const keyCodes = {
-            "Backtick": 9,
-            "Backslash": 9,
+            "Backtick": 192,
+            "Backslash": 220,
             "Tab": 9,
-            "Equals": 9,
-            "Left bracket": 9,
-            "Right bracket": 9
+            "Equals": 61,
+            "Left bracket": 219,
+            "Right bracket": 221
         }
 
         const settings = getModSettings('omni');
