@@ -104,7 +104,7 @@ function omniInit (toggle) {
             "Right bracket": 9
         }
 
-        const settings = getModSettings(omni);
+        const settings = getModSettings('omni');
         const meta = settings["meta"]
         console.log(meta)
         const code = keyCodes[meta]
