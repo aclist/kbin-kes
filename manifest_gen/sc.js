@@ -20,7 +20,7 @@ const custom = {
 }
 const types = {
     "color": null,
-    "checkbox": {"checkbox_label": false},
+    "checkbox": {"checkbox_label": true},
     "number": {"Min": true, "Max": true, "Step": true},
     "radio": null,
     "range": {"Min": true, "Max": true, "Step": true},
@@ -56,17 +56,19 @@ fieldHolder.id = 'entryfields'
 let fieldct = 1
 function selector (type) {
     const r = document.querySelector('[key="values"]').parentElement
-    if (type === "checkbox") {
-        $(r).hide();
-        return
-    }
+    const i = document.querySelector('[key="initial"]').parentElement
     $(r).show();
+    $(i).show();
     if (types[type]) {
         const subFields = Object.keys(types[type])
         const s = []
         for (let i = 0; i < subFields.length; ++i) {
             console.log(subFields[i])
             s.push(subFields[i])
+        }
+        if (type === "checkbox") {
+            $(r).hide();
+            $(i).hide();
         }
         return s
     }
