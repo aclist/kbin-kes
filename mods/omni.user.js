@@ -50,11 +50,11 @@ function omniInit (toggle) {
         height: 80%;
     }
     #kes-omni-list {
-        height: 80%;
+        height: fit-content !important;
         list-style-type: none;
         padding: 50px;
         margin: 0;
-        width: fit-content;
+        width: 50%;
     }
     #kes-omni-list li{
         border-bottom: 1px solid var(--kbin-vote-text-color);
@@ -376,7 +376,7 @@ function omniInit (toggle) {
             });
 
             if (window.innerWidth < 576) {
-                const top = document.querySelector('.fixed-navbar')
+                const top = document.querySelector('body')
                 const mobileBar = document.createElement('div')
                 mobileBar.style.cssText = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
                 top.insertBefore(mobileBar, top.children[0])
