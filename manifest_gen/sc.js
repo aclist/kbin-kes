@@ -19,8 +19,8 @@ const custom = {
     //    csv: values
 }
 const types = {
-    "checkbox": {"checkbox_label": false},
     "color": null,
+    "checkbox": {"checkbox_label": false},
     "number": {"Min": true, "Max": true, "Step": true},
     "radio": null,
     "range": {"Min": true, "Max": true, "Step": true},
@@ -55,11 +55,12 @@ const fieldHolder = document.createElement('div')
 fieldHolder.id = 'entryfields'
 let fieldct = 1
 function selector (type) {
+    const r = document.querySelector('[key="values"]').parentElement
     if (type === "checkbox") {
-        const r = document.querySelector('[key="values"]').parentElement
-        r.remove();
+        $(r).hide();
         return
     }
+    $(r).show();
     if (types[type]) {
         const subFields = Object.keys(types[type])
         const s = []
@@ -156,12 +157,14 @@ function insertFields(objname){
             if ((obj[i] === "Login") || (obj[i] === "Recurs")) {
                 fieldLabel = document.createElement('input')
                 fieldLabel.setAttribute("type", "checkbox")
+                fieldLabel.id = obj[i]
+                fieldLabel.classList.add('tgl', 'kes-tgl')
                 fieldLabel.checked = false
             } else {
                 fieldLabel = document.createElement('textarea')
             }
         }
-        fieldLabel.className = 'input-field'
+        fieldLabel.classList.add('input-field')
         fieldLabel.setAttribute("key", obj[i].toLowerCase())
         if (Object.keys(objname)[i] === "Desc") {
             fieldLabel.setAttribute("rows", "8")
@@ -169,6 +172,13 @@ function insertFields(objname){
         const sep = document.createElement('br')
         field.appendChild(sep)
         field.appendChild(fieldLabel)
+        if (fieldLabel.type === 'checkbox') {
+            const subtog = document.createElement('label')
+            subtog.setAttribute("for", obj[i])
+            subtog.className = 'tgl-btn'
+            console.log(subtog)
+            field.appendChild(subtog)
+        }
         if (type === custom) {
             customHolder.appendChild(field)
         } else {
