@@ -244,7 +244,7 @@ submit.addEventListener('click', (e) => {
     copyButton.innerText = 'COPY'
     gutter.appendChild(copyButton)
     copyButton.addEventListener('click', (e) =>{
-        const tocopy = e.target.previousElementSibling.innerText
+        const tocopy = e.target.previousElementSibling.previousElementSibling.innerText
         navigator.clipboard.writeText(tocopy);
     });
     const oldHolder = document.querySelector('#HOLDER')
