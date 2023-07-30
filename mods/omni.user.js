@@ -238,7 +238,7 @@ function omniInit (toggle) {
                     $(exists).hide();
                 } else {
                     $(exists).show();
-                    if (window.innerholder > 576) {
+                    if (window.innerWidth > 576) {
                         document.querySelector("#kes-omni-search").focus();
                     }
                 }
