@@ -611,8 +611,8 @@
   {
     "name": "Notifications panel",
     "author": [
-	    "blobcat",
-	    "shazbot"
+      "blobcat",
+      "shazbot"
     ],
     "version": "0.3.0",
     "label": "Add a notifications panel",
@@ -1058,12 +1058,13 @@
         "values": [
           "Backtick",
           "Tab",
-	  "Equals",
-	  "Left bracket",
-	  "Right bracket",
-	  "Backslash"
+          "Equals",
+          "Left bracket",
+          "Right bracket",
+          "Backslash"
         ]
-      },
+      }
+    ],
     "page": "general"
   }
 ]
