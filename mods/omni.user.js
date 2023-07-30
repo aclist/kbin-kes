@@ -82,15 +82,13 @@ function omniInit (toggle) {
     }
     `
     if (toggle) {
-        createOmni();
+        document.addEventListener('keydown', createOmni)
     } else {
-        clearCache();
-    }
-    function clearCache () {
-        document.removeEventListener('keydown')
+        //clearCache();
+        document.removeEventListener('keydown', createOmni)
     }
 
-    function createOmni () {
+    function createOmni (e) {
 
         safeGM("removeStyle", omniCSS, "omni-css")
         safeGM("addStyle", omniCSS, "omni-css")
@@ -110,22 +108,19 @@ function omniInit (toggle) {
         const code = keyCodes[meta]
         console.log("Keycode is:", code)
 
-
-        document.addEventListener('keydown', (e) =>{
-            if (e.keyCode === code) {
-                e.preventDefault();
-                const exists = document.querySelector('.kes-subs-modal')
-                if (exists) {
-                    exists.remove();
-                    return
-                } else {
-                    const user = document.querySelector('.login');
-                    const username = user.href.split('/')[4];
-                    prepareLogin(username);
-                }
+        if (e.keyCode === code) {
+            e.preventDefault();
+            const exists = document.querySelector('.kes-subs-modal')
+            if (exists) {
+                exists.remove();
+                return
+            } else {
+                const user = document.querySelector('.login');
+                const username = user.href.split('/')[4];
+                prepareLogin(username);
             }
+        }
 
-        });
         function prepareLogin (username) {
             let url
             if (username) {
