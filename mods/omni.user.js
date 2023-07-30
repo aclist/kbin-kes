@@ -30,7 +30,7 @@ function omniInit (toggle) {
     }
     #kes-omni-warning {
         background-color: var(--kbin-alert-danger-text-color);
-        color: var(--kbin-link-hover-color);
+        color: var(--kbin-text-color);
         text-align: center;
     }
     .kes-subs-modal {
@@ -61,7 +61,7 @@ function omniInit (toggle) {
         border-top: 1px solid var(--kbin-vote-text-color);
         margin-top: -1px; /* Prevent double borders */
         background-color: var(--kbin-section-bg);
-        color: var(--kbin-button-secondary-text-hover-color);
+        color: var(--kbin-text-color);
         padding: 5px;
         text-decoration: none;
         font-size: 18px;
