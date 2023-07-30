@@ -1044,7 +1044,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Subscriptions omnibar",
-    "desc": "Quickly jump to mag subscriptions via a floating search panel. Use the meta key to open/close the omnibar. Meta key will not take effect inside of text fields.",
+    "desc": "Quickly jump to mag subscriptions via a floating search panel (type to search). Use the meta key to open/close the omnibar. Meta key will not take effect inside of text fields. If you are logged out, shows default magazines (most popular). To clear cache, toggle on and off.",
     "login": false,
     "recurs": false,
     "entrypoint": "omniInit",

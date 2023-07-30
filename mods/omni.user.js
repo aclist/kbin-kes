@@ -37,7 +37,7 @@ function omniInit (toggle) {
         display: flex;
         justify-content: center;
         position: fixed;
-        z-index: 100;
+        z-index: 999999;
         left: 0;
         top: 0;
         width: 100%;
