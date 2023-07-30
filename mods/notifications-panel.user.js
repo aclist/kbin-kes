@@ -157,6 +157,10 @@ const resetDropdownCSS = `
 const notificationsURL = 'https://' + window.location.hostname + '/settings/notifications'
 function readAndReset (response) {
     console.log(response)
+    const counter = document.querySelector('.notification-counter');
+    if (counter) {
+        counter.remove();
+    }
     genericXMLRequest(notificationsURL + '?p=1', insertMsgs);
 }
 function genericPOSTRequest (url, callback, data) {
@@ -405,8 +409,8 @@ function build () {
             msgCount = parseInt(msgCounterElement.querySelector('.badge').innerText);
             $(msgCounterElement).hide();
         }
-        let notiCount;
-        let oldCount;
+        let notiCount = 0;
+        let oldCount = 0;
         if (counterElement) {
             oldCount = parseInt(counterElement.querySelector('.badge').innerText);
             $(counterElement).hide();
@@ -420,7 +424,7 @@ function build () {
             notiBadge.innerText = notiPanelCount;
             anchorOuterElement.appendChild(notiBadgeHolder);
         }
-        listItem.addEventListener('click', () => {
+        anchorOuterElement.addEventListener('click', (e) => {
             safeGM("addStyle",forceDropdownCSS);
             toggleIframe(listItem)
         });
