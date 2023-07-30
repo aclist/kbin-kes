@@ -7,7 +7,7 @@
     "desc": "Add mail link to usernames if on own instance",
     "login": false,
     "recurs": true,
-    "link": "/images/previews/add-mail-icon-prev.png",
+    "link": "images\\previews\\add-mail-icon-prev.png",
     "link_label": "Preview image.",
     "entrypoint": "addMail",
     "namespace": "mail",
