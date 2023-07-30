@@ -89,12 +89,57 @@ function omniInit (toggle) {
 
         const user = document.querySelector('.login');
         const username = user.href.split('/')[4];
-        //if cache is empty
-        prepareLogin(username);
-        //else send cache to parsemags
 
-        function prepareLogin (username) {
-            console.log("fetching")
+        //prepareLogin(username);
+        let str
+        if (username) {
+            console.log("logged in")
+            str = 'user'
+            loadMags(str, username)
+        } else {
+            console.log("logged out")
+            str = 'default'
+            loadMags(str)
+        }
+
+        async function loadMags (mode, username) {
+            console.log("mode is:", mode)
+            console.log("user is:", username)
+            const dataStr = setMagString(mode);
+            console.log("data is:", dataStr)
+            const loaded = await safeGM("getValue", dataStr)
+            if (loaded.length < 1) {
+                console.log("data not present, fetching")
+                fetchMags(username);
+            } else {
+                console.log("loading menu")
+                console.log("found array:", loaded)
+                omni(loaded);
+            }
+        }
+        function setMagString (mode) {
+            console.log("SMS mode is:", mode)
+            let mags;
+            switch (mode) {
+                case 'default':
+                    mags = 'omni-default-mags'
+                    break;
+                case 'user':
+                    mags = 'omni-user-mags'
+                    break;
+            }
+            return mags;
+        }
+        async function saveMags (mode, mags) {
+            console.log("saveMags mode is:", mode)
+            const dataStr = setMagString(mode);
+            await safeGM("setValue", dataStr, mags)
+            console.log("triggering omni")
+            console.log("mag content:", mags)
+            omni(mags);
+        }
+
+        function fetchMags (username) {
             let url
             if (username) {
                 url = `https://kbin.social/u/${username}/subscriptions`
@@ -124,8 +169,8 @@ function omniInit (toggle) {
                 clean.push(link.href.split('/')[4])
                 clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
             });
-            //store cached array here
-            omni(clean);
+            console.log("saving sorted mag content under:", str)
+            saveMags(str, clean)
         }
         function updateVisible () {
             let pos
@@ -194,10 +239,6 @@ function omniInit (toggle) {
                         $(exists).show();
                         document.querySelector("#kes-omni-search").focus();
                     }
-                    //                exists.remove();
-                    //                return
-                } else {
-                    //
                 }
             }
 
@@ -330,12 +371,14 @@ function omniInit (toggle) {
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
             document.addEventListener('keydown', kickoffListener)
-            //document.querySelector("#kes-omni-search").focus();
         }
     }
     if (toggle) {
         createOmni();
     } else {
+        const e = []
+        safeGM("setValue",'omni-user-mags', e)
+        safeGM("setValue",'omni-default-mags', e)
         const q = document.querySelector('.kes-subs-modal')
         if (q) {
             window.location.reload();
