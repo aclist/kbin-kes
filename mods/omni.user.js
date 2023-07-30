@@ -119,7 +119,7 @@ function omniInit (toggle) {
             const dataStr = setMagString(mode);
             console.log("data is:", dataStr)
             const loaded = await safeGM("getValue", dataStr)
-            if ((loaded.length < 1) || (!loaded)) {
+            if ((!loaded) || (loaded.length < 1)) {
                 console.log("data not present, fetching")
                 fetchMags(username);
             } else {
