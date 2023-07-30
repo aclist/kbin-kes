@@ -380,8 +380,12 @@ function omniInit (toggle) {
                 mobileBar.addEventListener('click', () => {
                     const toShow = document.querySelector('.kes-subs-modal')
                     const toFocus = document.querySelector('#kes-omni-search')
-                    $(toShow).show();
-                    $(toFocus).focus();
+                    if ($(toShow).is(":visible")) {
+                        $(toShow).hide();
+                    } else {
+                        $(toShow).show();
+                        $(toFocus).focus();
+                    }
                 });
 
             }
