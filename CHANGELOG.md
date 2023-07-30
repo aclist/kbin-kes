@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.1.4
+### Fixed
+- Dropdown subscriptions: target hostnames other than kbin.social
+- Notifications panel: target hostnames other than kbin.social
 ## 2.1.3
 ### Fixed
 - Make notipanel button more clickable
