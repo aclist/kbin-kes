@@ -7,23 +7,23 @@ const fields = {
     "Link": false,
     "Link label": false,
 }
-const customFields = {
+const custom = {
     "Type": true,
     "Key": true,
-    "Label": false, //only label is optional
-    "Values": true,
+    "Values (csv)": true,
     "Initial": true,
+    "Label": false, //only label is optional
     //    csv: catch_reset
     //    csv: values
 }
 const types = {
-    "text": null,
-    "radio": null,
-    "reset": {"catch_reset": true},
-    "color": null,
-    "range": {"min": true, "max": true, "step": true},
-    "number": {"min": true, "max": true, "step": true},
     "checkbox": {"checkbox_label": false},
+    "color": null,
+    "number": {"min": true, "max": true, "step": true},
+    "radio": null,
+    "range": {"min": true, "max": true, "step": true},
+    "reset": {"catch_reset": true},
+    "text": null,
 }
 const vals = {
     name: "",
@@ -35,7 +35,6 @@ const vals = {
     entrypoint: "",
     namespace: ""
 }
-//TODO: validate json
 const a = document.querySelector('#header')
 const b = document.createElement('input')
 const submit = document.createElement('button')
@@ -46,23 +45,38 @@ a.appendChild(add)
 a.appendChild(submit)
 add.addEventListener('click', () => {
     const ent = document.querySelector('#entryfields');
-    console.log("inserting")
-        insertFields(customFields);
+        insertFields(custom);
 });
 const s = document.querySelector('#buttons')
 let field
 const fieldHolder = document.createElement('div')
 fieldHolder.id = 'entryfields'
 let fieldct = 1
+function selector (type) {
+    if (type === "checkbox") {
+        const r = document.querySelector('[key="values"]').parentElement
+        r.remove();
+    } else {
+        if (types[type]) {
+        const subFields = Object.keys(types[type])
+        for (let i = 0; i < subFields.length; ++i) {
+            console.log(subFields[i])
+        }
+    }
+    }
+    //TODO: if number or range, add fields pulled from object
+    //TODO: if reset, add catch_reset field
+}
 function insertFields(objname){
     let type;
+    const obj = Object.keys(objname)
     const customHolder = document.createElement('div');
-    if (Object.keys(objname)[0] === "Type") {
-        type = "custom";
+    if (obj[0] === "Type") {
+        type = custom;
         if (fieldct === 1) {
             const ns = document.createElement('p')
             ns.innerText = "Namespace"
-            //TODO: ast function
+            //TODO: ast as function
             let ast
             ast = document.createElement('span')
             ast.innerText = "*"
@@ -83,22 +97,22 @@ function insertFields(objname){
         customHolder.appendChild(hr)
         fieldHolder.appendChild(customHolder)
         ++fieldct
+    } else {
+        type = fields
     }
-    //TODO: abstract obj name
-    for (let i = 0; i<Object.keys(objname).length; ++i){
-
+    for (let i = 0; i < obj.length; ++i){
         field = document.createElement('p')
         let ast
-        if (fields[Object.keys(objname)[i]] === true) {
+        if (type[obj[i]] === true) {
             ast = document.createElement('span')
             ast.innerText = "*"
             ast.style.color = 'orange'
         } else {
             ast = document.createElement('text')
         }
-        field.innerText = Object.keys(objname)[i]
+        field.innerText = obj[i]
         field.appendChild(ast)
-        if (Object.keys(objname)[i] === "Type") {
+        if (obj[i] === "Type") {
             fieldLabel = document.createElement('select')
             for (let j = 0; j < Object.keys(types).length; ++j) {
                 const opt = document.createElement('option')
@@ -107,24 +121,20 @@ function insertFields(objname){
                 fieldLabel.appendChild(opt)
             }
             fieldLabel.addEventListener('change', (e) => {
-                //TODO: if checkbox, remove values field
-                //TODO: if number or range, add fields pulled from object
-                //TODO: custom fields must be required
-                //TODO: if reset, add catch_reset field
-                console.log(e.target.value)
+                selector(e.target.value)
             });
         } else {
             fieldLabel = document.createElement('textarea')
         }
-        fieldLabel.className = 'COPY'
-        fieldLabel.setAttribute("key",Object.keys(objname)[i].toLowerCase())
+        fieldLabel.className = 'input-field'
+        fieldLabel.setAttribute("key", obj[i].toLowerCase())
         if (Object.keys(objname)[i] === "Desc") {
             fieldLabel.setAttribute("rows", "8")
         }
         const sep = document.createElement('br')
         field.appendChild(sep)
         field.appendChild(fieldLabel)
-        if (type === "custom") {
+        if (type === custom) {
             customHolder.appendChild(field)
         } else {
             fieldHolder.appendChild(field)
@@ -138,7 +148,7 @@ s.appendChild(fieldHolder)
 submit.addEventListener('click', (e) => {
     const par = document.querySelector('#entryfields')
     const ar = []
-    par.querySelectorAll('.COPY').forEach((item) => {
+    par.querySelectorAll('.input-field').forEach((item) => {
         ar.push(item.value)
         let elKey = item.getAttribute("key")
         console.log(elKey)
