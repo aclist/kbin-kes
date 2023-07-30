@@ -21,7 +21,7 @@ function omniInit (toggle) {
     const omniCSS = `
     @media (max-width: 576px) {
         #kes-omni-list {
-            width: fit-content !important
+            width: 100% !important
         }
     }
     #kes-omni-scroller {
@@ -54,7 +54,7 @@ function omniInit (toggle) {
         list-style-type: none;
         padding: 50px;
         margin: 0;
-        width: 50%;
+        width: 50rem;
     }
     #kes-omni-list li{
         border-bottom: 1px solid var(--kbin-vote-text-color);
