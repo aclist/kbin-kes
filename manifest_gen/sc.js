@@ -4,6 +4,8 @@ const fields = {
     "Page": true,
     "Desc": true,
     "Entrypoint": true,
+    "Login": true,
+    "Recurs": true,
     "Link": false,
     "Link label": false,
 }
@@ -151,7 +153,13 @@ function insertFields(objname){
                 }
             });
         } else {
-            fieldLabel = document.createElement('textarea')
+            if ((obj[i] === "Login") || (obj[i] === "Recurs")) {
+                fieldLabel = document.createElement('input')
+                fieldLabel.setAttribute("type", "checkbox")
+                fieldLabel.checked = false
+            } else {
+                fieldLabel = document.createElement('textarea')
+            }
         }
         fieldLabel.className = 'input-field'
         fieldLabel.setAttribute("key", obj[i].toLowerCase())
@@ -178,7 +186,11 @@ submit.addEventListener('click', (e) => {
     par.querySelectorAll('.input-field').forEach((item) => {
         ar.push(item.value)
         let elKey = item.getAttribute("key")
-        console.log(elKey)
+        if ((item.type === "checkbox") && (item.checked === true)) {
+            item.value = true
+        } else if ((item.type === "checkbox") && (item.checked === false)) {
+            item.value = false
+        }
         vals[elKey] = item.value
     });
     const boiler = `{
@@ -186,8 +198,8 @@ submit.addEventListener('click', (e) => {
     "authors": "${vals["authors"]}",
     "label": "${vals["label"]}",
     "desc": "${vals["desc"]}",
-    "login": "${vals["login"]}",
-    "recurs": "${vals["recurs"]}",
+    "login": ${vals["login"]},
+    "recurs": ${vals["recurs"]},
     "entrypoint": "${vals["entrypoint"]}"
     }
     `
