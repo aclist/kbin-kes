@@ -1,0 +1,143 @@
+body {
+    background-color: #333;
+    color: lightgray;
+}
+#entryfields {
+    padding-right: 20px;
+    height: 50%;
+    overflow-y: scroll;
+}
+#header {
+    padding: 10px;
+    margin-left: 1.5rem;
+    margin-top: 2rem;
+}
+#holder {
+    display: flex;
+    padding-left: 5rem;
+    padding-right: 5rem;
+}
+#textpreview {
+    border: 1px solid gray;
+    padding: 50px;
+    height: 50%;
+    width: 300px;
+    overflow-wrap: break-word;
+    overflow-y: scroll;
+}
+#example {
+    margin-left: auto;
+}
+#json {
+    margin-left: auto;
+}
+#box {
+    background-color: #222;
+    height: 15rem;
+    width: 20rem;
+    color: lightgray;
+    padding: 50px;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+}
+button {
+    background-color: #555;
+    border: 0px;
+    color: lightgray;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+textarea, input {
+    background-color: #555;
+    border: 0px;
+    margin: 5px;
+    color: lightgray
+}
+.tgl {
+    display: none;
+}
+
+.tgl,
+.tgl:after,
+.tgl:before,
+.tgl *,
+.tgl *:after,
+.tgl *:before,
+.tgl+.tgl-btn {
+    box-sizing: border-box;
+}
+
+.tgl::selection,
+.tgl:after::selection,
+.tgl:before::selection,
+.tgl *::selection,
+.tgl *:after::selection,
+.tgl *:before::selection,
+.tgl+.tgl-btn::selection {
+    background: none;
+}
+
+.tgl+.tgl-btn {
+    outline: 0;
+    display: block;
+    width: 2em;
+    height: 1em;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tgl+.tgl-btn:after,
+.tgl+.tgl-btn:before {
+    position: relative;
+    display: block;
+    content: "";
+    width: 50%;
+    height: 100%;
+}
+
+.tgl+.tgl-btn:after {
+    left: 0;
+}
+
+.tgl+.tgl-btn:before {
+    display: none;
+}
+
+.tgl:checked+.tgl-btn:after {
+    left: 50%;
+}
+
+.kes-tgl+.tgl-btn {
+    background: #fbfbfb;
+    border-radius: 2em;
+    padding: 2px;
+    transition: all 0.4s ease;
+}
+
+.kes-tgl+.tgl-btn:after {
+    border-radius: 2em;
+    background: gray;
+    transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
+}
+
+.kes-tgl+.tgl-btn:hover:after {
+    will-change: padding;
+}
+
+.kes-tgl+.tgl-btn:active:after {
+    padding-right: 0.8em;
+}
+
+.kes-tgl:checked+.tgl-btn {
+    background: #86d993;
+}
+
+.kes-tgl:checked+.tgl-btn:active {
+    box-shadow: none;
+}
+
+.kes-tgl:checked+.tgl-btn:active:after {
+    margin-left: -0.8em;
+}

@@ -41,9 +41,6 @@ const customPanelCSS = `
 #header .notification-button .badge {
     font-size:.8em;padding:.1em .4em
 }
-#header menu .notification-button > a:not(.fa-solid.fa-bell){
-border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-left:1.6em
-}
 #header menu li a:has(~.notification-counter:hover){
     border-bottom:var(--kbin-header-hover-border)
 }
@@ -55,16 +52,20 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
     border-radius: 5px;
     border: 2px solid transparent;
 }
-#header menu .notification-button > a:not(.fa-solid.fa-bell) {
-    border: 0!important;
-    padding: 0;
+#header .notification-button .notification-counter {
+    border: 0 !important;
+    padding: 4.5px;
     display: inline;
     position: absolute;
     top: .5em;
-    margin-left: 1.6em;
+    margin-left: -0.5em;
+    text-align: center;
 }
 .notifications-iframe {
     width: 300px;
+}
+.notification-button,.notification-counter {
+    cursor: pointer;
 }
 .noti-panel-message-holder {
     overflow-y: scroll;
@@ -379,14 +380,16 @@ function build () {
         const listItem = document.createElement('li');
         listItem.classList.add('notification-button');
 
-        const anchorElement = document.createElement('a');
-        anchorElement.textContent = ' ';
+        const anchorOuterElement = document.createElement('a');
+        const anchorElement = document.createElement('i');
+        anchorOuterElement.appendChild(anchorElement);
+        //anchorElement.textContent = ' ';
         anchorElement.classList.add('fa-solid', 'fa-bell');
-        anchorElement.style.cursor = 'pointer';
+        //anchorElement.style.cursor = 'pointer';
         anchorElement.setAttribute('aria-label', 'Notifications');
         anchorElement.setAttribute('title', 'Notifications');
 
-        listItem.appendChild(anchorElement);
+        listItem.appendChild(anchorOuterElement);
 
         const siblingElement = document.querySelector('.dropdown .login').parentElement;
 
@@ -395,17 +398,28 @@ function build () {
         }
 
         const counterElement = document.querySelector('.counter > [href="/settings/notifications"]');
-
-        if (counterElement) {
-            counterElement.removeAttribute('href');
-            counterElement.classList.add('notification-counter');
-            listItem.appendChild(counterElement);
-            counterElement.addEventListener('click', () => {
-                safeGM("addStyle",forceDropdownCSS);
-                toggleIframe(listItem)
-            });
+        const msgCounterElement = document.querySelector('.counter > [href="/profile/messages"]');
+        let msgCount = 0;
+        if (msgCounterElement) {
+            msgCount = parseInt(msgCounterElement.querySelector('.badge').innerText);
+            $(msgCounterElement).hide();
         }
-        anchorElement.addEventListener('click', () => {
+        let notiCount;
+        let oldCount;
+        if (counterElement) {
+            oldCount = parseInt(counterElement.querySelector('.badge').innerText);
+            $(counterElement).hide();
+        }
+        const notiPanelCount = msgCount + oldCount
+        if (notiPanelCount > 0) {
+            const notiBadgeHolder = document.createElement('li')
+            const notiBadge = document.createElement('span');
+            notiBadgeHolder.appendChild(notiBadge);
+            notiBadge.classList.add('counter', 'badge', 'danger-bg', 'notification-counter')
+            notiBadge.innerText = notiPanelCount;
+            anchorOuterElement.appendChild(notiBadgeHolder);
+        }
+        listItem.addEventListener('click', () => {
             safeGM("addStyle",forceDropdownCSS);
             toggleIframe(listItem)
         });
@@ -414,6 +428,10 @@ function build () {
 function shutdown () {
     const notiPanel = document.querySelector('li.notification-button');
     if (notiPanel) {
+        const msgCounterElement = document.querySelector('.counter > [href="/profile/messages"]');
+        const counterElement = document.querySelector('.counter > [href="/settings/notifications"]');
+        $(msgCounterElement).show();
+        $(counterElement).show();
         notiPanel.remove();
     }
 }

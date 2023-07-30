@@ -29,6 +29,7 @@ function adjustSite (toggle) {
         let downvoteCol = getHex(settings.downvote);
         let boostCol = getHex(settings.boost);
 
+
         const customCSS = `
             html {
                 filter: sepia(${sepia}) hue-rotate(${hue}) brightness(${bright}) saturate(${saturate}) contrast(${contrast});

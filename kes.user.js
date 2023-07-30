@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.0-beta.34
+// @version      2.2.0-beta.52
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -31,7 +31,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/adjust-site.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/adjust.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/alpha-sort-subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/always-more.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/clarify-recipient.user.js
