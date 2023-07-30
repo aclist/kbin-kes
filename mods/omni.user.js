@@ -81,47 +81,20 @@ function omniInit (toggle) {
         padding: 5px;
     }
     `
-    if (toggle) {
-        document.addEventListener('keydown', createOmni)
-    } else {
-        //clearCache();
-        document.removeEventListener('keydown', createOmni)
-    }
 
-    function createOmni (e) {
+    function createOmni () {
 
         safeGM("removeStyle", omniCSS, "omni-css")
         safeGM("addStyle", omniCSS, "omni-css")
 
-        const keyCodes = {
-            "Backtick": 192,
-            "Backslash": 220,
-            "Tab": 9,
-            "Equals": 61,
-            "Left bracket": 219,
-            "Right bracket": 221
-        }
-
-        const settings = getModSettings('omni');
-        const meta = settings["meta"]
-        console.log(meta)
-        const code = keyCodes[meta]
-        console.log("Keycode is:", code)
-
-        if (e.keyCode === code) {
-            e.preventDefault();
-            const exists = document.querySelector('.kes-subs-modal')
-            if (exists) {
-                exists.remove();
-                return
-            } else {
-                const user = document.querySelector('.login');
-                const username = user.href.split('/')[4];
-                prepareLogin(username);
-            }
-        }
+        const user = document.querySelector('.login');
+        const username = user.href.split('/')[4];
+        //if cache is empty
+        prepareLogin(username);
+        //else send cache to parsemags
 
         function prepareLogin (username) {
+            console.log("fetching")
             let url
             if (username) {
                 url = `https://kbin.social/u/${username}/subscriptions`
@@ -151,6 +124,7 @@ function omniInit (toggle) {
                 clean.push(link.href.split('/')[4])
                 clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
             });
+            //store cached array here
             omni(clean);
         }
         function updateVisible () {
@@ -196,13 +170,45 @@ function omniInit (toggle) {
                 }
             }
         }
+        function kickoffListener (e) {
+            const keyCodes = {
+                "Backtick": 192,
+                "Backslash": 220,
+                "Tab": 9,
+                "Equals": 61,
+                "Left bracket": 219,
+                "Right bracket": 221
+            }
+
+            const settings = getModSettings('omni');
+            const meta = settings["meta"]
+            const code = keyCodes[meta]
+
+            if (e.keyCode === code) {
+                e.preventDefault();
+                const exists = document.querySelector('.kes-subs-modal')
+                if (exists) {
+                    if ($(exists).is(":visible")) {
+                        $(exists).hide();
+                    } else {
+                        $(exists).show();
+                        document.querySelector("#kes-omni-search").focus();
+                    }
+                    //                exists.remove();
+                    //                return
+                } else {
+                    //
+                }
+            }
+
+        }
         function omni (subs) {
             const kesModal = document.createElement('div')
             kesModal.className = "kes-subs-modal"
             kesModal.addEventListener('click', (e) =>{
                 if ((e.target.tagName === "UL") || (e.target.tagName === "DIV")) {
                     const torem = document.querySelector('.kes-subs-modal')
-                    torem.remove();
+                    $(torem).hide();
                 }
             });
             const entryholder = document.createElement('ul')
@@ -321,8 +327,18 @@ function omniInit (toggle) {
                     makeActive(e.target)
                 }
             });
+            kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
-            document.querySelector("#kes-omni-search").focus();
+            document.addEventListener('keydown', kickoffListener)
+            //document.querySelector("#kes-omni-search").focus();
+        }
+    }
+    if (toggle) {
+        createOmni();
+    } else {
+        const q = document.querySelector('.kes-subs-modal')
+        if (q) {
+            window.location.reload();
         }
     }
 }
