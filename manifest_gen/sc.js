@@ -10,7 +10,7 @@ const fields = {
 const custom = {
     "Type": true,
     "Key": true,
-    "Values (csv)": true,
+    "Values": true,
     "Initial": true,
     "Label": false, //only label is optional
     //    csv: catch_reset
@@ -19,9 +19,9 @@ const custom = {
 const types = {
     "checkbox": {"checkbox_label": false},
     "color": null,
-    "number": {"min": true, "max": true, "step": true},
+    "number": {"Min": true, "Max": true, "Step": true},
     "radio": null,
-    "range": {"min": true, "max": true, "step": true},
+    "range": {"Min": true, "Max": true, "Step": true},
     "reset": {"catch_reset": true},
     "text": null,
 }
@@ -56,17 +56,20 @@ function selector (type) {
     if (type === "checkbox") {
         const r = document.querySelector('[key="values"]').parentElement
         r.remove();
-    } else {
-        if (types[type]) {
+        return
+    }
+    if (types[type]) {
         const subFields = Object.keys(types[type])
+        const s = []
         for (let i = 0; i < subFields.length; ++i) {
             console.log(subFields[i])
+            s.push(subFields[i])
         }
+        return s
     }
-    }
+}
     //TODO: if number or range, add fields pulled from object
     //TODO: if reset, add catch_reset field
-}
 function insertFields(objname){
     let type;
     const obj = Object.keys(objname)
@@ -121,7 +124,31 @@ function insertFields(objname){
                 fieldLabel.appendChild(opt)
             }
             fieldLabel.addEventListener('change', (e) => {
-                selector(e.target.value)
+                const o = document.querySelector('#subfields')
+                if (o) {
+                    o.remove();
+                }
+                const ret = selector(e.target.value)
+                if (ret) {
+                const subFieldHolder = document.createElement('div')
+                subFieldHolder.id = 'subfields'
+                for (let k = 0; k < ret.length; ++k) {
+                    const subfield = document.createElement('p')
+                    subfield.innerText = ret[k]
+                    const ast = document.createElement('span')
+                    ast.innerText = "*"
+                    ast.style.color = 'orange'
+                    subfield.appendChild(ast)
+                    fieldLabel = document.createElement('textarea')
+                    fieldLabel.className = 'input-field'
+                    fieldLabel.setAttribute("key", ret[k].toLowerCase())
+                    const sep = document.createElement('br')
+                    subfield.appendChild(sep)
+                    subfield.appendChild(fieldLabel)
+                    subFieldHolder.appendChild(subfield)
+                }
+                    customHolder.appendChild(subFieldHolder)
+                }
             });
         } else {
             fieldLabel = document.createElement('textarea')
