@@ -248,7 +248,9 @@ function omniInit (toggle) {
             kesModal.className = "kes-subs-modal"
             kesModal.addEventListener('click', (e) =>{
                 if ((e.target.tagName === "UL") || (e.target.tagName === "DIV")) {
+                    console.log(e.target.tagName)
                     const torem = document.querySelector('.kes-subs-modal')
+                    console.log(torem)
                     $(torem).hide();
                 }
             });
@@ -368,6 +370,22 @@ function omniInit (toggle) {
                     makeActive(e.target)
                 }
             });
+
+            if (window.innerWidth < 576) {
+                const top = document.querySelector('.fixed-navbar')
+                const mobileBar = document.createElement('div')
+                mobileBar.style.cssText = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
+                top.insertBefore(mobileBar, top.children[0])
+
+                mobileBar.addEventListener('click', () => {
+                    const toShow = document.querySelector('.kes-subs-modal')
+                    const toFocus = document.querySelector('#kes-omni-search')
+                    $(toShow).show();
+                    $(toFocus).focus();
+                });
+
+            }
+
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
             document.addEventListener('keydown', kickoffListener)
