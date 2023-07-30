@@ -30,7 +30,7 @@ function omniInit (toggle) {
     }
     #kes-omni-warning {
         background-color: var(--kbin-alert-danger-text-color);
-        color: var(--kbin-text-color);
+        color: var(--kbin-input-bg);
         text-align: center;
     }
     .kes-subs-modal {
