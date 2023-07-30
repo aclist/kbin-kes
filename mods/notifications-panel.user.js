@@ -154,13 +154,14 @@ const resetDropdownCSS = `
     padding: .5rem 1rem !important;
 }
 `
+const notificationsURL = 'https://' + window.location.hostname + '/settings/notifications'
 function readAndReset (response) {
     console.log(response)
     const counter = document.querySelector('.notification-counter');
     if (counter) {
         counter.remove();
     }
-    genericXMLRequest("https://kbin.social/settings/notifications?p=1", insertMsgs);
+    genericXMLRequest(notificationsURL + '?p=1', insertMsgs);
 }
 function genericPOSTRequest (url, callback, data) {
     safeGM("xmlhttpRequest", {
@@ -273,7 +274,7 @@ async function insertMsgs (response) {
         readButton.style.setProperty('--noti-button-opacity','0.7')
         readButton.addEventListener('click', () => {
             clearPanel();
-            genericPOSTRequest("https://kbin.social/settings/notifications/read", readAndReset, readToken);
+            genericPOSTRequest(notificationsURL + '/read', readAndReset, readToken);
         });
     } else {
         readButton.style.opacity = 0.7;
@@ -281,14 +282,14 @@ async function insertMsgs (response) {
     }
     purgeButton.addEventListener('click', () => {
         clearPanel();
-        genericPOSTRequest("https://kbin.social/settings/notifications/clear", readAndReset, purgeToken);
+        genericPOSTRequest(notificationsURL + '/clear', readAndReset, purgeToken);
     });
 
     if (currentPageInt != 1) {
         arrowHolder.appendChild(backButton);
         backButton.addEventListener('click', () => {
             clearPanel();
-            genericXMLRequest("https://kbin.social/settings/notifications?p=" + (currentPageInt - 1),insertMsgs);
+            genericXMLRequest(notificationsURL + '?p=' + (currentPageInt - 1),insertMsgs);
         });
     }
     let testNextPage = notificationsXML.querySelector('a.pagination__item--next-page')
@@ -296,7 +297,7 @@ async function insertMsgs (response) {
         arrowHolder.appendChild(forwardButton);
         forwardButton.addEventListener('click', () => {
             clearPanel();
-            genericXMLRequest("https://kbin.social/settings/notifications?p=" + (currentPageInt + 1),insertMsgs);
+            genericXMLRequest(notificationsURL + '?p=' + (currentPageInt + 1),insertMsgs);
         });
     }
     notiHeader.appendChild(arrowHolder);
@@ -331,7 +332,7 @@ async function insertMsgs (response) {
             msgEl.className = "noti-panel-snippet"
         }
 
-        nameEl.href = "https://kbin.social/u/" + names[i];
+        nameEl.href = 'https://' + window.location.hostname + '/u/' + names[i];
         nameEl.innerText = names[i];
         nameEl.className = "noti-panel-sender"
 
@@ -374,7 +375,7 @@ function toggleIframe (listItem) {
     })
     document.querySelector('.kbin-container').appendChild(clickModal)
     listItem.appendChild(iframe);
-    genericXMLRequest("https://kbin.social/settings/notifications?p=1",insertMsgs);
+    genericXMLRequest(notificationsURL + '?p=1',insertMsgs);
 }
 function build () {
     const notiPanel = document.querySelector('li.notification-button');
@@ -415,7 +416,6 @@ function build () {
             $(counterElement).hide();
         }
         const notiPanelCount = msgCount + oldCount
-        console.log(notiPanelCount)
         if (notiPanelCount > 0) {
             const notiBadgeHolder = document.createElement('li')
             const notiBadge = document.createElement('span');
@@ -425,7 +425,6 @@ function build () {
             anchorOuterElement.appendChild(notiBadgeHolder);
         }
         anchorOuterElement.addEventListener('click', (e) => {
-            console.log(e.target)
             safeGM("addStyle",forceDropdownCSS);
             toggleIframe(listItem)
         });

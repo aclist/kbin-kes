@@ -45,7 +45,7 @@ function addDropdown (user, testMsg) {
     // event listener
     $(document).on('change', '#dropdown-select', function () {
         const page = $('#dropdown-select').val();
-        const pref = 'https://kbin.social/u/';
+        const pref = 'https://' + window.location.hostname + '/u/'
         const finalUrl = pref + user + "/" + page;
         window.location = finalUrl;
     })
