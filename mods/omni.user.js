@@ -33,7 +33,7 @@ function omniInit (toggle) {
         color: var(--kbin-input-bg);
         text-align: center;
     }
-    .kes-subs-modal {
+    .kes-omni-modal {
         display: flex;
         justify-content: center;
         position: fixed;
@@ -81,6 +81,18 @@ function omniInit (toggle) {
         padding: 5px;
     }
     `
+    const keyCodes = {
+        "Backtick": 192,
+        "Backslash": 220,
+        "Tab": 9,
+        "Equals": 61,
+        "Left bracket": 219,
+        "Right bracket": 221
+    }
+
+    const settings = getModSettings('omni');
+    const meta = settings["meta"]
+    const code = keyCodes[meta]
 
     function createOmni () {
 
@@ -90,7 +102,6 @@ function omniInit (toggle) {
         const user = document.querySelector('.login');
         const username = user.href.split('/')[4];
 
-        //prepareLogin(username);
         let str
         if (username) {
             console.log("logged in")
@@ -121,12 +132,12 @@ function omniInit (toggle) {
             console.log("SMS mode is:", mode)
             let mags;
             switch (mode) {
-                case 'default':
-                    mags = 'omni-default-mags'
-                    break;
-                case 'user':
-                    mags = 'omni-user-mags'
-                    break;
+            case 'default':
+                mags = 'omni-default-mags'
+                break;
+            case 'user':
+                mags = 'omni-user-mags'
+                break;
             }
             return mags;
         }
@@ -197,59 +208,49 @@ function omniInit (toggle) {
         function scrollList (direction, el) {
             const active = '.kes-subs-active'
             const scroll = '#kes-omni-scroller'
+            const activeEl = document.querySelector(active)
+            const scrollEl = document.querySelector(scroll)
             let currentElGeom;
             let scrollerGeom;
+
             if (direction === 'down') {
-                currentElGeom = document.querySelector(active).getBoundingClientRect().bottom
-                scrollerGeom = document.querySelector(scroll).getBoundingClientRect().bottom
+                currentElGeom = activeEl.getBoundingClientRect().bottom
+                scrollerGeom = scrollEl.getBoundingClientRect().bottom
                 if ((currentElGeom > scrollerGeom) || (currentElGeom < 0)) {
                     el.scrollIntoView();
                 }
             } else {
-                currentElGeom = document.querySelector(active).getBoundingClientRect().top;
-                const currentElGeomBot = document.querySelector(active).getBoundingClientRect().bottom;
-                scrollerGeom = document.querySelector(scroll).getBoundingClientRect().top;
-                const scrollerGeomBot = document.querySelector(scroll).getBoundingClientRect().bottom;
+                currentElGeom = activeEl.getBoundingClientRect().top;
+                const currentElGeomBot = activeEl.getBoundingClientRect().bottom;
+                scrollerGeom = scrollEl.getBoundingClientRect().top;
+                const scrollerGeomBot = scrollEl.getBoundingClientRect().bottom;
                 if ((currentElGeom < scrollerGeom) || (currentElGeomBot > scrollerGeomBot)) {
                     el.scrollIntoView();
                 }
             }
         }
         function kickoffListener (e) {
-            const keyCodes = {
-                "Backtick": 192,
-                "Backslash": 220,
-                "Tab": 9,
-                "Equals": 61,
-                "Left bracket": 219,
-                "Right bracket": 221
-            }
-
-            const settings = getModSettings('omni');
-            const meta = settings["meta"]
-            const code = keyCodes[meta]
-
-            if (e.keyCode === code) {
-                e.preventDefault();
-                const exists = document.querySelector('.kes-subs-modal')
-                if (exists) {
-                    if ($(exists).is(":visible")) {
-                        $(exists).hide();
-                    } else {
-                        $(exists).show();
+            if (e.keyCode !== code) return
+            e.preventDefault();
+            const exists = document.querySelector('.kes-omni-modal')
+            if (exists) {
+                if ($(exists).is(":visible")) {
+                    $(exists).hide();
+                } else {
+                    $(exists).show();
+                    if (window.innerholder > 576) {
                         document.querySelector("#kes-omni-search").focus();
                     }
                 }
             }
-
         }
         function omni (subs) {
             const kesModal = document.createElement('div')
-            kesModal.className = "kes-subs-modal"
+            kesModal.className = "kes-omni-modal"
             kesModal.addEventListener('click', (e) =>{
                 if ((e.target.tagName === "UL") || (e.target.tagName === "DIV")) {
                     console.log(e.target.tagName)
-                    const torem = document.querySelector('.kes-subs-modal')
+                    const torem = document.querySelector('.kes-omni-modal')
                     console.log(torem)
                     $(torem).hide();
                 }
@@ -305,19 +306,21 @@ function omniInit (toggle) {
                 case 40: {
                     break;
                 }
+                case code: {
+                    break;
+                }
                 default: {
-                    const filter = e.target.value
-
                     const visi = []
-                    const LL = e.target.parentElement
-                    const VB = LL.querySelectorAll('li')
-                    for (let i = 0; i < VB.length; i++) {
-                        let t = VB[i].textContent
+                    const filter = e.target.value
+                    const parEl = e.target.parentElement
+                    const visiEl = parEl.querySelectorAll('li')
+                    for (let i = 0; i < visiEl.length; i++) {
+                        let t = visiEl[i].textContent
                         if (t.toLowerCase().indexOf(filter) > -1) {
-                            visi.push(VB[i])
-                            VB[i].style.display = "";
+                            visi.push(visiEl[i])
+                            visiEl[i].style.display = "";
                         } else {
-                            VB[i].style.display= "none";
+                            visiEl[i].style.display= "none";
                             makeInactive(VB[i])
                         }
                     }
@@ -378,13 +381,12 @@ function omniInit (toggle) {
                 top.insertBefore(mobileBar, top.children[0])
 
                 mobileBar.addEventListener('click', () => {
-                    const toShow = document.querySelector('.kes-subs-modal')
+                    const toShow = document.querySelector('.kes-omni-modal')
                     const toFocus = document.querySelector('#kes-omni-search')
                     if ($(toShow).is(":visible")) {
                         $(toShow).hide();
                     } else {
                         $(toShow).show();
-                        $(toFocus).focus();
                     }
                 });
 
@@ -401,7 +403,7 @@ function omniInit (toggle) {
         const e = []
         safeGM("setValue",'omni-user-mags', e)
         safeGM("setValue",'omni-default-mags', e)
-        const q = document.querySelector('.kes-subs-modal')
+        const q = document.querySelector('.kes-omni-modal')
         if (q) {
             window.location.reload();
         }
