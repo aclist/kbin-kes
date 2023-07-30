@@ -25,7 +25,7 @@ function omniInit (toggle) {
         }
     }
     #kes-omni-scroller {
-        height: 80%;
+        height: fit-content !important;
         overflow-y: scroll;
     }
     #kes-omni-warning {
@@ -50,7 +50,7 @@ function omniInit (toggle) {
         height: 80%;
     }
     #kes-omni-list {
-        height: fit-content !important;
+        height: 80%;
         list-style-type: none;
         padding: 50px;
         margin: 0;
