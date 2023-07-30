@@ -1,5 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.2.0
+### Added
+- NSFW blur disabler
+- Subs omnibar
+- Customize colors
+- Hover mod
+- API: getHex();
 ## 2.1.4
 ### Fixed
 - Dropdown subscriptions: target hostnames other than kbin.social
