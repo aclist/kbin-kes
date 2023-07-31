@@ -21,6 +21,7 @@ const custom = {
 const types = {
     "color": null,
     "checkbox": {"checkbox_label": true},
+    "select": null,
     "number": {"Min": true, "Max": true, "Step": true},
     "radio": null,
     "range": {"Min": true, "Max": true, "Step": true},
@@ -67,15 +68,13 @@ function selector (type) {
             console.log(subFields[i])
             s.push(subFields[i])
         }
-        if (type === "checkbox") {
+        if ((type === "checkbox") || (type === "range") || (type === "number") || (type === "reset")) {
             $(r).hide();
             $(i).hide();
         }
         return s
     }
 }
-    //TODO: if number or range, add fields pulled from object
-    //TODO: if reset, add catch_reset field
 function insertFields(objname){
     let type;
     const obj = Object.keys(objname)
@@ -236,7 +235,7 @@ submit.addEventListener('click', (e) => {
             let cb
             innerFields.forEach((item) =>{
                 console.log(item)
-                if (item.value === "checkbox") {
+                if ((item.value === "checkbox") || (item.value === "number") || (item.value === "range") || (item.value === "reset")) {
                     cb = 1
                 }
                 const key = item.getAttribute("key")
