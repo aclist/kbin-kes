@@ -1060,18 +1060,18 @@ function constructMenu (json, layoutArr, isNew) {
     const obs = new MutationObserver(initmut);
     init();
     if (watchedNode) {
-    obs.observe(watchedNode, {
-        subtree: true,
-        childList: true,
-        attributes: false
-    });
+        obs.observe(watchedNode, {
+            subtree: true,
+            childList: true,
+            attributes: false
+        });
     }
     if (watchedNode2) {
-    obs.observe(watchedNode2, {
-        subtree: false,
-        childList: true,
-        attributes: false
-    });
+        obs.observe(watchedNode2, {
+            subtree: false,
+            childList: true,
+            attributes: false
+        });
     }
 }
 

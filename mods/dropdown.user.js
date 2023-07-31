@@ -57,7 +57,6 @@ function addDropdown (user, testMsg) {
 
 function removeDropdown () {
     $('#dropdown-select').remove();
-    const detached = $('#dropdown-select').replaceWith('');
     const horizontalScroll = document.querySelector('.options__main');
     horizontalScroll.style.cssText += 'display:grid';
     const scrollArrows = document.querySelector('.scroll');

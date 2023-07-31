@@ -1,6 +1,6 @@
 function rearrangeSetup () {
     if (window.location.href.split('#')[1] != 'comments') return
-    settings = getModSettings('rearrange');
+    const settings = getModSettings('rearrange');
     const content = document.querySelector('#content');
     content.style.display = 'grid';
     const op = document.querySelector('.section--top');

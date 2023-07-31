@@ -164,48 +164,47 @@ function omniInit (toggle) {
             if (notificationsXML.title === "Magazines - kbin.social") {
                 mags = notificationsXML.querySelector('.magazines.table-responsive')
                 links = mags.querySelectorAll('.stretched-link')
-		alphaSort(links);
+                alphaSort(links);
             } else {
-		let eop
-		let page
+                let page
                 mags = notificationsXML.querySelector('.magazines-columns');
-            	links = mags.querySelectorAll('.stretched-link');
-		const username = notificationsXML.querySelector('.login').getAttribute("href").split('/')[2];
-		console.log(username)
-		const paginator = notificationsXML.querySelector('.pagination__item.pagination__item--next-page');
-		console.log(paginator)
-		if (paginator) {
-			const tip = paginator.getAttribute("href")
-			if (tip) {
-				page = tip.split('=')[1]
-				console.log("next page is:", page)
-			}
-		}
-		console.log("username is:", username)
-		console.log("new links:", links)
-		console.log("OLD MAGS ARRAY:", fetchedMags)
-            	fetchedMags.push(links);
-            	console.log("NEW MAGS ARRAY:", fetchedMags);
-		console.log("TOTAL LINKS ON PAGE:", links.length)
-		if (links.length < 48) {
-			console.log("fewer than 48 on page, done")
-			alphaSort(fetchedMags)
-		} else {
-			console.log("going to next page:", page)
-                	const url = `https://kbin.social/u/${username}/subscriptions?p=${page}`
-			console.log("new URL is:", url)
-			genericXMLRequest(url, parseMags)
-		}
+                links = mags.querySelectorAll('.stretched-link');
+                const username = notificationsXML.querySelector('.login').getAttribute("href").split('/')[2];
+                console.log(username)
+                const paginator = notificationsXML.querySelector('.pagination__item.pagination__item--next-page');
+                console.log(paginator)
+                if (paginator) {
+                    const tip = paginator.getAttribute("href")
+                    if (tip) {
+                        page = tip.split('=')[1]
+                        console.log("next page is:", page)
+                    }
+                }
+                console.log("username is:", username)
+                console.log("new links:", links)
+                console.log("OLD MAGS ARRAY:", fetchedMags)
+                fetchedMags.push(links);
+                console.log("NEW MAGS ARRAY:", fetchedMags);
+                console.log("TOTAL LINKS ON PAGE:", links.length)
+                if (links.length < 48) {
+                    console.log("fewer than 48 on page, done")
+                    alphaSort(fetchedMags)
+                } else {
+                    console.log("going to next page:", page)
+                    const url = `https://kbin.social/u/${username}/subscriptions?p=${page}`
+                    console.log("new URL is:", url)
+                    genericXMLRequest(url, parseMags)
+                }
             }
         }
         function alphaSort (links) {
             const clean = []
-	    for (let i = 0; i < links.length; ++i) {
-            links[i].forEach((link) => {
-                clean.push(link.href.split('/')[4])
-                clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
-            });
-		}
+            for (let i = 0; i < links.length; ++i) {
+                links[i].forEach((link) => {
+                    clean.push(link.href.split('/')[4])
+                    clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+                });
+            }
             console.log("saving sorted mag content under:", str)
             saveMags(str, clean)
         }
