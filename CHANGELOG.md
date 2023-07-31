@@ -1,5 +1,33 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.2.0
+### Added
+- NSFW blur disabler
+- Subs omnibar
+- Customize colors
+- Hover mod
+- API: getHex();
+## 2.1.4
+### Fixed
+- Dropdown subscriptions: target hostnames other than kbin.social
+- Notifications panel: target hostnames other than kbin.social
+## 2.1.3
+### Fixed
+- Make notipanel button more clickable
+- Merge unread message/thread notification counters into one count
+- Cleanly restore message badges when notipanel is toggled off
+## 2.1.2
+### Fixed
+- Initial support for FireMonkey extension
+- Ensure hamburger menu opens correctly
+- Make KES icon comply with hamburger menu styling
+### Added
+- API: support inheriting kbin theme vars when setting color input fields
+## 2.1.1
+### Fixed
+- Notifications panel going missing due to change in upstream kbin CSS
+### Added
+- Support for incremental values in range sliders
 ## 2.1.0
 ### Added
 - Resize fonts globally (minnieo)

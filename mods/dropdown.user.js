@@ -45,7 +45,7 @@ function addDropdown (user, testMsg) {
     // event listener
     $(document).on('change', '#dropdown-select', function () {
         const page = $('#dropdown-select').val();
-        const pref = 'https://kbin.social/u/';
+        const pref = 'https://' + window.location.hostname + '/u/'
         const finalUrl = pref + user + "/" + page;
         window.location = finalUrl;
     })
@@ -57,7 +57,6 @@ function addDropdown (user, testMsg) {
 
 function removeDropdown () {
     $('#dropdown-select').remove();
-    const detached = $('#dropdown-select').replaceWith('');
     const horizontalScroll = document.querySelector('.options__main');
     horizontalScroll.style.cssText += 'display:grid';
     const scrollArrows = document.querySelector('.scroll');

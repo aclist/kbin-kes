@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.0-beta.68
+// @version      2.2.0-beta.83
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -28,49 +28,52 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/helpers/safegm.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/alpha-sort-subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/always-more.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/clarify-recipient.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/code-highlighting.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/dropdown.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/easy-emoticon.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/hide-logo.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/hide-posts.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/hide-sidebar.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/hide-thumbs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/hide-votes.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/improved-collapsible-comments.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/instance-names.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/kbin-federation-awareness.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/kbin-mod-options.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/label.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/mail.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/mobile-cleanup.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/move-federation-warning.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/nav-icons.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/notifications-panel.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/rearrange.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/report-bug.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/resize-text.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/mods/timestamp.user.js
-// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/helpers/ui.json
-// @resource     kes_json https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/helpers/manifest.json
-// @resource     kes_css https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/helpers/kes.css
-// @downloadURL  https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/kes.user.js
-// @updateURL    https://github.com/aclist/kbin-kes/raw/tags/2.1.0^2^2~2/kes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/adjust.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/alpha-sort-subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/always-more.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/clarify-recipient.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-posts.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-sidebar.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-thumbs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-votes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/instance-names.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-mod-options.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mobile-cleanup.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/move-federation-warning.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/omni.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/rearrange.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/resize-text.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/unblur.user.js
+// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
+// @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
+// @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
+// @downloadURL  https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
+// @updateURL    https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, textResize, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
-const branch = "tags/2.1.0^2^2~2"
+const branch = "testing"
 const helpersPath = "helpers/"
 const branchPath = repositoryURL + "raw/" + branch + "/"
 const versionFile = branchPath + "VERSION";
@@ -86,6 +89,7 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 
 const funcObj = {
     addMail: addMail,
+    adjustSite: adjustSite,
     alphaSortInit: alphaSortInit,
     bugReportInit: bugReportInit,
     clarifyRecipientInit: clarifyRecipientInit,
@@ -108,9 +112,11 @@ const funcObj = {
     moveFederationWarningEntry: moveFederationWarningEntry,
     navbarIcons: navbarIcons,
     notificationsPanel: notificationsPanel,
+    omniInit: omniInit,
     rearrangeInit: rearrangeInit,
     textResize: textResize,
     toggleLogo: toggleLogo,
+    unblurInit: unblurInit,
     updateTime: updateTime,
     userInstanceEntry: userInstanceEntry
 };
@@ -318,21 +324,59 @@ function constructMenu (json, layoutArr, isNew) {
 
         const header = document.createElement("div");
         header.className = "kes-settings-modal-header";
-        header.innerHTML = `
-            <span class="kes-close"><i class="` + layoutArr.header.close + `"></i></span>
-            <span class="kes-dock"><i class="` + layoutArr.header.dock_down + `"></i></span>
-            <span class="kes-transparent-mode"><i class ="` + layoutArr.header.transparent + `"></i></span>
-            <span class="kes-changelog"><a href="` + changelogURL + `"><i class="` + layoutArr.header.changelog + `"></i></a></span>
-            <span class="kes-version">` + versionElement.outerHTML + `</span>
-            `
 
         const crumbs = document.createElement("div");
         crumbs.className = 'kes-crumbs';
         crumbs.innerText = 'Settings'
-        header.appendChild(crumbs)
+
+        const headerCloseButton = document.createElement('span')
+        headerCloseButton.className = 'kes-close'
+        const headerCloseIcon = document.createElement('i')
+        headerCloseIcon.className = layoutArr.header.close
+        headerCloseButton.appendChild(headerCloseIcon)
+
+        const headerDockButton = document.createElement('span')
+        headerDockButton.className = 'kes-dock'
+        const headerDockIcon = document.createElement('i')
+        headerDockIcon.className = layoutArr.header.dock_down
+        headerDockButton.appendChild(headerDockIcon)
+
+        const headerEyeButton = document.createElement('span')
+        headerEyeButton.className = 'kes-transparent-mode'
+        const headerEyeIcon = document.createElement('i')
+        headerEyeIcon.className = layoutArr.header.transparent
+        headerEyeButton.appendChild(headerEyeIcon)
+
+        const headerChangelogButton = document.createElement('span')
+        headerChangelogButton.className = 'kes-changelog'
+        const headerChangelogIcon = document.createElement('i')
+        const headerChangelogLink = document.createElement('a')
+        headerChangelogLink.href = changelogURL
+        headerChangelogLink.appendChild(headerChangelogIcon)
+        headerChangelogIcon.className = layoutArr.header.changelog
+        headerChangelogButton.appendChild(headerChangelogLink)
+
+        const headerVersionButton = document.createElement('span');
+        headerVersionButton.className = 'kes-version'
+        headerVersionButton.appendChild(versionElement);
+
         const headerHr = document.createElement('hr');
         headerHr.className = 'kes-header-hr'
-        header.appendChild(headerHr);
+
+        header.appendChild(headerCloseButton)
+        header.appendChild(headerDockButton)
+        header.appendChild(headerEyeButton)
+        header.appendChild(headerChangelogButton)
+
+        if (window.innerWidth > 576) {
+            header.appendChild(headerVersionButton);
+            header.appendChild(crumbs)
+            header.appendChild(headerHr);
+        } else {
+            header.appendChild(crumbs)
+            header.appendChild(headerHr);
+            header.appendChild(headerVersionButton);
+        }
 
         const sidebar = document.createElement("div");
         sidebar.className = "kes-settings-modal-sidebar";
@@ -504,7 +548,11 @@ function constructMenu (json, layoutArr, isNew) {
                         range.setAttribute("kes-key", key);
                         range.setAttribute('min', json[it].fields[i].min);
                         range.setAttribute('max', json[it].fields[i].max);
+                        if (json[it].fields[i].step) {
+                            range.setAttribute('step', json[it].fields[i].step);
+                        }
                         if (json[it].fields[i].show_value) {
+                        //TODO: value should always be visible
                             const rangeDiv = document.createElement('div');
                             range.setAttribute('oninput', key + '.innerText = this.value');
                             range.style.verticalAlign = 'middle';
@@ -538,8 +586,11 @@ function constructMenu (json, layoutArr, isNew) {
                                 for (let k = 0 ; k < json[it].fields.length; ++k) {
                                     if(json[it].fields[k].key === matchKey) {
                                         let initial = json[it].fields[k].initial
-                                        found.setAttribute("value",initial)
-                                        found.value = initial
+                                        if (json[it].fields[k].type === "color") {
+                                            initial = getHex(initial);
+                                        }
+                                        found.setAttribute("value",initial);
+                                        found.value = initial;
                                     }
                                 }
                                 updateState(found);
@@ -547,6 +598,17 @@ function constructMenu (json, layoutArr, isNew) {
                         });
                         hBox.appendChild(resetField)
                         hBox.appendChild(br)
+                        break;
+                    }
+                    case "color": {
+                        const colorField = document.createElement('input');
+                        const realHex = getHex(initial);
+                        colorField.setAttribute("type",fieldType);
+                        colorField.setAttribute("value",realHex);
+                        colorField.setAttribute("kes-iter", it);
+                        colorField.setAttribute("kes-key", key);
+                        hBox.appendChild(colorField);
+                        hBox.appendChild(br);
                         break;
                     }
                     case "number": {
@@ -997,16 +1059,20 @@ function constructMenu (json, layoutArr, isNew) {
     const watchedNode2 = document.querySelector('#comments');
     const obs = new MutationObserver(initmut);
     init();
-    obs.observe(watchedNode, {
-        subtree: true,
-        childList: true,
-        attributes: false
-    });
-    obs.observe(watchedNode2, {
-        subtree: false,
-        childList: true,
-        attributes: false
-    });
+    if (watchedNode) {
+        obs.observe(watchedNode, {
+            subtree: true,
+            childList: true,
+            attributes: false
+        });
+    }
+    if (watchedNode2) {
+        obs.observe(watchedNode2, {
+            subtree: false,
+            childList: true,
+            attributes: false
+        });
+    }
 }
 
 const versionElement = document.createElement('a');

@@ -29,7 +29,7 @@ z-index: 9999;
 top:100%;
 right: 0;
 left: auto;
-transform: rotateX(0)translateX(-50%);
+transform: rotateX(0)translateX(-20%);
 resize: vertical;
 min-height: 360px;
 height: 360px;
@@ -40,9 +40,6 @@ visibility: visible;
 const customPanelCSS = `
 #header .notification-button .badge {
     font-size:.8em;padding:.1em .4em
-}
-#header menu .notification-button > a:not(.fa-solid.fa-bell){
-border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-left:1.6em
 }
 #header menu li a:has(~.notification-counter:hover){
     border-bottom:var(--kbin-header-hover-border)
@@ -55,16 +52,20 @@ border:0!important;padding:0;display:inline;position:absolute;top:.5em;margin-le
     border-radius: 5px;
     border: 2px solid transparent;
 }
-#header menu .notification-button > a:not(.fa-solid.fa-bell) {
-    border: 0!important;
-    padding: 0;
+#header .notification-button .notification-counter {
+    border: 0 !important;
+    padding: 4.5px;
     display: inline;
     position: absolute;
     top: .5em;
-    margin-left: 1.6em;
+    margin-left: -0.5em;
+    text-align: center;
 }
 .notifications-iframe {
     width: 300px;
+}
+.notification-button,.notification-counter {
+    cursor: pointer;
 }
 .noti-panel-message-holder {
     overflow-y: scroll;
@@ -143,6 +144,9 @@ const forceDropdownCSS = `
     display: initial !important;
     padding: initial !important;
 }
+#header .dropdown__menu {
+    display: block !important
+}
 `
 const resetDropdownCSS = `
 .dropdown__menu a, .dropdown__menu button {
@@ -150,9 +154,14 @@ const resetDropdownCSS = `
     padding: .5rem 1rem !important;
 }
 `
+const notificationsURL = 'https://' + window.location.hostname + '/settings/notifications'
 function readAndReset (response) {
     console.log(response)
-    genericXMLRequest("https://kbin.social/settings/notifications?p=1", insertMsgs);
+    const counter = document.querySelector('.notification-counter');
+    if (counter) {
+        counter.remove();
+    }
+    genericXMLRequest(notificationsURL + '?p=1', insertMsgs);
 }
 function genericPOSTRequest (url, callback, data) {
     safeGM("xmlhttpRequest", {
@@ -265,7 +274,7 @@ async function insertMsgs (response) {
         readButton.style.setProperty('--noti-button-opacity','0.7')
         readButton.addEventListener('click', () => {
             clearPanel();
-            genericPOSTRequest("https://kbin.social/settings/notifications/read", readAndReset, readToken);
+            genericPOSTRequest(notificationsURL + '/read', readAndReset, readToken);
         });
     } else {
         readButton.style.opacity = 0.7;
@@ -273,14 +282,14 @@ async function insertMsgs (response) {
     }
     purgeButton.addEventListener('click', () => {
         clearPanel();
-        genericPOSTRequest("https://kbin.social/settings/notifications/clear", readAndReset, purgeToken);
+        genericPOSTRequest(notificationsURL + '/clear', readAndReset, purgeToken);
     });
 
     if (currentPageInt != 1) {
         arrowHolder.appendChild(backButton);
         backButton.addEventListener('click', () => {
             clearPanel();
-            genericXMLRequest("https://kbin.social/settings/notifications?p=" + (currentPageInt - 1),insertMsgs);
+            genericXMLRequest(notificationsURL + '?p=' + (currentPageInt - 1),insertMsgs);
         });
     }
     let testNextPage = notificationsXML.querySelector('a.pagination__item--next-page')
@@ -288,7 +297,7 @@ async function insertMsgs (response) {
         arrowHolder.appendChild(forwardButton);
         forwardButton.addEventListener('click', () => {
             clearPanel();
-            genericXMLRequest("https://kbin.social/settings/notifications?p=" + (currentPageInt + 1),insertMsgs);
+            genericXMLRequest(notificationsURL + '?p=' + (currentPageInt + 1),insertMsgs);
         });
     }
     notiHeader.appendChild(arrowHolder);
@@ -323,7 +332,7 @@ async function insertMsgs (response) {
             msgEl.className = "noti-panel-snippet"
         }
 
-        nameEl.href = "https://kbin.social/u/" + names[i];
+        nameEl.href = 'https://' + window.location.hostname + '/u/' + names[i];
         nameEl.innerText = names[i];
         nameEl.className = "noti-panel-sender"
 
@@ -366,7 +375,7 @@ function toggleIframe (listItem) {
     })
     document.querySelector('.kbin-container').appendChild(clickModal)
     listItem.appendChild(iframe);
-    genericXMLRequest("https://kbin.social/settings/notifications?p=1",insertMsgs);
+    genericXMLRequest(notificationsURL + '?p=1',insertMsgs);
 }
 function build () {
     const notiPanel = document.querySelector('li.notification-button');
@@ -376,14 +385,16 @@ function build () {
         const listItem = document.createElement('li');
         listItem.classList.add('notification-button');
 
-        const anchorElement = document.createElement('a');
-        anchorElement.textContent = ' ';
+        const anchorOuterElement = document.createElement('a');
+        const anchorElement = document.createElement('i');
+        anchorOuterElement.appendChild(anchorElement);
+        //anchorElement.textContent = ' ';
         anchorElement.classList.add('fa-solid', 'fa-bell');
-        anchorElement.style.cursor = 'pointer';
+        //anchorElement.style.cursor = 'pointer';
         anchorElement.setAttribute('aria-label', 'Notifications');
         anchorElement.setAttribute('title', 'Notifications');
 
-        listItem.appendChild(anchorElement);
+        listItem.appendChild(anchorOuterElement);
 
         const siblingElement = document.querySelector('.dropdown .login').parentElement;
 
@@ -392,13 +403,28 @@ function build () {
         }
 
         const counterElement = document.querySelector('.counter > [href="/settings/notifications"]');
-
-        if (counterElement) {
-            counterElement.removeAttribute('href');
-            counterElement.classList.add('notification-counter');
-            listItem.appendChild(counterElement);
+        const msgCounterElement = document.querySelector('.counter > [href="/profile/messages"]');
+        let msgCount = 0;
+        if (msgCounterElement) {
+            msgCount = parseInt(msgCounterElement.querySelector('.badge').innerText);
+            $(msgCounterElement).hide();
         }
-        anchorElement.addEventListener('click', () => {
+        let notiCount = 0;
+        let oldCount = 0;
+        if (counterElement) {
+            oldCount = parseInt(counterElement.querySelector('.badge').innerText);
+            $(counterElement).hide();
+        }
+        const notiPanelCount = msgCount + oldCount
+        if (notiPanelCount > 0) {
+            const notiBadgeHolder = document.createElement('li')
+            const notiBadge = document.createElement('span');
+            notiBadgeHolder.appendChild(notiBadge);
+            notiBadge.classList.add('counter', 'badge', 'danger-bg', 'notification-counter')
+            notiBadge.innerText = notiPanelCount;
+            anchorOuterElement.appendChild(notiBadgeHolder);
+        }
+        anchorOuterElement.addEventListener('click', (e) => {
             safeGM("addStyle",forceDropdownCSS);
             toggleIframe(listItem)
         });
@@ -407,6 +433,10 @@ function build () {
 function shutdown () {
     const notiPanel = document.querySelector('li.notification-button');
     if (notiPanel) {
+        const msgCounterElement = document.querySelector('.counter > [href="/profile/messages"]');
+        const counterElement = document.querySelector('.counter > [href="/settings/notifications"]');
+        $(msgCounterElement).show();
+        $(counterElement).show();
         notiPanel.remove();
     }
 }
