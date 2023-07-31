@@ -20,7 +20,7 @@ function omniInit (toggle) {
         }
     }
     #kes-omni-scroller {
-        height: 70% !important;
+        height: auto;
         overflow-y: scroll;
     }
     #kes-omni-warning {
