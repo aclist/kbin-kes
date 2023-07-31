@@ -162,9 +162,11 @@ function omniInit (toggle) {
             let notificationsXML = parser.parseFromString(response.responseText, "text/html");
             console.log(notificationsXML)
             if (notificationsXML.title === "Magazines - kbin.social") {
+                const defaultFetched = []
                 mags = notificationsXML.querySelector('.magazines.table-responsive')
                 links = mags.querySelectorAll('.stretched-link')
-                alphaSort(links);
+                defaultFetched.push(links)
+                alphaSort(defaultFetched);
             } else {
                 let page
                 mags = notificationsXML.querySelector('.magazines-columns');
@@ -198,8 +200,10 @@ function omniInit (toggle) {
             }
         }
         function alphaSort (links) {
+            console.log("DEFAULT LINKS:", links)
             const clean = []
             for (let i = 0; i < links.length; ++i) {
+                console.log("INDEX 1:", links[i])
                 links[i].forEach((link) => {
                     clean.push(link.href.split('/')[4])
                     clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
