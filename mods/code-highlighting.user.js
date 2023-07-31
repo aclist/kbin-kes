@@ -88,7 +88,7 @@ function setCss (url) {
     });
 }
 function addHeaders (selector) {
-    document.querySelectorAll('code').forEach(item => {
+    document.querySelectorAll('code').forEach((item) => {
         const parent = item.parentElement;
         if (parent.nodeName !== 'PRE') {
             const placement = item.nextSibling;

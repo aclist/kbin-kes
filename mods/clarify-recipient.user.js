@@ -1,5 +1,5 @@
 function rewrite (title) {
-    const self = document.querySelector('.dropdown .login .user-name').innerText
+    const self = document.querySelector('.dropdown .login').getAttribute("href").split('/')[2]
     const recipient = document.querySelector('.user-inline:not([href="/u/' + self + '"])')
     const recipientName = recipient.getAttribute('href').split('/')[2]
 

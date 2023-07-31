@@ -7,6 +7,7 @@
     "globals": {
         "Promise": "readonly",
         "safeGM": "readonly",
+        "getHex": "readonly",
         "genericXMLRequest": "readonly",
         "getModSettings": "readonly",
         "gmPrefix": "readonly"
