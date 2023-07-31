@@ -14,9 +14,7 @@ const custom = {
     "Key": true,
     "Values": true,
     "Initial": true,
-    "Label": false, //only label is optional
-    //    csv: catch_reset
-    //    csv: values
+    "Label": false
 }
 const types = {
     "color": null,
@@ -31,13 +29,11 @@ const types = {
 const vals = {
     name: "",
     authors: "",
-    label: "",
     desc: "",
     login: "",
     recurs: "",
     entrypoint: "",
     namespace: "",
-    test: ""
 }
 const a = document.querySelector('#header')
 const b = document.createElement('input')
@@ -91,6 +87,8 @@ function insertFields(objname){
             ast.style.color = 'orange'
             ns.appendChild(ast)
             fieldLabel = document.createElement('textarea')
+            fieldLabel.className = 'input-field'
+            fieldLabel.setAttribute("key",'namespace')
             const sep = document.createElement('br')
             ns.appendChild(sep)
             ns.appendChild(fieldLabel);
@@ -196,6 +194,7 @@ submit.addEventListener('click', (e) => {
     const par = document.querySelector('#entryfields')
     const ar = []
     par.querySelectorAll('.input-field').forEach((item) => {
+        console.log(item)
         ar.push(item.value)
         let elKey = item.getAttribute("key")
         if ((item.type === "checkbox") && (item.checked === true)) {
@@ -209,7 +208,6 @@ submit.addEventListener('click', (e) => {
     boiler = `{
     "name": "${vals["name"]}",
     "authors": "${vals["authors"]}",
-    "label": "${vals["label"]}",
     "desc": "${vals["desc"]}",
     "login": ${vals["login"]},
     "recurs": ${vals["recurs"]},
@@ -218,11 +216,11 @@ submit.addEventListener('click', (e) => {
     "link_label": "${vals["link_label"]}"`
     //TODO: authors, catch reset
     const customFields = document.querySelectorAll('#customFieldHolder');
-    console.log(customFields.length)
     if (customFields.length === 0) {
         boiler = boiler + `\n}`
     } else {
-            boiler = boiler + `,
+            boiler = boiler + `,\n"namespace": "${vals["namespace"]}",`
+            boiler = boiler + `
                 "fields" : [\n`
         for ( let i = 0; i < customFields.length; ++ i) {
             if (i === 0){
