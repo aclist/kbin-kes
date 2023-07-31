@@ -19,6 +19,11 @@ function omniInit (toggle) {
             width: 100% !important
         }
     }
+    #kes-omni-counter {
+        background: transparent;
+        color: var(--kbin-text-color);
+        text-align: right;
+    }
     #kes-omni-scroller {
         height: auto;
         max-height: 100%;
@@ -275,6 +280,9 @@ function omniInit (toggle) {
                 }
             }
         }
+        function updateCounter(el, found, total){
+                    el.innerText = found + '/' + total
+        }
         function omni (subs) {
             const kesModal = document.createElement('div')
             kesModal.className = "kes-omni-modal"
@@ -362,6 +370,12 @@ function omniInit (toggle) {
                             makeInactive(visi[k])
                         }
                     }
+                    const el = document.querySelector('#kes-omni-counter')
+                    if (filter === "") {
+                        updateCounter(el,0,visiEl.length)
+                    } else {
+                    updateCounter(el, visi.length, visiEl.length);
+                    }
                 }
                 }
             });
@@ -369,6 +383,9 @@ function omniInit (toggle) {
             entryholder.id = 'kes-omni-list'
             const innerholder = document.createElement('div')
             innerholder.id = 'kes-omni'
+            const headerCounter = document.createElement('div')
+            headerCounter.id = 'kes-omni-counter'
+            innerholder.appendChild(headerCounter)
 
             const user = document.querySelector('.login');
             const username = user.href.split('/')[4];
@@ -393,6 +410,7 @@ function omniInit (toggle) {
                 outerA.href = 'https://kbin.social/m/' + subs[i]
                 scroller.appendChild(outerA);
             }
+            updateCounter(headerCounter, 0, subs.length)
             innerholder.appendChild(scroller)
             entryholder.appendChild(innerholder)
             kesModal.appendChild(entryholder)
