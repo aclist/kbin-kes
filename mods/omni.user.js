@@ -21,6 +21,7 @@ function omniInit (toggle) {
     }
     #kes-omni-scroller {
         height: auto;
+        max-height: 100%;
         overflow-y: scroll;
     }
     #kes-omni-warning {
