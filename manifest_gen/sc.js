@@ -7,7 +7,7 @@ const fields = {
     "Login": true,
     "Recurs": true,
     "Link": false,
-    "Link label": false,
+    "Link_label": false,
 }
 const custom = {
     "Type": true,
@@ -214,15 +214,24 @@ submit.addEventListener('click', (e) => {
     "desc": "${vals["desc"]}",
     "login": ${vals["login"]},
     "recurs": ${vals["recurs"]},
-    "entrypoint": "${vals["entrypoint"]}"`
+    "entrypoint": "${vals["entrypoint"]}",
+    "link": "${vals["link"]}",
+    "link_label": "${vals["link_label"]}"`
     //TODO: authors, catch reset
     const customFields = document.querySelectorAll('#customFieldHolder');
-    console.log(customFields)
-    if (customFields) {
+    console.log(customFields.length)
+    if (customFields.length === 0) {
+        boiler = boiler + `\n}`
+    } else {
             boiler = boiler + `,
                 "fields" : [\n`
         for ( let i = 0; i < customFields.length; ++ i) {
-            boiler = boiler + `\n{\n`
+            if (i === 0){
+
+            boiler = boiler + `{\n`
+            } else {
+                boiler = boiler + `\n{`
+            }
             const innerFields = customFields[i].querySelectorAll('.input-field')
             let cb
             innerFields.forEach((item) =>{
@@ -279,6 +288,7 @@ submit.addEventListener('click', (e) => {
     }
     const gutter = document.querySelector('#json')
     const pre = document.querySelector('#textpreview')
+    console.log(pre)
     const outputmsg = document.createElement('text')
     outputmsg.id = 'validation'
     try {
@@ -289,7 +299,9 @@ submit.addEventListener('click', (e) => {
         gutter.appendChild(outputmsg)
         return false;
     }
-        pre.innerText = boiler
+        const raw = JSON.parse(boiler)
+        const pretty = JSON.stringify(raw,null,4)
+        pre.innerText = pretty
         outputmsg.style.color = "lightgreen"
         outputmsg.innerText = "JSON validation OK "
         gutter.appendChild(outputmsg)
@@ -298,8 +310,8 @@ submit.addEventListener('click', (e) => {
     copyButton.innerText = 'COPY'
     gutter.appendChild(copyButton)
     copyButton.addEventListener('click', (e) =>{
-        const tocopy = e.target.previousElementSibling.previousElementSibling.innerText
-        navigator.clipboard.writeText(tocopy);
+//        const tocopy = e.target.previousElementSibling.previousElementSibling.innerText
+        navigator.clipboard.writeText(pretty);
     });
     const oldHolder = document.querySelector('#HOLDER')
     if (oldHolder){

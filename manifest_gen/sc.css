@@ -4,7 +4,7 @@ body {
 }
 #entryfields {
     padding-right: 20px;
-    height: 50%;
+    height: 30%;
     overflow-y: scroll;
 }
 #header {
@@ -20,8 +20,9 @@ body {
 #textpreview {
     border: 1px solid gray;
     padding: 50px;
-    height: 50%;
+    height: 20%;
     width: 300px;
+    font-size: 1rem;
     overflow-wrap: break-word;
     overflow-y: scroll;
 }
