@@ -35,7 +35,8 @@ const vals = {
     login: "",
     recurs: "",
     entrypoint: "",
-    namespace: ""
+    namespace: "",
+    test: ""
 }
 const a = document.querySelector('#header')
 const b = document.createElement('input')
@@ -97,7 +98,7 @@ function insertFields(objname){
             fieldHolder.appendChild(ns)
 
         }
-        customHolder.id = 'customFieldHolder' + fieldct;
+        customHolder.id = 'customFieldHolder';
         const lab = document.createElement('h3')
         lab.innerText = 'Field ' + fieldct;
         const hr = document.createElement('hr')
@@ -205,16 +206,69 @@ submit.addEventListener('click', (e) => {
         }
         vals[elKey] = item.value
     });
-    const boiler = `{
+    let boiler
+    boiler = `{
     "name": "${vals["name"]}",
     "authors": "${vals["authors"]}",
     "label": "${vals["label"]}",
     "desc": "${vals["desc"]}",
     "login": ${vals["login"]},
     "recurs": ${vals["recurs"]},
-    "entrypoint": "${vals["entrypoint"]}"
+    "entrypoint": "${vals["entrypoint"]}"`
+    //TODO: authors, catch reset
+    const customFields = document.querySelectorAll('#customFieldHolder');
+    console.log(customFields)
+    if (customFields) {
+            boiler = boiler + `,
+                "fields" : [\n`
+        for ( let i = 0; i < customFields.length; ++ i) {
+            boiler = boiler + `\n{\n`
+            const innerFields = customFields[i].querySelectorAll('.input-field')
+            let cb
+            innerFields.forEach((item) =>{
+                console.log(item)
+                if (item.value === "checkbox") {
+                    cb = 1
+                }
+                const key = item.getAttribute("key")
+                const val = item.value
+                if ((key === "values") || (key === "catch_reset")){
+                    if (cb === 1) {
+                        return
+                    }
+                    boiler = boiler + `"${key}": [\n`
+                    const valArr = val.split(',')
+                    let v
+                    for (let j = 0 ; j<valArr.length; ++j) {
+                        if (parseInt(valArr[j])) {
+                            v = `${valArr[j]}`
+                        } else {
+                            v = `"${valArr[j]}"`
+                        }
+                        boiler = boiler + `${v}`
+                        if (j === (valArr.length-1)) {
+                            boiler = boiler + `\n],\n`
+                        } else {
+                            boiler = boiler + `,\n`
+                        }
+                    }
+                } else if (parseInt(val)) {
+                    boiler = boiler + `"${key}": ${val},\n`
+                } else {
+                    boiler = boiler + `"${key}": "${val}",\n`
+                }
+            });
+                boiler = boiler.slice(0,-2)
+                boiler = boiler + '\n}'
+            if (i === (customFields.length-1)) {
+                boiler = boiler + '\n]'
+            } else {
+                boiler = boiler + ','
+            }
+        }
+        boiler = boiler + `\n}`
+            console.log(boiler)
     }
-    `
     const oldmsg = document.querySelector('#validation')
     const oldbtn = document.querySelector('#copyButton')
     if(oldmsg) {
@@ -227,7 +281,6 @@ submit.addEventListener('click', (e) => {
     const pre = document.querySelector('#textpreview')
     const outputmsg = document.createElement('text')
     outputmsg.id = 'validation'
-    pre.innerText = boiler
     try {
         JSON.parse(boiler)
     } catch (error) {
@@ -236,6 +289,7 @@ submit.addEventListener('click', (e) => {
         gutter.appendChild(outputmsg)
         return false;
     }
+        pre.innerText = boiler
         outputmsg.style.color = "lightgreen"
         outputmsg.innerText = "JSON validation OK "
         gutter.appendChild(outputmsg)
@@ -252,11 +306,11 @@ submit.addEventListener('click', (e) => {
         oldHolder.remove();
     }
     const ex = document.querySelector('#box')
-    ex.innerText = "";
+    //ex.innerText = "";
     const h = document.createElement('div')
     h.id = 'HOLDER'
-    ex.appendChild(h)
-        console.log(boiler)
+    //ex.appendChild(h)
+//        console.log(boiler)
         let pf
         for (let i = 0; i<ar.length; ++i) {
         pf = document.createElement('p')
