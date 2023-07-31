@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.0-beta.78
+// @version      2.2.0-beta.79
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1059,16 +1059,20 @@ function constructMenu (json, layoutArr, isNew) {
     const watchedNode2 = document.querySelector('#comments');
     const obs = new MutationObserver(initmut);
     init();
+    if (watchedNode) {
     obs.observe(watchedNode, {
         subtree: true,
         childList: true,
         attributes: false
     });
+    }
+    if (watchedNode2) {
     obs.observe(watchedNode2, {
         subtree: false,
         childList: true,
         attributes: false
     });
+    }
 }
 
 const versionElement = document.createElement('a');
