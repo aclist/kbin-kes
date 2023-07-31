@@ -8,12 +8,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=kbin.social
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @grant	GM_addStyle
-// @grant	GM_xmlhttpRequest
 // ==/UserScript==
-
-//TODO: if mod is on, cache subs and set listener
-//TODO: GM. API xhr request
 
 function omniInit (toggle) {
 
@@ -25,7 +20,7 @@ function omniInit (toggle) {
         }
     }
     #kes-omni-scroller {
-        height: fit-content !important;
+        height: 70% !important;
         overflow-y: scroll;
     }
     #kes-omni-warning {
@@ -54,7 +49,7 @@ function omniInit (toggle) {
         list-style-type: none;
         padding: 50px;
         margin: 0;
-        width: 50rem;
+        width: 30rem;
     }
     #kes-omni-list li{
         border-bottom: 1px solid var(--kbin-vote-text-color);
@@ -101,6 +96,7 @@ function omniInit (toggle) {
 
         const user = document.querySelector('.login');
         const username = user.href.split('/')[4];
+        const fetchedMags = []
 
         let str
         if (username) {
@@ -121,7 +117,7 @@ function omniInit (toggle) {
             const loaded = await safeGM("getValue", dataStr)
             if ((!loaded) || (loaded.length < 1)) {
                 console.log("data not present, fetching")
-                fetchMags(username);
+                fetchMags(username, 1);
             } else {
                 console.log("loading menu")
                 console.log("found array:", loaded)
@@ -150,10 +146,10 @@ function omniInit (toggle) {
             omni(mags);
         }
 
-        function fetchMags (username) {
+        function fetchMags (username, page) {
             let url
             if (username) {
-                url = `https://kbin.social/u/${username}/subscriptions`
+                url = `https://kbin.social/u/${username}/subscriptions?p=${page}`
             } else {
                 url = 'https://kbin.social/magazines'
             }
@@ -168,18 +164,48 @@ function omniInit (toggle) {
             if (notificationsXML.title === "Magazines - kbin.social") {
                 mags = notificationsXML.querySelector('.magazines.table-responsive')
                 links = mags.querySelectorAll('.stretched-link')
+		alphaSort(links);
             } else {
-                mags = notificationsXML.querySelector('.magazines-columns')
+		let eop
+		let page
+                mags = notificationsXML.querySelector('.magazines-columns');
+            	links = mags.querySelectorAll('.stretched-link');
+		const username = notificationsXML.querySelector('.login').getAttribute("href").split('/')[2];
+		console.log(username)
+		const paginator = notificationsXML.querySelector('.pagination__item.pagination__item--next-page');
+		console.log(paginator)
+		if (paginator) {
+			const tip = paginator.getAttribute("href")
+			if (tip) {
+				page = tip.split('=')[1]
+				console.log("next page is:", page)
+			}
+		}
+		console.log("username is:", username)
+		console.log("new links:", links)
+		console.log("OLD MAGS ARRAY:", fetchedMags)
+            	fetchedMags.push(links);
+            	console.log("NEW MAGS ARRAY:", fetchedMags);
+		console.log("TOTAL LINKS ON PAGE:", links.length)
+		if (links.length < 48) {
+			console.log("fewer than 48 on page, done")
+			alphaSort(fetchedMags)
+		} else {
+			console.log("going to next page:", page)
+                	const url = `https://kbin.social/u/${username}/subscriptions?p=${page}`
+			console.log("new URL is:", url)
+			genericXMLRequest(url, parseMags)
+		}
             }
-            links = mags.querySelectorAll('.stretched-link')
-            alphaSort(links);
         }
         function alphaSort (links) {
             const clean = []
-            links.forEach((link) => {
+	    for (let i = 0; i < links.length; ++i) {
+            links[i].forEach((link) => {
                 clean.push(link.href.split('/')[4])
                 clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
             });
+		}
             console.log("saving sorted mag content under:", str)
             saveMags(str, clean)
         }
