@@ -1,10 +1,11 @@
 function alphaSortInit (toggle) {
     const ind = window.location.href.split('/')[5]
-    if ((!ind) || (ind.indexOf('subscriptions') < 0)) return
-    const ul = document.querySelector('.section.magazines.magazines-columns ul')
+    if (!ind) return
+    if ((ind.indexOf('subscriptions') < 0) && (ind.indexOf('followers') < 0)) return
+    const ul = document.querySelector('.section.magazines.magazines-columns ul,.section.users.users-columns ul')
 
     if (toggle) {
-        const mags = document.querySelectorAll('.section.magazines.magazines-columns ul li a');
+        const mags = document.querySelectorAll('.section.magazines.magazines-columns ul li a,.section.users.users-columns ul li a');
         const magsArr = []
         const namesArr = []
 
@@ -18,7 +19,7 @@ function alphaSortInit (toggle) {
         namesArr.sort();
         magsArr.sort();
 
-        const outer = document.querySelector('.section.magazines.magazines-columns')
+        const outer = document.querySelector('.section.magazines.magazines-columns,.section.users.users-columns')
         $(ul).hide();
 
         for (let i =0; i<magsArr.length; ++i) {
