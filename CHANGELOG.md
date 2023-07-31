@@ -2,11 +2,12 @@
 All notable changes to this project will be documented in this file.
 ## 2.2.0
 ### Added
-- NSFW blur disabler
-- Subs omnibar
-- Customize colors
-- Hover mod
+- Subs omnibar (shazbot)
+- NSFW blur disabler (shazbot)
+- Customize colors (minnieo)
+- Hover mod (minnieo)
 - API: getHex();
+- API: manifest generator
 ## 2.1.4
 ### Fixed
 - Dropdown subscriptions: target hostnames other than kbin.social
