@@ -1,6 +1,6 @@
 function alphaSortInit (toggle) {
     const ind = window.location.href.split('/')[5]
-    if ((!ind) || (ind.indexOf('subscriptions') < 0) return
+    if ((!ind) || (ind.indexOf('subscriptions') < 0)) return
     const ul = document.querySelector('.section.magazines.magazines-columns ul')
 
     if (toggle) {
