@@ -14,6 +14,7 @@ function checksInit (toggle, mutation) {
         setChecks(loaded)
     }
     function addCheck(subs, item){
+        console.log(item)
         const mag = item.getAttribute('href').split('/')[2]
         console.log("mag is:", mag)
         if (subs.includes(mag)) {
@@ -39,6 +40,7 @@ function checksInit (toggle, mutation) {
         } else {
             console.log("no mutation, iterating")
             document.querySelectorAll('.magazine-inline.instance').forEach((item) => {
+                console.log(item)
                 addCheck(subs, item)
             });
         }
