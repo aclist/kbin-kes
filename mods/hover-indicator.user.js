@@ -46,7 +46,7 @@ function hoverIndicator(toggle) {
             "div.ts-wrapper",
             "#scroll-top",
             ".more",
-            "select: hover"
+            "select:hover"
 
         ]
         const selectors = sels.join(':hover, ');
