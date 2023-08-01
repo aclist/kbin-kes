@@ -16,10 +16,10 @@ function omniInit (toggle) {
     const omniCSS = `
     @media (max-width: 576px) {
         #kes-omni-list {
-            width: 100% !important
+            width: 100% !important;
         }
         #kes-omni-scroller {
-            max-height: unset
+            max-height: unset !important;
         }
     }
     #kes-omni-counter {
