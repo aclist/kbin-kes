@@ -43,7 +43,10 @@ function hoverIndicator(toggle) {
             "figure",
             "input",
             "div.checkbox",
-            "div.ts-wrapper"
+            "div.ts-wrapper",
+            "#scroll-top",
+            ".more",
+            "select: hover"
 
         ]
         const selectors = sels.join(':hover, ');
@@ -54,7 +57,15 @@ function hoverIndicator(toggle) {
             border: ${thickness}px solid ${color};
         }
         `;
+        const exclusions = `
+        li > form > button:hover, li > a, i > span, a > i, a > img, span > i, a > span, span > a, li > i, button > span, li > button, #scroll-top > i {
+            outline: none !important;
+        }
+
+        `
+        safeGM("removeStyle", "kes-hover-exclusions")
         safeGM("removeStyle", "kes-hover-css")
         safeGM("addStyle", mergedCSS, "kes-hover-css")
+        safeGM("addStyle", exclusions, "kes-hover-exclusions")
     }
 }
