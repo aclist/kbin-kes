@@ -13,10 +13,8 @@ function checksInit (toggle, mutation) {
         setChecks(loaded)
     }
     function addCheck (subs, item) {
-        console.log("NEW")
         if (item.children.length === 0) {
             const mag = item.getAttribute('href').split('/')[2]
-            console.log("mag is:", mag)
             if (subs.includes(mag)) {
                 const ch = document.createElement('span')
                 ch.style.color = getHex(checkColor);
