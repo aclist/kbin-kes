@@ -448,13 +448,16 @@ function omniInit (toggle) {
             document.addEventListener('keydown', kickoffListener)
 
             const threadIndex = document.querySelector('[data-controller="subject-list"]')
+            if (!check) {
+                $('#kes-omni-check').remove();
+            }
             if ((check) && (threadIndex)) {
                 document.querySelectorAll('.magazine-inline.instance').forEach((item) => {
                 const mag = item.getAttribute('href').split('/')[2]
-                    console.log(mag)
                 if (subs.includes(mag)) {
                     const ch = document.createElement('text')
                     ch.style.color = checkColor
+                    ch.id = 'kes-omni-check'
                     ch.innerText = " ✓"
                     item.appendChild(ch)
                    }

@@ -1102,7 +1102,7 @@
       {
         "type": "color",
         "key": "check-color",
-        "label": "checkmark color",
+        "label": "Checkmark color",
         "initial": "--kbin-upvoted-color"
       }
     ],
