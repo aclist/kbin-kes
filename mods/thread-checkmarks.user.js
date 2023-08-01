@@ -4,15 +4,18 @@ function checksInit (toggle) {
     const threadIndex = document.querySelector('[data-controller="subject-list"]')
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
+    console.log(settings)
     console.log(checkColor)
     console.log(username)
     if ((!threadIndex) || (!username)) return
 
     async function fetchMags (username) {
         const loaded = await safeGM("getValue", 'omni-user-mags-' + username)
+        console.log(loaded)
         setChecks(loaded)
     }
     function setChecks (subs) {
+        console.log(subs)
         document.querySelectorAll('.magazine-inline.instance').forEach((item) => {
             const mag = item.getAttribute('href').split('/')[2]
             if (subs.includes(mag)) {

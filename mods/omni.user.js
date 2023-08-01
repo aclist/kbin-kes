@@ -94,15 +94,15 @@ function omniInit (toggle) {
     const settings = getModSettings('omni');
     const meta = settings["meta"]
     const code = keyCodes[meta]
+    const user = document.querySelector('.login');
+    const username = user.href.split('/')[4];
+    const fetchedMags = []
 
     function createOmni () {
 
         safeGM("removeStyle", omniCSS, "omni-css")
         safeGM("addStyle", omniCSS, "omni-css")
 
-        const user = document.querySelector('.login');
-        const username = user.href.split('/')[4];
-        const fetchedMags = []
 
         let str
         if (username) {
@@ -450,7 +450,7 @@ function omniInit (toggle) {
         createOmni();
     } else {
         const e = []
-        safeGM("setValue",'omni-user-mags', e)
+        safeGM("setValue",'omni-user-mags-' + username, e)
         safeGM("setValue",'omni-default-mags', e)
         const q = document.querySelector('.kes-omni-modal')
         if (q) {
