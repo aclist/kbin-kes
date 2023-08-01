@@ -29,8 +29,12 @@ function checksInit (toggle, mutation) {
     function setChecks (subs) {
         if (mut) {
             console.log("caught mutation")
-            console.log(mut)
-            if (mut.children[0].id === 'kes-omni-check') {
+            const node = mutation.addedNodes[0]
+            console.log("first node:", node)
+            if (node.className !== 'entry section subject') return
+            const link = node.querySelector('.magazine-inline.instance')
+            console.log("link is:", link)
+            if link.children[0].id === 'kes-omni-check' {
                 console.log("check already present")
                 return
             } else {
