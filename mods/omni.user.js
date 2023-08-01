@@ -18,6 +18,9 @@ function omniInit (toggle) {
         #kes-omni-list {
             width: 100% !important
         }
+        #kes-omni-scroller {
+            max-height: unset
+        }
     }
     #kes-omni-counter {
         background: transparent;

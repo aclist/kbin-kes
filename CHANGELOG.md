@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - API: manifest generator
 ### Fixed
 - Alpha sort list: also apply to followers page
+- Display custom colors correctly in KES menus when user updates colors
 ## 2.1.4
 ### Fixed
 - Dropdown subscriptions: target hostnames other than kbin.social
