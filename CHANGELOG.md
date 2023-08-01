@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - NSFW blur disabler (shazbot)
 - Customize colors (minnieo)
 - Hover mod (minnieo)
+- Checkmark next to subbed mags (shazbot)
 - API: getHex();
 - API: manifest generator
 ### Fixed
