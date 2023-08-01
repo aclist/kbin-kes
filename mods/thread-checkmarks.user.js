@@ -28,6 +28,7 @@ function checksInit (toggle, mutation) {
     function setChecks (subs) {
         if (mut) {
             console.log("caught mutation")
+            console.log(mut)
             if (mut.children[0].id === 'kes-omni-check') {
                 console.log("check already present")
                 return
