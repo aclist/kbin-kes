@@ -138,7 +138,7 @@ function omniInit (toggle) {
                 mags = 'omni-default-mags'
                 break;
             case 'user':
-                mags = 'omni-user-mags'
+                mags = 'omni-user-mags-' + username
                 break;
             }
             return mags;
