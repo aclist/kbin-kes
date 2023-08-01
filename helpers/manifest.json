@@ -704,13 +704,13 @@
     "page": "threads"
   },
   {
-    "name": "Alpha sort subs",
+    "name": "Alpha sort subs/followers",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Alpha sort subs list",
+    "label": "Alpha sort subs/followers list",
     "login": true,
     "recurs": false,
-    "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions)",
+    "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions) and followers (/followers).",
     "entrypoint": "alphaSortInit",
     "page": "profile"
   },
