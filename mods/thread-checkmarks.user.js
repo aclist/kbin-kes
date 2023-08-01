@@ -1,5 +1,5 @@
 function checksInit (toggle) {
-    const settings = getModSettings('checkmarks');
+    const settings = getModSettings('checks');
     const checkColor = settings["check-color"]
     const threadIndex = document.querySelector('[data-controller="subject-list"]')
     const user = document.querySelector('.login');
@@ -9,7 +9,7 @@ function checksInit (toggle) {
     if ((!threadIndex) || (!username)) return
 
     async function fetchMags (username) {
-        const loaded = await safeGM("getValue", 'kes-omni-mags-' + username)
+        const loaded = await safeGM("getValue", 'omni-user-mags-' + username)
         setChecks(loaded)
     }
     function setChecks (subs) {
