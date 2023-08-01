@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 - Hover mod (minnieo)
 - API: getHex();
 - API: manifest generator
+### Fixed
+- Alpha sort list: also apply to followers page
 ## 2.1.4
 ### Fixed
 - Dropdown subscriptions: target hostnames other than kbin.social
