@@ -94,6 +94,8 @@ function omniInit (toggle) {
     const settings = getModSettings('omni');
     const meta = settings["meta"]
     const code = keyCodes[meta]
+    const check = settings["check"]
+    const checkColor = settings["check-color"]
 
     function createOmni () {
 
@@ -446,13 +448,13 @@ function omniInit (toggle) {
             document.addEventListener('keydown', kickoffListener)
 
             const threadIndex = document.querySelector('[data-controller="subject-list"]')
-            if (threadIndex) {
+            if ((check) && (threadIndex)) {
                 document.querySelectorAll('.magazine-inline.instance').forEach((item) => {
                 const mag = item.getAttribute('href').split('/')[2]
                     console.log(mag)
                 if (subs.includes(mag)) {
                     const ch = document.createElement('text')
-                    ch.style.color = 'lightgreen'
+                    ch.style.color = checkColor
                     ch.innerText = " ✓"
                     item.appendChild(ch)
                    }

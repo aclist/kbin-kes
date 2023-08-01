@@ -1092,6 +1092,18 @@
           "Right bracket",
           "Backslash"
         ]
+      },
+      {
+        "type": "checkbox",
+        "key": "check",
+        "label": "Checkmark next to subbed mags",
+        "checkbox_label": "Show checkmark"
+      },
+      {
+        "type": "color",
+        "key": "check-color",
+        "label": "checkmark color",
+        "initial": "--kbin-upvoted-color"
       }
     ],
     "page": "general"
