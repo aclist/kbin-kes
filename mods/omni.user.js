@@ -449,7 +449,9 @@ function omniInit (toggle) {
 
             const threadIndex = document.querySelector('[data-controller="subject-list"]')
             if (!check) {
-                $('#kes-omni-check').remove();
+                console.log("check toggled off")
+                const oldChecks = document.querySelectorAll('#kes-omni-check')
+                oldChecks.remove();
             }
             if ((check) && (threadIndex)) {
                 document.querySelectorAll('.magazine-inline.instance').forEach((item) => {
