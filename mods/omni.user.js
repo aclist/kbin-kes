@@ -444,6 +444,20 @@ function omniInit (toggle) {
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
             document.addEventListener('keydown', kickoffListener)
+
+            const threadIndex = document.querySelector('[data-controller="subject-list"]')
+            if (threadIndex) {
+                document.querySelectorAll('.magazine-inline.instance').forEach((item) => {
+                const mag = item.getAttribute('href').split('/')[2]
+                    console.log(mag)
+                if (subs.includes(mag)) {
+                    const ch = document.createElement('text')
+                    ch.style.color = 'lightgreen'
+                    ch.innerText = " ✓"
+                    item.appendChild(ch)
+                   }
+                   });
+            }
         }
     }
     if (toggle) {
