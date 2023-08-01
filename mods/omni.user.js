@@ -106,32 +106,23 @@ function omniInit (toggle) {
 
         let str
         if (username) {
-            console.log("logged in")
             str = 'user'
             loadMags(str, username)
         } else {
-            console.log("logged out")
             str = 'default'
             loadMags(str)
         }
 
         async function loadMags (mode, username) {
-            console.log("mode is:", mode)
-            console.log("user is:", username)
             const dataStr = setMagString(mode);
-            console.log("data is:", dataStr)
             const loaded = await safeGM("getValue", dataStr)
             if ((!loaded) || (loaded.length < 1)) {
-                console.log("data not present, fetching")
                 fetchMags(username, 1);
             } else {
-                console.log("loading menu")
-                console.log("found array:", loaded)
                 omni(loaded);
             }
         }
         function setMagString (mode) {
-            console.log("SMS mode is:", mode)
             let mags;
             switch (mode) {
             case 'default':
@@ -144,11 +135,8 @@ function omniInit (toggle) {
             return mags;
         }
         async function saveMags (mode, mags) {
-            console.log("saveMags mode is:", mode)
             const dataStr = setMagString(mode);
             await safeGM("setValue", dataStr, mags)
-            console.log("triggering omni")
-            console.log("mag content:", mags)
             omni(mags);
         }
 
@@ -166,7 +154,6 @@ function omniInit (toggle) {
             let mags
             let parser = new DOMParser();
             let notificationsXML = parser.parseFromString(response.responseText, "text/html");
-            console.log(notificationsXML)
             if (notificationsXML.title === "Magazines - kbin.social") {
                 const defaultFetched = []
                 mags = notificationsXML.querySelector('.magazines.table-responsive')
@@ -178,44 +165,30 @@ function omniInit (toggle) {
                 mags = notificationsXML.querySelector('.magazines-columns');
                 links = mags.querySelectorAll('.stretched-link');
                 const username = notificationsXML.querySelector('.login').getAttribute("href").split('/')[2];
-                console.log(username)
                 const paginator = notificationsXML.querySelector('.pagination__item.pagination__item--next-page');
-                console.log(paginator)
                 if (paginator) {
                     const tip = paginator.getAttribute("href")
                     if (tip) {
                         page = tip.split('=')[1]
-                        console.log("next page is:", page)
                     }
                 }
-                console.log("username is:", username)
-                console.log("new links:", links)
-                console.log("OLD MAGS ARRAY:", fetchedMags)
                 fetchedMags.push(links);
-                console.log("NEW MAGS ARRAY:", fetchedMags);
-                console.log("TOTAL LINKS ON PAGE:", links.length)
                 if (links.length < 48) {
-                    console.log("fewer than 48 on page, done")
                     alphaSort(fetchedMags)
                 } else {
-                    console.log("going to next page:", page)
                     const url = `https://kbin.social/u/${username}/subscriptions?p=${page}`
-                    console.log("new URL is:", url)
                     genericXMLRequest(url, parseMags)
                 }
             }
         }
         function alphaSort (links) {
-            console.log("DEFAULT LINKS:", links)
             const clean = []
             for (let i = 0; i < links.length; ++i) {
-                console.log("INDEX 1:", links[i])
                 links[i].forEach((link) => {
                     clean.push(link.href.split('/')[4])
                     clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
                 });
             }
-            console.log("saving sorted mag content under:", str)
             saveMags(str, clean)
         }
         function updateVisible () {
@@ -287,9 +260,7 @@ function omniInit (toggle) {
             kesModal.className = "kes-omni-modal"
             kesModal.addEventListener('click', (e) =>{
                 if ((e.target.tagName === "UL") || (e.target.tagName === "DIV")) {
-                    console.log(e.target.tagName)
                     const torem = document.querySelector('.kes-omni-modal')
-                    console.log(torem)
                     $(torem).hide();
                 }
             });
@@ -430,7 +401,6 @@ function omniInit (toggle) {
 
                 mobileBar.addEventListener('click', () => {
                     const toShow = document.querySelector('.kes-omni-modal')
-                    const toFocus = document.querySelector('#kes-omni-search')
                     if ($(toShow).is(":visible")) {
                         $(toShow).hide();
                     } else {
