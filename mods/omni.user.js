@@ -94,8 +94,6 @@ function omniInit (toggle) {
     const settings = getModSettings('omni');
     const meta = settings["meta"]
     const code = keyCodes[meta]
-    const check = settings["check"]
-    const checkColor = settings["check-color"]
 
     function createOmni () {
 
@@ -447,26 +445,6 @@ function omniInit (toggle) {
             document.body.appendChild(kesModal)
             document.addEventListener('keydown', kickoffListener)
 
-            const threadIndex = document.querySelector('[data-controller="subject-list"]')
-            if (!check) {
-                console.log("check toggled off")
-                const oldChecks = document.querySelectorAll('#kes-omni-check')
-                oldChecks.forEach((check) => {
-                    check.remove();
-                });
-            }
-            if ((check) && (threadIndex)) {
-                document.querySelectorAll('.magazine-inline.instance').forEach((item) => {
-                const mag = item.getAttribute('href').split('/')[2]
-                if (subs.includes(mag)) {
-                    const ch = document.createElement('span')
-                    ch.style.color = getHex(checkColor);
-                    ch.id = 'kes-omni-check'
-                    ch.innerText = " ✓"
-                    item.appendChild(ch)
-                   }
-                   });
-            }
         }
     }
     if (toggle) {

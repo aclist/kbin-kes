@@ -1092,13 +1092,21 @@
           "Right bracket",
           "Backslash"
         ]
-      },
-      {
-        "type": "checkbox",
-        "key": "check",
-        "label": "Checkmark next to subbed mags",
-        "checkbox_label": "Show checkmark"
-      },
+      }
+    ],
+    "page": "general"
+  },
+  {
+    "name": "Thread checkmarks",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Checkmark on subbed mags",
+    "desc": "Append a checkmark to magazines on the thread index you are subscribed to.",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "checksInit",
+    "namespace": "checks",
+    "fields": [
       {
         "type": "color",
         "key": "check-color",

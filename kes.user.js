@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.0-beta.99
+// @version      2.2.0-beta.100
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -59,6 +59,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/resize-text.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/thread-checkmarks.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/unblur.user.js
 // @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
@@ -69,7 +70,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -93,6 +94,7 @@ const funcObj = {
     adjustSite: adjustSite,
     alphaSortInit: alphaSortInit,
     bugReportInit: bugReportInit,
+    checksInit: checksInit,
     clarifyRecipientInit: clarifyRecipientInit,
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
