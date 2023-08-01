@@ -4,10 +4,12 @@ function checksInit (toggle) {
     const threadIndex = document.querySelector('[data-controller="subject-list"]')
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
+    const test = document.querySelector('#kes-omni-check')
     console.log(settings)
     console.log(checkColor)
     console.log(username)
     if ((!threadIndex) || (!username)) return
+    if (test) return
 
     async function fetchMags (username) {
         const loaded = await safeGM("getValue", 'omni-user-mags-' + username)

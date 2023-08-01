@@ -1103,7 +1103,7 @@
     "label": "Checkmark on subbed mags",
     "desc": "Append a checkmark to magazines on the thread index you are subscribed to. Depends on the 'Subs omnibar' option (Page: general)",
     "login": false,
-    "recurs": false,
+    "recurs": true,
     "entrypoint": "checksInit",
     "namespace": "checks",
     "fields": [
