@@ -274,14 +274,13 @@ function omniInit (toggle) {
                 } else {
                     $(exists).show();
                     if (window.innerWidth > 576) {
-                        console.log("larger")
                         document.querySelector("#kes-omni-search").focus();
                     }
                 }
             }
         }
-        function updateCounter(el, found, total){
-                    el.innerText = found + '/' + total
+        function updateCounter (el, found, total) {
+            el.innerText = found + '/' + total
         }
         function omni (subs) {
             const kesModal = document.createElement('div')
@@ -374,7 +373,7 @@ function omniInit (toggle) {
                     if (filter === "") {
                         updateCounter(el,0,visiEl.length)
                     } else {
-                    updateCounter(el, visi.length, visiEl.length);
+                        updateCounter(el, visi.length, visiEl.length);
                     }
                 }
                 }

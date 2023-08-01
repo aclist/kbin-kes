@@ -4,6 +4,8 @@ function checksInit (toggle) {
     const threadIndex = document.querySelector('[data-controller="subject-list"]')
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
+    console.log(checkColor)
+    console.log(username)
     if ((!threadIndex) || (!username)) return
 
     async function fetchMags (username) {
@@ -25,7 +27,7 @@ function checksInit (toggle) {
     }
 
     if (toggle) {
-        fetchMags();
+        fetchMags(username);
     } else {
         const oldChecks = document.querySelectorAll('#kes-omni-check')
         oldChecks.forEach((check) => {
