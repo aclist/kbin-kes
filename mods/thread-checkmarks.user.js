@@ -13,7 +13,7 @@ function checksInit (toggle, mutation) {
         if (!loaded) return
         setChecks(loaded)
     }
-    function addCheck(subs, item){
+    function addCheck (subs, item) {
         console.log(item)
         const mag = item.getAttribute('href').split('/')[2]
         console.log("mag is:", mag)
@@ -34,7 +34,7 @@ function checksInit (toggle, mutation) {
             if (node.className !== 'entry section subject') return
             const link = node.querySelector('.magazine-inline.instance')
             console.log("link is:", link)
-            if link.children[0].id === 'kes-omni-check' {
+            if (link.children[0].id === 'kes-omni-check') {
                 console.log("check already present")
                 return
             } else {
