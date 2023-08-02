@@ -95,6 +95,10 @@ function omniInit (toggle) {
     if (tapBar) {
         tapBar.remove();
     }
+    const q = document.querySelector('.kes-omni-modal')
+    if (q) {
+        q.remove();
+    }
 
     function createOmni () {
 
@@ -268,6 +272,10 @@ function omniInit (toggle) {
             search.setAttribute
             search.addEventListener("keydown", (e) => {
                 switch (e.keyCode) {
+                case code: {
+                    kickoffListener(e)
+                    break;
+                }
                 case 40: {
                     e.preventDefault();
                     let packed = updateVisible();
@@ -408,9 +416,39 @@ function omniInit (toggle) {
 
             }
 
+            //start hidden
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
-            document.addEventListener('keydown', kickoffListener)
+            //
+            function keyTrap(e){
+                if (e.target.tagName === "INPUT") return
+                if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
+                const kt = document.querySelector('#kes-omni-keytrap')
+                kt.focus()
+            }
+            function keyTrap2(e){
+                kickoffListener(e)
+            }
+            //TODO: replaced by top of script removal
+            //forcibly remove old listener
+            const kt = document.querySelector('#kes-omni-keytrap')
+            if (kt) {
+                kt.remove();
+            }
+            //TODO: rename tokens
+            const b = document.querySelector('.kbin-container')
+            const holder = document.createElement('div');
+            holder.style.cssText = 'height: 0px; width: 0px'
+            const ktb = document.createElement('button')
+            ktb.style.cssText = 'opacity:0;width:0'
+            ktb.id = 'kes-omni-keytrap'
+            holder.appendChild(ktb)
+            b.insertBefore(holder, b.children[0])
+            ktb.addEventListener('keyup',keyTrap2)
+            const uu = document.querySelector('[data-controller="kbin notifications"]')
+            uu.addEventListener('keydown',keyTrap)
+
+            //document.addEventListener('keydown', kickoffListener)
 
         }
     }
@@ -420,9 +458,14 @@ function omniInit (toggle) {
         const e = []
         safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e)
         safeGM("setValue",`omni-default-mags-${hostname}`, e)
+        //TODO: redundant
+        const kt = document.querySelector('#kes-omni-keytrap')
         const q = document.querySelector('.kes-omni-modal')
+        if (kt) {
+            kt.remove();
+        }
         if (q) {
-            window.location.reload();
+            q.remove();
         }
     }
 }
