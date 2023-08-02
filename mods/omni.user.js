@@ -145,7 +145,7 @@ function omniInit (toggle) {
             let mags
             let parser = new DOMParser();
             let notificationsXML = parser.parseFromString(response.responseText, "text/html");
-            if (notificationsXML.title.indexOf('Magazines - ') > 0) {
+            if (notificationsXML.title.indexOf('Magazines - ') > -1) {
                 const defaultFetched = []
                 mags = notificationsXML.querySelector('.magazines.table-responsive')
                 links = mags.querySelectorAll('.stretched-link')
