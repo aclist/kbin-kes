@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.0-beta.120
+// @version      2.2.0-beta.121
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -916,7 +916,7 @@ function constructMenu (json, layoutArr, isNew) {
         modal.querySelector('.kes-dock i').addEventListener("click", (e) => {
             const settings = getSettings();
             let cn = e.target.className;
-            if (cn == layoutArr.header.dock_down) {
+            if (cn == layoutArr.header.dock_down.icon) {
                 container.classList.add('kes-docked');
                 e.target.className = layoutArr.header.dock_up.icon;
                 e.target.title = layoutArr.header.dock_up.tooltip;
