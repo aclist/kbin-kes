@@ -91,6 +91,11 @@ function omniInit (toggle) {
     const hostname = window.location.hostname
     const fetchedMags = []
 
+    const tapBar = document.querySelector('#kes-omni-tapbar')
+    if (tapBar) {
+        tapBar.remove();
+    }
+
     function createOmni () {
 
         safeGM("removeStyle", omniCSS, "omni-css")
@@ -412,10 +417,6 @@ function omniInit (toggle) {
     if (toggle) {
         createOmni();
     } else {
-        const tapBar = document.querySelector('#kes-omni-tapbar')
-        if (tapBar) {
-            tapBar.remove();
-        }
         const e = []
         safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e)
         safeGM("setValue",`omni-default-mags-${hostname}`, e)
