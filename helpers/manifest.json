@@ -1082,7 +1082,7 @@
       {
         "type": "checkbox",
         "key": "mobile",
-	"Mobile device support",
+        "label": "Mobile device support",
         "checkbox_label": "Add tappable element to screen"
       },
       {
