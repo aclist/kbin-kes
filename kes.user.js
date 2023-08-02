@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.0-beta.117
+// @version      2.2.0-beta.118
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -360,7 +360,6 @@ function constructMenu (json, layoutArr, isNew) {
         const headerChangelogIcon = document.createElement('i')
         const headerChangelogLink = document.createElement('a')
         headerChangelogLink.href = changelogURL
-        headerChangelogLink.setAttribute("title", )
         headerChangelogLink.appendChild(headerChangelogIcon)
         headerChangelogIcon.className = layoutArr.header.changelog.icon
         headerChangelogIcon.title = layoutArr.header.changelog.tooltip
@@ -846,7 +845,7 @@ function constructMenu (json, layoutArr, isNew) {
         const debugClip = document.createElement("i");
         const clipClass = "kes-debug-clipboard"
         debugClip.className = clipClass + " " + layoutArr.header.clipboard.icon;
-        debugClip.title layoutArr.header.clipboard.tooltip;
+        debugClip.title = layoutArr.header.clipboard.tooltip;
         footer.appendChild(debugClip)
         debugClip.addEventListener('click', ()=> {
             const userPlatform = navigator.platform;
