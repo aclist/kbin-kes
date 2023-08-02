@@ -1,15 +1,3 @@
-// ==UserScript==
-// @name         BBB-debug
-// @namespace    http://tampermonkey.net/
-// @version      0.2
-// @description  try to take over the world!
-// @author       You
-// @match        https://kbin.social/*
-// @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=kbin.social
-// @require      http://code.jquery.com/jquery-3.4.1.min.js
-// ==/UserScript==
-
 function omniInit (toggle) {
 
     const kesActive = 'kes-subs-active'
@@ -99,13 +87,13 @@ function omniInit (toggle) {
     const code = keyCodes[meta]
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
+    const hostname = window.location.hostname
     const fetchedMags = []
 
     function createOmni () {
 
         safeGM("removeStyle", omniCSS, "omni-css")
         safeGM("addStyle", omniCSS, "omni-css")
-
 
         let str
         if (username) {
@@ -132,7 +120,7 @@ function omniInit (toggle) {
                 mags = 'omni-default-mags'
                 break;
             case 'user':
-                mags = 'omni-user-mags-' + username
+                mags = `omni-user-mags-${hostname}-${username}`
                 break;
             }
             return mags;
@@ -146,9 +134,9 @@ function omniInit (toggle) {
         function fetchMags (username, page) {
             let url
             if (username) {
-                url = `https://kbin.social/u/${username}/subscriptions?p=${page}`
+                url = `https://${hostname}/u/${username}/subscriptions?p=${page}`
             } else {
-                url = 'https://kbin.social/magazines'
+                url = `https://${hostname}/magazines`
             }
             genericXMLRequest(url, parseMags)
         }
@@ -157,7 +145,7 @@ function omniInit (toggle) {
             let mags
             let parser = new DOMParser();
             let notificationsXML = parser.parseFromString(response.responseText, "text/html");
-            if (notificationsXML.title === "Magazines - kbin.social") {
+            if (notificationsXML.title.indexOf('Magazines - ') > 0) {
                 const defaultFetched = []
                 mags = notificationsXML.querySelector('.magazines.table-responsive')
                 links = mags.querySelectorAll('.stretched-link')
@@ -179,7 +167,7 @@ function omniInit (toggle) {
                 if (links.length < 48) {
                     alphaSort(fetchedMags)
                 } else {
-                    const url = `https://kbin.social/u/${username}/subscriptions?p=${page}`
+                    const url = `https://${hostname}/u/${username}/subscriptions?p=${page}`
                     genericXMLRequest(url, parseMags)
                 }
             }
@@ -308,7 +296,7 @@ function omniInit (toggle) {
                 case 13: {
                     const act = document.querySelector("#kes-omni-list li.kes-subs-active")
                     const dest = act.textContent
-                    window.location = 'https://kbin.social/m/' + dest
+                    window.location = `https://${hostname}/m/${dest}`
                     break;
                 }
                 case 38: {
@@ -380,7 +368,7 @@ function omniInit (toggle) {
                 }
                 entry.innerText = subs[i];
                 outerA.appendChild(entry)
-                outerA.href = 'https://kbin.social/m/' + subs[i]
+                outerA.href = `https://${hostname}/m/${subs[i]}`
                 scroller.appendChild(outerA);
             }
             updateCounter(headerCounter, 0, subs.length)
@@ -423,7 +411,7 @@ function omniInit (toggle) {
         createOmni();
     } else {
         const e = []
-        safeGM("setValue",'omni-user-mags-' + username, e)
+        safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e)
         safeGM("setValue",'omni-default-mags', e)
         const q = document.querySelector('.kes-omni-modal')
         if (q) {
