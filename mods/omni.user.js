@@ -386,8 +386,9 @@ function omniInit (toggle) {
             });
 
             if (mobile) {
-                const top = document.querySelector('body')
-                const mobileBar = document.createElement('div')
+                const top = document.querySelector('body');
+                const mobileBar = document.createElement('div');
+                mobileBar.id = 'kes-omni-tapbar';
                 mobileBar.style.cssText = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
                 top.insertBefore(mobileBar, top.children[0])
 
@@ -411,6 +412,10 @@ function omniInit (toggle) {
     if (toggle) {
         createOmni();
     } else {
+        const tapBar = document.querySelector('#kes-omni-tapbar')
+        if (tapBar) {
+            tapBar.remove();
+        }
         const e = []
         safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e)
         safeGM("setValue",`omni-default-mags-${hostname}`, e)
