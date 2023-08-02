@@ -117,7 +117,7 @@ function omniInit (toggle) {
             let mags;
             switch (mode) {
             case 'default':
-                mags = 'omni-default-mags'
+                mags = `omni-default-mags-${hostname}`
                 break;
             case 'user':
                 mags = `omni-user-mags-${hostname}-${username}`
@@ -412,7 +412,7 @@ function omniInit (toggle) {
     } else {
         const e = []
         safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e)
-        safeGM("setValue",'omni-default-mags', e)
+        safeGM("setValue",`omni-default-mags-${hostname}`, e)
         const q = document.querySelector('.kes-omni-modal')
         if (q) {
             window.location.reload();
