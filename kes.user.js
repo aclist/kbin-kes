@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.0-beta.116
+// @version      2.2.0-beta.117
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -227,7 +227,8 @@ function constructMenu (json, layoutArr, isNew) {
     const settingsButton = document.createElement('i');
     wrenchOuter.appendChild(settingsButton)
     settingsButton.id = 'kes-settings-button';
-    settingsButton.classList = layoutArr.header.open;
+    settingsButton.classList = layoutArr.header.open.icon;
+    settingsButton.title = layoutArr.header.open.tooltip;
     settingsButton.style.verticalAlign = 'middle';
     if (isNew === "yes") {
         const stackSpan = document.createElement('span');
@@ -335,20 +336,23 @@ function constructMenu (json, layoutArr, isNew) {
 
         const headerCloseButton = document.createElement('span')
         headerCloseButton.className = 'kes-close'
-        const headerCloseIcon = document.createElement('i')
-        headerCloseIcon.className = layoutArr.header.close
-        headerCloseButton.appendChild(headerCloseIcon)
+        const headerCloseIcon = document.createElement('i');
+        headerCloseIcon.className = layoutArr.header.close.icon;
+        headerCloseIcon.title = layoutArr.header.close.tooltip;
+        headerCloseButton.appendChild(headerCloseIcon);
 
         const headerDockButton = document.createElement('span')
         headerDockButton.className = 'kes-dock'
         const headerDockIcon = document.createElement('i')
-        headerDockIcon.className = layoutArr.header.dock_down
+        headerDockIcon.className = layoutArr.header.dock_down.icon
+        headerDockIcon.title = layoutArr.header.dock_down.tooltip
         headerDockButton.appendChild(headerDockIcon)
 
         const headerEyeButton = document.createElement('span')
         headerEyeButton.className = 'kes-transparent-mode'
         const headerEyeIcon = document.createElement('i')
-        headerEyeIcon.className = layoutArr.header.transparent
+        headerEyeIcon.className = layoutArr.header.transparent.icon
+        headerEyeIcon.title = layoutArr.header.transparent.tooltip
         headerEyeButton.appendChild(headerEyeIcon)
 
         const headerChangelogButton = document.createElement('span')
@@ -356,8 +360,10 @@ function constructMenu (json, layoutArr, isNew) {
         const headerChangelogIcon = document.createElement('i')
         const headerChangelogLink = document.createElement('a')
         headerChangelogLink.href = changelogURL
+        headerChangelogLink.setAttribute("title", )
         headerChangelogLink.appendChild(headerChangelogIcon)
-        headerChangelogIcon.className = layoutArr.header.changelog
+        headerChangelogIcon.className = layoutArr.header.changelog.icon
+        headerChangelogIcon.title = layoutArr.header.changelog.tooltip
         headerChangelogButton.appendChild(headerChangelogLink)
 
         const headerVersionButton = document.createElement('span');
@@ -774,7 +780,7 @@ function constructMenu (json, layoutArr, isNew) {
                     optionsChildren[i].style.display = "none";
                     let crumbsRoot = document.querySelector('.kes-crumbs');
                     crumbsRoot.innerHTML = '<h2>' + headerTitle + ' ' +
-                        '<i class="' + layoutArr.header.separator + '"></i> ' +
+                        '<i class="' + layoutArr.header.separator.icon + '"></i> ' +
                         tabName + '</h2>';
                     let crumbsChild = crumbsRoot.children[0]
                     let modCounter = document.createElement('text');
@@ -834,12 +840,13 @@ function constructMenu (json, layoutArr, isNew) {
 
         const bugIcon = document.createElement("span");
         bugIcon.className = "kes-settings-modal-bug-icon";
-        bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
+        bugIcon.innerHTML = '<i class="' + layoutArr.header.bug.icon + '"></i>';
         bugLink.appendChild(bugIcon)
 
         const debugClip = document.createElement("i");
         const clipClass = "kes-debug-clipboard"
-        debugClip.className = clipClass + " " + layoutArr.header.clipboard;
+        debugClip.className = clipClass + " " + layoutArr.header.clipboard.icon;
+        debugClip.title layoutArr.header.clipboard.tooltip;
         footer.appendChild(debugClip)
         debugClip.addEventListener('click', ()=> {
             const userPlatform = navigator.platform;
@@ -849,9 +856,9 @@ function constructMenu (json, layoutArr, isNew) {
             const kesUserSettings = localStorage["kes-settings"];
             const toPaste = `OS: ${userPlatform}\nAgent: ${userAgent}\nKES version: ${version}\nHandler: ${handler}\nIncog: ${incog}\nSettings: ${kesUserSettings}`
             navigator.clipboard.writeText(toPaste);
-            debugClip.className = clipClass + " " + layoutArr.header.check;
+            debugClip.className = clipClass + " " + layoutArr.header.check.icon;
             function revertIcon () {
-                debugClip.className = "kes-debug-clipboard " + layoutArr.header.clipboard
+                debugClip.className = "kes-debug-clipboard " + layoutArr.header.clipboard.icon
             }
             window.setTimeout(revertIcon,600);
         });
@@ -884,9 +891,11 @@ function constructMenu (json, layoutArr, isNew) {
         const dockIcon = document.querySelector('.kes-dock i');
         if (settings.dock == 'down') {
             container.classList.add('kes-docked');
-            dockIcon.className = layoutArr.header.dock_up;
+            dockIcon.className = layoutArr.header.dock_up.icon;
+            dockIcon.title = layoutArr.header.dock_up.tooltip;
         } else {
-            dockIcon.className = layoutArr.header.dock_down;
+            dockIcon.className = layoutArr.header.dock_down.icon;
+            dockIcon.title = layoutArr.header.dock_down.title;
         }
 
 
@@ -910,11 +919,13 @@ function constructMenu (json, layoutArr, isNew) {
             let cn = e.target.className;
             if (cn == layoutArr.header.dock_down) {
                 container.classList.add('kes-docked');
-                e.target.className = layoutArr.header.dock_up;
+                e.target.className = layoutArr.header.dock_up.icon;
+                e.target.title = layoutArr.header.dock_up.tooltip;
                 settings.dock = 'down';
             } else {
                 container.classList.remove('kes-docked');
-                e.target.className = layoutArr.header.dock_down;
+                e.target.className = layoutArr.header.dock_down.icon;
+                e.target.title = layoutArr.header.dock_down.tooltip;
                 settings.dock = 'up';
 
             }

@@ -1,16 +1,46 @@
 {
   "header": {
     "title": "KES",
-    "separator": "fa-solid fa-chevron-right fa-xs",
-    "dock_down": "fa-solid fa-arrow-down",
-    "dock_up": "fa-solid fa-arrow-up",
-    "open": "fa-solid fa-wrench",
-    "close": "fa-solid fa-times",
-    "bug": "fa-solid fa-bug fa-xs",
-    "changelog": "fa-solid fa-flask",
-    "clipboard": "fa-solid fa-clipboard",
-    "check": "fa-solid fa-check",
-    "transparent": "fa-solid fa-eye-slash"
+    "separator": {
+      "tooltip": "",
+      "icon": "fa-solid fa-chevron-right fa-xs"
+    },
+    "dock_down": {
+      "tooltip": "Dock to bottom",
+      "icon": "fa-solid fa-arrow-down"
+    },
+    "dock_up": {
+      "tooltip": "Restore to center",
+      "icon": "fa-solid fa-arrow-up"
+    },
+    "open": {
+      "tooltip": "Open KES",
+      "icon": "fa-solid fa-wrench"
+    },
+    "close": {
+      "tooltip": "Close KES",
+      "icon": "fa-solid fa-times"
+    },
+    "bug": {
+      "tooltip": "",
+      "icon": "fa-solid fa-bug fa-xs"
+    },
+    "changelog": {
+      "tooltip": "View the changelog",
+      "icon": "fa-solid fa-flask"
+    },
+    "clipboard": {
+      "tooltip": "Copy system report to clipboard",
+      "icon": "fa-solid fa-clipboard"
+    },
+    "check": {
+      "tooltip": "",
+      "icon": "fa-solid fa-check"
+    },
+    "transparent": {
+      "tooltip": "Transparent mode",
+      "icon": "fa-solid fa-eye-slash"
+    }
   },
   "pages": [
     "general",
