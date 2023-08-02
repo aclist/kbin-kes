@@ -24,7 +24,7 @@ function hideThumbs (toggle) {
     `
     function apply(sheet, name){
             unset(name)
-            safeGM("applyStyle", sheet, name)
+            safeGM("addStyle", sheet, name)
     }
     function unset(name){
             safeGM("removeStyle", name)
