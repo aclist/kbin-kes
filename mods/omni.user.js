@@ -85,6 +85,7 @@ function omniInit (toggle) {
     const settings = getModSettings('omni');
     const meta = settings["meta"]
     const code = keyCodes[meta]
+    const mobile = settings["mobile"]
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
     const hostname = window.location.hostname
@@ -237,7 +238,7 @@ function omniInit (toggle) {
                     $(exists).hide();
                 } else {
                     $(exists).show();
-                    if (window.innerWidth > 576) {
+                    if (!mobile) {
                         document.querySelector("#kes-omni-search").focus();
                     }
                 }
@@ -384,7 +385,7 @@ function omniInit (toggle) {
                 }
             });
 
-            if (window.innerWidth < 576) {
+            if (mobile) {
                 const top = document.querySelector('body')
                 const mobileBar = document.createElement('div')
                 mobileBar.style.cssText = 'background-color: var(--kbin-alert-info-link-color); height: 15px'

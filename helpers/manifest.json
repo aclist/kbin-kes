@@ -1080,6 +1080,11 @@
     "namespace": "omni",
     "fields": [
       {
+        "type": "checkbox",
+        "key": "mobile",
+        "checkbox_label": "Enable mobile device support"
+      },
+      {
         "type": "radio",
         "initial": "Backtick",
         "key": "meta",
