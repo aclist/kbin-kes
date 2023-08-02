@@ -91,6 +91,11 @@ function omniInit (toggle) {
     const hostname = window.location.hostname
     const fetchedMags = []
 
+    const tapBar = document.querySelector('#kes-omni-tapbar')
+    if (tapBar) {
+        tapBar.remove();
+    }
+
     function createOmni () {
 
         safeGM("removeStyle", omniCSS, "omni-css")
@@ -386,10 +391,6 @@ function omniInit (toggle) {
             });
 
             if (mobile) {
-                const tapBar = document.querySelector('#kes-omni-tapbar')
-                if (tapBar) {
-                    tapBar.remove();
-                }
                 const top = document.querySelector('body');
                 const mobileBar = document.createElement('div');
                 mobileBar.id = 'kes-omni-tapbar';
