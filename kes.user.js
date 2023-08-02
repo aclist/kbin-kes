@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.0-beta.118
+// @version      2.2.0-beta.119
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -344,8 +344,8 @@ function constructMenu (json, layoutArr, isNew) {
         const headerDockButton = document.createElement('span')
         headerDockButton.className = 'kes-dock'
         const headerDockIcon = document.createElement('i')
-        headerDockIcon.className = layoutArr.header.dock_down.icon
-        headerDockIcon.title = layoutArr.header.dock_down.tooltip
+        headerDockIcon.className = layoutArr.header.dock_down.icon;
+        headerDockIcon.title = layoutArr.header.dock_down.tooltip;
         headerDockButton.appendChild(headerDockIcon)
 
         const headerEyeButton = document.createElement('span')
@@ -894,7 +894,7 @@ function constructMenu (json, layoutArr, isNew) {
             dockIcon.title = layoutArr.header.dock_up.tooltip;
         } else {
             dockIcon.className = layoutArr.header.dock_down.icon;
-            dockIcon.title = layoutArr.header.dock_down.title;
+            dockIcon.title = layoutArr.header.dock_down.tooltip;
         }
 
 
