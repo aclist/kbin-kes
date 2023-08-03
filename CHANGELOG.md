@@ -1,5 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.2.2
+### Fixed
 ## 2.2.1
 ### Fixed
 - Navigation resetting on omnibar

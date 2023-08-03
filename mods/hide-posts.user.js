@@ -20,6 +20,7 @@ function teardown (hp) {
     for (let i = 0; i < hp.length; ++i) {
         const toShow = document.querySelector('#entry-' + hp[i]);
         $(toShow).show();
+        hideSib(toShow, 'show')
     }
     let hideThisPage = []
     storeCurrentPage(hideThisPage);
@@ -34,6 +35,16 @@ async function fetchCurrentPage () {
 async function storeCurrentPage (hideThisPage) {
     await safeGM("setValue","hide-this-page",hideThisPage)
 }
+function hideSib(el, mode){
+    const sib = el.nextSibling;
+    if (sib.className === "js-container"){
+        if (mode === 'hide') {
+            $(sib).hide();
+        } else {
+            $(sib).show();
+        }
+    }
+}
 function setup (array) {
     const hideThisPage = []
     const rawIdArr = array;
@@ -43,6 +54,7 @@ function setup (array) {
         const entryID = item.id.split('-')[1]
         if (idArr.includes(entryID)) {
             $(item).hide();
+            hideSib(item, 'hide');
             hideThisPage.push(entryID)
         } else {
             const toHide = item.querySelector('.kes-hide-posts');
@@ -62,6 +74,7 @@ function setup (array) {
                 const toHideID = event.target.getAttribute("hide-post-id");
                 const toHide = document.querySelector('#entry-' + toHideID);
                 $(toHide).hide();
+                hideSib(toHide, 'hide')
                 hideThisPage.push(toHideID)
                 addToArr(idArr,toHideID);
                 storeCurrentPage(hideThisPage)
