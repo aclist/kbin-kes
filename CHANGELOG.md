@@ -1,5 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.2.2
+### Fixed
+- Hide posts: expanded images not being hidden along with post
 ## 2.2.1
 ### Fixed
 - Navigation resetting on omnibar
