@@ -4,11 +4,12 @@ function checksInit (toggle, mutation) {
     const threadIndex = document.querySelector('[data-controller="subject-list"]')
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
+    const hostname = window.location.hostname
 
     if ((!threadIndex) || (!username)) return
 
     async function fetchMags (username) {
-        const loaded = await safeGM("getValue", 'omni-user-mags-' + username)
+        const loaded = await safeGM("getValue", `omni-user-mags-${hostname}-${username}`)
         if (!loaded) return
         setChecks(loaded)
     }
