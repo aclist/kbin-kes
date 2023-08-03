@@ -1,9 +1,23 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 2.2.0
+### Added
+- Subs omnibar (shazbot)
+- NSFW blur disabler (shazbot)
+- Customize colors (minnieo)
+- Hover mod (minnieo)
+- Checkmark next to subbed mags (shazbot)
+- API: getHex();
+- API: manifest generator
+### Fixed
+- Alpha sort list: also apply to followers page
+- Display custom colors correctly in KES menus when user updates colors
 ## 2.1.4
 ### Fixed
 - Dropdown subscriptions: target hostnames other than kbin.social
 - Notifications panel: target hostnames other than kbin.social
+- Notifications panel: fit into viewport on narrow mobile devices
+- Hide thumbnails: restore default CSS when disabled on mobile
 ## 2.1.3
 ### Fixed
 - Make notipanel button more clickable

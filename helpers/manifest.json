@@ -611,8 +611,8 @@
   {
     "name": "Notifications panel",
     "author": [
-	    "blobcat",
-	    "shazbot"
+      "blobcat",
+      "shazbot"
     ],
     "version": "0.3.0",
     "label": "Add a notifications panel",
@@ -704,13 +704,13 @@
     "page": "threads"
   },
   {
-    "name": "Alpha sort subs",
+    "name": "Alpha sort subs/followers",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Alpha sort subs list",
+    "label": "Alpha sort subs/followers list",
     "login": true,
     "recurs": false,
-    "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions)",
+    "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions) and followers (/followers).",
     "entrypoint": "alphaSortInit",
     "page": "profile"
   },
@@ -924,5 +924,202 @@
         "max": "50"
       }
     ]
+  },
+  {
+    "name": "Hover indicator",
+    "author": "minnieo",
+    "version": "0.1.0",
+    "label": "Hover indicator",
+    "login": false,
+    "recurs": false,
+    "desc": "Apply an outline to elements that are being hovered over.",
+    "namespace": "hover",
+    "entrypoint": "hoverIndicator",
+    "page": "accessibility",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "--kbin-text-color",
+        "key": "color",
+        "label": "Outline color"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "initial": 2,
+        "label": "Thickness of outline",
+        "key": "thickness"
+      }
+    ]
+  },
+  {
+    "name": "Unblur NSFW",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Unblur NSFW thumbnails",
+    "desc": "Makes NSFW thumbnails start unblurred by default.",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "unblurInit",
+    "page": "threads"
+  },
+  {
+    "name": "Adjust colors",
+    "author": "minnieo",
+    "version": "0.1.0",
+    "label": "Adjust colors",
+    "login": false,
+    "recurs": true,
+    "desc": "Adjust the colors of the site.",
+    "entrypoint": "adjustSite",
+    "namespace": "adjust",
+    "page": "accessibility",
+    "catch_reset": [
+      "sepia",
+      "hueRotate",
+      "bright",
+      "saturate",
+      "contrast",
+      "upvote",
+      "downvote",
+      "boost"
+    ],
+    "fields": [
+      {
+        "type": "reset",
+        "key": "resetAdjust",
+        "label": "Reset values to defaults:",
+        "value": "reset"
+      },
+      {
+        "type": "range",
+        "initial": 0,
+        "key": "sepia",
+        "label": "Sepia",
+        "step": 0.1,
+        "min": 0,
+        "max": 10,
+        "show_value": true
+      },
+      {
+        "type": "range",
+        "initial": 0,
+        "key": "hueRotate",
+        "label": "Hue",
+        "step": 1,
+        "min": 0,
+        "max": 36,
+        "show_value": true
+      },
+      {
+        "type": "range",
+        "initial": 0,
+        "key": "bright",
+        "label": "Brightness",
+        "step": 0.1,
+        "min": 0,
+        "max": 10,
+        "show_value": true
+      },
+      {
+        "type": "range",
+        "initial": 0,
+        "key": "saturate",
+        "label": "Saturation",
+        "step": 0.1,
+        "min": 0,
+        "max": 10,
+        "show_value": true
+      },
+      {
+        "type": "range",
+        "initial": 0,
+        "key": "contrast",
+        "label": "Contrast",
+        "step": "0.1",
+        "min": "0",
+        "max": "10",
+        "show_value": true
+      },
+      {
+        "type": "color",
+        "initial": "--kbin-upvoted-color",
+        "key": "upvote",
+        "label": "Upvote color"
+      },
+      {
+        "type": "color",
+        "initial": "--kbin-downvoted-color",
+        "key": "downvote",
+        "label": "Downvote color"
+      },
+      {
+        "type": "color",
+        "initial": "--kbin-meta-link-color",
+        "key": "boost",
+        "label": "Boost color"
+      },
+      {
+        "type": "checkbox",
+        "key": "border",
+        "checkbox_label": "Border around up/downvote buttons"
+      }
+    ]
+  },
+  {
+    "name": "Subs omnibar",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Subscriptions omnibar",
+    "desc": "Quickly jump to a magazine by viewing your subs in a floating search panel (type to search). Use the meta key to open/close the omnibar. The meta key will not take effect inside of text fields. If you are logged out, the omnibar shows default magazines (most popular). To refresh the cached list of your magazines or change settings while this add-on is enabled, toggle off and then on again.",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "omniInit",
+    "namespace": "omni",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "mobile",
+        "label": "Mobile device support",
+        "checkbox_label": "Add tappable element to screen"
+      },
+      {
+        "type": "radio",
+        "initial": "Backtick",
+        "key": "meta",
+        "label": "Meta key",
+        "values": [
+          "Backtick",
+          "Minus",
+          "Equals",
+          "Left bracket",
+          "Right bracket",
+          "Backslash"
+        ]
+      }
+    ],
+    "page": "general"
+  },
+  {
+    "name": "Thread checkmarks",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Checkmark on subbed mags",
+    "desc": "Append a checkmark to magazines on the thread index you are subscribed to. Depends on the 'Subs omnibar' option (Page: general)",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "checksInit",
+    "namespace": "checks",
+    "fields": [
+      {
+        "type": "color",
+        "key": "check-color",
+        "label": "Checkmark color",
+        "initial": "--kbin-upvoted-color"
+      }
+    ],
+    "page": "threads"
   }
 ]

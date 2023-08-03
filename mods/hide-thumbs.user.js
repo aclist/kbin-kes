@@ -10,21 +10,38 @@
 
 function hideThumbs (toggle) {
     settings = getModSettings('hidethumbs')
-    const indexThumbs = '.entry.section.subject figure, .no-image-placeholder'
-    const inlineThumbs = '.thumb'
+    const index = 'kes-index-thumbs'
+    const inline = 'kes-inline-thumbs'
+    const thumbsCSS = `
+    .entry.section.subject figure, .no-image-placeholder {
+        display: none
+    }
+    `
+    const inlineCSS = `
+    .thumbs {
+        display:none
+    }
+    `
+    function apply(sheet, name){
+            unset(name)
+            safeGM("addStyle", sheet, name)
+    }
+    function unset(name){
+            safeGM("removeStyle", name)
+    }
     if (toggle) {
         if (settings["index"]) {
-            $(indexThumbs).hide();
+            apply(thumbsCSS, index);
         } else {
-            $(indexThumbs).show();
+            unset(index)
         }
         if (settings["inline"]) {
-            $(inlineThumbs).hide();
+            apply(inlineCSS, inline)
         } else {
-            $(inlineThumbs).show();
+            unset(inline)
         }
     } else {
-        $(indexThumbs).show();
-        $(inlineThumbs).show();
+        unset(index)
+        unset(inline)
     }
 }

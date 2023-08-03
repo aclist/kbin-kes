@@ -152,7 +152,7 @@ main(){
     echo "// ==/UserScript=="
     echo ""
     echo "//START AUTO MASTHEAD"
-    wrap=$(printf "%s, " "${funcs[@]}" | sed 's/, $//')
+    wrap=$(printf "%s, " "${eslint_funcs[@]}" | sed 's/, $//')
     printf "/* global %s */\n\n" "$wrap"
     gen_consts
     gen_object
@@ -160,5 +160,8 @@ main(){
     awk 'x==1 {print $0} /END AUTO MASTHEAD/{x=1}' $base_file.bak
 }
 readarray -t funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | sort)
+readarray -t eslint_funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | sort)
+eslint_funcs+=("safeGM" "getHex")
+
 cp $base_file $base_file.bak
 main > $base_file

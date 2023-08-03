@@ -29,7 +29,7 @@ z-index: 9999;
 top:100%;
 right: 0;
 left: auto;
-transform: rotateX(0)translateX(-50%);
+transform: rotateX(0)translateX(-20%);
 resize: vertical;
 min-height: 360px;
 height: 360px;

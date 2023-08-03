@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.1.4
+// @version      2.2.0
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -31,6 +31,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/main/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/adjust.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/alpha-sort-subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/always-more.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/clarify-recipient.user.js
@@ -42,6 +43,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-sidebar.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-thumbs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-votes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hover-indicator.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/improved-collapsible-comments.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/instance-names.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/kbin-federation-awareness.user.js
@@ -52,11 +54,14 @@
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/move-federation-warning.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/nav-icons.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/notifications-panel.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/omni.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/rearrange.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/report-bug.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/resize-text.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/thread-checkmarks.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/timestamp.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/unblur.user.js
 // @resource     kes_layout https://github.com/aclist/kbin-kes/raw/main/helpers/ui.json
 // @resource     kes_json https://github.com/aclist/kbin-kes/raw/main/helpers/manifest.json
 // @resource     kes_css https://github.com/aclist/kbin-kes/raw/main/helpers/kes.css
@@ -65,7 +70,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, alphaSortInit, bugReportInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, rearrangeInit, textResize, toggleLogo, updateTime, userInstanceEntry */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -86,8 +91,10 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 
 const funcObj = {
     addMail: addMail,
+    adjustSite: adjustSite,
     alphaSortInit: alphaSortInit,
     bugReportInit: bugReportInit,
+    checksInit: checksInit,
     clarifyRecipientInit: clarifyRecipientInit,
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
@@ -97,6 +104,7 @@ const funcObj = {
     hideSidebar: hideSidebar,
     hideThumbs: hideThumbs,
     hideUpvotes: hideUpvotes,
+    hoverIndicator: hoverIndicator,
     initCodeHighlights: initCodeHighlights,
     initCollapsibleComments: initCollapsibleComments,
     initKFA: initKFA,
@@ -108,9 +116,11 @@ const funcObj = {
     moveFederationWarningEntry: moveFederationWarningEntry,
     navbarIcons: navbarIcons,
     notificationsPanel: notificationsPanel,
+    omniInit: omniInit,
     rearrangeInit: rearrangeInit,
     textResize: textResize,
     toggleLogo: toggleLogo,
+    unblurInit: unblurInit,
     updateTime: updateTime,
     userInstanceEntry: userInstanceEntry
 };
@@ -212,12 +222,13 @@ function constructMenu (json, layoutArr, isNew) {
     }
     const kesPanel = document.createElement('li');
     kesPanel.id = 'kes-settings';
+    kesPanel.title = layoutArr.header.open.tooltip;
     kbinContainer.appendChild(kesPanel);
     const wrenchOuter = document.createElement('a')
     const settingsButton = document.createElement('i');
     wrenchOuter.appendChild(settingsButton)
     settingsButton.id = 'kes-settings-button';
-    settingsButton.classList = layoutArr.header.open;
+    settingsButton.classList = layoutArr.header.open.icon;
     settingsButton.style.verticalAlign = 'middle';
     if (isNew === "yes") {
         const stackSpan = document.createElement('span');
@@ -325,20 +336,23 @@ function constructMenu (json, layoutArr, isNew) {
 
         const headerCloseButton = document.createElement('span')
         headerCloseButton.className = 'kes-close'
-        const headerCloseIcon = document.createElement('i')
-        headerCloseIcon.className = layoutArr.header.close
-        headerCloseButton.appendChild(headerCloseIcon)
+        const headerCloseIcon = document.createElement('i');
+        headerCloseIcon.className = layoutArr.header.close.icon;
+        headerCloseIcon.title = layoutArr.header.close.tooltip;
+        headerCloseButton.appendChild(headerCloseIcon);
 
         const headerDockButton = document.createElement('span')
         headerDockButton.className = 'kes-dock'
         const headerDockIcon = document.createElement('i')
-        headerDockIcon.className = layoutArr.header.dock_down
+        headerDockIcon.className = layoutArr.header.dock_down.icon;
+        headerDockIcon.title = layoutArr.header.dock_down.tooltip;
         headerDockButton.appendChild(headerDockIcon)
 
         const headerEyeButton = document.createElement('span')
         headerEyeButton.className = 'kes-transparent-mode'
         const headerEyeIcon = document.createElement('i')
-        headerEyeIcon.className = layoutArr.header.transparent
+        headerEyeIcon.className = layoutArr.header.transparent.icon
+        headerEyeIcon.title = layoutArr.header.transparent.tooltip
         headerEyeButton.appendChild(headerEyeIcon)
 
         const headerChangelogButton = document.createElement('span')
@@ -347,7 +361,8 @@ function constructMenu (json, layoutArr, isNew) {
         const headerChangelogLink = document.createElement('a')
         headerChangelogLink.href = changelogURL
         headerChangelogLink.appendChild(headerChangelogIcon)
-        headerChangelogIcon.className = layoutArr.header.changelog
+        headerChangelogIcon.className = layoutArr.header.changelog.icon
+        headerChangelogIcon.title = layoutArr.header.changelog.tooltip
         headerChangelogButton.appendChild(headerChangelogLink)
 
         const headerVersionButton = document.createElement('span');
@@ -580,8 +595,11 @@ function constructMenu (json, layoutArr, isNew) {
                                 for (let k = 0 ; k < json[it].fields.length; ++k) {
                                     if(json[it].fields[k].key === matchKey) {
                                         let initial = json[it].fields[k].initial
-                                        found.setAttribute("value",initial)
-                                        found.value = initial
+                                        if (json[it].fields[k].type === "color") {
+                                            initial = getHex(initial);
+                                        }
+                                        found.setAttribute("value",initial);
+                                        found.value = initial;
                                     }
                                 }
                                 updateState(found);
@@ -593,13 +611,16 @@ function constructMenu (json, layoutArr, isNew) {
                     }
                     case "color": {
                         const colorField = document.createElement('input');
-                        colorField.setAttribute("type",fieldType);
-                        const firstChar = Array.from(initial)[0]
-                        if (firstChar === "-") {
-                            realHex = getComputedStyle(document.documentElement).getPropertyValue(initial);
-                            initial = realHex
+                        let realHex
+                        if (!modSettings[key]) {
+                            realHex = getHex(initial);
+                        } else {
+                            realHex = getHex(modSettings[key])
                         }
-                        colorField.setAttribute("value",initial);
+                        colorField.setAttribute("value", realHex);
+                        colorField.setAttribute("type", fieldType);
+                        colorField.setAttribute("kes-iter", it);
+                        colorField.setAttribute("kes-key", key);
                         hBox.appendChild(colorField);
                         hBox.appendChild(br);
                         break;
@@ -758,7 +779,7 @@ function constructMenu (json, layoutArr, isNew) {
                     optionsChildren[i].style.display = "none";
                     let crumbsRoot = document.querySelector('.kes-crumbs');
                     crumbsRoot.innerHTML = '<h2>' + headerTitle + ' ' +
-                        '<i class="' + layoutArr.header.separator + '"></i> ' +
+                        '<i class="' + layoutArr.header.separator.icon + '"></i> ' +
                         tabName + '</h2>';
                     let crumbsChild = crumbsRoot.children[0]
                     let modCounter = document.createElement('text');
@@ -818,12 +839,13 @@ function constructMenu (json, layoutArr, isNew) {
 
         const bugIcon = document.createElement("span");
         bugIcon.className = "kes-settings-modal-bug-icon";
-        bugIcon.innerHTML = '<i class="' + layoutArr.header.bug + '"></i>';
+        bugIcon.innerHTML = '<i class="' + layoutArr.header.bug.icon + '"></i>';
         bugLink.appendChild(bugIcon)
 
         const debugClip = document.createElement("i");
         const clipClass = "kes-debug-clipboard"
-        debugClip.className = clipClass + " " + layoutArr.header.clipboard;
+        debugClip.className = clipClass + " " + layoutArr.header.clipboard.icon;
+        debugClip.title = layoutArr.header.clipboard.tooltip;
         footer.appendChild(debugClip)
         debugClip.addEventListener('click', ()=> {
             const userPlatform = navigator.platform;
@@ -833,9 +855,9 @@ function constructMenu (json, layoutArr, isNew) {
             const kesUserSettings = localStorage["kes-settings"];
             const toPaste = `OS: ${userPlatform}\nAgent: ${userAgent}\nKES version: ${version}\nHandler: ${handler}\nIncog: ${incog}\nSettings: ${kesUserSettings}`
             navigator.clipboard.writeText(toPaste);
-            debugClip.className = clipClass + " " + layoutArr.header.check;
+            debugClip.className = clipClass + " " + layoutArr.header.check.icon;
             function revertIcon () {
-                debugClip.className = "kes-debug-clipboard " + layoutArr.header.clipboard
+                debugClip.className = "kes-debug-clipboard " + layoutArr.header.clipboard.icon
             }
             window.setTimeout(revertIcon,600);
         });
@@ -868,9 +890,11 @@ function constructMenu (json, layoutArr, isNew) {
         const dockIcon = document.querySelector('.kes-dock i');
         if (settings.dock == 'down') {
             container.classList.add('kes-docked');
-            dockIcon.className = layoutArr.header.dock_up;
+            dockIcon.className = layoutArr.header.dock_up.icon;
+            dockIcon.title = layoutArr.header.dock_up.tooltip;
         } else {
-            dockIcon.className = layoutArr.header.dock_down;
+            dockIcon.className = layoutArr.header.dock_down.icon;
+            dockIcon.title = layoutArr.header.dock_down.tooltip;
         }
 
 
@@ -892,13 +916,15 @@ function constructMenu (json, layoutArr, isNew) {
         modal.querySelector('.kes-dock i').addEventListener("click", (e) => {
             const settings = getSettings();
             let cn = e.target.className;
-            if (cn == layoutArr.header.dock_down) {
+            if (cn == layoutArr.header.dock_down.icon) {
                 container.classList.add('kes-docked');
-                e.target.className = layoutArr.header.dock_up;
+                e.target.className = layoutArr.header.dock_up.icon;
+                e.target.title = layoutArr.header.dock_up.tooltip;
                 settings.dock = 'down';
             } else {
                 container.classList.remove('kes-docked');
-                e.target.className = layoutArr.header.dock_down;
+                e.target.className = layoutArr.header.dock_down.icon;
+                e.target.title = layoutArr.header.dock_down.tooltip;
                 settings.dock = 'up';
 
             }
@@ -1052,16 +1078,20 @@ function constructMenu (json, layoutArr, isNew) {
     const watchedNode2 = document.querySelector('#comments');
     const obs = new MutationObserver(initmut);
     init();
-    obs.observe(watchedNode, {
-        subtree: true,
-        childList: true,
-        attributes: false
-    });
-    obs.observe(watchedNode2, {
-        subtree: false,
-        childList: true,
-        attributes: false
-    });
+    if (watchedNode) {
+        obs.observe(watchedNode, {
+            subtree: true,
+            childList: true,
+            attributes: false
+        });
+    }
+    if (watchedNode2) {
+        obs.observe(watchedNode2, {
+            subtree: false,
+            childList: true,
+            attributes: false
+        });
+    }
 }
 
 const versionElement = document.createElement('a');
