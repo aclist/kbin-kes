@@ -363,22 +363,50 @@ to such a function:
 - setValue
 - getValue
 - addStyle
+- removeStyle*
 - xmlhttpRequest
 - setClipboard
 
 These are the functions currently supported, but more may be added if necessary. Given that KES handles the setting and fetching of configs, we have not
 seen many scripts need to leverage extra functionality through GreaseMonkey itself.
 
-Additional, `GM_info` can be invoked using `safeGM("info")` and the properties of the resulting object parsed out, e.g., `safeGM("info").script.version`.
+Additionaly, `GM_info` can be invoked using `safeGM("info")` and the properties of the resulting object parsed out, e.g., `safeGM("info").script.version`.
 
-Note that if using `setValue`, `getValue`, and `xmlHttpRequest`, you will need to call safeGM asynchronously and await the results to support GM 4.0. This
-should generally not be necessary, as KES handles storage of settings.
+Note that if using `setValue`, `getValue`, and `xmlHttpRequest`, you will need to call safeGM asynchronously and await the results to support GM 4.0.
+However, using these methods should generally not be necessary, as KES handles storage of settings.
 
-Also note that getResourceText is not available in GM 4.0, so in the unlikely event that you need to use this function in a script, rather than defining
+Also note that `getResourceText` is not available in GM 4.0, so in the unlikely event that you need to use this function in a script, rather than defining
 `@resource` fields, you should fall back on `xmlhttpRequest`, or in this case, `genericXMLRequest` (outlined below), and parse the results on callback.
 
-Lastly, KES provides a utility function called `genericXMLRequest()` that wraps `xmlhttpRequest` to perform a GET request and obviates setting
+`removeStyle` is not a native GM function, but is provided by KES to extend the functionality of `addStyle` with its logical counterpart: this method
+is mapped to the underlying function `removeCustomCSS`, but is called by the argument `removeStyle` to safeGM for semantic purposes, given that it is
+intended to do the opposite.
+
+.removeCustomCSS()
+----
+function removeCustomCSS (id) {
+    const toRemove = document.getElementById(id);
+    if (toRemove) {
+        document.head.removeChild(toRemove);
+    } else {
+        return
+    }
+}
+----
+
+In this way, `removeStyle` removes a named stylesheet from the document head; when used in conjunction with `addStyle`, it allows for
+seamlessly inserting and cleaning up rules to ensure that changes to the page occur on the fly, and obviating more brute-force methods like
+DOM manipulation or show/hide with jQuery. It is generally good practice to call `removeStyle` before `addStyle` in order to clean up
+any previously existing stylesheets by that name before re-inserting them.
+
+=== Utility functions
+
+Lastly, KES provides a set of utility functions.
+
+The first is `genericXMLRequest()`, which wraps `xmlhttpRequest` to perform a GET request and obviates setting
 up an object: simply pass the remote URL and callback function as arguments and process the response in your callback function.
+This is generally not needed by scripts, but is used when fetching, e.g., the contents of another page within the same instance,
+such as for pagination purposes.
 
 .genericXMLRequest()
 ----
@@ -391,9 +419,31 @@ function genericXMLRequest (url, callback) {
             "User-Agent": "Mozilla/5.0",
             "Accept": "text/xml"
         },
-
     });
 };
+----
+
+The second is `getHex()`, which supports translation of internal kbin theme variables into their corresponding hex color values.
+This allows you to set sane defaults which, instead of hardcoding color values, respect the user's theme settings. For example, setting
+`initial: var(--kbin-upvoted-color)` for the value of a custom field will ensure that whatever color is being used by the current theme is 
+interpolated correctly.
+
+`getHex()` is also used internally by KES, and can be used by scripts when passing around settings information in order to parse the incoming value
+without resorting to hardcoding.
+
+.getHex()
+----
+function getHex (value) {
+    let realHex;
+    const firstChar = Array.from(value)[0];
+    const theme = document.querySelector('body');
+    if (firstChar === "-") {
+        realHex = getComputedStyle(theme).getPropertyValue(value);
+    } else {
+        realHex = value;
+    }
+    return realHex;
+}
 ----
 
 === Submitting a PR
@@ -441,17 +491,18 @@ complex workflows; scripts that make highly opinionated changes or themselves cr
 - If changing colors on a page, it is best to respect kbin's internal themes by using the variables provided. These can be explored under the `var(--kbin-*)` prefix.
 A number of variables for success, alerts, backgrounds, text, hover, etc. are provided. These map to different colors within the theme a user has selected. If you hardcode
 an element to a specific color, there is a high likelihood it may not be visible on a dark or light theme, respectively. Similarly, do not set fonts verbatim, but use the 
-`var(--kbin-body-font-family)` for a set of fallback fonts.
+`var(--kbin-body-font-family)` for a set of fallback fonts. Refer to `getHex()` in the section <<Utility functions>> above for details on how to convert
+color abstractions into hex values on the fly.
 
 ==== Conventions
+- PREFER: https://www.conventionalcommits.org/en/v1.0.0/[conventional commits]
+- PREFER: 100 line width
 - MUST: 4-space indentation on *.js files
 - MUST: 2-space indentation on *.json files
 - MUST: space before function paren
 - MUST: space before code blocks
 - MUST NOT: comma dangle
 - MUST NOT: spaces in curly objects
-- PREFER: 80 line width
 
 See `.eslintrc.json` in the repository root for details.
 
-- PREFER: https://www.conventionalcommits.org/en/v1.0.0/[conventional commits]

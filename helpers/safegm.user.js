@@ -29,18 +29,17 @@ function addCustomCSS (css, id) {
     document.head.appendChild(style);
 }
 function removeCustomCSS (id) {
-    const toRemove = document.getElementById(id)
+    const toRemove = document.getElementById(id);
     if (toRemove) {
         document.head.removeChild(toRemove);
     } else {
         return
     }
-
 }
 function getHex (value) {
-    const firstChar = Array.from(value)[0];
     let realHex;
-    const theme = document.querySelector('body')
+    const firstChar = Array.from(value)[0];
+    const theme = document.querySelector('body');
     if (firstChar === "-") {
         realHex = getComputedStyle(theme).getPropertyValue(value);
     } else {
