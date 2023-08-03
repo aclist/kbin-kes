@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 - Customize colors (minnieo)
 - Hover mod (minnieo)
 - Checkmark next to subbed mags (shazbot)
-- API: getHex();
+- API: getHex()
 - API: manifest generator
 ### Fixed
 - Alpha sort list: also apply to followers page
