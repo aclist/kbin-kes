@@ -26,10 +26,13 @@ function checksInit (toggle, mutation) {
         }
     }
     function setChecks (subs) {
-        document.querySelectorAll('#kes-omni-check').forEach((item) => {
-            item.style.color = getHex(checkColor);
-        });
-        document.querySelectorAll('.magazine-inline.instance').forEach((item) => {
+        const exists = document.querySelector('#kes-omni-check')
+        if (exists) {
+            document.querySelectorAll('#kes-omni-check').forEach((item) => {
+                item.style.color = getHex(checkColor);
+            });
+        }
+        document.querySelectorAll('.magazine-inline').forEach((item) => {
             addCheck(subs, item)
         });
     }
