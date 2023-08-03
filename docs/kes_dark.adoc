@@ -370,7 +370,7 @@ to such a function:
 These are the functions currently supported, but more may be added if necessary. Given that KES handles the setting and fetching of configs, we have not
 seen many scripts need to leverage extra functionality through GreaseMonkey itself.
 
-Additionaly, `GM_info` can be invoked using `safeGM("info")` and the properties of the resulting object parsed out, e.g., `safeGM("info").script.version`.
+Additionally, `GM_info` can be invoked using `safeGM("info")` and the properties of the resulting object parsed out, e.g., `safeGM("info").script.version`.
 
 Note that if using `setValue`, `getValue`, and `xmlHttpRequest`, you will need to call safeGM asynchronously and await the results to support GM 4.0.
 However, using these methods should generally not be necessary, as KES handles storage of settings.
