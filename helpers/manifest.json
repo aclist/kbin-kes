@@ -1092,6 +1092,7 @@
         "label": "Meta key",
         "values": [
           "Backtick",
+          "Minus",
           "Equals",
           "Left bracket",
           "Right bracket",
