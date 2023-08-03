@@ -7,13 +7,13 @@ All notable changes to this project will be documented in this file.
 - Customize colors (minnieo)
 - Hover mod (minnieo)
 - Checkmark next to subbed mags (shazbot)
-- API: getHex();
+- API: getHex()
 - API: manifest generator
 ### Fixed
 - Alpha sort list: also apply to followers page
 - Display custom colors correctly in KES menus when user updates colors
-- Notifiations panel: fit the panel better into the viewport on narrow mobile devices
-- Hide thumbnails: ensure that default CSS is restored on mobile
+- Notifications panel: fit into viewport on narrow mobile devices
+- Hide thumbnails: restore default CSS when disabled on mobile
 ## 2.1.4
 ### Fixed
 - Dropdown subscriptions: target hostnames other than kbin.social
