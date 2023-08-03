@@ -287,7 +287,6 @@ function omniInit (toggle) {
                     }
                     makeActive(vis[pos]);
                     scrollList('down', vis[pos]);
-
                     break;
                 }
                 case "ArrowUp": {
@@ -306,7 +305,7 @@ function omniInit (toggle) {
                 }
             });
             search.addEventListener("keyup", (e) => {
-                switch (e.keyCode) {
+                switch (e.key) {
                 case "Enter": {
                     const act = document.querySelector("#kes-omni-list li.kes-subs-active")
                     const dest = act.textContent
@@ -433,7 +432,6 @@ function omniInit (toggle) {
             ktb.style.cssText = 'opacity:0;width:0'
             ktb.id = 'kes-omni-keytrap'
             kth.appendChild(ktb)
-            console.log("inserting keytrap")
             pageHolder.insertBefore(kth, pageHolder.children[0])
             ktb.addEventListener('keyup',kickoffListener)
             const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
@@ -448,8 +446,6 @@ function omniInit (toggle) {
         const e = []
         safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e)
         safeGM("setValue",`omni-default-mags-${hostname}`, e)
-        //TODO: redundant
-        const kt = document.querySelector('#kes-omni-keytrap')
         const q = document.querySelector('.kes-omni-modal')
         if (kt) {
             kt.remove();
