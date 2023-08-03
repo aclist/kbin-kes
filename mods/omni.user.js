@@ -76,7 +76,7 @@ function omniInit (toggle) {
     const keyCodes = {
         "Backtick": 192,
         "Backslash": 220,
-        "Tab": 9,
+        "Minus": 173,
         "Equals": 61,
         "Left bracket": 219,
         "Right bracket": 221
@@ -419,7 +419,7 @@ function omniInit (toggle) {
             //start hidden
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
-            //
+
             function keyTrap(e){
                 if (e.target.tagName === "INPUT") return
                 if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
