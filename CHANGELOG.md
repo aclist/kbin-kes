@@ -16,6 +16,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Dropdown subscriptions: target hostnames other than kbin.social
 - Notifications panel: target hostnames other than kbin.social
+- Notifications panel: fit into viewport on narrow mobile devices
+- Hide thumbnails: restore default CSS when disabled on mobile
 ## 2.1.3
 ### Fixed
 - Make notipanel button more clickable
