@@ -74,12 +74,12 @@ function omniInit (toggle) {
     }
     `
     const keyCodes = {
-        "Backtick": 192,
-        "Backslash": 220,
-        "Minus": 173,
-        "Equals": 61,
-        "Left bracket": 219,
-        "Right bracket": 221
+        "Backtick": "`",
+        "Backslash": "\\",
+        "Minus": "-",
+        "Equals": "=",
+        "Left bracket": "[",
+        "Right bracket": "]"
     }
 
     const settings = getModSettings('omni');
@@ -239,7 +239,7 @@ function omniInit (toggle) {
             }
         }
         function kickoffListener (e) {
-            if (e.keyCode !== code) return
+            if (e.key !== code) return
             e.preventDefault();
             const exists = document.querySelector('.kes-omni-modal')
             if (exists) {
@@ -271,12 +271,12 @@ function omniInit (toggle) {
             search.id = "kes-omni-search"
             search.setAttribute
             search.addEventListener("keydown", (e) => {
-                switch (e.keyCode) {
+                switch (e.key) {
                 case code: {
                     kickoffListener(e)
                     break;
                 }
-                case 40: {
+                case "ArrowDown": {
                     e.preventDefault();
                     let packed = updateVisible();
                     let vis = packed[0]
@@ -290,7 +290,7 @@ function omniInit (toggle) {
 
                     break;
                 }
-                case 38: {
+                case "ArrowUp": {
                     e.preventDefault();
                     let packed = updateVisible();
                     let vis = packed[0]
@@ -307,17 +307,17 @@ function omniInit (toggle) {
             });
             search.addEventListener("keyup", (e) => {
                 switch (e.keyCode) {
-                case 13: {
+                case "Enter": {
                     const act = document.querySelector("#kes-omni-list li.kes-subs-active")
                     const dest = act.textContent
                     window.location = `https://${hostname}/m/${dest}`
                     break;
                 }
-                case 38: {
+                case "ArrowUp": {
                     e.preventDefault();
                     break;
                 }
-                case 40: {
+                case "ArrowDown": {
                     break;
                 }
                 case code: {
