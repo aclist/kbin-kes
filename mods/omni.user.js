@@ -416,7 +416,6 @@ function omniInit (toggle) {
 
             }
 
-            //start hidden
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
 
@@ -426,29 +425,20 @@ function omniInit (toggle) {
                 const kt = document.querySelector('#kes-omni-keytrap')
                 kt.focus()
             }
-            function keyTrap2(e){
-                kickoffListener(e)
-            }
-            //TODO: replaced by top of script removal
-            //forcibly remove old listener
-            const kt = document.querySelector('#kes-omni-keytrap')
-            if (kt) {
-                kt.remove();
-            }
-            //TODO: rename tokens
-            const b = document.querySelector('.kbin-container')
-            const holder = document.createElement('div');
-            holder.style.cssText = 'height: 0px; width: 0px'
+
+            const pageHolder = document.querySelector('.kbin-container')
+            const kth = document.createElement('div');
+            kth.style.cssText = 'height: 0px; width: 0px'
             const ktb = document.createElement('button')
             ktb.style.cssText = 'opacity:0;width:0'
             ktb.id = 'kes-omni-keytrap'
-            holder.appendChild(ktb)
-            b.insertBefore(holder, b.children[0])
-            ktb.addEventListener('keyup',keyTrap2)
-            const uu = document.querySelector('[data-controller="kbin notifications"]')
-            uu.addEventListener('keydown',keyTrap)
+            kth.appendChild(ktb)
+            console.log("inserting keytrap")
+            pageHolder.insertBefore(kth, pageHolder.children[0])
+            ktb.addEventListener('keyup',kickoffListener)
+            const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
+            globalKeyInsert.addEventListener('keydown',keyTrap)
 
-            //document.addEventListener('keydown', kickoffListener)
 
         }
     }
