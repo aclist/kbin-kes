@@ -446,6 +446,7 @@ function omniInit (toggle) {
         const e = []
         safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e)
         safeGM("setValue",`omni-default-mags-${hostname}`, e)
+        const kt = document.querySelector('#kes-omni-keytrap')
         const q = document.querySelector('.kes-omni-modal')
         if (kt) {
             kt.remove();
