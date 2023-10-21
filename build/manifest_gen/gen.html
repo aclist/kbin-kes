@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Generate manifest</title>
+    <link rel="stylesheet" href="gen.css">
+</head>
+
+<body>
+<div id="header"></div>
+<div id="holder">
+    <div id="buttons">
+        <h2>Fields</h2>
+        <p>Set up manifest fields</p>
+    </div>
+    <div id="json">
+        <h2>JSON</h2>
+        <p>Rendered JSON output</p>
+        <pre id="textpreview"></pre>
+    </div>
+    <div id="example">
+        <h2>Preview</h2>
+        <p>*Not implemented yet</p>
+        <div id="box">
+            <input id="kes-checkbox" type="checkbox" class="tgl kes-tgl"></input>
+            <label class="tgl-btn" for="kes-checkbox"></label>
+            <b>Authors:</b>
+            <text class="authors-skel"></text>
+            <br><br>
+            <b>Login required:</b>
+            <text class="login-skel"></text>
+            <br><br>
+            <b>Description</b>
+            <br>
+            <text class="desc-skel">Lorem ipsum</text>
+            </div>
+    </div>
+
+</div>
+<script src="jquery.min.js"></script>
+<script src="gen.js"></script>
+</body>
+</html>
