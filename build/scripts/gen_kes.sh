@@ -136,7 +136,6 @@ main(){
     echo "//END AUTO MASTHEAD"
     awk 'x==1 {print $0} /END AUTO MASTHEAD/{x=1}' $base_file.bak
 }
-cd ../..
 name=KES
 author=aclist
 license=MIT
