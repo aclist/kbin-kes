@@ -1,41 +1,11 @@
 #!/usr/bin/env bash
 
+
 get_owner(){
     local raw=$(git config --get remote.origin.url)
     local owner=$(<<< "$raw" awk -F[:,/] '{print $2}')
     echo "$owner"
 }
-
-name=KES
-author=aclist
-license=MIT
-version=$(cat VERSION)
-desc="Kbin Enhancement Suite"
-branch=$(git branch --show-current)
-[[ -n $1 ]] && branch=$1
-base_file="kes.user.js"
-manifest="./helpers/manifest.json"
-owner=$(get_owner)
-slug="${owner}/kbin-kes"
-
-instances=(
-    "https://kbin.social/*"
-    "https://lab2.kbin.pub/*"
-    "https://lab3.kbin.pub/*"
-    "https://fedia.io/*"
-    "https://karab.in/*"
-    "https://kbin.cafe/*"
-)
-grants=(
-    "addStyle"
-    "getResourceText"
-    "xmlhttpRequest"
-    "info"
-    "getValue"
-    "setValue"
-    "getResourceText"
-    "setClipboard"
-)
 gen_line(){
 	printf "// @%s\t%s\n" "$1" "$2"
 }
@@ -78,6 +48,7 @@ gen_requires(){
     prefix="https://github.com/$slug/raw/$branch/"
     deps=(
         "safegm.user.js"
+        "kbin-mod-options.js"
     )
     external=(
         "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"
@@ -94,7 +65,7 @@ gen_requires(){
         gen_line "require" "${external[$i]}"
     done
     for (( i = 0; i < ${#mods[@]}; i++ )); do
-        local str="${prefix}mods/${mods[$i]}"
+        local str="${prefix}mods/${mods[$i]}/${mods[$i]}.user.js"
         gen_line "require" "$str"
     done
     for i in "${!resources[@]}"; do
@@ -165,6 +136,37 @@ main(){
     echo "//END AUTO MASTHEAD"
     awk 'x==1 {print $0} /END AUTO MASTHEAD/{x=1}' $base_file.bak
 }
+cd ../..
+name=KES
+author=aclist
+license=MIT
+version=$(cat VERSION)
+desc="Kbin Enhancement Suite"
+branch=$(git branch --show-current)
+[[ -n $1 ]] && branch=$1
+base_file="kes.user.js"
+manifest="./helpers/manifest.json"
+owner=$(get_owner)
+slug="${owner}/kbin-kes"
+
+instances=(
+    "https://kbin.social/*"
+    "https://lab2.kbin.pub/*"
+    "https://lab3.kbin.pub/*"
+    "https://fedia.io/*"
+    "https://karab.in/*"
+    "https://kbin.cafe/*"
+)
+grants=(
+    "addStyle"
+    "getResourceText"
+    "xmlhttpRequest"
+    "info"
+    "getValue"
+    "setValue"
+    "getResourceText"
+    "setClipboard"
+)
 readarray -t funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | sort)
 readarray -t eslint_funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | sort)
 eslint_funcs+=("safeGM" "getHex")

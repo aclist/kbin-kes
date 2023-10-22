@@ -1,0 +1,11 @@
+{
+  "name": "Add subs to navbar",
+  "author": "shazbot",
+  "version": "0.1.0",
+  "label": "Add subs to navbar",
+  "login": true,
+  "recurs": false,
+  "desc": "Add magazine subscription link to navbar",
+  "entrypoint": "initMags",
+  "page": "navbar"
+}
