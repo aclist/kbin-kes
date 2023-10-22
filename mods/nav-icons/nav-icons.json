@@ -1,0 +1,42 @@
+{
+  "name": "Navbar icons",
+  "author": "shazbot",
+  "version": "0.1.0",
+  "label": "Navbar icons as text",
+  "desc": "Change navbar search/post icons to text strings",
+  "login": false,
+  "recurs": true,
+  "entrypoint": "navbarIcons",
+  "namespace": "nav_icons",
+  "fields": [
+    {
+      "type": "range",
+      "initial": 5,
+      "key": "fontWeight",
+      "label": "Select a font weight",
+      "step": 1,
+      "min": 3,
+      "max": 9,
+      "show_value": true
+    },
+    {
+      "type": "text",
+      "initial": "Search",
+      "key": "search",
+      "label": "Search icon"
+    },
+    {
+      "type": "text",
+      "initial": "Post",
+      "key": "post",
+      "label": "Post icon"
+    },
+    {
+      "type": "text",
+      "initial": "Subs",
+      "key": "subs",
+      "label": "Subs icon"
+    }
+  ],
+  "page": "navbar"
+}

@@ -1,87 +1,122 @@
 [
   {
-    "name": "Add mail",
+    "name": "Hide Reputation",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide reputation",
+    "desc": "Hide reputation on users' profiles",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "hideReputation",
+    "page": "profiles"
+  },
+  {
+    "name": "Hide sidebar",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Add mail icon",
-    "desc": "Add mail link to usernames if on own instance",
+    "label": "Hide sidebar elements",
     "login": false,
     "recurs": true,
-    "entrypoint": "addMail",
-    "namespace": "mail",
+    "desc": "Hide/unhide sidebar elements",
+    "entrypoint": "hideSidebar",
+    "namespace": "hide-sidebar",
+    "page": "general",
     "fields": [
       {
+        "label": "Elements to hide",
+        "key": "sidebar",
+        "type": "checkbox",
+        "checkbox_label": "Hide sidebar entirely"
+      },
+      {
+        "key": "mags",
+        "type": "checkbox",
+        "checkbox_label": "Random mags"
+      },
+      {
+        "key": "users",
+        "type": "checkbox",
+        "checkbox_label": "Active users"
+      },
+      {
+        "key": "posts",
+        "type": "checkbox",
+        "checkbox_label": "Random posts"
+      },
+      {
+        "key": "threads",
+        "type": "checkbox",
+        "checkbox_label": "Random threads"
+      },
+      {
+        "key": "instance",
+        "type": "checkbox",
+        "checkbox_label": "Create your own instance promo"
+      },
+      {
+        "key": "intro",
+        "type": "checkbox",
+        "checkbox_label": "Explore the fediverse intro text"
+      }
+    ]
+  },
+  {
+    "name": "Subs omnibar",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Subscriptions omnibar",
+    "desc": "Quickly jump to a magazine by viewing your subs in a floating search panel (type to search). Use the meta key to open/close the omnibar. The meta key will not take effect inside of text fields. If you are logged out, the omnibar shows default magazines (most popular). To refresh the cached list of your magazines or change settings while this add-on is enabled, toggle off and then on again.",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "omniInit",
+    "namespace": "omni",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "mobile",
+        "label": "Mobile device support",
+        "checkbox_label": "Add tappable element to screen"
+      },
+      {
         "type": "radio",
-        "initial": "Text",
-        "key": "type",
-        "label": "Label type",
+        "initial": "Backtick",
+        "key": "meta",
+        "label": "Meta key",
         "values": [
-          "Text",
-          "Icon"
+          "Backtick",
+          "Minus",
+          "Equals",
+          "Left bracket",
+          "Right bracket",
+          "Backslash"
         ]
-      },
-      {
-        "type": "text",
-        "initial": "PM",
-        "key": "text",
-        "label": "Label text"
-      },
-      {
-        "type": "text",
-        "initial": "submitted by",
-        "key": "prefix",
-        "label": "Poster prefix (use single space for empty)"
       }
     ],
     "page": "general"
   },
   {
-    "name": "Add subs to navbar",
+    "name": "Hide thumbnails",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Add subs to navbar",
-    "login": true,
-    "recurs": false,
-    "desc": "Add magazine subscription link to navbar",
-    "entrypoint": "initMags",
-    "page": "navbar"
-  },
-  {
-    "name": "Label OP",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Add OP label",
+    "label": "Hide thumbnails",
     "login": false,
     "recurs": true,
-    "desc": "Print OP label next to thread author",
-    "entrypoint": "labelOp",
-    "namespace": "labelcolors",
-    "page": "threads",
+    "desc": "Hide thumbnails on threads and comments",
+    "entrypoint": "hideThumbs",
+    "page": "general",
+    "namespace": "hidethumbs",
     "fields": [
       {
-        "type": "color",
-        "initial": "#FFFFFF",
-        "key": "fgcolor",
-        "label": "Foreground color"
+        "type": "checkbox",
+        "key": "index",
+        "checkbox_label": "Hide on thread index"
       },
       {
-        "type": "color",
-        "initial": "#111111",
-        "key": "bgcolor",
-        "label": "Background color"
+        "type": "checkbox",
+        "key": "inline",
+        "checkbox_label": "Hide inline thumbnails"
       }
     ]
-  },
-  {
-    "name": "Dropdown links",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Dropdown links",
-    "login": false,
-    "recurs": false,
-    "desc": "Convert navigation links on profile pages to dropdown",
-    "entrypoint": "dropdownEntry",
-    "page": "profile"
   },
   {
     "name": "kbin-federation-awareness",
@@ -144,6 +179,704 @@
       }
     ],
     "page": "threads"
+  },
+  {
+    "name": "Label OP",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Add OP label",
+    "login": false,
+    "recurs": true,
+    "desc": "Print OP label next to thread author",
+    "entrypoint": "labelOp",
+    "namespace": "labelcolors",
+    "page": "threads",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "#FFFFFF",
+        "key": "fgcolor",
+        "label": "Foreground color"
+      },
+      {
+        "type": "color",
+        "initial": "#111111",
+        "key": "bgcolor",
+        "label": "Background color"
+      }
+    ]
+  },
+  {
+    "name": "Notifications panel",
+    "author": [
+      "blobcat",
+      "shazbot"
+    ],
+    "version": "0.3.0",
+    "label": "Add a notifications panel",
+    "login": true,
+    "recurs": false,
+    "desc": "Adds a floating notifications panel to the navbar",
+    "entrypoint": "notificationsPanel",
+    "page": "navbar"
+  },
+  {
+    "name": "Hide Downvotes",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide reduces",
+    "login": false,
+    "recurs": true,
+    "desc": "Hide reduces (downvotes) on threads, posts, and comments",
+    "entrypoint": "hideDownvotes",
+    "page": "general"
+  },
+  {
+    "name": "Always expand post bodies",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Always expand post bodies",
+    "login": false,
+    "recurs": false,
+    "desc": "Auto-expands long post bodies instead of starting collapsed",
+    "entrypoint": "moreInit",
+    "page": "threads"
+  },
+  {
+    "name": "Rearrange comments",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Rearrange post order",
+    "login": false,
+    "recurs": false,
+    "desc": "Rearrange the order elements appear inside threads. Recommended sort order is 1, 4, 5, 3, 2",
+    "namespace": "rearrange",
+    "entrypoint": "rearrangeInit",
+    "page": "threads",
+    "fields": [
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 1,
+        "label": "Original post",
+        "key": "op"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 2,
+        "label": "Thread sort options",
+        "key": "options"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 3,
+        "label": "Comments",
+        "key": "comments"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 4,
+        "label": "Add comment",
+        "key": "post"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "initial": 5,
+        "label": "Activity panel",
+        "key": "activity"
+      }
+    ]
+  },
+  {
+    "name": "Dropdown links",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Dropdown links",
+    "login": false,
+    "recurs": false,
+    "desc": "Convert navigation links on profile pages to dropdown",
+    "entrypoint": "dropdownEntry",
+    "page": "profile"
+  },
+  {
+    "name": "User Instance Names",
+    "author": "artillect",
+    "version": "0.1",
+    "label": "User instance names",
+    "desc": "Show instance names next to users",
+    "entrypoint": "userInstanceEntry",
+    "page": "general"
+  },
+  {
+    "name": "Collapsible comments",
+    "author": "artillect",
+    "version": "1.4.0",
+    "label": "Collapsible comments",
+    "desc": "Collapse comments by clicking on their headers, and the bars to their left.",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "initCollapsibleComments",
+    "page": "threads",
+    "namespace": "collapsibleComments",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Headers and bars only",
+        "label": "Collapse by clicking:",
+        "key": "click",
+        "values": [
+          "On headers and bars only (requires reload)",
+          "Anywhere on comments"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Hide Upvotes",
+    "author": "artillect",
+    "version": "0.2",
+    "label": "Hide favorites",
+    "login": false,
+    "recurs": true,
+    "desc": "Hide favorites (upvotes) on threads, posts, and comments",
+    "entrypoint": "hideUpvotes",
+    "page": "general"
+  },
+  {
+    "name": "Unblur NSFW",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Unblur NSFW thumbnails",
+    "desc": "Makes NSFW thumbnails start unblurred by default.",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "unblurInit",
+    "page": "threads"
+  },
+  {
+    "name": "Hover indicator",
+    "author": "minnieo",
+    "version": "0.1.0",
+    "label": "Hover indicator",
+    "login": false,
+    "recurs": false,
+    "desc": "Apply an outline to elements that are being hovered over.",
+    "namespace": "hover",
+    "entrypoint": "hoverIndicator",
+    "page": "accessibility",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "--kbin-text-color",
+        "key": "color",
+        "label": "Outline color"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "initial": 2,
+        "label": "Thickness of outline",
+        "key": "thickness"
+      }
+    ]
+  },
+  {
+    "name": "Verbose timestamps",
+    "author": "shazbot",
+    "version": "0.1",
+    "label": "Verbose timestamps",
+    "login": false,
+    "recurs": true,
+    "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax. Note: toggling off will reload the page",
+    "entrypoint": "updateTime",
+    "page": "general",
+    "namespace": "timestamp",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "UTC",
+        "label": "Offset",
+        "key": "offset",
+        "values": [
+          "UTC",
+          "Local time"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Add mail",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Add mail icon",
+    "desc": "Add mail link to usernames if on own instance",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "addMail",
+    "namespace": "mail",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Text",
+        "key": "type",
+        "label": "Label type",
+        "values": [
+          "Text",
+          "Icon"
+        ]
+      },
+      {
+        "type": "text",
+        "initial": "PM",
+        "key": "text",
+        "label": "Label text"
+      },
+      {
+        "type": "text",
+        "initial": "submitted by",
+        "key": "prefix",
+        "label": "Poster prefix (use single space for empty)"
+      }
+    ],
+    "page": "general"
+  },
+  {
+    "name": "Submit post contents as bug report",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Report bug button on posts",
+    "login": false,
+    "recurs": true,
+    "desc": "Submit the contents of a post verbatim as a bug report to the KES issue tracker. Button is available from the 'More' menu under comments.",
+    "entrypoint": "bugReportInit",
+    "page": "debug"
+  },
+  {
+    "name": "Permanently hide posts",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Permanently hide posts",
+    "login": false,
+    "recurs": true,
+    "desc": "Adds a hide button to permanently hide posts from your feed. Untoggle to wipe the history of hidden posts and reset.",
+    "entrypoint": "hidePostsInit",
+    "page": "threads"
+  },
+  {
+    "name": "Adjust colors",
+    "author": "minnieo",
+    "version": "0.1.0",
+    "label": "Adjust colors",
+    "login": false,
+    "recurs": true,
+    "desc": "Adjust the colors of the site.",
+    "entrypoint": "adjustSite",
+    "namespace": "adjust",
+    "page": "accessibility",
+    "catch_reset": [
+      "sepia",
+      "hueRotate",
+      "bright",
+      "saturate",
+      "contrast",
+      "upvote",
+      "downvote",
+      "boost"
+    ],
+    "fields": [
+      {
+        "type": "reset",
+        "key": "resetAdjust",
+        "label": "Reset values to defaults:",
+        "value": "reset"
+      },
+      {
+        "type": "range",
+        "initial": 0,
+        "key": "sepia",
+        "label": "Sepia",
+        "step": 0.1,
+        "min": 0,
+        "max": 10,
+        "show_value": true
+      },
+      {
+        "type": "range",
+        "initial": 0,
+        "key": "hueRotate",
+        "label": "Hue",
+        "step": 1,
+        "min": 0,
+        "max": 36,
+        "show_value": true
+      },
+      {
+        "type": "range",
+        "initial": 0,
+        "key": "bright",
+        "label": "Brightness",
+        "step": 0.1,
+        "min": 0,
+        "max": 10,
+        "show_value": true
+      },
+      {
+        "type": "range",
+        "initial": 0,
+        "key": "saturate",
+        "label": "Saturation",
+        "step": 0.1,
+        "min": 0,
+        "max": 10,
+        "show_value": true
+      },
+      {
+        "type": "range",
+        "initial": 0,
+        "key": "contrast",
+        "label": "Contrast",
+        "step": "0.1",
+        "min": "0",
+        "max": "10",
+        "show_value": true
+      },
+      {
+        "type": "color",
+        "initial": "--kbin-upvoted-color",
+        "key": "upvote",
+        "label": "Upvote color"
+      },
+      {
+        "type": "color",
+        "initial": "--kbin-downvoted-color",
+        "key": "downvote",
+        "label": "Downvote color"
+      },
+      {
+        "type": "color",
+        "initial": "--kbin-meta-link-color",
+        "key": "boost",
+        "label": "Boost color"
+      },
+      {
+        "type": "checkbox",
+        "key": "border",
+        "checkbox_label": "Border around up/downvote buttons"
+      }
+    ]
+  },
+  {
+    "name": "Toggle logo",
+    "author": "shazbot",
+    "version": "0.1",
+    "label": "Toggle logo",
+    "login": false,
+    "recurs": false,
+    "desc": "Disable or use alternate logo on navbar",
+    "entrypoint": "toggleLogo",
+    "page": "navbar",
+    "namespace": "changelogo",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Hidden",
+        "label": "Logo type",
+        "key": "logotype",
+        "values": [
+          "Hidden",
+          "Kbin (no text)",
+          "Kibby",
+          "Kibby (no text)"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Customize font size",
+    "author": "minnieo",
+    "version": "0.1.0",
+    "label": "Change font size",
+    "login": false,
+    "recurs": true,
+    "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes. Note: reload required when toggling off.",
+    "entrypoint": "textResize",
+    "namespace": "resize",
+    "page": "accessibility",
+    "catch_reset": [
+      "optionHeader",
+      "optionPosts",
+      "optionComments",
+      "optionMagSidebar",
+      "optionHomeSidebar",
+      "optionCreate",
+      "optionProfile",
+      "optionUserSettings",
+      "optionMessages",
+      "optionSortBy",
+      "optionNotifs",
+      "optionFooter",
+      "optionActivity"
+    ],
+    "fields": [
+      {
+        "type": "reset",
+        "key": "resetNumFields",
+        "label": "Reset values to defaults:",
+        "value": "reset"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionHeader",
+        "label": "Header:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionPosts",
+        "label": "Posts:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionComments",
+        "label": "Comments:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionActivity",
+        "label": "Activity:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionNotifs",
+        "label": "Notifications:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionUserSettings",
+        "label": "Settings:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionSortBy",
+        "label": "Sort by bar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionMagSidebar",
+        "label": "Magazine Sidebar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 13,
+        "key": "optionHomeSidebar",
+        "label": "Front page Sidebar:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionCreate",
+        "label": "Create (threads, mags, links, etc):",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionProfile",
+        "label": "Profiles:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionMessages",
+        "label": "Messages:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      },
+      {
+        "type": "number",
+        "initial": 14,
+        "key": "optionFooter",
+        "label": "Footer:",
+        "step": "0.1",
+        "min": "5",
+        "max": "50"
+      }
+    ]
+  },
+  {
+    "name": "Thread checkmarks",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Checkmark on subbed mags",
+    "desc": "Append a checkmark to magazines on the thread index you are subscribed to. Depends on the 'Subs omnibar' option (Page: general)",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "checksInit",
+    "namespace": "checks",
+    "fields": [
+      {
+        "type": "color",
+        "key": "check-color",
+        "label": "Checkmark color",
+        "initial": "--kbin-upvoted-color"
+      }
+    ],
+    "page": "threads"
+  },
+  {
+    "name": "Navbar icons",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Navbar icons as text",
+    "desc": "Change navbar search/post icons to text strings",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "navbarIcons",
+    "namespace": "nav_icons",
+    "fields": [
+      {
+        "type": "range",
+        "initial": 5,
+        "key": "fontWeight",
+        "label": "Select a font weight",
+        "step": 1,
+        "min": 3,
+        "max": 9,
+        "show_value": true
+      },
+      {
+        "type": "text",
+        "initial": "Search",
+        "key": "search",
+        "label": "Search icon"
+      },
+      {
+        "type": "text",
+        "initial": "Post",
+        "key": "post",
+        "label": "Post icon"
+      },
+      {
+        "type": "text",
+        "initial": "Subs",
+        "key": "subs",
+        "label": "Subs icon"
+      }
+    ],
+    "page": "navbar"
+  },
+  {
+    "name": "Magazine Instance Names",
+    "author": "artillect",
+    "version": "0.1",
+    "label": "Magazine instance names",
+    "desc": "Show instance names next to magazines",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "magInstanceEntry",
+    "page": "general"
+  },
+  {
+    "name": "Alpha sort subs/followers",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Alpha sort subs/followers list",
+    "login": true,
+    "recurs": false,
+    "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions) and followers (/followers).",
+    "entrypoint": "alphaSortInit",
+    "page": "profile"
+  },
+  {
+    "name": "Kbin Easy Emoticon",
+    "author": "minnieo",
+    "version": "0.7.8",
+    "label": "Easy emoticons",
+    "login": true,
+    "recurs": false,
+    "desc": "Use slash commands for emoticons in text areas. /help to open a list of commands",
+    "entrypoint": "easyEmoticon",
+    "page": "general"
+  },
+  {
+    "name": "Mobile view cleanup",
+    "author": "Twelph",
+    "version": "0.1.0",
+    "label": "Mobile view cleanup",
+    "login": false,
+    "recurs": false,
+    "desc": "Hide elements in navbar to reduce clutter in mobile view",
+    "namespace": "mobilehide",
+    "entrypoint": "mobileHideInit",
+    "page": "mobile",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "filter",
+        "checkbox_label": "Hide filter icon"
+      },
+      {
+        "type": "checkbox",
+        "key": "view",
+        "checkbox_label": "Hide view icon"
+      }
+    ]
   },
   {
     "name": "kbin-code-highlighting",
@@ -344,318 +1077,26 @@
     "page": "threads"
   },
   {
-    "name": "Kbin Easy Emoticon",
-    "author": "minnieo",
-    "version": "0.7.8",
-    "label": "Easy emoticons",
+    "name": "Add subs to navbar",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Add subs to navbar",
     "login": true,
     "recurs": false,
-    "desc": "Use slash commands for emoticons in text areas. /help to open a list of commands",
-    "entrypoint": "easyEmoticon",
-    "page": "general"
-  },
-  {
-    "name": "Federated Instance Names",
-    "author": "artillect",
-    "version": "0.1",
-    "label": "Magazine instance names",
-    "desc": "Show instance names next to magazines",
-    "login": false,
-    "recurs": true,
-    "entrypoint": "magInstanceEntry",
-    "page": "general"
-  },
-  {
-    "name": "Federated Instance Names",
-    "author": "artillect",
-    "version": "0.1",
-    "label": "User instance names",
-    "desc": "Show instance names next to users",
-    "entrypoint": "userInstanceEntry",
-    "page": "general"
-  },
-  {
-    "name": "Hide Votes and Reputation",
-    "author": "artillect",
-    "version": "0.2",
-    "label": "Hide favorites",
-    "login": false,
-    "recurs": true,
-    "desc": "Hide favorites (upvotes) on threads, posts, and comments",
-    "entrypoint": "hideUpvotes",
-    "page": "general"
-  },
-  {
-    "name": "Hide Votes and Reputation",
-    "author": "artillect",
-    "version": "0.2",
-    "label": "Hide reduces",
-    "login": false,
-    "recurs": true,
-    "desc": "Hide reduces (downvotes) on threads, posts, and comments",
-    "entrypoint": "hideDownvotes",
-    "page": "general"
-  },
-  {
-    "name": "Hide Votes and Reputation",
-    "author": "artillect",
-    "version": "0.2",
-    "label": "Hide reputation",
-    "desc": "Hide reputation on users' profiles",
-    "login": false,
-    "recurs": false,
-    "entrypoint": "hideReputation",
-    "page": "profiles"
-  },
-  {
-    "name": "Verbose timestamps",
-    "author": "shazbot",
-    "version": "0.1",
-    "label": "Verbose timestamps",
-    "login": false,
-    "recurs": true,
-    "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax. Note: toggling off will reload the page",
-    "entrypoint": "updateTime",
-    "page": "general",
-    "namespace": "timestamp",
-    "fields": [
-      {
-        "type": "radio",
-        "initial": "UTC",
-        "label": "Offset",
-        "key": "offset",
-        "values": [
-          "UTC",
-          "Local time"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Toggle logo",
-    "author": "shazbot",
-    "version": "0.1",
-    "label": "Toggle logo",
-    "login": false,
-    "recurs": false,
-    "desc": "Disable or use alternate logo on navbar",
-    "entrypoint": "toggleLogo",
-    "page": "navbar",
-    "namespace": "changelogo",
-    "fields": [
-      {
-        "type": "radio",
-        "initial": "Hidden",
-        "label": "Logo type",
-        "key": "logotype",
-        "values": [
-          "Hidden",
-          "Kbin (no text)",
-          "Kibby",
-          "Kibby (no text)"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Collapsible comments",
-    "author": "artillect",
-    "version": "1.4.0",
-    "label": "Collapsible comments",
-    "desc": "Collapse comments by clicking on their headers, and the bars to their left.",
-    "login": false,
-    "recurs": false,
-    "entrypoint": "initCollapsibleComments",
-    "page": "threads",
-    "namespace": "collapsibleComments",
-    "fields": [
-      {
-        "type": "radio",
-        "initial": "Headers and bars only",
-        "label": "Collapse by clicking:",
-        "key": "click",
-        "values": [
-          "On headers and bars only (requires reload)",
-          "Anywhere on comments"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Hide thumbnails",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Hide thumbnails",
-    "login": false,
-    "recurs": true,
-    "desc": "Hide thumbnails on threads and comments",
-    "entrypoint": "hideThumbs",
-    "page": "general",
-    "namespace": "hidethumbs",
-    "fields": [
-      {
-        "type": "checkbox",
-        "key": "index",
-        "checkbox_label": "Hide on thread index"
-      },
-      {
-        "type": "checkbox",
-        "key": "inline",
-        "checkbox_label": "Hide inline thumbnails"
-      }
-    ]
-  },
-  {
-    "name": "Hide sidebar",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Hide sidebar elements",
-    "login": false,
-    "recurs": true,
-    "desc": "Hide/unhide sidebar elements",
-    "entrypoint": "hideSidebar",
-    "namespace": "hide-sidebar",
-    "page": "general",
-    "fields": [
-      {
-        "label": "Elements to hide",
-        "key": "sidebar",
-        "type": "checkbox",
-        "checkbox_label": "Hide sidebar entirely"
-      },
-      {
-        "key": "mags",
-        "type": "checkbox",
-        "checkbox_label": "Random mags"
-      },
-      {
-        "key": "users",
-        "type": "checkbox",
-        "checkbox_label": "Active users"
-      },
-      {
-        "key": "posts",
-        "type": "checkbox",
-        "checkbox_label": "Random posts"
-      },
-      {
-        "key": "threads",
-        "type": "checkbox",
-        "checkbox_label": "Random threads"
-      },
-      {
-        "key": "instance",
-        "type": "checkbox",
-        "checkbox_label": "Create your own instance promo"
-      },
-      {
-        "key": "intro",
-        "type": "checkbox",
-        "checkbox_label": "Explore the fediverse intro text"
-      }
-    ]
-  },
-  {
-    "name": "Submit post contents as bug report",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Report bug button on posts",
-    "login": false,
-    "recurs": true,
-    "desc": "Submit the contents of a post verbatim as a bug report to the KES issue tracker. Button is available from the 'More' menu under comments.",
-    "entrypoint": "bugReportInit",
-    "page": "debug"
-  },
-  {
-    "name": "Navbar icons",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Navbar icons as text",
-    "desc": "Change navbar search/post icons to text strings",
-    "login": false,
-    "recurs": true,
-    "entrypoint": "navbarIcons",
-    "namespace": "nav_icons",
-    "fields": [
-      {
-        "type": "range",
-        "initial": 5,
-        "key": "fontWeight",
-        "label": "Select a font weight",
-        "step": 1,
-        "min": 3,
-        "max": 9,
-        "show_value": true
-      },
-      {
-        "type": "text",
-        "initial": "Search",
-        "key": "search",
-        "label": "Search icon"
-      },
-      {
-        "type": "text",
-        "initial": "Post",
-        "key": "post",
-        "label": "Post icon"
-      },
-      {
-        "type": "text",
-        "initial": "Subs",
-        "key": "subs",
-        "label": "Subs icon"
-      }
-    ],
+    "desc": "Add magazine subscription link to navbar",
+    "entrypoint": "initMags",
     "page": "navbar"
   },
   {
-    "name": "Notifications panel",
-    "author": [
-      "blobcat",
-      "shazbot"
-    ],
-    "version": "0.3.0",
-    "label": "Add a notifications panel",
-    "login": true,
-    "recurs": false,
-    "desc": "Adds a floating notifications panel to the navbar",
-    "entrypoint": "notificationsPanel",
-    "page": "navbar"
-  },
-  {
-    "name": "Mobile view cleanup",
-    "author": "Twelph",
-    "version": "0.1.0",
-    "label": "Mobile view cleanup",
-    "login": false,
-    "recurs": false,
-    "desc": "Hide elements in navbar to reduce clutter in mobile view",
-    "namespace": "mobilehide",
-    "entrypoint": "mobileHideInit",
-    "page": "mobile",
-    "fields": [
-      {
-        "type": "checkbox",
-        "key": "filter",
-        "checkbox_label": "Hide filter icon"
-      },
-      {
-        "type": "checkbox",
-        "key": "view",
-        "checkbox_label": "Hide view icon"
-      }
-    ]
-  },
-  {
-    "name": "Always expand post bodies",
+    "name": "Clearer PM box",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Always expand post bodies",
-    "login": false,
+    "label": "Show recipient on compose",
+    "login": true,
     "recurs": false,
-    "desc": "Auto-expands long post bodies instead of starting collapsed",
-    "entrypoint": "moreInit",
-    "page": "threads"
+    "desc": "Lists the recipient in the message box title",
+    "entrypoint": "clarifyRecipientInit",
+    "page": "profile"
   },
   {
     "name": "Move federation warning to sidebar",
@@ -677,447 +1118,6 @@
           "Move to Sidebar",
           "Hide completely"
         ]
-      }
-    ],
-    "page": "threads"
-  },
-  {
-    "name": "Clearer PM box",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Show recipient on compose",
-    "login": true,
-    "recurs": false,
-    "desc": "Lists the recipient in the message box title",
-    "entrypoint": "clarifyRecipientInit",
-    "page": "profile"
-  },
-  {
-    "name": "Permanently hide posts",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Permanently hide posts",
-    "login": false,
-    "recurs": true,
-    "desc": "Adds a hide button to permanently hide posts from your feed. Untoggle to wipe the history of hidden posts and reset.",
-    "entrypoint": "hidePostsInit",
-    "page": "threads"
-  },
-  {
-    "name": "Alpha sort subs/followers",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Alpha sort subs/followers list",
-    "login": true,
-    "recurs": false,
-    "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions) and followers (/followers).",
-    "entrypoint": "alphaSortInit",
-    "page": "profile"
-  },
-  {
-    "name": "Rearrange comments",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Rearrange post order",
-    "login": false,
-    "recurs": false,
-    "desc": "Rearrange the order elements appear inside threads. Recommended sort order is 1, 4, 5, 3, 2",
-    "namespace": "rearrange",
-    "entrypoint": "rearrangeInit",
-    "page": "threads",
-    "fields": [
-      {
-        "type": "number",
-        "min": 1,
-        "max": 5,
-        "step": 1,
-        "initial": 1,
-        "label": "Original post",
-        "key": "op"
-      },
-      {
-        "type": "number",
-        "min": 1,
-        "max": 5,
-        "step": 1,
-        "initial": 2,
-        "label": "Thread sort options",
-        "key": "options"
-      },
-      {
-        "type": "number",
-        "min": 1,
-        "max": 5,
-        "step": 1,
-        "initial": 3,
-        "label": "Comments",
-        "key": "comments"
-      },
-      {
-        "type": "number",
-        "min": 1,
-        "max": 5,
-        "step": 1,
-        "initial": 4,
-        "label": "Add comment",
-        "key": "post"
-      },
-      {
-        "type": "number",
-        "min": 1,
-        "max": 5,
-        "step": 1,
-        "initial": 5,
-        "label": "Activity panel",
-        "key": "activity"
-      }
-    ]
-  },
-  {
-    "name": "Customize font size",
-    "author": "minnieo",
-    "version": "0.1.0",
-    "label": "Change font size",
-    "login": false,
-    "recurs": true,
-    "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes. Note: reload required when toggling off.",
-    "entrypoint": "textResize",
-    "namespace": "resize",
-    "page": "accessibility",
-    "catch_reset": [
-      "optionHeader",
-      "optionPosts",
-      "optionComments",
-      "optionMagSidebar",
-      "optionHomeSidebar",
-      "optionCreate",
-      "optionProfile",
-      "optionUserSettings",
-      "optionMessages",
-      "optionSortBy",
-      "optionNotifs",
-      "optionFooter",
-      "optionActivity"
-    ],
-    "fields": [
-      {
-        "type": "reset",
-        "key": "resetNumFields",
-        "label": "Reset values to defaults:",
-        "value": "reset"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionHeader",
-        "label": "Header:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionPosts",
-        "label": "Posts:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionComments",
-        "label": "Comments:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionActivity",
-        "label": "Activity:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionNotifs",
-        "label": "Notifications:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionUserSettings",
-        "label": "Settings:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionSortBy",
-        "label": "Sort by bar:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionMagSidebar",
-        "label": "Magazine Sidebar:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 13,
-        "key": "optionHomeSidebar",
-        "label": "Front page Sidebar:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionCreate",
-        "label": "Create (threads, mags, links, etc):",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionProfile",
-        "label": "Profiles:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionMessages",
-        "label": "Messages:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": 14,
-        "key": "optionFooter",
-        "label": "Footer:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      }
-    ]
-  },
-  {
-    "name": "Hover indicator",
-    "author": "minnieo",
-    "version": "0.1.0",
-    "label": "Hover indicator",
-    "login": false,
-    "recurs": false,
-    "desc": "Apply an outline to elements that are being hovered over.",
-    "namespace": "hover",
-    "entrypoint": "hoverIndicator",
-    "page": "accessibility",
-    "fields": [
-      {
-        "type": "color",
-        "initial": "--kbin-text-color",
-        "key": "color",
-        "label": "Outline color"
-      },
-      {
-        "type": "number",
-        "min": 1,
-        "max": 10,
-        "step": 1,
-        "initial": 2,
-        "label": "Thickness of outline",
-        "key": "thickness"
-      }
-    ]
-  },
-  {
-    "name": "Unblur NSFW",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Unblur NSFW thumbnails",
-    "desc": "Makes NSFW thumbnails start unblurred by default.",
-    "login": false,
-    "recurs": true,
-    "entrypoint": "unblurInit",
-    "page": "threads"
-  },
-  {
-    "name": "Adjust colors",
-    "author": "minnieo",
-    "version": "0.1.0",
-    "label": "Adjust colors",
-    "login": false,
-    "recurs": true,
-    "desc": "Adjust the colors of the site.",
-    "entrypoint": "adjustSite",
-    "namespace": "adjust",
-    "page": "accessibility",
-    "catch_reset": [
-      "sepia",
-      "hueRotate",
-      "bright",
-      "saturate",
-      "contrast",
-      "upvote",
-      "downvote",
-      "boost"
-    ],
-    "fields": [
-      {
-        "type": "reset",
-        "key": "resetAdjust",
-        "label": "Reset values to defaults:",
-        "value": "reset"
-      },
-      {
-        "type": "range",
-        "initial": 0,
-        "key": "sepia",
-        "label": "Sepia",
-        "step": 0.1,
-        "min": 0,
-        "max": 10,
-        "show_value": true
-      },
-      {
-        "type": "range",
-        "initial": 0,
-        "key": "hueRotate",
-        "label": "Hue",
-        "step": 1,
-        "min": 0,
-        "max": 36,
-        "show_value": true
-      },
-      {
-        "type": "range",
-        "initial": 0,
-        "key": "bright",
-        "label": "Brightness",
-        "step": 0.1,
-        "min": 0,
-        "max": 10,
-        "show_value": true
-      },
-      {
-        "type": "range",
-        "initial": 0,
-        "key": "saturate",
-        "label": "Saturation",
-        "step": 0.1,
-        "min": 0,
-        "max": 10,
-        "show_value": true
-      },
-      {
-        "type": "range",
-        "initial": 0,
-        "key": "contrast",
-        "label": "Contrast",
-        "step": "0.1",
-        "min": "0",
-        "max": "10",
-        "show_value": true
-      },
-      {
-        "type": "color",
-        "initial": "--kbin-upvoted-color",
-        "key": "upvote",
-        "label": "Upvote color"
-      },
-      {
-        "type": "color",
-        "initial": "--kbin-downvoted-color",
-        "key": "downvote",
-        "label": "Downvote color"
-      },
-      {
-        "type": "color",
-        "initial": "--kbin-meta-link-color",
-        "key": "boost",
-        "label": "Boost color"
-      },
-      {
-        "type": "checkbox",
-        "key": "border",
-        "checkbox_label": "Border around up/downvote buttons"
-      }
-    ]
-  },
-  {
-    "name": "Subs omnibar",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Subscriptions omnibar",
-    "desc": "Quickly jump to a magazine by viewing your subs in a floating search panel (type to search). Use the meta key to open/close the omnibar. The meta key will not take effect inside of text fields. If you are logged out, the omnibar shows default magazines (most popular). To refresh the cached list of your magazines or change settings while this add-on is enabled, toggle off and then on again.",
-    "login": false,
-    "recurs": false,
-    "entrypoint": "omniInit",
-    "namespace": "omni",
-    "fields": [
-      {
-        "type": "checkbox",
-        "key": "mobile",
-        "label": "Mobile device support",
-        "checkbox_label": "Add tappable element to screen"
-      },
-      {
-        "type": "radio",
-        "initial": "Backtick",
-        "key": "meta",
-        "label": "Meta key",
-        "values": [
-          "Backtick",
-          "Minus",
-          "Equals",
-          "Left bracket",
-          "Right bracket",
-          "Backslash"
-        ]
-      }
-    ],
-    "page": "general"
-  },
-  {
-    "name": "Thread checkmarks",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Checkmark on subbed mags",
-    "desc": "Append a checkmark to magazines on the thread index you are subscribed to. Depends on the 'Subs omnibar' option (Page: general)",
-    "login": false,
-    "recurs": true,
-    "entrypoint": "checksInit",
-    "namespace": "checks",
-    "fields": [
-      {
-        "type": "color",
-        "key": "check-color",
-        "label": "Checkmark color",
-        "initial": "--kbin-upvoted-color"
       }
     ],
     "page": "threads"

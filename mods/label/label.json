@@ -1,0 +1,26 @@
+{
+  "name": "Label OP",
+  "author": "shazbot",
+  "version": "0.1.0",
+  "label": "Add OP label",
+  "login": false,
+  "recurs": true,
+  "desc": "Print OP label next to thread author",
+  "entrypoint": "labelOp",
+  "namespace": "labelcolors",
+  "page": "threads",
+  "fields": [
+    {
+      "type": "color",
+      "initial": "#FFFFFF",
+      "key": "fgcolor",
+      "label": "Foreground color"
+    },
+    {
+      "type": "color",
+      "initial": "#111111",
+      "key": "bgcolor",
+      "label": "Background color"
+    }
+  ]
+}
