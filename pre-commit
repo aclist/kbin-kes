@@ -58,7 +58,7 @@ bump_vers(){
         newvers="${pref}-beta.$((inc+1))"
     fi
         echo "$newvers" > $version_file
-        ./gen.sh
+        ./build/scripts/gen_kes.sh
         echo
         echo "HOOK========>Bumping version from $vers to $newvers"
         echo
