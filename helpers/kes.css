@@ -429,7 +429,7 @@ span.kes-update {
 }
 .kes-backup-dialog {
     border: none;
-    background-color: var(--kbin-section-bg);
+    background-color: var(--kbin-footer-bg);
     color: var(--kbin-input-text-color);
 }
 .kes-backup-button {
@@ -444,15 +444,10 @@ span.kes-update {
 .kes-backup-button:hover {
     opacity: 1;
 }
-
-.kes-backup-menu {
-    background-color: var(--kbin-section-bg);
-    color: var(--kbin-input-text-color);
-    border: none;
-}
 .kes-backup-menu button {
     opacity: 0.7;
     margin: 4px;
+    background-color: var(--kbin-section-bg);
     color: var(--kbin-input-text-color);
     border-radius: 0px;
 }
