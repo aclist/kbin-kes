@@ -427,7 +427,7 @@ span.kes-update {
     color: orange;
     padding-right: 20px;
 }
-.kes-backup-dialog {
+#kes-backup-dialog {
     border: none;
     background-color: var(--kbin-footer-bg);
     color: var(--kbin-input-text-color);
