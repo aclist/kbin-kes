@@ -427,9 +427,12 @@ span.kes-update {
     color: orange;
     padding-right: 20px;
 }
-
-.kes-reset-button {
-    margin-left: 200px;
+.kes-backup-dialog {
+    border: none;
+    background-color: var(--kbin-section-bg);
+    color: var(--kbin-input-text-color);
+}
+.kes-backup-button {
     background-color: var(--kbin-section-bg);
     color: var(--kbin-input-text-color);
     border: 0px;
@@ -438,7 +441,22 @@ span.kes-update {
     margin-left: auto;
 }
 
-.kes-reset-button:hover {
+.kes-backup-button:hover {
+    opacity: 1;
+}
+
+.kes-backup-menu {
+    background-color: var(--kbin-section-bg);
+    color: var(--kbin-input-text-color);
+    border: none;
+}
+.kes-backup-menu button {
+    opacity: 0.7;
+    margin: 4px;
+    color: var(--kbin-input-text-color);
+    border-radius: 0px;
+}
+.kes-backup-menu button: hover {
     opacity: 1;
 }
 
