@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.0.0-beta.2
+// @version      3.0.0-beta.3
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -885,7 +885,7 @@ function constructMenu (json, layoutArr, isNew) {
         }
 
         function fileImportError(){
-            alert("File import error. The file may be corrupted. If you believe the file is correct, please attach it alongside a bug report.")
+            alert('File import error. The file may be corrupted. If you believe the file is correct, please attach it alongside a bug report.')
         }
         const dialogTrigger = document.createElement('input')
         footer.appendChild(dialogTrigger)
