@@ -825,7 +825,7 @@ function constructMenu (json, layoutArr, isNew) {
         footer.appendChild(magLink)
         
         const backupButton = document.createElement('button');
-        backupButton.innerText = "BACKUP";
+        backupButton.innerText = "SETTINGS";
         backupButton.className = "kes-backup-button";
         footer.appendChild(backupButton);
         backupButton.addEventListener('click', () => {
