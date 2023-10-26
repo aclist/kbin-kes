@@ -823,16 +823,124 @@ function constructMenu (json, layoutArr, isNew) {
         magLink.innerText = "/m/enhancement";
         magLink.setAttribute('href', magURL);
         footer.appendChild(magLink)
-
-
-        //reset all localStorage related to KES
-        const resetButton = document.createElement('button')
-        resetButton.innerText = "RESET"
-        resetButton.className = "kes-reset-button"
-        footer.appendChild(resetButton)
-        resetButton.addEventListener('click', () => {
-            resetAll();
+        
+        const backupButton = document.createElement('button');
+        backupButton.innerText = "BACKUP";
+        backupButton.className = "kes-backup-button";
+        footer.appendChild(backupButton);
+        backupButton.addEventListener('click', () => {
+            const dialog = document.querySelector('#kes-backup-dialog');
+                  dialog.showModal();
         });
+        
+        function parseNamespaces(){
+            var names = [];
+            for(i = 0 ; i < json.length ; ++i){
+                if(json[i].namespace){
+                    names.push(json[i].namespace);
+                }
+            }
+            return names;
+        }
+        function parseLocalStorage(){
+            const names = parseNamespaces();
+            const toExport = {};
+            const keys = Object.keys(localStorage);
+            const values = Object.values(localStorage);
+            for(i = 0 ; i < keys.length ; ++i) {
+                if(keys[i] === "kes-settings" || names.includes(keys[i])) {
+                    let key = keys[i];
+                    let value = JSON.parse(values[i]);
+                    toExport[key] = value;
+                }
+            }
+            return toExport
+        }
+        function parseImportedFile(contents){
+            const names = parseNamespaces();
+            const keys = Object.keys(contents);
+            cleanNamespaces();
+            for(i = 0 ; i < keys.length ; ++i) {
+                if(keys[i] === "kes-settings" || names.includes(keys[i])) {
+                    let namespace = keys[i];
+                    let settings = contents[namespace];
+                    console.log("key to add is " + namespace)
+                    saveModSettings(settings, namespace)
+                }
+            }
+        }
+        function exportSettings(){
+            const exportButton = document.createElement('a')
+            const rawSettings = parseLocalStorage();
+            const pretty = JSON.stringify(rawSettings,null,2);
+            const textBlob = new Blob([pretty], {type: 'application/json'});
+            const saveDate = new Date().toLocaleString('sv',).replace(' ','-').replaceAll(':','')
+            const filename = `KES-backup-${saveDate}.json`
+            exportButton.setAttribute('href',URL.createObjectURL(textBlob));
+            exportButton.setAttribute('download', filename);
+            exportButton.style = 'display:none';
+            document.body.appendChild(exportButton);
+            exportButton.click();
+            alert(`Saved KES settings to ${filename}`)
+        }
+
+        function fileImportError(){
+            alert("File import error. The file may be corrupted. If you believe the file is correct, please attach it alongside a bug report.")
+        }
+        const dialogTrigger = document.createElement('input')
+        footer.appendChild(dialogTrigger)
+        dialogTrigger.id = 'kes-import-dialog'
+        dialogTrigger.style = 'display: none'
+        dialogTrigger.type = 'file';
+        dialogTrigger.addEventListener('change', (e) => {
+            const reader = new FileReader();
+            reader.readAsText(e.target.files[0]);
+            reader.onerror = function() {
+                fileImportError();
+            };
+            reader.onload = function() {
+                try {
+                    let payload = JSON.parse(reader.result)
+                    parseImportedFile(payload)
+                    window.location.reload();
+                } catch (e) {
+                    fileImportError();
+                }
+            };
+
+        });
+
+        const nativeModal = document.createElement('dialog');
+        nativeModal.id = 'kes-backup-dialog';
+        nativeModal.innerHTML = `
+        <form method="dialog">
+        <menu class="kes-backup-menu">
+          <button type="submit" value="export">Export</button>Export to file<br>
+          <button type="submit" value="import">Import</button>Import from file<br>
+          <button type="submit" value="reset">Reset</button>Reset all KES settings<br>
+          <button type="submit" value="close">Close</button>Close this dialog
+        </menu>
+      </form>
+      `
+        nativeModal.addEventListener('close', () => {
+            const dialog = document.querySelector('#kes-backup-dialog');
+            switch (dialog.returnValue){
+                case "import": 
+                  const upload = document.getElementById("kes-import-dialog");
+                  upload.click();
+                    break;
+                case "export":
+                    exportSettings();
+                    break;
+                case "reset":
+                    resetAll();
+                    break;
+                case "close":
+                    break;
+            }
+        });
+
+        modal.appendChild(nativeModal);
 
         const bugLink = document.createElement("a");
         bugLink.className = "kes-settings-modal-bug-link";
