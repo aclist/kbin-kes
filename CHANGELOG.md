@@ -1,5 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## 3.0.0
+### Added
+- Import/export settings via backup menu
+- API: new method of generating KES from atomic manifest objects
+
 ## 2.2.2
 ### Fixed
 - Hide posts: expanded images not being hidden along with post
