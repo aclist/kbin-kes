@@ -121,6 +121,16 @@ function kfaRestart () {
     kfaShutdown();
     kfaStartup();
 }
+function findHostname(links){
+    let host
+    links.forEach((link) => {
+        const innerString = link.innerHTML.trim();
+        if (innerString === "copy original url") {
+            host = new URL(link.href).hostname;
+        }
+    });
+    return host
+};
 
 function kfaInitClasses () {
     const classList = [
@@ -130,7 +140,8 @@ function kfaInitClasses () {
     ];
     document.querySelectorAll('#content article.entry').forEach(function (article) {
         if (!(article.classList.value.split(' ').some(r => classList.indexOf(r) >= 0))) {
-            const hostname = new URL(article.querySelector('footer menu .dropdown li:nth-child(4) a').href).hostname;
+            const copyLinks = article.querySelectorAll('footer menu .dropdown a[data-action="clipboard#copy"]');
+            const hostname = findHostname(copyLinks);
             let articleAside = article.querySelector('aside');
             article.setAttribute('data-hostname', hostname);
             let articleIndicator = document.createElement('div');
