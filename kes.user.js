@@ -28,45 +28,45 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/helpers/safegm.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/helpers/safegm.user.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/adjust.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/alpha-sort-subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/always-more.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/clarify-recipient.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/code-highlighting.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/dropdown.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/easy-emoticon.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/hide-logo.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/hide-posts.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/hide-sidebar.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/hide-thumbs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/hide-votes.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/hover-indicator.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/improved-collapsible-comments.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/instance-names.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/kbin-federation-awareness.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/kbin-mod-options.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/label.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/mail.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/mobile-cleanup.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/move-federation-warning.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/nav-icons.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/notifications-panel.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/omni.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/rearrange.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/report-bug.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/resize-text.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/thread-checkmarks.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/timestamp.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/patch-kfa/mods/unblur.user.js
-// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/patch-kfa/helpers/ui.json
-// @resource     kes_json https://github.com/aclist/kbin-kes/raw/patch-kfa/helpers/manifest.json
-// @resource     kes_css https://github.com/aclist/kbin-kes/raw/patch-kfa/helpers/kes.css
-// @downloadURL  https://github.com/aclist/kbin-kes/raw/patch-kfa/kes.user.js
-// @updateURL    https://github.com/aclist/kbin-kes/raw/patch-kfa/kes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/adjust.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/alpha-sort-subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/always-more.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/clarify-recipient.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/code-highlighting.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/dropdown.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/easy-emoticon.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-logo.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-posts.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-sidebar.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-thumbs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-votes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hover-indicator.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/improved-collapsible-comments.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/instance-names.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/kbin-federation-awareness.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/kbin-mod-options.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/label.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mail.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mobile-cleanup.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/move-federation-warning.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/nav-icons.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/notifications-panel.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/omni.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/rearrange.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/report-bug.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/resize-text.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/thread-checkmarks.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/timestamp.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/unblur.user.js
+// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/main/helpers/ui.json
+// @resource     kes_json https://github.com/aclist/kbin-kes/raw/main/helpers/manifest.json
+// @resource     kes_css https://github.com/aclist/kbin-kes/raw/main/helpers/kes.css
+// @downloadURL  https://github.com/aclist/kbin-kes/raw/main/kes.user.js
+// @updateURL    https://github.com/aclist/kbin-kes/raw/main/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
@@ -75,7 +75,7 @@
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
-const branch = "patch-kfa"
+const branch = "main"
 const helpersPath = "helpers/"
 const branchPath = repositoryURL + "raw/" + branch + "/"
 const versionFile = branchPath + "VERSION";
