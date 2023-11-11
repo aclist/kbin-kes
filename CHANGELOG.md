@@ -1,5 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+
+## 2.2.3
+### Fixed
+- Undeclared variable in omnibar
+- Restore federation awareness functionality per latest kbin update
 ## 2.2.2
 ### Fixed
 - Hide posts: expanded images not being hidden along with post
