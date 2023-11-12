@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.2.4
+### Fixed
+- Adjust appearance of ON/OFF toggles due to new kbin styling
 ## 2.2.3
 ### Fixed
 - Undeclared variable in omnibar
