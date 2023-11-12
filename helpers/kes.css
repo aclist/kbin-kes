@@ -460,8 +460,11 @@ span.kes-update {
 .kes-debug-clipboard {
     float: right;
     margin-top: 5px;
-    padding-left: 10px
+    padding-left: 10px;
 }
 .kes-transparent-mode {
-    float: right
+    float: right;
+}
+#kes-checkbox {
+    display:none;
 }
