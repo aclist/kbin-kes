@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.0.0-beta.7
+// @version      3.0.0-beta.8
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -196,7 +196,7 @@ async function unwrapPayloads () {
 
 function validateData (rawCSS, rawJSON, rawLayout, isNew) {
     if (![rawCSS, rawJSON, rawLayout].every(Boolean)) {
-        //if any of the remote resources are missing, block execution of the 
+        //if any of the remote resources are missing, block execution of the
         //rest of the script and print warning header; style data must be hardcoded here
         //as an emergency logic
         const warning = document.createElement('p')
@@ -368,6 +368,18 @@ function constructMenu (json, layoutArr, isNew) {
         headerChangelogIcon.title = layoutArr.header.changelog.tooltip
         headerChangelogButton.appendChild(headerChangelogLink)
 
+        const headerSearchButton = document.createElement('span')
+        headerSearchButton.className = 'kes-changelog'
+        const headerSearchIcon = document.createElement('i')
+        headerSearchIcon.className = layoutArr.header.search.icon
+        headerSearchIcon.title = layoutArr.header.search.tooltip
+        headerSearchButton.appendChild(headerSearchIcon)
+        headerSearchButton.addEventListener('click', () => {
+            const searchDialog = document.querySelector('#kes-search-dialog');
+            searchDialog.showModal();
+        });
+
+
         const headerVersionButton = document.createElement('span');
         headerVersionButton.className = 'kes-version'
         headerVersionButton.appendChild(versionElement);
@@ -379,6 +391,7 @@ function constructMenu (json, layoutArr, isNew) {
         header.appendChild(headerDockButton)
         header.appendChild(headerEyeButton)
         header.appendChild(headerChangelogButton)
+        header.appendChild(headerSearchButton)
 
         if (window.innerWidth > 576) {
             header.appendChild(headerVersionButton);
@@ -823,14 +836,14 @@ function constructMenu (json, layoutArr, isNew) {
         magLink.innerText = "/m/enhancement";
         magLink.setAttribute('href', magURL);
         footer.appendChild(magLink)
-        
+
         const backupButton = document.createElement('button');
         backupButton.innerText = "SETTINGS";
         backupButton.className = "kes-backup-button";
         footer.appendChild(backupButton);
         backupButton.addEventListener('click', () => {
-            const dialog = document.querySelector('#kes-backup-dialog');
-                  dialog.showModal();
+            const backupDialog = document.querySelector('#kes-backup-dialog');
+            backupDialog.showModal();
         });
         
         function parseNamespaces(){
@@ -910,6 +923,24 @@ function constructMenu (json, layoutArr, isNew) {
 
         });
 
+        const resultsNativeModal = document.createElement('dialog');
+        resultsNativeModal.id = 'kes-results-dialog';
+        resultsNativeModal.innerHTML = `
+        <form method="dialog">
+        </form>
+        `
+        const searchNativeModal = document.createElement('dialog');
+        searchNativeModal.id = 'kes-search-dialog';
+        searchNativeModal.innerHTML = `
+        <form method="dialog">
+        <menu class="kes-search-menu">
+        <input type="text" class="kes-search-field">
+          <button type="submit" value="Submit">Search</button>
+          <button type="submit" value="close">Close</button>
+        </menu>
+      </form>
+      `
+
         const nativeModal = document.createElement('dialog');
         nativeModal.id = 'kes-backup-dialog';
         nativeModal.innerHTML = `
@@ -940,7 +971,80 @@ function constructMenu (json, layoutArr, isNew) {
             }
         });
 
+        resultsNativeModal.addEventListener('close', () => {
+            const dialog = document.querySelector('#kes-results-dialog');
+            const ret = dialog.returnValue
+            if (ret === "close"){
+                return
+            }
+            let page = ret.split('@')[0]
+            const helpString = ret.split('@')[1]
+            pageCaps = page.charAt(0).toUpperCase() + page.slice(1);
+            openTab(pageCaps);
+            const opts = document.querySelectorAll('.kes-option');
+            opts.forEach((opt)=>{
+                if (opt.innerHTML.trim() === helpString){
+                    const ind = opt.getAttribute("kes-iter");
+                    openHelpBox(ind);
+                    return
+                }
+            });
+        });
+
+        searchNativeModal.addEventListener('close', () => {
+            const outerDialog = document.querySelector('#kes-search-dialog');
+            const innerDialog = document.querySelector('.kes-search-field');
+            const query = innerDialog.value;
+            innerDialog.value = "";
+            if (outerDialog.returnValue === "close"){
+                return
+            }
+            if (query === "") {
+                return
+            }
+            const resultsDialog = document.querySelector('#kes-results-dialog');
+            const oldMenu = document.querySelector('.kes-results-menu')
+            if (oldMenu) {
+                oldMenu.remove();
+            }
+            const resultsMenu = document.createElement('menu');
+            resultsMenu.className = 'kes-results-menu';
+            const resultsDialogForm = resultsDialog.querySelector('form');
+            resultsDialogForm.appendChild(resultsMenu);
+
+            let label
+            for (let i = 0; i < json.length; ++i) {
+                const origLabel = json[i].label
+                const labelLower = origLabel.toLowerCase();
+                const queryLower = query.toLowerCase();
+                if(labelLower.includes(queryLower)){
+                    label = json[i].label;
+                    const page = json[i].page
+                    const br = document.createElement('br')
+                    const r = document.createElement('button')
+                    r.type = "submit";
+                    r.className = "kes-results-fullbutton";
+                    r.value = page + "@" + label;
+                    r.innerText = label;
+                    resultsMenu.appendChild(r);
+                    resultsMenu.appendChild(br);
+                }
+            }
+            if (label === undefined) {
+                return
+            }
+            const closeButton = document.createElement('button')
+            closeButton.type = "submit"
+            closeButton.value = "close"
+            closeButton.className = "kes-results-closebutton"
+            closeButton.innerText = "Close"
+            resultsMenu.appendChild(closeButton)
+            resultsDialog.showModal();
+        });
+
         modal.appendChild(nativeModal);
+        modal.appendChild(searchNativeModal);
+        modal.appendChild(resultsNativeModal);
 
         const bugLink = document.createElement("a");
         bugLink.className = "kes-settings-modal-bug-link";
