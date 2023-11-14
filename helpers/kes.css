@@ -427,7 +427,7 @@ span.kes-update {
     color: orange;
     padding-right: 20px;
 }
-#kes-backup-dialog {
+#kes-results-dialog,#kes-search-dialog,#kes-backup-dialog {
     border: none;
     background-color: var(--kbin-footer-bg);
     color: var(--kbin-input-text-color);
@@ -444,16 +444,18 @@ span.kes-update {
 .kes-backup-button:hover {
     opacity: 1;
 }
-.kes-backup-menu button {
+.kes-results-menu button, .kes-backup-menu button {
     border: 0px;
     opacity: 1;
     margin: 4px;
     background-color: var(--kbin-section-bg);
     color: var(--kbin-input-text-color);
     border-radius: 0px;
+}
+.kes-backup-menu button {
     margin-right: 10px;
 }
-.kes-backup-menu button:hover {
+.kes-results-menu button:hover, .kes-backup-menu button:hover {
     opacity: 0.7;
 }
 
