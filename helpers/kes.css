@@ -444,13 +444,15 @@ span.kes-update {
 .kes-backup-button:hover {
     opacity: 1;
 }
-.kes-results-menu button, .kes-backup-menu button {
+.kes-search-menu button, .kes-results-menu button, .kes-backup-menu button {
     border: 0px;
     opacity: 1;
-    margin: 4px;
     background-color: var(--kbin-section-bg);
     color: var(--kbin-input-text-color);
     border-radius: 0px;
+}
+.kes-backup-menu button {
+    margin: 4px;
 }
 .kes-backup-menu button {
     margin-right: 10px;
@@ -474,7 +476,6 @@ span.kes-update {
     display: flex;
     flex-direction: column;
     padding: 5px;
-    background-color: var(--kbin-section-bg);
 }
 .kes-results-closebutton, .kes-results-fullbutton {
     border: none;
@@ -485,9 +486,9 @@ span.kes-update {
     max-height: 50%;
 }
 
-.kes-results-fullbutton {
-    padding: 0px 20px 0px 20px;
-}
-.kes-search-menu button {
+.kes-search-text, .kes-search-menu button {
     margin-top: 10px;
+}
+.kes-search-closebutton {
+    float: right;
 }
