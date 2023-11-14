@@ -40,6 +40,10 @@
     "transparent": {
       "tooltip": "Transparent mode",
       "icon": "fa-solid fa-eye-slash"
+    },
+    "search": {
+      "tooltip": "Search for an option",
+      "icon": "fa-solid fa-search"
     }
   },
   "pages": [
