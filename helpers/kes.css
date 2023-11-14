@@ -480,9 +480,14 @@ span.kes-update {
     border: none;
 }
 #kes-results-dialog {
-    padding: none
+    padding: none;
+    overflow-y: scroll;
+    max-height: 50%;
 }
 
 .kes-results-fullbutton {
     padding: 0px 20px 0px 20px;
+}
+.kes-search-menu button {
+    margin-top: 10px;
 }
