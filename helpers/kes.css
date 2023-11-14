@@ -476,14 +476,21 @@ span.kes-update {
     display: flex;
     flex-direction: column;
     padding: 5px;
+    border: solid 1px gray;
 }
 .kes-results-closebutton, .kes-results-fullbutton {
     border: none;
 }
+.kes-results-fullbutton {
+    padding: 5px 10px 5px 10px;
+}
 #kes-results-dialog {
-    padding: none;
+    padding: unset;
     overflow-y: scroll;
     max-height: 50%;
+}
+.kes-results-menu button {
+    padding: 5px 20px 5px 20px;
 }
 
 .kes-search-text, .kes-search-menu button {
