@@ -492,3 +492,6 @@ span.kes-update {
 .kes-search-closebutton {
     float: right;
 }
+.kes-search-hidden {
+    display:none;
+}
