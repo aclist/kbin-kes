@@ -102,7 +102,7 @@ function omniInit (toggle) {
 
     function createOmni () {
 
-        safeGM("removeStyle", omniCSS, "omni-css")
+        safeGM("removeStyle", "omni-css")
         safeGM("addStyle", omniCSS, "omni-css")
 
         let str

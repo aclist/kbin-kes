@@ -3,8 +3,8 @@ function labelOp (toggle) {
         let settings = getModSettings("labelcolors");
         let fg = settings["fgcolor"];
         let bg = settings["bgcolor"];
-        safeGM('addStyle', `
-            blockquote.author > header > a.user-inline::after {
+        const labelCSS = `
+                blockquote.author > header > a.user-inline::after {
                 content: 'OP';
                 font-weight: bold;
                 color: ${fg};
@@ -15,8 +15,9 @@ function labelOp (toggle) {
             body.rounded-edges blockquote.author a.user-inline::after {
                 border-radius: var(--kbin-rounded-edges-radius);
             }
-        `);
+        `;
+        safeGM("addStyle", labelCSS, "labelop-css")
     } else {
-        safeGM('addStyle', 'blockquote.author a.user-inline::after { content: ""; background-color: unset; padding: unset; margin-left: unset; }');
+        safeGM("removeStyle", "labelop-css")
     }
 }
