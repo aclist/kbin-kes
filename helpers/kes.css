@@ -473,10 +473,16 @@ span.kes-update {
 .kes-results-menu {
     display: flex;
     flex-direction: column;
+    padding: 5px;
+    background-color: var(--kbin-section-bg);
 }
+.kes-results-closebutton, .kes-results-fullbutton {
+    border: none;
+}
+#kes-results-dialog {
+    padding: none
+}
+
 .kes-results-fullbutton {
-    border: none;
-}
-.kes-results-closebutton {
-    border: none;
+    padding: 0px 20px 0px 20px;
 }
