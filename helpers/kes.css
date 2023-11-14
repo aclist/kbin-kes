@@ -468,7 +468,7 @@ span.kes-update {
 #kes-checkbox {
     display:none;
 }
-#kes-results-menu {
+.kes-results-menu {
     display: flex;
     flex-direction: column;
 }
