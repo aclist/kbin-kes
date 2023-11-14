@@ -468,3 +468,13 @@ span.kes-update {
 #kes-checkbox {
     display:none;
 }
+#kes-results-menu {
+    display: flex;
+    flex-direction: column;
+}
+.kes-results-fullbutton {
+    border: none;
+}
+.kes-results-closebutton {
+    border: none;
+}
