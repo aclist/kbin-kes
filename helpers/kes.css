@@ -450,8 +450,6 @@ span.kes-update {
     background-color: var(--kbin-section-bg);
     color: var(--kbin-input-text-color);
     border-radius: 0px;
-}
-.kes-backup-menu button {
     margin: 4px;
 }
 .kes-backup-menu button {
