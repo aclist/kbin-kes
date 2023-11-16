@@ -4,6 +4,7 @@ npm_flag="--no-git-tag-version"
 COLUMNS=1
 version_file="VERSION"
 master_file="kes.user.js"
+manifest="helpers/manifest.json"
 vers=$(< $version_file)
 branch=$(git name-rev --name-only HEAD)
     opts=(
@@ -63,6 +64,7 @@ bump_vers(){
         echo
         echo "HOOK========>Bumping version from $vers to $newvers"
         echo
+        git add $manifest
         git add $version_file
         git add $master_file
 }
