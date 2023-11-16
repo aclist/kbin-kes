@@ -289,4 +289,3 @@ if (toggle) {
     saveMags(hostname, e)
 }
 }
-softBlockInit(true);
