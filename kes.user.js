@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.0.0-beta.16
+// @version      3.0.0-beta.17
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -848,16 +848,16 @@ function constructMenu (json, layoutArr, isNew) {
             backupDialog.showModal();
         });
         
-        function parseNamespaces(){
+        function parseNamespaces () {
             var names = [];
-            for(i = 0 ; i < json.length ; ++i){
-                if(json[i].namespace){
+            for(i = 0 ; i < json.length ; ++i) {
+                if(json[i].namespace) {
                     names.push(json[i].namespace);
                 }
             }
             return names;
         }
-        function parseLocalStorage(){
+        function parseLocalStorage () {
             const names = parseNamespaces();
             const toExport = {};
             const keys = Object.keys(localStorage);
@@ -871,7 +871,7 @@ function constructMenu (json, layoutArr, isNew) {
             }
             return toExport
         }
-        function parseImportedFile(contents){
+        function parseImportedFile (contents) {
             const names = parseNamespaces();
             const keys = Object.keys(contents);
             cleanNamespaces();
@@ -884,12 +884,12 @@ function constructMenu (json, layoutArr, isNew) {
                 }
             }
         }
-        function exportSettings(){
+        function exportSettings () {
             const exportButton = document.createElement('a')
             const rawSettings = parseLocalStorage();
             const pretty = JSON.stringify(rawSettings,null,2);
-            const textBlob = new Blob([pretty], {type: 'application/json'});
-            const saveDate = new Date().toLocaleString('sv',).replace(' ','-').replaceAll(':','')
+            const textBlob = new Blob([pretty], { type: 'application/json' });
+            const saveDate = new Date().toLocaleString('sv').replace(' ','-').replaceAll(':','')
             const filename = `KES-backup-${saveDate}.json`
             exportButton.setAttribute('href',URL.createObjectURL(textBlob));
             exportButton.setAttribute('download', filename);
@@ -899,7 +899,7 @@ function constructMenu (json, layoutArr, isNew) {
             alert(`Saved KES settings to ${filename}`)
         }
 
-        function fileImportError(){
+        function fileImportError () {
             alert('File import error. The file may be corrupted. If you believe the file is correct, please attach it alongside a bug report.')
         }
         const dialogTrigger = document.createElement('input')
@@ -910,10 +910,10 @@ function constructMenu (json, layoutArr, isNew) {
         dialogTrigger.addEventListener('change', (e) => {
             const reader = new FileReader();
             reader.readAsText(e.target.files[0]);
-            reader.onerror = function() {
+            reader.onerror = function () {
                 fileImportError();
             };
-            reader.onload = function() {
+            reader.onload = function () {
                 try {
                     let payload = JSON.parse(reader.result)
                     parseImportedFile(payload)
@@ -958,26 +958,26 @@ function constructMenu (json, layoutArr, isNew) {
       `
         nativeModal.addEventListener('close', () => {
             const dialog = document.querySelector('#kes-backup-dialog');
-            switch (dialog.returnValue){
-                case "import": 
-                  const upload = document.getElementById("kes-import-dialog");
-                  upload.click();
-                    break;
-                case "export":
-                    exportSettings();
-                    break;
-                case "reset":
-                    resetAll();
-                    break;
-                case "close":
-                    break;
+            switch (dialog.returnValue) {
+            case "import": 
+                const upload = document.getElementById("kes-import-dialog");
+                upload.click();
+                break;
+            case "export":
+                exportSettings();
+                break;
+            case "reset":
+                resetAll();
+                break;
+            case "close":
+                break;
             }
         });
 
         resultsNativeModal.addEventListener('close', () => {
             const dialog = document.querySelector('#kes-results-dialog');
             const ret = dialog.returnValue
-            if (ret === "close"){
+            if (ret === "close") {
                 return
             }
             let page = ret.split('@')[0]
@@ -986,7 +986,7 @@ function constructMenu (json, layoutArr, isNew) {
             openTab(pageCaps);
             const opts = document.querySelectorAll('.kes-option');
             opts.forEach((opt)=>{
-                if (opt.innerHTML.trim() === helpString){
+                if (opt.innerHTML.trim() === helpString) {
                     const ind = opt.getAttribute("kes-iter");
                     openHelpBox(ind);
                     return
@@ -999,7 +999,7 @@ function constructMenu (json, layoutArr, isNew) {
             const innerDialog = document.querySelector('.kes-search-field');
             const query = innerDialog.value;
             innerDialog.value = "";
-            if (outerDialog.returnValue === "close"){
+            if (outerDialog.returnValue === "close") {
                 return
             }
             if (query === "") {
@@ -1020,7 +1020,7 @@ function constructMenu (json, layoutArr, isNew) {
                 const origLabel = json[i].label
                 const labelLower = origLabel.toLowerCase();
                 const queryLower = query.toLowerCase();
-                if(labelLower.includes(queryLower)){
+                if(labelLower.includes(queryLower)) {
                     label = json[i].label;
                     const page = json[i].page
                     const br = document.createElement('br')

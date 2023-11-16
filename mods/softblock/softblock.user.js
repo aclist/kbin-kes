@@ -14,7 +14,7 @@ function softBlockInit (toggle) {
         justify-content: center;
         align-items: center;
         margin-left: 150px;
-        width: 20%;
+        width: 50%;
         overflow-y: scroll;
         flex-direction: column-reverse;
         padding-top: 10px;
@@ -63,7 +63,7 @@ function softBlockInit (toggle) {
     function blockThreads (mags) {
         hideThreads(mags)
         document.querySelectorAll('.meta').forEach((item) => {
-            if (item.querySelector('softblock-icon')) {
+            if (item.querySelector('.softblock-icon')) {
                 console.log("bubbles already present")
                 return
             }
@@ -97,7 +97,8 @@ function softBlockInit (toggle) {
         const mag = location.pathname.split('/')[2]
         const el = document.querySelector('.magazine__subscribe form[name="magazine_block"]')
         const state = returnState(mags, mag);
-        if (el.querySelector('.softblock-button')) {
+        const old = document.querySelector('.softblock-button')
+        if (old){
             return
         }
         insertBlockButton(mags, state, el);
@@ -160,7 +161,6 @@ function softBlockInit (toggle) {
             const row = link.parentElement.parentElement
             const el = row.querySelector('.magazine__subscribe form[name="magazine_block"]')
             const state = returnState(mags, mag);
-            //TODO: test propagation
             if (el.querySelector('.softblock-button')) {
                 return
             }
