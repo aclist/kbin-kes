@@ -169,6 +169,7 @@ grants=(
 readarray -t funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | sort)
 readarray -t eslint_funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | sort)
 eslint_funcs+=("safeGM" "getHex")
+./gen_manifest.sh
 
 cp $base_file $base_file.bak
 main > $base_file
