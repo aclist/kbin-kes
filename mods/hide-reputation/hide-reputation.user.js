@@ -8,22 +8,6 @@
 // @license      MIT
 // ==/UserScript==
 
-function hideUpvotes (toggle) {
-    if (toggle) {
-        $('form.vote__up').hide();
-    } else {
-        $('form.vote__up').show();
-    }
-}
-
-function hideDownvotes (toggle) {
-    if (toggle) {
-        $('form.vote__down').hide();
-    } else {
-        $('form.vote__down').show();
-    }
-}
-
 function hideReputation (toggle) {
     if (toggle) {
         $('#sidebar > section.section.user-info > ul > li:nth-child(2)').hide();

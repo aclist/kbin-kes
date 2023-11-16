@@ -102,7 +102,7 @@ function omniInit (toggle) {
 
     function createOmni () {
 
-        safeGM("removeStyle", omniCSS, "omni-css")
+        safeGM("removeStyle", "omni-css")
         safeGM("addStyle", omniCSS, "omni-css")
 
         let str
@@ -418,7 +418,7 @@ function omniInit (toggle) {
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
 
-            function keyTrap(e){
+            function keyTrap (e) {
                 if (e.target.tagName === "INPUT") return
                 if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
                 const kt = document.querySelector('#kes-omni-keytrap')

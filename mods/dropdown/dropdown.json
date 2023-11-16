@@ -1,0 +1,11 @@
+{
+  "name": "Dropdown links",
+  "author": "shazbot",
+  "version": "0.1.0",
+  "label": "Dropdown links",
+  "login": false,
+  "recurs": false,
+  "desc": "Convert navigation links on profile pages to dropdown",
+  "entrypoint": "dropdownEntry",
+  "page": "profile"
+}

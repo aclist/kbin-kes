@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 3.0.0
+### Added
+- Softblock magazines (shazbot)
+- Import/export global KES settings via backup menu
+- Search by feature name: search for a mod (feature) by name and click to jump to its page
+- API: new method of generating KES from atomic manifest objects
+### Fixed
+- Kbin Federation Awareness: make feature toggle dynamically without requiring refresh
+- Label OP: make feature toggle dynamically without requiring refresh
+- User instance names: drop unnecessary creation of observers on mutation events
+- Magazine instance names: drop unnecessary creation of observers on mutation events
 ## 2.2.4
 ### Fixed
 - Adjust appearance of ON/OFF toggles due to new kbin styling

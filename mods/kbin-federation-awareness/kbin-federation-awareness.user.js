@@ -115,12 +115,22 @@ function kfaShutdown () {
     if (kfaInjectedCss) {
         kfaInjectedCss.remove();
     }
+    function removeOld(els){
+        for (let i = 0; i<arguments.length; ++i){
+            arguments[i].forEach((el) => {
+                el.remove();
+            });
+        }
+    }
+    const dh = document.querySelectorAll('header .data-home')
+    const df = document.querySelectorAll('header .data-federated')
+    const dm = document.querySelectorAll('header .data-moderated')
+    const mh = document.querySelectorAll('.meta.entry__meta .data-home')
+    const mf = document.querySelectorAll('.meta.entry__meta .data-federated')
+    const mm = document.querySelectorAll('.meta.entry__meta .data-moderated')
+    removeOld(dh, df, dm, mh, mf, mm);
 }
 
-function kfaRestart () {
-    kfaShutdown();
-    kfaStartup();
-}
 function findHostname(links){
     let host
     links.forEach((link) => {
@@ -139,7 +149,7 @@ function kfaInitClasses () {
         'data-home'
     ];
     document.querySelectorAll('#content article.entry').forEach(function (article) {
-        if (!(article.classList.value.split(' ').some(r => classList.indexOf(r) >= 0))) {
+            if (article.querySelector('[class^=data-]')) { return }
             const copyLinks = article.querySelectorAll('footer menu .dropdown a[data-action="clipboard#copy"]');
             const hostname = findHostname(copyLinks);
             let articleAside = article.querySelector('aside');
@@ -156,11 +166,10 @@ function kfaInitClasses () {
                 articleIndicator.classList.toggle('data-home');
             }
             articleAside.prepend(articleIndicator);
-        }
     });
 
     document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
-        if (!(comment.classList.value.split(' ').some(r=> classList.indexOf(r) >= 0))) {
+            if (comment.querySelector('[class^=data-]')) { return }
             let commentHeader = comment.querySelector('header');
             const userInfo = commentHeader.querySelector('a.user-inline');
             if (userInfo) {
@@ -179,7 +188,6 @@ function kfaInitClasses () {
                 }
                 commentHeader.prepend(commentIndicator);
             }
-        }
     });
 }
 
@@ -190,7 +198,6 @@ let kfaSettingsHome;
 let kfaSettingsArticleSide;
 let kfaSettingsStyle;
 let kfaSettingsScale;
-let kfaLastToggleState = false;
 
 function initKFA (toggle) {
     if (toggle) {
@@ -201,14 +208,9 @@ function initKFA (toggle) {
         kfaSettingsArticleSide = settings['kfaPostSide'];
         kfaSettingsStyle = settings['kfaStyle'];
         kfaSettingsScale = settings['kfaBubbleScale'];
-        if (kfaLastToggleState === false) {
-            kfaLastToggleState = true;
-            kfaStartup();
-        } else {
-            kfaRestart();
-        }
+        kfaStartup();
     } else {
-        kfaLastToggleState = false;
         kfaShutdown();
     }
 }
+

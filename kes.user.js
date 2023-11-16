@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      2.2.4
+// @version      3.0.0
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -29,39 +29,43 @@
 // @connect      raw.githubusercontent.com
 // @connect      github.com
 // @require      https://github.com/aclist/kbin-kes/raw/main/helpers/safegm.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/helpers/kbin-mod-options.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/adjust.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/alpha-sort-subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/always-more.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/clarify-recipient.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/code-highlighting.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/dropdown.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/easy-emoticon.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-logo.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-posts.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-sidebar.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-thumbs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-votes.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hover-indicator.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/improved-collapsible-comments.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/instance-names.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/kbin-federation-awareness.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/kbin-mod-options.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/label.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mail.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mobile-cleanup.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/move-federation-warning.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/nav-icons.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/notifications-panel.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/omni.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/rearrange.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/report-bug.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/resize-text.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/thread-checkmarks.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/timestamp.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/unblur.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/adjust/adjust.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/alpha-sort-subs/alpha-sort-subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/always-more/always-more.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/clarify-recipient/clarify-recipient.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/code-highlighting/code-highlighting.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/dropdown/dropdown.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/easy-emoticon/easy-emoticon.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-downvotes/hide-downvotes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-logo/hide-logo.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-posts/hide-posts.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-reputation/hide-reputation.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-sidebar/hide-sidebar.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-thumbs/hide-thumbs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-upvotes/hide-upvotes.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hover-indicator/hover-indicator.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/improved-collapsible-comments/improved-collapsible-comments.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/kbin-federation-awareness/kbin-federation-awareness.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/label/label.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mag-instance-names/mag-instance-names.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mail/mail.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mobile-cleanup/mobile-cleanup.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/move-federation-warning/move-federation-warning.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/nav-icons/nav-icons.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/notifications-panel/notifications-panel.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/omni/omni.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/rearrange/rearrange.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/report-bug/report-bug.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/resize-text/resize-text.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/softblock/softblock.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/subs/subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/thread-checkmarks/thread-checkmarks.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/timestamp/timestamp.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/unblur/unblur.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/user-instance-names/user-instance-names.user.js
 // @resource     kes_layout https://github.com/aclist/kbin-kes/raw/main/helpers/ui.json
 // @resource     kes_json https://github.com/aclist/kbin-kes/raw/main/helpers/manifest.json
 // @resource     kes_css https://github.com/aclist/kbin-kes/raw/main/helpers/kes.css
@@ -70,7 +74,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -118,6 +122,7 @@ const funcObj = {
     notificationsPanel: notificationsPanel,
     omniInit: omniInit,
     rearrangeInit: rearrangeInit,
+    softBlockInit: softBlockInit,
     textResize: textResize,
     toggleLogo: toggleLogo,
     unblurInit: unblurInit,
@@ -193,7 +198,7 @@ async function unwrapPayloads () {
 
 function validateData (rawCSS, rawJSON, rawLayout, isNew) {
     if (![rawCSS, rawJSON, rawLayout].every(Boolean)) {
-        //if any of the remote resources are missing, block execution of the 
+        //if any of the remote resources are missing, block execution of the
         //rest of the script and print warning header; style data must be hardcoded here
         //as an emergency logic
         const warning = document.createElement('p')
@@ -365,6 +370,18 @@ function constructMenu (json, layoutArr, isNew) {
         headerChangelogIcon.title = layoutArr.header.changelog.tooltip
         headerChangelogButton.appendChild(headerChangelogLink)
 
+        const headerSearchButton = document.createElement('span')
+        headerSearchButton.className = 'kes-changelog'
+        const headerSearchIcon = document.createElement('i')
+        headerSearchIcon.className = layoutArr.header.search.icon
+        headerSearchIcon.title = layoutArr.header.search.tooltip
+        headerSearchButton.appendChild(headerSearchIcon)
+        headerSearchButton.addEventListener('click', () => {
+            const searchDialog = document.querySelector('#kes-search-dialog');
+            searchDialog.showModal();
+        });
+
+
         const headerVersionButton = document.createElement('span');
         headerVersionButton.className = 'kes-version'
         headerVersionButton.appendChild(versionElement);
@@ -376,6 +393,7 @@ function constructMenu (json, layoutArr, isNew) {
         header.appendChild(headerDockButton)
         header.appendChild(headerEyeButton)
         header.appendChild(headerChangelogButton)
+        header.appendChild(headerSearchButton)
 
         if (window.innerWidth > 576) {
             header.appendChild(headerVersionButton);
@@ -821,15 +839,215 @@ function constructMenu (json, layoutArr, isNew) {
         magLink.setAttribute('href', magURL);
         footer.appendChild(magLink)
 
-
-        //reset all localStorage related to KES
-        const resetButton = document.createElement('button')
-        resetButton.innerText = "RESET"
-        resetButton.className = "kes-reset-button"
-        footer.appendChild(resetButton)
-        resetButton.addEventListener('click', () => {
-            resetAll();
+        const backupButton = document.createElement('button');
+        backupButton.innerText = "SETTINGS";
+        backupButton.className = "kes-backup-button";
+        footer.appendChild(backupButton);
+        backupButton.addEventListener('click', () => {
+            const backupDialog = document.querySelector('#kes-backup-dialog');
+            backupDialog.showModal();
         });
+        
+        function parseNamespaces () {
+            var names = [];
+            for(i = 0 ; i < json.length ; ++i) {
+                if(json[i].namespace) {
+                    names.push(json[i].namespace);
+                }
+            }
+            return names;
+        }
+        function parseLocalStorage () {
+            const names = parseNamespaces();
+            const toExport = {};
+            const keys = Object.keys(localStorage);
+            const values = Object.values(localStorage);
+            for(i = 0 ; i < keys.length ; ++i) {
+                if(keys[i] === "kes-settings" || names.includes(keys[i])) {
+                    let key = keys[i];
+                    let value = JSON.parse(values[i]);
+                    toExport[key] = value;
+                }
+            }
+            return toExport
+        }
+        function parseImportedFile (contents) {
+            const names = parseNamespaces();
+            const keys = Object.keys(contents);
+            cleanNamespaces();
+            for(i = 0 ; i < keys.length ; ++i) {
+                if(keys[i] === "kes-settings" || names.includes(keys[i])) {
+                    let namespace = keys[i];
+                    let settings = contents[namespace];
+                    console.log("key to add is " + namespace)
+                    saveModSettings(settings, namespace)
+                }
+            }
+        }
+        function exportSettings () {
+            const exportButton = document.createElement('a')
+            const rawSettings = parseLocalStorage();
+            const pretty = JSON.stringify(rawSettings,null,2);
+            const textBlob = new Blob([pretty], { type: 'application/json' });
+            const saveDate = new Date().toLocaleString('sv').replace(' ','-').replaceAll(':','')
+            const filename = `KES-backup-${saveDate}.json`
+            exportButton.setAttribute('href',URL.createObjectURL(textBlob));
+            exportButton.setAttribute('download', filename);
+            exportButton.style = 'display:none';
+            document.body.appendChild(exportButton);
+            exportButton.click();
+            alert(`Saved KES settings to ${filename}`)
+        }
+
+        function fileImportError () {
+            alert('File import error. The file may be corrupted. If you believe the file is correct, please attach it alongside a bug report.')
+        }
+        const dialogTrigger = document.createElement('input')
+        footer.appendChild(dialogTrigger)
+        dialogTrigger.id = 'kes-import-dialog'
+        dialogTrigger.style = 'display: none'
+        dialogTrigger.type = 'file';
+        dialogTrigger.addEventListener('change', (e) => {
+            const reader = new FileReader();
+            reader.readAsText(e.target.files[0]);
+            reader.onerror = function () {
+                fileImportError();
+            };
+            reader.onload = function () {
+                try {
+                    let payload = JSON.parse(reader.result)
+                    parseImportedFile(payload)
+                    window.location.reload();
+                } catch (e) {
+                    fileImportError();
+                }
+            };
+
+        });
+
+        const resultsNativeModal = document.createElement('dialog');
+        resultsNativeModal.id = 'kes-results-dialog';
+        resultsNativeModal.innerHTML = `
+        <form method="dialog">
+        </form>
+        `
+        const searchNativeModal = document.createElement('dialog');
+        searchNativeModal.id = 'kes-search-dialog';
+        searchNativeModal.innerHTML = `
+        <form method="dialog">
+        <menu class="kes-search-menu">
+        <input type="text" class="kes-search-field">
+          <span class="kes-search-text">Type enter to submit search</span>
+          <button class="kes-search-hidden" type="submit" value="submit">Submit</button>
+          <button class="kes-search-closebutton" type="submit" value="close">Close</button>
+        </menu>
+      </form>
+      `
+
+        const nativeModal = document.createElement('dialog');
+        nativeModal.id = 'kes-backup-dialog';
+        nativeModal.innerHTML = `
+        <form method="dialog">
+        <menu class="kes-backup-menu">
+          <button type="submit" value="export">Export</button>Export to file<br>
+          <button type="submit" value="import">Import</button>Import from file<br>
+          <button type="submit" value="reset">Reset</button>Reset all KES settings<br>
+          <button type="submit" value="close">Close</button>Close this dialog
+        </menu>
+      </form>
+      `
+        nativeModal.addEventListener('close', () => {
+            const dialog = document.querySelector('#kes-backup-dialog');
+            switch (dialog.returnValue) {
+            case "import": 
+                const upload = document.getElementById("kes-import-dialog");
+                upload.click();
+                break;
+            case "export":
+                exportSettings();
+                break;
+            case "reset":
+                resetAll();
+                break;
+            case "close":
+                break;
+            }
+        });
+
+        resultsNativeModal.addEventListener('close', () => {
+            const dialog = document.querySelector('#kes-results-dialog');
+            const ret = dialog.returnValue
+            if (ret === "close") {
+                return
+            }
+            let page = ret.split('@')[0]
+            const helpString = ret.split('@')[1]
+            pageCaps = page.charAt(0).toUpperCase() + page.slice(1);
+            openTab(pageCaps);
+            const opts = document.querySelectorAll('.kes-option');
+            opts.forEach((opt)=>{
+                if (opt.innerHTML.trim() === helpString) {
+                    const ind = opt.getAttribute("kes-iter");
+                    openHelpBox(ind);
+                    return
+                }
+            });
+        });
+
+        searchNativeModal.addEventListener('close', () => {
+            const outerDialog = document.querySelector('#kes-search-dialog');
+            const innerDialog = document.querySelector('.kes-search-field');
+            const query = innerDialog.value;
+            innerDialog.value = "";
+            if (outerDialog.returnValue === "close") {
+                return
+            }
+            if (query === "") {
+                return
+            }
+            const resultsDialog = document.querySelector('#kes-results-dialog');
+            const oldMenu = document.querySelector('.kes-results-menu')
+            if (oldMenu) {
+                oldMenu.remove();
+            }
+            const resultsMenu = document.createElement('menu');
+            resultsMenu.className = 'kes-results-menu';
+            const resultsDialogForm = resultsDialog.querySelector('form');
+            resultsDialogForm.appendChild(resultsMenu);
+
+            let label
+            for (let i = 0; i < json.length; ++i) {
+                const origLabel = json[i].label
+                const labelLower = origLabel.toLowerCase();
+                const queryLower = query.toLowerCase();
+                if(labelLower.includes(queryLower)) {
+                    label = json[i].label;
+                    const page = json[i].page
+                    const br = document.createElement('br')
+                    const r = document.createElement('button')
+                    r.type = "submit";
+                    r.className = "kes-results-fullbutton";
+                    r.value = page + "@" + label;
+                    r.innerText = label;
+                    resultsMenu.appendChild(r);
+                    resultsMenu.appendChild(br);
+                }
+            }
+            if (label === undefined) {
+                return
+            }
+            const closeButton = document.createElement('button')
+            closeButton.type = "submit"
+            closeButton.value = "close"
+            closeButton.className = "kes-results-closebutton"
+            closeButton.innerText = "Close"
+            resultsMenu.appendChild(closeButton)
+            resultsDialog.showModal();
+        });
+
+        modal.appendChild(nativeModal);
+        modal.appendChild(searchNativeModal);
+        modal.appendChild(resultsNativeModal);
 
         const bugLink = document.createElement("a");
         bugLink.className = "kes-settings-modal-bug-link";

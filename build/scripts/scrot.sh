@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-dir=$PWD/images
+dir="../../images"
+echo $dir
+exit
 name="example.png"
 scrot="$dir/$name"
 url=https://kbin.social/m/kbinstyles

@@ -427,9 +427,12 @@ span.kes-update {
     color: orange;
     padding-right: 20px;
 }
-
-.kes-reset-button {
-    margin-left: 200px;
+#kes-results-dialog,#kes-search-dialog,#kes-backup-dialog {
+    border: none;
+    background-color: var(--kbin-footer-bg);
+    color: var(--kbin-input-text-color);
+}
+.kes-backup-button {
     background-color: var(--kbin-section-bg);
     color: var(--kbin-input-text-color);
     border: 0px;
@@ -438,8 +441,22 @@ span.kes-update {
     margin-left: auto;
 }
 
-.kes-reset-button:hover {
+.kes-backup-button:hover {
     opacity: 1;
+}
+.kes-search-menu button, .kes-results-menu button, .kes-backup-menu button {
+    border: 0px;
+    opacity: 1;
+    background-color: var(--kbin-section-bg);
+    color: var(--kbin-input-text-color);
+    border-radius: 0px;
+    margin: 4px;
+}
+.kes-backup-menu button {
+    margin-right: 10px;
+}
+.kes-results-menu button:hover, .kes-backup-menu button:hover {
+    opacity: 0.7;
 }
 
 .kes-debug-clipboard {
@@ -451,5 +468,35 @@ span.kes-update {
     float: right;
 }
 #kes-checkbox {
-    display: none;
+    display:none;
+}
+.kes-results-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border: solid 1px gray;
+}
+.kes-results-closebutton, .kes-results-fullbutton {
+    border: none;
+}
+.kes-results-fullbutton {
+    padding: 5px 10px 5px 10px;
+}
+#kes-results-dialog {
+    padding: unset;
+    overflow-y: scroll;
+    max-height: 50%;
+}
+.kes-results-menu button {
+    padding: 5px 20px 5px 20px;
+}
+
+.kes-search-text, .kes-search-menu button {
+    margin-top: 10px;
+}
+.kes-search-closebutton {
+    float: right;
+}
+.kes-search-hidden {
+    display:none;
 }
