@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.0.0-beta.14
+// @version      3.0.0-beta.16
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -74,7 +74,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -122,6 +122,7 @@ const funcObj = {
     notificationsPanel: notificationsPanel,
     omniInit: omniInit,
     rearrangeInit: rearrangeInit,
+    softBlockInit: softBlockInit,
     textResize: textResize,
     toggleLogo: toggleLogo,
     unblurInit: unblurInit,
