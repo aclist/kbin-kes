@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.0.0-beta.9
+// @version      3.0.0-beta.10
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -60,6 +60,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/rearrange/rearrange.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug/report-bug.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/resize-text/resize-text.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/softblock/softblock.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs/subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/thread-checkmarks/thread-checkmarks.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp/timestamp.user.js
