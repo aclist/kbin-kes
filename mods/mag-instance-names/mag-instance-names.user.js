@@ -31,12 +31,9 @@ function magInstanceEntry (toggle) {
         });
     }
     const localInstance = window.location.href.split('/')[2];
-    const magInstanceObserver = new MutationObserver(showMagInstances);
     if (toggle) {
         showMagInstances();
-        magInstanceObserver.observe(document.body, { childList: true, subtree: true });
     } else {
         hideCommunityInstances();
-        magInstanceObserver.disconnect();
     }
 }

@@ -319,6 +319,8 @@
     "label": "User instance names",
     "desc": "Show instance names next to users",
     "entrypoint": "userInstanceEntry",
+    "recurs": true,
+    "login": false,
     "page": "general"
   },
   {

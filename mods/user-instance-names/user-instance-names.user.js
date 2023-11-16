@@ -30,12 +30,9 @@ function userInstanceEntry (toggle) {
         });
     }
     const localInstance = window.location.href.split('/')[2];
-    const userInstanceObserver = new MutationObserver(showUserInstances);
     if (toggle) {
         showUserInstances();
-        userInstanceObserver.observe(document.body, { childList: true, subtree: true });
     } else {
         hideUserInstances();
-        userInstanceObserver.disconnect();
     }
 }
