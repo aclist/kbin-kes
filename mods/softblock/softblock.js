@@ -131,160 +131,162 @@ function softBlockInit (toggle) {
     }
     function addToIndex(mags){
         const manageLink = document.querySelector('.softblock-manage')
-        if (!manageLink) {
-            const sib = document.querySelector('.options__main a[href="/magazines/abandoned"]')
-            const par = sib.parentElement
-            const but = document.createElement('a')
-            but.className = 'softblock-manage'
-            but.innerText = "softblocked"
-            but.addEventListener('click', () => {
-                if (document.querySelector('#softblock-panel')) {
-                    return
-                }
-                const cleanmags = clean(mags)
-                const mod = document.createElement('div')
-                mod.id = 'softblock-panel'
-                const closeButton = document.createElement('button')
-                closeButton.innerText = 'close'
-                closeButton.className = 'softblock-panel-close'
-                closeButton.addEventListener('click', (e)=>{
-                    e.target.parentElement.remove();
-                });
-                mod.appendChild(cleanmags)
-                mod.appendChild(closeButton)
-                document.querySelector('header').appendChild(mod)
-            });
-            par.insertAdjacentElement("afterend", but)
+        if(manageLink) {
+            return
         }
-
-        const rows = document.querySelectorAll('.magazines.table-responsive .magazine-inline')
-        rows.forEach((link) => {
-            const mag = link.href.split('/')[4]
-            const row = link.parentElement.parentElement
-            const el = row.querySelector('.magazine__subscribe form[name="magazine_block"]')
-            const state = returnState(mags, mag);
-            //TODO: test propagation
-            if (el.querySelector('.softblock-button')) {
+        const sib = document.querySelector('.options__main a[href="/magazines/abandoned"]')
+        const par = sib.parentElement
+        const but = document.createElement('a')
+        but.className = 'softblock-manage'
+        but.innerText = "softblocked"
+        but.addEventListener('click', () => {
+            if (document.querySelector('#softblock-panel')) {
                 return
             }
-            insertBlockButton(mags, state, el);
-        });
-    }
-
-    function insertBlockButton(mags, state, el){
-
-        const blockButton = document.createElement('button');
-        blockButton.classList.add('softblock-button', 'btn', 'btn__secondary', 'action')
-
-        const blockIcon = document.createElement('i');
-        const cl = 'fa-solid fa-comment-slash';
-        const sp = document.createElement('span')
-        sp.className = 'softblock-span';
-        blockIcon.className = cl;
-
-        blockButton.appendChild(blockIcon);
-        blockButton.appendChild(sp);
-
-        blockButton.addEventListener('click', (e) => {
-            let mag
-            let button
-            let span
-            if (location.pathname.split('/')[1] === "magazines") {
-                const type = e.target.tagName
-                const row = e.target.parentElement.parentElement.parentElement.parentElement
-                const row2 = e.target.parentElement.parentElement.parentElement
-                let par
-                switch (type){
-                    case "I":
-                        par = row
-                        break
-                    case "SPAN":
-                        par = row
-                        break
-                    case "BUTTON":
-                        par = row2
-                        break
-                }
-                mag = par.querySelector('.magazine-inline').href.split('/')[4]
-                button = par.querySelector('.softblock-button')
-                span = par.querySelector('.softblock-span')
-            } else {
-                mag = location.pathname.split('/')[2];
-                button = document.querySelector('.softblock-button')
-                span = document.querySelector('.softblock-span')
-            }
-            console.log(button)
-            const text = span.innerText
-            console.log(text)
-            switch (text){
-                case "Softblock":{
-                    span.innerText = 'Unsoftblock'
-                    button.classList.add('danger')
-                    if(mags.includes(mag)){
-                        break
-                    }
-                    mags.push(mag)
-                    console.log(mags)
-                    break
-                }
-                case "Unsoftblock": {
-                    span.innerText = 'Softblock'
-                    button.classList.remove('danger')
-                    if(!mags.includes(mag)){
-                        break
-                    }
-                    const ind = mags.indexOf(mag)
-                    mags.splice(ind, 1)
-                    break
-                }
-            }
-            saveMags(hostname, mags)
-        });
-
-        switch(state){
-            case "block": {
-                sp.innerText = 'Softblock'
-                break
-            }
-            case "unblock": {
-                sp.innerText = 'Unsoftblock'
-                blockButton.classList.add('danger')
-                break
-            }
-        }
-        el.insertAdjacentElement("afterend", blockButton);
-    }
-
-    async function loadMags (hostname) {
-        const mags = await safeGM("getValue", `softblock-mags-${hostname}`)
-        if (!mags) {
-            const e = [];
-            saveMags(hostname, e)
-        }
-        softBlock(mags)
-    }
-
-    async function saveMags (hostname, mags) {
-        const savedMags = await safeGM("setValue", `softblock-mags-${hostname}`, mags)
-    }
-    function removeEls(els){
-        let range
-        for (let i = 0; i < arguments.length; ++i){
-            range = document.querySelectorAll(arguments[i])
-            range.forEach((el) => {
-                el.remove();
+            const cleanmags = clean(mags)
+            const mod = document.createElement('div')
+            mod.id = 'softblock-panel'
+            const closeButton = document.createElement('button')
+            closeButton.innerText = 'close'
+            closeButton.className = 'softblock-panel-close'
+            closeButton.addEventListener('click', (e)=>{
+                e.target.parentElement.remove();
             });
-        }
+            mod.appendChild(cleanmags)
+            mod.appendChild(closeButton)
+            document.querySelector('header').appendChild(mod)
+        });
+        par.insertAdjacentElement("afterend", but)
     }
 
-    if (toggle) {
-        safeGM('addStyle', softBlockCSS, 'softblock-css');
-        loadMags(hostname);
-    } else {
-        safeGM('removeStyle', 'softblock-css')
-        removeEls('.softblock-icon', '.softblock-button')
-        const e = []
+    const rows = document.querySelectorAll('.magazines.table-responsive .magazine-inline')
+    rows.forEach((link) => {
+        const mag = link.href.split('/')[4]
+        const row = link.parentElement.parentElement
+        const el = row.querySelector('.magazine__subscribe form[name="magazine_block"]')
+        const state = returnState(mags, mag);
+        //TODO: test propagation
+        if (el.querySelector('.softblock-button')) {
+            return
+        }
+        insertBlockButton(mags, state, el);
+    });
+}
+
+function insertBlockButton(mags, state, el){
+
+    const blockButton = document.createElement('button');
+    blockButton.classList.add('softblock-button', 'btn', 'btn__secondary', 'action')
+
+    const blockIcon = document.createElement('i');
+    const cl = 'fa-solid fa-comment-slash';
+    const sp = document.createElement('span')
+    sp.className = 'softblock-span';
+    blockIcon.className = cl;
+
+    blockButton.appendChild(blockIcon);
+    blockButton.appendChild(sp);
+
+    blockButton.addEventListener('click', (e) => {
+        let mag
+        let button
+        let span
+        if (location.pathname.split('/')[1] === "magazines") {
+            const type = e.target.tagName
+            const row = e.target.parentElement.parentElement.parentElement.parentElement
+            const row2 = e.target.parentElement.parentElement.parentElement
+            let par
+            switch (type){
+                case "I":
+                    par = row
+                    break
+                case "SPAN":
+                    par = row
+                    break
+                case "BUTTON":
+                    par = row2
+                    break
+            }
+            mag = par.querySelector('.magazine-inline').href.split('/')[4]
+            button = par.querySelector('.softblock-button')
+            span = par.querySelector('.softblock-span')
+        } else {
+            mag = location.pathname.split('/')[2];
+            button = document.querySelector('.softblock-button')
+            span = document.querySelector('.softblock-span')
+        }
+        console.log(button)
+        const text = span.innerText
+        console.log(text)
+        switch (text){
+            case "Softblock":{
+                span.innerText = 'Unsoftblock'
+                button.classList.add('danger')
+                if(mags.includes(mag)){
+                    break
+                }
+                mags.push(mag)
+                console.log(mags)
+                break
+            }
+            case "Unsoftblock": {
+                span.innerText = 'Softblock'
+                button.classList.remove('danger')
+                if(!mags.includes(mag)){
+                    break
+                }
+                const ind = mags.indexOf(mag)
+                mags.splice(ind, 1)
+                break
+            }
+        }
+        saveMags(hostname, mags)
+    });
+
+    switch(state){
+        case "block": {
+            sp.innerText = 'Softblock'
+            break
+        }
+        case "unblock": {
+            sp.innerText = 'Unsoftblock'
+            blockButton.classList.add('danger')
+            break
+        }
+    }
+    el.insertAdjacentElement("afterend", blockButton);
+}
+
+async function loadMags (hostname) {
+    const mags = await safeGM("getValue", `softblock-mags-${hostname}`)
+    if (!mags) {
+        const e = [];
         saveMags(hostname, e)
     }
+    softBlock(mags)
+}
+
+async function saveMags (hostname, mags) {
+    const savedMags = await safeGM("setValue", `softblock-mags-${hostname}`, mags)
+}
+function removeEls(els){
+    let range
+    for (let i = 0; i < arguments.length; ++i){
+        range = document.querySelectorAll(arguments[i])
+        range.forEach((el) => {
+            el.remove();
+        });
+    }
+}
+
+if (toggle) {
+    safeGM('addStyle', softBlockCSS, 'softblock-css');
+    loadMags(hostname);
+} else {
+    safeGM('removeStyle', 'softblock-css')
+    removeEls('.softblock-icon', '.softblock-button')
+    const e = []
+    saveMags(hostname, e)
+}
 }
 softBlockInit(true);
