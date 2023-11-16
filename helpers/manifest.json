@@ -764,7 +764,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Checkmark on subbed mags",
-    "desc": "Append a checkmark to magazines on the thread index you are subscribed to. Depends on the 'Subs omnibar' option (Page: general)",
+    "desc": "Append a checkmark to magazines on the thread index you are subscribed to. The 'Subscriptions omnibar' option (page: General) must be enabled for this to work",
     "login": false,
     "recurs": true,
     "entrypoint": "checksInit",
@@ -877,6 +877,17 @@
         "checkbox_label": "Hide view icon"
       }
     ]
+  },
+  {
+    "name": "Softblock magazines",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Softblock magazines",
+    "desc": "Prevent a magazine from appearing on the main subscriptions index, but do not explicitly block its content altogether if visiting the magazine directly. Adds a softblock button next to magazine names on the thread index. Softblocked mags can be managed via the magazine subscriptions index or via a specific magazine's sidebar",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "softBlockInit",
+    "page": "threads"
   },
   {
     "name": "kbin-code-highlighting",
