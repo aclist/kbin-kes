@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Kbin Federation Awareness: make feature toggle dynamically without requiring refresh
 - Label OP: make feature toggle dynamically without requiring refresh
+- User instance names: drop unnecessary creation of observers on mutation events
+- Magazine instance names: drop unnecessary creation of observers on mutation events
 
 ## 2.2.2
 ### Fixed
