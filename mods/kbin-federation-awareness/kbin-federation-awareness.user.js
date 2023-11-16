@@ -131,6 +131,10 @@ function kfaShutdown () {
     removeOld(dh, df, dm, mh, mf, mm);
 }
 
+function kfaRestart () {
+    kfaShutdown();
+    kfaStartup();
+}
 function findHostname(links){
     let host
     links.forEach((link) => {
@@ -149,7 +153,11 @@ function kfaInitClasses () {
         'data-home'
     ];
     document.querySelectorAll('#content article.entry').forEach(function (article) {
+<<<<<<< HEAD:mods/kbin-federation-awareness/kbin-federation-awareness.user.js
             if (article.querySelector('[class^=data-]')) { return }
+=======
+        if (!(article.classList.value.split(' ').some(r => classList.indexOf(r) >= 0))) {
+>>>>>>> main:mods/kbin-federation-awareness.user.js
             const copyLinks = article.querySelectorAll('footer menu .dropdown a[data-action="clipboard#copy"]');
             const hostname = findHostname(copyLinks);
             let articleAside = article.querySelector('aside');
