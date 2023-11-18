@@ -28,8 +28,6 @@ function softBlockInit (toggle) {
     `
 
     function softBlock (mags) {
-        console.log('current mags')
-        console.log(mags)
         const path = location.pathname.split('/')[1]
         switch (path) {
         case "":
