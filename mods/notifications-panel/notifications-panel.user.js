@@ -156,7 +156,6 @@ const resetDropdownCSS = `
 `
 const notificationsURL = 'https://' + window.location.hostname + '/settings/notifications'
 function readAndReset (response) {
-    console.log(response)
     const counter = document.querySelector('.notification-counter');
     if (counter) {
         counter.remove();
@@ -270,7 +269,6 @@ async function insertMsgs (response) {
         }
     }
     if (unreads) {
-        console.log("found unreads")
         readButton.style.setProperty('--noti-button-opacity','0.7')
         readButton.addEventListener('click', () => {
             clearPanel();
@@ -348,7 +346,6 @@ function startup () {
     build();
 }
 function toggleIframe (listItem) {
-    console.log("toggling iframe")
     const existingIframe = listItem.querySelector('.notifications-iframe');
 
     if (existingIframe) {
