@@ -67,6 +67,8 @@ out of the way in order to see changes that would otherwise be occluded by the m
 
 === Header and footer buttons
 
+icon:search[] **Search**: opens a keyword search field; search for add-ons using partial string match. Click the returned results to jump to the corresponding add-on's settings page.
+
 icon:flask[] **Changelog**: a link to the KES changelog, listing all user-facing changes to date.
 
 icon:eye-slash[] **Transparent Mode**: hides the KES menu so that you can "see through" to the rest of the page and inspect how changes were applied.
@@ -86,8 +88,12 @@ icon:clipboard[] **Copy system info**: click to copy system information to the c
 - Incognito: whether private browsing is on (used to troubleshoot issues)
 - Settings: the currently saved KES settings, such as which options are on, and what settings they have
 
-Reset button: prompts the user to confirm whether they would like to reset all internal KES settings to the default. This reverts the state of toggles to
-OFF and flushes any custom settings.
+*SETTINGS* button: opens a submenu exposing the following options:
+
+- Export: exports the toggle state and sub-settings of each KES feature to a timestamped backup file (JSON). Used to backup your settings from a given point in time.
+- Import: imports a file generated using the above Export button and applies those settings to KES. Used to restore your settings from a given point in time.
+- Reset: flushes the toggle state and sub-settings of each KES feature and resets them to the defaults.
+- Close: closes the settings sub-menu.
 
 === Settings
 The toggle state of a modification and its settings will be saved and persist across browser sessions.
@@ -103,7 +109,7 @@ https://github.com/aclist/kbin-kes/issues/new/choose[here].
 If you wish to submit your scripts for integration into KES, a standardized framework is available that
 makes adaptation and PR submission easy:
 
-The metadata related to a script is defined a priori in the file `manifest.json`. KES automatically populates
+The metadata related to a script is defined a priori in the file `manifest.json`, which itself is a concatenation of JSON objects sourced from each script's self-named directory. KES automatically populates
 its pages and assigns your add-on to the category requested, filling its contents with the fields and values you set.
 
 1. Set up an entrypoint function in the script which enables/disables it (See <<Script calling logic>>)
@@ -124,11 +130,28 @@ feature provided by a function in a third-party userscript.
 Add-ons must be given a globally unique entrypoint function name and, if using custom input fields,
 a globally unique namespace.
 
+`manifest.json` is not manipulated by hand, being created automatically during the build process by maintainers.
+When submitting a script, the author is solely responsible for creating their own JSON file defining settings for their script.
+
+Ensure that you submit your add-on using the following directory tree, with all files prefixed with the name of the parent directory.
+Given a mod named `softblock`, the submitted files should be:
+
+
+----
+softblock/ <1>
+├── softblock.json <2>
+└── softblock.user.js <3>
+
+----
+<1> The parent directory
+<2> The JSON object for your script
+<3> The script itself
+
 If the add-on requires custom input fields like select, radio, or
 other https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input[input types], they can be added under
 the `fields` array, one custom field per object.
 
-The namespace is used to store settings under a localStorage object, which is used to share
+The `namespace` is used to store settings under a localStorage object, which is used to share
 settings between KES and third-party add-ons, or between third-party add-ons.
 
 
@@ -169,7 +192,7 @@ The only responsibilities of the recipient script are:
 - Handle setup and teardown of the desired logic (show/hide elements, apply/unapply styling)
 - Parse its own namespace under localStorage and retrieve custom settings. To facilitate this, KES provides the `getModSettings()` function. See <<Retrieving custom settings>>.
 
-.manifest.json
+.mail.json
 ----
   {
     "name": "Add mail",
@@ -204,7 +227,7 @@ The only responsibilities of the recipient script are:
     "page": "general" <5>
   }
 ----
-<1> If the user has enabled lazy loading (infinite scroll) and the add-on is expected to modify these new threads and/or comments, setting this value to true will ensure that the script is applied again.
+<1> If the user has enabled infinite scroll and the add-on is expected to modify these new threads and/or comments, setting this value to true will ensure that the script is applied again.
 <2> A globally unique namespace under which the script's custom field settings are stored.
 <3> See <<Adding custom input fields>>. In the above example, the descriptive text 'Label type' will be printed on one line, followed by a line break, then two radio buttons respectively labeled 'Text' and 'Icon', in that order,
 separated by line breaks, with the 'Text' radio button initially selected. The initial value of 'Text' will be saved under the `mail.type` key (i.e., prefer a text label instead of an icon) and updated if the user changes the radio button.
@@ -451,16 +474,16 @@ function getHex (value) {
 1. Clone the repo and prepare a patch against the `testing` branch.
 
 2. If you are submitting a userscript, limit PRs to one per atomic script. If a collection of functions in the script are semantically related to each other, you may
-choose to group them into one script, but they must be given unique objects, entrypoints, and namespaces within `manifest.json` (one feature per add-on). Generally speaking, different features should be limited to atomic scripts.
+choose to group them into one script, but they must be given unique objects, entrypoints, and namespaces within your JSON object (one feature per add-on). Generally speaking, different features should be limited to atomic scripts.
 
 3. Scripts should not wantonly change the appearance and style of the page in the way a CSS theme would.
 Limit features to small functionality changes that leverage the advantages of JS over CSS.
 KES works best in the aggregate, when its add-ons synergize with each other.
 
 4. For testing purposes, you can define remote resources in the `@require` fields of your local copy of the `kes.user.js` headers when debugging, but the PR itself must not include any
-modifications to this file or to the `VERSION` file. Only submit a modified `manifest.json` and add your script to the `/mods` directory.
+modifications to this file or to the `VERSION` file. Only submit a named directory containing a JSON object and a js file in the `/mods` directory.
 
-5. Ensure that the `entrypoint` and `namespace` (if applicable) defined in `manifest.json` are globally unique.
+5. Ensure that the `entrypoint` and `namespace` (if applicable) defined in your manifest object are globally unique.
 
 6. If your script has external dependencies (`@require`) that are not included in KES, please request these to be added when making the PR so that they
 can be added at the top level. Note that jQuery is provided by default and can be used to reduce the verbosity of your script.
