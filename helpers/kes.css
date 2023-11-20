@@ -248,7 +248,7 @@ span.kes-update {
     margin-right: 0.5rem;
 }
 .kes-default-radio, .kes-default-checkbox {
-    -webkit-appearance: auto !important;
+	-webkit-appearance: auto !important;
     appearance: auto !important;
     display: unset !important;
     height: 1.0rem !important;
