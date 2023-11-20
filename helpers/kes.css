@@ -248,10 +248,10 @@ span.kes-update {
     margin-right: 0.5rem;
 }
 .kes-settings-modal-helpbox label input[type="checkbox"], .kes-settings-modal-helpbox label input[type="radio"], {
-    -webkit-appearance: auto;
-    appearance: auto;
-    display: unset;
-    margin-right: 10px;
+    -webkit-appearance: auto !important;
+    appearance: auto !important;
+    display: unset !important;
+    margin-right: 10px !important;
 }
 .kes-settings-modal-content h2 {
     margin-top: 0;
