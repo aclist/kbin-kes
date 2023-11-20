@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.1.0-beta.3
+// @version      3.1.0-beta.4
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -696,6 +696,7 @@ function constructMenu (json, layoutArr, isNew) {
                             radioField.setAttribute("kes-iter", it);
                             radioField.setAttribute("kes-key", key);
                             radioField.setAttribute("value", json[it].fields[i].values[j]);
+                            radioField.className = "kes-default-radio";
                             if (modSettings[key] == json[it].fields[i].values[j]) {
                                 radioField.checked = true;
                             } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
@@ -725,6 +726,7 @@ function constructMenu (json, layoutArr, isNew) {
                         }
                         cfield.setAttribute("kes-iter", it);
                         cfield.setAttribute("kes-key", key);
+                        cfield.className = "kes-default-checkbox";
                         checkboxLabel.appendChild(cfield);
                         let ctext = document.createElement('text')
                         ctext.innerText = json[it].fields[i].checkbox_label;

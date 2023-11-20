@@ -247,7 +247,7 @@ span.kes-update {
 .kes-settings-modal-content ul li input[type="checkbox"] {
     margin-right: 0.5rem;
 }
-.kes-settings-modal-helpbox label input[type="checkbox"], .kes-settings-modal-helpbox label input[type="radio"], {
+.kes-default-radio, .kes-default-checkbox {
     -webkit-appearance: auto !important;
     appearance: auto !important;
     display: unset !important;
