@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 3.0.1
+## Fixed
+- Restore browser default appearance of checkboxes and radio fields
+- Label OP: properly show expected opacity (75%) of final label due to inherited opacity of parent element
+- Alpha sort subs: properly align name/link when sorting usernames on followers list
+- Reduce verbosity of log messages in some mods
+
 ## 3.0.0
 ### Added
 - Softblock magazines (shazbot)
