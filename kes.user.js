@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.1.0-beta.5
+// @version      3.1.0-beta.6
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -639,6 +639,9 @@ function constructMenu (json, layoutArr, isNew) {
                         colorField.setAttribute("type", fieldType);
                         colorField.setAttribute("kes-iter", it);
                         colorField.setAttribute("kes-key", key);
+                        if (json[it].entrypoint == "labelOp") {
+                            colorField.setAttribute("opacity", 0.75);
+                        }
                         hBox.appendChild(colorField);
                         hBox.appendChild(br);
                         break;
@@ -881,7 +884,6 @@ function constructMenu (json, layoutArr, isNew) {
                 if(keys[i] === "kes-settings" || names.includes(keys[i])) {
                     let namespace = keys[i];
                     let settings = contents[namespace];
-                    console.log("key to add is " + namespace)
                     saveModSettings(settings, namespace)
                 }
             }

@@ -506,3 +506,6 @@ span.kes-update {
 .kes-search-hidden {
     display:none;
 }
+.kes-dimmed-colorpicker {
+    opacity: 0.75;
+}
