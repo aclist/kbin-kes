@@ -12,7 +12,13 @@ All notable changes to this project will be documented in this file.
 - Label OP: make feature toggle dynamically without requiring refresh
 - User instance names: drop unnecessary creation of observers on mutation events
 - Magazine instance names: drop unnecessary creation of observers on mutation events
-
+## 2.2.4
+### Fixed
+- Adjust appearance of ON/OFF toggles due to new kbin styling
+## 2.2.3
+### Fixed
+- Undeclared variable in omnibar
+- Restore federation awareness functionality per latest kbin update
 ## 2.2.2
 ### Fixed
 - Hide posts: expanded images not being hidden along with post
