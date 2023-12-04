@@ -12,7 +12,7 @@ function fixLemmyCodeblocks(toggle) {
     const startTag = '<span style="color:#323232;">';
     const endTag = "</span>";
 
-    function fixCodeblock(code) {
+    function fixCodeblock (code) {
         if (testPattern.test(code.innerText)) {
             code.innerText = code.innerText
                 .replace(startTagPattern, "")
@@ -23,7 +23,7 @@ function fixLemmyCodeblocks(toggle) {
     }
 
     // including this to keep the mod's behavior consistent with the others
-    function revertCodeblock(code) {
+    function revertCodeblock (code) {
         const text = code.innerText.replaceAll(startOfNewLinePattern, `${endTag}${startTag}`);
         code.innerText = `\n${startTag}${text}\n${endTag}\n`;
         code.removeAttribute(attribute);
