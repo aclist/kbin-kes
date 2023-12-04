@@ -1,4 +1,4 @@
-function fixLemmyCodeblocks(toggle) {
+function fixLemmyCodeblocks (toggle) {
     // included everything inside here because of the private functions advisory
 
     const testPattern = /\n?<span style="color:#323232;">(.+\n)+<\/span>\n?/;
