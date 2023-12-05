@@ -639,6 +639,7 @@ function constructMenu (json, layoutArr, isNew) {
                         colorField.setAttribute("type", fieldType);
                         colorField.setAttribute("kes-iter", it);
                         colorField.setAttribute("kes-key", key);
+                        //#220: explicit handling for labelOp mod (child inherits 75% opacity of author header)
                         if (json[it].entrypoint == "labelOp") {
                             colorField.className = "kes-dimmed-colorpicker";
                         }
