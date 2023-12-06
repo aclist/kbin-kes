@@ -365,6 +365,7 @@ function constructMenu (json, layoutArr, isNew) {
         const headerChangelogIcon = document.createElement('i')
         const headerChangelogLink = document.createElement('a')
         headerChangelogLink.href = changelogURL
+        headerChangelogLink.setAttribute('target', '_blank')
         headerChangelogLink.appendChild(headerChangelogIcon)
         headerChangelogIcon.className = layoutArr.header.changelog.icon
         headerChangelogIcon.title = layoutArr.header.changelog.tooltip
@@ -843,6 +844,7 @@ function constructMenu (json, layoutArr, isNew) {
         magLink.className = "kes-settings-modal-magazine";
         magLink.innerText = "/m/enhancement";
         magLink.setAttribute('href', magURL);
+        magLink.setAttribute('target', '_blank');
         footer.appendChild(magLink)
 
         const backupButton = document.createElement('button');
@@ -1058,6 +1060,7 @@ function constructMenu (json, layoutArr, isNew) {
         bugLink.className = "kes-settings-modal-bug-link";
         bugLink.innerText = "Report a bug";
         bugLink.setAttribute('href', bugURL);
+        bugLink.setAttribute('target', '_blank');
         footer.appendChild(bugLink)
 
         const bugIcon = document.createElement("span");
