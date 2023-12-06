@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-./sane.sh
 npm_flag="--no-git-tag-version"
 COLUMNS=1
 version_file="VERSION"
