@@ -7,5 +7,5 @@
   "login": false,
   "recurs": true,
   "entrypoint": "fixLemmyCodeblocks",
-  "page": "General"
+  "page": "general"
 }
