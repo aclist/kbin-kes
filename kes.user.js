@@ -39,6 +39,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting/code-highlighting.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown/dropdown.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon/easy-emoticon.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/fix-codeblocks/fix-codeblocks.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-downvotes/hide-downvotes.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo/hide-logo.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-posts/hide-posts.user.js
@@ -74,7 +75,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -102,6 +103,7 @@ const funcObj = {
     clarifyRecipientInit: clarifyRecipientInit,
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
+    fixLemmyCodeblocks: fixLemmyCodeblocks,
     hideDownvotes: hideDownvotes,
     hidePostsInit: hidePostsInit,
     hideReputation: hideReputation,
