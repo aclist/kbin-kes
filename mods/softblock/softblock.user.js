@@ -28,8 +28,6 @@ function softBlockInit (toggle) {
     `
 
     function softBlock (mags) {
-        console.log('current mags')
-        console.log(mags)
         const path = location.pathname.split('/')[1]
         switch (path) {
         case "":
@@ -64,7 +62,6 @@ function softBlockInit (toggle) {
         hideThreads(mags)
         document.querySelectorAll('.meta').forEach((item) => {
             if (item.querySelector('.softblock-icon')) {
-                console.log("bubbles already present")
                 return
             }
             const ch = document.createElement('span');
@@ -106,8 +103,6 @@ function softBlockInit (toggle) {
     function clean (mags) {
         const list = document.createElement('ul')
         list.className = 'softblock-panel-list'
-        console.log("clean")
-        console.log(mags)
         const sorted = mags.sort((a, b) => {
             return a.localeCompare(b, undefined, { sensitivity: 'base' });
         });
@@ -115,7 +110,6 @@ function softBlockInit (toggle) {
             const it = document.createElement('li')
             it.innerText = sorted[i]
             insertBlockButton(mags, 'unblock', it)
-            console.log(it)
             list.appendChild(it)
         }
         if (mags.length === 0) {
@@ -210,9 +204,7 @@ function softBlockInit (toggle) {
                 button = document.querySelector('.softblock-button')
                 span = document.querySelector('.softblock-span')
             }
-            console.log(button)
             const text = span.innerText
-            console.log(text)
             switch (text) {
             case "Softblock":{
                 span.innerText = 'Unsoftblock'
@@ -221,7 +213,6 @@ function softBlockInit (toggle) {
                     break
                 }
                 mags.push(mag)
-                console.log(mags)
                 break
             }
             case "Unsoftblock": {

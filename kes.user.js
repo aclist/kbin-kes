@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.0.0
+// @version      3.1.0
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -39,6 +39,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/code-highlighting/code-highlighting.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/dropdown/dropdown.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/easy-emoticon/easy-emoticon.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/fix-codeblocks/fix-codeblocks.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-downvotes/hide-downvotes.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-logo/hide-logo.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-posts/hide-posts.user.js
@@ -74,7 +75,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -102,6 +103,7 @@ const funcObj = {
     clarifyRecipientInit: clarifyRecipientInit,
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
+    fixLemmyCodeblocks: fixLemmyCodeblocks,
     hideDownvotes: hideDownvotes,
     hidePostsInit: hidePostsInit,
     hideReputation: hideReputation,
@@ -365,6 +367,7 @@ function constructMenu (json, layoutArr, isNew) {
         const headerChangelogIcon = document.createElement('i')
         const headerChangelogLink = document.createElement('a')
         headerChangelogLink.href = changelogURL
+        headerChangelogLink.setAttribute('target', '_blank')
         headerChangelogLink.appendChild(headerChangelogIcon)
         headerChangelogIcon.className = layoutArr.header.changelog.icon
         headerChangelogIcon.title = layoutArr.header.changelog.tooltip
@@ -639,6 +642,10 @@ function constructMenu (json, layoutArr, isNew) {
                         colorField.setAttribute("type", fieldType);
                         colorField.setAttribute("kes-iter", it);
                         colorField.setAttribute("kes-key", key);
+                        //#220: explicit handling for labelOp mod (child inherits 75% opacity of author header)
+                        if (json[it].entrypoint == "labelOp") {
+                            colorField.className = "kes-dimmed-colorpicker";
+                        }
                         hBox.appendChild(colorField);
                         hBox.appendChild(br);
                         break;
@@ -696,6 +703,7 @@ function constructMenu (json, layoutArr, isNew) {
                             radioField.setAttribute("kes-iter", it);
                             radioField.setAttribute("kes-key", key);
                             radioField.setAttribute("value", json[it].fields[i].values[j]);
+                            radioField.className = "kes-default-radio";
                             if (modSettings[key] == json[it].fields[i].values[j]) {
                                 radioField.checked = true;
                             } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
@@ -725,6 +733,7 @@ function constructMenu (json, layoutArr, isNew) {
                         }
                         cfield.setAttribute("kes-iter", it);
                         cfield.setAttribute("kes-key", key);
+                        cfield.className = "kes-default-checkbox";
                         checkboxLabel.appendChild(cfield);
                         let ctext = document.createElement('text')
                         ctext.innerText = json[it].fields[i].checkbox_label;
@@ -837,6 +846,7 @@ function constructMenu (json, layoutArr, isNew) {
         magLink.className = "kes-settings-modal-magazine";
         magLink.innerText = "/m/enhancement";
         magLink.setAttribute('href', magURL);
+        magLink.setAttribute('target', '_blank');
         footer.appendChild(magLink)
 
         const backupButton = document.createElement('button');
@@ -879,7 +889,6 @@ function constructMenu (json, layoutArr, isNew) {
                 if(keys[i] === "kes-settings" || names.includes(keys[i])) {
                     let namespace = keys[i];
                     let settings = contents[namespace];
-                    console.log("key to add is " + namespace)
                     saveModSettings(settings, namespace)
                 }
             }
@@ -1053,6 +1062,7 @@ function constructMenu (json, layoutArr, isNew) {
         bugLink.className = "kes-settings-modal-bug-link";
         bugLink.innerText = "Report a bug";
         bugLink.setAttribute('href', bugURL);
+        bugLink.setAttribute('target', '_blank');
         footer.appendChild(bugLink)
 
         const bugIcon = document.createElement("span");

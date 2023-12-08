@@ -1,5 +1,16 @@
 [
   {
+    "name": "Fix Lemmy Code Blocks",
+    "author": "Pamasich",
+    "version": "1.0.0",
+    "label": "Repair Lemmy code blocks",
+    "desc": "Lemmy federates special <span> HTML tags on each line of its code blocks which /kbin displays in plaintext, resulting in code blocks being hard to read. This mod removes those tags.",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "fixLemmyCodeblocks",
+    "page": "general"
+  },
+  {
     "name": "Hide Reputation",
     "author": "artillect",
     "version": "0.2",
@@ -187,7 +198,7 @@
     "label": "Add OP label",
     "login": false,
     "recurs": true,
-    "desc": "Print OP label next to thread author",
+    "desc": "Print OP label next to thread author. Colors are shown dimmed to 75% opacity to emulate how labels will look when inserted into post headers.",
     "entrypoint": "labelOp",
     "namespace": "labelcolors",
     "page": "threads",

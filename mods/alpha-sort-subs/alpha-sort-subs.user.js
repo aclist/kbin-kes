@@ -3,30 +3,31 @@ function alphaSortInit (toggle) {
     if (!ind) return
     if ((ind.indexOf('subscriptions') < 0) && (ind.indexOf('followers') < 0)) return
     const ul = document.querySelector('.section.magazines.magazines-columns ul,.section.users.users-columns ul')
+    const obj = {}
 
     if (toggle) {
         const mags = document.querySelectorAll('.section.magazines.magazines-columns ul li a,.section.users.users-columns ul li a');
-        const magsArr = []
         const namesArr = []
 
         mags.forEach((item) => {
-            const toLower = item.href.toLowerCase();
-            magsArr.push(toLower);
-            const hrName = item.innerText.toLowerCase();
+            const dest = item.href;
+            const hrName = item.innerText;
+            obj[hrName] = dest
             namesArr.push(hrName);
         });
 
-        namesArr.sort();
-        magsArr.sort();
+        const sorted = namesArr.sort((a, b) => {
+            return a.localeCompare(b, undefined, { sensitivity: 'base' });
+        });
 
         const outer = document.querySelector('.section.magazines.magazines-columns,.section.users.users-columns')
         $(ul).hide();
 
-        for (let i =0; i<magsArr.length; ++i) {
+        for (let i =0; i<sorted.length; ++i) {
             const myListItem = document.createElement('li');
             myListItem.className = "alpha-sorted-subs"
             const mySubsLink = document.createElement('a');
-            mySubsLink.setAttribute('href', magsArr[i]);
+            mySubsLink.setAttribute('href', obj[sorted[i]]);
             mySubsLink.innerText = namesArr[i];
             mySubsLink.className = 'subs-nav';
             myListItem.append(mySubsLink);
