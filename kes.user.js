@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.1.0-beta.8
+// @version      3.2.0-beta.1
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -367,6 +367,7 @@ function constructMenu (json, layoutArr, isNew) {
         const headerChangelogIcon = document.createElement('i')
         const headerChangelogLink = document.createElement('a')
         headerChangelogLink.href = changelogURL
+        headerChangelogLink.setAttribute('target', '_blank')
         headerChangelogLink.appendChild(headerChangelogIcon)
         headerChangelogIcon.className = layoutArr.header.changelog.icon
         headerChangelogIcon.title = layoutArr.header.changelog.tooltip
@@ -641,6 +642,7 @@ function constructMenu (json, layoutArr, isNew) {
                         colorField.setAttribute("type", fieldType);
                         colorField.setAttribute("kes-iter", it);
                         colorField.setAttribute("kes-key", key);
+                        //#220: explicit handling for labelOp mod (child inherits 75% opacity of author header)
                         if (json[it].entrypoint == "labelOp") {
                             colorField.className = "kes-dimmed-colorpicker";
                         }
@@ -844,6 +846,7 @@ function constructMenu (json, layoutArr, isNew) {
         magLink.className = "kes-settings-modal-magazine";
         magLink.innerText = "/m/enhancement";
         magLink.setAttribute('href', magURL);
+        magLink.setAttribute('target', '_blank');
         footer.appendChild(magLink)
 
         const backupButton = document.createElement('button');
@@ -1059,6 +1062,7 @@ function constructMenu (json, layoutArr, isNew) {
         bugLink.className = "kes-settings-modal-bug-link";
         bugLink.innerText = "Report a bug";
         bugLink.setAttribute('href', bugURL);
+        bugLink.setAttribute('target', '_blank');
         footer.appendChild(bugLink)
 
         const bugIcon = document.createElement("span");
