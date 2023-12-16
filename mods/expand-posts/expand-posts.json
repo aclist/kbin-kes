@@ -1,0 +1,11 @@
+{
+  "name": "Expand post text in thread index",
+  "author": "shazbot",
+  "version": "0.1.0",
+  "label": "Expand post text in thread index",
+  "desc": "Adds an expand/collapse button used to read the full body text of posts without leaving the thread index.",
+  "login": false,
+  "recurs": true,
+  "entrypoint": "expandPostsInit",
+  "page": "threads"
+}
