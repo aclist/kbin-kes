@@ -25,9 +25,14 @@ function expandPostsInit(toggle){
                 genericXMLRequest(link, update)
             } else {
                 const body = parent.querySelector('.short-desc p')
-                //TODO: test max length
-                body.innerText = body.innerText.split('\n')[1] + '...'
+                const ar = body.innerText.split('\n')
+                for (let i = 0; i < ar.length; ++i) {
+                    if (ar[i]){
+                        body.innerText = ar[i] + '...'
+                        break
                 button.innerText = 'EXPAND'
+                const br = document.createElement('br')
+                body.appendChild(br)
                 body.appendChild(button)
             }
         });
@@ -38,9 +43,11 @@ function expandPostsInit(toggle){
             entries.forEach((entry) => {
                 try {
                     const b = entry.querySelector('.short-desc p')
+                    const br = document.createElement('br')
                     const end = b.innerText.slice(-3)
                     if (end == "...") {
                         const button = makeButton('EXPAND', entry)
+                        b.appendChild(br)
                         b.appendChild(button)
                     }
                 }
