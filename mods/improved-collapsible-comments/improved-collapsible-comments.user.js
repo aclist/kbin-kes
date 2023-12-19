@@ -22,7 +22,7 @@ function initCollapsibleComments (toggle, mutation) {
             enterMain();
         }
     } else if (document.querySelector('.entry-comment.nested')) {
-        removeStyle()
+        safeGM("removeStyle", "hide-defaults")
         document.querySelectorAll('.expando').forEach((item) => {
             item.remove();
         });
@@ -42,10 +42,6 @@ function enterMain () {
     const clickAnywhere = settings.click == "Anywhere on comments";
 
     initCollapsibleCommentsListeners(clickAnywhere);
-}
-
-function removeStyle () {
-    safeGM("removeStyle", "threaded-comments")
 }
 
 function initCollapsibleCommentsListeners (toggle) {
@@ -417,9 +413,6 @@ function applyCommentStyles () {
         display: block;
         margin-top: 0 !important;
     }
-    .comment-wrap {
-        display: none;
-    }
     `;
     for (let i = 1; i < 10; i++) {
         style += `
@@ -428,6 +421,12 @@ function applyCommentStyles () {
         }
         `;
     }
+    const hideDefaults = `
+    .comment-wrap {
+        display: none;
+    }
+    `;
+    safeGM("addStyle", hideDefaults, "hide-defaults");
     safeGM("addStyle", style, "threaded-comments");
 }
 
