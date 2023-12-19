@@ -23,12 +23,15 @@ function initCollapsibleComments (toggle, mutation) {
         }
     } else if (document.querySelector('.entry-comment.nested')) {
         document.querySelectorAll('.expando').forEach((item) => {
+            removeStyle()
             item.remove();
         });
         document.querySelectorAll('.expando-icon').forEach((item) => {
+            removeStyle()
             item.remove();
         });
         document.querySelectorAll('.entry-comment.nested').forEach((item) => {
+            removeStyle()
             item.classList.remove('nested');
         });
     }
@@ -41,6 +44,10 @@ function enterMain () {
     const clickAnywhere = settings.click == "Anywhere on comments";
 
     initCollapsibleCommentsListeners(clickAnywhere);
+}
+
+function removeStyle () {
+    safeGM("removeStyle", "threaded-comments")
 }
 
 function initCollapsibleCommentsListeners (toggle) {
@@ -195,7 +202,7 @@ function nestComments (comments,levels) {
 
 function applyCommentStyles () {
     // Add styles to comments
-    var style = `
+    const style = `
     .entry-comment {
     grid-column-gap: 2px;
     padding: 2px 0 0 0 !important;
@@ -412,6 +419,9 @@ function applyCommentStyles () {
         display: block;
         margin-top: 0 !important;
     }
+    .comment-wrap {
+        display: none;
+    }
     `;
     for (let i = 1; i < 10; i++) {
         style += `
@@ -420,7 +430,7 @@ function applyCommentStyles () {
         }
         `;
     }
-    safeGM("addStyle",style);
+    safeGM("addStyle", style, "threaded-comments");
 }
 
 function applyToNewPosts () {
