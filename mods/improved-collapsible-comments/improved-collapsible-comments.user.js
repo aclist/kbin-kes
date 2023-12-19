@@ -22,16 +22,14 @@ function initCollapsibleComments (toggle, mutation) {
             enterMain();
         }
     } else if (document.querySelector('.entry-comment.nested')) {
+        removeStyle()
         document.querySelectorAll('.expando').forEach((item) => {
-            removeStyle()
             item.remove();
         });
         document.querySelectorAll('.expando-icon').forEach((item) => {
-            removeStyle()
             item.remove();
         });
         document.querySelectorAll('.entry-comment.nested').forEach((item) => {
-            removeStyle()
             item.classList.remove('nested');
         });
     }
@@ -202,7 +200,7 @@ function nestComments (comments,levels) {
 
 function applyCommentStyles () {
     // Add styles to comments
-    const style = `
+    var style = `
     .entry-comment {
     grid-column-gap: 2px;
     padding: 2px 0 0 0 !important;
