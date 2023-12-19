@@ -76,7 +76,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, expandPostsInit, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -104,6 +104,7 @@ const funcObj = {
     clarifyRecipientInit: clarifyRecipientInit,
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
+    expandPostsInit: expandPostsInit,
     fixLemmyCodeblocks: fixLemmyCodeblocks,
     hideDownvotes: hideDownvotes,
     hidePostsInit: hidePostsInit,
