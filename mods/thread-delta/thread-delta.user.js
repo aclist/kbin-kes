@@ -7,6 +7,7 @@ function threadDeltaInit (toggle) {
     const mag = loc[2]
 
     function applyDeltas (counts) {
+        console.log(counts)
         const nav = document.querySelector('.head-nav__menu')
         const c = nav.querySelectorAll('a')
 
@@ -14,6 +15,11 @@ function threadDeltaInit (toggle) {
         const blog_count = Number(c[2].innerText.split('(')[1].split(')')[0])
         const thread_delta = (thread_count - counts[0])
         const blog_delta = (blog_count - counts[1])
+
+        console.log(thread_delta)
+        console.log(thread_count)
+        console.log(blog_count)
+        console.log(blog_delta)
 
         const prefix = "Δ "
 
