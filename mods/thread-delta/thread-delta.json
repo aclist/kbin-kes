@@ -1,0 +1,12 @@
+{
+  "name": "Show thread/microblog delta since last visit",
+  "author": "shazbot",
+  "version": "0.1.0",
+  "label": "Show thread/microblog delta since last visit",
+  "desc": "Intended for magazine moderators (or others) checking for new magazine activity. If there are new threads/microblogs since your last visit, shows the delta at the top of the page.",
+  "login": true,
+  "recurs": false,
+  "entrypoint": "threadDeltaInit",
+  "page": "threads"
+}
+

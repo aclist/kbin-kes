@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.0-beta.5
+// @version      3.2.0-beta.6
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -65,6 +65,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/softblock/softblock.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs/subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/thread-checkmarks/thread-checkmarks.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/thread-delta/thread-delta.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp/timestamp.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/unblur/unblur.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/user-instance-names/user-instance-names.user.js
@@ -76,7 +77,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, expandPostsInit, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, expandPostsInit, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, threadDeltaInit, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -128,6 +129,7 @@ const funcObj = {
     rearrangeInit: rearrangeInit,
     softBlockInit: softBlockInit,
     textResize: textResize,
+    threadDeltaInit: threadDeltaInit,
     toggleLogo: toggleLogo,
     unblurInit: unblurInit,
     updateTime: updateTime,
