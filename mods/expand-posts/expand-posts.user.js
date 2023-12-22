@@ -1,5 +1,5 @@
-function expandPostsInit(toggle){
-    async function update(response){
+function expandPostsInit (toggle) {
+    async function update (response) {
         const xml = response.response
         const parser = new DOMParser();
         const doc = parser.parseFromString(xml, "text/html");
@@ -12,7 +12,7 @@ function expandPostsInit(toggle){
         const newButton = makeButton('COLLAPSE', res)
         oldBody.appendChild(newButton)
     }
-    function makeButton(text, parent){
+    function makeButton (text, parent) {
         const button = document.createElement('a')
         button.innerText = text
         button.className = 'kes-expand-post-button'
@@ -27,34 +27,36 @@ function expandPostsInit(toggle){
                 const body = parent.querySelector('.short-desc p')
                 const ar = body.innerText.split('\n')
                 for (let i = 0; i < ar.length; ++i) {
-                    if (ar[i]){
+                    if (ar[i]) {
                         body.innerText = ar[i] + '...'
                         break
-                button.innerText = 'EXPAND'
-                const br = document.createElement('br')
-                body.appendChild(br)
-                body.appendChild(button)
+                    }
+                    button.innerText = 'EXPAND'
+                    const br = document.createElement('br')
+                    body.appendChild(br)
+                    body.appendChild(button)
+                }
             }
         });
         return button
     }
-    function propagateButtons(){
+    function propagateButtons () {
         const entries = document.querySelectorAll('.entry')
-            entries.forEach((entry) => {
-                try {
-                    const b = entry.querySelector('.short-desc p')
-                    const br = document.createElement('br')
-                    const end = b.innerText.slice(-3)
-                    if (end == "...") {
-                        const button = makeButton('EXPAND', entry)
-                        b.appendChild(br)
-                        b.appendChild(button)
-                    }
+        entries.forEach((entry) => {
+            try {
+                const b = entry.querySelector('.short-desc p')
+                const br = document.createElement('br')
+                const end = b.innerText.slice(-3)
+                if (end == "...") {
+                    const button = makeButton('EXPAND', entry)
+                    b.appendChild(br)
+                    b.appendChild(button)
                 }
-                    catch (e) {
-                    console.log(e)
-                }
-            });
+            }
+            catch (e) {
+                console.log(e)
+            }
+        });
     }
     if (toggle) {
         propagateButtons();

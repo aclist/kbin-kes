@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.0-beta.4
+// @version      3.2.0-beta.5
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
