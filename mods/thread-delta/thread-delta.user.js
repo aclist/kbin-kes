@@ -1,8 +1,6 @@
 function threadDeltaInit (toggle) {
     const hostname = window.location.hostname;
     const loc = window.location.pathname.split('/')
-    const dir = loc[1]
-    const mag = loc[2]
 
     function applyDeltas (counts) {
         const nav = document.querySelector('.head-nav__menu')
@@ -40,9 +38,10 @@ function threadDeltaInit (toggle) {
     }
 
     if (toggle) {
-        if (dir != "m") {
+        if (loc[1] != "m") {
             return
         }
+        const mag = loc[2]
         loadCounts(hostname, mag);
     } else {
         const counts = []
