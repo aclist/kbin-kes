@@ -4,7 +4,7 @@ function threadDeltaInit (toggle) {
     const dir = loc[1]
     const mag = loc[2]
 
-    function applyDeltas(counts){
+    function applyDeltas (counts) {
         const nav = document.querySelector('.head-nav__menu')
         const c = nav.querySelectorAll('a')
 
@@ -24,6 +24,7 @@ function threadDeltaInit (toggle) {
             counts[1] = blog_count
         }
         saveCounts(hostname, mag, counts)
+    }
 
     async function loadCounts (hostname, mag) {
         const counts = await safeGM("getValue", `thread-deltas-${hostname}-${mag}`)
