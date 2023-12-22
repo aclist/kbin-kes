@@ -37,8 +37,8 @@ function threadDeltaInit (toggle) {
     async function loadCounts (hostname, mag) {
         const counts = await safeGM("getValue", `thread-deltas-${hostname}-${mag}`)
         if (!counts) {
-            const e = [];
-            saveCounts(hostname, e)
+            const counts = [];
+            saveCounts(hostname, counts)
         }
         applyDeltas(counts)
     }
