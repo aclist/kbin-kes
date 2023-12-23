@@ -7,6 +7,30 @@
   "login": true,
   "recurs": false,
   "entrypoint": "threadDeltaInit",
-  "page": "threads"
+  "page": "threads",
+  "namespace": "thread-delta",
+  "fields": [
+    {
+      "type": "color",
+      "initial": "--kbin-alert-info-link-color",
+      "key": "bgcolor",
+      "label": "Top bar color"
+    },
+    {
+      "type": "color",
+      "initial": "--kbin-text-color",
+      "key": "fgcolor",
+      "label": "Text color"
+    },
+    {
+      "type": "radio",
+      "initial": "on",
+      "key": "state",
+      "label": "Permanently display counts in top bar (best for mobile)",
+      "values": [
+        "on",
+        "off"
+      ]
+    }
+  ]
 }
-
