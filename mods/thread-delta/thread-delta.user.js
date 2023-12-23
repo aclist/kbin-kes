@@ -7,7 +7,9 @@ function threadDeltaInit (toggle) {
     const mag = loc[2]
 
     function applyDeltas (counts) {
+
         console.log(counts)
+
         const nav = document.querySelector('.head-nav__menu')
         const c = nav.querySelectorAll('a')
 
@@ -37,8 +39,8 @@ function threadDeltaInit (toggle) {
     async function loadCounts (hostname, mag) {
         const counts = await safeGM("getValue", `thread-deltas-${hostname}-${mag}`)
         if (!counts) {
-            const counts = [];
-            saveCounts(hostname, counts)
+            const e = [];
+            saveCounts(hostname, e)
         }
         applyDeltas(counts)
     }
@@ -48,9 +50,11 @@ function threadDeltaInit (toggle) {
     }
 
     if (toggle) {
+        console.log(hostname)
+        console.log(mag)
         loadCounts(hostname, mag);
     } else {
-        const counts = []
-        saveCounts(hostname, mag, counts)
+        const e = []
+        saveCounts(hostname, mag, e)
     }
 }

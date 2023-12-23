@@ -1,4 +1,6 @@
 function softBlockInit (toggle) {
+    //TODO: don't apply on magazine pages
+    //
     const hostname = window.location.hostname;
     const softBlockCSS = `
     .softblocked-article {
@@ -95,7 +97,7 @@ function softBlockInit (toggle) {
         const el = document.querySelector('.magazine__subscribe form[name="magazine_block"]')
         const state = returnState(mags, mag);
         const old = document.querySelector('.softblock-button')
-        if (old){
+        if (old) {
             return
         }
         insertBlockButton(mags, state, el);
