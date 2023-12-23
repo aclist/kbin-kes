@@ -40,7 +40,8 @@ function threadDeltaInit (toggle) {
         countBar.style.backgroundColor = bgcolor
         if (state == "off") {
             countBar.style.display = "none"
-        } else {
+        }
+        else {
             countBar.style.display = ""
         }
         
@@ -48,6 +49,7 @@ function threadDeltaInit (toggle) {
         if (counts[0]) {
             thread_delta = (thread_count - counts[0])
             if (thread_delta > 0) {
+                countBar.style.display = ""
                 countBar.innerText = countBar.innerText + `${prefix} ${thread_delta}`
             }
         }
@@ -55,6 +57,7 @@ function threadDeltaInit (toggle) {
         if (counts[1]) {
             blog_delta = (blog_count - counts[1])
             if (blog_delta >0) {
+                countBar.style.display = ""
                 countBar.innerText = countBar.innerText + `${prefix} ${blog_delta}`
             }
         }
