@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.0-beta.18
+// @version      3.2.0-beta.19
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1095,17 +1095,17 @@ function constructMenu (json, layoutArr, isNew) {
             window.setTimeout(revertIcon,600);
         });
 
-        const sponsorIcon = document.createElement("span");
-        sponsorIcon.className = "kes-settings-modal-sponsor-icon";
-        sponsorIcon.innerHTML = '<i class="' + layoutArr.header.sponsor.icon + '"></i>';
-        sponsorIcon.style.color = "red"
         const sponsorLink = document.createElement("a");
         sponsorLink.className = "kes-settings-modal-sponsor-link";
         sponsorLink.innerText = layoutArr.header.sponsor.tooltip
         sponsorLink.setAttribute('href', sponsorURL);
         sponsorLink.setAttribute('target', '_blank');
+        const sponsorIcon = document.createElement("span");
+        sponsorIcon.className = "kes-settings-modal-sponsor-icon";
+        sponsorIcon.innerHTML = '<i class="' + layoutArr.header.sponsor.icon + '"></i>';
+        sponsorIcon.style.color = "red"
         sponsorLink.appendChild(sponsorIcon)
-        footer.appendChild(sponsorIcon)
+        footer.appendChild(sponsorLink)
 
         const container = document.createElement("div");
         container.className = "kes-settings-modal-container";
