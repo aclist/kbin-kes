@@ -44,16 +44,16 @@ function threadDeltaInit (toggle) {
             countBar.style.display = ""
         }
         
+        countBar.innerText = `Magazine: ${mag} | Threads: (${thread_count})`
         if (counts[0]) {
             thread_delta = (thread_count - counts[0])
-            countBar.innerText = `Magazine: ${mag} | Threads: (${thread_count})`
             if (thread_delta > 0) {
                 countBar.innerText = countBar.innerText + `${prefix} ${thread_delta}`
             }
         }
+        countBar.innerText = countBar.innerText + ` | Blogs: (${blog_count})`
         if (counts[1]) {
             blog_delta = (blog_count - counts[1])
-            countBar.innerText = countBar.innerText + ` | Blogs: (${blog_count})`
             if (blog_delta >0) {
                 countBar.innerText = countBar.innerText + `${prefix} ${blog_delta}`
             }
