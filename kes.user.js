@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.0-beta.20
+// @version      3.2.0-beta.21
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1095,13 +1095,14 @@ function constructMenu (json, layoutArr, isNew) {
             window.setTimeout(revertIcon,600);
         });
 
-        sponsorButton.className = "kes-settings-modal-sponsor-link";
+        const sponsorButton = document.createElement('span')
         const sponsorIcon = document.createElement('i')
         const sponsorLink = document.createElement("a");
+        sponsorButton.className = "kes-settings-modal-sponsor-link";
+        sponsorIcon.className = layoutArr.header.sponsor.icon
         sponsorLink.setAttribute('href', sponsorURL);
         sponsorLink.setAttribute('target', '_blank');
-        sponsorLink.innerText = layoutArr.header.sponsor.tooltip
-        sponsorIcon.className = layoutArr.header.sponsor.icon
+        sponsorLink.title = layoutArr.header.sponsor.tooltip
         sponsorIcon.style.color = "red"
         sponsorLink.appendChild(sponsorIcon)
         sponsorButton.appendChild(sponsorLink)
