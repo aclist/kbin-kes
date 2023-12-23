@@ -32,9 +32,9 @@ function threadDeltaInit (toggle) {
 
         countBar.style.height = "20px"
         countBar.style.display = "none"
-        countBar.style.font-size = "0.5em"
+        countBar.style.fontSize = "0.5em"
         countBar.style.color = fgcolor
-        countBar.style.background-color = bgcolor
+        countBar.style.backgroundColor = bgcolor
         if (state == "off") {
             countBar.style.display = "none"
         }
