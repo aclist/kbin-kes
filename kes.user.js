@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.0-beta.16
+// @version      3.2.0-beta.17
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1100,7 +1100,7 @@ function constructMenu (json, layoutArr, isNew) {
         sponsorIcon.style.color = "red"
         const sponsorLink = document.createElement("a");
         sponsorLink.className = "kes-settings-modal-sponsor-link";
-        sponsor.innerText = layoutArr.header.sponsor.tooltip
+        sponsorLink.innerText = layoutArr.header.sponsor.tooltip
         sponsorLink.setAttribute('href', sponsorURL);
         sponsorLink.setAttribute('target', '_blank');
         sponsorLink.appendChild(sponsorIcon)
