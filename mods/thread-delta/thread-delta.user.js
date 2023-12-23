@@ -1,7 +1,7 @@
 function threadDeltaInit (toggle) {
     const settings = getModSettings('thread-delta');
-    const fgcolor = settings["fgcolor"]
-    const bgcolor = settings["bgcolor"]
+    const fgcolor = getHex(settings["fgcolor"])
+    const bgcolor = getHex(settings["bgcolor"])
     const state = settings["state"]
 
     const hostname = window.location.hostname;
@@ -18,39 +18,44 @@ function threadDeltaInit (toggle) {
 
         let thread_delta
         let blog_delta
+        let countBar
 
         const thread_count = Number(c[1].innerText.split('(')[1].split(')')[0])
         const blog_count = Number(c[2].innerText.split('(')[1].split(')')[0])
-        const countBar = document.querySelector('#kes-thread-delta-bar')
 
-        if (!countBar) {
+        if (! document.querySelector('#kes-thread-delta-bar')) {
+            countBar = document.querySelector('#kes-thread-delta-bar')
             const top = document.querySelector('body');
-            const countBar = document.createElement('div');
+            countBar = document.createElement('div');
             countBar.id = 'kes-thread-delta-bar';
             top.insertBefore(countBar, top.children[0])
+        } else {
+            countBar  = document.querySelector('#kes-thread-delta-bar')
         }
 
         countBar.style.height = "20px"
-        countBar.style.display = "none"
         countBar.style.fontSize = "0.5em"
+        countBar.style.textAlign = "center"
         countBar.style.color = fgcolor
         countBar.style.backgroundColor = bgcolor
         if (state == "off") {
             countBar.style.display = "none"
+        } else {
+            countBar.style.display = ""
         }
         
         if (counts[0]) {
             thread_delta = (thread_count - counts[0])
+            countBar.innerText = `Magazine: ${mag} | Threads: (${thread_count})`
             if (thread_delta > 0) {
-                countBar.style.display = ""
-                countBar.innerText = `Threads: ${prefix} ${thread_delta}`
+                countBar.innerText = countBar.innerText + `${prefix} ${thread_delta}`
             }
         }
         if (counts[1]) {
             blog_delta = (blog_count - counts[1])
+            countBar.innerText = countBar.innerText + ` | Blogs: (${blog_count})`
             if (blog_delta >0) {
-                countBar.style.display = ""
-                countBar.innerText = countBar.innerText + `Blogs: ${prefix} ${blog_delta}`
+                countBar.innerText = countBar.innerText + `${prefix} ${blog_delta}`
             }
         }
 
