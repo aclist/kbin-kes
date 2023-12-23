@@ -33,8 +33,8 @@ function threadDeltaInit (toggle) {
             countBar  = document.querySelector('#kes-thread-delta-bar')
         }
 
-        countBar.style.height = "20px"
-        countBar.style.fontSize = "0.5em"
+        countBar.style.height = "1rem"
+        countBar.style.fontSize = "0.6em"
         countBar.style.textAlign = "center"
         countBar.style.color = fgcolor
         countBar.style.backgroundColor = bgcolor
@@ -53,7 +53,7 @@ function threadDeltaInit (toggle) {
                 countBar.innerText = countBar.innerText + `${prefix} ${thread_delta}`
             }
         }
-        countBar.innerText = countBar.innerText + ` | Blogs: (${blog_count})`
+        countBar.innerText = countBar.innerText + ` | Microblogs: (${blog_count})`
         if (counts[1]) {
             blog_delta = (blog_count - counts[1])
             if (blog_delta >0) {
