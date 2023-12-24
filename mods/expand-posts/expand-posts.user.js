@@ -1,4 +1,7 @@
 function expandPostsInit (toggle) {
+    if (window.location.pathname.split('/')[1] == "m") {
+        return
+    }
     async function update (response) {
         const xml = response.response
         const parser = new DOMParser();
@@ -54,7 +57,7 @@ function expandPostsInit (toggle) {
                 }
             }
             catch (e) {
-                console.warn(e)
+                continue
             }
         });
     }
