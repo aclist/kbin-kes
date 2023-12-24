@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.0-beta.24
+// @version      3.2.0-beta.25
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -222,38 +222,47 @@ function validateData (rawCSS, rawJSON, rawLayout, isNew) {
     }
 }
 
+
 function constructMenu (json, layoutArr, isNew) {
     //instantiate kes modal and button
-    let kbinContainer
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title;
-    if (window.innerWidth > 576) {
-        kbinContainer = document.querySelector('.kbin-container > menu');
-    } else {
-        kbinContainer = document.querySelector('.sidebar-options > .section > menu > ul')
+    function injectSettingsButton (layoutArr, isNew) {
+        if (document.querySelector('#kes-settings')) {
+            return
+        }
+        let kbinContainer
+        if (window.innerWidth > 576) {
+            kbinContainer = document.querySelector('.kbin-container > menu');
+        } else {
+            kbinContainer = document.querySelector('.sidebar-options > .section > menu > ul')
+        }
+        const kesPanel = document.createElement('li');
+        kesPanel.id = 'kes-settings';
+        kesPanel.title = layoutArr.header.open.tooltip;
+        kbinContainer.appendChild(kesPanel);
+        const wrenchOuter = document.createElement('a')
+        const settingsButton = document.createElement('i');
+        wrenchOuter.appendChild(settingsButton)
+        settingsButton.id = 'kes-settings-button';
+        settingsButton.classList = layoutArr.header.open.icon;
+        settingsButton.style.verticalAlign = 'middle';
+        if (isNew === "yes") {
+            const stackSpan = document.createElement('span');
+            stackSpan.classList = 'kes-update';
+            let stackStrong = document.createElement('i');
+            stackStrong.classList = 'fa-solid fa-circle-up fa-sm kes-update-available';
+            stackSpan.appendChild(stackStrong);
+            settingsButton.appendChild(stackSpan);
+        }
+        kesPanel.addEventListener('click', () => {
+            showSettingsModal();
+        });
+        kesPanel.appendChild(wrenchOuter);
+        return kesPanel
     }
-    const kesPanel = document.createElement('li');
-    kesPanel.id = 'kes-settings';
-    kesPanel.title = layoutArr.header.open.tooltip;
-    kbinContainer.appendChild(kesPanel);
-    const wrenchOuter = document.createElement('a')
-    const settingsButton = document.createElement('i');
-    wrenchOuter.appendChild(settingsButton)
-    settingsButton.id = 'kes-settings-button';
-    settingsButton.classList = layoutArr.header.open.icon;
-    settingsButton.style.verticalAlign = 'middle';
-    if (isNew === "yes") {
-        const stackSpan = document.createElement('span');
-        stackSpan.classList = 'kes-update';
-        let stackStrong = document.createElement('i');
-        stackStrong.classList = 'fa-solid fa-circle-up fa-sm kes-update-available';
-        stackSpan.appendChild(stackStrong);
-        settingsButton.appendChild(stackSpan);
-    }
-    kesPanel.addEventListener('click', () => {
-        showSettingsModal();
-    });
-    kesPanel.appendChild(wrenchOuter);
+
+    kesPanel = injectSettingsButton(layoutArr, isNew)
 
     var keyPressed = {};
     document.addEventListener('keydown', function (e) {
@@ -1299,18 +1308,29 @@ function constructMenu (json, layoutArr, isNew) {
 
     function initmut (list) {
         for (const mutation of list) {
-            //workaround for timeago ticks changing timestamp textContent
-            //reapply verbose timestamp
-            //see also updateState()
+            if (mutation.target.nodeName == "HTML") {
+                //implies that turbo mode reloaded the entire DOM tree
+                //the KES modal is itself running in the background,
+                //but when the entire DOM is reloaded in place the settings icon should be
+                //reinjected into the kbin navbar
+                injectSettingsButton(layoutArr, isNew)
+                for (let i = 0; i < json.length; ++i) {
+                    applySettings(json[i].entrypoint, mutation);
+                }
+                return
+            }
             if (mutation.target.className === 'timeago') {
+                //workaround for timeago ticks changing timestamp textContent
+                //implies that the active 60s timestamp is updating
+                //reapplies verbose timestamps
+                //see also updateState()
                 if (mutation.target.textContent.indexOf("ago") >= 0) {
                     applySettings("updateTime");
                 }
-                //triggering on the first mutation is sufficient
+                //triggering on the first mutation is sufficient to apply to all timestamps
                 return
             } else if ((mutation.target.getAttribute("data-controller") == "subject-list") || (mutation.target.id == "comments")) {
-                console.log("THREADS OR COMMENTS MUTATED")
-                //normal mutation (lazy load etc.), apply all recurring mods
+                //implies that a recurring/infinite scroll event like new threads or comment creation occurred
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
                         applySettings(json[i].entrypoint, mutation);
