@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.0-beta.22
+// @version      3.2.0-beta.24
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -862,10 +862,10 @@ function constructMenu (json, layoutArr, isNew) {
             const backupDialog = document.querySelector('#kes-backup-dialog');
             backupDialog.showModal();
         });
-        
+
         function parseNamespaces () {
             var names = [];
-            for(i = 0 ; i < json.length ; ++i) {
+            for(let i = 0 ; i < json.length ; ++i) {
                 if(json[i].namespace) {
                     names.push(json[i].namespace);
                 }
@@ -877,7 +877,7 @@ function constructMenu (json, layoutArr, isNew) {
             const toExport = {};
             const keys = Object.keys(localStorage);
             const values = Object.values(localStorage);
-            for(i = 0 ; i < keys.length ; ++i) {
+            for(let i = 0 ; i < keys.length ; ++i) {
                 if(keys[i] === "kes-settings" || names.includes(keys[i])) {
                     let key = keys[i];
                     let value = JSON.parse(values[i]);
@@ -971,10 +971,11 @@ function constructMenu (json, layoutArr, isNew) {
       </form>
       `
         nativeModal.addEventListener('close', () => {
+            let upload
             const dialog = document.querySelector('#kes-backup-dialog');
             switch (dialog.returnValue) {
-            case "import": 
-                const upload = document.getElementById("kes-import-dialog");
+            case "import":
+                upload = document.getElementById("kes-import-dialog");
                 upload.click();
                 break;
             case "export":
@@ -996,7 +997,7 @@ function constructMenu (json, layoutArr, isNew) {
             }
             let page = ret.split('@')[0]
             const helpString = ret.split('@')[1]
-            pageCaps = page.charAt(0).toUpperCase() + page.slice(1);
+            const pageCaps = page.charAt(0).toUpperCase() + page.slice(1);
             openTab(pageCaps);
             const opts = document.querySelectorAll('.kes-option');
             opts.forEach((opt)=>{
@@ -1030,7 +1031,7 @@ function constructMenu (json, layoutArr, isNew) {
             resultsDialogForm.appendChild(resultsMenu);
 
             let label
-            for (let i = 0; i < json.length; ++i) {
+            for (i = 0; i < json.length; ++i) {
                 const origLabel = json[i].label
                 const labelLower = origLabel.toLowerCase();
                 const queryLower = query.toLowerCase();
@@ -1307,7 +1308,8 @@ function constructMenu (json, layoutArr, isNew) {
                 }
                 //triggering on the first mutation is sufficient
                 return
-            } else {
+            } else if ((mutation.target.getAttribute("data-controller") == "subject-list") || (mutation.target.id == "comments")) {
+                console.log("THREADS OR COMMENTS MUTATED")
                 //normal mutation (lazy load etc.), apply all recurring mods
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
@@ -1320,20 +1322,12 @@ function constructMenu (json, layoutArr, isNew) {
         }
     }
 
-    const watchedNode = document.querySelector('[data-controller="subject-list"]');
-    const watchedNode2 = document.querySelector('#comments');
+    const watchedNode = document.querySelector('html');
     const obs = new MutationObserver(initmut);
     init();
     if (watchedNode) {
         obs.observe(watchedNode, {
             subtree: true,
-            childList: true,
-            attributes: false
-        });
-    }
-    if (watchedNode2) {
-        obs.observe(watchedNode2, {
-            subtree: false,
             childList: true,
             attributes: false
         });

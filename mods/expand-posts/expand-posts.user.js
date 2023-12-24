@@ -1,7 +1,4 @@
 function expandPostsInit (toggle) {
-    if (window.location.pathname.split('/')[1] == "m") {
-        return
-    }
     async function update (response) {
         const xml = response.response
         const parser = new DOMParser();
@@ -46,8 +43,8 @@ function expandPostsInit (toggle) {
     function propagateButtons () {
         const entries = document.querySelectorAll('.entry')
         entries.forEach((entry) => {
-            try {
-                const b = entry.querySelector('.short-desc p')
+            const b = entry.querySelector('.short-desc p')
+            if (b) {
                 const br = document.createElement('br')
                 const end = b.innerText.slice(-3)
                 if (end == "...") {
@@ -55,9 +52,6 @@ function expandPostsInit (toggle) {
                     b.appendChild(br)
                     b.appendChild(button)
                 }
-            }
-            catch (e) {
-                continue
             }
         });
     }
