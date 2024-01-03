@@ -1,8 +1,8 @@
 function fixLemmyCodeblocks (toggle) {
-    const testPattern = /^\n?<span style="color:#323232;">(.+\n)+<\/span>\n?$/;
-    const startTagPattern = /^\n?<span style="color:#323232;">/;
+    const testPattern = /^\n?<span style="color:#[0-9a-fA-F]{6};">(.+\n)+<\/span>\n?$/;
+    const startTagPattern = /^\n?<span style="color:#[0-9a-fA-F]{6};">/;
     const endTagPattern = /\n<\/span>\n?$/;
-    const combinedPattern = /^<\/span><span style="color:#323232;">/gm;
+    const combinedPattern = /^<\/span><span style="color:#[0-9a-fA-F]{6};">/gm;
     // matches any line (or rather the start thereof) except the first one
     const startOfNewLinePattern = /(?<=\n)^/gm;
 
