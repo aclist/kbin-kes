@@ -1,7 +1,5 @@
 function fixLemmyCodeblocks (toggle) {
-    // included everything inside here because of the private functions advisory
-
-    const testPattern = /\n?<span style="color:#323232;">(.+\n)+<\/span>\n?/;
+    const testPattern = /^\n?<span style="color:#323232;">(.+\n)+<\/span>\n?$/;
     const startTagPattern = /^\n?<span style="color:#323232;">/;
     const endTagPattern = /\n<\/span>\n?$/;
     const combinedPattern = /^<\/span><span style="color:#323232;">/gm;
