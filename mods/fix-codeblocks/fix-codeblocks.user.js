@@ -2,7 +2,7 @@ function fixLemmyCodeblocks (toggle) {
     const testPattern = /^\n?<span style="color:#[0-9a-fA-F]{6};">(.+\n)+<\/span>\n?$/;
     const startTagPattern = /^\n?<span style="color:#[0-9a-fA-F]{6};">/;
     const endTagPattern = /\n<\/span>\n?$/;
-    const combinedPattern = /^<\/span><span style="color:#[0-9a-fA-F]{6};">/gm;
+    const combinedPattern = /<\/span><span style="color:#[0-9a-fA-F]{6};">/g;
 
     const fixedCodeAttribute = "data-fixed-code"
 
@@ -16,7 +16,7 @@ function fixLemmyCodeblocks (toggle) {
 
         fixedBlock.innerText = codeblock.innerText
             .replace(startTagPattern, "")
-            .replace(combinedPattern, "")
+            .replaceAll(combinedPattern, "")
             .replace(endTagPattern, "");
 
         codeblock.style.display = "none";
