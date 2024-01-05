@@ -1,0 +1,19 @@
+{
+    "name": "Alternative All Content Access",
+    "author": "Pamasich",
+    "version": "1.0.0",
+    "label": "Alternative All Content access",
+    "desc": "Makes the magazine title in the navbar link to the All Content view and removes the dedicated button instead.",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "relocateAllContentView",
+    "page": "navbar",
+    "fields": [
+        {
+            "type": "checkbox",
+            "initial": true,
+            "key": "hideAllContentButton",
+            "checkbox_label": "Hide the All Content button"
+        }
+    ]
+}
