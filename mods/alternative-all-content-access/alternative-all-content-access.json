@@ -1,12 +1,13 @@
 {
-    "name": "Alternative All Content Access",
+    "name": "Alternative access to the All Content view",
+    "namespace": "alternative-all-content-access",
     "author": "Pamasich",
     "version": "1.0.0",
-    "label": "Alternative All Content access",
+    "label": "Alternative access to All Content",
     "desc": "Makes the magazine title in the navbar link to the All Content view and removes the dedicated button instead.",
     "login": false,
     "recurs": false,
-    "entrypoint": "relocateAllContentView",
+    "entrypoint": "alternativeAllContentAccess",
     "page": "navbar",
     "fields": [
         {
