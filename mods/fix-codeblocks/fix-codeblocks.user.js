@@ -9,6 +9,7 @@ function fixLemmyCodeblocks (toggle) {
     /** @param {HTMLElement} codeblock */
     function fixCodeblock (codeblock) {
         if (!testPattern.test(codeblock.innerText)) return;
+        if (codeblock.nextElementSibling?.hasAttribute(fixedCodeAttribute)) return;
 
         const fixedBlock = document.createElement("code");
         fixedBlock.setAttribute(fixedCodeAttribute, "");
