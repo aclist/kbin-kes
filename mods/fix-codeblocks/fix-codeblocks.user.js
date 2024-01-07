@@ -1,8 +1,10 @@
 function fixLemmyCodeblocks (toggle) {
-    const testPattern = /^\n?<span style="color:#[0-9a-fA-F]{6};">(.+\n)+<\/span>\n?$/;
-    const startTagPattern = /^\n?<span style="color:#[0-9a-fA-F]{6};">/;
-    const endTagPattern = /\n<\/span>\n?$/;
-    const combinedPattern = /<\/span><span style="color:#[0-9a-fA-F]{6};">/g;
+    const stylePattern = "((font-style:italic|font-weight:bold);)?color:#[0-9a-fA-F]{6};";
+
+    const testPattern = new RegExp(`^\\n?<span style="${stylePattern}">(.+\\n)+<\\/span>\\n?$`);
+    const startTagPattern = new RegExp(`^\\n?<span style="${stylePattern}">`);
+    const endTagPattern = new RegExp(`\\n<\\/span>\\n?$`);
+    const combinedPattern = new RegExp(`<\\/span><span style="${stylePattern}">`, "g");
 
     const fixedCodeAttribute = "data-fixed-code"
 
