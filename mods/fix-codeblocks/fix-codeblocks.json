@@ -1,7 +1,7 @@
 {
   "name": "Fix Lemmy Code Blocks",
   "author": "Pamasich",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "label": "Repair Lemmy code blocks",
   "desc": "Lemmy federates special <span> HTML tags on each line of its code blocks which /kbin displays in plaintext, resulting in code blocks being hard to read. This mod removes those tags.",
   "login": false,
