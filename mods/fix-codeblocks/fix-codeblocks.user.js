@@ -1,4 +1,4 @@
-function fixLemmyCodeblocks (toggle) {
+function fixLemmyCodeblocks (isActive) { // eslint-disable-line no-unused-vars
     const stylePattern = "((font-style:italic|font-weight:bold);)?color:#[0-9a-fA-F]{6};";
 
     const testPattern = new RegExp(`^\\n?<span style="${stylePattern}">(.+\\n)+<\\/span>\\n?$`);
@@ -33,7 +33,7 @@ function fixLemmyCodeblocks (toggle) {
         fixedBlock.parentNode.removeChild(fixedBlock);
     }
 
-    if (toggle) {
+    if (isActive) {
         document.querySelectorAll("pre code").forEach(fixCodeblock);
     } else {
         document.querySelectorAll(`pre code[${fixedCodeAttribute}]`).forEach(revertCodeblock);
