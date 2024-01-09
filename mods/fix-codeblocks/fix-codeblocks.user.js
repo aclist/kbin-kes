@@ -31,7 +31,6 @@ function fixLemmyCodeblocks (toggle) {
         const originalBlock = fixedBlock.previousElementSibling;
         originalBlock.style.removeProperty("display");
         fixedBlock.parentNode.removeChild(fixedBlock);
-
     }
 
     if (toggle) {
