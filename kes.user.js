@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.1.0
+// @version      3.2.0
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -39,6 +39,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/code-highlighting/code-highlighting.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/dropdown/dropdown.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/easy-emoticon/easy-emoticon.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/expand-posts/expand-posts.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/fix-codeblocks/fix-codeblocks.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-downvotes/hide-downvotes.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-logo/hide-logo.user.js
@@ -64,6 +65,7 @@
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/softblock/softblock.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/subs/subs.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/thread-checkmarks/thread-checkmarks.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/thread-delta/thread-delta.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/timestamp/timestamp.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/unblur/unblur.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/user-instance-names/user-instance-names.user.js
@@ -75,7 +77,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
+/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, expandPostsInit, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, threadDeltaInit, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -86,6 +88,7 @@ const branchPath = repositoryURL + "raw/" + branch + "/"
 const versionFile = branchPath + "VERSION";
 const updateURL = branchPath + "kes.user.js";
 const bugURL = repositoryURL + "issues"
+const sponsorURL = "https://github.com/sponsors/aclist"
 const changelogURL = repositoryURL + "blob/" + branch + "/CHANGELOG.md"
 const magURL = "https://kbin.social/m/enhancement"
 
@@ -103,6 +106,7 @@ const funcObj = {
     clarifyRecipientInit: clarifyRecipientInit,
     dropdownEntry: dropdownEntry,
     easyEmoticon: easyEmoticon,
+    expandPostsInit: expandPostsInit,
     fixLemmyCodeblocks: fixLemmyCodeblocks,
     hideDownvotes: hideDownvotes,
     hidePostsInit: hidePostsInit,
@@ -126,6 +130,7 @@ const funcObj = {
     rearrangeInit: rearrangeInit,
     softBlockInit: softBlockInit,
     textResize: textResize,
+    threadDeltaInit: threadDeltaInit,
     toggleLogo: toggleLogo,
     unblurInit: unblurInit,
     updateTime: updateTime,
@@ -217,38 +222,47 @@ function validateData (rawCSS, rawJSON, rawLayout, isNew) {
     }
 }
 
+
 function constructMenu (json, layoutArr, isNew) {
     //instantiate kes modal and button
-    let kbinContainer
     const sidebarPages = layoutArr.pages;
     const headerTitle = layoutArr.header.title;
-    if (window.innerWidth > 576) {
-        kbinContainer = document.querySelector('.kbin-container > menu');
-    } else {
-        kbinContainer = document.querySelector('.sidebar-options > .section > menu > ul')
+    function injectSettingsButton (layoutArr, isNew) {
+        if (document.querySelector('#kes-settings')) {
+            return
+        }
+        let kbinContainer
+        if (window.innerWidth > 576) {
+            kbinContainer = document.querySelector('.kbin-container > menu');
+        } else {
+            kbinContainer = document.querySelector('.sidebar-options > .section > menu > ul')
+        }
+        const kesPanel = document.createElement('li');
+        kesPanel.id = 'kes-settings';
+        kesPanel.title = layoutArr.header.open.tooltip;
+        kbinContainer.appendChild(kesPanel);
+        const wrenchOuter = document.createElement('a')
+        const settingsButton = document.createElement('i');
+        wrenchOuter.appendChild(settingsButton)
+        settingsButton.id = 'kes-settings-button';
+        settingsButton.classList = layoutArr.header.open.icon;
+        settingsButton.style.verticalAlign = 'middle';
+        if (isNew === "yes") {
+            const stackSpan = document.createElement('span');
+            stackSpan.classList = 'kes-update';
+            let stackStrong = document.createElement('i');
+            stackStrong.classList = 'fa-solid fa-circle-up fa-sm kes-update-available';
+            stackSpan.appendChild(stackStrong);
+            settingsButton.appendChild(stackSpan);
+        }
+        kesPanel.addEventListener('click', () => {
+            showSettingsModal();
+        });
+        kesPanel.appendChild(wrenchOuter);
+        return kesPanel
     }
-    const kesPanel = document.createElement('li');
-    kesPanel.id = 'kes-settings';
-    kesPanel.title = layoutArr.header.open.tooltip;
-    kbinContainer.appendChild(kesPanel);
-    const wrenchOuter = document.createElement('a')
-    const settingsButton = document.createElement('i');
-    wrenchOuter.appendChild(settingsButton)
-    settingsButton.id = 'kes-settings-button';
-    settingsButton.classList = layoutArr.header.open.icon;
-    settingsButton.style.verticalAlign = 'middle';
-    if (isNew === "yes") {
-        const stackSpan = document.createElement('span');
-        stackSpan.classList = 'kes-update';
-        let stackStrong = document.createElement('i');
-        stackStrong.classList = 'fa-solid fa-circle-up fa-sm kes-update-available';
-        stackSpan.appendChild(stackStrong);
-        settingsButton.appendChild(stackSpan);
-    }
-    kesPanel.addEventListener('click', () => {
-        showSettingsModal();
-    });
-    kesPanel.appendChild(wrenchOuter);
+
+    kesPanel = injectSettingsButton(layoutArr, isNew)
 
     var keyPressed = {};
     document.addEventListener('keydown', function (e) {
@@ -857,10 +871,10 @@ function constructMenu (json, layoutArr, isNew) {
             const backupDialog = document.querySelector('#kes-backup-dialog');
             backupDialog.showModal();
         });
-        
+
         function parseNamespaces () {
             var names = [];
-            for(i = 0 ; i < json.length ; ++i) {
+            for(let i = 0 ; i < json.length ; ++i) {
                 if(json[i].namespace) {
                     names.push(json[i].namespace);
                 }
@@ -872,7 +886,7 @@ function constructMenu (json, layoutArr, isNew) {
             const toExport = {};
             const keys = Object.keys(localStorage);
             const values = Object.values(localStorage);
-            for(i = 0 ; i < keys.length ; ++i) {
+            for(let i = 0 ; i < keys.length ; ++i) {
                 if(keys[i] === "kes-settings" || names.includes(keys[i])) {
                     let key = keys[i];
                     let value = JSON.parse(values[i]);
@@ -966,10 +980,11 @@ function constructMenu (json, layoutArr, isNew) {
       </form>
       `
         nativeModal.addEventListener('close', () => {
+            let upload
             const dialog = document.querySelector('#kes-backup-dialog');
             switch (dialog.returnValue) {
-            case "import": 
-                const upload = document.getElementById("kes-import-dialog");
+            case "import":
+                upload = document.getElementById("kes-import-dialog");
                 upload.click();
                 break;
             case "export":
@@ -991,7 +1006,7 @@ function constructMenu (json, layoutArr, isNew) {
             }
             let page = ret.split('@')[0]
             const helpString = ret.split('@')[1]
-            pageCaps = page.charAt(0).toUpperCase() + page.slice(1);
+            const pageCaps = page.charAt(0).toUpperCase() + page.slice(1);
             openTab(pageCaps);
             const opts = document.querySelectorAll('.kes-option');
             opts.forEach((opt)=>{
@@ -1025,7 +1040,7 @@ function constructMenu (json, layoutArr, isNew) {
             resultsDialogForm.appendChild(resultsMenu);
 
             let label
-            for (let i = 0; i < json.length; ++i) {
+            for (i = 0; i < json.length; ++i) {
                 const origLabel = json[i].label
                 const labelLower = origLabel.toLowerCase();
                 const queryLower = query.toLowerCase();
@@ -1089,6 +1104,19 @@ function constructMenu (json, layoutArr, isNew) {
             }
             window.setTimeout(revertIcon,600);
         });
+
+        const sponsorButton = document.createElement('span')
+        const sponsorIcon = document.createElement('i')
+        const sponsorLink = document.createElement("a");
+        sponsorButton.className = "kes-settings-modal-sponsor-link";
+        sponsorIcon.className = layoutArr.header.sponsor.icon
+        sponsorLink.setAttribute('href', sponsorURL);
+        sponsorLink.setAttribute('target', '_blank');
+        sponsorLink.title = layoutArr.header.sponsor.tooltip
+        sponsorIcon.style.color = "red"
+        sponsorLink.appendChild(sponsorIcon)
+        sponsorButton.appendChild(sponsorLink)
+        footer.appendChild(sponsorButton)
 
         const container = document.createElement("div");
         container.className = "kes-settings-modal-container";
@@ -1280,17 +1308,29 @@ function constructMenu (json, layoutArr, isNew) {
 
     function initmut (list) {
         for (const mutation of list) {
-            //workaround for timeago ticks changing timestamp textContent
-            //reapply verbose timestamp
-            //see also updateState()
+            if (mutation.target.nodeName == "HTML") {
+                //implies that turbo mode reloaded the entire DOM tree
+                //the KES modal is itself running in the background,
+                //but when the entire DOM is reloaded in place the settings icon should be
+                //reinjected into the kbin navbar
+                injectSettingsButton(layoutArr, isNew)
+                for (let i = 0; i < json.length; ++i) {
+                    applySettings(json[i].entrypoint, mutation);
+                }
+                return
+            }
             if (mutation.target.className === 'timeago') {
+                //workaround for timeago ticks changing timestamp textContent
+                //implies that the active 60s timestamp is updating
+                //reapplies verbose timestamps
+                //see also updateState()
                 if (mutation.target.textContent.indexOf("ago") >= 0) {
                     applySettings("updateTime");
                 }
-                //triggering on the first mutation is sufficient
+                //triggering on the first mutation is sufficient to apply to all timestamps
                 return
-            } else {
-                //normal mutation (lazy load etc.), apply all recurring mods
+            } else if ((mutation.target.getAttribute("data-controller") == "subject-list") || (mutation.target.id == "comments")) {
+                //implies that a recurring/infinite scroll event like new threads or comment creation occurred
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
                         applySettings(json[i].entrypoint, mutation);
@@ -1302,20 +1342,12 @@ function constructMenu (json, layoutArr, isNew) {
         }
     }
 
-    const watchedNode = document.querySelector('[data-controller="subject-list"]');
-    const watchedNode2 = document.querySelector('#comments');
+    const watchedNode = document.querySelector('html');
     const obs = new MutationObserver(initmut);
     init();
     if (watchedNode) {
         obs.observe(watchedNode, {
             subtree: true,
-            childList: true,
-            attributes: false
-        });
-    }
-    if (watchedNode2) {
-        obs.observe(watchedNode2, {
-            subtree: false,
             childList: true,
             attributes: false
         });

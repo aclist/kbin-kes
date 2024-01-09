@@ -22,6 +22,7 @@ function initCollapsibleComments (toggle, mutation) {
             enterMain();
         }
     } else if (document.querySelector('.entry-comment.nested')) {
+        safeGM("removeStyle", "hide-defaults")
         document.querySelectorAll('.expando').forEach((item) => {
             item.remove();
         });
@@ -420,7 +421,13 @@ function applyCommentStyles () {
         }
         `;
     }
-    safeGM("addStyle",style);
+    const hideDefaults = `
+    .comment-wrap {
+        display: none;
+    }
+    `;
+    safeGM("addStyle", hideDefaults, "hide-defaults");
+    safeGM("addStyle", style, "threaded-comments");
 }
 
 function applyToNewPosts () {

@@ -407,7 +407,7 @@ span.kes-update {
     display: flex;
 }
 
-.kes-settings-modal-bug-icon {
+.kes-settings-modal-bug-icon, .kes-settings-modal-sponsor-link {
     padding-left: 0.4rem;
     float: right;
 }

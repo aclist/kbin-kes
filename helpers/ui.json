@@ -44,6 +44,10 @@
     "search": {
       "tooltip": "Search for an option",
       "icon": "fa-solid fa-search"
+    },
+    "sponsor": {
+      "tooltip": "Sponsor the author",
+      "icon": "fa-solid fa-heart"
     }
   },
   "pages": [

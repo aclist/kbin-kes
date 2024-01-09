@@ -2,7 +2,7 @@
   {
     "name": "Fix Lemmy Code Blocks",
     "author": "Pamasich",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "label": "Repair Lemmy code blocks",
     "desc": "Lemmy federates special <span> HTML tags on each line of its code blocks which /kbin displays in plaintext, resulting in code blocks being hard to read. This mod removes those tags.",
     "login": false,
@@ -359,6 +359,17 @@
     ]
   },
   {
+    "name": "Expand post descriptions from thread index",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Expand post text in thread index",
+    "desc": "Adds an expand/collapse button used to read the full body text of posts without leaving the thread index.",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "expandPostsInit",
+    "page": "threads"
+  },
+  {
     "name": "Hide Upvotes",
     "author": "artillect",
     "version": "0.2",
@@ -406,6 +417,42 @@
         "initial": 2,
         "label": "Thickness of outline",
         "key": "thickness"
+      }
+    ]
+  },
+  {
+    "name": "Show thread/microblog delta since last visit",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Show thread/microblog delta since last visit",
+    "desc": "Intended for magazine moderators (or others) checking for new magazine activity. If there are new threads/microblogs since your last visit, shows the delta at the top of the page.",
+    "login": true,
+    "recurs": false,
+    "entrypoint": "threadDeltaInit",
+    "page": "threads",
+    "namespace": "thread-delta",
+    "fields": [
+      {
+        "type": "color",
+        "initial": "--kbin-alert-info-link-color",
+        "key": "bgcolor",
+        "label": "Top bar color"
+      },
+      {
+        "type": "color",
+        "initial": "--kbin-text-color",
+        "key": "fgcolor",
+        "label": "Text color"
+      },
+      {
+        "type": "radio",
+        "initial": "on",
+        "key": "state",
+        "label": "Permanently display counts in top bar (best for mobile). Set to off to only display bar when there are new threads/blogs.",
+        "values": [
+          "on",
+          "off"
+        ]
       }
     ]
   },
