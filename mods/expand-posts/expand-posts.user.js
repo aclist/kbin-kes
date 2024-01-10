@@ -31,11 +31,11 @@ function expandPostsInit (toggle) {
                         body.innerText = ar[i] + '...'
                         break
                     }
-                    button.innerText = 'EXPAND'
-                    const br = document.createElement('br')
-                    body.appendChild(br)
-                    body.appendChild(button)
                 }
+                button.innerText = 'EXPAND'
+                const br = document.createElement('br')
+                body.appendChild(br)
+                body.appendChild(button)
             }
         });
         return button
