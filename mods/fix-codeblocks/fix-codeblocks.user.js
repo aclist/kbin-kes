@@ -41,7 +41,7 @@ function fixLemmyCodeblocks (isActive) { // eslint-disable-line no-unused-vars
 
         const fixedBlock = document.createElement("code");
         fixedBlock.setAttribute(fixedCodeAttribute, "");
-        codeblock.parentNode.insertBefore(fixedBlock, codeblock.nextSibling);
+        codeblock.after(fixedBlock);
 
         fixedBlock.textContent = codeblock.textContent
             .replace(startTagPattern, "")
