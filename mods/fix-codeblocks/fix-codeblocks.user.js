@@ -36,14 +36,14 @@ function fixLemmyCodeblocks (isActive) { // eslint-disable-line no-unused-vars
 
     /** @param {HTMLElement} codeblock */
     function fixCodeblock (codeblock) {
-        if (!testPattern.test(codeblock.innerText)) return;
+        if (!testPattern.test(codeblock.textContent)) return;
         if (codeblock.nextElementSibling?.hasAttribute(fixedCodeAttribute)) return;
 
         const fixedBlock = document.createElement("code");
         fixedBlock.setAttribute(fixedCodeAttribute, "");
         codeblock.parentNode.insertBefore(fixedBlock, codeblock.nextSibling);
 
-        fixedBlock.innerText = codeblock.innerText
+        fixedBlock.textContent = codeblock.textContent
             .replace(startTagPattern, "")
             .replaceAll(combinedPattern, "")
             .replace(endTagPattern, "");
