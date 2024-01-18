@@ -2,7 +2,7 @@
   {
     "name": "Fix Lemmy Code Blocks",
     "author": "Pamasich",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "label": "Repair Lemmy code blocks",
     "desc": "Lemmy federates special <span> HTML tags on each line of its code blocks which /kbin displays in plaintext, resulting in code blocks being hard to read. This mod removes those tags.",
     "login": false,
@@ -344,19 +344,7 @@
     "recurs": false,
     "entrypoint": "initCollapsibleComments",
     "page": "threads",
-    "namespace": "collapsibleComments",
-    "fields": [
-      {
-        "type": "radio",
-        "initial": "Headers and bars only",
-        "label": "Collapse by clicking:",
-        "key": "click",
-        "values": [
-          "On headers and bars only (requires reload)",
-          "Anywhere on comments"
-        ]
-      }
-    ]
+    "namespace": "collapsibleComments"
   },
   {
     "name": "Expand post descriptions from thread index",

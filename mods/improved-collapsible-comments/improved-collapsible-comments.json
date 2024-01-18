@@ -8,17 +8,5 @@
   "recurs": false,
   "entrypoint": "initCollapsibleComments",
   "page": "threads",
-  "namespace": "collapsibleComments",
-  "fields": [
-    {
-      "type": "radio",
-      "initial": "Headers and bars only",
-      "label": "Collapse by clicking:",
-      "key": "click",
-      "values": [
-        "On headers and bars only (requires reload)",
-        "Anywhere on comments"
-      ]
-    }
-  ]
+  "namespace": "collapsibleComments"
 }
