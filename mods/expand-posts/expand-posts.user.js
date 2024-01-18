@@ -11,7 +11,6 @@ function expandPostsInit (toggle) {
         oldBody.innerText = postBody
         const newButton = makeButton('COLLAPSE', res)
         const oldBr = document.querySelector('#kes-expand-divider')
-        oldBr.remove()
         oldBody.appendChild(newButton)
     }
     function makeButton (text, parent) {
