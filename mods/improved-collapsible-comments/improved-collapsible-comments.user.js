@@ -450,7 +450,9 @@ function initCollapsibleComments (toggle, mutation) {
             });
         }
         removeDangling();
-        safeGM("removeStyle", "hide-defaults")
+        clearMores();
+        safeGM("removeStyle", "hide-defaults");
+        safeGM("removeStyle", "threaded-comments");
     }
     if (!toggle) {
         teardown()
