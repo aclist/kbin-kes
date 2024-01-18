@@ -139,7 +139,6 @@ function initCollapsibleComments (toggle, mutation) {
         .entry-comment > figure > a > img, .entry-comment > figure > a > .no-avatar {
             max-width: 20px!important;
             max-height: 20px!important;
-            border-radius: 10px;
             border: 0px transparent !important;
         }
         @media (max-width: 992px) {
