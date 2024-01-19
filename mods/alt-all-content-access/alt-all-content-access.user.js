@@ -5,24 +5,20 @@
  * @todo Need to test it properly and set up unit tests
 */
 class AlternativeAllContentAccessMod {
-    constructor () {
-        this.titleQuery = "div.head-title a";
-        this.allContentQuery = "menu.head-nav__menu a[href^='/*/']";
-    }
-
-    getTitle () { // provided for unit testing
+    getTitle () {
         return document.querySelector("div.head-title a");
     }
 
     /** @returns {boolean} */
-    getHideButtonSetting () { // provided for unit testing
+    getHideButtonSetting () {
         return getModSettings("alt-all-content-access")["hideAllContentButton"];
     }
 
     /** @returns {HTMLElement} */
-    getAllContentButton () { // provided for unit testing
-        return [...document.querySelectorAll(this.allContentQuery)]
-            .find((element) => !element.isSameNode(this.title));
+    getAllContentButton () {
+        const allContentQuery = "menu.head-nav__menu a[href^='/*/']";
+        return [...document.querySelectorAll(allContentQuery)]
+            .find((element) => !element.isSameNode(this.getTitle()));
     }
 
     /** @param {boolean} isActive */
