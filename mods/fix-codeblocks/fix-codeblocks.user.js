@@ -5,18 +5,6 @@
  * 
  * This mod fixes the issue by removing those erroneous tags.
  * 
- * Testing:
- * 
- * Todo:
- * - Explain the basic procedure to test that this works correctly
- * - Set up (possibly automated) unit tests
- * - Check if anything not yet covered needs to be. Does only Rust currently
- * have syntax highlighting federated? The federated highlighting and the
- * highlighting I can see on lemm.ee are very similar but not the same,
- * indicating that they're different implementations yet use similar rules.
- * Check if there's some common standardized style they use which could serve
- * as a reference.
- * 
  * Future Plans:
  * - Try to make sure this doesn't replace anything within strings.
  * - Maybe make a version that makes the federated syntax highlighting functional rather 
