@@ -1,6 +1,5 @@
 function softBlockInit (toggle) {
     //TODO: don't apply on magazine pages
-    //
     const hostname = window.location.hostname;
     const softBlockCSS = `
     .softblocked-article {

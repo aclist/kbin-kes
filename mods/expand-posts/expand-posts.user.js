@@ -10,6 +10,7 @@ function expandPostsInit (toggle) {
         const oldBody = res.querySelector('.short-desc p');
         oldBody.innerText = postBody
         const newButton = makeButton('COLLAPSE', res)
+        const oldBr = document.querySelector('#kes-expand-divider')
         oldBody.appendChild(newButton)
     }
     function makeButton (text, parent) {
@@ -46,6 +47,7 @@ function expandPostsInit (toggle) {
             const b = entry.querySelector('.short-desc p')
             if (b) {
                 const br = document.createElement('br')
+                br.id = "kes-expand-divider"
                 const end = b.innerText.slice(-3)
                 if (end == "...") {
                     const button = makeButton('EXPAND', entry)
