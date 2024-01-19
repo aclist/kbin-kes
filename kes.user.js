@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.0-beta.25
+// @version      3.2.2-beta.3
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1039,12 +1039,28 @@ function constructMenu (json, layoutArr, isNew) {
             const resultsDialogForm = resultsDialog.querySelector('form');
             resultsDialogForm.appendChild(resultsMenu);
 
+            //TODO: alpha sort
+            //:isnew
+            //if (json[i].newsince == version)
             let label
             for (i = 0; i < json.length; ++i) {
                 const origLabel = json[i].label
                 const labelLower = origLabel.toLowerCase();
                 const queryLower = query.toLowerCase();
-                if(labelLower.includes(queryLower)) {
+                if (query.includes(":recurs")) {
+                    if (json[i].recurs) {
+                        label = json[i].label;
+                        const page = json[i].page
+                        const br = document.createElement('br')
+                        const r = document.createElement('button')
+                        r.type = "submit";
+                        r.className = "kes-results-fullbutton";
+                        r.value = page + "@" + label;
+                        r.innerText = label;
+                        resultsMenu.appendChild(r);
+                        resultsMenu.appendChild(br);
+                    }
+                } else if(labelLower.includes(queryLower)) {
                     label = json[i].label;
                     const page = json[i].page
                     const br = document.createElement('br')
