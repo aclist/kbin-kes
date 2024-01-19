@@ -1,7 +1,8 @@
-/**
+/*
  * This mod aims to make clicking the magazine name in the navbar lead to the All Content
  * view instead of the Threads view, while removing the All Content button itself.
 */
+
 function alternativeAllContentAccess (toggle) {
     const titleQuery = "div.head-title a";
     const allContentQuery = "menu.head-nav__menu a[href^='/*/']";
