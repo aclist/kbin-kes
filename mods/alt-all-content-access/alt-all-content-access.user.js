@@ -23,7 +23,7 @@ class AlternativeAllContentAccessMod {
 
     /** @param {boolean} isActive */
     setButtonVisibility (isActive) {
-        if (!this.getHideButtonSetting()) return;
+        if (this.getHideButtonSetting()) return;
         this.getAllContentButton().style.display = (isActive) ? "none" : "";
     }
 
