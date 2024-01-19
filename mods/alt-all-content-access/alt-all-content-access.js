@@ -8,36 +8,43 @@ class AlternativeAllContentAccessMod {
     constructor () {
         this.titleQuery = "div.head-title a";
         this.allContentQuery = "menu.head-nav__menu a[href^='/*/']";
+    }
 
-        this.title = document.querySelector(this.titleQuery);
-        this.currentUrl = this.title.getAttribute("href");
+    getTitle () { // provided for unit testing
+        return document.querySelector("div.head-title a");
     }
 
     /** @returns {boolean} */
-    getHideButtonSetting () {
+    getHideButtonSetting () { // provided for unit testing
         return getModSettings("alt-all-content-access")["hideAllContentButton"];
+    }
+
+    /** @returns {HTMLElement} */
+    getAllContentButton () { // provided for unit testing
+        return [...document.querySelectorAll(this.allContentQuery)]
+            .find((element) => !element.isSameNode(this.title));
     }
 
     /** @param {boolean} isActive */
     setButtonVisibility (isActive) {
-        /** @type {HTMLElement} */
-        const allContentButton = [...document.querySelectorAll(this.allContentQuery)]
-            .find((element) => !element.isSameNode(this.title));
-        allContentButton.style.display = (isActive) ? "none" : "";
+        if (!this.getHideButtonSetting()) return;
+        this.getAllContentButton().style.display = (isActive) ? "none" : "";
     }
 
     setup () {
-        if (!this.currentUrl.startsWith("/*/")) {
-            this.title.setAttribute("href", `/*${this.currentUrl}`);
+        const title = this.getTitle();
+        if (!title.getAttribute("href").startsWith("/*/")) {
+            title.setAttribute("href", `/*${title.getAttribute("href")}`);
         }
-        if (this.getHideButtonSetting()) this.setButtonVisibility(true);
+        this.setButtonVisibility(true);
     }
 
     teardown () {
-        if (this.currentUrl.startsWith("/*/")) {
-            this.title.setAttribute("href", `/*${this.currentUrl.slice(2)}`);
+        const title = this.getTitle();
+        if (title.getAttribute("href").startsWith("/*/")) {
+            title.setAttribute("href", `/*${title.getAttribute("href").slice(2)}`);
         }
-        if (this.getHideButtonSetting()) this.setButtonVisibility(false);
+        this.setButtonVisibility(false);
     }
 }
 
