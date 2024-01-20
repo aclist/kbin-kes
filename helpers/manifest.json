@@ -355,7 +355,28 @@
     "login": false,
     "recurs": true,
     "entrypoint": "expandPostsInit",
-    "page": "threads"
+    "page": "threads",
+    "namespace": "expand-posts",
+    "fields": [
+      {
+        "type": "text",
+        "initial": "EXPAND",
+        "key": "expand",
+        "label": "Expand label"
+      },
+      {
+        "type": "text",
+        "initial": "COLLAPSE",
+        "key": "collapse",
+        "label": "Collapse label"
+      },
+      {
+        "type": "text",
+        "initial": "LOADING",
+        "key": "loading",
+        "label": "Loading label"
+      }
+    ]
   },
   {
     "name": "Hide Upvotes",

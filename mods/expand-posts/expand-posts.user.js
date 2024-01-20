@@ -8,9 +8,18 @@ function expandPostsInit (toggle) {
         const arr = Array.from(document.querySelectorAll('.entry'))
         const res = arr.find((el) => el.id === articleId);
         const oldBody = res.querySelector('.short-desc p');
-        oldBody.innerText = postBody
-        const newButton = makeButton('COLLAPSE', res)
+        const newButton = makeButton(collapseLabel, res)
         const oldBr = document.querySelector('#kes-expand-divider')
+
+        oldBody.innerText = postBody
+        if (oldBody.childNodes[0].nodeName === "BR") {
+            oldBody.children[0].remove()
+        }
+        const cn = oldBody.childNodes
+        if (cn[cn.length-3].nodeName === "BR") {
+            cn[cn.length-3].remove()
+        }
+
         oldBody.appendChild(newButton)
     }
     function makeButton (text, parent) {
@@ -20,8 +29,8 @@ function expandPostsInit (toggle) {
         button.style.cursor = 'pointer'
         button.addEventListener('click', (e) => {
             const mode = e.target.innerText
-            if (mode === 'EXPAND') {
-                button.innerText = 'LOADING'
+            if (mode === expandLabel) {
+                button.innerText = loadingLabel
                 const link = parent.querySelector('header h2 a')
                 genericXMLRequest(link, update)
             } else {
@@ -32,7 +41,7 @@ function expandPostsInit (toggle) {
                         body.innerText = ar[i] + '...'
                         break
                     }
-                    button.innerText = 'EXPAND'
+                    button.innerText = expandLabel
                     const br = document.createElement('br')
                     body.appendChild(br)
                     body.appendChild(button)
@@ -50,13 +59,17 @@ function expandPostsInit (toggle) {
                 br.id = "kes-expand-divider"
                 const end = b.innerText.slice(-3)
                 if (end == "...") {
-                    const button = makeButton('EXPAND', entry)
+                    const button = makeButton(expandLabel, entry)
                     b.appendChild(br)
                     b.appendChild(button)
                 }
             }
         });
     }
+    const settings = getModSettings("expand-posts")
+    const loadingLabel = settings.loading
+    const expandLabel = settings.expand
+    const collapseLabel = settings.collapse
     if (toggle) {
         propagateButtons();
     } else {
