@@ -17,9 +17,10 @@ function expandPostsInit (toggle) {
         if (oldBody.childNodes[0].nodeName === "BR") {
             oldBody.children[0].remove()
         }
-        const cn = oldBody.childNodes
-        if (cn[cn.length-3].nodeName === "BR") {
-            cn[cn.length-3].remove()
+        const prev = newButton.previousElementSibling
+        const prevOfPrev = newButton.previousElementSibling.previousElementSibling
+        if (prev.nodeName === "BR" && prevOfPrev.nodeName=== "BR") {
+            prevOfPrev.remove()
         }
     }
     function makeButton (text, parent) {
@@ -30,6 +31,10 @@ function expandPostsInit (toggle) {
         button.style.cursor = 'pointer'
         button.addEventListener('click', (e) => {
         const mode = e.target.innerText
+            const settings = getModSettings("expand-posts")
+            const loadingLabel = settings.loading
+            const expandLabel = settings.expand
+            const collapseLabel = settings.collapse
             if (mode === expandLabel) {
                 button.innerText = loadingLabel
                 button.className = 'kes-loading-post-button'
@@ -42,6 +47,7 @@ function expandPostsInit (toggle) {
                     if (ar[i]) {
                         body.innerText = ar[i] + '...'
                         button.innerText = expandLabel
+                        button.className = 'kes-expand-post-button'
                         body.appendChild(br)
                         body.appendChild(button)
                         break
@@ -90,7 +96,11 @@ function expandPostsInit (toggle) {
         propagateButtons();
     } else {
         const oldButtons = document.querySelectorAll('.kes-expand-post-button')
+        const oldButtons2 = document.querySelectorAll('.kes-collapse-post-button')
         oldButtons.forEach((button)=>{
+            button.remove();
+        });
+        oldButtons2.forEach((button)=>{
             button.remove();
         });
     }
