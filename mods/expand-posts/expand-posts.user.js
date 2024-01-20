@@ -9,9 +9,11 @@ function expandPostsInit (toggle) {
         const res = arr.find((el) => el.id === articleId);
         const oldBody = res.querySelector('.short-desc p');
         const newButton = makeButton(collapseLabel, res)
+        newButton.className = 'kes-collapse-post-button'
         const oldBr = document.querySelector('#kes-expand-divider')
 
         oldBody.innerText = postBody
+        oldBody.appendChild(newButton)
         if (oldBody.childNodes[0].nodeName === "BR") {
             oldBody.children[0].remove()
         }
@@ -19,18 +21,18 @@ function expandPostsInit (toggle) {
         if (cn[cn.length-3].nodeName === "BR") {
             cn[cn.length-3].remove()
         }
-
-        oldBody.appendChild(newButton)
     }
     function makeButton (text, parent) {
         const button = document.createElement('a')
+        const br = document.createElement('br')
         button.innerText = text
         button.className = 'kes-expand-post-button'
         button.style.cursor = 'pointer'
         button.addEventListener('click', (e) => {
-            const mode = e.target.innerText
+        const mode = e.target.innerText
             if (mode === expandLabel) {
                 button.innerText = loadingLabel
+                button.className = 'kes-loading-post-button'
                 const link = parent.querySelector('header h2 a')
                 genericXMLRequest(link, update)
             } else {
@@ -39,12 +41,11 @@ function expandPostsInit (toggle) {
                 for (let i = 0; i < ar.length; ++i) {
                     if (ar[i]) {
                         body.innerText = ar[i] + '...'
+                        button.innerText = expandLabel
+                        body.appendChild(br)
+                        body.appendChild(button)
                         break
                     }
-                    button.innerText = expandLabel
-                    const br = document.createElement('br')
-                    body.appendChild(br)
-                    body.appendChild(button)
                 }
             }
         });
@@ -54,16 +55,31 @@ function expandPostsInit (toggle) {
         const entries = document.querySelectorAll('.entry')
         entries.forEach((entry) => {
             const b = entry.querySelector('.short-desc p')
+            const br = document.createElement('br')
             if (b) {
-                const br = document.createElement('br')
-                br.id = "kes-expand-divider"
                 const end = b.innerText.slice(-3)
                 if (end == "...") {
+                    br.id = "kes-expand-divider"
                     const button = makeButton(expandLabel, entry)
                     b.appendChild(br)
                     b.appendChild(button)
                 }
             }
+        });
+        updateButtonLabels();
+    }
+    function updateButtonLabels () {
+        const expandLabels = document.querySelectorAll('.kes-expand-post-button')
+        const loadingLabels = document.querySelectorAll('.kes-loading-post-button')
+        const collapseLabels = document.querySelectorAll('.kes-collapse-post-button')
+        expandLabels.forEach((label) =>{
+            label.innerText = expandLabel
+        });
+        collapseLabels.forEach((label) =>{
+            label.innerText = collapseLabel
+        });
+        loadingLabels.forEach((label) =>{
+            label.innerText = loadingLabel
         });
     }
     const settings = getModSettings("expand-posts")
