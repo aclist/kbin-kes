@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 ## 3.2.2
 ### Fixed
 - Expand post text in thread index: fixed an issue with extraneous newlines being inserted before and after a post body when fetching the remote text.
+- Collapsible comments: fixed issues with nested thread style failing to be removed when toggling off
+- Collapsible comments: fixed an issue with expand text buttons not working when nested comments are enabled
+- Collapsible comments: removed rounded corners from avatars, as this was undocumented/unspecified by the add-on
 
 ### Added
 - Expand post text in thread index: added the ability to set custom text labels for the Expand, Collapse, and Loading states.
