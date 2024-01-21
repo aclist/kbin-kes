@@ -1,6 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 3.2.3
+### Fixed
+- Expand post text in thread index: fixed another issue with expand button becoming hidden after collapsing text
+
+## 3.2.2
+### Fixed
+- Expand post text in thread index: fixed an issue with extraneous newlines being inserted before and after a post body when fetching the remote text.
+
+### Added
+- Expand post text in thread index: added the ability to set custom text labels for the Expand, Collapse, and Loading states.
+
+## 3.2.1
+### Fixed
+- Expand post text in thread index: fixed an issue with expand button becoming hidden after collapsing text
+
 ## 3.2.0
 ### Added
 - Turbo mode support: propagate changes on both turbo and normal mode
