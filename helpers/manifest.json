@@ -344,19 +344,7 @@
     "recurs": false,
     "entrypoint": "initCollapsibleComments",
     "page": "threads",
-    "namespace": "collapsibleComments",
-    "fields": [
-      {
-        "type": "radio",
-        "initial": "Headers and bars only",
-        "label": "Collapse by clicking:",
-        "key": "click",
-        "values": [
-          "On headers and bars only (requires reload)",
-          "Anywhere on comments"
-        ]
-      }
-    ]
+    "namespace": "collapsibleComments"
   },
   {
     "name": "Expand post descriptions from thread index",
@@ -367,7 +355,28 @@
     "login": false,
     "recurs": true,
     "entrypoint": "expandPostsInit",
-    "page": "threads"
+    "page": "threads",
+    "namespace": "expand-posts",
+    "fields": [
+      {
+        "type": "text",
+        "initial": "EXPAND",
+        "key": "expand",
+        "label": "Expand label"
+      },
+      {
+        "type": "text",
+        "initial": "COLLAPSE",
+        "key": "collapse",
+        "label": "Collapse label"
+      },
+      {
+        "type": "text",
+        "initial": "LOADING",
+        "key": "loading",
+        "label": "Loading label"
+      }
+    ]
   },
   {
     "name": "Hide Upvotes",
