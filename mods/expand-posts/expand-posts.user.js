@@ -55,6 +55,10 @@ function expandPostsInit (toggle) {
                         break
                     }
                 }
+                button.innerText = 'EXPAND'
+                const br = document.createElement('br')
+                body.appendChild(br)
+                body.appendChild(button)
             }
         });
         return button
