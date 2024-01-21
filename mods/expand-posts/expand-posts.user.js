@@ -8,6 +8,8 @@ function expandPostsInit (toggle) {
         const arr = Array.from(document.querySelectorAll('.entry'))
         const res = arr.find((el) => el.id === articleId);
         const oldBody = res.querySelector('.short-desc p');
+        const settings = getModSettings("expand-posts")
+        const collapseLabel = settings.collapse
         const newButton = makeButton(collapseLabel, res)
         newButton.className = 'kes-collapse-post-button'
         const oldBr = document.querySelector('#kes-expand-divider')
