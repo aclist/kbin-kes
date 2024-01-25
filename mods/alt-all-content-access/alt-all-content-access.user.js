@@ -38,7 +38,7 @@ class AlternativeAllContentAccessMod {
     teardown () {
         const title = this.getTitle();
         if (title.getAttribute("href").startsWith("/*/")) {
-            title.setAttribute("href", `/*${title.getAttribute("href").slice(2)}`);
+            title.setAttribute("href", title.getAttribute("href").slice(2));
         }
         this.setButtonVisibility(false);
     }
