@@ -1,0 +1,11 @@
+{
+    "name": "Make block spoilers behave like on Old Reddit",
+    "author": "Pamasich",
+    "version": "1.0.0",
+    "label": "Display spoilers as blocks",
+    "desc": "Changes spoilers to display as visible but obscured blocks, rather than being hidden away.",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "blockifySpoilers",
+    "page": "general"
+  }
