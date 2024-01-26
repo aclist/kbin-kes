@@ -29,6 +29,7 @@ class AlternativeAllContentAccessMod {
 
     setup () {
         const title = this.getTitle();
+        if (title == undefined) return;
         if (!title.getAttribute("href").startsWith("/*/")) {
             title.setAttribute("href", `/*${title.getAttribute("href")}`);
         }
@@ -37,6 +38,7 @@ class AlternativeAllContentAccessMod {
 
     teardown () {
         const title = this.getTitle();
+        if (title == undefined) return;
         if (title.getAttribute("href").startsWith("/*/")) {
             title.setAttribute("href", title.getAttribute("href").slice(2));
         }
