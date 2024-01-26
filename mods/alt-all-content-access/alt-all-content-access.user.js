@@ -1,8 +1,6 @@
 /**
  * This mod aims to make clicking the magazine name in the navbar lead to the All Content
  * view instead of the Threads view, while removing the All Content button itself.
- * 
- * @todo Need to test it properly and set up unit tests
 */
 class AlternativeAllContentAccessMod {
     getTitle () {
