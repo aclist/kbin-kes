@@ -5,7 +5,7 @@
 class AlternativeAllContentAccessMod {
     /** @returns {HTMLElement[]} */
     getTitle () {
-        return document.querySelectorAll("div.head-title a");
+        return Array.from(document.querySelectorAll("div.head-title a"));
     }
 
     /** @returns {boolean} */
@@ -17,7 +17,9 @@ class AlternativeAllContentAccessMod {
     getAllContentButton () {
         const allContentQuery = "menu.head-nav__menu > li > a[href^='/*/']";
         const allContentMobileQuery = "div.mobile-nav menu.info a[href^='/*/']";
-        return document.querySelectorAll(`${allContentQuery}, ${allContentMobileQuery}`);
+        return Array.from(
+            document.querySelectorAll(`${allContentQuery}, ${allContentMobileQuery}`)
+        );
     }
 
     /** @param {boolean} isActive */
