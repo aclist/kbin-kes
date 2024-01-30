@@ -12,7 +12,7 @@
     "fields": [
         {
             "type": "checkbox",
-            "initial": true,
+            "initial": false,
             "key": "hideAllContentButton",
             "checkbox_label": "Hide the All Content button"
         }
