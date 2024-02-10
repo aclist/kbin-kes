@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.3
+// @version      3.2.4-beta.4
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1271,11 +1271,23 @@ function constructMenu (json, layoutArr, isNew) {
         if ((func === "updateTime") && (state === false)) {
             window.location.reload();
         } else {
-            applySettings(func);
+            toggleSettings(func);
         }
     }
 
-    function applySettings (entry,mutation) {
+    function toggleSettings (entry) {
+        const settings = getSettings()
+        try {
+            if (settings[entry] == true) {
+                funcObj[entry](true);
+            } else {
+                funcObj[entry](false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    function applySettings (entry, mutation) {
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
