@@ -247,6 +247,9 @@ span.kes-update {
 .kes-settings-modal-content ul li input[type="checkbox"] {
     margin-right: 0.5rem;
 }
+.kes-default-radio::before {
+    content: "" !important;
+}
 .kes-default-radio, .kes-default-checkbox {
 	-webkit-appearance: auto !important;
     appearance: auto !important;
