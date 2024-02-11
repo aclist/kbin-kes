@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.4
+// @version      3.2.4-beta.5
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -583,7 +583,7 @@ function constructMenu (json, layoutArr, isNew) {
                     case "range": {
                         const range = document.createElement('input');
                         range.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
+                        if (modSettings[key] === undefined) {
                             range.setAttribute("value", initial);
                         } else {
                             range.setAttribute("value", modSettings[key])
@@ -605,7 +605,7 @@ function constructMenu (json, layoutArr, isNew) {
                             rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
                             rangeValue.id = key;
                             rangeValue.for = key;
-                            if (!modSettings[key]) {
+                            if (modSettings[key] === undefined) {
                                 rangeValue.innerText = initial;
                             } else {
                                 rangeValue.innerText = modSettings[key];
