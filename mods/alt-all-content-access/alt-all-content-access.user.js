@@ -15,7 +15,7 @@ class AlternativeAllContentAccessMod {
 
     /** @returns {HTMLElement[]} */
     getAllContentButton () {
-        const threadsAttributePattern = "[href$='/*']";
+        const threadsAttributePattern = "[href^='/*']";
         const collectionsAttributePattern = "[href$='/*']";
         const allContentQuery = "menu.head-nav__menu > li > a";
         const allContentMobileQuery = "div.mobile-nav menu.info a";
