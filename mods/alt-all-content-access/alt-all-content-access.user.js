@@ -15,10 +15,17 @@ class AlternativeAllContentAccessMod {
 
     /** @returns {HTMLElement[]} */
     getAllContentButton () {
-        const allContentQuery = "menu.head-nav__menu > li > a[href^='/*/']";
-        const allContentMobileQuery = "div.mobile-nav menu.info a[href^='/*/']";
+        const threadsAttributePattern = "[href$='/*']";
+        const collectionsAttributePattern = "[href$='/*']";
+        const allContentQuery = "menu.head-nav__menu > li > a";
+        const allContentMobileQuery = "div.mobile-nav menu.info a";
         return Array.from(
-            document.querySelectorAll(`${allContentQuery}, ${allContentMobileQuery}`)
+            document.querySelectorAll(`
+                ${allContentQuery}${threadsAttributePattern}, 
+                ${allContentMobileQuery}${threadsAttributePattern},
+                ${allContentQuery}${collectionsAttributePattern}, 
+                ${allContentMobileQuery}${collectionsAttributePattern}
+            `)
         );
     }
 
