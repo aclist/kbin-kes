@@ -33,7 +33,7 @@ class AlternativeAllContentAccessMod {
     setButtonVisibility (isActive) {
         const hideButton = this.getHideButtonSetting() && isActive;
         this.getAllContentButton().forEach((button) => {
-            button.style.display = (hideButton) ? "none" : "";
+            button.parentNode.style.display = (hideButton) ? "none" : "";
         });
     }
 
