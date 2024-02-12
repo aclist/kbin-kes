@@ -37,21 +37,33 @@ class AlternativeAllContentAccessMod {
         });
     }
 
+    isCurrentViewCollection () {
+        return this.getAllContentButton()[0].getAttribute("href").endsWith("/*");
+    }
+
     setup () {
         const titleList = this.getTitle();
         if (titleList.length == 0) return;
-        titleList
-            .filter((title) => !title.getAttribute("href").startsWith("/*/"))
-            .forEach((title) => title.setAttribute("href", `/*${title.getAttribute("href")}`));
+        const currentViewIsCollection = this.isCurrentViewCollection();
+        titleList.forEach((title) => {
+            const href = title.getAttribute("href");
+            if (!currentViewIsCollection && !href.startsWith("/*/")) {
+                title.setAttribute("href", `/*${href}`);
+            } else if (currentViewIsCollection && !href.endsWith("/*")) {
+                title.setAttribute("href", `${href}/*`);
+            }
+        });
         this.setButtonVisibility(true);
     }
 
     teardown () {
         const titleList = this.getTitle();
         if (titleList.length == 0) return;
-        titleList
-            .filter((title) => title.getAttribute("href").startsWith("/*/"))
-            .forEach((title) => title.setAttribute("href", title.getAttribute("href").slice(2)));
+        titleList.forEach((title) => {
+            const href = title.getAttribute("href");
+            if (href.startsWith("/*/")) title.setAttribute("href", href.slice(2));
+            else if (href.endsWith("/*")) title.setAttribute("href", href.slice(0, href.length-2));
+        });
         this.setButtonVisibility(false);
     }
 }
