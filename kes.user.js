@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.2-beta.7
+// @version      3.2.4-beta.5
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -575,7 +575,7 @@ function constructMenu (json, layoutArr, isNew) {
                         label.innerText = json[it].fields[i].label;
                         hBox.appendChild(label);
                     }
-                    if (!modSettings[key]) {
+                    if (modSettings[key] === undefined) {
                         modSettings[key] = initial;
                         saveModSettings(modSettings, ns);
                     }
@@ -583,7 +583,7 @@ function constructMenu (json, layoutArr, isNew) {
                     case "range": {
                         const range = document.createElement('input');
                         range.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
+                        if (modSettings[key] === undefined) {
                             range.setAttribute("value", initial);
                         } else {
                             range.setAttribute("value", modSettings[key])
@@ -605,7 +605,7 @@ function constructMenu (json, layoutArr, isNew) {
                             rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
                             rangeValue.id = key;
                             rangeValue.for = key;
-                            if (!modSettings[key]) {
+                            if (modSettings[key] === undefined) {
                                 rangeValue.innerText = initial;
                             } else {
                                 rangeValue.innerText = modSettings[key];
@@ -647,7 +647,7 @@ function constructMenu (json, layoutArr, isNew) {
                     case "color": {
                         const colorField = document.createElement('input');
                         let realHex
-                        if (!modSettings[key]) {
+                        if (modSettings[key] === undefined) {
                             realHex = getHex(initial);
                         } else {
                             realHex = getHex(modSettings[key])
@@ -667,7 +667,7 @@ function constructMenu (json, layoutArr, isNew) {
                     case "number": {
                         const numberField = document.createElement('input');
                         numberField.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
+                        if (modSettings[key] === undefined) {
                             numberField.setAttribute("value", initial);
                         } else {
                             numberField.setAttribute("value", modSettings[key])
@@ -740,7 +740,7 @@ function constructMenu (json, layoutArr, isNew) {
                         const checkboxLabel = document.createElement('label');
                         const cfield = document.createElement('input');
                         cfield.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
+                        if (modSettings[key] === undefined) {
                             cfield.checked = initial
                         } else {
                             cfield.checked = modSettings[key]
@@ -758,7 +758,7 @@ function constructMenu (json, layoutArr, isNew) {
                     default: {
                         const field = document.createElement('input');
                         field.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
+                        if (modSettings[key] === undefined) {
                             field.setAttribute("value", initial);
                         } else {
                             field.setAttribute("value", modSettings[key])
@@ -1271,17 +1271,27 @@ function constructMenu (json, layoutArr, isNew) {
         if ((func === "updateTime") && (state === false)) {
             window.location.reload();
         } else {
-            applySettings(func);
+            toggleSettings(func);
         }
     }
 
-    function applySettings (entry,mutation) {
+    function toggleSettings (entry) {
+        const settings = getSettings()
+        try {
+            if (settings[entry] == true) {
+                funcObj[entry](true);
+            } else {
+                funcObj[entry](false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    function applySettings (entry, mutation) {
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
                 funcObj[entry](true, mutation);
-            } else {
-                funcObj[entry](false);
             }
         } catch (error) {
             console.log(error);
