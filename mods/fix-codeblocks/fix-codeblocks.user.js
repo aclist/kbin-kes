@@ -59,8 +59,8 @@ class FixLemmyCodeblocksMod {
 
     setup () {
         this.getCodeBlocks()
-            .filter((code) => !this.isErroneousCode(code))
-            .filter((code) => this.isFixed(code))
+            .filter((code) => this.isErroneousCode(code))
+            .filter((code) => !this.isFixed(code))
             .forEach((code) => this.fix(code));
     }
 
