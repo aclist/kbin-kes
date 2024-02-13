@@ -12,11 +12,13 @@
   "fields": [
     {
       "type": "checkbox",
+      "initial": false,
       "key": "filter",
       "checkbox_label": "Hide filter icon"
     },
     {
       "type": "checkbox",
+      "initial": false,
       "key": "view",
       "checkbox_label": "Hide view icon"
     }
