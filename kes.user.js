@@ -966,7 +966,7 @@ function constructMenu (json, layoutArr, isNew) {
         <form method="dialog">
         <menu class="kes-search-menu">
             <input class="kes-search-hidden" type="submit" value="submit" hidden>
-            <button class="kes-search-new" type="submit" value="list-new">Show features new to ${version}</button>
+            <button class="kes-search-new" type="submit" value="list-new">Show add-ons new to ${version}</button>
             <input type="text" class="kes-search-field">
             <span class="kes-search-text">Type enter to submit search</span>
             <button class="kes-search-closebutton" type="submit" value="close">Close</button>
