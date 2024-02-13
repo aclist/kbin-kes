@@ -10,56 +10,72 @@
  * - Maybe make a version that makes the federated syntax highlighting functional rather 
  * than removing it.
  */
-
-function LemmyCodeFixer () {
-    this.stylePattern = "((font-style:italic|font-weight:bold);)?color:#[0-9a-fA-F]{6};";
-
-    this.testPattern = new RegExp(`^\\n?<span style="${this.stylePattern}">(.+\\n)+<\\/span>\\n?$`);
-    this.startTagPattern = new RegExp(`^\\n?<span style="${this.stylePattern}">`);
-    this.endTagPattern = new RegExp(`\\n<\\/span>\\n?$`);
-    this.combinedPattern = new RegExp(`<\\/span><span style="${this.stylePattern}">`, "g");
-
-    this.attribute = "data-fixed-code"
-
-    /** @param {HTMLElement} codeblock */
-    this.repair = function (codeblock) {
-        if (!this.testPattern.test(codeblock.textContent)) return;
-        if (codeblock.nextElementSibling?.hasAttribute(this.attribute)) return;
-
-        const fixedBlock = document.createElement("code");
-        fixedBlock.setAttribute(this.attribute, "");
-        codeblock.after(fixedBlock);
-
-        fixedBlock.textContent = codeblock.textContent
-            .replace(this.startTagPattern, "")
-            .replaceAll(this.combinedPattern, "")
-            .replace(this.endTagPattern, "");
-
-        codeblock.style.display = "none";
+class FixLemmyCodeblocksMod {
+    getFixedCodeAttributeName () {
+        return "data-fixed-code"
     }
 
-    /** @param {HTMLElement} fixedBlock */
-    this.revert = function (fixedBlock) {
-        /** @type {HTMLElement} */
-        const originalBlock = fixedBlock.previousElementSibling;
-        originalBlock.style.removeProperty("display");
-        fixedBlock.parentNode.removeChild(fixedBlock);
+    /** @returns {HTMLElement[]} @param {boolean} fixedCodeOnly */
+    getCodeBlocks (fixedCodeOnly = false) {
+        const attr = fixedCodeOnly ? `[${this.getFixedCodeAttributeName()}]` : "";
+        return Array.from(document.querySelectorAll(`pre code${attr}`));
     }
 
-    this.repairAll = function () {
-        document.querySelectorAll("pre code").forEach(this.repair.bind(this));
+    getStylePattern () {
+        return "((font-style:italic|font-weight:bold);)?color:#[0-9a-fA-F]{6};";
     }
 
-    this.revertAll = function () {
-        document.querySelectorAll(`pre code[${this.attribute}]`).forEach(this.revert.bind(this));
+    /** @param {HTMLElement} code */
+    isErroneousCode (code) {
+        const pattern = 
+            new RegExp(`^\\n?<span style="${this.getStylePattern()}">(.+\\n)+<\\/span>\\n?$`);
+        return pattern.test(code.textContent);
+    }
+
+    /** @param {HTMLElement} code */
+    isFixed (code) {
+        return code.nextElementSibling?.hasAttribute(this.getFixedCodeAttributeName());
+    }
+
+    /** @param {HTMLElement} original */
+    fix (original) {
+        const fixed = document.createElement("code");
+        fixed.setAttribute(this.getFixedCodeAttributeName, "");
+        original.after(fixed);
+
+        const start = new RegExp(`^\\n?<span style="${this.getStylePattern()}">`);
+        const end = new RegExp(`\\n<\\/span>\\n?$`);
+        const combined = new RegExp(`<\\/span><span style="${this.getStylePattern()}">`, "g");
+
+        fixed.textContent = original.textContent
+            .replace(start, "")
+            .replaceAll(combined, "")
+            .replace(end, "");
+
+        original.style.display = "none";
+    }
+
+    setup () {
+        this.getCodeBlocks()
+            .filter((code) => !this.isErroneousCode(code))
+            .filter((code) => this.isFixed(code))
+            .forEach((code) => this.fix(code));
+    }
+
+    teardown () {
+        this.getCodeBlocks(true).forEach((code) => {
+            /** @type {HTMLElement} */
+            const originalBlock = code.previousElementSibling;
+            originalBlock.style.removeProperty("display");
+            code.remove();
+        });
     }
 }
 
 function fixLemmyCodeblocks (isActive) { // eslint-disable-line no-unused-vars
-    const fixer = new LemmyCodeFixer();
     if (isActive) {
-        fixer.repairAll();
+        new FixLemmyCodeblocksMod().setup();
     } else {
-        fixer.revertAll();
+        new FixLemmyCodeblocksMod().teardown();
     }
 }
