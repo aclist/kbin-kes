@@ -1066,16 +1066,19 @@ function constructMenu (json, layoutArr, isNew) {
                 const origLabel = json[i].label
                 const labelLower = origLabel.toLowerCase();
                 const queryLower = query.toLowerCase();
-                if (query.includes(":recurs")) {
-                    if (json[i].recurs) {
+                if (query === ":recurs") {
+                    if (!json[i].recurs) continue
+                    label = json[i].label;
+                    generateSearchResults(resultsMenu, json[i], label)
+                } else if (query === ":new") {
+                    if (json[i].new_since === version) {
                         label = json[i].label;
                         generateSearchResults(resultsMenu, json[i], label)
                     }
-                } else if (rval === "list-new" || query.includes(":new")) {
-                    if (json[i].new_since == version) {
-                        label = json[i].label;
-                        generateSearchResults(resultsMenu, json[i], label)
-                    }
+                } else if (query === ":login") {
+                    if (!json[i].login) continue
+                    label = json[i].label;
+                    generateSearchResults(resultsMenu, json[i], label)
                 } else if(labelLower.includes(queryLower)) {
                     label = json[i].label;
                     generateSearchResults(resultsMenu, json[i], label)
