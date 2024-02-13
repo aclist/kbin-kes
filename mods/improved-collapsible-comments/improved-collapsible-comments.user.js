@@ -240,7 +240,6 @@ function initCollapsibleComments (toggle, mutation) {
         nestComments(comments,levels);
     }
     function nestComments (comments,levels) {
-        console.log("entered nest comments")
         // Go through comments in reverse order
         for (let i = comments.length-1; i >= 0; i--) {
             comments[i].classList.add('nested');
@@ -459,7 +458,6 @@ function initCollapsibleComments (toggle, mutation) {
         return
     }
     if (mutation && mutation.addedNodes[0].className.indexOf('nested') === -1) {
-        console.log("mutation on nested comment")
         enterMain();
     } else if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
         return;
