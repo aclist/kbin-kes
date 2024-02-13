@@ -8,7 +8,6 @@
     "recurs": true,
     "entrypoint": "addMail",
     "namespace": "mail",
-    "new_since": "3.2.4-beta.5",
     "fields": [
       {
         "type": "radio",
