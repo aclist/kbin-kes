@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.5
+// @version      3.2.4-beta.6
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -215,7 +215,12 @@ function validateData (rawCSS, rawJSON, rawLayout, isNew) {
         document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
     } else {
         safeGM("addStyle", rawCSS);
-        const json = JSON.parse(rawJSON);
+        const j = JSON.parse(rawJSON);
+        const json = j.sort( function( a, b ) {
+            a = a.label.toLowerCase();
+            b = b.label.toLowerCase();
+        return a < b ? -1 : a > b ? 1 : 0;
+        });
         const layoutArr = JSON.parse(rawLayout);
 
         constructMenu(json, layoutArr, isNew);
@@ -396,6 +401,7 @@ function constructMenu (json, layoutArr, isNew) {
         headerSearchButton.addEventListener('click', () => {
             const searchDialog = document.querySelector('#kes-search-dialog');
             searchDialog.showModal();
+            document.querySelector('.kes-search-field').focus();
         });
 
 
@@ -959,10 +965,11 @@ function constructMenu (json, layoutArr, isNew) {
         searchNativeModal.innerHTML = `
         <form method="dialog">
         <menu class="kes-search-menu">
-        <input type="text" class="kes-search-field">
-          <span class="kes-search-text">Type enter to submit search</span>
-          <button class="kes-search-hidden" type="submit" value="submit">Submit</button>
-          <button class="kes-search-closebutton" type="submit" value="close">Close</button>
+            <input class="kes-search-hidden" type="submit" value="submit" hidden>
+            <button class="kes-search-new" type="submit" value="list-new">Show features new to ${version}</button>
+            <input type="text" class="kes-search-field">
+            <span class="kes-search-text">Type enter to submit search</span>
+            <button class="kes-search-closebutton" type="submit" value="close">Close</button>
         </menu>
       </form>
       `
@@ -1018,16 +1025,31 @@ function constructMenu (json, layoutArr, isNew) {
             });
         });
 
-        searchNativeModal.addEventListener('close', () => {
-            const outerDialog = document.querySelector('#kes-search-dialog');
-            const innerDialog = document.querySelector('.kes-search-field');
-            const query = innerDialog.value;
-            innerDialog.value = "";
-            if (outerDialog.returnValue === "close") {
+        function generateSearchResults(resultsMenu, record, label){
+            const page = record.page
+            const br = document.createElement('br')
+            const r = document.createElement('button')
+            r.type = "submit";
+            r.className = "kes-results-fullbutton";
+            r.value = page + "@" + label;
+            r.innerText = label;
+            resultsMenu.appendChild(r);
+            resultsMenu.appendChild(br);
+        }
+        searchNativeModal.addEventListener('submit', (e) => {
+            const rval = e.submitter.value
+            let query
+            if (rval === "close") {
                 return
             }
-            if (query === "") {
-                return
+            if (rval === "list-new") {
+                query = ":new"
+            }
+            if (rval === "submit") {
+                const innerDialog = document.querySelector('.kes-search-field')
+                query = innerDialog.value
+                innerDialog.value = ""
+                if (query === "") return
             }
             const resultsDialog = document.querySelector('#kes-results-dialog');
             const oldMenu = document.querySelector('.kes-results-menu')
@@ -1039,9 +1061,6 @@ function constructMenu (json, layoutArr, isNew) {
             const resultsDialogForm = resultsDialog.querySelector('form');
             resultsDialogForm.appendChild(resultsMenu);
 
-            //TODO: alpha sort
-            //:isnew
-            //if (json[i].newsince == version)
             let label
             for (i = 0; i < json.length; ++i) {
                 const origLabel = json[i].label
@@ -1050,27 +1069,16 @@ function constructMenu (json, layoutArr, isNew) {
                 if (query.includes(":recurs")) {
                     if (json[i].recurs) {
                         label = json[i].label;
-                        const page = json[i].page
-                        const br = document.createElement('br')
-                        const r = document.createElement('button')
-                        r.type = "submit";
-                        r.className = "kes-results-fullbutton";
-                        r.value = page + "@" + label;
-                        r.innerText = label;
-                        resultsMenu.appendChild(r);
-                        resultsMenu.appendChild(br);
+                        generateSearchResults(resultsMenu, json[i], label)
+                    }
+                } else if (rval === "list-new" || query.includes(":new")) {
+                    if (json[i].new_since == version) {
+                        label = json[i].label;
+                        generateSearchResults(resultsMenu, json[i], label)
                     }
                 } else if(labelLower.includes(queryLower)) {
                     label = json[i].label;
-                    const page = json[i].page
-                    const br = document.createElement('br')
-                    const r = document.createElement('button')
-                    r.type = "submit";
-                    r.className = "kes-results-fullbutton";
-                    r.value = page + "@" + label;
-                    r.innerText = label;
-                    resultsMenu.appendChild(r);
-                    resultsMenu.appendChild(br);
+                    generateSearchResults(resultsMenu, json[i], label)
                 }
             }
             if (label === undefined) {

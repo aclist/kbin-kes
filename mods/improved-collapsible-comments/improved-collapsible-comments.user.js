@@ -462,7 +462,6 @@ function initCollapsibleComments (toggle, mutation) {
         console.log("mutation on nested comment")
         enterMain();
     } else if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
-        console.log("already nested")
         return;
     } else {
         console.log("entering main")
