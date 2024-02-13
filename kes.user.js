@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.7
+// @version      3.2.4-beta.8
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -966,7 +966,7 @@ function constructMenu (json, layoutArr, isNew) {
         <form method="dialog">
         <menu class="kes-search-menu">
             <input class="kes-search-hidden" type="submit" value="submit" hidden>
-            <button class="kes-search-new" type="submit" value="list-new">Show add-ons new to ${version}</button>
+            <button class="kes-search-new" type="submit" value="list-new">Show add-ons new to v${getMajorMinor(version)}</button>
             <input type="text" class="kes-search-field">
             <span class="kes-search-text">Type enter to submit search</span>
             <button class="kes-search-closebutton" type="submit" value="close">Close</button>
@@ -1025,6 +1025,12 @@ function constructMenu (json, layoutArr, isNew) {
             });
         });
 
+        function getMajorMinor(version){
+            const d = version.split('.')
+            const major = d[0]
+            const minor = d[1]
+            return `${major}.${minor}`
+        }
         function generateSearchResults(resultsMenu, record, label){
             const page = record.page
             const br = document.createElement('br')
@@ -1071,7 +1077,7 @@ function constructMenu (json, layoutArr, isNew) {
                     label = json[i].label;
                     generateSearchResults(resultsMenu, json[i], label)
                 } else if (query === ":new") {
-                    if (json[i].new_since === version) {
+                    if (json[i].new_since === getMajorMinor(version)) {
                         label = json[i].label;
                         generateSearchResults(resultsMenu, json[i], label)
                     }
