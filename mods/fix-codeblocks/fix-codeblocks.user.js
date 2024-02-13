@@ -9,6 +9,8 @@
  * - Try to make sure this doesn't replace anything within strings.
  * - Maybe make a version that makes the federated syntax highlighting functional rather 
  * than removing it.
+ * - Mark fixed code visually for transparency
+ * - Add a way to selectively revert blocks
  */
 class FixLemmyCodeblocksMod {
     getFixedCodeAttributeName () {
