@@ -42,7 +42,7 @@ class FixLemmyCodeblocksMod {
     /** @param {HTMLElement} original */
     fix (original) {
         const fixed = document.createElement("code");
-        fixed.setAttribute(this.getFixedCodeAttributeName, "");
+        fixed.setAttribute(this.getFixedCodeAttributeName(), "");
         original.after(fixed);
 
         const start = new RegExp(`^\\n?<span style="${this.getStylePattern()}">`);
