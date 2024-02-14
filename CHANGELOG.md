@@ -1,9 +1,35 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 3.2.3
+### Fixed
+- Expand post text in thread index: fixed another issue with expand button becoming hidden after collapsing text
+
+## 3.2.2
+### Fixed
+- Expand post text in thread index: fixed an issue with extraneous newlines being inserted before and after a post body when fetching the remote text.
+
+### Added
+- Expand post text in thread index: added the ability to set custom text labels for the Expand, Collapse, and Loading states.
+
+## 3.2.1
+### Fixed
+- Expand post text in thread index: fixed an issue with expand button becoming hidden after collapsing text
+
+## 3.2.0
+### Added
+- Turbo mode support: propagate changes on both turbo and normal mode
+- Sponsor button: jumps to GitHub Sponsors page
+- Expand post text in thread index (shazbot): open the full body of a thread's OP without leaving the thread index
+- Show thread/microblog delta since last visit (shazbot): adds an informational panel to the top of the page that prints post deltas
+
+### Fixed
+- Hotfix for 'Repair Lemmy code blocks' add-on
+- Hotfix for mods failing to revert the background appearance of some pages (login, etc.)
+
 ## 3.1.0
 ### Added
-- Sanitize code blocks federated from other instances (@Pamasich)
+- Sanitize code blocks federated from other instances (Pamasich)
 ### Fixed
 - Restore browser default appearance of checkboxes and radio fields
 - Label OP: properly show expected opacity (75%) of final label due to inherited opacity of parent element
