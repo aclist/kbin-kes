@@ -1,17 +1,16 @@
-/*
+/**
  * Lemmy federates its code blocks with syntax highlighting, but /kbin doesn't currently 
  * correctly handle that. It just displays the additional <span> tags for the syntax
  * highlighting in plain text. This makes the code very hard to read.
  * 
  * This mod fixes the issue by removing those erroneous tags.
  * 
- * Future Plans:
- * - Try to make sure this doesn't replace anything within strings.
- * - Maybe make a version that makes the federated syntax highlighting functional rather 
+ * @todo Try to make sure this doesn't replace anything within strings.
+ * @todo Maybe make a version that makes the federated syntax highlighting functional rather 
  * than removing it.
- * - Mark fixed code visually for transparency
- * - Add a way to selectively revert blocks
- * - Check need on and compatibility with mbin (once I've gotten a fedia account set up)
+ * @todo Mark fixed code visually for transparency
+ * @todo Add a way to selectively revert blocks
+ * @todo Check need on and compatibility with mbin (once I've gotten a fedia account set up)
  */
 class FixLemmyCodeblocksMod {
     getFixedCodeAttributeName () {
