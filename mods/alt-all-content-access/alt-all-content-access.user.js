@@ -1,6 +1,9 @@
 /**
  * This mod aims to make clicking the magazine name in the navbar lead to the All Content
  * view instead of the Threads view, while removing the All Content button itself.
+ * 
+ * @todo ensure this doesn't have unforeseen issues on mbin
+ * @todo remark in the description that this addon is useless on mbin
 */
 class AlternativeAllContentAccessMod {
     /** @returns {HTMLElement[]} */
