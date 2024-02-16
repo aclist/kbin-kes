@@ -247,6 +247,9 @@ span.kes-update {
 .kes-settings-modal-content ul li input[type="checkbox"] {
     margin-right: 0.5rem;
 }
+.kes-default-checkbox::before, .kes-default-radio::before {
+    content: "" !important;
+}
 .kes-default-radio, .kes-default-checkbox {
 	-webkit-appearance: auto !important;
     appearance: auto !important;
@@ -450,7 +453,7 @@ span.kes-update {
 .kes-backup-button:hover {
     opacity: 1;
 }
-.kes-search-menu button, .kes-results-menu button, .kes-backup-menu button {
+.kes-search-menu button, .kes-results-menu button, .kes-backup-menu button, .kes-search-new {
     border: 0px;
     opacity: 1;
     background-color: var(--kbin-section-bg);
@@ -499,6 +502,9 @@ span.kes-update {
 
 .kes-search-text, .kes-search-menu button {
     margin-top: 10px;
+}
+.kes-search-new {
+    padding-bottom: 10px;
 }
 .kes-search-closebutton {
     float: right;

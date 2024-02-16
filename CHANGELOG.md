@@ -1,6 +1,24 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 3.3.0
+### Added
+- Alternative access to All Content (Pamasich): makes the magazine title in the navbar link to the All Content view and removes the dedicated button
+- Show new features added in current release: click the button on the search menu to list new add-ons incorporated into KES since the current minor version. E.g., if you are on version 3.2.x, this button
+  will show all relevant add-ons since 3.2.0. Under the hood, this button performs a query using the `:new` keyword.
+- Search keywords: added a set of reserved keywords that can be used to search for add-ons matching certain criteria: `:new`, `:recurs`, and `:login`. These respectively will return a list of add-ons
+  that are a) new to the current minor version; b) recur each time new content is updated on the page (comments, replies, infinite scrolling, etc.); and c) requires logging in to use.
+
+### Changed
+- Alpha sort add-ons in pages: the pages listing add-ons are now sorted alphabetically by add-on title
+- Start search field focused: when opening the search menu, the text field is automatically focused
+
+### Fixed
+- Prevent add-ons from applying settings in some cases if the add-on is toggled off
+- Hide logo: added support for Mbin instances
+- Fixed cases where add-ons providing sub-settings initially set to true revert to false
+- Fixed an issue where changes to kbin's styling caused extraneous checkmarks to be drawn next to checkboxes
+
 ## 3.2.3
 ### Fixed
 - Expand post text in thread index: fixed another issue with expand button becoming hidden after collapsing text

@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.3
+// @version      3.3.0
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -34,6 +34,7 @@
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/adjust/adjust.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/alpha-sort-subs/alpha-sort-subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/main/mods/alt-all-content-access/alt-all-content-access.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/always-more/always-more.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/clarify-recipient/clarify-recipient.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/main/mods/code-highlighting/code-highlighting.user.js
@@ -77,7 +78,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, expandPostsInit, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, threadDeltaInit, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
+/* global addMail, adjustSite, alphaSortInit, altAllContentAccess, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, expandPostsInit, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, threadDeltaInit, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -101,6 +102,7 @@ const funcObj = {
     addMail: addMail,
     adjustSite: adjustSite,
     alphaSortInit: alphaSortInit,
+    altAllContentAccess: altAllContentAccess,
     bugReportInit: bugReportInit,
     checksInit: checksInit,
     clarifyRecipientInit: clarifyRecipientInit,
@@ -215,7 +217,12 @@ function validateData (rawCSS, rawJSON, rawLayout, isNew) {
         document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
     } else {
         safeGM("addStyle", rawCSS);
-        const json = JSON.parse(rawJSON);
+        const j = JSON.parse(rawJSON);
+        const json = j.sort( function( a, b ) {
+            a = a.label.toLowerCase();
+            b = b.label.toLowerCase();
+        return a < b ? -1 : a > b ? 1 : 0;
+        });
         const layoutArr = JSON.parse(rawLayout);
 
         constructMenu(json, layoutArr, isNew);
@@ -396,6 +403,7 @@ function constructMenu (json, layoutArr, isNew) {
         headerSearchButton.addEventListener('click', () => {
             const searchDialog = document.querySelector('#kes-search-dialog');
             searchDialog.showModal();
+            document.querySelector('.kes-search-field').focus();
         });
 
 
@@ -575,7 +583,7 @@ function constructMenu (json, layoutArr, isNew) {
                         label.innerText = json[it].fields[i].label;
                         hBox.appendChild(label);
                     }
-                    if (!modSettings[key]) {
+                    if (modSettings[key] === undefined) {
                         modSettings[key] = initial;
                         saveModSettings(modSettings, ns);
                     }
@@ -583,7 +591,7 @@ function constructMenu (json, layoutArr, isNew) {
                     case "range": {
                         const range = document.createElement('input');
                         range.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
+                        if (modSettings[key] === undefined) {
                             range.setAttribute("value", initial);
                         } else {
                             range.setAttribute("value", modSettings[key])
@@ -605,7 +613,7 @@ function constructMenu (json, layoutArr, isNew) {
                             rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
                             rangeValue.id = key;
                             rangeValue.for = key;
-                            if (!modSettings[key]) {
+                            if (modSettings[key] === undefined) {
                                 rangeValue.innerText = initial;
                             } else {
                                 rangeValue.innerText = modSettings[key];
@@ -647,7 +655,7 @@ function constructMenu (json, layoutArr, isNew) {
                     case "color": {
                         const colorField = document.createElement('input');
                         let realHex
-                        if (!modSettings[key]) {
+                        if (modSettings[key] === undefined) {
                             realHex = getHex(initial);
                         } else {
                             realHex = getHex(modSettings[key])
@@ -667,7 +675,7 @@ function constructMenu (json, layoutArr, isNew) {
                     case "number": {
                         const numberField = document.createElement('input');
                         numberField.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
+                        if (modSettings[key] === undefined) {
                             numberField.setAttribute("value", initial);
                         } else {
                             numberField.setAttribute("value", modSettings[key])
@@ -740,7 +748,7 @@ function constructMenu (json, layoutArr, isNew) {
                         const checkboxLabel = document.createElement('label');
                         const cfield = document.createElement('input');
                         cfield.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
+                        if (modSettings[key] === undefined) {
                             cfield.checked = initial
                         } else {
                             cfield.checked = modSettings[key]
@@ -758,7 +766,7 @@ function constructMenu (json, layoutArr, isNew) {
                     default: {
                         const field = document.createElement('input');
                         field.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
+                        if (modSettings[key] === undefined) {
                             field.setAttribute("value", initial);
                         } else {
                             field.setAttribute("value", modSettings[key])
@@ -959,10 +967,11 @@ function constructMenu (json, layoutArr, isNew) {
         searchNativeModal.innerHTML = `
         <form method="dialog">
         <menu class="kes-search-menu">
-        <input type="text" class="kes-search-field">
-          <span class="kes-search-text">Type enter to submit search</span>
-          <button class="kes-search-hidden" type="submit" value="submit">Submit</button>
-          <button class="kes-search-closebutton" type="submit" value="close">Close</button>
+            <input class="kes-search-hidden" type="submit" value="submit" hidden>
+            <button class="kes-search-new" type="submit" value="list-new">Show add-ons new to v${getMajorMinor(version)}</button>
+            <input type="text" class="kes-search-field">
+            <span class="kes-search-text">Type enter to submit search</span>
+            <button class="kes-search-closebutton" type="submit" value="close">Close</button>
         </menu>
       </form>
       `
@@ -1018,16 +1027,37 @@ function constructMenu (json, layoutArr, isNew) {
             });
         });
 
-        searchNativeModal.addEventListener('close', () => {
-            const outerDialog = document.querySelector('#kes-search-dialog');
-            const innerDialog = document.querySelector('.kes-search-field');
-            const query = innerDialog.value;
-            innerDialog.value = "";
-            if (outerDialog.returnValue === "close") {
+        function getMajorMinor(version){
+            const d = version.split('.')
+            const major = d[0]
+            const minor = d[1]
+            return `${major}.${minor}`
+        }
+        function generateSearchResults(resultsMenu, record, label){
+            const page = record.page
+            const br = document.createElement('br')
+            const r = document.createElement('button')
+            r.type = "submit";
+            r.className = "kes-results-fullbutton";
+            r.value = page + "@" + label;
+            r.innerText = label;
+            resultsMenu.appendChild(r);
+            resultsMenu.appendChild(br);
+        }
+        searchNativeModal.addEventListener('submit', (e) => {
+            const rval = e.submitter.value
+            let query
+            if (rval === "close") {
                 return
             }
-            if (query === "") {
-                return
+            if (rval === "list-new") {
+                query = ":new"
+            }
+            if (rval === "submit") {
+                const innerDialog = document.querySelector('.kes-search-field')
+                query = innerDialog.value
+                innerDialog.value = ""
+                if (query === "") return
             }
             const resultsDialog = document.querySelector('#kes-results-dialog');
             const oldMenu = document.querySelector('.kes-results-menu')
@@ -1039,38 +1069,27 @@ function constructMenu (json, layoutArr, isNew) {
             const resultsDialogForm = resultsDialog.querySelector('form');
             resultsDialogForm.appendChild(resultsMenu);
 
-            //TODO: alpha sort
-            //:isnew
-            //if (json[i].newsince == version)
             let label
             for (i = 0; i < json.length; ++i) {
                 const origLabel = json[i].label
                 const labelLower = origLabel.toLowerCase();
                 const queryLower = query.toLowerCase();
-                if (query.includes(":recurs")) {
-                    if (json[i].recurs) {
+                if (query === ":recurs") {
+                    if (!json[i].recurs) continue
+                    label = json[i].label;
+                    generateSearchResults(resultsMenu, json[i], label)
+                } else if (query === ":new") {
+                    if (json[i].new_since === getMajorMinor(version)) {
                         label = json[i].label;
-                        const page = json[i].page
-                        const br = document.createElement('br')
-                        const r = document.createElement('button')
-                        r.type = "submit";
-                        r.className = "kes-results-fullbutton";
-                        r.value = page + "@" + label;
-                        r.innerText = label;
-                        resultsMenu.appendChild(r);
-                        resultsMenu.appendChild(br);
+                        generateSearchResults(resultsMenu, json[i], label)
                     }
+                } else if (query === ":login") {
+                    if (!json[i].login) continue
+                    label = json[i].label;
+                    generateSearchResults(resultsMenu, json[i], label)
                 } else if(labelLower.includes(queryLower)) {
                     label = json[i].label;
-                    const page = json[i].page
-                    const br = document.createElement('br')
-                    const r = document.createElement('button')
-                    r.type = "submit";
-                    r.className = "kes-results-fullbutton";
-                    r.value = page + "@" + label;
-                    r.innerText = label;
-                    resultsMenu.appendChild(r);
-                    resultsMenu.appendChild(br);
+                    generateSearchResults(resultsMenu, json[i], label)
                 }
             }
             if (label === undefined) {
@@ -1271,17 +1290,27 @@ function constructMenu (json, layoutArr, isNew) {
         if ((func === "updateTime") && (state === false)) {
             window.location.reload();
         } else {
-            applySettings(func);
+            toggleSettings(func);
         }
     }
 
-    function applySettings (entry,mutation) {
+    function toggleSettings (entry) {
+        const settings = getSettings()
+        try {
+            if (settings[entry] == true) {
+                funcObj[entry](true);
+            } else {
+                funcObj[entry](false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    function applySettings (entry, mutation) {
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
                 funcObj[entry](true, mutation);
-            } else {
-                funcObj[entry](false);
             }
         } catch (error) {
             console.log(error);
