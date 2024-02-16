@@ -490,6 +490,26 @@
     ]
   },
   {
+    "name": "Alternative access to the All Content view",
+    "namespace": "alt-all-content-access",
+    "author": "Pamasich",
+    "version": "1.0.0",
+    "label": "Alternative access to All Content",
+    "desc": "Makes the magazine title in the navbar link to the All Content view and removes the dedicated button instead.",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "altAllContentAccess",
+    "page": "navbar",
+    "fields": [
+      {
+        "type": "checkbox",
+        "initial": true,
+        "key": "hideAllContentButton",
+        "checkbox_label": "Hide the All Content button"
+      }
+    ]
+  },
+  {
     "name": "Add mail",
     "author": "shazbot",
     "version": "0.1.0",
