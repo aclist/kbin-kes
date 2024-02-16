@@ -11,6 +11,7 @@
  * than removing it.
  * - Mark fixed code visually for transparency
  * - Add a way to selectively revert blocks
+ * - Check need on and compatibility with mbin (once I've gotten a fedia account set up)
  */
 class FixLemmyCodeblocksMod {
     getFixedCodeAttributeName () {
