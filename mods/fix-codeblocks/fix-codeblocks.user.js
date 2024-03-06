@@ -4,13 +4,6 @@
  * highlighting in plain text. This makes the code very hard to read.
  * 
  * This mod fixes the issue by removing those erroneous tags.
- * 
- * @todo Try to make sure this doesn't replace anything within strings.
- * @todo Maybe make a version that makes the federated syntax highlighting functional rather 
- * than removing it.
- * @todo Mark fixed code visually for transparency
- * @todo Add a way to selectively revert blocks
- * @todo Check need on and compatibility with mbin (once I've gotten a fedia account set up)
  */
 class FixLemmyCodeblocksMod {
     getFixedCodeAttributeName () {
