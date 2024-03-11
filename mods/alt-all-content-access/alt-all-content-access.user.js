@@ -41,6 +41,7 @@ class AlternativeAllContentAccessMod {
     }
 
     isCurrentViewCollection () {
+        // needed because the All Content url works differently for collections
         return this.getAllContentButton()[0].getAttribute("href").endsWith("/*");
     }
 
