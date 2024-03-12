@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.8
+// @version      3.2.4-beta.9
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -34,6 +34,7 @@
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/adjust/adjust.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/alpha-sort-subs/alpha-sort-subs.user.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/alt-all-content-access/alt-all-content-access.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/always-more/always-more.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/clarify-recipient/clarify-recipient.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting/code-highlighting.user.js
@@ -77,7 +78,7 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, expandPostsInit, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, threadDeltaInit, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
+/* global addMail, adjustSite, alphaSortInit, altAllContentAccess, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, expandPostsInit, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, threadDeltaInit, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
 
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
@@ -101,6 +102,7 @@ const funcObj = {
     addMail: addMail,
     adjustSite: adjustSite,
     alphaSortInit: alphaSortInit,
+    altAllContentAccess: altAllContentAccess,
     bugReportInit: bugReportInit,
     checksInit: checksInit,
     clarifyRecipientInit: clarifyRecipientInit,
