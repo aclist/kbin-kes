@@ -22,12 +22,19 @@ try {
 } catch (error) {
     console.log(error);
 }
+
+function getInstanceType() {
+    const keyw = document.querySelector('meta[name="keywords"]').content.split(',')[0]
+    return keyw
+}
+
 function addCustomCSS (css, id) {
     const style = document.createElement('style');
     style.id = id;
     style.innerHTML = css;
     document.head.appendChild(style);
 }
+
 function removeCustomCSS (id) {
     const toRemove = document.getElementById(id);
     if (toRemove) {
@@ -36,6 +43,7 @@ function removeCustomCSS (id) {
         return
     }
 }
+
 function getHex (value) {
     let realHex;
     const firstChar = Array.from(value)[0];
@@ -47,6 +55,7 @@ function getHex (value) {
     }
     return realHex;
 }
+
 function genericXMLRequest (url, callback) {
     safeGM("xmlhttpRequest", {
         method: 'GET',

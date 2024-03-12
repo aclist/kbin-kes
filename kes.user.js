@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.9
+// @version      3.2.4-beta.10
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -218,10 +218,10 @@ function validateData (rawCSS, rawJSON, rawLayout, isNew) {
     } else {
         safeGM("addStyle", rawCSS);
         const j = JSON.parse(rawJSON);
-        const json = j.sort( function( a, b ) {
+        const json = j.sort( function ( a, b ) {
             a = a.label.toLowerCase();
             b = b.label.toLowerCase();
-        return a < b ? -1 : a > b ? 1 : 0;
+            return a < b ? -1 : a > b ? 1 : 0;
         });
         const layoutArr = JSON.parse(rawLayout);
 
@@ -1027,13 +1027,13 @@ function constructMenu (json, layoutArr, isNew) {
             });
         });
 
-        function getMajorMinor(version){
+        function getMajorMinor (version) {
             const d = version.split('.')
             const major = d[0]
             const minor = d[1]
             return `${major}.${minor}`
         }
-        function generateSearchResults(resultsMenu, record, label){
+        function generateSearchResults (resultsMenu, record, label) {
             const page = record.page
             const br = document.createElement('br')
             const r = document.createElement('button')
