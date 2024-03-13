@@ -140,7 +140,7 @@ width: 100%;
 height: 100%;
 `
 const forceDropdownCSS = `
-.dropdown__menu a, .dropdown__menu button {
+.notifications-iframe.dropdown__menu a, .notifications-iframe.dropdown__menu button {
     display: initial !important;
     padding: initial !important;
 }
@@ -149,7 +149,7 @@ const forceDropdownCSS = `
 }
 `
 const resetDropdownCSS = `
-.dropdown__menu a, .dropdown__menu button {
+.notifications-iframe.dropdown__menu a, .notifications-iframe.dropdown__menu button {
     display: block !important;
     padding: .5rem 1rem !important;
 }
