@@ -107,7 +107,7 @@ function initCodeHighlights (toggle) {
     if (toggle) {
         const settings = getModSettings("codehighlights");
         let myStyle = settings["style"];
-        kchCssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
+        kchCssUrl = `https://raw.githubusercontent.com/highlightjs/highlight.js/main/src/styles/base16/${myStyle}.css`
         if (kchLastToggleState === false) {
             kchLastToggleState = true;
             kchStartup(true);
