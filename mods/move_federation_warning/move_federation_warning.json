@@ -6,7 +6,7 @@
   "login": false,
   "recurs": false,
   "desc": "When viewing a magazine from another instance, kbin displays a warning at the top of the feed. This mod moves the warning to the sidebar's magazine info panel, or hides it completely.",
-  "entrypoint": "moveFederationWarningEntry",
+  "entrypoint": "move_federation_warning",
   "namespace": "moveFederationWarning",
   "fields": [
     {

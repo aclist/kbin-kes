@@ -6,6 +6,6 @@
   "desc": "Lemmy federates special <span> HTML tags on each line of its code blocks which /kbin displays in plaintext, resulting in code blocks being hard to read. This add-on removes those tags.",
   "login": false,
   "recurs": true,
-  "entrypoint": "fixLemmyCodeblocks",
+  "entrypoint": "fix_codeblocks",
   "page": "general"
 }

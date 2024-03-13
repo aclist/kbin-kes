@@ -6,7 +6,7 @@
   "login": false,
   "recurs": true,
   "desc": "Hide/unhide sidebar elements",
-  "entrypoint": "hideSidebar",
+  "entrypoint": "hide_sidebar",
   "namespace": "hide-sidebar",
   "page": "general",
   "fields": [

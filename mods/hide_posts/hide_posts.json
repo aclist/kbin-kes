@@ -6,6 +6,6 @@
   "login": false,
   "recurs": true,
   "desc": "Adds a hide button to permanently hide posts from your feed. Untoggle to wipe the history of hidden posts and reset.",
-  "entrypoint": "hidePostsInit",
+  "entrypoint": "hide_posts",
   "page": "threads"
 }

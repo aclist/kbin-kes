@@ -6,6 +6,6 @@
   "login": false,
   "recurs": false,
   "desc": "Auto-expands long post bodies instead of starting collapsed",
-  "entrypoint": "moreInit",
+  "entrypoint": "always_more",
   "page": "threads"
 }

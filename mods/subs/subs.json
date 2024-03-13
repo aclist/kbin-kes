@@ -6,6 +6,6 @@
   "login": true,
   "recurs": false,
   "desc": "Add magazine subscription link to navbar",
-  "entrypoint": "initMags",
+  "entrypoint": "subs",
   "page": "navbar"
 }

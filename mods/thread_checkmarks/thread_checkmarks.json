@@ -6,7 +6,7 @@
   "desc": "Append a checkmark to magazines on the thread index you are subscribed to. The 'Subscriptions omnibar' option (page: General) must be enabled for this to work",
   "login": false,
   "recurs": true,
-  "entrypoint": "checksInit",
+  "entrypoint": "thread_checkmarks",
   "namespace": "checks",
   "fields": [
     {
