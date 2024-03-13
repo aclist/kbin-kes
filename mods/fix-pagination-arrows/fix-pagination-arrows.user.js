@@ -26,12 +26,12 @@ function fixPaginationArrows (isActive) { // eslint-disable-line no-unused-vars
     function setup () {
         // The left arrow query specifically looks for an uninteractable one. If it is found
         // past page 1, that means it needs to be fixed. There's no other conditions needed.
-        if (leftArrow && isFixed(leftArrow) == false) {
+        if (leftArrow && !isFixed(leftArrow)) {
             leftArrow.style.display = "none";
             leftArrow.before(createClickable(leftArrow, currentPage-1, "prev"));
             markAsFixed(leftArrow);
         }
-        if (rightArrow && isFixed(rightArrow) == false && isNextPageWrong()) {
+        if (rightArrow && !isFixed(rightArrow) && isNextPageWrong()) {
             if (isThisLastPage()) {
                 disable(rightArrow);
             } else {
