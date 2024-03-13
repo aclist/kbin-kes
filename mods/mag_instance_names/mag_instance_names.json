@@ -6,6 +6,6 @@
   "desc": "Show instance names next to magazines",
   "login": false,
   "recurs": true,
-  "entrypoint": "magInstanceEntry",
+  "entrypoint": "mag_instance_names",
   "page": "general"
 }

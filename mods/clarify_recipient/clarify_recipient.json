@@ -6,6 +6,6 @@
   "login": true,
   "recurs": false,
   "desc": "Lists the recipient in the message box title",
-  "entrypoint": "clarifyRecipientInit",
+  "entrypoint": "clarify_recipient",
   "page": "profile"
 }

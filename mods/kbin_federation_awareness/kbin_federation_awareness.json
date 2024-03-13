@@ -6,7 +6,7 @@
   "login": false,
   "recurs": true,
   "desc": "Quickly identify a post/comment's federation/moderation status. Original by @CodingAndCoffee@kbin.social",
-  "entrypoint": "initKFA",
+  "entrypoint": "kbin_federation_awareness",
   "namespace": "kbinFedAware",
   "fields": [
     {

@@ -1,36 +1,36 @@
-  {
-    "name": "Add mail",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Add mail icon",
-    "desc": "Add mail link to usernames if on own instance",
-    "login": false,
-    "recurs": true,
-    "entrypoint": "addMail",
-    "namespace": "mail",
-    "fields": [
-      {
-        "type": "radio",
-        "initial": "Text",
-        "key": "type",
-        "label": "Label type",
-        "values": [
-          "Text",
-          "Icon"
-        ]
-      },
-      {
-        "type": "text",
-        "initial": "PM",
-        "key": "text",
-        "label": "Label text"
-      },
-      {
-        "type": "text",
-        "initial": "submitted by",
-        "key": "prefix",
-        "label": "Poster prefix (use single space for empty)"
-      }
-    ],
-    "page": "general"
-  }
+{
+  "name": "Add mail",
+  "author": "shazbot",
+  "version": "0.1.0",
+  "label": "Add mail icon",
+  "desc": "Add mail link to usernames if on own instance",
+  "login": false,
+  "recurs": true,
+  "entrypoint": "mail",
+  "namespace": "mail",
+  "fields": [
+    {
+      "type": "radio",
+      "initial": "Text",
+      "key": "type",
+      "label": "Label type",
+      "values": [
+        "Text",
+        "Icon"
+      ]
+    },
+    {
+      "type": "text",
+      "initial": "PM",
+      "key": "text",
+      "label": "Label text"
+    },
+    {
+      "type": "text",
+      "initial": "submitted by",
+      "key": "prefix",
+      "label": "Poster prefix (use single space for empty)"
+    }
+  ],
+  "page": "general"
+}
