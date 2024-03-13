@@ -1,14 +1,13 @@
-// ==UserScript==
-// @name         Magazine Instance Names
-// @namespace    https://github.com/aclist
-// @version      0.1
-// @description  Shows instance names next to non-local magazines
-// @author       artillect
-// @match        https://kbin.social/*
-// @license      MIT
-// ==/UserScript==
-
 function magInstanceEntry (toggle) {
+    // ==UserScript==
+    // @name         Magazine Instance Names
+    // @namespace    https://github.com/aclist
+    // @version      0.1
+    // @description  Shows instance names next to non-local magazines
+    // @author       artillect
+    // @match        https://kbin.social/*
+    // @license      MIT
+    // ==/UserScript==
     function showMagInstances () {
         $('.magazine-inline').each(function () {
             // Check if community is local

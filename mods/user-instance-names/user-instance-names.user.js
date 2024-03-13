@@ -1,13 +1,3 @@
-// ==UserScript==
-// @name         User Instance Names
-// @namespace    https://github.com/aclist
-// @version      0.1
-// @description  Shows instance names next to non-local users and communities.
-// @author       artillect
-// @match        https://kbin.social/*
-// @license      MIT
-// ==/UserScript==
-
 function userInstanceEntry (toggle) {
     function showUserInstances () {
         $('.user-inline').each(function () {

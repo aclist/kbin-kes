@@ -1,13 +1,3 @@
-// ==UserScript==
-// @name         kbin-hide-thumbs
-// @namespace    https://github.com/aclist
-// @version      0.2
-// @description  Hide thumbnails
-// @author       shazbot
-// @match        https://kbin.social/*
-// @license      MIT
-// ==/UserScript==
-
 function hideThumbs (toggle) {
     settings = getModSettings('hidethumbs')
     const index = 'kes-index-thumbs'

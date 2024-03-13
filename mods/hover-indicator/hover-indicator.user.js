@@ -1,14 +1,14 @@
-// ==UserScript==
-// @name         Hover Indicator
-// @namespace    https://github.com/aclist
-// @version      0.1.0
-// @description  applies a outline to hovered elements
-// @author       minnieo
-// @match        https://kbin.social/*
-// @license      MIT
-// ==/UserScript==
 
 function hoverIndicator(toggle) {
+    // ==UserScript==
+    // @name         Hover Indicator
+    // @namespace    https://github.com/aclist
+    // @version      0.1.0
+    // @description  applies a outline to hovered elements
+    // @author       minnieo
+    // @match        https://kbin.social/*
+    // @license      MIT
+    // ==/UserScript==
     if (toggle) {
         applyOutlines();
     } else {

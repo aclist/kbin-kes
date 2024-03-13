@@ -1,4 +1,5 @@
 function expandPostsInit (toggle) {
+
     async function update (response) {
         const xml = response.response
         const parser = new DOMParser();
@@ -90,6 +91,7 @@ function expandPostsInit (toggle) {
             label.innerText = loadingLabel
         });
     }
+
     const settings = getModSettings("expand-posts")
     const loadingLabel = settings.loading
     const expandLabel = settings.expand

@@ -1,20 +1,19 @@
-// ==UserScript==
-// @name         Kbin: Move federation alert
-// @match        https://kbin.social/*
-// @match        https://lab2.kbin.pub/*
-// @match        https://lab3.kbin.pub/*
-// @match        https://fedia.io/*
-// @match        https://karab.in/*
-// @match        https://kbin.cafe/*
-// @version      1.0
-// @description  Moves the magazine federation warning to the sidebar's magazine info panel
-// @author       PrinzKasper
-// @namespace    https://github.com/jansteffen
-// @icon         https://kbin.social/favicon.svg
-// @license      MIT
-// ==/UserScript==
-
 function moveFederationWarningEntry (toggle) {
+    // ==UserScript==
+    // @name         Kbin: Move federation alert
+    // @match        https://kbin.social/*
+    // @match        https://lab2.kbin.pub/*
+    // @match        https://lab3.kbin.pub/*
+    // @match        https://fedia.io/*
+    // @match        https://karab.in/*
+    // @match        https://kbin.cafe/*
+    // @version      1.0
+    // @description  Moves the magazine federation warning to the sidebar's magazine info panel
+    // @author       PrinzKasper
+    // @namespace    https://github.com/jansteffen
+    // @icon         https://kbin.social/favicon.svg
+    // @license      MIT
+    // ==/UserScript==
 
     if (window.location.href.split('/')[3] !== "m") {
         return; // only run on magazine pages
