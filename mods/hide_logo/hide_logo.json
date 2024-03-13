@@ -6,7 +6,7 @@
   "login": false,
   "recurs": false,
   "desc": "Disable or use alternate logo on navbar",
-  "entrypoint": "toggleLogo",
+  "entrypoint": "hide_logo",
   "page": "navbar",
   "namespace": "changelogo",
   "fields": [

@@ -6,7 +6,7 @@
   "desc": "Quickly jump to a magazine by viewing your subs in a floating search panel (type to search). Use the meta key to open/close the omnibar. The meta key will not take effect inside of text fields. If you are logged out, the omnibar shows default magazines (most popular). To refresh the cached list of your magazines or change settings while this add-on is enabled, toggle off and then on again.",
   "login": false,
   "recurs": false,
-  "entrypoint": "omniInit",
+  "entrypoint": "omni",
   "namespace": "omni",
   "fields": [
     {
