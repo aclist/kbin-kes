@@ -7,7 +7,7 @@
     "desc": "Lemmy federates special <span> HTML tags on each line of its code blocks which /kbin displays in plaintext, resulting in code blocks being hard to read. This mod removes those tags.",
     "login": false,
     "recurs": true,
-    "entrypoint": "fixLemmyCodeblocks",
+    "entrypoint": "fix-codeblocks",
     "page": "general"
   },
   {
@@ -18,7 +18,7 @@
     "desc": "Hide reputation on users' profiles",
     "login": false,
     "recurs": false,
-    "entrypoint": "hideReputation",
+    "entrypoint": "hide-reputation",
     "page": "profiles"
   },
   {
@@ -29,7 +29,7 @@
     "login": false,
     "recurs": true,
     "desc": "Hide/unhide sidebar elements",
-    "entrypoint": "hideSidebar",
+    "entrypoint": "hide-sidebar",
     "namespace": "hide-sidebar",
     "page": "general",
     "fields": [
@@ -79,7 +79,7 @@
     "desc": "Quickly jump to a magazine by viewing your subs in a floating search panel (type to search). Use the meta key to open/close the omnibar. The meta key will not take effect inside of text fields. If you are logged out, the omnibar shows default magazines (most popular). To refresh the cached list of your magazines or change settings while this add-on is enabled, toggle off and then on again.",
     "login": false,
     "recurs": false,
-    "entrypoint": "omniInit",
+    "entrypoint": "omni",
     "namespace": "omni",
     "fields": [
       {
@@ -113,7 +113,7 @@
     "login": false,
     "recurs": true,
     "desc": "Hide thumbnails on threads and comments",
-    "entrypoint": "hideThumbs",
+    "entrypoint": "hide-thumbs",
     "page": "general",
     "namespace": "hidethumbs",
     "fields": [
@@ -137,7 +137,7 @@
     "login": false,
     "recurs": true,
     "desc": "Quickly identify a post/comment's federation/moderation status. Original by @CodingAndCoffee@kbin.social",
-    "entrypoint": "initKFA",
+    "entrypoint": "kbin-federation-awareness",
     "namespace": "kbinFedAware",
     "fields": [
       {
@@ -199,7 +199,7 @@
     "login": false,
     "recurs": true,
     "desc": "Print OP label next to thread author. Colors are shown dimmed to 75% opacity to emulate how labels will look when inserted into post headers.",
-    "entrypoint": "labelOp",
+    "entrypoint": "label",
     "namespace": "labelcolors",
     "page": "threads",
     "fields": [
@@ -228,7 +228,7 @@
     "login": true,
     "recurs": false,
     "desc": "Adds a floating notifications panel to the navbar",
-    "entrypoint": "notificationsPanel",
+    "entrypoint": "notifications-panel",
     "page": "navbar"
   },
   {
@@ -239,7 +239,7 @@
     "login": false,
     "recurs": true,
     "desc": "Hide reduces (downvotes) on threads, posts, and comments",
-    "entrypoint": "hideDownvotes",
+    "entrypoint": "hide-downvotes",
     "page": "general"
   },
   {
@@ -250,7 +250,7 @@
     "login": false,
     "recurs": false,
     "desc": "Auto-expands long post bodies instead of starting collapsed",
-    "entrypoint": "moreInit",
+    "entrypoint": "always-more",
     "page": "threads"
   },
   {
@@ -262,7 +262,7 @@
     "recurs": false,
     "desc": "Rearrange the order elements appear inside threads. Recommended sort order is 1, 4, 5, 3, 2",
     "namespace": "rearrange",
-    "entrypoint": "rearrangeInit",
+    "entrypoint": "rearrange",
     "page": "threads",
     "fields": [
       {
@@ -320,7 +320,7 @@
     "login": false,
     "recurs": false,
     "desc": "Convert navigation links on profile pages to dropdown",
-    "entrypoint": "dropdownEntry",
+    "entrypoint": "dropdown",
     "page": "profile"
   },
   {
@@ -329,7 +329,7 @@
     "version": "0.1",
     "label": "User instance names",
     "desc": "Show instance names next to users",
-    "entrypoint": "userInstanceEntry",
+    "entrypoint": "user-instance-names",
     "recurs": true,
     "login": false,
     "page": "general"
@@ -342,7 +342,7 @@
     "desc": "Collapse comments by clicking on their headers, and the bars to their left.",
     "login": false,
     "recurs": false,
-    "entrypoint": "initCollapsibleComments",
+    "entrypoint": "improved-collapsible-comments",
     "page": "threads",
     "namespace": "collapsibleComments"
   },
@@ -354,7 +354,7 @@
     "desc": "Adds an expand/collapse button used to read the full body text of posts without leaving the thread index.",
     "login": false,
     "recurs": true,
-    "entrypoint": "expandPostsInit",
+    "entrypoint": "expand-posts",
     "page": "threads",
     "namespace": "expand-posts",
     "fields": [
@@ -386,7 +386,7 @@
     "login": false,
     "recurs": true,
     "desc": "Hide favorites (upvotes) on threads, posts, and comments",
-    "entrypoint": "hideUpvotes",
+    "entrypoint": "hide-upvotes",
     "page": "general"
   },
   {
@@ -397,7 +397,7 @@
     "desc": "Makes NSFW thumbnails start unblurred by default.",
     "login": false,
     "recurs": true,
-    "entrypoint": "unblurInit",
+    "entrypoint": "unblur",
     "page": "threads"
   },
   {
@@ -409,7 +409,7 @@
     "recurs": false,
     "desc": "Apply an outline to elements that are being hovered over.",
     "namespace": "hover",
-    "entrypoint": "hoverIndicator",
+    "entrypoint": "hover-indicator",
     "page": "accessibility",
     "fields": [
       {
@@ -437,7 +437,7 @@
     "desc": "Intended for magazine moderators (or others) checking for new magazine activity. If there are new threads/microblogs since your last visit, shows the delta at the top of the page.",
     "login": true,
     "recurs": false,
-    "entrypoint": "threadDeltaInit",
+    "entrypoint": "thread-delta",
     "page": "threads",
     "namespace": "thread-delta",
     "fields": [
@@ -473,7 +473,7 @@
     "login": false,
     "recurs": true,
     "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax. Note: toggling off will reload the page",
-    "entrypoint": "updateTime",
+    "entrypoint": "timestamp",
     "page": "general",
     "namespace": "timestamp",
     "fields": [
@@ -498,7 +498,7 @@
     "desc": "Makes the magazine title in the navbar link to the All Content view and removes the dedicated button instead.",
     "login": false,
     "recurs": false,
-    "entrypoint": "altAllContentAccess",
+    "entrypoint": "alt-all-content-access",
     "page": "navbar",
     "fields": [
       {
@@ -517,7 +517,7 @@
     "desc": "Add mail link to usernames if on own instance",
     "login": false,
     "recurs": true,
-    "entrypoint": "addMail",
+    "entrypoint": "mail",
     "namespace": "mail",
     "fields": [
       {
@@ -553,7 +553,7 @@
     "login": false,
     "recurs": true,
     "desc": "Submit the contents of a post verbatim as a bug report to the KES issue tracker. Button is available from the 'More' menu under comments.",
-    "entrypoint": "bugReportInit",
+    "entrypoint": "report-bug",
     "page": "debug"
   },
   {
@@ -564,7 +564,7 @@
     "login": false,
     "recurs": true,
     "desc": "Adds a hide button to permanently hide posts from your feed. Untoggle to wipe the history of hidden posts and reset.",
-    "entrypoint": "hidePostsInit",
+    "entrypoint": "hide-posts",
     "page": "threads"
   },
   {
@@ -575,7 +575,7 @@
     "login": false,
     "recurs": true,
     "desc": "Adjust the colors of the site.",
-    "entrypoint": "adjustSite",
+    "entrypoint": "adjust",
     "namespace": "adjust",
     "page": "accessibility",
     "catch_reset": [
@@ -678,7 +678,7 @@
     "login": false,
     "recurs": false,
     "desc": "Disable or use alternate logo on navbar",
-    "entrypoint": "toggleLogo",
+    "entrypoint": "hide-logo",
     "page": "navbar",
     "namespace": "changelogo",
     "fields": [
@@ -704,7 +704,7 @@
     "login": false,
     "recurs": true,
     "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes. Note: reload required when toggling off.",
-    "entrypoint": "textResize",
+    "entrypoint": "resize-text",
     "namespace": "resize",
     "page": "accessibility",
     "catch_reset": [
@@ -856,7 +856,7 @@
     "desc": "Append a checkmark to magazines on the thread index you are subscribed to. The 'Subscriptions omnibar' option (page: General) must be enabled for this to work",
     "login": false,
     "recurs": true,
-    "entrypoint": "checksInit",
+    "entrypoint": "thread-checkmarks",
     "namespace": "checks",
     "fields": [
       {
@@ -876,7 +876,7 @@
     "desc": "Change navbar search/post icons to text strings",
     "login": false,
     "recurs": true,
-    "entrypoint": "navbarIcons",
+    "entrypoint": "nav-icons",
     "namespace": "nav_icons",
     "fields": [
       {
@@ -918,7 +918,7 @@
     "desc": "Show instance names next to magazines",
     "login": false,
     "recurs": true,
-    "entrypoint": "magInstanceEntry",
+    "entrypoint": "mag-instance-names",
     "page": "general"
   },
   {
@@ -929,7 +929,7 @@
     "login": true,
     "recurs": false,
     "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions) and followers (/followers).",
-    "entrypoint": "alphaSortInit",
+    "entrypoint": "alpha-sort-subs",
     "page": "profile"
   },
   {
@@ -940,7 +940,7 @@
     "login": true,
     "recurs": false,
     "desc": "Use slash commands for emoticons in text areas. /help to open a list of commands",
-    "entrypoint": "easyEmoticon",
+    "entrypoint": "easy-emoticon",
     "page": "general"
   },
   {
@@ -952,7 +952,7 @@
     "recurs": false,
     "desc": "Hide elements in navbar to reduce clutter in mobile view",
     "namespace": "mobilehide",
-    "entrypoint": "mobileHideInit",
+    "entrypoint": "mobile-cleanup",
     "page": "mobile",
     "fields": [
       {
@@ -977,7 +977,7 @@
     "desc": "Prevent a magazine from appearing on the main subscriptions index, but do not explicitly block its content altogether if visiting the magazine directly. Adds a softblock button next to magazine names on the thread index. Softblocked mags can be managed via the magazine subscriptions index or via a specific magazine's sidebar",
     "login": false,
     "recurs": true,
-    "entrypoint": "softBlockInit",
+    "entrypoint": "softblock",
     "page": "threads"
   },
   {
@@ -988,7 +988,7 @@
     "login": false,
     "recurs": true,
     "desc": "Adds syntax highlighting to code blocks.",
-    "entrypoint": "initCodeHighlights",
+    "entrypoint": "code-highlighting",
     "namespace": "codehighlights",
     "fields": [
       {
@@ -1186,7 +1186,7 @@
     "login": true,
     "recurs": false,
     "desc": "Add magazine subscription link to navbar",
-    "entrypoint": "initMags",
+    "entrypoint": "subs",
     "page": "navbar"
   },
   {
@@ -1197,7 +1197,7 @@
     "login": true,
     "recurs": false,
     "desc": "Lists the recipient in the message box title",
-    "entrypoint": "clarifyRecipientInit",
+    "entrypoint": "clarify-recipient",
     "page": "profile"
   },
   {
@@ -1208,7 +1208,7 @@
     "login": false,
     "recurs": false,
     "desc": "When viewing a magazine from another instance, kbin displays a warning at the top of the feed. This mod moves the warning to the sidebar's magazine info panel, or hides it completely.",
-    "entrypoint": "moveFederationWarningEntry",
+    "entrypoint": "move-federation-warning",
     "namespace": "moveFederationWarning",
     "fields": [
       {
