@@ -21,7 +21,7 @@ const funcObj = {
 
         }
     }
-,
+    ,
 
     improved_collapsible_comments:
 
@@ -493,7 +493,7 @@ const funcObj = {
             enterMain();
         }
     }
-,
+    ,
 
     omni:
 
@@ -955,7 +955,7 @@ const funcObj = {
             }
         }
     }
-,
+    ,
 
     clarify_recipient:
 
@@ -981,7 +981,7 @@ const funcObj = {
             reset(title);
         }
     }
-,
+    ,
 
     label:
 
@@ -1008,7 +1008,7 @@ const funcObj = {
             safeGM("removeStyle", "labelop-css")
         }
     }
-,
+    ,
 
     hide_reputation:
 
@@ -1030,7 +1030,7 @@ const funcObj = {
             document.styleSheets[0].addRule('.user-popover ul li:nth-of-type(2)','display:initial')
         }
     }
-,
+    ,
 
     notifications_panel:
 
@@ -1489,7 +1489,7 @@ const funcObj = {
             shutdown();
         }
     }
-,
+    ,
 
     mag_instance_names:
 
@@ -1531,7 +1531,7 @@ const funcObj = {
             hideCommunityInstances();
         }
     }
-,
+    ,
 
     alt_all_content_access:
 
@@ -1539,80 +1539,80 @@ const funcObj = {
      * This mod aims to make clicking the magazine name in the navbar lead to the All Content
      * view instead of the Threads view, while removing the All Content button itself.
     */
-    class AlternativeAllContentAccessMod {
+    function altAllContentAccess (isActive) {  // eslint-disable-line no-unused-vars
+        class AlternativeAllContentAccessMod {
         /** @returns {HTMLElement[]} */
-        getTitle () {
-            return Array.from(document.querySelectorAll("div.head-title a"));
-        }
+            getTitle () {
+                return Array.from(document.querySelectorAll("div.head-title a"));
+            }
 
-        /** @returns {boolean} */
-        getHideButtonSetting () {
-            return getModSettings("alt-all-content-access")["hideAllContentButton"];
-        }
+            /** @returns {boolean} */
+            getHideButtonSetting () {
+                return getModSettings("alt-all-content-access")["hideAllContentButton"];
+            }
 
-        /** @returns {HTMLElement[]} */
-        getAllContentButton () {
-            const threadsAttributePattern = "[href^='/*']";
-            const collectionsAttributePattern = "[href$='/*']";
-            const allContentQuery = "menu.head-nav__menu > li > a";
-            const allContentMobileQuery = "div.mobile-nav menu.info a";
-            return Array.from(
-                document.querySelectorAll(`
+            /** @returns {HTMLElement[]} */
+            getAllContentButton () {
+                const threadsAttributePattern = "[href^='/*']";
+                const collectionsAttributePattern = "[href$='/*']";
+                const allContentQuery = "menu.head-nav__menu > li > a";
+                const allContentMobileQuery = "div.mobile-nav menu.info a";
+                return Array.from(
+                    document.querySelectorAll(`
                     ${allContentQuery}${threadsAttributePattern}, 
                     ${allContentMobileQuery}${threadsAttributePattern},
                     ${allContentQuery}${collectionsAttributePattern}, 
                     ${allContentMobileQuery}${collectionsAttributePattern}
                 `)
-            );
+                );
+            }
+
+            /** @param {boolean} isActive */
+            setButtonVisibility (isActive) {
+                const hideButton = this.getHideButtonSetting() && isActive;
+                this.getAllContentButton().forEach((button) => {
+                    button.parentNode.style.display = (hideButton) ? "none" : "";
+                });
+            }
+
+            isCurrentViewCollection () {
+                return this.getAllContentButton()[0].getAttribute("href").endsWith("/*");
+            }
+
+            setup () {
+                const titleList = this.getTitle();
+                if (titleList.length == 0) return;
+                const currentViewIsCollection = this.isCurrentViewCollection();
+                titleList.forEach((title) => {
+                    const href = title.getAttribute("href");
+                    if (!currentViewIsCollection && !href.startsWith("/*/")) {
+                        title.setAttribute("href", `/*${href}`);
+                    } else if (currentViewIsCollection && !href.endsWith("/*")) {
+                        title.setAttribute("href", `${href}/*`);
+                    }
+                });
+                this.setButtonVisibility(true);
+            }
+
+            teardown () {
+                const titleList = this.getTitle();
+                if (titleList.length == 0) return;
+                titleList.forEach((title) => {
+                    const href = title.getAttribute("href");
+                    if (href.startsWith("/*/")) title.setAttribute("href", href.slice(2));
+                    else if (href.endsWith("/*")) title.setAttribute("href", href.slice(0, href.length-2));
+                });
+                this.setButtonVisibility(false);
+            }
         }
 
-        /** @param {boolean} isActive */
-        setButtonVisibility (isActive) {
-            const hideButton = this.getHideButtonSetting() && isActive;
-            this.getAllContentButton().forEach((button) => {
-                button.parentNode.style.display = (hideButton) ? "none" : "";
-            });
-        }
-
-        isCurrentViewCollection () {
-            return this.getAllContentButton()[0].getAttribute("href").endsWith("/*");
-        }
-
-        setup () {
-            const titleList = this.getTitle();
-            if (titleList.length == 0) return;
-            const currentViewIsCollection = this.isCurrentViewCollection();
-            titleList.forEach((title) => {
-                const href = title.getAttribute("href");
-                if (!currentViewIsCollection && !href.startsWith("/*/")) {
-                    title.setAttribute("href", `/*${href}`);
-                } else if (currentViewIsCollection && !href.endsWith("/*")) {
-                    title.setAttribute("href", `${href}/*`);
-                }
-            });
-            this.setButtonVisibility(true);
-        }
-
-        teardown () {
-            const titleList = this.getTitle();
-            if (titleList.length == 0) return;
-            titleList.forEach((title) => {
-                const href = title.getAttribute("href");
-                if (href.startsWith("/*/")) title.setAttribute("href", href.slice(2));
-                else if (href.endsWith("/*")) title.setAttribute("href", href.slice(0, href.length-2));
-            });
-            this.setButtonVisibility(false);
-        }
-    }
-
-    function altAllContentAccess (isActive) {  // eslint-disable-line no-unused-vars
         if (isActive) {
             new AlternativeAllContentAccessMod().setup();
         } else {
             new AlternativeAllContentAccessMod().teardown();
         }
     }
-,
+    ,
 
     code_highlighting:
 
@@ -1741,7 +1741,7 @@ const funcObj = {
             kchShutdown();
         }
     }
-,
+    ,
 
     rearrange:
 
@@ -1770,7 +1770,7 @@ const funcObj = {
             content.style.display = 'unset';
         }
     }
-,
+    ,
 
     fix_codeblocks:
 
@@ -1815,7 +1815,7 @@ const funcObj = {
             document.querySelectorAll(`pre code[${fixedCodeAttribute}]`).forEach(revertCodeblock);
         }
     }
-,
+    ,
 
     dropdown:
 
@@ -1886,7 +1886,7 @@ const funcObj = {
             }
         }
     }
-,
+    ,
 
     unblur:
 
@@ -1905,7 +1905,7 @@ const funcObj = {
             safeGM("removeStyle", 'unblurred');
         }
     }
-,
+    ,
 
     easy_emoticon:
 
@@ -2143,7 +2143,7 @@ const funcObj = {
             document.removeEventListener('input', eventListener);
         }
     }
-,
+    ,
 
     nav_icons:
 
@@ -2170,7 +2170,7 @@ const funcObj = {
             document.styleSheets[0].addRule('header menu li a[aria-label="Select a channel"] i::before', 'content:"\\f03a" ; font-family: "Font Awesome 6 Free"; font-weight: initial;');
         }
     }
-,
+    ,
 
     resize_text:
 
@@ -2669,7 +2669,7 @@ const funcObj = {
             return
         }
     }
-,
+    ,
 
     hide_logo:
 
@@ -2725,7 +2725,7 @@ const funcObj = {
             restoreLogo();
         }
     }
-,
+    ,
 
     timestamp:
 
@@ -2764,7 +2764,7 @@ const funcObj = {
             return
         }
     }
-,
+    ,
 
     report_bug:
 
@@ -2797,7 +2797,7 @@ const funcObj = {
             $('.kes-report-bug').hide();
         }
     }
-,
+    ,
 
     mail:
 
@@ -2864,7 +2864,7 @@ const funcObj = {
             $('.kes-mail-link').remove();
         }
     }
-,
+    ,
 
     move_federation_warning:
 
@@ -2913,7 +2913,7 @@ const funcObj = {
             insertAfter.after(alertBox);
         }
     }
-,
+    ,
 
     hide_thumbs:
 
@@ -2931,12 +2931,12 @@ const funcObj = {
             display:none
         }
         `
-        function apply(sheet, name){
-                unset(name)
-                safeGM("addStyle", sheet, name)
+        function apply (sheet, name) {
+            unset(name)
+            safeGM("addStyle", sheet, name)
         }
-        function unset(name){
-                safeGM("removeStyle", name)
+        function unset (name) {
+            safeGM("removeStyle", name)
         }
         if (toggle) {
             if (settings["index"]) {
@@ -2954,7 +2954,7 @@ const funcObj = {
             unset(inline)
         }
     }
-,
+    ,
 
     adjust:
 
@@ -3009,7 +3009,7 @@ const funcObj = {
             safeGM("addStyle", customCSS, sheetName)
         }
     }
-,
+    ,
 
     alpha_sort_subs:
 
@@ -3054,7 +3054,7 @@ const funcObj = {
             $(ul).show();
         }
     }
-,
+    ,
 
     expand_posts:
 
@@ -3093,7 +3093,7 @@ const funcObj = {
             button.className = 'kes-expand-post-button'
             button.style.cursor = 'pointer'
             button.addEventListener('click', (e) => {
-            const mode = e.target.innerText
+                const mode = e.target.innerText
                 const settings = getModSettings("expand-posts")
                 const loadingLabel = settings.loading
                 const expandLabel = settings.expand
@@ -3169,7 +3169,7 @@ const funcObj = {
             });
         }
     }
-,
+    ,
 
     thread_delta:
 
@@ -3267,7 +3267,7 @@ const funcObj = {
             saveCounts(hostname, mag, e)
         }
     }
-,
+    ,
 
     hide_upvotes:
 
@@ -3287,7 +3287,7 @@ const funcObj = {
             $('form.vote__up').show();
         }
     }
-,
+    ,
 
     hide_sidebar:
 
@@ -3323,12 +3323,12 @@ const funcObj = {
             }
         }
     }
-,
+    ,
 
     hover_indicator:
 
 
-    function hoverIndicator(toggle) {
+    function hoverIndicator (toggle) {
         // ==UserScript==
         // @name         Hover Indicator
         // @namespace    https://github.com/aclist
@@ -3344,7 +3344,7 @@ const funcObj = {
             safeGM("removeStyle", "kes-hover-css")
         }
 
-        function applyOutlines() {
+        function applyOutlines () {
             const settings = getModSettings('hover');
             const color = settings.color;
             const thickness = settings.thickness;
@@ -3398,7 +3398,7 @@ const funcObj = {
             safeGM("addStyle", exclusions, "kes-hover-exclusions")
         }
     }
-,
+    ,
 
     thread_checkmarks:
 
@@ -3450,7 +3450,7 @@ const funcObj = {
             });
         }
     }
-,
+    ,
 
     user_instance_names:
 
@@ -3482,7 +3482,7 @@ const funcObj = {
             hideUserInstances();
         }
     }
-,
+    ,
 
     hide_downvotes:
 
@@ -3502,7 +3502,7 @@ const funcObj = {
             $('form.vote__down').show();
         }
     }
-,
+    ,
 
     kbin_federation_awareness:
 
@@ -3624,8 +3624,8 @@ const funcObj = {
             if (kfaInjectedCss) {
                 kfaInjectedCss.remove();
             }
-            function removeOld(els){
-                for (let i = 0; i<arguments.length; ++i){
+            function removeOld (els) {
+                for (let i = 0; i<arguments.length; ++i) {
                     arguments[i].forEach((el) => {
                         el.remove();
                     });
@@ -3640,7 +3640,7 @@ const funcObj = {
             removeOld(dh, df, dm, mh, mf, mm);
         }
 
-        function findHostname(links){
+        function findHostname (links) {
             let host
             links.forEach((link) => {
                 const innerString = link.innerHTML.trim();
@@ -3649,7 +3649,7 @@ const funcObj = {
                 }
             });
             return host
-        };
+        }
 
         function kfaInitClasses () {
             const classList = [
@@ -3658,45 +3658,45 @@ const funcObj = {
                 'data-home'
             ];
             document.querySelectorAll('#content article.entry').forEach(function (article) {
-                    if (article.querySelector('[class^=data-]')) { return }
-                    const copyLinks = article.querySelectorAll('footer menu .dropdown a[data-action="clipboard#copy"]');
-                    const hostname = findHostname(copyLinks);
-                    let articleAside = article.querySelector('aside');
-                    article.setAttribute('data-hostname', hostname);
-                    let articleIndicator = document.createElement('div');
-                    if (kfaIsStrictlyModerated(hostname)) {
-                        article.classList.toggle('data-moderated');
-                        articleIndicator.classList.toggle('data-moderated');
-                    } else if (hostname !== window.location.hostname) {
-                        article.classList.toggle('data-federated');
-                        articleIndicator.classList.toggle('data-federated');
-                    } else {
-                        article.classList.toggle('data-home');
-                        articleIndicator.classList.toggle('data-home');
-                    }
-                    articleAside.prepend(articleIndicator);
+                if (article.querySelector('[class^=data-]')) { return }
+                const copyLinks = article.querySelectorAll('footer menu .dropdown a[data-action="clipboard#copy"]');
+                const hostname = findHostname(copyLinks);
+                let articleAside = article.querySelector('aside');
+                article.setAttribute('data-hostname', hostname);
+                let articleIndicator = document.createElement('div');
+                if (kfaIsStrictlyModerated(hostname)) {
+                    article.classList.toggle('data-moderated');
+                    articleIndicator.classList.toggle('data-moderated');
+                } else if (hostname !== window.location.hostname) {
+                    article.classList.toggle('data-federated');
+                    articleIndicator.classList.toggle('data-federated');
+                } else {
+                    article.classList.toggle('data-home');
+                    articleIndicator.classList.toggle('data-home');
+                }
+                articleAside.prepend(articleIndicator);
             });
 
             document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
-                    if (comment.querySelector('[class^=data-]')) { return }
-                    let commentHeader = comment.querySelector('header');
-                    const userInfo = commentHeader.querySelector('a.user-inline');
-                    if (userInfo) {
-                        const userHostname = userInfo.title.split('@').reverse()[0];
-                        let commentIndicator = document.createElement('div');
+                if (comment.querySelector('[class^=data-]')) { return }
+                let commentHeader = comment.querySelector('header');
+                const userInfo = commentHeader.querySelector('a.user-inline');
+                if (userInfo) {
+                    const userHostname = userInfo.title.split('@').reverse()[0];
+                    let commentIndicator = document.createElement('div');
 
-                        if (kfaIsStrictlyModerated(userHostname)) {
-                            comment.classList.toggle('data-moderated');
-                            commentIndicator.classList.toggle('data-moderated');
-                        } else if (userHostname !== window.location.hostname) {
-                            comment.classList.toggle('data-federated');
-                            commentIndicator.classList.toggle('data-federated');
-                        } else {
-                            comment.classList.toggle('data-home');
-                            commentIndicator.classList.toggle('data-home');
-                        }
-                        commentHeader.prepend(commentIndicator);
+                    if (kfaIsStrictlyModerated(userHostname)) {
+                        comment.classList.toggle('data-moderated');
+                        commentIndicator.classList.toggle('data-moderated');
+                    } else if (userHostname !== window.location.hostname) {
+                        comment.classList.toggle('data-federated');
+                        commentIndicator.classList.toggle('data-federated');
+                    } else {
+                        comment.classList.toggle('data-home');
+                        commentIndicator.classList.toggle('data-home');
                     }
+                    commentHeader.prepend(commentIndicator);
+                }
             });
         }
 
@@ -3722,7 +3722,7 @@ const funcObj = {
         }
     }
 
-,
+    ,
 
     mobile_cleanup:
 
@@ -3772,7 +3772,7 @@ const funcObj = {
             mobileHideTeardown();
         }
     }
-,
+    ,
 
     hide_posts:
 
@@ -3815,9 +3815,9 @@ const funcObj = {
         async function storeCurrentPage (hideThisPage) {
             await safeGM("setValue","hide-this-page",hideThisPage)
         }
-        function hideSib(el, mode){
+        function hideSib (el, mode) {
             const sib = el.nextSibling;
-            if (sib.className === "js-container"){
+            if (sib.className === "js-container") {
                 if (mode === 'hide') {
                     $(sib).hide();
                 } else {
@@ -3869,7 +3869,7 @@ const funcObj = {
             fetchCurrentPage();
         }
     }
-,
+    ,
 
     softblock:
 
@@ -4151,7 +4151,7 @@ const funcObj = {
             saveMags(hostname, e)
         }
     }
-,
+    ,
 
     subs:
 
