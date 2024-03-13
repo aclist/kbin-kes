@@ -1,7 +1,8 @@
 const kibby = 'https://raw.githubusercontent.com/aclist/kbin-kes/main/images/kbin_logo_kibby.svg'
 const kibbyMini = 'https://raw.githubusercontent.com/aclist/kbin-kes/main/images/kibby-mini.svg'
 const kbinMini = 'https://raw.githubusercontent.com/aclist/kbin-kes/main/images/kbin-mini.svg'
-function getDefaultLogo(){
+
+function getDefaultLogo () {
     const keyw = document.querySelector('meta[name="keywords"]').content.split(',')[0]
     const defaultLogo = `/${keyw}_logo.svg`;
     return defaultLogo
@@ -21,7 +22,7 @@ function changeLogo () {
     switch (opt) {
     case "Hidden":
         updateLogo(getDefaultLogo())
-	$('.brand a').hide();
+        $('.brand a').hide();
         break;
     case "Kibby":
         updateLogo(kibby);
