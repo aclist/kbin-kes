@@ -1,14 +1,13 @@
-// ==UserScript==
-// @name         Color adjustments
-// @namespace    https://github.com/aclist
-// @version      0.2
-// @description  Adjust appearance of site
-// @author       minnieo
-// @match        https://kbin.social/*
-// @license      MIT
-// ==/UserScript==
-
 function adjustSite (toggle) {
+    // ==UserScript==
+    // @name         Color adjustments
+    // @namespace    https://github.com/aclist
+    // @version      0.2
+    // @description  Adjust appearance of site
+    // @author       minnieo
+    // @match        https://kbin.social/*
+    // @license      MIT
+    // ==/UserScript==
     const sheetName = "#custom-kes-colors"
 
     if (toggle) {
