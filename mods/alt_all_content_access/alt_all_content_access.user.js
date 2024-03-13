@@ -42,8 +42,7 @@ function altAllContentAccess (isActive) {  // eslint-disable-line no-unused-vars
      * @returns {Boolean}
      */
     function doHideButton () {
-        return true;
-        //return getModSettings("alt-all-content-access")["hideAllContentButton"];
+        return getModSettings("alt-all-content-access")["hideAllContentButton"];
     }
 
     /**

@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.13
+// @version      3.2.4-beta.15
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -30,46 +30,9 @@
 // @connect      github.com
 // @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
 // @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/kbin-mod-options.js
+// @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/funcs.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/adjust/adjust.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/alpha-sort-subs/alpha-sort-subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/alt-all-content-access/alt-all-content-access.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/always-more/always-more.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/clarify-recipient/clarify-recipient.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting/code-highlighting.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown/dropdown.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon/easy-emoticon.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/expand-posts/expand-posts.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/fix-codeblocks/fix-codeblocks.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-downvotes/hide-downvotes.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo/hide-logo.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-posts/hide-posts.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-reputation/hide-reputation.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-sidebar/hide-sidebar.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-thumbs/hide-thumbs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-upvotes/hide-upvotes.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hover-indicator/hover-indicator.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments/improved-collapsible-comments.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness/kbin-federation-awareness.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label/label.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mag-instance-names/mag-instance-names.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail/mail.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mobile-cleanup/mobile-cleanup.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/move-federation-warning/move-federation-warning.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons/nav-icons.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel/notifications-panel.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/omni/omni.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/rearrange/rearrange.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug/report-bug.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/resize-text/resize-text.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/softblock/softblock.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs/subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/thread-checkmarks/thread-checkmarks.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/thread-delta/thread-delta.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp/timestamp.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/unblur/unblur.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/user-instance-names/user-instance-names.user.js
 // @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
 // @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
 // @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
@@ -78,8 +41,6 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, altAllContentAccess, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, expandPostsInit, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, threadDeltaInit, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
-
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
@@ -97,47 +58,6 @@ const magURL = "https://kbin.social/m/enhancement"
 const manifest = branchPath + helpersPath + "manifest.json"
 const cssURL = branchPath + helpersPath + "kes.css"
 const layoutURL = branchPath + helpersPath + "ui.json"
-
-const funcObj = {
-    addMail: addMail,
-    adjustSite: adjustSite,
-    alphaSortInit: alphaSortInit,
-    altAllContentAccess: altAllContentAccess,
-    bugReportInit: bugReportInit,
-    checksInit: checksInit,
-    clarifyRecipientInit: clarifyRecipientInit,
-    dropdownEntry: dropdownEntry,
-    easyEmoticon: easyEmoticon,
-    expandPostsInit: expandPostsInit,
-    fixLemmyCodeblocks: fixLemmyCodeblocks,
-    hideDownvotes: hideDownvotes,
-    hidePostsInit: hidePostsInit,
-    hideReputation: hideReputation,
-    hideSidebar: hideSidebar,
-    hideThumbs: hideThumbs,
-    hideUpvotes: hideUpvotes,
-    hoverIndicator: hoverIndicator,
-    initCodeHighlights: initCodeHighlights,
-    initCollapsibleComments: initCollapsibleComments,
-    initKFA: initKFA,
-    initMags: initMags,
-    labelOp: labelOp,
-    magInstanceEntry: magInstanceEntry,
-    mobileHideInit: mobileHideInit,
-    moreInit: moreInit,
-    moveFederationWarningEntry: moveFederationWarningEntry,
-    navbarIcons: navbarIcons,
-    notificationsPanel: notificationsPanel,
-    omniInit: omniInit,
-    rearrangeInit: rearrangeInit,
-    softBlockInit: softBlockInit,
-    textResize: textResize,
-    threadDeltaInit: threadDeltaInit,
-    toggleLogo: toggleLogo,
-    unblurInit: unblurInit,
-    updateTime: updateTime,
-    userInstanceEntry: userInstanceEntry
-};
 //END AUTO MASTHEAD
 
 async function checkUpdates (response) {

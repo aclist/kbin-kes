@@ -1,24 +1,24 @@
-  {
-    "name": "Verbose timestamps",
-    "author": "shazbot",
-    "version": "0.1",
-    "label": "Verbose timestamps",
-    "login": false,
-    "recurs": true,
-    "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax. Note: toggling off will reload the page",
-    "entrypoint": "updateTime",
-    "page": "general",
-    "namespace": "timestamp",
-    "fields": [
-      {
-        "type": "radio",
-        "initial": "UTC",
-        "label": "Offset",
-        "key": "offset",
-        "values": [
-          "UTC",
-          "Local time"
-        ]
-      }
-    ]
-  }
+{
+  "name": "Verbose timestamps",
+  "author": "shazbot",
+  "version": "0.1",
+  "label": "Verbose timestamps",
+  "login": false,
+  "recurs": true,
+  "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax. Note: toggling off will reload the page",
+  "entrypoint": "timestamp",
+  "page": "general",
+  "namespace": "timestamp",
+  "fields": [
+    {
+      "type": "radio",
+      "initial": "UTC",
+      "label": "Offset",
+      "key": "offset",
+      "values": [
+        "UTC",
+        "Local time"
+      ]
+    }
+  ]
+}
