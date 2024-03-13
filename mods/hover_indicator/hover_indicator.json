@@ -7,7 +7,7 @@
   "recurs": false,
   "desc": "Apply an outline to elements that are being hovered over.",
   "namespace": "hover",
-  "entrypoint": "hoverIndicator",
+  "entrypoint": "hover_indicator",
   "page": "accessibility",
   "fields": [
     {

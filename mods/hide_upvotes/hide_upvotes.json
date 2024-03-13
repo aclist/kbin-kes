@@ -1,11 +1,11 @@
-  {
-    "name": "Hide Upvotes",
-    "author": "artillect",
-    "version": "0.2",
-    "label": "Hide favorites",
-    "login": false,
-    "recurs": true,
-    "desc": "Hide favorites (upvotes) on threads, posts, and comments",
-    "entrypoint": "hideUpvotes",
-    "page": "general"
-  }
+{
+  "name": "Hide Upvotes",
+  "author": "artillect",
+  "version": "0.2",
+  "label": "Hide favorites",
+  "login": false,
+  "recurs": true,
+  "desc": "Hide favorites (upvotes) on threads, posts, and comments",
+  "entrypoint": "hide_upvotes",
+  "page": "general"
+}

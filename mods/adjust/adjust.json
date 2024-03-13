@@ -6,7 +6,7 @@
   "login": false,
   "recurs": true,
   "desc": "Adjust the colors of the site.",
-  "entrypoint": "adjustSite",
+  "entrypoint": "adjust",
   "namespace": "adjust",
   "page": "accessibility",
   "catch_reset": [
