@@ -500,7 +500,6 @@
     "recurs": false,
     "entrypoint": "altAllContentAccess",
     "page": "navbar",
-    "new_since": "3.3",
     "fields": [
       {
         "type": "checkbox",

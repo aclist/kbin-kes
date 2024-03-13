@@ -4,8 +4,8 @@ echo "const funcObj = {"
 for f in $(find $PWD/mods -name "*.js" -printf "%f\n"); do
     echo ""
 	mod=$(<<< "$f" awk -F. '{print $1}')
-	printf "    %s: \n" $mod
+	printf "    %s:\n" $mod
     echo ""
-	sed 's/^/    /g' $PWD/mods/$mod/$f
+	awk '{print (NF ? "    " $0 : $0)}' $PWD/mods/$mod/$f
 done
 echo "}"
