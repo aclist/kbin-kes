@@ -49,6 +49,7 @@ gen_requires(){
     deps=(
         "safegm.user.js"
         "kbin-mod-options.js"
+        "funcs.js"
     )
     external=(
         "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"
@@ -56,7 +57,7 @@ gen_requires(){
     )
     declare -A resources=([kes_layout]=ui.json [kes_css]=kes.css [kes_json]=manifest.json)
 
-    readarray -t mods < <(ls -1 $PWD/mods)
+    #readarray -t mods < <(ls -1 $PWD/mods)
     for (( i = 0; i < ${#deps[@]}; i++ )); do
         local str="${prefix}helpers/${deps[$i]}"
         gen_line "require" "$str"
@@ -64,10 +65,10 @@ gen_requires(){
     for (( i = 0; i < ${#external[@]}; i++ )); do
         gen_line "require" "${external[$i]}"
     done
-    for (( i = 0; i < ${#mods[@]}; i++ )); do
-        local str="${prefix}mods/${mods[$i]}/${mods[$i]}.user.js"
-        gen_line "require" "$str"
-    done
+    #for (( i = 0; i < ${#mods[@]}; i++ )); do
+    #    local str="${prefix}mods/${mods[$i]}/${mods[$i]}.user.js"
+    #    gen_line "require" "$str"
+    #done
     for i in "${!resources[@]}"; do
         local str="$i ${prefix}helpers/${resources[$i]}"
         gen_line "resource" "$str"
@@ -95,7 +96,6 @@ gen_consts(){
 		const manifest = branchPath + helpersPath + "manifest.json"
 		const cssURL = branchPath + helpersPath + "kes.css"
 		const layoutURL = branchPath + helpersPath + "ui.json"
-
 	EOF
 }
 gen_object(){
@@ -130,10 +130,10 @@ main(){
     echo "// ==/UserScript=="
     echo ""
     echo "//START AUTO MASTHEAD"
-    wrap=$(printf "%s, " "${eslint_funcs[@]}" | sed 's/, $//')
-    printf "/* global %s */\n\n" "$wrap"
+    #wrap=$(printf "%s, " "${eslint_funcs[@]}" | sed 's/, $//')
+    #printf "/* global %s */\n\n" "$wrap"
     gen_consts
-    gen_object
+    #gen_object
     echo "//END AUTO MASTHEAD"
     awk 'x==1 {print $0} /END AUTO MASTHEAD/{x=1}' $base_file.bak
 }
