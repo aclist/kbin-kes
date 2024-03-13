@@ -6,6 +6,6 @@
   "login": true,
   "recurs": false,
   "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions) and followers (/followers).",
-  "entrypoint": "alphaSortInit",
+  "entrypoint": "alpha_sort_subs",
   "page": "profile"
 }

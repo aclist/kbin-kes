@@ -6,6 +6,6 @@
   "login": true,
   "recurs": false,
   "desc": "Use slash commands for emoticons in text areas. /help to open a list of commands",
-  "entrypoint": "easyEmoticon",
+  "entrypoint": "easy_emoticon",
   "page": "general"
 }

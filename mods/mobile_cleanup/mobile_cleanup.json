@@ -7,7 +7,7 @@
   "recurs": false,
   "desc": "Hide elements in navbar to reduce clutter in mobile view",
   "namespace": "mobilehide",
-  "entrypoint": "mobileHideInit",
+  "entrypoint": "mobile_cleanup",
   "page": "mobile",
   "fields": [
     {
