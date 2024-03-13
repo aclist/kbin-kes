@@ -1,6 +1,6 @@
 const funcObj = {
 
-    fix-codeblocks:
+    fix_codeblocks:
 
     function fixLemmyCodeblocks (toggle) {
         const stylePattern = "((font-style:italic|font-weight:bold);)?color:#[0-9a-fA-F]{6};";
@@ -44,7 +44,7 @@ const funcObj = {
         }
     }
 
-    hide-reputation:
+    hide_reputation:
 
     function hideReputation (toggle) {
         // ==UserScript==
@@ -65,7 +65,7 @@ const funcObj = {
         }
     }
 
-    hide-sidebar:
+    hide_sidebar:
 
     function hideSidebar (toggle) {
 
@@ -561,7 +561,7 @@ const funcObj = {
         }
     }
 
-    hide-thumbs:
+    hide_thumbs:
 
     function hideThumbs (toggle) {
         settings = getModSettings('hidethumbs')
@@ -601,7 +601,7 @@ const funcObj = {
         }
     }
 
-    kbin-federation-awareness:
+    kbin_federation_awareness:
 
     function initKFA (toggle) {
         /*
@@ -846,7 +846,7 @@ const funcObj = {
         }
     }
 
-    notifications-panel:
+    notifications_panel:
 
     function notificationsPanel (toggle) {
         const spinnerCSS = `
@@ -1304,7 +1304,7 @@ const funcObj = {
         }
     }
 
-    hide-downvotes:
+    hide_downvotes:
 
     function hideDownvotes (toggle) {
         // ==UserScript==
@@ -1323,7 +1323,7 @@ const funcObj = {
         }
     }
 
-    always-more:
+    always_more:
 
     function moreInit (toggle) {
         const more = document.querySelectorAll('.entry__body > .more')
@@ -1443,7 +1443,7 @@ const funcObj = {
         }
     }
 
-    user-instance-names:
+    user_instance_names:
 
     function userInstanceEntry (toggle) {
         function showUserInstances () {
@@ -1474,7 +1474,7 @@ const funcObj = {
         }
     }
 
-    improved-collapsible-comments:
+    improved_collapsible_comments:
 
     function initCollapsibleComments (toggle, mutation) {
         function applyCommentStyles () {
@@ -1945,7 +1945,7 @@ const funcObj = {
         }
     }
 
-    expand-posts:
+    expand_posts:
 
     function expandPostsInit (toggle) {
 
@@ -2059,7 +2059,7 @@ const funcObj = {
         }
     }
 
-    hide-upvotes:
+    hide_upvotes:
 
     function hideUpvotes (toggle) {
         // ==UserScript==
@@ -2096,7 +2096,7 @@ const funcObj = {
         }
     }
 
-    hover-indicator:
+    hover_indicator:
 
 
     function hoverIndicator(toggle) {
@@ -2170,7 +2170,7 @@ const funcObj = {
         }
     }
 
-    thread-delta:
+    thread_delta:
 
     function threadDeltaInit (toggle) {
         const settings = getModSettings('thread-delta');
@@ -2305,7 +2305,7 @@ const funcObj = {
         }
     }
 
-    alt-all-content-access:
+    alt_all_content_access:
 
     /**
      * This mod aims to make clicking the magazine name in the navbar lead to the All Content
@@ -2451,7 +2451,7 @@ const funcObj = {
         }
     }
 
-    report-bug:
+    report_bug:
 
     function bugReportInit (toggle) {
         const reportURL = 'https://github.com/aclist/kbin-kes/issues/new?assignees=&labels=bug&projects=&template=bug_report.md' +
@@ -2483,7 +2483,7 @@ const funcObj = {
         }
     }
 
-    hide-posts:
+    hide_posts:
 
     function hidePostsInit (toggle) {
 
@@ -2633,7 +2633,7 @@ const funcObj = {
         }
     }
 
-    hide-logo:
+    hide_logo:
 
     function toggleLogo (toggle) {
         const prefix = "https://raw.githubusercontent.com/aclist/kbin-kes/main/images"
@@ -2688,7 +2688,7 @@ const funcObj = {
         }
     }
 
-    resize-text:
+    resize_text:
 
     function textResize (toggle) {
         // ==UserScript==
@@ -3186,7 +3186,7 @@ const funcObj = {
         }
     }
 
-    thread-checkmarks:
+    thread_checkmarks:
 
     function checksInit (toggle, mutation) {
         const settings = getModSettings('checks');
@@ -3237,7 +3237,7 @@ const funcObj = {
         }
     }
 
-    nav-icons:
+    nav_icons:
 
     function navbarIcons (toggle) {
         let settings = getModSettings("nav_icons");
@@ -3263,7 +3263,7 @@ const funcObj = {
         }
     }
 
-    mag-instance-names:
+    mag_instance_names:
 
     function magInstanceEntry (toggle) {
         // ==UserScript==
@@ -3304,7 +3304,7 @@ const funcObj = {
         }
     }
 
-    alpha-sort-subs:
+    alpha_sort_subs:
 
     function alphaSortInit (toggle) {
         const ind = window.location.href.split('/')[5]
@@ -3348,7 +3348,7 @@ const funcObj = {
         }
     }
 
-    easy-emoticon:
+    easy_emoticon:
 
     function easyEmoticon (toggle) {
         // ==UserScript==
@@ -3585,7 +3585,7 @@ const funcObj = {
         }
     }
 
-    mobile-cleanup:
+    mobile_cleanup:
 
     function mobileHideInit (toggle) {
         function mobileHideTeardown () {
@@ -3915,7 +3915,7 @@ const funcObj = {
         }
     }
 
-    code-highlighting:
+    code_highlighting:
 
     function initCodeHighlights (toggle) {
         let kchInjectedCss;
@@ -4085,7 +4085,7 @@ const funcObj = {
         }
     }
 
-    clarify-recipient:
+    clarify_recipient:
 
     function clarifyRecipientInit (toggle) {
         function rewrite (title) {
@@ -4110,7 +4110,7 @@ const funcObj = {
         }
     }
 
-    move-federation-warning:
+    move_federation_warning:
 
     function moveFederationWarningEntry (toggle) {
         // ==UserScript==
