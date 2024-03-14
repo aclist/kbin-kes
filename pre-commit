@@ -3,6 +3,7 @@ npm_flag="--no-git-tag-version"
 COLUMNS=1
 version_file="VERSION"
 master_file="kes.user.js"
+funcs_file="helpers/funcs.js"
 manifest="helpers/manifest.json"
 vers=$(< $version_file)
 branch=$(git name-rev --name-only HEAD)
@@ -60,12 +61,14 @@ bump_vers(){
         echo "$newvers" > $version_file
         ./build/scripts/gen_manifest.sh
         ./build/scripts/gen_kes.sh
+        ./build/scripts/concat_funcs
         echo
         echo "HOOK========>Bumping version from $vers to $newvers"
         echo
         git add $manifest
         git add $version_file
         git add $master_file
+        git add "$funcs_file"
 }
 
 echo "This commit change is of type:"
