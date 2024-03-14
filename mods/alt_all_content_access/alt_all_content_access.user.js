@@ -6,8 +6,10 @@
 */
 function altAllContentAccess (isActive) {  // eslint-disable-line no-unused-vars
     const titleList = getTitle();
+    const buttons = getAllContentButton();
 
     if (titleList.length == 0) return;
+    if (buttons.length == 0) return;
     if (isActive) {
         setup();
     } else {
@@ -77,7 +79,7 @@ function altAllContentAccess (isActive) {  // eslint-disable-line no-unused-vars
      * is turned on or off.
      */
     function setButtonVisibility () {
-        getAllContentButton().forEach((button) => {
+        buttons.forEach((button) => {
             /** @type {HTMLElement} */
             const parent = button.parentNode;
             if (doHideButton() && isActive) parent.style.display = "none";
@@ -90,6 +92,6 @@ function altAllContentAccess (isActive) {  // eslint-disable-line no-unused-vars
      * @returns {Boolean}
      */
     function  isCurrentViewCollection () {
-        return getAllContentButton()[0].getAttribute("href").endsWith("/*");
+        return buttons[0].getAttribute("href").endsWith("/*");
     }
 }
