@@ -28,25 +28,26 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/kbin-mod-options.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/funcs.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/kbin-mod-options.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/raw/testing/helpers/funcs.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
-// @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
-// @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
-// @downloadURL  https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
-// @updateURL    https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
+// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/raw/testing/helpers/ui.json
+// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
+// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/raw/testing/helpers/kes.css
+// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/raw/testing/kes.user.js
+// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/raw/testing/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
+const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/";
 const branch = "testing"
 const helpersPath = "helpers/"
-const branchPath = repositoryURL + "raw/" + branch + "/"
+const branchPath = rawURL + branch + "/"
 const versionFile = branchPath + "VERSION";
 const updateURL = branchPath + "kes.user.js";
 const bugURL = repositoryURL + "issues"

@@ -45,7 +45,7 @@ cat<<-EOF
 EOF
 }
 gen_requires(){
-    prefix="https://github.com/$slug/raw/$branch/"
+    prefix="https://raw.githubusercontent.com/$slug/$branch/"
     deps=(
         "safegm.user.js"
         "kbin-mod-options.js"

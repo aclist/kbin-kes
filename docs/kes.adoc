@@ -41,7 +41,7 @@ Versions for Firefox- and Chromium-based browsers can be found on your respectiv
 
 == Installation
 
-Navigate to https://github.com/aclist/kbin-kes/raw/main/kes.user.js[the install script] and
+Navigate to https://raw.githubusercontent.com/aclist/kbin-kes/main/kes.user.js[the install script] and
 follow your browser extension's onscreen prompts to install it. Subsequent updates should be handled
 seamlessly, and KES will notify you if there is a new version available.
 
