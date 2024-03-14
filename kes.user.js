@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.15
+// @version      3.2.4-beta.16
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1226,7 +1226,62 @@ function constructMenu (json, layoutArr, isNew) {
             console.log(error);
         }
     }
+    function legacyMigration(entry){
+        const settings = getSettings();
+        const legacyEntrypoints = {
+            "mail": "addMail",
+            "subs": "initMags",
+            "adjust": "adjustSite",
+            "alpha_sort_subs": "alphaSortInit",
+            "alt_all_content_access": "altAllContentAccess",
+            "always_more": "moreInit",
+            "clarify_recipient": "clarifyRecipientInit",
+            "improved_collapsible_comments": "initCollapsibleComments",
+            "resize_text": "textResize",
+            "dropdown": "dropdownEntry",
+            "expand_posts": "expandPostsInit",
+            "fix_codeblocks": "fixLemmyCodeblocks",
+            "hide_downvotes": "hideDownvotes",
+            "hide_reputation": "hideReputation",
+            "hide_upvotes": "hideUpvotes",
+            "hide_sidebar": "hideSidebar",
+            "hide_thumbs": "hideThumbs",
+            "hover_indicator": "hoverIndicator",
+            "easy_emoticon": "easyEmoticon",
+            "label": "labelOp",
+            "mag_instance_names": "magInstanceEntry",
+            "mobile_cleanup": "mobileHideInit",
+            "move_federation_warning": "moveFederationWarningEntry",
+            "nav_icons": "navbarIcons",
+            "notifications_panel": "notificationsPanel",
+            "hide_posts": "hidePostsInit",
+            "rearrange": "rearrangeInit",
+            "thread_delta": "threadDeltaInit",
+            "softblock": "softBlockInit",
+            "report_bug": "bugReportInit",
+            "omni": "omniInit",
+            "thread_checkmarks": "checksInit",
+            "hide_logo": "toggleLogo",
+            "unblur": "unblurInit",
+            "user_instance_names": "userInstanceEntry",
+            "timestamp": "updateTime",
+            "code_highlighting": "initCodeHighlights",
+            "kbin_federation_awareness": "initKFA"
+        }
+        const legacyMapping = legacyEntrypoints[entry]
+        try {
+            if (settings[legacyMapping] == true) {
+                settings[entry] = true;
+                delete settings[legacyMapping];
+                saveSettings(settings);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
     function applySettings (entry, mutation) {
+        legacyMigration(entry);
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
