@@ -82,9 +82,10 @@ gen_consts(){
 		const version = safeGM("info").script.version;
 		const tool = safeGM("info").script.name;
 		const repositoryURL = "https://github.com/$slug/";
+		const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/"
 		const branch = "$branch"
 		const helpersPath = "helpers/"
-		const branchPath = repositoryURL + "raw/" + branch + "/"
+		const branchPath = rawURL + branch + "/"
 		const versionFile = branchPath + "VERSION";
 		const updateURL = branchPath + "kes.user.js";
 		const bugURL = repositoryURL + "issues"
