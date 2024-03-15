@@ -58,7 +58,8 @@ function textResize (toggle) {
 
         // === HEADER === //
         //header *variables*
-        const topHeader = document.querySelectorAll('#header.header'); // selects elem w id header and class header
+        // selects elem w id header and class header
+        const topHeader = document.querySelectorAll('#header.header');
         const avatar = document.querySelector('img.user-avatar');
 
 

@@ -2303,7 +2303,8 @@ const funcObj = {
 
             // === HEADER === //
             //header *variables*
-            const topHeader = document.querySelectorAll('#header.header'); // selects elem w id header and class header
+            // selects elem w id header and class header
+            const topHeader = document.querySelectorAll('#header.header');
             const avatar = document.querySelector('img.user-avatar');
 
 
@@ -3692,8 +3693,8 @@ const funcObj = {
             if (kfaInjectedCss) {
                 kfaInjectedCss.remove();
             }
-            function removeOld(els){
-                for (let i = 0; i<arguments.length; ++i){
+            function removeOld (els) {
+                for (let i = 0; i<arguments.length; ++i) {
                     arguments[i].forEach((el) => {
                         el.remove();
                     });
@@ -3708,26 +3709,16 @@ const funcObj = {
             removeOld(dh, df, dm, mh, mf, mm);
         }
 
-        function findHostname(links){
-            let host
-            let str
-            const instance = getInstanceType();
-            switch (instance) {
-                case "kbin":
-                    str = "copy original url"
-                    break;
-                case "mbin":
-                    str = "Copy original URL"
-                    break;
+        function findHostname (op) {
+            if (op.includes('@')) {
+                //other instances
+                const arr = op.split('@')
+                return arr[arr.length - 1]
+            } else {
+                //home instance
+                return window.location.hostname
             }
-            links.forEach((link) => {
-                const innerString = link.innerHTML.trim();
-                if (innerString === str) {
-                    host = new URL(link.href).hostname;
-                }
-            });
-            return host
-        };
+        }
 
         function kfaInitClasses () {
             const classList = [
@@ -3736,45 +3727,48 @@ const funcObj = {
                 'data-home'
             ];
             document.querySelectorAll('#content article.entry').forEach(function (article) {
-                    if (article.querySelector('[class^=data-]')) { return }
-                    const copyLinks = article.querySelectorAll('footer menu .dropdown a[data-action="clipboard#copy"]');
-                    const hostname = findHostname(copyLinks);
-                    let articleAside = article.querySelector('aside');
-                    article.setAttribute('data-hostname', hostname);
-                    let articleIndicator = document.createElement('div');
-                    if (kfaIsStrictlyModerated(hostname)) {
-                        article.classList.toggle('data-moderated');
-                        articleIndicator.classList.toggle('data-moderated');
-                    } else if (hostname !== window.location.hostname) {
-                        article.classList.toggle('data-federated');
-                        articleIndicator.classList.toggle('data-federated');
-                    } else {
-                        article.classList.toggle('data-home');
-                        articleIndicator.classList.toggle('data-home');
-                    }
-                    articleAside.prepend(articleIndicator);
+                if (article.querySelector('[class^=data-]')) { return }
+                const op = article.querySelectorAll('.user-inline')
+                let op = article.querySelector('.user-inline').href
+                op = String(op)
+                const hostname = findHostname(op);
+
+                let articleAside = article.querySelector('aside');
+                article.setAttribute('data-hostname', hostname);
+                let articleIndicator = document.createElement('div');
+                if (kfaIsStrictlyModerated(hostname)) {
+                    article.classList.toggle('data-moderated');
+                    articleIndicator.classList.toggle('data-moderated');
+                } else if (hostname !== window.location.hostname) {
+                    article.classList.toggle('data-federated');
+                    articleIndicator.classList.toggle('data-federated');
+                } else {
+                    article.classList.toggle('data-home');
+                    articleIndicator.classList.toggle('data-home');
+                }
+                articleAside.prepend(articleIndicator);
             });
 
             document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
-                    if (comment.querySelector('[class^=data-]')) { return }
-                    let commentHeader = comment.querySelector('header');
-                    const userInfo = commentHeader.querySelector('a.user-inline');
-                    if (userInfo) {
-                        const userHostname = userInfo.title.split('@').reverse()[0];
-                        let commentIndicator = document.createElement('div');
+                if (comment.querySelector('[class^=data-]')) { return }
+                let commentHeader = comment.querySelector('header');
+                const userInfo = commentHeader.querySelector('a.user-inline');
+                if (userInfo) {
+                    const userHostname = userInfo.title.split('@').reverse()[0];
+                    let commentIndicator = document.createElement('div');
 
-                        if (kfaIsStrictlyModerated(userHostname)) {
-                            comment.classList.toggle('data-moderated');
-                            commentIndicator.classList.toggle('data-moderated');
-                        } else if (userHostname !== window.location.hostname) {
-                            comment.classList.toggle('data-federated');
-                            commentIndicator.classList.toggle('data-federated');
-                        } else {
-                            comment.classList.toggle('data-home');
-                            commentIndicator.classList.toggle('data-home');
-                        }
-                        commentHeader.prepend(commentIndicator);
+                    if (kfaIsStrictlyModerated(userHostname)) {
+                        comment.classList.toggle('data-moderated');
+                        commentIndicator.classList.toggle('data-moderated');
+                    } else if (userHostname !== window.location.hostname) {
+                        comment.classList.toggle('data-federated');
+                        commentIndicator.classList.toggle('data-federated');
+                    } else {
+                        comment.classList.toggle('data-home');
+                        commentIndicator.classList.toggle('data-home');
                     }
+                    commentHeader.prepend(commentIndicator);
+                }
             });
         }
 
