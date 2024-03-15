@@ -151,7 +151,6 @@ function initKFA (toggle) {
         ];
         document.querySelectorAll('#content article.entry').forEach(function (article) {
             if (article.querySelector('[class^=data-]')) { return }
-            const op = article.querySelectorAll('.user-inline')
             let op = article.querySelector('.user-inline').href
             op = String(op)
             const hostname = findHostname(op);
