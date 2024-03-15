@@ -6,6 +6,7 @@
     },
     "globals": {
         "Promise": "readonly",
+        "funcObj": "readonly",
         "safeGM": "readonly",
         "getHex": "readonly",
         "genericXMLRequest": "readonly",

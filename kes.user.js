@@ -828,7 +828,7 @@ function constructMenu (json, layoutArr, isNew) {
             const names = parseNamespaces();
             const keys = Object.keys(contents);
             cleanNamespaces();
-            for(i = 0 ; i < keys.length ; ++i) {
+            for(let i = 0 ; i < keys.length ; ++i) {
                 if(keys[i] === "kes-settings" || names.includes(keys[i])) {
                     let namespace = keys[i];
                     let settings = contents[namespace];
@@ -991,7 +991,7 @@ function constructMenu (json, layoutArr, isNew) {
             resultsDialogForm.appendChild(resultsMenu);
 
             let label
-            for (i = 0; i < json.length; ++i) {
+            for (let i = 0; i < json.length; ++i) {
                 const origLabel = json[i].label
                 const labelLower = origLabel.toLowerCase();
                 const queryLower = query.toLowerCase();
@@ -1207,7 +1207,7 @@ function constructMenu (json, layoutArr, isNew) {
 
         updateCrumbs();
         //necessarily reload the page when verbose timestamps are toggled off
-        //otherwise, triggers a loop of mutations because reverting timeago mutates the watched node
+        //otherwise, triggers a loop of mutations because reverting timeago mutates watched node
         if ((func === "updateTime") && (state === false)) {
             window.location.reload();
         } else {
@@ -1227,7 +1227,7 @@ function constructMenu (json, layoutArr, isNew) {
             console.log(error);
         }
     }
-    function legacyMigration(entry){
+    function legacyMigration (entry) {
         const settings = getSettings();
         const legacyEntrypoints = {
             "mail": "addMail",
