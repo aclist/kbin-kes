@@ -134,9 +134,19 @@ function initKFA (toggle) {
 
     function findHostname(links){
         let host
+        let str
+        const instance = getInstanceType();
+        switch (instance) {
+            case "kbin":
+                str = "copy original url"
+                break;
+            case "mbin":
+                str = "Copy original URL"
+                break;
+        }
         links.forEach((link) => {
             const innerString = link.innerHTML.trim();
-            if (innerString === "copy original url") {
+            if (innerString === str) {
                 host = new URL(link.href).hostname;
             }
         });

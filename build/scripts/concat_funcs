@@ -1,6 +1,6 @@
 #Placeholder logic for updated auto masthead generation, cf. #255
 
-file="funcs.js"
+file="$PWD/helpers/funcs.js"
 count=$(ls -1 $PWD/mods | wc -l)
 i=1
 gen(){

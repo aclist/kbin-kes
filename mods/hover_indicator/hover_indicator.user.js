@@ -1,4 +1,3 @@
-
 function hoverIndicator(toggle) {
     // ==UserScript==
     // @name         Hover Indicator

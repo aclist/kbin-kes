@@ -21,7 +21,7 @@ const funcObj = {
 
         }
     }
-    ,
+,
 
     improved_collapsible_comments:
 
@@ -493,7 +493,7 @@ const funcObj = {
             enterMain();
         }
     }
-    ,
+,
 
     omni:
 
@@ -955,7 +955,7 @@ const funcObj = {
             }
         }
     }
-    ,
+,
 
     clarify_recipient:
 
@@ -981,7 +981,7 @@ const funcObj = {
             reset(title);
         }
     }
-    ,
+,
 
     label:
 
@@ -1008,7 +1008,7 @@ const funcObj = {
             safeGM("removeStyle", "labelop-css")
         }
     }
-    ,
+,
 
     hide_reputation:
 
@@ -1030,7 +1030,7 @@ const funcObj = {
             document.styleSheets[0].addRule('.user-popover ul li:nth-of-type(2)','display:initial')
         }
     }
-    ,
+,
 
     notifications_panel:
 
@@ -1489,7 +1489,7 @@ const funcObj = {
             shutdown();
         }
     }
-    ,
+,
 
     mag_instance_names:
 
@@ -1531,88 +1531,108 @@ const funcObj = {
             hideCommunityInstances();
         }
     }
-    ,
+,
 
     alt_all_content_access:
 
     /**
      * This mod aims to make clicking the magazine name in the navbar lead to the All Content
      * view instead of the Threads view, while removing the All Content button itself.
+     * 
+     * @param {Boolean} isActive Whether the mod has been turned on
     */
     function altAllContentAccess (isActive) {  // eslint-disable-line no-unused-vars
-        class AlternativeAllContentAccessMod {
-        /** @returns {HTMLElement[]} */
-            getTitle () {
-                return Array.from(document.querySelectorAll("div.head-title a"));
-            }
+        const titleList = getTitle();
+        const buttons = getAllContentButton();
 
-            /** @returns {boolean} */
-            getHideButtonSetting () {
-                return getModSettings("alt-all-content-access")["hideAllContentButton"];
-            }
+        if (titleList.length == 0) return;
+        if (buttons.length == 0) return;
+        if (isActive) {
+            setup();
+        } else {
+            teardown();
+        }
 
-            /** @returns {HTMLElement[]} */
-            getAllContentButton () {
-                const threadsAttributePattern = "[href^='/*']";
-                const collectionsAttributePattern = "[href$='/*']";
-                const allContentQuery = "menu.head-nav__menu > li > a";
-                const allContentMobileQuery = "div.mobile-nav menu.info a";
-                return Array.from(
-                    document.querySelectorAll(`
+        function setup () {
+            const currentViewIsCollection = isCurrentViewCollection();
+            titleList.forEach((title) => {
+                const href = title.getAttribute("href");
+                if (!currentViewIsCollection && !href.startsWith("/*/")) {
+                    title.setAttribute("href", `/*${href}`);
+                } else if (currentViewIsCollection && !href.endsWith("/*")) {
+                    title.setAttribute("href", `${href}/*`);
+                }
+            });
+            setButtonVisibility(true);
+        }
+
+        function teardown () {
+            titleList.forEach((title) => {
+                const href = title.getAttribute("href");
+                if (href.startsWith("/*/")) title.setAttribute("href", href.slice(2));
+                else if (href.endsWith("/*")) title.setAttribute("href", href.slice(0, href.length-2));
+            });
+            setButtonVisibility(false);
+        }
+
+        /**
+         * Checks whether the existing All Content button should be hidden.
+         * 
+         * @returns {Boolean}
+         */
+        function doHideButton () {
+            return getModSettings("alt-all-content-access")["hideAllContentButton"];
+        }
+
+        /**
+         * Retrieves both the regular and the mobile button.
+         * @returns {HTMLElement[]}
+         */
+        function getAllContentButton () {
+            const threadsAttributePattern = "[href^='/*']";
+            const collectionsAttributePattern = "[href$='/*']";
+            const allContentQuery = "menu.head-nav__menu > li > a";
+            const allContentMobileQuery = "div.mobile-nav menu.info a";
+            return Array.from(
+                document.querySelectorAll(`
                     ${allContentQuery}${threadsAttributePattern}, 
                     ${allContentMobileQuery}${threadsAttributePattern},
                     ${allContentQuery}${collectionsAttributePattern}, 
                     ${allContentMobileQuery}${collectionsAttributePattern}
                 `)
-                );
-            }
-
-            /** @param {boolean} isActive */
-            setButtonVisibility (isActive) {
-                const hideButton = this.getHideButtonSetting() && isActive;
-                this.getAllContentButton().forEach((button) => {
-                    button.parentNode.style.display = (hideButton) ? "none" : "";
-                });
-            }
-
-            isCurrentViewCollection () {
-                return this.getAllContentButton()[0].getAttribute("href").endsWith("/*");
-            }
-
-            setup () {
-                const titleList = this.getTitle();
-                if (titleList.length == 0) return;
-                const currentViewIsCollection = this.isCurrentViewCollection();
-                titleList.forEach((title) => {
-                    const href = title.getAttribute("href");
-                    if (!currentViewIsCollection && !href.startsWith("/*/")) {
-                        title.setAttribute("href", `/*${href}`);
-                    } else if (currentViewIsCollection && !href.endsWith("/*")) {
-                        title.setAttribute("href", `${href}/*`);
-                    }
-                });
-                this.setButtonVisibility(true);
-            }
-
-            teardown () {
-                const titleList = this.getTitle();
-                if (titleList.length == 0) return;
-                titleList.forEach((title) => {
-                    const href = title.getAttribute("href");
-                    if (href.startsWith("/*/")) title.setAttribute("href", href.slice(2));
-                    else if (href.endsWith("/*")) title.setAttribute("href", href.slice(0, href.length-2));
-                });
-                this.setButtonVisibility(false);
-            }
+            );
         }
 
-        if (isActive) {
-            new AlternativeAllContentAccessMod().setup();
-        } else {
-            new AlternativeAllContentAccessMod().teardown();
+        /**
+         * Retrieves the clickable magazine name title, both the regular one and the mobile one..
+         * @returns {HTMLElement[]}
+         */
+        function getTitle () {
+            return Array.from(document.querySelectorAll("div.head-title a"));
+        }
+
+        /**
+         * Makes the buttons appear or disappear depending on the setting in KES and whether the mod
+         * is turned on or off.
+         */
+        function setButtonVisibility () {
+            buttons.forEach((button) => {
+                /** @type {HTMLElement} */
+                const parent = button.parentNode;
+                if (doHideButton() && isActive) parent.style.display = "none";
+                else parent.style.removeProperty("display");
+            });
+        }
+
+        /**
+         * The All Content URL of collections works differently.
+         * @returns {Boolean}
+         */
+        function  isCurrentViewCollection () {
+            return buttons[0].getAttribute("href").endsWith("/*");
         }
     }
-    ,
+,
 
     code_highlighting:
 
@@ -1725,7 +1745,7 @@ const funcObj = {
         if (toggle) {
             const settings = getModSettings("codehighlights");
             let myStyle = settings["style"];
-            kchCssUrl = `https://github.com/highlightjs/highlight.js/raw/main/src/styles/base16/${myStyle}.css`
+            kchCssUrl = `https://raw.githubusercontent.com/highlightjs/highlight.js/main/src/styles/base16/${myStyle}.css`
             if (kchLastToggleState === false) {
                 kchLastToggleState = true;
                 kchStartup(true);
@@ -1741,7 +1761,7 @@ const funcObj = {
             kchShutdown();
         }
     }
-    ,
+,
 
     rearrange:
 
@@ -1770,52 +1790,101 @@ const funcObj = {
             content.style.display = 'unset';
         }
     }
-    ,
+,
 
     fix_codeblocks:
 
-    function fixLemmyCodeblocks (toggle) {
-        const stylePattern = "((font-style:italic|font-weight:bold);)?color:#[0-9a-fA-F]{6};";
-
-        const testPattern = new RegExp(`^\\n?<span style="${stylePattern}">(.+\\n)+<\\/span>\\n?$`);
-        const startTagPattern = new RegExp(`^\\n?<span style="${stylePattern}">`);
-        const endTagPattern = new RegExp(`\\n<\\/span>\\n?$`);
-        const combinedPattern = new RegExp(`<\\/span><span style="${stylePattern}">`, "g");
-
-        const fixedCodeAttribute = "data-fixed-code"
-
-        /** @param {HTMLElement} codeblock */
-        function fixCodeblock (codeblock) {
-            if (!testPattern.test(codeblock.innerText)) return;
-            if (codeblock.nextElementSibling?.hasAttribute(fixedCodeAttribute)) return;
-
-            const fixedBlock = document.createElement("code");
-            fixedBlock.setAttribute(fixedCodeAttribute, "");
-            codeblock.parentNode.insertBefore(fixedBlock, codeblock.nextSibling);
-
-            fixedBlock.innerText = codeblock.innerText
-                .replace(startTagPattern, "")
-                .replaceAll(combinedPattern, "")
-                .replace(endTagPattern, "");
-
-            codeblock.style.display = "none";
-        }
-
-        /** @param {HTMLElement} fixedBlock */
-        function revertCodeblock (fixedBlock) {
-            /** @type {HTMLElement} */
-            const originalBlock = fixedBlock.previousElementSibling;
-            originalBlock.style.removeProperty("display");
-            fixedBlock.parentNode.removeChild(fixedBlock);
-        }
-
-        if (toggle) {
-            document.querySelectorAll("pre code").forEach(fixCodeblock);
+    /**
+     * Lemmy federates its code blocks with syntax highlighting, but /kbin doesn't currently 
+     * correctly handle that. It just displays the additional <span> tags for the syntax
+     * highlighting in plain text. This makes the code very hard to read.
+     * This mod fixes the issue by removing those erroneous tags.
+     * 
+     * @param {Boolean} isActive Whether the mod has been turned on
+     */
+    function fixLemmyCodeblocks (isActive) { // eslint-disable-line no-unused-vars
+        /** @type {String} */
+        const STYLEPATTERN = "((font-style:italic|font-weight:bold);)?color:#[0-9a-fA-F]{6};";
+    
+        if (isActive) {
+            setup();
         } else {
-            document.querySelectorAll(`pre code[${fixedCodeAttribute}]`).forEach(revertCodeblock);
+            teardown();
+        }
+
+        function setup () {
+            getCodeBlocks()
+                .filter((code) => isErroneousCode(code))
+                .filter((code) => !isFixed(code))
+                .forEach((code) => fix(code));
+        }
+
+        function teardown () {
+            getCodeBlocks(true).forEach((code) => {
+                /** @type {HTMLElement} */
+                code.nextElementSibling.remove();
+                code.style.removeProperty("display");
+                markAsUnfixed(code);
+            });
+        }
+
+        /**
+         * Repairs a given code block.
+         * @param {HTMLElement} original The code block that needs to be fixed
+         */
+        function fix (original) {
+            const fixed = document.createElement("code");
+            original.after(fixed);
+
+            const start = new RegExp(`^\\n?<span style="${STYLEPATTERN}">`);
+            const end = new RegExp(`\\n<\\/span>\\n?$`);
+            const combined = new RegExp(`<\\/span><span style="${STYLEPATTERN}">`, "g");
+
+            fixed.textContent = original.textContent
+                .replace(start, "")
+                .replaceAll(combined, "")
+                .replace(end, "");
+
+            original.style.display = "none";
+            markAsFixed(original);
+        }
+
+        /**
+         * Checks whether a given code block needs to be fixed.
+         * @param {HTMLElement} code
+         * @returns {Boolean}
+         */
+        function isErroneousCode (code) {
+            const pattern = new RegExp(`^\\n?<span style="${STYLEPATTERN}">(.+\\n)+<\\/span>\\n?$`);
+            return pattern.test(code.textContent);
+        }
+
+        /**
+         * @param {Boolean} fixedCodeOnly Whether to only return those code blocks that have been fixed 
+         * (optional)
+         * @returns {HTMLElement[]} A list of all the code blocks on the page
+         */
+        function getCodeBlocks (fixedCodeOnly = false) {
+            const allBlocks = Array.from(document.querySelectorAll("pre code"));
+            return fixedCodeOnly
+                ? allBlocks.filter((block) => isFixed(block))
+                : allBlocks;
+        }
+
+        /** @param {HTMLElement} elem @returns {Boolean} */
+        function isFixed (elem) {
+            return elem.dataset.fixed;
+        } 
+        /** @param {HTMLElement} */
+        function markAsFixed (elem) {
+            elem.dataset.fixed = true;
+        }
+        /** @param {HTMLElement} */
+        function markAsUnfixed (elem) {
+            delete elem.dataset.fixed;
         }
     }
-    ,
+,
 
     dropdown:
 
@@ -1886,7 +1955,7 @@ const funcObj = {
             }
         }
     }
-    ,
+,
 
     unblur:
 
@@ -1905,7 +1974,7 @@ const funcObj = {
             safeGM("removeStyle", 'unblurred');
         }
     }
-    ,
+,
 
     easy_emoticon:
 
@@ -2143,7 +2212,7 @@ const funcObj = {
             document.removeEventListener('input', eventListener);
         }
     }
-    ,
+,
 
     nav_icons:
 
@@ -2170,7 +2239,7 @@ const funcObj = {
             document.styleSheets[0].addRule('header menu li a[aria-label="Select a channel"] i::before', 'content:"\\f03a" ; font-family: "Font Awesome 6 Free"; font-weight: initial;');
         }
     }
-    ,
+,
 
     resize_text:
 
@@ -2669,7 +2738,7 @@ const funcObj = {
             return
         }
     }
-    ,
+,
 
     hide_logo:
 
@@ -2725,7 +2794,7 @@ const funcObj = {
             restoreLogo();
         }
     }
-    ,
+,
 
     timestamp:
 
@@ -2764,7 +2833,7 @@ const funcObj = {
             return
         }
     }
-    ,
+,
 
     report_bug:
 
@@ -2797,7 +2866,7 @@ const funcObj = {
             $('.kes-report-bug').hide();
         }
     }
-    ,
+,
 
     mail:
 
@@ -2864,7 +2933,7 @@ const funcObj = {
             $('.kes-mail-link').remove();
         }
     }
-    ,
+,
 
     move_federation_warning:
 
@@ -2913,7 +2982,7 @@ const funcObj = {
             insertAfter.after(alertBox);
         }
     }
-    ,
+,
 
     hide_thumbs:
 
@@ -2931,12 +3000,12 @@ const funcObj = {
             display:none
         }
         `
-        function apply (sheet, name) {
-            unset(name)
-            safeGM("addStyle", sheet, name)
+        function apply(sheet, name){
+                unset(name)
+                safeGM("addStyle", sheet, name)
         }
-        function unset (name) {
-            safeGM("removeStyle", name)
+        function unset(name){
+                safeGM("removeStyle", name)
         }
         if (toggle) {
             if (settings["index"]) {
@@ -2954,7 +3023,7 @@ const funcObj = {
             unset(inline)
         }
     }
-    ,
+,
 
     adjust:
 
@@ -3009,7 +3078,7 @@ const funcObj = {
             safeGM("addStyle", customCSS, sheetName)
         }
     }
-    ,
+,
 
     alpha_sort_subs:
 
@@ -3054,7 +3123,7 @@ const funcObj = {
             $(ul).show();
         }
     }
-    ,
+,
 
     expand_posts:
 
@@ -3093,7 +3162,7 @@ const funcObj = {
             button.className = 'kes-expand-post-button'
             button.style.cursor = 'pointer'
             button.addEventListener('click', (e) => {
-                const mode = e.target.innerText
+            const mode = e.target.innerText
                 const settings = getModSettings("expand-posts")
                 const loadingLabel = settings.loading
                 const expandLabel = settings.expand
@@ -3169,7 +3238,7 @@ const funcObj = {
             });
         }
     }
-    ,
+,
 
     thread_delta:
 
@@ -3267,7 +3336,7 @@ const funcObj = {
             saveCounts(hostname, mag, e)
         }
     }
-    ,
+,
 
     hide_upvotes:
 
@@ -3287,7 +3356,7 @@ const funcObj = {
             $('form.vote__up').show();
         }
     }
-    ,
+,
 
     hide_sidebar:
 
@@ -3323,12 +3392,11 @@ const funcObj = {
             }
         }
     }
-    ,
+,
 
     hover_indicator:
 
-
-    function hoverIndicator (toggle) {
+    function hoverIndicator(toggle) {
         // ==UserScript==
         // @name         Hover Indicator
         // @namespace    https://github.com/aclist
@@ -3344,7 +3412,7 @@ const funcObj = {
             safeGM("removeStyle", "kes-hover-css")
         }
 
-        function applyOutlines () {
+        function applyOutlines() {
             const settings = getModSettings('hover');
             const color = settings.color;
             const thickness = settings.thickness;
@@ -3398,7 +3466,7 @@ const funcObj = {
             safeGM("addStyle", exclusions, "kes-hover-exclusions")
         }
     }
-    ,
+,
 
     thread_checkmarks:
 
@@ -3450,7 +3518,7 @@ const funcObj = {
             });
         }
     }
-    ,
+,
 
     user_instance_names:
 
@@ -3482,7 +3550,7 @@ const funcObj = {
             hideUserInstances();
         }
     }
-    ,
+,
 
     hide_downvotes:
 
@@ -3502,7 +3570,7 @@ const funcObj = {
             $('form.vote__down').show();
         }
     }
-    ,
+,
 
     kbin_federation_awareness:
 
@@ -3624,8 +3692,8 @@ const funcObj = {
             if (kfaInjectedCss) {
                 kfaInjectedCss.remove();
             }
-            function removeOld (els) {
-                for (let i = 0; i<arguments.length; ++i) {
+            function removeOld(els){
+                for (let i = 0; i<arguments.length; ++i){
                     arguments[i].forEach((el) => {
                         el.remove();
                     });
@@ -3640,16 +3708,26 @@ const funcObj = {
             removeOld(dh, df, dm, mh, mf, mm);
         }
 
-        function findHostname (links) {
+        function findHostname(links){
             let host
+            let str
+            const instance = getInstanceType();
+            switch (instance) {
+                case "kbin":
+                    str = "copy original url"
+                    break;
+                case "mbin":
+                    str = "Copy original URL"
+                    break;
+            }
             links.forEach((link) => {
                 const innerString = link.innerHTML.trim();
-                if (innerString === "copy original url") {
+                if (innerString === str) {
                     host = new URL(link.href).hostname;
                 }
             });
             return host
-        }
+        };
 
         function kfaInitClasses () {
             const classList = [
@@ -3658,45 +3736,45 @@ const funcObj = {
                 'data-home'
             ];
             document.querySelectorAll('#content article.entry').forEach(function (article) {
-                if (article.querySelector('[class^=data-]')) { return }
-                const copyLinks = article.querySelectorAll('footer menu .dropdown a[data-action="clipboard#copy"]');
-                const hostname = findHostname(copyLinks);
-                let articleAside = article.querySelector('aside');
-                article.setAttribute('data-hostname', hostname);
-                let articleIndicator = document.createElement('div');
-                if (kfaIsStrictlyModerated(hostname)) {
-                    article.classList.toggle('data-moderated');
-                    articleIndicator.classList.toggle('data-moderated');
-                } else if (hostname !== window.location.hostname) {
-                    article.classList.toggle('data-federated');
-                    articleIndicator.classList.toggle('data-federated');
-                } else {
-                    article.classList.toggle('data-home');
-                    articleIndicator.classList.toggle('data-home');
-                }
-                articleAside.prepend(articleIndicator);
+                    if (article.querySelector('[class^=data-]')) { return }
+                    const copyLinks = article.querySelectorAll('footer menu .dropdown a[data-action="clipboard#copy"]');
+                    const hostname = findHostname(copyLinks);
+                    let articleAside = article.querySelector('aside');
+                    article.setAttribute('data-hostname', hostname);
+                    let articleIndicator = document.createElement('div');
+                    if (kfaIsStrictlyModerated(hostname)) {
+                        article.classList.toggle('data-moderated');
+                        articleIndicator.classList.toggle('data-moderated');
+                    } else if (hostname !== window.location.hostname) {
+                        article.classList.toggle('data-federated');
+                        articleIndicator.classList.toggle('data-federated');
+                    } else {
+                        article.classList.toggle('data-home');
+                        articleIndicator.classList.toggle('data-home');
+                    }
+                    articleAside.prepend(articleIndicator);
             });
 
             document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
-                if (comment.querySelector('[class^=data-]')) { return }
-                let commentHeader = comment.querySelector('header');
-                const userInfo = commentHeader.querySelector('a.user-inline');
-                if (userInfo) {
-                    const userHostname = userInfo.title.split('@').reverse()[0];
-                    let commentIndicator = document.createElement('div');
+                    if (comment.querySelector('[class^=data-]')) { return }
+                    let commentHeader = comment.querySelector('header');
+                    const userInfo = commentHeader.querySelector('a.user-inline');
+                    if (userInfo) {
+                        const userHostname = userInfo.title.split('@').reverse()[0];
+                        let commentIndicator = document.createElement('div');
 
-                    if (kfaIsStrictlyModerated(userHostname)) {
-                        comment.classList.toggle('data-moderated');
-                        commentIndicator.classList.toggle('data-moderated');
-                    } else if (userHostname !== window.location.hostname) {
-                        comment.classList.toggle('data-federated');
-                        commentIndicator.classList.toggle('data-federated');
-                    } else {
-                        comment.classList.toggle('data-home');
-                        commentIndicator.classList.toggle('data-home');
+                        if (kfaIsStrictlyModerated(userHostname)) {
+                            comment.classList.toggle('data-moderated');
+                            commentIndicator.classList.toggle('data-moderated');
+                        } else if (userHostname !== window.location.hostname) {
+                            comment.classList.toggle('data-federated');
+                            commentIndicator.classList.toggle('data-federated');
+                        } else {
+                            comment.classList.toggle('data-home');
+                            commentIndicator.classList.toggle('data-home');
+                        }
+                        commentHeader.prepend(commentIndicator);
                     }
-                    commentHeader.prepend(commentIndicator);
-                }
             });
         }
 
@@ -3722,7 +3800,7 @@ const funcObj = {
         }
     }
 
-    ,
+,
 
     mobile_cleanup:
 
@@ -3772,7 +3850,7 @@ const funcObj = {
             mobileHideTeardown();
         }
     }
-    ,
+,
 
     hide_posts:
 
@@ -3815,9 +3893,9 @@ const funcObj = {
         async function storeCurrentPage (hideThisPage) {
             await safeGM("setValue","hide-this-page",hideThisPage)
         }
-        function hideSib (el, mode) {
+        function hideSib(el, mode){
             const sib = el.nextSibling;
-            if (sib.className === "js-container") {
+            if (sib.className === "js-container"){
                 if (mode === 'hide') {
                     $(sib).hide();
                 } else {
@@ -3869,7 +3947,7 @@ const funcObj = {
             fetchCurrentPage();
         }
     }
-    ,
+,
 
     softblock:
 
@@ -4151,7 +4229,7 @@ const funcObj = {
             saveMags(hostname, e)
         }
     }
-    ,
+,
 
     subs:
 
