@@ -16,7 +16,7 @@ function hoverIndicator(toggle) {
 
     function applyOutlines() {
         const settings = getModSettings('hover');
-        const color = settings.color;
+        const color = getHex(settings.color);
         const thickness = settings.thickness;
 
         const sels = [

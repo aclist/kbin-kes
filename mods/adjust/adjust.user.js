@@ -17,7 +17,6 @@ function adjustSite (toggle) {
     }
 
     function adjustColors (sheetName) {
-        safeGM("removeStyle", sheetName)
         let settings = getModSettings('adjust');
         let sepia = `${settings.sepia * 10}%`;
         let hue = `${settings.hueRotate * 10}deg`;

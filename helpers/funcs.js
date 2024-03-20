@@ -3047,7 +3047,6 @@ const funcObj = {
         }
 
         function adjustColors (sheetName) {
-            safeGM("removeStyle", sheetName)
             let settings = getModSettings('adjust');
             let sepia = `${settings.sepia * 10}%`;
             let hue = `${settings.hueRotate * 10}deg`;
@@ -3415,7 +3414,7 @@ const funcObj = {
 
         function applyOutlines() {
             const settings = getModSettings('hover');
-            const color = settings.color;
+            const color = getHex(settings.color);
             const thickness = settings.thickness;
 
             const sels = [
