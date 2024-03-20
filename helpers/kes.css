@@ -453,6 +453,9 @@ span.kes-update {
 .kes-backup-button:hover {
     opacity: 1;
 }
+.kes-search-field {
+    border-radius: 0px !important;
+}
 .kes-search-menu button, .kes-results-menu button, .kes-backup-menu button, .kes-search-new {
     border: 0px;
     opacity: 1;
