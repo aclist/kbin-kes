@@ -2897,6 +2897,7 @@ const funcObj = {
             items.forEach((item) => {
                 const username = getUsername(item);
                 if (!username) return;
+                if (username === self_username) return;
                 const sib = item.nextSibling
                 let link
                 try {
@@ -2924,6 +2925,9 @@ const funcObj = {
             });
         }
 
+        const login = document.querySelector('.login');
+        if (!login) return;
+        const self_username = login.href.split('/')[4];
         const settings = getModSettings("mail");
         const pref = settings["prefix"]
         if (toggle) {
