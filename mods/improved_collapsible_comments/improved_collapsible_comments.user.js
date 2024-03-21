@@ -462,7 +462,6 @@ function initCollapsibleComments (toggle, mutation) {
     } else if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
         return;
     } else {
-        console.log("entering main")
         enterMain();
     }
 }

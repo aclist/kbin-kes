@@ -45,6 +45,7 @@ function adjustSite (toggle) {
                 text-decoration: none;
             }
         `;
+        safeGM("removeStyle", sheetName);
         safeGM("addStyle", customCSS, sheetName)
     }
 }

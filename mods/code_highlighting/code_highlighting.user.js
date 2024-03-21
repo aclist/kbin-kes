@@ -1,46 +1,49 @@
 function initCodeHighlights (toggle) {
-    let kchInjectedCss;
+    /* global hljs */
     let kchCssUrl;
-    let kchLastToggleState = false;
     safeGM("addStyle",`
-    .collapsed {
+    .kch-collapsed {
         display: none !important;
     }
+    .hljs .kch_header {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-bottom-style: dashed;'
+    }
+    .hljs-keyword {
+        margin-left: 20px;
+    }
+
     `);
-    function kchStartup (firstBoot = false) {
-        if (firstBoot) {
-            addHeaders('code');
-        } else {
-            addHeaders('code');
-        }
+    function kchStartup () {
+        addHeaders('pre code');
         setCss(kchCssUrl);
     }
     function kchShutdown () {
-        if (kchInjectedCss) {
-            kchInjectedCss.remove();
-        }
+        safeGM("removeStyle", "kch-hljs")
         $('.kch_header').remove();
     }
     function addTags (item) {
+        const orig_code = item.textContent;
+        let lang;
+
         if (item.previousSibling) {
             if (item.previousSibling.className === "hljs kch_header") return
         }
-        const orig_code = item.textContent;
-        let lang;
         for (let name of item.className.split(' ')) {
             if (name.includes('-')) {
                 lang = name.split('-')[1];
                 break;
             }
         }
-        const parent_html = item.parentElement.innerHTML;
+        //const parent_html = item.parentElement.innerHTML;
         const header = document.createElement('div');
         header.className = 'hljs kch_header';
-        header.setAttribute('style', 'padding-top: 10px; padding-bottom: 10px; border-bottom-style: dashed;');
+
         const span = document.createElement('span');
-        span.setAttribute('class', 'hljs-keyword');
-        span.setAttribute('style', 'margin-left: 20px;');
+        span.className = 'hljs-keyword'
         span.innerHTML = lang;
+
         const icon = document.createElement('i');
         icon.className = 'fa-solid fa-copy hljs-section';
         icon.setAttribute('aria-hidden', 'true');
@@ -63,23 +66,16 @@ function initCodeHighlights (toggle) {
         hide_icon.addEventListener('click', function () {
             hide_icon.classList.toggle('fa-chevron-up');
             hide_icon.classList.toggle('fa-chevron-down');
-            item.classList.toggle('collapsed');
+            item.classList.toggle('kch-collapsed');
         });
+
         header.appendChild(span);
         header.appendChild(icon);
         let tooltip = header.appendChild(span_copied);
         header.appendChild(hide_icon);
         item.parentElement.prepend(header);
     }
-    function addPreTag (parent, placement, code) {
-        // For some reason, sometimes code isn't wrapped in pre. Let's fix that.
-        const pre = document.createElement('pre');
-        parent.replaceChild(pre, code);
-        pre.appendChild(code);
-        hljs.highlightElement(code);
-    }
     function setCss (url) {
-        // Downloads css files and sets them on page.
         safeGM("xmlhttpRequest",{
             method: "GET",
             url: url,
@@ -87,37 +83,35 @@ function initCodeHighlights (toggle) {
                 "Content-Type": "text/css"
             },
             onload: function (response) {
-                injectedCss = safeGM("addStyle",response.responseText);
+                safeGM("addStyle", response.responseText, "kch-hljs");
             }
         });
     }
     function addHeaders (selector) {
-        document.querySelectorAll('code').forEach((item) => {
-            const parent = item.parentElement;
-            if (parent.nodeName !== 'PRE') {
-                const placement = item.nextSibling;
-                addPreTag(parent, placement, item);
-            }
+        //TODO: if item style is none, skip
+        //el.style.display === "none"
+        document.querySelectorAll(selector).forEach((item) => {
             if (!(item.classList.contains('hljs'))) {
                 hljs.highlightElement(item);
             }
+            if (item.style.display === "none") return
             addTags(item);
         });
     }
     if (toggle) {
         const settings = getModSettings("codehighlights");
-        let myStyle = settings["style"];
-        kchCssUrl = `https://raw.githubusercontent.com/highlightjs/highlight.js/main/src/styles/base16/${myStyle}.css`
-        if (kchLastToggleState === false) {
-            kchLastToggleState = true;
-            kchStartup(true);
-        } else {
-            kchStartup();
-        }
-        // Configure HLJS and enable.
-        hljs.configure({
-            ignoreUnescapedHTML: true
-        });
+        const myStyle = settings["style"];
+        const prefix = "https://raw.githubusercontent.com"
+        const suffix = "highlightjs/highlight.js/main/src/styles/base16"
+        kchCssUrl = `${prefix}/${suffix}/${myStyle}.css`
+        //        if () {
+        //            kchLastToggleState = true;
+        //            kchStartup(true);
+        //        } else {
+        //            kchStartup();
+        //        }
+        kchStartup();
+        hljs.configure({ ignoreUnescapedHTML: true });
         hljs.highlightAll();
     } else {
         kchShutdown();
