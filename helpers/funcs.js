@@ -1039,7 +1039,7 @@ const funcObj = {
 
     notifications_panel:
 
-    function notificationsPanel (toggle) {
+    function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         const spinnerCSS = `
         @keyframes spinner {
             0% {
@@ -2092,7 +2092,7 @@ const funcObj = {
 
     unblur:
 
-    function unblurInit (toggle) {
+    function unblurInit (toggle) { // eslint-disable-line no-unused-vars
 
         const unblurCSS = `
         .thumb-subject, .image-filler {
@@ -2932,7 +2932,7 @@ const funcObj = {
 
     timestamp:
 
-    function updateTime (toggle) {
+    function updateTime (toggle) { // eslint-disable-line no-unused-vars
         const ns = 'timestamp'
         let times = document.querySelectorAll('.timeago')
         const settings = getModSettings(ns);
@@ -3092,32 +3092,36 @@ const funcObj = {
         // @license      MIT
         // ==/UserScript==
 
-        if (window.location.href.split('/')[3] !== "m") {
-            return; // only run on magazine pages
-        }
+        const loc = window.location.href.split('/')
+        // only run on magazine/profile pages
+        if ((loc[3] !== "m") && (loc[3] !== "u")) return;
 
         let settings = getModSettings("moveFederationWarning");
-    
         let alertBox = $(".alert.alert__info");
         let insertAfterQuery = "";
 
         if(toggle) {
-            insertAfterQuery = "#sidebar .magazine .magazine__subscribe";
+            if (loc[3] === "m") {
+                insertAfterQuery = "#sidebar .magazine .magazine__subscribe";
+            } else {
+                insertAfterQuery = "#sidebar .section .user-info";
+            }
 
             if(settings["action"] === "Hide completely") {
                 alertBox.hide();
             } else {
                 alertBox.show();
             }
-        } else {   
-            insertAfterQuery = "#main #options";
+        } else {
+            const options = document.querySelectorAll('#main #options')
+            insertAfterQuery = options[options.length-1]
             alertBox.show();
         }
 
         let insertAfter = $(insertAfterQuery);
 
         if(alertBox !== null && insertAfter !== null) {
-            insertAfter.after(alertBox);
+            insertAfter.last(alertBox);
         }
     }
 ,
@@ -3165,7 +3169,7 @@ const funcObj = {
 
     adjust:
 
-    function adjustSite (toggle) {
+    function adjustSite (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Color adjustments
         // @namespace    https://github.com/aclist
@@ -3190,9 +3194,9 @@ const funcObj = {
             let bright = `${(settings.bright * 10) + 100}%`;
             let saturate = `${(settings.saturate * 10) + 100}%`;
             let contrast = `${(settings.contrast * 10) + 100}%`;
-            let upvoteCol = getHex(settings.upvote);
-            let downvoteCol = getHex(settings.downvote);
-            let boostCol = getHex(settings.boost);
+            let upvoteCol = getHex(settings.upvote); // eslint-disable-line no-undef
+            let downvoteCol = getHex(settings.downvote); // eslint-disable-line no-undef
+            let boostCol = getHex(settings.boost); // eslint-disable-line no-undef
 
 
             const customCSS = `
@@ -3380,10 +3384,10 @@ const funcObj = {
 
     thread_delta:
 
-    function threadDeltaInit (toggle) {
+    function threadDeltaInit (toggle) { // eslint-disable-line no-unused-vars
         const settings = getModSettings('thread-delta');
-        const fgcolor = getHex(settings["fgcolor"])
-        const bgcolor = getHex(settings["bgcolor"])
+        const fgcolor = getHex(settings["fgcolor"]) // eslint-disable-line no-undef
+        const bgcolor = getHex(settings["bgcolor"]) // eslint-disable-line no-undef
         const state = settings["state"]
 
         const hostname = window.location.hostname;
@@ -3426,7 +3430,6 @@ const funcObj = {
             else {
                 countBar.style.display = ""
             }
-        
             countBar.innerText = `Magazine: ${mag} | Threads: (${thread_count})`
             if (counts[0]) {
                 thread_delta = (thread_count - counts[0])
@@ -3460,6 +3463,7 @@ const funcObj = {
         }
 
         async function saveCounts (hostname, mag, counts) {
+            // eslint-disable-next-line no-unused-vars
             const savedCounts = await safeGM("setValue", `thread-deltas-${hostname}-${mag}`, counts)
         }
 
@@ -3534,7 +3538,7 @@ const funcObj = {
 
     hover_indicator:
 
-    function hoverIndicator(toggle) {
+    function hoverIndicator (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Hover Indicator
         // @namespace    https://github.com/aclist
@@ -3550,9 +3554,9 @@ const funcObj = {
             safeGM("removeStyle", "kes-hover-css")
         }
 
-        function applyOutlines() {
+        function applyOutlines () {
             const settings = getModSettings('hover');
-            const color = getHex(settings.color);
+            const color = getHex(settings.color); // eslint-disable-line no-undef
             const thickness = settings.thickness;
 
             const sels = [
@@ -3608,7 +3612,7 @@ const funcObj = {
 
     thread_checkmarks:
 
-    function checksInit (toggle, mutation) {
+    function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
         const settings = getModSettings('checks');
         const checkColor = settings["check-color"]
         const threadIndex = document.querySelector('[data-controller="subject-list"]')
@@ -3628,7 +3632,7 @@ const funcObj = {
                 const mag = item.getAttribute('href').split('/')[2]
                 if (subs.includes(mag)) {
                     const ch = document.createElement('span')
-                    ch.style.color = getHex(checkColor);
+                    ch.style.color = getHex(checkColor); // eslint-disable-line no-undef
                     ch.id = 'kes-omni-check'
                     ch.innerText = " ✓"
                     item.appendChild(ch)
@@ -3639,7 +3643,7 @@ const funcObj = {
             const exists = document.querySelector('#kes-omni-check')
             if (exists) {
                 document.querySelectorAll('#kes-omni-check').forEach((item) => {
-                    item.style.color = getHex(checkColor);
+                    item.style.color = getHex(checkColor); // eslint-disable-line no-undef
                 });
             }
             document.querySelectorAll('.magazine-inline').forEach((item) => {
@@ -3660,7 +3664,7 @@ const funcObj = {
 
     user_instance_names:
 
-    function userInstanceEntry (toggle) {
+    function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
         function showUserInstances () {
             $('.user-inline').each(function () {
                 if (!$(this).hasClass('instance')) {
@@ -3670,7 +3674,10 @@ const funcObj = {
                     // Check if user's link includes an @
                     if (userInstance) {
                         // Add instance name to user's name
-                        $(this).html($(this).html() + '<span class="user-instance">@' + userInstance + '</span>');
+                        $(this).html($(this).html() +
+                            '<span class="user-instance">@' +
+                            userInstance +
+                            '</span>');
                     }
                 }
             });
@@ -3681,7 +3688,6 @@ const funcObj = {
                 $(this).html($(this).html().split('<span class="user-instance">@')[0]);
             });
         }
-        const localInstance = window.location.href.split('/')[2];
         if (toggle) {
             showUserInstances();
         } else {
@@ -4081,7 +4087,7 @@ const funcObj = {
 
     softblock:
 
-    function softBlockInit (toggle) {
+    function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         //TODO: don't apply on magazine pages
         const hostname = window.location.hostname;
         const softBlockCSS = `
@@ -4133,11 +4139,16 @@ const funcObj = {
             el.classList.add('softblocked-article');
         }
         function hideThreads (mags) {
+            let el
             const articles = document.querySelectorAll('.magazine-inline')
             articles.forEach((article) => {
                 const instance = article.href.split('/')[4]
                 if (mags.includes(instance)) {
-                    const el = article.parentElement.parentElement;
+                    if (getInstanceType() === "kbin") {
+                        el = article.parentElement.parentElement;
+                    } else {
+                        el = article.parentElement.parentElement.parentElement;
+                    }
                     blankCSS(el);
                 }
             });
@@ -4363,7 +4374,7 @@ const funcObj = {
 
     subs:
 
-    function initMags (toggle) {
+    function initMags (toggle) { // eslint-disable-line no-unused-vars
 
         function createMags () {
             const nav = document.querySelector('.head-nav__menu');
