@@ -3104,7 +3104,7 @@ const funcObj = {
             if (loc[3] === "m") {
                 insertAfterQuery = "#sidebar .magazine .magazine__subscribe";
             } else {
-                insertAfterQuery = "#sidebar .section .user-info";
+                insertAfterQuery = "#sidebar .section.user-info";
             }
 
             if(settings["action"] === "Hide completely") {
@@ -3121,7 +3121,7 @@ const funcObj = {
         let insertAfter = $(insertAfterQuery);
 
         if(alertBox !== null && insertAfter !== null) {
-            insertAfter.last(alertBox);
+            insertAfter.after(alertBox);
         }
     }
 ,

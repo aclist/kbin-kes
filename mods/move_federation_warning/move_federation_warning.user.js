@@ -15,25 +15,29 @@ function moveFederationWarningEntry (toggle) {
     // @license      MIT
     // ==/UserScript==
 
-    if (window.location.href.split('/')[3] !== "m") {
-        return; // only run on magazine pages
-    }
+    const loc = window.location.href.split('/')
+    // only run on magazine/profile pages
+    if ((loc[3] !== "m") && (loc[3] !== "u")) return;
 
     let settings = getModSettings("moveFederationWarning");
-    
     let alertBox = $(".alert.alert__info");
     let insertAfterQuery = "";
 
     if(toggle) {
-        insertAfterQuery = "#sidebar .magazine .magazine__subscribe";
+        if (loc[3] === "m") {
+            insertAfterQuery = "#sidebar .magazine .magazine__subscribe";
+        } else {
+            insertAfterQuery = "#sidebar .section.user-info";
+        }
 
         if(settings["action"] === "Hide completely") {
             alertBox.hide();
         } else {
             alertBox.show();
         }
-    } else {   
-        insertAfterQuery = "#main #options";
+    } else {
+        const options = document.querySelectorAll('#main #options')
+        insertAfterQuery = options[options.length-1]
         alertBox.show();
     }
 
