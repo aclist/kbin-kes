@@ -1,7 +1,7 @@
-function threadDeltaInit (toggle) {
+function threadDeltaInit (toggle) { // eslint-disable-line no-unused-vars
     const settings = getModSettings('thread-delta');
-    const fgcolor = getHex(settings["fgcolor"])
-    const bgcolor = getHex(settings["bgcolor"])
+    const fgcolor = getHex(settings["fgcolor"]) // eslint-disable-line no-undef
+    const bgcolor = getHex(settings["bgcolor"]) // eslint-disable-line no-undef
     const state = settings["state"]
 
     const hostname = window.location.hostname;
@@ -44,7 +44,6 @@ function threadDeltaInit (toggle) {
         else {
             countBar.style.display = ""
         }
-        
         countBar.innerText = `Magazine: ${mag} | Threads: (${thread_count})`
         if (counts[0]) {
             thread_delta = (thread_count - counts[0])
@@ -78,6 +77,7 @@ function threadDeltaInit (toggle) {
     }
 
     async function saveCounts (hostname, mag, counts) {
+        // eslint-disable-next-line no-unused-vars
         const savedCounts = await safeGM("setValue", `thread-deltas-${hostname}-${mag}`, counts)
     }
 

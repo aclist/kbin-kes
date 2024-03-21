@@ -1,4 +1,4 @@
-function initMags (toggle) {
+function initMags (toggle) { // eslint-disable-line no-unused-vars
 
     function createMags () {
         const nav = document.querySelector('.head-nav__menu');

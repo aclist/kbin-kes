@@ -1,4 +1,4 @@
-function adjustSite (toggle) {
+function adjustSite (toggle) { // eslint-disable-line no-unused-vars
     // ==UserScript==
     // @name         Color adjustments
     // @namespace    https://github.com/aclist
@@ -23,9 +23,9 @@ function adjustSite (toggle) {
         let bright = `${(settings.bright * 10) + 100}%`;
         let saturate = `${(settings.saturate * 10) + 100}%`;
         let contrast = `${(settings.contrast * 10) + 100}%`;
-        let upvoteCol = getHex(settings.upvote);
-        let downvoteCol = getHex(settings.downvote);
-        let boostCol = getHex(settings.boost);
+        let upvoteCol = getHex(settings.upvote); // eslint-disable-line no-undef
+        let downvoteCol = getHex(settings.downvote); // eslint-disable-line no-undef
+        let boostCol = getHex(settings.boost); // eslint-disable-line no-undef
 
 
         const customCSS = `

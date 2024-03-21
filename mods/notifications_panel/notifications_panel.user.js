@@ -1,4 +1,4 @@
-function notificationsPanel (toggle) {
+function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
     const spinnerCSS = `
     @keyframes spinner {
         0% {

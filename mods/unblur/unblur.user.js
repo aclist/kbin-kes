@@ -1,4 +1,4 @@
-function unblurInit (toggle) {
+function unblurInit (toggle) { // eslint-disable-line no-unused-vars
 
     const unblurCSS = `
     .thumb-subject, .image-filler {

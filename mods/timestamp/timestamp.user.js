@@ -1,4 +1,4 @@
-function updateTime (toggle) {
+function updateTime (toggle) { // eslint-disable-line no-unused-vars
     const ns = 'timestamp'
     let times = document.querySelectorAll('.timeago')
     const settings = getModSettings(ns);

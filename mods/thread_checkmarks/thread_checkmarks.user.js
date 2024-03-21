@@ -1,4 +1,4 @@
-function checksInit (toggle, mutation) {
+function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
     const settings = getModSettings('checks');
     const checkColor = settings["check-color"]
     const threadIndex = document.querySelector('[data-controller="subject-list"]')
@@ -18,7 +18,7 @@ function checksInit (toggle, mutation) {
             const mag = item.getAttribute('href').split('/')[2]
             if (subs.includes(mag)) {
                 const ch = document.createElement('span')
-                ch.style.color = getHex(checkColor);
+                ch.style.color = getHex(checkColor); // eslint-disable-line no-undef
                 ch.id = 'kes-omni-check'
                 ch.innerText = " ✓"
                 item.appendChild(ch)
@@ -29,7 +29,7 @@ function checksInit (toggle, mutation) {
         const exists = document.querySelector('#kes-omni-check')
         if (exists) {
             document.querySelectorAll('#kes-omni-check').forEach((item) => {
-                item.style.color = getHex(checkColor);
+                item.style.color = getHex(checkColor); // eslint-disable-line no-undef
             });
         }
         document.querySelectorAll('.magazine-inline').forEach((item) => {
