@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.26
+// @version      3.2.4-beta.27
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1346,7 +1346,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //reapplies verbose timestamps
                 //see also updateState()
                 if (mutation.target.textContent.indexOf("ago") >= 0) {
-                    applySettings("updateTime");
+                    applySettings("timestamp");
                 }
                 //triggering on the first mutation is sufficient to apply to all timestamps
                 return
