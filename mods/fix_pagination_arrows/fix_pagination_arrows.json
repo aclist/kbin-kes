@@ -1,11 +1,11 @@
 {
-    "name": "Fix Pagination Arrows",
-    "author": "Pamasich",
-    "version": "1.0.0",
-    "label": "Fix broken pagination",
-    "desc": "In some cases, like on the All Content view, the pagination is broken. The arrows behave like they're on the first page, regardless of which page the user is on. This addon ensures they work as expected.\n\nThis addon is useless on mbin.",
-    "login": false,
-    "recurs": false,
-    "entrypoint": "fix_pagination_arrows",
-    "page": "general"
-  }
+  "name": "Fix Pagination Arrows",
+  "author": "Pamasich",
+  "version": "1.0.0",
+  "label": "Fix broken pagination",
+  "desc": "In some cases, like on the All Content view, the pagination is broken. The arrows behave like they're on the first page, regardless of which page the user is on. This addon ensures they work as expected.\n\nThis addon is useless on mbin.",
+  "login": false,
+  "recurs": false,
+  "entrypoint": "fix_pagination_arrows",
+  "page": "general"
+}
