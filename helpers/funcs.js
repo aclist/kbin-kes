@@ -3628,15 +3628,15 @@ const funcObj = {
             setChecks(loaded)
         }
         function addCheck (subs, item) {
-            if (item.children.length === 0) {
-                const mag = item.getAttribute('href').split('/')[2]
-                if (subs.includes(mag)) {
-                    const ch = document.createElement('span')
-                    ch.style.color = getHex(checkColor); // eslint-disable-line no-undef
-                    ch.id = 'kes-omni-check'
-                    ch.innerText = " ✓"
-                    item.appendChild(ch)
-                }
+            if (item.querySelector('#kes-omni-check')) return
+            const mag = item.getAttribute('href').split('/')[2]
+            if (subs.includes(mag)) {
+                const ch = document.createElement('span')
+                ch.style.color = getHex(checkColor); // eslint-disable-line no-undef
+                ch.id = 'kes-omni-check'
+                ch.innerText = " ✓"
+                //FIXME: append adjacent; collision with mag instance mod
+                item.appendChild(ch)
             }
         }
         function setChecks (subs) {
