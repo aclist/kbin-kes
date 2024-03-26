@@ -5,9 +5,6 @@
  * 
  * This mod aims to fix that issue until kbin does.
  * 
- * @todo Check whether this is *needed* on mbin, which will require creating a magazine with
- * custom css there. It's not a priority though as long as the mod doesn't cause issues on mbin.
- * 
  * @param {Boolean} isActive Whether the mod has been turned on
  */
 function fixWronglySanitizedCss (isActive) { // eslint-disable-line no-unused-vars
@@ -31,7 +28,7 @@ function fixWronglySanitizedCss (isActive) { // eslint-disable-line no-unused-va
 
     function teardown () {
         var dummy = document.createElement("div");
-        Array.of(document.querySelectorAll("style:not([id])"))
+        Array.from(document.querySelectorAll("style:not([id])"))
             .filter((style) => isUnsanitized(style))
             .forEach((style) => {
                 dummy.textContent = style.textContent;
@@ -43,7 +40,7 @@ function fixWronglySanitizedCss (isActive) { // eslint-disable-line no-unused-va
 
     /** @param {HTMLElement} elem @returns {Boolean} */
     function isUnsanitized (elem) {
-        return elem.dataset?.unsanitized;
+        return elem.dataset.unsanitized;
     } 
     /** @param {HTMLElement} elem */
     function markAsUnsanitized (elem) {
