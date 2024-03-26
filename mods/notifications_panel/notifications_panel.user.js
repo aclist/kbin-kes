@@ -414,7 +414,6 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
                 msgCount = parseInt(msgCounterElement.querySelector('.badge').innerText);
                 $(msgCounterElement).hide();
             }
-            let notiCount = 0;
             let oldCount = 0;
             if (counterElement) {
                 oldCount = parseInt(counterElement.querySelector('.badge').innerText);

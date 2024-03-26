@@ -22,7 +22,8 @@ function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
             ch.id = 'kes-omni-check'
             ch.innerText = " ✓"
             //FIXME: append adjacent; collision with mag instance mod
-            item.appendChild(ch)
+            item.after(ch)
+            //item.appendChild(ch)
         }
     }
     function setChecks (subs) {

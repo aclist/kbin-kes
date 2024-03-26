@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.33
+// @version      3.2.4-beta.34
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -190,7 +190,7 @@ function constructMenu (json, layoutArr, isNew) {
         return kesPanel
     }
 
-    kesPanel = injectSettingsButton(layoutArr, isNew)
+    injectSettingsButton(layoutArr, isNew)
 
     var keyPressed = {};
     document.addEventListener('keydown', function (e) {

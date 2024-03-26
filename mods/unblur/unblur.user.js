@@ -4,6 +4,9 @@ function unblurInit (toggle) { // eslint-disable-line no-unused-vars
     .thumb-subject, .image-filler {
         filter: none !important;
     }
+    .image-adult {
+        filter: none !important
+    }
     `;
 
     if (toggle) {

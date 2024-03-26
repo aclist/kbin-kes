@@ -1455,7 +1455,6 @@ const funcObj = {
                     msgCount = parseInt(msgCounterElement.querySelector('.badge').innerText);
                     $(msgCounterElement).hide();
                 }
-                let notiCount = 0;
                 let oldCount = 0;
                 if (counterElement) {
                     oldCount = parseInt(counterElement.querySelector('.badge').innerText);
@@ -2097,6 +2096,9 @@ const funcObj = {
         const unblurCSS = `
         .thumb-subject, .image-filler {
             filter: none !important;
+        }
+        .image-adult {
+            filter: none !important
         }
         `;
 
@@ -3636,7 +3638,8 @@ const funcObj = {
                 ch.id = 'kes-omni-check'
                 ch.innerText = " ✓"
                 //FIXME: append adjacent; collision with mag instance mod
-                item.appendChild(ch)
+                item.after(ch)
+                //item.appendChild(ch)
             }
         }
         function setChecks (subs) {
