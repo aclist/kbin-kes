@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.37
+// @version      3.2.4-beta.38
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1215,11 +1215,10 @@ function constructMenu (json, layoutArr, isNew) {
         }
     }
 
-    function toggleDependencies(entry, state){
-            for (let i = 0; i < json.length; ++i) {
-                if(json[i].entrypoint === entry) {
-                    console.log(json[i].entrypoint.depends_on)
-                }
+    function toggleDependencies (entry, state) {
+        for (let i = 0; i < json.length; ++i) {
+            if(json[i].entrypoint === entry) {
+                console.log(json[i].entrypoint.depends_on)
             }
         }
         //check json manifest for object matching entrypoint
@@ -1228,14 +1227,14 @@ function constructMenu (json, layoutArr, isNew) {
         //const settings = getSettings();
         //if true
         //iterate thru indices
-            //settings[index entry point name] = true;
-            //saveSettings(settings);
-            //funcObj[entry](true);
+        //settings[index entry point name] = true;
+        //saveSettings(settings);
+        //funcObj[entry](true);
         //if false
         //iterate thru indices
-            //settings[index entry point name] = false;
-            //saveSettings(settings);
-            //funcObj[entry](false);
+        //settings[index entry point name] = false;
+        //saveSettings(settings);
+        //funcObj[entry](false);
     }
     function toggleSettings (entry) {
         const settings = getSettings()
