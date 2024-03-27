@@ -2100,6 +2100,12 @@ const funcObj = {
         .image-adult {
             filter: none !important
         }
+        .sensitive-checked--show {
+            display: initial !important
+        }
+        .sensitive-button-label {
+            display: none
+        }
         `;
 
         if (toggle) {

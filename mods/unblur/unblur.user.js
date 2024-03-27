@@ -7,6 +7,12 @@ function unblurInit (toggle) { // eslint-disable-line no-unused-vars
     .image-adult {
         filter: none !important
     }
+    .sensitive-checked--show {
+        display: initial !important
+    }
+    .sensitive-button-label {
+        display: none
+    }
     `;
 
     if (toggle) {
