@@ -54,6 +54,9 @@
         ]
       }
     ],
+    "depends_off": [
+      "thread_checkmarks"
+    ],
     "page": "general"
   },
   {
@@ -1095,6 +1098,9 @@
         "label": "Checkmark color",
         "initial": "--kbin-upvoted-color"
       }
+    ],
+    "depends_on": [
+      "omni"
     ],
     "page": "threads"
   },
