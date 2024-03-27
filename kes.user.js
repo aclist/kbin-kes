@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.36
+// @version      3.2.4-beta.37
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1215,12 +1215,36 @@ function constructMenu (json, layoutArr, isNew) {
         }
     }
 
+    function toggleDependencies(entry, state){
+            for (let i = 0; i < json.length; ++i) {
+                if(json[i].entrypoint === entry) {
+                    console.log(json[i].entrypoint.depends_on)
+                }
+            }
+        }
+        //check json manifest for object matching entrypoint
+        //if entry does not contain depends_on field:
+        //return
+        //const settings = getSettings();
+        //if true
+        //iterate thru indices
+            //settings[index entry point name] = true;
+            //saveSettings(settings);
+            //funcObj[entry](true);
+        //if false
+        //iterate thru indices
+            //settings[index entry point name] = false;
+            //saveSettings(settings);
+            //funcObj[entry](false);
+    }
     function toggleSettings (entry) {
         const settings = getSettings()
         try {
             if (settings[entry] == true) {
+                toggleDependencies(entry, true)
                 funcObj[entry](true);
             } else {
+                //toggleDependencies(entry, false)
                 funcObj[entry](false);
             }
         } catch (error) {
@@ -1287,6 +1311,7 @@ function constructMenu (json, layoutArr, isNew) {
         try {
             if (settings[entry] == true) {
                 funcObj[entry](true, mutation);
+                //depends_on
             }
         } catch (error) {
             console.log(error);
