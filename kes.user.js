@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.35
+// @version      3.2.4-beta.36
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1208,7 +1208,7 @@ function constructMenu (json, layoutArr, isNew) {
         updateCrumbs();
         //necessarily reload the page when verbose timestamps are toggled off
         //otherwise, triggers a loop of mutations because reverting timeago mutates watched node
-        if ((func === "updateTime") && (state === false)) {
+        if ((func === "timestamp") && (state === false)) {
             window.location.reload();
         } else {
             toggleSettings(func);
