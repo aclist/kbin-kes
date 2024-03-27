@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.39
+// @version      3.2.4-beta.40
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1216,8 +1216,6 @@ function constructMenu (json, layoutArr, isNew) {
     }
 
     function toggleDependencies (entry, state) {
-        console.log(entry)
-        console.log(state)
         let object
         let depends
         let entrypoint
@@ -1227,7 +1225,6 @@ function constructMenu (json, layoutArr, isNew) {
                 object = json[i]
             }
         }
-        console.log(object)
         if (!object.depends_on && !object.depends_off) return
         if (state == true && !object.depends_on) return
         if (state == false && !object.depends_off) return
@@ -1241,13 +1238,9 @@ function constructMenu (json, layoutArr, isNew) {
         const settings = getSettings();
         for (let i = 0; i < depends.length; ++i) {
             entrypoint = depends[i]
-            if (settings[entrypoint] != state) {
-                settings[entrypoint] = state
-                saveSettings(settings);
-                funcObj[entrypoint](state);
-            } else {
-                console.log("mod is already on")
-            }
+            settings[entrypoint] = state
+            saveSettings(settings);
+            funcObj[entrypoint](state);
         }
     }
     function toggleSettings (entry) {
@@ -1323,8 +1316,8 @@ function constructMenu (json, layoutArr, isNew) {
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
+                toggleDependencies(entry, true)
                 funcObj[entry](true, mutation);
-                //depends_on
             }
         } catch (error) {
             console.log(error);
