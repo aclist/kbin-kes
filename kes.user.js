@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.38
+// @version      3.2.4-beta.39
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1216,25 +1216,39 @@ function constructMenu (json, layoutArr, isNew) {
     }
 
     function toggleDependencies (entry, state) {
+        console.log(entry)
+        console.log(state)
+        let object
+        let depends
+        let entrypoint
+
         for (let i = 0; i < json.length; ++i) {
             if(json[i].entrypoint === entry) {
-                console.log(json[i].entrypoint.depends_on)
+                object = json[i]
             }
         }
-        //check json manifest for object matching entrypoint
-        //if entry does not contain depends_on field:
-        //return
-        //const settings = getSettings();
-        //if true
-        //iterate thru indices
-        //settings[index entry point name] = true;
-        //saveSettings(settings);
-        //funcObj[entry](true);
-        //if false
-        //iterate thru indices
-        //settings[index entry point name] = false;
-        //saveSettings(settings);
-        //funcObj[entry](false);
+        console.log(object)
+        if (!object.depends_on && !object.depends_off) return
+        if (state == true && !object.depends_on) return
+        if (state == false && !object.depends_off) return
+
+        if (state === true) {
+            depends = object.depends_on
+        } else {
+            depends = object.depends_off
+        }
+
+        const settings = getSettings();
+        for (let i = 0; i < depends.length; ++i) {
+            entrypoint = depends[i]
+            if (settings[entrypoint] != state) {
+                settings[entrypoint] = state
+                saveSettings(settings);
+                funcObj[entrypoint](state);
+            } else {
+                console.log("mod is already on")
+            }
+        }
     }
     function toggleSettings (entry) {
         const settings = getSettings()
@@ -1243,7 +1257,7 @@ function constructMenu (json, layoutArr, isNew) {
                 toggleDependencies(entry, true)
                 funcObj[entry](true);
             } else {
-                //toggleDependencies(entry, false)
+                toggleDependencies(entry, false)
                 funcObj[entry](false);
             }
         } catch (error) {

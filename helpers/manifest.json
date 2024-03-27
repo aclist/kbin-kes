@@ -418,6 +418,9 @@
     "login": false,
     "recurs": true,
     "entrypoint": "fix_codeblocks",
+    "depends_off": [
+      "code_highlighting"
+    ],
     "page": "general"
   },
   {
