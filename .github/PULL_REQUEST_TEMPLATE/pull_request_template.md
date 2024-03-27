@@ -34,5 +34,6 @@ Add-ons (mods):
 - [ ] If the add-on recurs when contents update, it does not call its own mutation observers (this is handled by KES)
 - [ ] Some explicit toggle logic handles both TRUE and FALSE states (setup and teardown)
 - [ ] Functions internal to the add-on are encapsulated within a private scope
+- [ ] If using the `depends_off` or `depends_on` keys in the manifest, they must be arrays pointing to qualified entrypoint names of other add-ons
 - [ ] You consent that by contributing code to this project, that code becomes a part of the project, and the maintainers/developers reserve the right to modify it in the future for compatibility,
   security, or maintainability reasons
