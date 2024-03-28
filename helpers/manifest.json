@@ -108,6 +108,18 @@
     "page": "profiles"
   },
   {
+    "name": "Magazine CSS Fix — Unsanitize",
+    "namespace": "unsanitize-css",
+    "author": "Pamasich",
+    "version": "1.0.0",
+    "label": "Unsanitize Magazine CSS",
+    "desc": "Kbin supports custom CSS for magazines, but that functionality is limited because kbin wrongly replaces some important CSS characters with HTML escape codes, making the code partially non-functional. This addon fixes the issue by undoing those replacements, making the CSS actually work as expected.\n\nThis mod is unnecessary on mbin.",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "unsanitize_css",
+    "page": "general"
+  },
+  {
     "name": "Notifications panel",
     "author": [
       "blobcat",
