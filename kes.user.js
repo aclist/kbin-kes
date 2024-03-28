@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.46
+// @version      3.2.4-beta.47
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1328,6 +1328,7 @@ function constructMenu (json, layoutArr, isNew) {
 
     }
     function applySettings (entry, mutation) {
+        console.log(entry)
         legacyMigration(entry);
         const settings = getSettings();
         try {
