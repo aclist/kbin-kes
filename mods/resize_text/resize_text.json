@@ -42,7 +42,7 @@
     },
     {
       "type": "number",
-      "initial": 14,
+      "initial": "article.entry",
       "key": "optionPosts",
       "label": "Posts:",
       "step": "0.1",
@@ -51,7 +51,7 @@
     },
     {
       "type": "number",
-      "initial": 14,
+      "initial": "section.comments.entry-comments.comments-tree",
       "key": "optionComments",
       "label": "Comments:",
       "step": "0.1",
@@ -60,7 +60,7 @@
     },
     {
       "type": "number",
-      "initial": 14,
+      "initial": "div.section.users.users-columns",
       "key": "optionActivity",
       "label": "Activity:",
       "step": "0.1",
@@ -141,7 +141,7 @@
     },
     {
       "type": "number",
-      "initial": 14,
+      "initial": "footer#footer",
       "key": "optionFooter",
       "label": "Footer:",
       "step": "0.1",

@@ -454,7 +454,7 @@ function textResize (toggle) {
             sortByElem.style.setProperty('font-size', fontSizes.sortBy);
         })
 
-        // === Footer === // 
+        // === Footer === //
 
         //footer *variables*
         const footerUseful = document.querySelectorAll('footer#footer');
