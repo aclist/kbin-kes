@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.43
+// @version      3.2.4-beta.44
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -267,15 +267,15 @@ function constructMenu (json, layoutArr, isNew) {
         return modsHR
     }
     function getComputedFontSize(string){
+        if (typeof string === 'number') return string
         const el = document.querySelector(string)
         if (!el) {
             //default fallback size
             return 14
         }
-        const fontsize = document.defaultView.getComputedStyle(el).fontsize
+        const fontsize = document.defaultView.getComputedStyle(el).fontSize
         let px = fontsize.split('px')[0]
         px = parseInt(px)
-        console.log(px)
         return px
     }
 
@@ -608,15 +608,15 @@ function constructMenu (json, layoutArr, isNew) {
                     case "number": {
                         const numberField = document.createElement('input');
                         numberField.setAttribute("type", fieldType);
-                        console.log(initial)
+
+                        let val
                         if (modSettings[key] === undefined) {
-                            if (typeof initial === 'string') {
-                                getComputedFontSize(initial)
-                            }
-                            numberField.setAttribute("value", initial);
+                            val = getComputedFontSize(initial)
                         } else {
-                            numberField.setAttribute("value", modSettings[key])
+                            val = getComputedFontSize(modSettings[key])
                         }
+                        numberField.setAttribute("value", val)
+
                         numberField.setAttribute("kes-iter", it);
                         numberField.setAttribute("kes-key", key);
                         numberField.setAttribute('min', json[it].fields[i].min);

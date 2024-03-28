@@ -2385,6 +2385,8 @@ const funcObj = {
     resize_text:
 
     function textResize (toggle) {
+        //TODO: use parametric css sheet
+        //TODO: set option els in manifest
         // ==UserScript==
         // @name         Change font size
         // @namespace    https://github.com/aclist
