@@ -55,13 +55,9 @@ function addMail (toggle) {
     const login = document.querySelector('.login');
     if (!login) return;
     const self_username = login.href.split('/')[4];
-    const settings = getModSettings("mail");
-    const pref = settings["prefix"]
     if (toggle) {
-        document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before', 'content: "' + pref + '"; font-weight: 400');
         addLink(settings);
     } else {
-        document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before', 'content: ""');
         $('.kes-mail-link').remove();
     }
 }

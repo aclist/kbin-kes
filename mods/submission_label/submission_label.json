@@ -1,0 +1,20 @@
+{
+  "name": "Add submission prefix",
+  "author": "shazbot",
+  "version": "0.1.0",
+  "label": "Add submission prefix",
+  "desc": "Add submission prefix next to usernames on posts",
+  "login": false,
+  "recurs": true,
+  "entrypoint": "submission_label",
+  "namespace": "submission_prefix",
+  "fields": [
+    {
+      "type": "text",
+      "initial": "submitted by",
+      "key": "prefix",
+      "label": "Poster prefix (use single space for empty)"
+    }
+  ],
+  "page": "threads"
+}

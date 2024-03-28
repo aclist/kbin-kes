@@ -3079,13 +3079,9 @@ const funcObj = {
         const login = document.querySelector('.login');
         if (!login) return;
         const self_username = login.href.split('/')[4];
-        const settings = getModSettings("mail");
-        const pref = settings["prefix"]
         if (toggle) {
-            document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before', 'content: "' + pref + '"; font-weight: 400');
             addLink(settings);
         } else {
-            document.styleSheets[0].addRule('.entry > .entry__meta .user-inline::before', 'content: ""');
             $('.kes-mail-link').remove();
         }
     }
@@ -3711,6 +3707,31 @@ const funcObj = {
             showUserInstances();
         } else {
             hideUserInstances();
+        }
+    }
+,
+
+    submission_label:
+
+    function addPrefix (toggle){
+        function addPrefix(prefix){
+            const css = `
+                .article:not(.entry-cross) > .entry__meta .user-inline::before {
+                    content: " ${prefix} "
+                    font-weight: 400;
+                }
+            `;
+        }
+
+        const settings = getModSettings("prefix");
+        const label = settings["label"]
+
+        if (toggle) {
+            safeGM("addStyle", css, "submission-css")
+            addPrefix(label);
+        } else {
+            safeGM("removeStyle", "submission-css")
+            $('.kes-mail-link').remove();
         }
     }
 ,
