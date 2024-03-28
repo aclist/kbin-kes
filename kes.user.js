@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.41
+// @version      3.2.4-beta.42
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -597,6 +597,14 @@ function constructMenu (json, layoutArr, isNew) {
                         const numberField = document.createElement('input');
                         numberField.setAttribute("type", fieldType);
                         if (modSettings[key] === undefined) {
+                            //TODO: if initial is a string, convert to computed size
+                            //function getComputedFontSize(){
+                            //const el = document.querySelector(initial)
+                            //document.defaultView.getComputedStyle(el).fontsize}
+                            //strip px part
+                            //.split('px')[0]
+                            //parseInt()
+                            //if (typeof initial === 'string')
                             numberField.setAttribute("value", initial);
                         } else {
                             numberField.setAttribute("value", modSettings[key])
