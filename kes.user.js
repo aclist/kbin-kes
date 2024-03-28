@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.49
+// @version      3.2.4-beta.50
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -275,7 +275,7 @@ function constructMenu (json, layoutArr, isNew) {
         }
         const fontsize = document.defaultView.getComputedStyle(el).fontSize
         let px = fontsize.split('px')[0]
-        px = parseInt(px)
+        px = parseFloat(px)
         return px
     }
 
