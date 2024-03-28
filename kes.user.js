@@ -275,6 +275,7 @@ function constructMenu (json, layoutArr, isNew) {
         const fontsize = document.defaultView.getComputedStyle(el).fontsize
         let px = fontsize.split('px')[0]
         px = parseInt(px)
+        console.log(px)
         return px
     }
 
@@ -607,6 +608,7 @@ function constructMenu (json, layoutArr, isNew) {
                     case "number": {
                         const numberField = document.createElement('input');
                         numberField.setAttribute("type", fieldType);
+                        console.log(initial)
                         if (modSettings[key] === undefined) {
                             if (typeof initial === 'string') {
                                 getComputedFontSize(initial)
