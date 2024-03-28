@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.53
+// @version      3.2.4-beta.54
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1109,6 +1109,7 @@ function constructMenu (json, layoutArr, isNew) {
         bodyHolder.appendChild(kesUl);
         document.body.appendChild(modal);
         document.querySelector('.kes-settings-modal-sidebar ul').addEventListener("click", (e) => {
+            if (e.target.className != "kes-tab-link") return
             openTab(e.target.outerText);
         });
         document.querySelector('.kes-list').addEventListener("click", (e) => {
