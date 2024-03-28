@@ -42,7 +42,7 @@
     },
     {
       "type": "number",
-      "initial": "article.entry",
+      "initial": "article.entry .content p",
       "key": "optionPosts",
       "label": "Posts:",
       "step": "0.1",
