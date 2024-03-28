@@ -3721,7 +3721,7 @@ const funcObj = {
             }
         `;
 
-        const settings = getModSettings("prefix");
+        const settings = getModSettings("submission_label");
         const label = settings["label"]
 
         if (toggle) {
