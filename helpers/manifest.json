@@ -1117,7 +1117,7 @@
     "desc": "Add submission prefix next to usernames on posts",
     "login": false,
     "recurs": true,
-    "entrypoint": "submission_prefix",
+    "entrypoint": "submission_label",
     "namespace": "submission_prefix",
     "fields": [
       {
