@@ -547,7 +547,7 @@
       },
       {
         "type": "number",
-        "initial": 14,
+        "initial": "#header.header",
         "key": "optionHeader",
         "label": "Header:",
         "step": "0.1",

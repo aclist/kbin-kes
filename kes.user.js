@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.42
+// @version      3.2.4-beta.43
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -265,6 +265,17 @@ function constructMenu (json, layoutArr, isNew) {
         }
         let modsHR = " (" + activeMods + "/" + totalMods + ")"
         return modsHR
+    }
+    function getComputedFontSize(string){
+        const el = document.querySelector(string)
+        if (!el) {
+            //default fallback size
+            return 14
+        }
+        const fontsize = document.defaultView.getComputedStyle(el).fontsize
+        let px = fontsize.split('px')[0]
+        px = parseInt(px)
+        return px
     }
 
     function showSettingsModal () {
@@ -597,14 +608,9 @@ function constructMenu (json, layoutArr, isNew) {
                         const numberField = document.createElement('input');
                         numberField.setAttribute("type", fieldType);
                         if (modSettings[key] === undefined) {
-                            //TODO: if initial is a string, convert to computed size
-                            //function getComputedFontSize(){
-                            //const el = document.querySelector(initial)
-                            //document.defaultView.getComputedStyle(el).fontsize}
-                            //strip px part
-                            //.split('px')[0]
-                            //parseInt()
-                            //if (typeof initial === 'string')
+                            if (typeof initial === 'string') {
+                                getComputedFontSize(initial)
+                            }
                             numberField.setAttribute("value", initial);
                         } else {
                             numberField.setAttribute("value", modSettings[key])
