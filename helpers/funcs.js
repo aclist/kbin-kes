@@ -3716,7 +3716,7 @@ const funcObj = {
     function addPrefix (toggle){
         const css = `
             .article:not(.entry-cross) > .entry__meta .user-inline::before {
-                content: " ${prefix} "
+                content: " ${label} "
                 font-weight: 400;
             }
         `;
