@@ -8,5 +8,5 @@
   "login": false,
   "recurs": false,
   "entrypoint": "unsanitize_css",
-  "page": "general"
+  "page": "fixes"
 }
