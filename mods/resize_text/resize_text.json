@@ -51,7 +51,7 @@
     },
     {
       "type": "number",
-      "initial": "section.comments.entry-comments.comments-tree",
+      "initial": ".entry-comment.content",
       "key": "optionComments",
       "label": "Comments:",
       "step": "0.1",
