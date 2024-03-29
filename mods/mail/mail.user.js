@@ -1,4 +1,4 @@
-function addMail (toggle) {
+function addMail (toggle) { // eslint-disable-line no-unused-vars
     function insertElementAfter (target, element) {
         if (target.nextSibling) {
             target.parentNode.insertBefore(element, target.nextSibling);
@@ -53,6 +53,7 @@ function addMail (toggle) {
     }
 
     const login = document.querySelector('.login');
+    const settings = getModSettings("mail")
     if (!login) return;
     const self_username = login.href.split('/')[4];
     if (toggle) {

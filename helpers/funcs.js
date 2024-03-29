@@ -2,7 +2,7 @@ const funcObj = {
 
     always_more:
 
-    function moreInit (toggle) {
+    function moreInit (toggle) { // eslint-disable-line no-unused-vars 
         const more = document.querySelectorAll('.entry__body > .more')
         if (toggle) {
             more.forEach((item) => {
@@ -496,7 +496,7 @@ const funcObj = {
 
     omni:
 
-    function omniInit (toggle) {
+    function omniInit (toggle) { // eslint-disable-line no-unused-vars
 
         const kesActive = 'kes-subs-active'
         const omniCSS = `
@@ -990,7 +990,7 @@ const funcObj = {
 
     label:
 
-    function labelOp (toggle) {
+    function labelOp (toggle) { // eslint-disable-line no-unused-vars
         if (toggle) {
             let settings = getModSettings("labelcolors");
             let fg = settings["fgcolor"];
@@ -1255,7 +1255,7 @@ const funcObj = {
         `
         const notificationsURL = 'https://' + window.location.hostname + '/settings/notifications'
 
-        function readAndReset (response) {
+        function readAndReset () {
             const counter = document.querySelector('.notification-counter');
             if (counter) {
                 counter.remove();
@@ -1526,7 +1526,7 @@ const funcObj = {
                     notiBadge.innerText = notiPanelCount;
                     anchorOuterElement.appendChild(notiBadgeHolder);
                 }
-                anchorOuterElement.addEventListener('click', (e) => {
+                anchorOuterElement.addEventListener('click', () => {
                     safeGM("addStyle",forceDropdownCSS);
                     toggleIframe(listItem)
                 });
@@ -1820,7 +1820,7 @@ const funcObj = {
 
     rearrange:
 
-    function rearrangeInit (toggle) {
+    function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
         function rearrangeSetup () {
             if (window.location.href.split('#')[1] != 'comments') return
             const settings = getModSettings('rearrange');
@@ -2441,23 +2441,8 @@ const funcObj = {
 
     resize_text:
 
-    function textResize (toggle) {
+    function textResize (toggle) { // eslint-disable-line no-unused-vars
         //TODO: use parametric css sheet
-        //TODO: set option els in manifest
-        // ==UserScript==
-        // @name         Change font size
-        // @namespace    https://github.com/aclist
-        // @version      0.1.0
-        // @description  Change the size of comment text.
-        // @author       minnieo
-        // @match        https://kbin.social/*
-        // @match        https://fedia.io/*
-        // @match        https://karab.in/*
-        // @match        https://www.kbin.cafe/*
-        // @match        https://karab.in/*
-        // @icon         https://kbin.social/favicon.svg
-        // @grant        none
-        // ==/UserScript==
 
         function restoreOpacity () {
             const kesModalContent = document.querySelector('div.kes-settings-modal-content');
@@ -3038,7 +3023,7 @@ const funcObj = {
 
     report_bug:
 
-    function bugReportInit (toggle) {
+    function bugReportInit (toggle) { // eslint-disable-line no-unused-vars
         const reportURL = 'https://github.com/aclist/kbin-kes/issues/new?assignees=&labels=bug&projects=&template=bug_report.md' +
             '&title=[BUG]+<Your title here>&body='
         const items = document.querySelectorAll('.entry-comment');
@@ -3046,7 +3031,7 @@ const funcObj = {
         //only apply on threads
         if (window.location.href.split('/')[5] != "t") return
 
-        function addBugReport(item){
+        function addBugReport (item) {
             let postID = item.getAttribute("id");
             let bareURL = window.location.href.split("#")[0];
             let originURL = bareURL + "%23" + postID;
@@ -3079,7 +3064,7 @@ const funcObj = {
 
     mail:
 
-    function addMail (toggle) {
+    function addMail (toggle) { // eslint-disable-line no-unused-vars
         function insertElementAfter (target, element) {
             if (target.nextSibling) {
                 target.parentNode.insertBefore(element, target.nextSibling);
@@ -3134,6 +3119,7 @@ const funcObj = {
         }
 
         const login = document.querySelector('.login');
+        const settings = getModSettings("mail")
         if (!login) return;
         const self_username = login.href.split('/')[4];
         if (toggle) {
@@ -3295,7 +3281,7 @@ const funcObj = {
 
     alpha_sort_subs:
 
-    function alphaSortInit (toggle) {
+    function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
         const ind = window.location.href.split('/')[5]
         if (!ind) return
         if ((ind.indexOf('subscriptions') < 0) && (ind.indexOf('followers') < 0)) return
@@ -3375,11 +3361,10 @@ const funcObj = {
             button.className = 'kes-expand-post-button'
             button.style.cursor = 'pointer'
             button.addEventListener('click', (e) => {
-            const mode = e.target.innerText
+                const mode = e.target.innerText
                 const settings = getModSettings("expand-posts")
                 const loadingLabel = settings.loading
                 const expandLabel = settings.expand
-                const collapseLabel = settings.collapse
                 if (mode === expandLabel) {
                     button.innerText = loadingLabel
                     button.className = 'kes-loading-post-button'
@@ -3770,7 +3755,7 @@ const funcObj = {
 
     submission_label:
 
-    function addPrefix (toggle){
+    function addPrefix (toggle) { // eslint-disable-line no-unused-vars 
 
         const settings = getModSettings("submission_label");
         const label = settings["label"]
@@ -4033,7 +4018,7 @@ const funcObj = {
 
     mobile_cleanup:
 
-    function mobileHideInit (toggle) {
+    function mobileHideInit (toggle) { // eslint-disable-line no-unused-vars
         function mobileHideTeardown () {
             let filterBtn
             let viewBtn
@@ -4237,7 +4222,7 @@ const funcObj = {
             articles.forEach((article) => {
                 const instance = article.href.split('/')[4]
                 if (mags.includes(instance)) {
-                    if (getInstanceType() === "kbin") {
+                    if (getInstanceType() === "kbin") { // eslint-disable-line no-undef
                         el = article.parentElement.parentElement;
                     } else {
                         el = article.parentElement.parentElement.parentElement;
@@ -4258,7 +4243,6 @@ const funcObj = {
                 ic.className = "fa-solid fa-comment-slash"
                 ch.appendChild(ic);
                 ch.addEventListener('click', (e) => {
-                    //const article = e.target.parentElement.parentElement.parentElement
                     const meta = e.target.parentElement.parentElement
                     const href = meta.querySelector('.magazine-inline').href
                     const mag = href.split('/')[4]
@@ -4441,7 +4425,7 @@ const funcObj = {
         }
 
         async function saveMags (hostname, mags) {
-            const savedMags = await safeGM("setValue", `softblock-mags-${hostname}`, mags)
+            await safeGM("setValue", `softblock-mags-${hostname}`, mags)
         }
         function removeEls () {
             let range
