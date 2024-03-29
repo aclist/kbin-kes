@@ -7,5 +7,5 @@
   "login": false,
   "recurs": false,
   "entrypoint": "fix_pagination_arrows",
-  "page": "general"
+  "page": "fixes"
 }
