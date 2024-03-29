@@ -3186,7 +3186,7 @@ const funcObj = {
     hide_thumbs:
 
     function hideThumbs (toggle) {
-        settings = getModSettings('hidethumbs')
+        const settings = getModSettings('hidethumbs')
         const index = 'kes-index-thumbs'
         const inline = 'kes-inline-thumbs'
         const thumbsCSS = `
@@ -3199,12 +3199,12 @@ const funcObj = {
             display:none
         }
         `
-        function apply(sheet, name){
-                unset(name)
-                safeGM("addStyle", sheet, name)
+        function apply (sheet, name) {
+            unset(name)
+            safeGM("addStyle", sheet, name)
         }
-        function unset(name){
-                safeGM("removeStyle", name)
+        function unset (name) {
+            safeGM("removeStyle", name)
         }
         if (toggle) {
             if (settings["index"]) {
@@ -4107,9 +4107,9 @@ const funcObj = {
         async function storeCurrentPage (hideThisPage) {
             await safeGM("setValue","hide-this-page",hideThisPage)
         }
-        function hideSib(el, mode){
+        function hideSib (el, mode) {
             const sib = el.nextSibling;
-            if (sib.className === "js-container"){
+            if (sib.className === "js-container") {
                 if (mode === 'hide') {
                     $(sib).hide();
                 } else {

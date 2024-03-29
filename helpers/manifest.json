@@ -54,9 +54,6 @@
         ]
       }
     ],
-    "depends_off": [
-      "thread_checkmarks"
-    ],
     "page": "general"
   },
   {
@@ -117,7 +114,7 @@
     "login": false,
     "recurs": false,
     "entrypoint": "unsanitize_css",
-    "page": "general"
+    "page": "fixes"
   },
   {
     "name": "Notifications panel",
@@ -458,7 +455,7 @@
     "login": false,
     "recurs": false,
     "entrypoint": "fix_pagination_arrows",
-    "page": "general"
+    "page": "fixes"
   },
   {
     "name": "Unblur NSFW",
@@ -1104,9 +1101,6 @@
         "label": "Checkmark color",
         "initial": "--kbin-upvoted-color"
       }
-    ],
-    "depends_on": [
-      "omni"
     ],
     "page": "threads"
   },

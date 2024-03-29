@@ -16,8 +16,5 @@
       "initial": "--kbin-upvoted-color"
     }
   ],
-  "depends_on": [
-    "omni"
-  ],
   "page": "threads"
 }

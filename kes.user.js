@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.4-beta.57
+// @version      4.0.0-beta.58
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -279,6 +279,7 @@ function constructMenu (json, layoutArr, isNew) {
         const fontsize = document.defaultView.getComputedStyle(el).fontSize
         let px = fontsize.split('px')[0]
         px = parseFloat(px)
+        console.log(px)
         return px
     }
 
@@ -577,6 +578,7 @@ function constructMenu (json, layoutArr, isNew) {
                                         if (json[it].fields[k].type === "color") {
                                             initial = getHex(initial);
                                         } else if (json[it].fields[k].type === "number") {
+                                            console.log(initial)
                                             initial = getComputedFontSize(initial)
                                         }
                                         found.setAttribute("value",initial);
