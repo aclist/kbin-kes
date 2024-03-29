@@ -1,4 +1,4 @@
-function omniInit (toggle) {
+function omniInit (toggle) { // eslint-disable-line no-unused-vars
 
     const kesActive = 'kes-subs-active'
     const omniCSS = `

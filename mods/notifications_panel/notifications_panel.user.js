@@ -157,7 +157,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
     `
     const notificationsURL = 'https://' + window.location.hostname + '/settings/notifications'
 
-    function readAndReset (response) {
+    function readAndReset () {
         const counter = document.querySelector('.notification-counter');
         if (counter) {
             counter.remove();
@@ -428,7 +428,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
                 notiBadge.innerText = notiPanelCount;
                 anchorOuterElement.appendChild(notiBadgeHolder);
             }
-            anchorOuterElement.addEventListener('click', (e) => {
+            anchorOuterElement.addEventListener('click', () => {
                 safeGM("addStyle",forceDropdownCSS);
                 toggleIframe(listItem)
             });

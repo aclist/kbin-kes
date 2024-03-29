@@ -1,20 +1,5 @@
-function textResize (toggle) {
+function textResize (toggle) { // eslint-disable-line no-unused-vars
     //TODO: use parametric css sheet
-    //TODO: set option els in manifest
-    // ==UserScript==
-    // @name         Change font size
-    // @namespace    https://github.com/aclist
-    // @version      0.1.0
-    // @description  Change the size of comment text.
-    // @author       minnieo
-    // @match        https://kbin.social/*
-    // @match        https://fedia.io/*
-    // @match        https://karab.in/*
-    // @match        https://www.kbin.cafe/*
-    // @match        https://karab.in/*
-    // @icon         https://kbin.social/favicon.svg
-    // @grant        none
-    // ==/UserScript==
 
     function restoreOpacity () {
         const kesModalContent = document.querySelector('div.kes-settings-modal-content');

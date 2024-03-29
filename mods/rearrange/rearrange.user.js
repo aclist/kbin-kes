@@ -1,4 +1,4 @@
-function rearrangeInit (toggle) {
+function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
     function rearrangeSetup () {
         if (window.location.href.split('#')[1] != 'comments') return
         const settings = getModSettings('rearrange');

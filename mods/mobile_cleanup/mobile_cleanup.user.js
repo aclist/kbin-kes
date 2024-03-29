@@ -1,4 +1,4 @@
-function mobileHideInit (toggle) {
+function mobileHideInit (toggle) { // eslint-disable-line no-unused-vars
     function mobileHideTeardown () {
         let filterBtn
         let viewBtn

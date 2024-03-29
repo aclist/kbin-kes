@@ -1,4 +1,4 @@
-function addPrefix (toggle){
+function addPrefix (toggle) { // eslint-disable-line no-unused-vars 
 
     const settings = getModSettings("submission_label");
     const label = settings["label"]

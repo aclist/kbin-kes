@@ -1,4 +1,4 @@
-function bugReportInit (toggle) {
+function bugReportInit (toggle) { // eslint-disable-line no-unused-vars
     const reportURL = 'https://github.com/aclist/kbin-kes/issues/new?assignees=&labels=bug&projects=&template=bug_report.md' +
         '&title=[BUG]+<Your title here>&body='
     const items = document.querySelectorAll('.entry-comment');
@@ -6,7 +6,7 @@ function bugReportInit (toggle) {
     //only apply on threads
     if (window.location.href.split('/')[5] != "t") return
 
-    function addBugReport(item){
+    function addBugReport (item) {
         let postID = item.getAttribute("id");
         let bareURL = window.location.href.split("#")[0];
         let originURL = bareURL + "%23" + postID;

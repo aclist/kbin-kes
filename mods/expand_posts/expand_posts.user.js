@@ -33,11 +33,10 @@ function expandPostsInit (toggle) {
         button.className = 'kes-expand-post-button'
         button.style.cursor = 'pointer'
         button.addEventListener('click', (e) => {
-        const mode = e.target.innerText
+            const mode = e.target.innerText
             const settings = getModSettings("expand-posts")
             const loadingLabel = settings.loading
             const expandLabel = settings.expand
-            const collapseLabel = settings.collapse
             if (mode === expandLabel) {
                 button.innerText = loadingLabel
                 button.className = 'kes-loading-post-button'

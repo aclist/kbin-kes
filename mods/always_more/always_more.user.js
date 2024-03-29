@@ -1,4 +1,4 @@
-function moreInit (toggle) {
+function moreInit (toggle) { // eslint-disable-line no-unused-vars 
     const more = document.querySelectorAll('.entry__body > .more')
     if (toggle) {
         more.forEach((item) => {

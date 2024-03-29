@@ -55,7 +55,7 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         articles.forEach((article) => {
             const instance = article.href.split('/')[4]
             if (mags.includes(instance)) {
-                if (getInstanceType() === "kbin") {
+                if (getInstanceType() === "kbin") { // eslint-disable-line no-undef
                     el = article.parentElement.parentElement;
                 } else {
                     el = article.parentElement.parentElement.parentElement;
@@ -76,7 +76,6 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
             ic.className = "fa-solid fa-comment-slash"
             ch.appendChild(ic);
             ch.addEventListener('click', (e) => {
-                //const article = e.target.parentElement.parentElement.parentElement
                 const meta = e.target.parentElement.parentElement
                 const href = meta.querySelector('.magazine-inline').href
                 const mag = href.split('/')[4]
@@ -259,7 +258,7 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     async function saveMags (hostname, mags) {
-        const savedMags = await safeGM("setValue", `softblock-mags-${hostname}`, mags)
+        await safeGM("setValue", `softblock-mags-${hostname}`, mags)
     }
     function removeEls () {
         let range

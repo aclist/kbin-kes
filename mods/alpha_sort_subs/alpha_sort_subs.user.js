@@ -1,4 +1,4 @@
-function alphaSortInit (toggle) {
+function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
     const ind = window.location.href.split('/')[5]
     if (!ind) return
     if ((ind.indexOf('subscriptions') < 0) && (ind.indexOf('followers') < 0)) return
