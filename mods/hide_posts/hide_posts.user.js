@@ -37,9 +37,9 @@ function hidePostsInit (toggle) {
     async function storeCurrentPage (hideThisPage) {
         await safeGM("setValue","hide-this-page",hideThisPage)
     }
-    function hideSib(el, mode){
+    function hideSib (el, mode) {
         const sib = el.nextSibling;
-        if (sib.className === "js-container"){
+        if (sib.className === "js-container") {
             if (mode === 'hide') {
                 $(sib).hide();
             } else {

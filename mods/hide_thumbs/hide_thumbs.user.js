@@ -1,5 +1,5 @@
 function hideThumbs (toggle) {
-    settings = getModSettings('hidethumbs')
+    const settings = getModSettings('hidethumbs')
     const index = 'kes-index-thumbs'
     const inline = 'kes-inline-thumbs'
     const thumbsCSS = `
@@ -12,12 +12,12 @@ function hideThumbs (toggle) {
         display:none
     }
     `
-    function apply(sheet, name){
-            unset(name)
-            safeGM("addStyle", sheet, name)
+    function apply (sheet, name) {
+        unset(name)
+        safeGM("addStyle", sheet, name)
     }
-    function unset(name){
-            safeGM("removeStyle", name)
+    function unset (name) {
+        safeGM("removeStyle", name)
     }
     if (toggle) {
         if (settings["index"]) {
