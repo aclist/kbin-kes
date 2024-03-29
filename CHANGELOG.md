@@ -1,6 +1,29 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 4.0.0 (WIP)
+### Added
+- getComputedFontSize()
+- Unsanitize CSS
+- Fix Pagination Arrows
+- depends_on, depends_off (code syntax, thread checkmarks)
+- Update federation warning mod to support profile pages
+- Report bug button: also applies to OP now
+- Fixes page in sidebar
+- Ephemeral gist generator and concat_funcs script
+
+### Changed
+- Split mail mod into two mods
+- Consolidate mods into funcs.js (rate limiting)
+
+### Fixed
+- Fixed issue where resize text mode reverted to 14pt
+- Fixed issue where releasing mouse on KES sidebar while multiple pages were highlighted broke the menu
+- Large list of mbin compatibility fixes
+- Add mail: fixed issue where you could send mail to yourself
+- Clarify recipient not showing on messages
+- Hover colors not showing unless already applied
+
 ## 3.3.0
 ### Added
 - Show new features added in current release: click the button on the search menu to list new add-ons incorporated into KES since the current minor version. E.g., if you are on version 3.2.x, this button
