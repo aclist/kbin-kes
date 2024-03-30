@@ -574,7 +574,7 @@
       },
       {
         "type": "number",
-        "initial": ".entry-comment.content",
+        "initial": ".entry-comment .content",
         "key": "optionComments",
         "label": "Comments:",
         "step": "0.1",
