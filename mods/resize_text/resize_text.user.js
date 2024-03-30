@@ -1,5 +1,4 @@
 function textResize (toggle) { // eslint-disable-line no-unused-vars
-    //TODO: use parametric css sheet
 
     function restoreOpacity () {
         const kesModalContent = document.querySelector('div.kes-settings-modal-content');
@@ -438,27 +437,19 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         sortBy.forEach((sortByElem) => {
             sortByElem.style.setProperty('font-size', fontSizes.sortBy);
         })
+        ///////////////////////
+        const footerMultiply = settings["optionFooter"] * 1.222;
+        const css = `
+        #footer > .kbin-container > section * {
+            font-size: ${fontSizes.footer}
+        }
+        #footer > .kbin-container > section h5 {
+            font-size: ${footerMultiply}px
+        }
 
-        // === Footer === //
-
-        //footer *variables*
-        const footerUseful = document.querySelectorAll('footer#footer');
-        const footerMultiply = parseFloat(settings["optionFooter"]) * 1.5;
-
-        //footer *loops*
-        footerUseful.forEach((footerSelect) => {
-            const footerElemSel = 'section menu li a, section div a, div li a, i, select[data-action="kbin#changeLang"], #text'
-            const footerElems = footerSelect.querySelectorAll(footerElemSel);
-            const footerH1 = footerSelect.querySelectorAll('section h5');
-
-            footerElems.forEach((footerResize) => {
-                footerResize.style.setProperty('font-size', fontSizes.footer);
-            });
-
-            footerH1.forEach((footerH1Resize) => {
-                footerH1Resize.style.setProperty('font-size', `${footerMultiply}px`);
-            })
-        })
+        `;
+        safeGM("removeStyle", "resize-css")
+        safeGM("addStyle", css, "resize-css")
 
         // === ACTIVITY === //
         const activity = document.querySelectorAll('div.section.users.users-columns');
@@ -478,6 +469,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
     if (toggle) {
         resizeText();
     } else {
+        safeGM("removeStyle", "resize-css")
         return
     }
 }

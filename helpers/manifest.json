@@ -664,7 +664,7 @@
       },
       {
         "type": "number",
-        "initial": "footer#footer",
+        "initial": "#footer > .kbin-container > section menu li",
         "key": "optionFooter",
         "label": "Footer:",
         "step": "0.1",
