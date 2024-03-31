@@ -80,7 +80,7 @@
       "type": "number",
       "initial": "div.container form[name=\"user_settings\"",
       "key": "optionUserSettings",
-      "label": "Settings:",
+      "label": "Settings, magazine index:",
       "step": "0.1",
       "min": "5",
       "max": "50"

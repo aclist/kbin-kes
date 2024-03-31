@@ -20,7 +20,7 @@ validate_img(){
     done
 }
 validate_string(){
-    [[ $1 -ne 4 ]] && { echo "missing"; exit; } 
+    [[ $1 -ne 4 ]] && { echo "missing"; exit; }
 }
 combine(){
     read -ra args <<< "$@"

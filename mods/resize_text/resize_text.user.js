@@ -3,6 +3,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
     function restoreOpacity () {
         kesModalContent = document.querySelector('div.kes-settings-modal-content');
         kesModalContainer = document.querySelector('div.kes-settings-modal-container');
+        if (!kesModalContent) return
 
         kesModalContent.style.setProperty('background-color', `rgba(44, 44, 44, 1.0)`);
         kesModalContainer.style.setProperty('background-color', `rgba(44, 44, 44, 1.0)`);
@@ -11,7 +12,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
     function resizeText () {
         const settings = getModSettings('resize');
         const fontSizes = {
-            header: `${settings["optionHeader"]}px`,
             posts: `${settings["optionPosts"]}px`,
             magSidebar: `${settings["optionMagSidebar"]}px`,
             homeSidebar: `${settings["optionHomeSidebar"]}px`,
@@ -37,29 +37,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             }
         }
 
-        // === HEADER === //
-        // selects elem w id header and class header
-        const topHeader = document.querySelectorAll('#header.header');
-        const avatar = document.querySelector('img.user-avatar');
-        // header *loops*
-        topHeader.forEach((headerElem) => {
-            const topHeaderElems = headerElem.querySelectorAll('a img, h1, h2, h3, p, li, span, a:not(.icon), i');
-            topHeaderElems.forEach((resizeHeaderElems) => {
-                resizeHeaderElems.style.setProperty('font-size', fontSizes.header);
-
-                if (avatar) {
-                    const avatarWidth = avatar.offsetWidth;
-                    const avatarHeight = avatar.offsetHeight;
-                    const percentage = fontSizes.header * 5; // 80% of pix size
-                    const newWidth = avatarWidth * (percentage / 100);
-                    const newHeight = avatarHeight * (percentage / 100);
-
-                    avatar.style.width = `${newWidth}px`;
-                    avatar.style.height = `${newHeight}px`;
-                }
-            })
-        })
-
         // === POSTS === //
         // post *variables*
         const postContent = document.querySelectorAll('article.entry');
@@ -79,7 +56,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             voteText.forEach((textVote) => {
                 textVote.style.setProperty('font-size', fontSizes.posts);
             });
-
         });
 
         domainTitle.forEach((titleDomainResize) => {
@@ -191,61 +167,45 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             })
         })
 
-        // === CREATE POSTS === //
-        // create posts *variables*
-        const createPost = document.querySelectorAll('form.entry-create');
-        const createMicroBlog = document.querySelectorAll('form.post-add');
-        const createHeader = document.querySelectorAll('aside.options.options--top.options-activity');
-        const createMag = document.querySelectorAll('form[name="magazine"]');
-        // create posts *loops*
-        createPost.forEach((createPostElem) => {
-            const createPostElement = createPostElem.querySelectorAll('label, markdown-toolbar, ul, li, button, i, textarea[placeholder="Body"], input[placeholder="Select a magazine"], select[id^="entry_"][id$="_lang"], input.image-input');
-
-            createPostElement.forEach((createPostResize) => {
-                createPostResize.style.setProperty('font-size', fontSizes.createPosts);
-            })
-        });
-
-        createMicroBlog.forEach((createMicroElem) => {
-            const createMicroBlogElement = createMicroElem.querySelectorAll('markdown-toolbar, ul, li, button, i, label, input, input#post_magazine_autocomplete-ts-control, select[id="post_lang"], input.image-input');
-
-            createMicroBlogElement.forEach((microBlogResize) => {
-                microBlogResize.style.setProperty('font-size', fontSizes.createPosts);
-            })
-
-        });
-
-        createHeader.forEach((createHeaderElem) => {
-            const createHeaderElement = createHeaderElem.querySelectorAll('div.options__title h2, menu li a');
-
-            createHeaderElement.forEach((createHeaderResize) => {
-                createHeaderResize.style.setProperty('font-size', fontSizes.createPosts);
-            })
-        });
-
-        createMag.forEach((createMagElem) => {
-            const createMagElement = createMagElem.querySelectorAll('label, markdown-toolbar, ul, li, button, i, input[placeholder="/m/"], textarea[placeholder="Description"], textarea[placeholder="Rules"]');
-
-            createMagElement.forEach((createMagResize) => {
-                createMagResize.style.setProperty('font-size', fontSizes.createPosts);
-            })
-        });
+        //TODO: header avatar?
         const css = `
+        /* POST CREATION PAGES */
+        /*TODO: this line is not applying */
+        .entry-create > div > #entry_link_title_max_length {
+            font-size: ${settings["optionCreate"]}px
+        }
+        .entry-create > div > div > .ts-control > * {
+            font-size: ${settings["optionCreate"]}px
+        }
+        .options.options--top.options-activity * {
+            font-size: ${settings["optionCreate"]}px !important
+        }
+        .entry-create * {
+            font-size: ${settings["optionCreate"]}px
+        }
+        /* HEADERS */
+        #header :not(.icon) {
+            font-size: ${settings["optionHeader"]}px
+        }
+        /* SETTINGS */
         .page-settings * {
             font-size: ${settings["optionUserSettings"]}px
         }
         .page-settings h2 {
             font-size: ${settings["optionUserSettings"] * 2.5}px
         }
+        /* FOOTER */
         #footer > .kbin-container > section * {
             font-size: ${settings["optionFooter"]}px
         }
         #footer > .kbin-container > section h5 {
             font-size: ${settings["optionFooter"] * 1.222}px
         }
+        /* SORT OPTIONS */
         aside#options menu li a, aside#options menu i {
             font-size: ${settings["optionSortBy"]}px
         }
+        /* INBOX NOTIFICATIONS */
         .page-notifications > .kbin-container > main > * {
             font-size: ${settings["optionNotifs"]}px
         }
