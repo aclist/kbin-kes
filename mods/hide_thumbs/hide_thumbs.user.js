@@ -1,4 +1,4 @@
-function hideThumbs (toggle) {
+function hideThumbs (toggle) { //eslint-disable-line no-unused-vars
     const settings = getModSettings('hidethumbs')
     const index = 'kes-index-thumbs'
     const inline = 'kes-inline-thumbs'

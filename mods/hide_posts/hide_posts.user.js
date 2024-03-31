@@ -1,4 +1,4 @@
-function hidePostsInit (toggle) {
+function hidePostsInit (toggle) { //eslint-disable-line no-unused-vars
 
     async function wipeArray () {
         await safeGM("setValue","hidden-posts","[]")

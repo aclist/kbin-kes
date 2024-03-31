@@ -1,4 +1,4 @@
-function moveFederationWarningEntry (toggle) {
+function moveFederationWarningEntry (toggle) { //eslint-disable-line no-unused-vars
     // ==UserScript==
     // @name         Kbin: Move federation alert
     // @match        https://kbin.social/*

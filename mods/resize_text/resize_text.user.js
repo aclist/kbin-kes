@@ -1,8 +1,8 @@
 function textResize (toggle) { // eslint-disable-line no-unused-vars
 
     function restoreOpacity () {
-        const kesModalContent = document.querySelector('div.kes-settings-modal-content');
-        const kesModalContainer = document.querySelector('div.kes-settings-modal-container');
+        kesModalContent = document.querySelector('div.kes-settings-modal-content');
+        kesModalContainer = document.querySelector('div.kes-settings-modal-container');
 
         kesModalContent.style.setProperty('background-color', `rgba(44, 44, 44, 1.0)`);
         kesModalContainer.style.setProperty('background-color', `rgba(44, 44, 44, 1.0)`);
@@ -10,7 +10,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
     }
     function resizeText () {
         const settings = getModSettings('resize');
-        // === FONT SIZE SETTINGS OBJ === //
         const fontSizes = {
             header: `${settings["optionHeader"]}px`,
             posts: `${settings["optionPosts"]}px`,
@@ -19,19 +18,15 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             profile: `${settings["optionProfile"]}px`,
             createPosts: `${settings["optionCreate"]}px`,
             comments: `${settings["optionComments"]}px`,
-            userSettings: `${settings["optionUserSettings"]}px`,
             userMessages: `${settings["optionMessages"]}px`,
-            userNotifs: `${settings["optionNotifs"]}px`,
-            sortBy: `${settings["optionSortBy"]}px`,
-            footer: `${settings["optionFooter"]}px`,
             activity: `${settings["optionActivity"]}px`
         };
 
         let oldID = sessionStorage.getItem('modalFade');
-        clearTimeout(oldID)
-
         let kesModalContent
         let kesModalContainer
+        clearTimeout(oldID)
+
         try {
             kesModalContent = document.querySelector('div.kes-settings-modal-content');
             kesModalContainer = document.querySelector('div.kes-settings-modal-container');
@@ -43,12 +38,9 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         }
 
         // === HEADER === //
-        //header *variables*
         // selects elem w id header and class header
         const topHeader = document.querySelectorAll('#header.header');
         const avatar = document.querySelector('img.user-avatar');
-
-
         // header *loops*
         topHeader.forEach((headerElem) => {
             const topHeaderElems = headerElem.querySelectorAll('a img, h1, h2, h3, p, li, span, a:not(.icon), i');
@@ -101,11 +93,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
 
 
         // === COMMENTS  === //
-
-        // comments *variables*
         const commentSection = document.querySelectorAll('section.comments.entry-comments.comments-tree');
-
-        //comments *loops*
         commentSection.forEach((commentElem) => {
             const commentElement = commentElem.querySelectorAll('blockquote header a, header time, div.content p, div.content a, span[data-subject-target$="Counter"], li, a, i.fa-arrow-up, i.fa-arrow-down, h1, h2, h3, h4');
 
@@ -116,13 +104,10 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
 
 
         // === MAG SIDEBAR === //
-
-        // mag sidebar *variables*
         const magSidebar = document.querySelectorAll('aside#sidebar section.magazine.section');
         const magSidebarName = document.querySelectorAll('aside#sidebar section.magazine.section h3');
         const magName = document.querySelectorAll('aside#sidebar section.magazine.section a');
         const modSidebar = document.querySelectorAll('section.user-list, section.user-list h3');
-        // mag side bar *loops*
         magSidebar.forEach((sidebar) => {
             sidebar.style.setProperty('font-size', fontSizes.magSidebar);
         })
@@ -207,13 +192,11 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         })
 
         // === CREATE POSTS === //
-
         // create posts *variables*
         const createPost = document.querySelectorAll('form.entry-create');
         const createMicroBlog = document.querySelectorAll('form.post-add');
         const createHeader = document.querySelectorAll('aside.options.options--top.options-activity');
         const createMag = document.querySelectorAll('form[name="magazine"]');
-
         // create posts *loops*
         createPost.forEach((createPostElem) => {
             const createPostElement = createPostElem.querySelectorAll('label, markdown-toolbar, ul, li, button, i, textarea[placeholder="Body"], input[placeholder="Select a magazine"], select[id^="entry_"][id$="_lang"], input.image-input');
@@ -247,214 +230,37 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
                 createMagResize.style.setProperty('font-size', fontSizes.createPosts);
             })
         });
-
-
-        // === USER SETTINGS === //
-
-        // === USER SETTINGS GENERAL === //
-        const settingsSizeMultiply = parseFloat(settings["optionUserSettings"]) * 1.5;
-        // user settings general *variables*
-        const profileGeneral = document.querySelectorAll('div.container form[name="user_settings"]');
-
-        // user settings general *loops*
-        profileGeneral.forEach((profGenSelect) => {
-            const profGenElem = profGenSelect.querySelectorAll('div label, div select, div div');
-            const profGenElemH2 = profGenSelect.querySelectorAll('h2');
-
-            profGenElem.forEach((profElemResize) => {
-                profElemResize.style.setProperty('font-size', fontSizes.userSettings);
-            })
-
-            profGenElemH2.forEach((profElemResizeH2) => {
-                profElemResizeH2.style.setProperty('font-size', `${settingsSizeMultiply}px`);
-            })
-        })
-
-        // === USER SETTINGS EMAIL === //
-
-        // user settings email *variables*
-        const profileEmail = document.querySelectorAll('div.container form[name="user_email"]');
-
-        // user settings email *loops*
-        profileEmail.forEach((profEmailSelect) => {
-            const profEmailElem = profEmailSelect.querySelectorAll('h2, div label, div select, div div, input');
-            const profEmailElemH2 = profEmailSelect.querySelectorAll('h2');
-
-            profEmailElem.forEach((profEmailResize) => {
-                profEmailResize.style.setProperty('font-size', fontSizes.userSettings);
-            })
-
-            profEmailElemH2.forEach((profEmailResizeH2) => {
-                profEmailResizeH2.style.setProperty('font-size', settingsSizeMultiply);
-            })
-        })
-
-        // === USER SETTINGS PROFILE EDITING === //
-
-        // user settings profile editing *variables*
-        const profileEdit = document.querySelectorAll('div.container form[name="user_basic"]');
-
-        // user settings profile editing *loops*
-        profileEdit.forEach((profEditSelect) => {
-            const profEditElem = profEditSelect.querySelectorAll('h2, div select, div div, input, textarea, markdown-toolbar');
-            const profEditElemH2 = profEditSelect.querySelectorAll('div label');
-
-            profEditElem.forEach((profEditResize) => {
-                profEditResize.style.setProperty('font-size', fontSizes.userSettings);
-            })
-
-            profEditElemH2.forEach((profEditResizeH2) => {
-                profEditResizeH2.style.setProperty('font-size', settingsSizeMultiply);
-            })
-        })
-
-        // === USER SETTINGS PASSWORD === //
-
-        // user settings password *variables*
-        const profilePassword = document.querySelectorAll('div.container form[name="user_password"]');
-
-        // user settings password *loops*
-        profilePassword.forEach((profPassSelect) => {
-            const profPassElem = profPassSelect.querySelectorAll('h2, div label, div select, div div, input');
-            const profPassElemH2 = profPassSelect.querySelectorAll('h2');
-
-            profPassElem.forEach((profPassResize) => {
-                profPassResize.style.setProperty('font-size', fontSizes.userSettings);
-            })
-
-            profPassElemH2.forEach((profPassResizeH2) => {
-                profPassResizeH2.style.setProperty('font-size', settingsSizeMultiply);
-            })
-        })
-
-        // === USER SETTINGS BLOCKED === //
-
-        // user settings blocked *variables*
-        const profileBlocked = document.querySelectorAll('div.page-settings.page-settings-block-magazines');
-        const navLabels = document.querySelectorAll('.pills li a');
-
-        // user settings blocked *loops*
-        profileBlocked.forEach((profBlockSelect) => {
-            const profBlockElem = profBlockSelect.querySelectorAll('h2, div label, div select, div div, input, li, a, ul, small');
-            const profBlockElemH2 = profBlockSelect.querySelectorAll('h2');
-
-            profBlockElem.forEach((profBlockResize) => {
-                profBlockResize.style.setProperty('font-size', fontSizes.userSettings);
-            })
-
-            profBlockElemH2.forEach((profBlockResizeH2) => {
-                profBlockResizeH2.style.setProperty('font-size', settingsSizeMultiply);
-            });
-
-            navLabels.forEach((navTitleResize) => {
-                navTitleResize.style.setProperty('font-size', settingsSizeMultiply);
-            })
-        })
-
-        // === USER SETTINGS SUBSCRIPTIONS === //
-
-        // user settings subscriptions *variables*
-        const profileSubs = document.querySelectorAll('div.page-settings.page-settings-sub-magazines');
-        const subTitles = document.querySelectorAll('div.page-settings-sub-magazines div.pills li a');
-
-        // user settings subscriptions *loops*
-        profileSubs.forEach((profSubsSelect) => {
-            const profSubsElem = profSubsSelect.querySelectorAll('h2, div label, div select, div div, input, li, a, ul, small');
-            const profSubsElemH2 = profSubsSelect.querySelectorAll('h2');
-
-            profSubsElem.forEach((profSubsResize) => {
-                profSubsResize.style.setProperty('font-size', fontSizes.userSettings);
-            })
-
-            profSubsElemH2.forEach((profSubResizeH2) => {
-                profSubResizeH2.style.setProperty('font-size', settingsSizeMultiply);
-            });
-
-            subTitles.forEach((subTitleResize) => {
-                subTitleResize.style.setProperty('font-size', settingsSizeMultiply);
-            })
-        })
-
-
-        // === USER MESSAGES === //
-
-        // user messages *variables*
-        const userMessages = document.querySelectorAll('div.page-messages');
-        const userMessagesSizeMultiply = parseFloat(settings["optionMessages"]) * 1.5;
-
-        // user messages *loops*
-        userMessages.forEach((userMessageSelect) => {
-            const userMessageElem = userMessageSelect.querySelectorAll('h2, div select, div div, input, textarea, markdown-toolbar, time, button[id="message_submit"]');
-            const userMessageElemH1 = userMessageSelect.querySelectorAll('h1, label[for="message_body"]');
-
-            userMessageElem.forEach((userMessageResize) => {
-                userMessageResize.style.setProperty('font-size', fontSizes.userMessages);
-            })
-
-            userMessageElemH1.forEach((userMessageResizeH1) => {
-                userMessageResizeH1.style.setProperty('font-size', `${userMessagesSizeMultiply}px`);
-            })
-        })
-
-        // === USER NOTIFICATIONS === //
-
-        // user notifs *variables*
-        const userNotifications = document.querySelectorAll('div.page-notifications');
-        const notifButtons = document.querySelectorAll('div.pills form[action="/settings/notifications/read"] button.btn');
-        const notifSizeMultiply = parseFloat(settings["optionNotifs"]) * 1.5;
-
-        // user notifs *loops*
-        userNotifications.forEach((userNotifsSelect) => {
-            const userNotifsElem = userNotifsSelect.querySelectorAll('h2, div select, div div, input, textarea, markdown-toolbar, time, form.me-2 button[id="submit"]');
-            const userNotifsElemH1 = userNotifsSelect.querySelectorAll('h1, label[for="message_body"]');
-
-            userNotifsElem.forEach((userNotifResize) => {
-                userNotifResize.style.setProperty('font-size', fontSizes.userNotifs);
-            })
-
-            userNotifsElemH1.forEach((userNotifResizeH1) => {
-                userNotifResizeH1.style.setProperty('font-size', `${notifSizeMultiply}px`);
-            })
-
-            notifButtons.forEach((notifButtonResize) => {
-                const notifPurge = notifButtonResize.querySelectorAll('.btn.btn__secondary span');
-
-                notifButtonResize.style.setProperty('font-size', fontSizes.userNotifs);
-
-                notifPurge.forEach((notifPurgeResize) => {
-                    notifPurgeResize.style.setProperty('font-size', fontSizes.userNotifs);
-                })
-            })
-
-        })
-
-        // === SORT BY === // 
-
-        // sort by *variables*
-        const sortBy = document.querySelectorAll('aside#options menu li a, aside#options menu i');
-
-        // sort by *loops*
-        sortBy.forEach((sortByElem) => {
-            sortByElem.style.setProperty('font-size', fontSizes.sortBy);
-        })
-        ///////////////////////
-        const footerMultiply = settings["optionFooter"] * 1.222;
         const css = `
+        .page-settings * {
+            font-size: ${settings["optionUserSettings"]}px
+        }
+        .page-settings h2 {
+            font-size: ${settings["optionUserSettings"] * 2.5}px
+        }
         #footer > .kbin-container > section * {
-            font-size: ${fontSizes.footer}
+            font-size: ${settings["optionFooter"]}px
         }
         #footer > .kbin-container > section h5 {
-            font-size: ${footerMultiply}px
+            font-size: ${settings["optionFooter"] * 1.222}px
         }
-
+        aside#options menu li a, aside#options menu i {
+            font-size: ${settings["optionSortBy"]}px
+        }
+        .page-notifications > .kbin-container > main > * {
+            font-size: ${settings["optionNotifs"]}px
+        }
+        .page-notifications > .kbin-container > main > .pills > menu > form > button {
+            font-size: ${settings["optionNotifs"] * 0.85}px
+        }
+        .page-notifications > .kbin-container > main > h1 {
+            font-size: ${settings["optionNotifs"] * 2.5}px !important
+        }
         `;
         safeGM("removeStyle", "resize-css")
         safeGM("addStyle", css, "resize-css")
 
         // === ACTIVITY === //
         const activity = document.querySelectorAll('div.section.users.users-columns');
-
-        // create posts *loops*
         activity.forEach((activityElem) => {
             const activityElement = activityElem.querySelectorAll('ul, li, small, a, img');
 
