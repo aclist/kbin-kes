@@ -1,14 +1,23 @@
 function textResize (toggle) { // eslint-disable-line no-unused-vars
+    const modalContent = "div.kes-settings-modal-content"
+    const modalContainer = "div.kes-settings-modal-container"
 
-    function restoreOpacity () {
-        kesModalContent = document.querySelector('div.kes-settings-modal-content');
-        kesModalContainer = document.querySelector('div.kes-settings-modal-container');
-        if (!kesModalContent) return
-
-        kesModalContent.style.setProperty('background-color', `rgba(44, 44, 44, 1.0)`);
-        kesModalContainer.style.setProperty('background-color', `rgba(44, 44, 44, 1.0)`);
-
+    function kesModalOpen(){
+        const kesModalContent = document.querySelector(modalContent);
+        if (kesModalContent) {
+            return true
+        } else {
+            return false
+        }
     }
+
+    function setOpacity(value){
+        const kesModalContent = document.querySelector(modalContent);
+        const kesModalContainer = document.querySelector(modalContainer);
+        kesModalContent.style.opacity = value;
+        kesModalContainer.style.opacity = value;
+    }
+
     function resizeText () {
         const settings = getModSettings('resize');
         const fontSizes = {
@@ -16,36 +25,22 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             magSidebar: `${settings["optionMagSidebar"]}px`,
             homeSidebar: `${settings["optionHomeSidebar"]}px`,
             profile: `${settings["optionProfile"]}px`,
-            createPosts: `${settings["optionCreate"]}px`,
             comments: `${settings["optionComments"]}px`,
             userMessages: `${settings["optionMessages"]}px`,
             activity: `${settings["optionActivity"]}px`
         };
 
         let oldID = sessionStorage.getItem('modalFade');
-        let kesModalContent
-        let kesModalContainer
         clearTimeout(oldID)
 
-        try {
-            kesModalContent = document.querySelector('div.kes-settings-modal-content');
-            kesModalContainer = document.querySelector('div.kes-settings-modal-container');
-        } finally {
-            if (kesModalContent) {
-                kesModalContent.style.setProperty('background-color', `rgba(44, 44, 44, 0.2)`);
-                kesModalContainer.style.setProperty('background-color', `rgba(44, 44, 44, 0.2)`);
-            }
+        if (kesModalOpen) {
+            setOpacity(0.2)
         }
-
         // === POSTS === //
-        // post *variables*
         const postContent = document.querySelectorAll('article.entry');
         const domainTitle = document.querySelectorAll('.entry__domain, .entry__domain a');
         const textContentH2 = document.querySelectorAll('.entry header h1 a:not(.entry__domain a), .entry header h2 a:not(.entry__domain a)');
         const postSizeNum = settings["optionPosts"];
-
-
-        // post *loops*
         postContent.forEach((postContentElem) => {
             const textContentElements = postContentElem.querySelectorAll('h1.a, h3, p, a, time, button:not([data-action="subject#vote"]), small.badge');
             const voteText = postContentElem.querySelectorAll('span[data-subject-target="favCounter"], span[data-subject-target="downvoteCounter"], i.fa-arrow-up, i.fa-arrow-down');
@@ -67,7 +62,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             postTitles.style.setProperty('font-size', `${postSizeNum * 1.2}px`);
         });
 
-
         // === COMMENTS  === //
         const commentSection = document.querySelectorAll('section.comments.entry-comments.comments-tree');
         commentSection.forEach((commentElem) => {
@@ -77,7 +71,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
                 commentResize.style.setProperty('font-size', fontSizes.comments);
             })
         })
-
 
         // === MAG SIDEBAR === //
         const magSidebar = document.querySelectorAll('aside#sidebar section.magazine.section');
@@ -99,18 +92,11 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         magSidebarName.forEach((magname) => {
             magname.style.setProperty('font-size', fontSizes.magSidebar);
         })
-
-
-
         // === HOMEPAGE SIDEBAR === //
-
-        // homepage sidebar *variables*
         const homepageSidebarMain = document.querySelectorAll('aside#sidebar section.related-magazines');
         const homeActiveUsers = document.querySelectorAll('aside#sidebar section.active-users');
         const homepageSidebarPosts = document.querySelectorAll('aside#sidebar section.posts');
         const homeEntries = document.querySelectorAll('aside#sidebar section.entries');
-
-        // homepage sidebar loops
         homepageSidebarMain.forEach((homepageSidebarElem) => {
             const homeRelatedMags = homepageSidebarElem.querySelectorAll('a img, h1, h2, h3, p, li, span, a:not(.icon), i');
 
@@ -118,14 +104,12 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
                 relatedMagElem.style.setProperty('font-size', fontSizes.homeSidebar);
             });
         })
-
         homeActiveUsers.forEach((activeUserElem) => {
             const activeUser = activeUserElem.querySelectorAll('h3');
             activeUser.forEach((resizeActiveUser) => {
                 resizeActiveUser.style.setProperty('font-size', fontSizes.homeSidebar);
             })
         })
-
         homepageSidebarPosts.forEach((sidebarPostsElem) => {
             const sidebarPosts = sidebarPostsElem.querySelectorAll('h3, div.container blockquote.content p, div.container time, div.container a');
 
@@ -133,32 +117,32 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
                 sidebarPost.style.setProperty('font-size', fontSizes.homeSidebar);
             });
         });
-
         homeEntries.forEach((homeEntryElem) => {
             const homeEntry = homeEntryElem.querySelectorAll('h3, div.container blockquote.content p, div.container time, div.container a');
-
             homeEntry.forEach((homeEntryText) => {
                 homeEntryText.style.setProperty('font-size', fontSizes.homeSidebar);
             })
         })
+        // === ACTIVITY === //
+        const activity = document.querySelectorAll('div.section.users.users-columns');
+        activity.forEach((activityElem) => {
+            const activityElement = activityElem.querySelectorAll('ul, li, small, a, img');
 
+            activityElement.forEach((activityResize) => {
+                activityResize.style.setProperty('font-size', fontSizes.activity);
+            })
+        });
 
         // === PROFILE === //
-
-        // profile *variables*
         const profileBox = document.querySelectorAll('div.user-box');
         const profileInfo = document.querySelectorAll('aside#sidebar section.user-info');
-
-        // profile *loops*
         profileBox.forEach((profileElem) => {
             const profileBoxElem = profileElem.querySelectorAll('h1, p, small');
 
             profileBoxElem.forEach((resizeProfileElem) => {
                 resizeProfileElem.style.setProperty('font-size', fontSizes.profile);
             })
-
         })
-
         profileInfo.forEach((profileInfoElem) => {
             const profileInfoElement = profileInfoElem.querySelectorAll('h3, ul, li, a, p');
 
@@ -219,17 +203,10 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         safeGM("removeStyle", "resize-css")
         safeGM("addStyle", css, "resize-css")
 
-        // === ACTIVITY === //
-        const activity = document.querySelectorAll('div.section.users.users-columns');
-        activity.forEach((activityElem) => {
-            const activityElement = activityElem.querySelectorAll('ul, li, small, a, img');
-
-            activityElement.forEach((activityResize) => {
-                activityResize.style.setProperty('font-size', fontSizes.activity);
-            })
-        });
-        let timerID = window.setTimeout(restoreOpacity,1000);
-        sessionStorage.setItem('modalFade', timerID);
+        if (kesModalOpen) {
+            let timerID = window.setTimeout(setOpacity(1.0),1000);
+            sessionStorage.setItem('modalFade', timerID);
+        }
     }
 
     if (toggle) {
