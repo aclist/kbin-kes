@@ -2455,10 +2455,10 @@ const funcObj = {
     resize_text:
 
     function textResize (toggle) { // eslint-disable-line no-unused-vars
-        const modalContent = "kes-settings-modal-content"
-        const modalContainer = "kes-settings-modal-container"
+        const modalContent = ".kes-settings-modal-content"
+        const modalContainer = ".kes-settings-modal-container"
 
-        function kesModalOpen(){
+        function kesModalOpen () {
             const kesModalContent = document.querySelector(modalContent);
             if (kesModalContent) {
                 return true
@@ -2467,7 +2467,7 @@ const funcObj = {
             }
         }
 
-        function setOpacity(value){
+        function setOpacity (value) {
             const kesModalContent = document.querySelector(modalContent);
             const kesModalContainer = document.querySelector(modalContainer);
             kesModalContent.style.opacity = value;
@@ -2480,7 +2480,6 @@ const funcObj = {
                 posts: `${settings["optionPosts"]}px`,
                 magSidebar: `${settings["optionMagSidebar"]}px`,
                 homeSidebar: `${settings["optionHomeSidebar"]}px`,
-                comments: `${settings["optionComments"]}px`,
                 userMessages: `${settings["optionMessages"]}px`,
                 activity: `${settings["optionActivity"]}px`
             };
@@ -2488,7 +2487,7 @@ const funcObj = {
             let oldID = sessionStorage.getItem('modalFade');
             clearTimeout(oldID)
 
-            if (kesModalOpen) {
+            if (kesModalOpen()) {
                 setOpacity(0.2)
             }
             // === POSTS === //
@@ -2516,16 +2515,6 @@ const funcObj = {
             textContentH2.forEach((postTitles) => {
                 postTitles.style.setProperty('font-size', `${postSizeNum * 1.2}px`);
             });
-
-            // === COMMENTS  === //
-            const commentSection = document.querySelectorAll('section.comments.entry-comments.comments-tree');
-            commentSection.forEach((commentElem) => {
-                const commentElement = commentElem.querySelectorAll('blockquote header a, header time, div.content p, div.content a, span[data-subject-target$="Counter"], li, a, i.fa-arrow-up, i.fa-arrow-down, h1, h2, h3, h4');
-
-                commentElement.forEach((commentResize) => {
-                    commentResize.style.setProperty('font-size', fontSizes.comments);
-                })
-            })
 
             // === MAG SIDEBAR === //
             const magSidebar = document.querySelectorAll('aside#sidebar section.magazine.section');
@@ -2590,14 +2579,24 @@ const funcObj = {
 
             //TODO: header avatar?
             const css = `
+            /* COMMENTS */
+            .entry-comment * {
+                font-size: ${settings["optionComments"]}px
+            }
             /* PROFILE PAGES */
+            .user-main > div > .user__actions * {
+                font-size: ${settings["optionProfile"]}px
+            }
             .user-box * {
                 font-size: ${settings["optionProfile"]}px
             }
-            section.user-info > h3, section.user-info > ul > li a {
-                font-size: ${settings["optionProfile"]}px
+            .section.user-info > ul > li a {
+                font-size: ${settings["optionProfile"]}px !important
             }
-            section.user-info > h3, section.user-info > ul > li * {
+            .section.user-info > h3 {
+                font-size: ${settings["optionProfile"]}px !important
+            }
+            .section.user-info > ul > li {
                 font-size: ${settings["optionProfile"]}px
             }
             /* POST CREATION PAGES */
@@ -2650,8 +2649,8 @@ const funcObj = {
             safeGM("removeStyle", "resize-css")
             safeGM("addStyle", css, "resize-css")
 
-            if (kesModalOpen) {
-                let timerID = window.setTimeout(setOpacity(1.0),1000);
+            if (kesModalOpen()) {
+                let timerID = setTimeout(setOpacity ,1000, 1.0);
                 sessionStorage.setItem('modalFade', timerID);
             }
         }
@@ -3498,7 +3497,6 @@ const funcObj = {
 
         const settings = getModSettings("submission_label");
         const label = settings["prefix"]
-        console.log(label)
         const css = `
         article:not(.entry-cross) .user-inline::before {
             content: " ${label} ";
