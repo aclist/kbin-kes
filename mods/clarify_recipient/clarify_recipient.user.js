@@ -1,4 +1,4 @@
-function clarifyRecipientInit (toggle) {
+function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
     function rewrite (title) {
         const self = document.querySelector('.dropdown .login').getAttribute("href").split('/')[2]
         const loc = window.location.href.split('/')[3]

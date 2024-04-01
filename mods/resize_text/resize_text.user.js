@@ -21,7 +21,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
     function resizeText () {
         const settings = getModSettings('resize');
         const fontSizes = {
-            posts: `${settings["optionPosts"]}px`,
             magSidebar: `${settings["optionMagSidebar"]}px`,
             homeSidebar: `${settings["optionHomeSidebar"]}px`,
             userMessages: `${settings["optionMessages"]}px`,
@@ -34,32 +33,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         if (kesModalOpen()) {
             setOpacity(0.2)
         }
-        // === POSTS === //
-        const postContent = document.querySelectorAll('article.entry');
-        const domainTitle = document.querySelectorAll('.entry__domain, .entry__domain a');
-        const textContentH2 = document.querySelectorAll('.entry header h1 a:not(.entry__domain a), .entry header h2 a:not(.entry__domain a)');
-        const postSizeNum = settings["optionPosts"];
-        postContent.forEach((postContentElem) => {
-            const textContentElements = postContentElem.querySelectorAll('h1.a, h3, p, a, time, button:not([data-action="subject#vote"]), small.badge');
-            const voteText = postContentElem.querySelectorAll('span[data-subject-target="favCounter"], span[data-subject-target="downvoteCounter"], i.fa-arrow-up, i.fa-arrow-down');
-            textContentElements.forEach((textContentElem) => {
-                textContentElem.style.setProperty('font-size', fontSizes.posts);
-            });
-
-            voteText.forEach((textVote) => {
-                textVote.style.setProperty('font-size', fontSizes.posts);
-            });
-        });
-
-        domainTitle.forEach((titleDomainResize) => {
-            titleDomainResize.style.setProperty('font-size', `${postSizeNum * .8}px`);
-            titleDomainResize.style.setProperty('opacity', '.7');
-        });
-
-        textContentH2.forEach((postTitles) => {
-            postTitles.style.setProperty('font-size', `${postSizeNum * 1.2}px`);
-        });
-
         // === MAG SIDEBAR === //
         const magSidebar = document.querySelectorAll('aside#sidebar section.magazine.section');
         const magSidebarName = document.querySelectorAll('aside#sidebar section.magazine.section h3');
@@ -68,15 +41,12 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         magSidebar.forEach((sidebar) => {
             sidebar.style.setProperty('font-size', fontSizes.magSidebar);
         })
-
         magName.forEach((mag) => {
             mag.style.setProperty('font-size', fontSizes.magSidebar);
         })
-
         modSidebar.forEach((mods) => {
             mods.style.setProperty('font-size', fontSizes.magSidebar);
         })
-
         magSidebarName.forEach((magname) => {
             magname.style.setProperty('font-size', fontSizes.magSidebar);
         })
@@ -120,13 +90,13 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
                 activityResize.style.setProperty('font-size', fontSizes.activity);
             })
         });
-
         //TODO: header avatar?
         const css = `
         /* COMMENTS */
         .entry-comment * {
             font-size: ${settings["optionComments"]}px
         }
+        /* ============= */
         /* PROFILE PAGES */
         .user-main > div > .user__actions * {
             font-size: ${settings["optionProfile"]}px
@@ -143,6 +113,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .section.user-info > ul > li {
             font-size: ${settings["optionProfile"]}px
         }
+        /* ============= */
         /* POST CREATION PAGES */
         /*TODO: this line is not applying */
         .entry-create > div > #entry_link_title_max_length {
@@ -157,10 +128,12 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .entry-create * {
             font-size: ${settings["optionCreate"]}px
         }
+        /* ============= */
         /* HEADERS */
         #header :not(.icon) {
             font-size: ${settings["optionHeader"]}px
         }
+        /* ============= */
         /* SETTINGS */
         .page-settings * {
             font-size: ${settings["optionUserSettings"]}px
@@ -168,6 +141,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .page-settings h2 {
             font-size: ${settings["optionUserSettings"] * 2.5}px
         }
+        /* ============= */
         /* FOOTER */
         #footer > .kbin-container > section * {
             font-size: ${settings["optionFooter"]}px
@@ -175,6 +149,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         #footer > .kbin-container > section h5 {
             font-size: ${settings["optionFooter"] * 1.222}px
         }
+        /* ============= */
         /* SORT OPTIONS */
         aside#options menu li a, aside#options menu i {
             font-size: ${settings["optionSortBy"]}px
@@ -188,6 +163,17 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         }
         .page-notifications > .kbin-container > main > h1 {
             font-size: ${settings["optionNotifs"] * 2.5}px !important
+        }
+        /* ============= */
+        /* POSTS/THREADS */
+        article.entry > header > h2 a {
+            font-size: ${settings["optionPosts"] * 1.295}px
+        }
+        article.entry > .content * {
+            font-size: ${settings["optionPosts"]}px
+        }
+        article.entry * {
+            font-size: ${settings["optionPosts"]}px
         }
         `;
         safeGM("removeStyle", "resize-css")

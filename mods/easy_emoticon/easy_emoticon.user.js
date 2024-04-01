@@ -1,4 +1,4 @@
-function easyEmoticon (toggle) {
+function easyEmoticon (toggle) { // eslint-disable-line no-unused-vars
     // ==UserScript==
     // @name         Kbin Easy Emoticon
     // @namespace    https://github.com/aclist

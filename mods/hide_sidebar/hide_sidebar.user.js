@@ -1,4 +1,4 @@
-function hideSidebar (toggle) {
+function hideSidebar (toggle) { // eslint-disable-line no-unused-vars
 
     const obj = {
         sidebar: '#sidebar',

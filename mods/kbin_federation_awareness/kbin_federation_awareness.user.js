@@ -1,4 +1,4 @@
-function initKFA (toggle) {
+function initKFA (toggle) { // eslint-disable-line no-unused-vars
     /*
         License: MIT
         Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
@@ -116,7 +116,7 @@ function initKFA (toggle) {
         if (kfaInjectedCss) {
             kfaInjectedCss.remove();
         }
-        function removeOld (els) {
+        function removeOld () {
             for (let i = 0; i<arguments.length; ++i) {
                 arguments[i].forEach((el) => {
                     el.remove();
@@ -143,32 +143,32 @@ function initKFA (toggle) {
         }
     }
 
+    function toggleClass (article, classname) {
+        const articleIndicator = document.createElement('div');
+        const articleAside = article.querySelector('aside');
+        articleAside.prepend(articleIndicator);
+
+        article.classList.toggle(classname);
+        articleIndicator.classList.toggle(classname);
+    }
+
     function kfaInitClasses () {
-        const classList = [
-            'data-moderated',
-            'data-federated',
-            'data-home'
-        ];
         document.querySelectorAll('#content article.entry').forEach(function (article) {
             if (article.querySelector('[class^=data-]')) { return }
             let op = article.querySelector('.user-inline').href
             op = String(op)
             const hostname = findHostname(op);
-
-            let articleAside = article.querySelector('aside');
             article.setAttribute('data-hostname', hostname);
-            let articleIndicator = document.createElement('div');
+            let type
+
             if (kfaIsStrictlyModerated(hostname)) {
-                article.classList.toggle('data-moderated');
-                articleIndicator.classList.toggle('data-moderated');
+                type = 'data-moderated'
             } else if (hostname !== window.location.hostname) {
-                article.classList.toggle('data-federated');
-                articleIndicator.classList.toggle('data-federated');
+                type = 'data-federated'
             } else {
-                article.classList.toggle('data-home');
-                articleIndicator.classList.toggle('data-home');
+                type = 'data-home'
             }
-            articleAside.prepend(articleIndicator);
+            toggleClass(article, type)
         });
 
         document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {

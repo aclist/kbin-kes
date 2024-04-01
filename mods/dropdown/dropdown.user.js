@@ -1,4 +1,4 @@
-function dropdownEntry (toggle) {
+function dropdownEntry (toggle) { // eslint-disable-line no-unused-vars
     function addDropdown (user, testMsg) {
         function addOption (item) {
             const text = item.innerText;

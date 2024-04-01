@@ -25,7 +25,7 @@ const funcObj = {
 
     improved_collapsible_comments:
 
-    function initCollapsibleComments (toggle, mutation) {
+    function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-unused-vars
         function applyCommentStyles () {
             // Add styles to comments
             var style = `
@@ -958,7 +958,7 @@ const funcObj = {
 
     clarify_recipient:
 
-    function clarifyRecipientInit (toggle) {
+    function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
         function rewrite (title) {
             const self = document.querySelector('.dropdown .login').getAttribute("href").split('/')[2]
             const loc = window.location.href.split('/')[3]
@@ -1554,7 +1554,7 @@ const funcObj = {
 
     mag_instance_names:
 
-    function magInstanceEntry (toggle) {
+    function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Magazine Instance Names
         // @namespace    https://github.com/aclist
@@ -1585,7 +1585,7 @@ const funcObj = {
                 $(this).html($(this).html().split('<span class="mag-instance">@')[0]);
             });
         }
-        const localInstance = window.location.href.split('/')[2];
+        //const localInstance = window.location.href.split('/')[2];
         if (toggle) {
             showMagInstances();
         } else {
@@ -1697,7 +1697,7 @@ const funcObj = {
 
     code_highlighting:
 
-    function initCodeHighlights (toggle) {
+    function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
         /* global hljs */
         let kchCssUrl;
         safeGM("addStyle",`
@@ -1735,7 +1735,6 @@ const funcObj = {
                     break;
                 }
             }
-            //const parent_html = item.parentElement.innerHTML;
             const header = document.createElement('div');
             header.className = 'hljs kch_header';
 
@@ -1743,6 +1742,7 @@ const funcObj = {
             span.className = 'hljs-keyword'
             span.innerHTML = lang;
 
+            // TODO: create static stylesheet
             const icon = document.createElement('i');
             icon.className = 'fa-solid fa-copy hljs-section';
             icon.setAttribute('aria-hidden', 'true');
@@ -1787,8 +1787,6 @@ const funcObj = {
             });
         }
         function addHeaders (selector) {
-            //TODO: if item style is none, skip
-            //el.style.display === "none"
             document.querySelectorAll(selector).forEach((item) => {
                 if (!(item.classList.contains('hljs'))) {
                     hljs.highlightElement(item);
@@ -1803,12 +1801,6 @@ const funcObj = {
             const prefix = "https://raw.githubusercontent.com"
             const suffix = "highlightjs/highlight.js/main/src/styles/base16"
             kchCssUrl = `${prefix}/${suffix}/${myStyle}.css`
-            //        if () {
-            //            kchLastToggleState = true;
-            //            kchStartup(true);
-            //        } else {
-            //            kchStartup();
-            //        }
             kchStartup();
             hljs.configure({ ignoreUnescapedHTML: true });
             hljs.highlightAll();
@@ -1943,7 +1935,7 @@ const funcObj = {
 
     dropdown:
 
-    function dropdownEntry (toggle) {
+    function dropdownEntry (toggle) { // eslint-disable-line no-unused-vars
         function addDropdown (user, testMsg) {
             function addOption (item) {
                 const text = item.innerText;
@@ -2176,7 +2168,7 @@ const funcObj = {
 
     easy_emoticon:
 
-    function easyEmoticon (toggle) {
+    function easyEmoticon (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Kbin Easy Emoticon
         // @namespace    https://github.com/aclist
@@ -2477,7 +2469,6 @@ const funcObj = {
         function resizeText () {
             const settings = getModSettings('resize');
             const fontSizes = {
-                posts: `${settings["optionPosts"]}px`,
                 magSidebar: `${settings["optionMagSidebar"]}px`,
                 homeSidebar: `${settings["optionHomeSidebar"]}px`,
                 userMessages: `${settings["optionMessages"]}px`,
@@ -2490,32 +2481,6 @@ const funcObj = {
             if (kesModalOpen()) {
                 setOpacity(0.2)
             }
-            // === POSTS === //
-            const postContent = document.querySelectorAll('article.entry');
-            const domainTitle = document.querySelectorAll('.entry__domain, .entry__domain a');
-            const textContentH2 = document.querySelectorAll('.entry header h1 a:not(.entry__domain a), .entry header h2 a:not(.entry__domain a)');
-            const postSizeNum = settings["optionPosts"];
-            postContent.forEach((postContentElem) => {
-                const textContentElements = postContentElem.querySelectorAll('h1.a, h3, p, a, time, button:not([data-action="subject#vote"]), small.badge');
-                const voteText = postContentElem.querySelectorAll('span[data-subject-target="favCounter"], span[data-subject-target="downvoteCounter"], i.fa-arrow-up, i.fa-arrow-down');
-                textContentElements.forEach((textContentElem) => {
-                    textContentElem.style.setProperty('font-size', fontSizes.posts);
-                });
-
-                voteText.forEach((textVote) => {
-                    textVote.style.setProperty('font-size', fontSizes.posts);
-                });
-            });
-
-            domainTitle.forEach((titleDomainResize) => {
-                titleDomainResize.style.setProperty('font-size', `${postSizeNum * .8}px`);
-                titleDomainResize.style.setProperty('opacity', '.7');
-            });
-
-            textContentH2.forEach((postTitles) => {
-                postTitles.style.setProperty('font-size', `${postSizeNum * 1.2}px`);
-            });
-
             // === MAG SIDEBAR === //
             const magSidebar = document.querySelectorAll('aside#sidebar section.magazine.section');
             const magSidebarName = document.querySelectorAll('aside#sidebar section.magazine.section h3');
@@ -2524,15 +2489,12 @@ const funcObj = {
             magSidebar.forEach((sidebar) => {
                 sidebar.style.setProperty('font-size', fontSizes.magSidebar);
             })
-
             magName.forEach((mag) => {
                 mag.style.setProperty('font-size', fontSizes.magSidebar);
             })
-
             modSidebar.forEach((mods) => {
                 mods.style.setProperty('font-size', fontSizes.magSidebar);
             })
-
             magSidebarName.forEach((magname) => {
                 magname.style.setProperty('font-size', fontSizes.magSidebar);
             })
@@ -2576,13 +2538,13 @@ const funcObj = {
                     activityResize.style.setProperty('font-size', fontSizes.activity);
                 })
             });
-
             //TODO: header avatar?
             const css = `
             /* COMMENTS */
             .entry-comment * {
                 font-size: ${settings["optionComments"]}px
             }
+            /* ============= */
             /* PROFILE PAGES */
             .user-main > div > .user__actions * {
                 font-size: ${settings["optionProfile"]}px
@@ -2599,6 +2561,7 @@ const funcObj = {
             .section.user-info > ul > li {
                 font-size: ${settings["optionProfile"]}px
             }
+            /* ============= */
             /* POST CREATION PAGES */
             /*TODO: this line is not applying */
             .entry-create > div > #entry_link_title_max_length {
@@ -2613,10 +2576,12 @@ const funcObj = {
             .entry-create * {
                 font-size: ${settings["optionCreate"]}px
             }
+            /* ============= */
             /* HEADERS */
             #header :not(.icon) {
                 font-size: ${settings["optionHeader"]}px
             }
+            /* ============= */
             /* SETTINGS */
             .page-settings * {
                 font-size: ${settings["optionUserSettings"]}px
@@ -2624,6 +2589,7 @@ const funcObj = {
             .page-settings h2 {
                 font-size: ${settings["optionUserSettings"] * 2.5}px
             }
+            /* ============= */
             /* FOOTER */
             #footer > .kbin-container > section * {
                 font-size: ${settings["optionFooter"]}px
@@ -2631,6 +2597,7 @@ const funcObj = {
             #footer > .kbin-container > section h5 {
                 font-size: ${settings["optionFooter"] * 1.222}px
             }
+            /* ============= */
             /* SORT OPTIONS */
             aside#options menu li a, aside#options menu i {
                 font-size: ${settings["optionSortBy"]}px
@@ -2644,6 +2611,17 @@ const funcObj = {
             }
             .page-notifications > .kbin-container > main > h1 {
                 font-size: ${settings["optionNotifs"] * 2.5}px !important
+            }
+            /* ============= */
+            /* POSTS/THREADS */
+            article.entry > header > h2 a {
+                font-size: ${settings["optionPosts"] * 1.295}px
+            }
+            article.entry > .content * {
+                font-size: ${settings["optionPosts"]}px
+            }
+            article.entry * {
+                font-size: ${settings["optionPosts"]}px
             }
             `;
             safeGM("removeStyle", "resize-css")
@@ -2666,7 +2644,7 @@ const funcObj = {
 
     hide_logo:
 
-    function toggleLogo (toggle) {
+    function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
         const prefix = "https://raw.githubusercontent.com/aclist/kbin-kes/main/images"
         const kibby = `${prefix}/kbin_logo_kibby.svg`
         const kibbyMini = `${prefix}/kibby-mini.svg`
@@ -3064,7 +3042,7 @@ const funcObj = {
 
     expand_posts:
 
-    function expandPostsInit (toggle) {
+    function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
 
         async function update (response) {
             const xml = response.response
@@ -3079,7 +3057,6 @@ const funcObj = {
             const collapseLabel = settings.collapse
             const newButton = makeButton(collapseLabel, res)
             newButton.className = 'kes-collapse-post-button'
-            const oldBr = document.querySelector('#kes-expand-divider')
 
             oldBody.innerText = postBody
             oldBody.appendChild(newButton)
@@ -3296,7 +3273,7 @@ const funcObj = {
 
     hide_sidebar:
 
-    function hideSidebar (toggle) {
+    function hideSidebar (toggle) { // eslint-disable-line no-unused-vars
 
         const obj = {
             sidebar: '#sidebar',
@@ -3515,7 +3492,7 @@ const funcObj = {
 
     hide_downvotes:
 
-    function hideDownvotes (toggle) {
+    function hideDownvotes (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         kbin Vote Hider
         // @namespace    https://github.com/aclist
@@ -3535,7 +3512,7 @@ const funcObj = {
 
     kbin_federation_awareness:
 
-    function initKFA (toggle) {
+    function initKFA (toggle) { // eslint-disable-line no-unused-vars
         /*
             License: MIT
             Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
@@ -3653,7 +3630,7 @@ const funcObj = {
             if (kfaInjectedCss) {
                 kfaInjectedCss.remove();
             }
-            function removeOld (els) {
+            function removeOld () {
                 for (let i = 0; i<arguments.length; ++i) {
                     arguments[i].forEach((el) => {
                         el.remove();
@@ -3680,32 +3657,32 @@ const funcObj = {
             }
         }
 
+        function toggleClass (article, classname) {
+            const articleIndicator = document.createElement('div');
+            const articleAside = article.querySelector('aside');
+            articleAside.prepend(articleIndicator);
+
+            article.classList.toggle(classname);
+            articleIndicator.classList.toggle(classname);
+        }
+
         function kfaInitClasses () {
-            const classList = [
-                'data-moderated',
-                'data-federated',
-                'data-home'
-            ];
             document.querySelectorAll('#content article.entry').forEach(function (article) {
                 if (article.querySelector('[class^=data-]')) { return }
                 let op = article.querySelector('.user-inline').href
                 op = String(op)
                 const hostname = findHostname(op);
-
-                let articleAside = article.querySelector('aside');
                 article.setAttribute('data-hostname', hostname);
-                let articleIndicator = document.createElement('div');
+                let type
+
                 if (kfaIsStrictlyModerated(hostname)) {
-                    article.classList.toggle('data-moderated');
-                    articleIndicator.classList.toggle('data-moderated');
+                    type = 'data-moderated'
                 } else if (hostname !== window.location.hostname) {
-                    article.classList.toggle('data-federated');
-                    articleIndicator.classList.toggle('data-federated');
+                    type = 'data-federated'
                 } else {
-                    article.classList.toggle('data-home');
-                    articleIndicator.classList.toggle('data-home');
+                    type = 'data-home'
                 }
-                articleAside.prepend(articleIndicator);
+                toggleClass(article, type)
             });
 
             document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {

@@ -1,4 +1,4 @@
-function magInstanceEntry (toggle) {
+function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
     // ==UserScript==
     // @name         Magazine Instance Names
     // @namespace    https://github.com/aclist
@@ -29,7 +29,7 @@ function magInstanceEntry (toggle) {
             $(this).html($(this).html().split('<span class="mag-instance">@')[0]);
         });
     }
-    const localInstance = window.location.href.split('/')[2];
+    //const localInstance = window.location.href.split('/')[2];
     if (toggle) {
         showMagInstances();
     } else {

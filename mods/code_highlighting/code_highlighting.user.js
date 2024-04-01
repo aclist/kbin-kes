@@ -1,4 +1,4 @@
-function initCodeHighlights (toggle) {
+function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
     /* global hljs */
     let kchCssUrl;
     safeGM("addStyle",`
@@ -36,7 +36,6 @@ function initCodeHighlights (toggle) {
                 break;
             }
         }
-        //const parent_html = item.parentElement.innerHTML;
         const header = document.createElement('div');
         header.className = 'hljs kch_header';
 
@@ -44,6 +43,7 @@ function initCodeHighlights (toggle) {
         span.className = 'hljs-keyword'
         span.innerHTML = lang;
 
+        // TODO: create static stylesheet
         const icon = document.createElement('i');
         icon.className = 'fa-solid fa-copy hljs-section';
         icon.setAttribute('aria-hidden', 'true');
@@ -88,8 +88,6 @@ function initCodeHighlights (toggle) {
         });
     }
     function addHeaders (selector) {
-        //TODO: if item style is none, skip
-        //el.style.display === "none"
         document.querySelectorAll(selector).forEach((item) => {
             if (!(item.classList.contains('hljs'))) {
                 hljs.highlightElement(item);
@@ -104,12 +102,6 @@ function initCodeHighlights (toggle) {
         const prefix = "https://raw.githubusercontent.com"
         const suffix = "highlightjs/highlight.js/main/src/styles/base16"
         kchCssUrl = `${prefix}/${suffix}/${myStyle}.css`
-        //        if () {
-        //            kchLastToggleState = true;
-        //            kchStartup(true);
-        //        } else {
-        //            kchStartup();
-        //        }
         kchStartup();
         hljs.configure({ ignoreUnescapedHTML: true });
         hljs.highlightAll();

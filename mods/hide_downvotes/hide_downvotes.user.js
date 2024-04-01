@@ -1,4 +1,4 @@
-function hideDownvotes (toggle) {
+function hideDownvotes (toggle) { // eslint-disable-line no-unused-vars
     // ==UserScript==
     // @name         kbin Vote Hider
     // @namespace    https://github.com/aclist

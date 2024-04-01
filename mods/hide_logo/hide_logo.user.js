@@ -1,4 +1,4 @@
-function toggleLogo (toggle) {
+function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
     const prefix = "https://raw.githubusercontent.com/aclist/kbin-kes/main/images"
     const kibby = `${prefix}/kbin_logo_kibby.svg`
     const kibbyMini = `${prefix}/kibby-mini.svg`

@@ -1,4 +1,4 @@
-function expandPostsInit (toggle) {
+function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
 
     async function update (response) {
         const xml = response.response
@@ -13,7 +13,6 @@ function expandPostsInit (toggle) {
         const collapseLabel = settings.collapse
         const newButton = makeButton(collapseLabel, res)
         newButton.className = 'kes-collapse-post-button'
-        const oldBr = document.querySelector('#kes-expand-divider')
 
         oldBody.innerText = postBody
         oldBody.appendChild(newButton)
