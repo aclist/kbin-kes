@@ -1226,7 +1226,7 @@ const funcObj = {
             font-size: 1rem;
             position: absolute;
             top: 30%;
-            margin-left: 55px;
+            margin-left: 91.5px;
         }
         `;
 
@@ -2455,8 +2455,8 @@ const funcObj = {
     resize_text:
 
     function textResize (toggle) { // eslint-disable-line no-unused-vars
-        const modalContent = "div.kes-settings-modal-content"
-        const modalContainer = "div.kes-settings-modal-container"
+        const modalContent = "kes-settings-modal-content"
+        const modalContainer = "kes-settings-modal-container"
 
         function kesModalOpen(){
             const kesModalContent = document.querySelector(modalContent);
@@ -2480,7 +2480,6 @@ const funcObj = {
                 posts: `${settings["optionPosts"]}px`,
                 magSidebar: `${settings["optionMagSidebar"]}px`,
                 homeSidebar: `${settings["optionHomeSidebar"]}px`,
-                profile: `${settings["optionProfile"]}px`,
                 comments: `${settings["optionComments"]}px`,
                 userMessages: `${settings["optionMessages"]}px`,
                 activity: `${settings["optionActivity"]}px`
@@ -2589,26 +2588,18 @@ const funcObj = {
                 })
             });
 
-            // === PROFILE === //
-            const profileBox = document.querySelectorAll('div.user-box');
-            const profileInfo = document.querySelectorAll('aside#sidebar section.user-info');
-            profileBox.forEach((profileElem) => {
-                const profileBoxElem = profileElem.querySelectorAll('h1, p, small');
-
-                profileBoxElem.forEach((resizeProfileElem) => {
-                    resizeProfileElem.style.setProperty('font-size', fontSizes.profile);
-                })
-            })
-            profileInfo.forEach((profileInfoElem) => {
-                const profileInfoElement = profileInfoElem.querySelectorAll('h3, ul, li, a, p');
-
-                profileInfoElement.forEach((resizeProfileInfoElems) => {
-                    resizeProfileInfoElems.style.setProperty('font-size', fontSizes.profile);
-                })
-            })
-
             //TODO: header avatar?
             const css = `
+            /* PROFILE PAGES */
+            .user-box * {
+                font-size: ${settings["optionProfile"]}px
+            }
+            section.user-info > h3, section.user-info > ul > li a {
+                font-size: ${settings["optionProfile"]}px
+            }
+            section.user-info > h3, section.user-info > ul > li * {
+                font-size: ${settings["optionProfile"]}px
+            }
             /* POST CREATION PAGES */
             /*TODO: this line is not applying */
             .entry-create > div > #entry_link_title_max_length {

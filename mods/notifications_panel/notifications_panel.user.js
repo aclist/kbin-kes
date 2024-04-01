@@ -128,7 +128,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         font-size: 1rem;
         position: absolute;
         top: 30%;
-        margin-left: 55px;
+        margin-left: 91.5px;
     }
     `;
 
