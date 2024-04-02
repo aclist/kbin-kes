@@ -621,22 +621,18 @@ function constructMenu (json, layoutArr, isNew) {
                         if (modSettings[key] === undefined) {
                             size = getComputedFontSize(initial)
                             if (!size) {
-                                console.log("setting val to default")
                                 val = 14
                             } else {
                                 val = size
                             }
                         } else {
                             size = getComputedFontSize(modSettings[key])
-                            console.log(modSettings[key])
                             if (!size) {
-                                console.log("setting val to default")
                                 val = 14
                             } else {
                                 val = size
                             }
                         }
-                        console.log("VAL IS", val)
                         numberField.setAttribute("value", val)
 
                         numberField.setAttribute("kes-iter", it);
