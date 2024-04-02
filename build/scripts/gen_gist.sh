@@ -1,5 +1,5 @@
 #used to generate ephemeral version of funcs.js when prototyping local changes
-#TODO: add token creation tutorial to docs
+# https://github.com/settings/tokens?type=beta
 file="helpers/funcs.js"
 kes="kes.user.js"
 id="build/scripts/.gist_id"
@@ -48,9 +48,14 @@ main(){
     <<< "$json" jq -r '.id' > "$id"
     url=$(<<< "$json" jq -r --arg filename "$gist" '.files[$filename].raw_url')
 
-    sed "/favicon.svg/a \/\/ @connect      gist.githubusercontent.com" "$kes" | \
-    sed "/funcs.js/c \/\/ @require      $url" | xclip -selection c
-    echo "Copied kes.user.js to clipboard"
+    output=$(sed "/favicon.svg/a \/\/ @connect      gist.githubusercontent.com" "$kes" | \
+        sed "/funcs.js/c \/\/ @require      $url")
+    if [[ $(command -v xclipu) ]]; then
+        echo "$output" | xclip -selection c
+        echo "Copied kes.user.js to clipboard"
+    else
+        echo "$output"
+    fi
 }
 
 main

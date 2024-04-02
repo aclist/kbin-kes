@@ -371,6 +371,22 @@ Simply set this value in the manifest and the script will be called automaticall
 There is no need to include additional onload event listeners or mutation observers to the script itself or watch for page events, as they are handled
 at the top level by KES.
 
+=== Prototyping local code
+To facilitate prototyping local changes without committing code, two build scripts are provided in `/build/scripts`. Both of these tools use relative paths and should be invoked from the repository root. You could also chain these scripts together into one if you so desire.
+
+- concat-funcs
+
+This is the same script used by the KES build routine to concatenate the contents of each mod into a global functions file. Prior to running the script below, this should be run in order to ingest the latest changes to all functions.
+
+- gen_gist.sh
+
+Requires the environment variable KES_GIST_GEN to be set. Navigate to https://github.com/settings/tokens?type=beta[this page] to set up a fine-grained personal access token.
+
+Uploads a copy of the functions file above as a Gist to GitHub, then inserts this URL into the KES script headers as a remote resource.
+
+If the tool `xclip` is available on your system, the contents are then copied to the system clipboard. Otherwise, the contents are written to stdout, where they can be redirected into a file.
+
+These contents can then be pasted directly into your *monkey extension to test any changes. To obviate the need to manage multiple Gists, only one copy of the file will be uploaded at a given time; the same remote file is subsequently overwritten each time the script is invoked, and the new ID is stored in the file `.gist_id` in the scripts directory.
 
 === Compatibility API
 
