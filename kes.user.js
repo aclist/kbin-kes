@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.0.0-beta.68
+// @version      4.0.0-beta.69
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -273,13 +273,11 @@ function constructMenu (json, layoutArr, isNew) {
         }
         const el = document.querySelector(string)
         if (!el) {
-            //default fallback size
-            return 14
+            return null
         }
         const fontsize = document.defaultView.getComputedStyle(el).fontSize
         let px = fontsize.split('px')[0]
         px = parseFloat(px)
-        console.log(px)
         return px
     }
 
@@ -578,8 +576,10 @@ function constructMenu (json, layoutArr, isNew) {
                                         if (json[it].fields[k].type === "color") {
                                             initial = getHex(initial);
                                         } else if (json[it].fields[k].type === "number") {
-                                            console.log(initial)
                                             initial = getComputedFontSize(initial)
+                                            if (!initial) {
+                                                initial = 14
+                                            }
                                         }
                                         found.setAttribute("value",initial);
                                         found.value = initial;
@@ -617,11 +617,26 @@ function constructMenu (json, layoutArr, isNew) {
                         numberField.setAttribute("type", fieldType);
 
                         let val
+                        let size
                         if (modSettings[key] === undefined) {
-                            val = getComputedFontSize(initial)
+                            size = getComputedFontSize(initial)
+                            if (!size) {
+                                console.log("setting val to default")
+                                val = 14
+                            } else {
+                                val = size
+                            }
                         } else {
-                            val = getComputedFontSize(modSettings[key])
+                            size = getComputedFontSize(modSettings[key])
+                            console.log(modSettings[key])
+                            if (!size) {
+                                console.log("setting val to default")
+                                val = 14
+                            } else {
+                                val = size
+                            }
                         }
+                        console.log("VAL IS", val)
                         numberField.setAttribute("value", val)
 
                         numberField.setAttribute("kes-iter", it);

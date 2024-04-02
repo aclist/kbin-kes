@@ -13,7 +13,6 @@
     "optionHeader",
     "optionPosts",
     "optionComments",
-    "optionMagSidebar",
     "optionHomeSidebar",
     "optionCreate",
     "optionProfile",
@@ -21,8 +20,7 @@
     "optionMessages",
     "optionSortBy",
     "optionNotifs",
-    "optionFooter",
-    "optionActivity"
+    "optionFooter"
   ],
   "fields": [
     {
