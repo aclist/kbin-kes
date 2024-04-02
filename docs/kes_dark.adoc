@@ -67,7 +67,7 @@ out of the way in order to see changes that would otherwise be occluded by the m
 
 === Header and footer buttons
 
-icon:search[] **Search**: opens a keyword search field; search for add-ons using partial string match. Click the returned results to jump to the corresponding add-on's settings page.
+icon:search[] **Search**: opens a keyword search field; search for add-ons using partial string match. Click the returned results to jump to the corresponding add-on's settings page. You can also use the button that appears at the top of the search menu to search for any new add-ons that have been added as of the current major version of KES you are using. If new add-ons were incorporated in that release, this button will return a list of candidate add-ons.
 
 icon:flask[] **Changelog**: a link to the KES changelog, listing all user-facing changes to date.
 
@@ -113,10 +113,10 @@ The metadata related to a script is defined a priori in the file `manifest.json`
 its pages and assigns your add-on to the category requested, filling its contents with the fields and values you set.
 
 1. Set up an entrypoint function in the script which enables/disables it (See <<Script calling logic>>)
-2. Receive a boolean toggle argument from KES passed to the above function indicating
+2. Receive a boolean toggle parameter from KES passed to the above function indicating
 whether the user has toggled the script on or off
 3. If the script defines custom input fields, use the `getModSettings()` function exposed by KES
-with your script's namespace as the argument (See <<Retrieving custom settings>>). If you wish to call internal GreaseMonkey API
+with your script's namespace as the function parameter (See <<Retrieving custom settings>>). If you wish to call internal GreaseMonkey API
 functions, see <<Compatibility API>> for details on cross-compatibility and some utility functions that facilitate this.
 4. Parse the resulting settings object for your desired keys and use these settings in the business
 logic of your script
@@ -133,14 +133,14 @@ a globally unique namespace.
 `manifest.json` is not manipulated by hand, being created automatically during the build process by maintainers.
 When submitting a script, the author is solely responsible for creating their own JSON file defining settings for their script.
 
-Ensure that you submit your add-on using the following directory tree, with all files prefixed with the name of the parent directory.
+Ensure that you submit your add-on using the following directory hierarchy, with all files prefixed with the name of the parent directory.
 Given a mod named `softblock`, the submitted files should be:
 
 
 ----
 softblock/ <1>
 ├── softblock.json <2>
-└── softblock.user.js <3>
+└── softblock.js <3>
 
 ----
 <1> The parent directory
@@ -224,7 +224,10 @@ The only responsibilities of the recipient script are:
         "label": "Link label"
       }
     ],
-    "page": "general" <5>
+    "depends_on": [
+        "init_softblock" <5>
+    ],
+    "page": "general" <6>
   }
 ----
 <1> If the user has enabled infinite scroll and the add-on is expected to modify these new threads and/or comments, setting this value to true will ensure that the script is applied again.
@@ -234,10 +237,11 @@ separated by line breaks, with the 'Text' radio button initially selected. The i
 <4> This is followed by a descriptive label reading 'Link label', a line break,
 and then a textarea initially set to the string 'PM', with this value stored under the `mail.text` key. In this example, the link label might be used by the recipient script if `mail.type` was set to `Text`. KES is agnostic to how these settings are parsed and merely populates the fields.
 As far as KES is concerned, functionality of one field does not depend on another; it is up to the author to add additional fields if necessary.
-<5> The contents of the metadata and custom fields will be added to the 'General' page of the sidebar under the feature label 'Add mail icon'. Available pages can be seen within the file `ui.json`.
+<5> If the script depends on another KES script being loaded first, specify that script's entrypoint function here. Analogously, `depends_off` provides functionality for dependencies that must also be disabled when the calling script is turned off.
+<6> The contents of the metadata and custom fields will be added to the 'General' page of the sidebar under the feature label 'Add mail icon'. Available pages can be seen within the file `ui.json`.
 
 .basic metadata
-[%autowidth]
+[cols="~,~,25,~"]
 |===
 |Key|Optional?|Type|Value
 
@@ -260,11 +264,13 @@ This namespace is used when parsing localStorage
 |link|yes|string|A link to external content, such as a web site or help file
 |link_label|yes|string|A user-facing label for the link above
 |fields|yes|string|An array of objects containing custom input fields
+|depends_on|yes|array of strings|The qualified names of entrypoint functions used by other KES mods. These functions will be called in sequential order when the parent mod is going to be enabled, after which the parent mod is enabled.
+|depends_off|yes|array of strings|The qualified names of entrypoint functions used by other KES mods. These functions will be called in sequential order when the parent mod is going to be disabled, after which the parent mod is disabled.
 |===
 
 === Adding custom input fields
 
-Custom input fields are themselves optional, but if the `fields` array above has been declared, it must be filled with the requisite keys below.
+Custom input fields are themselves optional, but if the `fields` array above has been declared, it must be filled with some or all of the keys below.
 
 .The fields array
 [%autowidth]
@@ -299,20 +305,21 @@ A number of pre-existing examples can be found under the `/mods` directory of th
 
 KES calls the recipient script via the entrypoint function defined in `manifest.json` with a boolen argument.
 ----
-function toggleOn(){
-   let el = document.querySelector('.myelement')
-   if (!el) {
-       document.body.appendChild(el);
-   }
-}
-function toggleOff(){
-   $('.myelement').hide();
-}
-function myEntryPoint(toggle) {
-    if (toggle)
+function myEntryPoint (toggle) {
+    function toggleOn(){
+       let el = document.querySelector('.myelement')
+       if (!el) {
+           document.body.appendChild(el);
+       }
+    }
+    function toggleOff () {
+       $('.myelement').hide();
+    }
+    if (toggle) {
         toggleOn();
     } else {
         toggleOff();
+    }
 }
 ----
 
@@ -353,7 +360,7 @@ function toggleOn(){
 === Handling infinite scrolling
 
 The `recurs` boolean (see <<JSON manifest>>) is used to specify whether the script's entrypoint function should be called again when
-the thread (`'[data-controller="subject-list"]\'`) or post content area (`'#comments'`) have DOM changes. This allows your mod to be applied again in the event of post replies, new threads being loaded in,
+the thread (`'[data-controller="subject-list"]\'`) or post comments area (`'#comments'`) have DOM changes. This allows your mod to be applied again in the event of post replies, new threads being loaded in,
 et cetera.
 
 Simply set this value in the manifest and the script will be called automatically and applied to the new content.
@@ -365,20 +372,11 @@ at the top level by KES.
 === Compatibility API
 
 For compatibility between *monkey extensions, KES provides a shim function called `safeGM()` into which GM API commands can be passed.
-safeGM accepts the name of a GM API function and its respective arguments. Under the hood, safeGM merely passes the function call to the respective
+safeGM accepts the name of a GM API function and its respective parameters. Under the hood, safeGM merely passes the function call to the respective
 GM API prefix depending on whether the extension uses the underscore namespace or the GM 4.0 Promise API.
 
 In addition, safeGM natively reimplements some function calls that were dropped in GM 4.0 but are available in other extensions (as of this
-writing, `GM_addStyle`).
-
-.addStyle()
-----
-function addCustomCSS (css) {
-    const style = document.createElement('style');
-    style.innerHTML = css;
-    document.head.appendChild(style);
-}
-----
+writing, `GM_addStyle`). See <<API reference>>.
 
 These changes happen invisibly when calling safeGM, so it is enough to pass one of the function names below with the arguments you would typically pass
 to such a function:
@@ -399,54 +397,75 @@ Note that if using `setValue`, `getValue`, and `xmlHttpRequest`, you will need t
 However, using these methods should generally not be necessary, as KES handles storage of settings.
 
 Also note that `getResourceText` is not available in GM 4.0, so in the unlikely event that you need to use this function in a script, rather than defining
-`@resource` fields, you should fall back on `xmlhttpRequest`, or in this case, `genericXMLRequest` (outlined below), and parse the results on callback.
+`@resource` fields, you should use the utility function, `genericXMLRequest()`, and parse the results on callback.
 
+[NOTE]
 `removeStyle` is not a native GM function, but is provided by KES to extend the functionality of `addStyle` with its logical counterpart: this method
-is mapped to the underlying function `removeCustomCSS`, but is called by the argument `removeStyle` to safeGM for semantic purposes, given that it is
+is mapped to the underlying function `removeCustomCSS`, but is called by the parameter `removeStyle` to safeGM for semantic purposes, given that it is
 intended to do the opposite.
 
-.removeCustomCSS()
+=== API reference
+
+.addStyle()
+[subs=+quotes]
 ----
-function removeCustomCSS (id) {
-    const toRemove = document.getElementById(id);
-    if (toRemove) {
-        document.head.removeChild(toRemove);
-    } else {
-        return
-    }
-}
+function addStyle (_string_ css, _string_ stylesheet) -> void
+----
+Parameters:
+
+- css -- the concatenated block of CSS to apply to the document head
+- stylesheet -- a stringwise identifier used for later lookup of the stylesheet
+
+Return value: none
+
+Appends a stylesheet to the document head. Used to add ad-hoc style changes to elements on a page and remove this sheet later by calling `removeStyle()` with the identifier as its parameter.
+
+.removeStyle()
+[subs=+quotes]
+----
+function removeStyle (_string_ stylesheet) -> void
 ----
 
-In this way, `removeStyle` removes a named stylesheet from the document head; when used in conjunction with `addStyle`, it allows for
+Parameters:
+
+- stylesheet -- a stringwise identifier used to remove the stylesheet by name
+
+Removes a named stylesheet from the document head. When used in conjunction with `addStyle()`, allows for
 seamlessly inserting and cleaning up rules to ensure that changes to the page occur on the fly, and obviating more brute-force methods like
-DOM manipulation or show/hide with jQuery. It is generally good practice to call `removeStyle` before `addStyle` in order to clean up
+DOM manipulation or show/hide with jQuery. When stepping through your script, it is generally good practice to call `removeStyle` before `addStyle` in order to clean up
 any previously existing stylesheets by that name before re-inserting them.
 
-=== Utility functions
+.genericXMLRequest()
+[subs=+quotes]
+----
+function genericXMLRequest (_string_ url, _function_ callback) -> void
+----
 
-Lastly, KES provides a set of utility functions.
+Parameters:
 
-The first is `genericXMLRequest()`, which wraps `xmlhttpRequest` to perform a GET request and obviates setting
-up an object: simply pass the remote URL and callback function as arguments and process the response in your callback function.
+- url -- the URL to fetch
+- callback -- the function to call back upon completion of the GET request; this function will receive the response data
+
+Return value: none
+
+Wraps `xmlhttpRequest` to perform a GET request and obviates setting
+up a complex object: simply pass the remote URL and callback function as parameters and process the response in your callback function.
 This is generally not needed by scripts, but is used when fetching, e.g., the contents of another page within the same instance,
 such as for pagination purposes.
 
-.genericXMLRequest()
+.getHex()
+[subs=+quotes]
 ----
-function genericXMLRequest (url, callback) {
-    safeGM("xmlhttpRequest", {
-        method: 'GET',
-        url: url,
-        onload: callback,
-        headers: {
-            "User-Agent": "Mozilla/5.0",
-            "Accept": "text/xml"
-        },
-    });
-};
+function getHex (_string_ variable) -> string
 ----
 
-The second is `getHex()`, which supports translation of internal kbin theme variables into their corresponding hex color values.
+Parameters:
+
+- variable -- the stringwise variable name of a theme color
+
+Return value: string
+
+Translates internal kbin theme variables to their corresponding hex color values.
 This allows you to set sane defaults which, instead of hardcoding color values, respect the user's theme settings. For example, setting
 `initial: var(--kbin-upvoted-color)` for the value of a custom field will ensure that whatever color is being used by the current theme is 
 interpolated correctly.
@@ -454,20 +473,16 @@ interpolated correctly.
 `getHex()` is also used internally by KES, and can be used by scripts when passing around settings information in order to parse the incoming value
 without resorting to hardcoding.
 
-.getHex()
+.getInstanceType()
 ----
-function getHex (value) {
-    let realHex;
-    const firstChar = Array.from(value)[0];
-    const theme = document.querySelector('body');
-    if (firstChar === "-") {
-        realHex = getComputedStyle(theme).getPropertyValue(value);
-    } else {
-        realHex = value;
-    }
-    return realHex;
-}
+function getInstanceType() -> string
 ----
+
+Parameters: none
+
+Return value: string
+
+Returns either "kbin" or "mbin", depending on what type of instance the domain is running. Used by scripts to disambiguate between instance types and apply changes that may require certain compatibility adjustments on a particular instance type.
 
 === Submitting a PR
 
@@ -493,9 +508,9 @@ If you are submitting a PR changing an internal feature of KES itself, feel free
 
 === Precautions and best practices
 
-- Prefer private functions and local variables to reduce the possibility of collisions
+- Encapsulate logic in a single private function and use local variables to reduce the possibility of collisions
 
-Bear in mind that KES ingests all of the script functions together into its scope, so unique identifiers are important.
+KES ingests all of the script functions together into its scope, so unique identifiers and self-contained functions are important.
 While scripts are integration tested before deployment, you can make the testing process easier by using unique names and limiting the available
 scope.
 
@@ -514,7 +529,7 @@ complex workflows; scripts that make highly opinionated changes or themselves cr
 - If changing colors on a page, it is best to respect kbin's internal themes by using the variables provided. These can be explored under the `var(--kbin-*)` prefix.
 A number of variables for success, alerts, backgrounds, text, hover, etc. are provided. These map to different colors within the theme a user has selected. If you hardcode
 an element to a specific color, there is a high likelihood it may not be visible on a dark or light theme, respectively. Similarly, do not set fonts verbatim, but use the 
-`var(--kbin-body-font-family)` for a set of fallback fonts. Refer to `getHex()` in the section <<Utility functions>> above for details on how to convert
+`var(--kbin-body-font-family)` for a set of fallback fonts. Refer to `getHex()` in the section <<API reference>> for details on how to convert
 color abstractions into hex values on the fly.
 
 ==== Conventions
