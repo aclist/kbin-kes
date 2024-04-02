@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 - Fixed an issue where disabling the "Magazine instance names" add-on would remove checkmarks created by the "Checkmark on subbed mags" add-on
 - Fixed an issue where GitHub's redirection and caching mechanism could cause the contents of the KES menu to appear garbled
 - Add mail: fixed an issue where mail links would appear next to your own username
+- Notification panel: fixed an issue where settings applied to the panel would sometimes leak into other menus
 - Clarify recipient: recipient label now appears on the direct message page, not only the inbox reply page
 - Hover indicator: fixed an issue where the indicator would not appear unless the add-on's color field had been explicitly interacted with
 - Audited all add-ons and added compatibility with mbin instances
