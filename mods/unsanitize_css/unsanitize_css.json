@@ -8,5 +8,6 @@
   "login": false,
   "recurs": false,
   "entrypoint": "unsanitize_css",
+  "new_since": "4.0",
   "page": "fixes"
 }

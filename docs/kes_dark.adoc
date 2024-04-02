@@ -90,7 +90,8 @@ icon:clipboard[] **Copy system info**: click to copy system information to the c
 
 *SETTINGS* button: opens a submenu exposing the following options:
 
-- Export: exports the toggle state and sub-settings of each KES feature to a timestamped backup file (JSON). Used to backup your settings from a given point in time.
+- Export: exports the toggle state and sub-settings of each KES feature to a timestamped backup file (JSON). Used to backup your settings from a given point in time. Note that this includes global KES 
+  settings and per-add-on settings, but does not currently include storage internal to specific add-ons, such as blocklists.
 - Import: imports a file generated using the above Export button and applies those settings to KES. Used to restore your settings from a given point in time.
 - Reset: flushes the toggle state and sub-settings of each KES feature and resets them to the defaults.
 - Close: closes the settings sub-menu.
@@ -224,10 +225,11 @@ The only responsibilities of the recipient script are:
         "label": "Link label"
       }
     ],
+    "new_since": "4.0", <5>
     "depends_on": [
-        "init_softblock" <5>
+        "init_softblock" <6>
     ],
-    "page": "general" <6>
+    "page": "general" <7>
   }
 ----
 <1> If the user has enabled infinite scroll and the add-on is expected to modify these new threads and/or comments, setting this value to true will ensure that the script is applied again.
@@ -237,8 +239,9 @@ separated by line breaks, with the 'Text' radio button initially selected. The i
 <4> This is followed by a descriptive label reading 'Link label', a line break,
 and then a textarea initially set to the string 'PM', with this value stored under the `mail.text` key. In this example, the link label might be used by the recipient script if `mail.type` was set to `Text`. KES is agnostic to how these settings are parsed and merely populates the fields.
 As far as KES is concerned, functionality of one field does not depend on another; it is up to the author to add additional fields if necessary.
-<5> If the script depends on another KES script being loaded first, specify that script's entrypoint function here. Analogously, `depends_off` provides functionality for dependencies that must also be disabled when the calling script is turned off.
-<6> The contents of the metadata and custom fields will be added to the 'General' page of the sidebar under the feature label 'Add mail icon'. Available pages can be seen within the file `ui.json`.
+<5> Indicates what major/minor version this mod has been available since. This is used to show new mods particular to a given release when users navigate the search menu within KES. This key should not be manually defined by mod authors, but is added by the maintainer when integrating mods into a new release.
+<6> If the script depends on another KES script being loaded first, specify that script's entrypoint function here. Analogously, `depends_off` provides functionality for dependencies that must also be disabled when the calling script is turned off.
+<7> The contents of the metadata and custom fields will be added to the 'General' page of the sidebar under the feature label 'Add mail icon'. Available pages can be seen within the file `ui.json`.
 
 .basic metadata
 [cols="~,~,25,~"]
@@ -251,14 +254,14 @@ a|The author of the add-on. This is user-facing and links back to the named prof
 |version||string|An internal version number
 |label||string|A short, descriptive name of the feature, used when printing it in the list of options. This
 functions as the "name" of the feature seen by users
-|desc||string|A user-facing description of what the feature does
+|desc||string|A user-facing description of what the feature does. JSON newline escapes will be interpolated into a `<br>` element at runtime, but raw HTML must not be used.
 |login||boolean
 a|Whether the option requires being logged into the site to function/display correctly. `true` and `false` will respectively be styled to the user-facing strings "yes" and "no"
 |recurs||boolean
 a|If the feature should recur and apply to new elements in the tree in the event of DOM changes
 to the content area, such as new posts or threads when lazy load (infinite scrolling) is enabled
 |entrypoint||string|A globally unique entrypoint function in the recipient script used to toggle the feature
-on or off.
+on or off. This value is auto-populated by build scripts.
 |namespace|yes|string|A globally unique namespace used if the add-on exposes custom input fields (see below).
 This namespace is used when parsing localStorage
 |link|yes|string|A link to external content, such as a web site or help file
@@ -391,6 +394,8 @@ to such a function:
 These are the functions currently supported, but more may be added if necessary. Given that KES handles the setting and fetching of configs, we have not
 seen many scripts need to leverage extra functionality through GreaseMonkey itself.
 
+Implementation details of GM API functions can be found in your respective script manager's documentation.
+
 Additionally, `GM_info` can be invoked using `safeGM("info")` and the properties of the resulting object parsed out, e.g., `safeGM("info").script.version`.
 
 Note that if using `setValue`, `getValue`, and `xmlHttpRequest`, you will need to call safeGM asynchronously and await the results to support GM 4.0.
@@ -420,6 +425,9 @@ Return value: none
 
 Appends a stylesheet to the document head. Used to add ad-hoc style changes to elements on a page and remove this sheet later by calling `removeStyle()` with the identifier as its parameter.
 
+[NOTE]
+This function can only be called via `safeGM()`.
+
 .removeStyle()
 [subs=+quotes]
 ----
@@ -434,6 +442,9 @@ Removes a named stylesheet from the document head. When used in conjunction with
 seamlessly inserting and cleaning up rules to ensure that changes to the page occur on the fly, and obviating more brute-force methods like
 DOM manipulation or show/hide with jQuery. When stepping through your script, it is generally good practice to call `removeStyle` before `addStyle` in order to clean up
 any previously existing stylesheets by that name before re-inserting them.
+
+[NOTE]
+This function can only be called via `safeGM()`.
 
 .genericXMLRequest()
 [subs=+quotes]
