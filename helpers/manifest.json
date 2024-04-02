@@ -583,15 +583,6 @@
       },
       {
         "type": "number",
-        "initial": "div.section.users.users-columns",
-        "key": "optionActivity",
-        "label": "Activity:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
         "initial": "div.page-notifications",
         "key": "optionNotifs",
         "label": "Notifications:",
@@ -619,18 +610,9 @@
       },
       {
         "type": "number",
-        "initial": "aside#sidebar section.magazine.section",
-        "key": "optionMagSidebar",
-        "label": "Magazine Sidebar:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
         "initial": "aside#sidebar section.related-magazines",
         "key": "optionHomeSidebar",
-        "label": "Front page Sidebar:",
+        "label": "Sidebars:",
         "step": "0.1",
         "min": "5",
         "max": "50"
@@ -648,7 +630,7 @@
         "type": "number",
         "initial": "div.user-box",
         "key": "optionProfile",
-        "label": "Profiles:",
+        "label": "User profiles:",
         "step": "0.1",
         "min": "5",
         "max": "50"
@@ -657,7 +639,7 @@
         "type": "number",
         "initial": "div.page-messages",
         "key": "optionMessages",
-        "label": "Messages:",
+        "label": "Inbox messages:",
         "step": "0.1",
         "min": "5",
         "max": "50"

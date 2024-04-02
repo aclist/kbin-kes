@@ -2468,78 +2468,24 @@ const funcObj = {
 
         function resizeText () {
             const settings = getModSettings('resize');
-            const fontSizes = {
-                magSidebar: `${settings["optionMagSidebar"]}px`,
-                homeSidebar: `${settings["optionHomeSidebar"]}px`,
-                userMessages: `${settings["optionMessages"]}px`,
-                activity: `${settings["optionActivity"]}px`
-            };
-
             let oldID = sessionStorage.getItem('modalFade');
             clearTimeout(oldID)
 
             if (kesModalOpen()) {
                 setOpacity(0.2)
             }
-            // === MAG SIDEBAR === //
-            const magSidebar = document.querySelectorAll('aside#sidebar section.magazine.section');
-            const magSidebarName = document.querySelectorAll('aside#sidebar section.magazine.section h3');
-            const magName = document.querySelectorAll('aside#sidebar section.magazine.section a');
-            const modSidebar = document.querySelectorAll('section.user-list, section.user-list h3');
-            magSidebar.forEach((sidebar) => {
-                sidebar.style.setProperty('font-size', fontSizes.magSidebar);
-            })
-            magName.forEach((mag) => {
-                mag.style.setProperty('font-size', fontSizes.magSidebar);
-            })
-            modSidebar.forEach((mods) => {
-                mods.style.setProperty('font-size', fontSizes.magSidebar);
-            })
-            magSidebarName.forEach((magname) => {
-                magname.style.setProperty('font-size', fontSizes.magSidebar);
-            })
-            // === HOMEPAGE SIDEBAR === //
-            const homepageSidebarMain = document.querySelectorAll('aside#sidebar section.related-magazines');
-            const homeActiveUsers = document.querySelectorAll('aside#sidebar section.active-users');
-            const homepageSidebarPosts = document.querySelectorAll('aside#sidebar section.posts');
-            const homeEntries = document.querySelectorAll('aside#sidebar section.entries');
-            homepageSidebarMain.forEach((homepageSidebarElem) => {
-                const homeRelatedMags = homepageSidebarElem.querySelectorAll('a img, h1, h2, h3, p, li, span, a:not(.icon), i');
-
-                homeRelatedMags.forEach((relatedMagElem) => {
-                    relatedMagElem.style.setProperty('font-size', fontSizes.homeSidebar);
-                });
-            })
-            homeActiveUsers.forEach((activeUserElem) => {
-                const activeUser = activeUserElem.querySelectorAll('h3');
-                activeUser.forEach((resizeActiveUser) => {
-                    resizeActiveUser.style.setProperty('font-size', fontSizes.homeSidebar);
-                })
-            })
-            homepageSidebarPosts.forEach((sidebarPostsElem) => {
-                const sidebarPosts = sidebarPostsElem.querySelectorAll('h3, div.container blockquote.content p, div.container time, div.container a');
-
-                sidebarPosts.forEach((sidebarPost) => {
-                    sidebarPost.style.setProperty('font-size', fontSizes.homeSidebar);
-                });
-            });
-            homeEntries.forEach((homeEntryElem) => {
-                const homeEntry = homeEntryElem.querySelectorAll('h3, div.container blockquote.content p, div.container time, div.container a');
-                homeEntry.forEach((homeEntryText) => {
-                    homeEntryText.style.setProperty('font-size', fontSizes.homeSidebar);
-                })
-            })
-            // === ACTIVITY === //
-            const activity = document.querySelectorAll('div.section.users.users-columns');
-            activity.forEach((activityElem) => {
-                const activityElement = activityElem.querySelectorAll('ul, li, small, a, img');
-
-                activityElement.forEach((activityResize) => {
-                    activityResize.style.setProperty('font-size', fontSizes.activity);
-                })
-            });
-            //TODO: header avatar?
             const css = `
+            /* MESSAGES */
+            .page-messages * {
+                font-size: ${settings["optionMessages"]}px
+            }
+            .page-messages > .kbin-container > #main > h1 {
+                font-size: ${settings["optionMessages"] * 2.5}px
+            }
+            /* SIDEBAR */
+            #sidebar * {
+                font-size: ${settings["optionHomeSidebar"]}px !important
+            }
             /* COMMENTS */
             .entry-comment * {
                 font-size: ${settings["optionComments"]}px
