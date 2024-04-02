@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Move federation warning to sidebar: updated this add-on to also support profile pages
 - Mail label: this add-on was split into two, with the "Label submission" add-on being added
-- Report bug button: this add-on now also applies to the original post in a thread
+- Report bug button: this add-on now also applies to the original post in a thread, but not on crossposts
 - Resize text: the add-on now attempts to parse the current point size of elements on the page, rather than defaulting to 14pt
 - Resize text: the add-on now gracefully toggles off without needing to reload the page
 - Resize text: consolidated resize logic into a single stylesheet and dropped extraneous fields
