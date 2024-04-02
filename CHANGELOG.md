@@ -1,28 +1,33 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 4.0.0 (WIP)
+## 4.0.0
 ### Added
-- getComputedFontSize()
-- Unsanitize CSS
-- Fix Pagination Arrows
-- depends_on, depends_off (code syntax, thread checkmarks)
-- Update federation warning mod to support profile pages
-- Report bug button: also applies to OP now
-- Fixes page in sidebar
-- Ephemeral gist generator and concat_funcs script
+- Unsanitize CSS (Pamasich): unsanitizes custom CSS on magazines to restore working functionality of custom styles
+- Fix Pagination Arrows (Pamasich): fixes broken pagination arrows when navigating between pages by restoring functionality to the back/forward buttons
+- Fixes category in sidebar: this page holds add-ons responsible for patches, fixes, and connecting glue rather than features per se
 
 ### Changed
-- Split mail mod into two mods
-- Consolidate mods into funcs.js (rate limiting)
+- Move federation warning to sidebar: updated this add-on to also support profile pages
+- Mail label: this add-on was split into two, with the "Label submission" add-on being added
+- Report bug button: this add-on now also applies to the original post in a thread
+- Resize text: the add-on now attempts to parse the current point size of elements on the page, rather than defaulting to 14pt
+- Resize text: the add-on now gracefully toggles off without needing to reload the page
+- Resize text: consolidated resize logic into a single stylesheet and dropped extraneous fields
 
 ### Fixed
-- Fixed issue where resize text mode reverted to 14pt
-- Fixed issue where releasing mouse on KES sidebar while multiple pages were highlighted broke the menu
-- Large list of mbin compatibility fixes
-- Add mail: fixed issue where you could send mail to yourself
-- Clarify recipient not showing on messages
-- Hover colors not showing unless already applied
+- Fixed an issue where releasing the mouse on the KES sidebar while multiple pages were highlighted could break the menu
+- Fixed an issue where disabling the "Magazine instance names" add-on would remove checkmarks created by the "Checkmark on subbed mags" add-on
+- Add mail: fixed an issue where mail links would appear next to your own username
+- Clarify recipient: recipient label now appears on the direct message page, not only the inbox reply page
+- Hover indicator: fixed an issue where the indicator would not appear unless the add-on's color field had been explicitly interacted with
+- Audited all add-ons and added compatibility with mbin instances
+
+### API
+- Added the keys depends_on and depends_off to manifset to support add-on dependencies
+- Consolidated add-ons into global funcs.js file to reduce repository queries
+- Added function concatenation script and ephemeral gist generator to build tools
+- Added internal utility function to retrieve point size from element IDs
 
 ## 3.3.0
 ### Added
