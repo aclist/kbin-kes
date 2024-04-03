@@ -114,6 +114,7 @@
     "login": false,
     "recurs": false,
     "entrypoint": "unsanitize_css",
+    "new_since": "4.0",
     "page": "fixes"
   },
   {
@@ -455,6 +456,7 @@
     "login": false,
     "recurs": false,
     "entrypoint": "fix_pagination_arrows",
+    "new_since": "4.0",
     "page": "fixes"
   },
   {
