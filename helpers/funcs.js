@@ -1723,6 +1723,7 @@ const funcObj = {
             $('.kch_header').remove();
         }
         function addTags (item) {
+            if (item.parentElement.querySelector('.kch_header')) return
             const orig_code = item.textContent;
             let lang;
 

@@ -24,6 +24,7 @@ function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
         $('.kch_header').remove();
     }
     function addTags (item) {
+        if (item.parentElement.querySelector('.kch_header')) return
         const orig_code = item.textContent;
         let lang;
 

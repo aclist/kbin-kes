@@ -50,7 +50,7 @@ main(){
 
     output=$(sed "/favicon.svg/a \/\/ @connect      gist.githubusercontent.com" "$kes" | \
         sed "/funcs.js/c \/\/ @require      $url")
-    if [[ $(command -v xclipu) ]]; then
+    if [[ $(command -v xclip) ]]; then
         echo "$output" | xclip -selection c
         echo "Copied kes.user.js to clipboard"
     else
