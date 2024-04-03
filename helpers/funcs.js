@@ -1749,6 +1749,7 @@ const funcObj = {
             icon.setAttribute('aria-hidden', 'true');
             icon.style = 'margin-left: 10px; cursor: pointer;';
             icon.onclick = function () {
+                console.log("clicked")
                 navigator.clipboard.writeText(orig_code);
                 tooltip.style.display = 'inline';
                 setTimeout(function () {
