@@ -8,7 +8,9 @@ function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
     .hljs.kch_header {
         padding-top: 10px;
         padding-bottom: 10px;
-        border-bottom: 2px solid;'
+    }
+    code.hljs {
+        border-top: 2px solid;'
     }
     .hljs-keyword {
         margin-left: 20px;
