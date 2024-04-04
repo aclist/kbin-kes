@@ -4,34 +4,36 @@ All notable changes to this project will be documented in this file.
 ## 4.0.0
 ### Added
 - Unsanitize CSS (Pamasich): unsanitizes custom CSS on magazines to restore working functionality of custom styles
-- Fix Pagination Arrows (Pamasich): fixes broken pagination arrows when navigating between pages by restoring functionality to the back/forward buttons
-- Fixes category in sidebar: this page holds add-ons responsible for patches, fixes, and connecting glue rather than features per se
+- Fix pagination arrows (Pamasich): fixes broken pagination arrows when navigating between pages by restoring functionality to the back/forward buttons
+- Added a "Fixes" category to the sidebar that holds add-ons responsible for patches, fixes, and connecting glue
 
 ### Changed
 - Move federation warning to sidebar: updated this add-on to also support profile pages
 - Mail label: this add-on was split into two, with the "Label submission" add-on being added
-- Report bug button: this add-on now also applies to the original post in a thread, but not on crossposts
 - Resize text: the add-on now attempts to parse the current point size of elements on the page, rather than defaulting to 14pt
 - Resize text: the add-on now gracefully toggles off without needing to reload the page
 - Resize text: consolidated resize logic into a single stylesheet and dropped extraneous fields
 
 ### Fixed
-- Releasing the mouse on the KES sidebar while multiple pages were highlighted could break the menu
-- Disabling the "Magazine instance names" add-on would remove checkmarks created by the "Checkmark on subbed mags" add-on
-- GitHub's redirection and caching mechanism could cause the contents of the KES menu to appear garbled
-- Collapsible comments: fixed an issue where this add-on prevented the "code syntax highlighting add-on" from functioning correctly
-- Add mail: fixed an issue where mail links would appear next to your own username
-- Code syntax highlighting: restored a missing divider line between the header and code block
-- Notification panel: fixed an issue where settings applied to the panel would sometimes leak into other menus
-- Clarify recipient: recipient label now appears on the direct message page, not only the inbox reply page
-- Hover indicator: fixed an issue where the indicator would not appear unless the add-on's color field had been explicitly interacted with
 - Audited all add-ons and added compatibility with mbin instances
+- Releasing a click action on the KES sidebar while multiple pages were highlighted could break the menu
+- GitHub's redirection and caching mechanism could cause the contents of the KES menu to appear garbled
+- Add mail: fixed an issue where mail links would appear next to your own username
+- Clarify recipient: recipient label now appears on the direct message page, not only the inbox reply page
+- Code syntax highlighting: restored a missing divider line between the header and code block
+- Code syntax highlighting: unintended interaction with "Collapsible comments" add-on was causing header icons to be unclickable
+- Collapsible comments: fixed an issue where this add-on prevented the "code syntax highlighting add-on" from functioning correctly
+- Hover indicator: fixed an issue where the indicator would not appear unless the add-on's color field had been explicitly interacted with
+- Magazine instance names: disabling this add-on would remove checkmarks created by the "Checkmark on subbed mags" add-on
+- Notification panel: fixed an issue where settings applied to the panel would sometimes leak into other menus
+- Report bug button: this add-on now also applies to the original post in a thread, but not on crossposts
 
 ### API
-- Added the keys depends_on and depends_off to manifset to support add-on dependencies
+- Added the keys depends_on and depends_off to manifest to support add-on dependencies
 - Consolidated add-ons into global funcs.js file to reduce repository queries
 - Added function concatenation script and ephemeral gist generator to build tools
-- Added internal utility function to retrieve point size from element IDs
+- Added KES internal function getComputedFontSize() to retrieve rendered point size from element IDs
+- Added public utility function getInstanceName() to test whether an instance is of the type kbin or mbin
 
 ## 3.3.0
 ### Added
