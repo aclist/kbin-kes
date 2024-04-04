@@ -1,6 +1,5 @@
 function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-unused-vars
     function applyCommentStyles () {
-        // Add styles to comments
         var style = `
         .entry-comment {
         grid-column-gap: 2px;

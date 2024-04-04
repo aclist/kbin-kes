@@ -16,10 +16,12 @@ All notable changes to this project will be documented in this file.
 - Resize text: consolidated resize logic into a single stylesheet and dropped extraneous fields
 
 ### Fixed
-- Fixed an issue where releasing the mouse on the KES sidebar while multiple pages were highlighted could break the menu
-- Fixed an issue where disabling the "Magazine instance names" add-on would remove checkmarks created by the "Checkmark on subbed mags" add-on
-- Fixed an issue where GitHub's redirection and caching mechanism could cause the contents of the KES menu to appear garbled
+- Releasing the mouse on the KES sidebar while multiple pages were highlighted could break the menu
+- Disabling the "Magazine instance names" add-on would remove checkmarks created by the "Checkmark on subbed mags" add-on
+- GitHub's redirection and caching mechanism could cause the contents of the KES menu to appear garbled
+- Collapsible comments: fixed an issue where this add-on prevented the "code syntax highlighting add-on" from functioning correctly
 - Add mail: fixed an issue where mail links would appear next to your own username
+- Code syntax highlighting: restored a missing divider line between the header and code block
 - Notification panel: fixed an issue where settings applied to the panel would sometimes leak into other menus
 - Clarify recipient: recipient label now appears on the direct message page, not only the inbox reply page
 - Hover indicator: fixed an issue where the indicator would not appear unless the add-on's color field had been explicitly interacted with

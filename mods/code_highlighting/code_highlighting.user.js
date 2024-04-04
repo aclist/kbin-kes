@@ -5,10 +5,10 @@ function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
     .kch-collapsed {
         display: none !important;
     }
-    .hljs .kch_header {
+    .hljs.kch_header {
         padding-top: 10px;
         padding-bottom: 10px;
-        border-bottom-style: dashed;'
+        border-bottom: 2px solid;'
     }
     .hljs-keyword {
         margin-left: 20px;
@@ -21,11 +21,16 @@ function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
     }
     function kchShutdown () {
         safeGM("removeStyle", "kch-hljs")
+        const clicker = document.querySelector('#kch-clicker')
+        if (clicker) {
+            const comms = document.querySelector('#comments')
+            clicker.before(comms)
+            clicker.remove()
+        }
         $('.kch_header').remove();
     }
     function addTags (item) {
         if (item.parentElement.querySelector('.kch_header')) return
-        const orig_code = item.textContent;
         let lang;
 
         if (item.previousSibling) {
@@ -49,13 +54,6 @@ function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
         icon.className = 'fa-solid fa-copy hljs-section';
         icon.setAttribute('aria-hidden', 'true');
         icon.style = 'margin-left: 10px; cursor: pointer;';
-        icon.onclick = function () {
-            navigator.clipboard.writeText(orig_code);
-            tooltip.style.display = 'inline';
-            setTimeout(function () {
-                tooltip.style.display = 'none';
-            }, 1000);
-        }
         const span_copied = document.createElement('span');
         span_copied.id = 'copied-tooltip';
         span_copied.innerHTML = 'COPIED!';
@@ -64,17 +62,58 @@ function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
         hide_icon.className = 'fa-solid fa-chevron-up hljs-section';
         hide_icon.setAttribute('aria-hidden', 'true');
         hide_icon.style = 'float: right; margin-right: 20px; cursor: pointer;';
-        hide_icon.addEventListener('click', function () {
-            hide_icon.classList.toggle('fa-chevron-up');
-            hide_icon.classList.toggle('fa-chevron-down');
-            item.classList.toggle('kch-collapsed');
-        });
 
         header.appendChild(span);
         header.appendChild(icon);
-        let tooltip = header.appendChild(span_copied);
+        header.appendChild(span_copied);
         header.appendChild(hide_icon);
         item.parentElement.prepend(header);
+        if (document.querySelector('#kch-clicker')) return
+        const clicker = document.createElement('div')
+        clicker.id = 'kch-clicker'
+        const comms = document.querySelector('#comments')
+        comms.before(clicker)
+        clicker.appendChild(comms)
+        clicker.addEventListener('click', captureHeaderClicks, event)
+    }
+    function captureHeaderClicks (e) {
+        switch (e.target.className) {
+        case "fa-solid fa-copy hljs-section": {
+            const par = e.target.parentElement
+            const next = getNextValidSibling(par);
+            navigator.clipboard.writeText(next.innerText);
+            const t = document.querySelector('#copied-tooltip')
+            t.style.display = 'inline';
+            setTimeout(function () {
+                t.style.display = 'none';
+            }, 1000);
+            break;
+        }
+        case "fa-solid fa-chevron-up hljs-section": {
+            e.target.className = 'fa-solid fa-chevron-down hljs-section'
+            toggleCollapse(e.target);
+            break;
+        }
+        case "fa-solid fa-chevron-down hljs-section": {
+            e.target.className = 'fa-solid fa-chevron-up hljs-section'
+            toggleCollapse(e.target);
+            break;
+        }
+        }
+    }
+    function toggleCollapse (child) {
+        const par = child.parentElement
+        const next = getNextValidSibling(par);
+        next.classList.toggle('kch-collapsed')
+    }
+    function getNextValidSibling (el) {
+        let next
+        next = el.nextSibling
+        if (next.style.display === "none") {
+            next = el.nextSibling.nextSibling
+        }
+        return next
+
     }
     function setCss (url) {
         safeGM("xmlhttpRequest",{
