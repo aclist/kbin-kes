@@ -68,6 +68,10 @@ function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
         header.appendChild(span_copied);
         header.appendChild(hide_icon);
         item.parentElement.prepend(header);
+
+        //for compatibility with collapsible comments mod
+        //outer clicker is immune to changes in the comments tree
+        //and uses event delegation to filter clicks
         if (document.querySelector('#kch-clicker')) return
         const clicker = document.createElement('div')
         clicker.id = 'kch-clicker'
