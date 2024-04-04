@@ -8,8 +8,10 @@ All notable changes to this project will be documented in this file.
 - Added a "Fixes" category to the sidebar that holds add-ons responsible for patches, fixes, and connecting glue
 
 ### Changed
-- Move federation warning to sidebar: updated this add-on to also support profile pages
 - Mail label: this add-on was split into two, with the "Label submission" add-on being added
+- Code syntax highlighting: now treats "Repair codeblocks" as a necessary dependency, so the act of turning on "Code syntax highlighting" will perforce turn on "Repair codeblocks"
+- Move federation warning to sidebar: updated this add-on to also support profile pages
+- Repair codeblocks: now treats "Code syntax highlighting" as dependent, so the act of turning off "Repair codeblocks" will perforce turn off "Code syntax highlighting"
 - Resize text: the add-on now attempts to parse the current point size of elements on the page, rather than defaulting to 14pt
 - Resize text: the add-on now gracefully toggles off without needing to reload the page
 - Resize text: consolidated resize logic into a single stylesheet and dropped extraneous fields
