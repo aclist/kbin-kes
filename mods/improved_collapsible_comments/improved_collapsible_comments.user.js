@@ -184,11 +184,6 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         }
         .entry-comment {
             border-color: transparent !important;
-            grid-template-areas:
-            "expando-icon avatar header vote"
-            "expando body body body"
-            "expando footer footer footer"
-            "expando kes-collapse-children kes-collapse-children kes-collapse-children";
             grid-template-columns: 20px 20px auto min-content;
             grid-template-rows: min-content auto auto;
             display: grid;
@@ -221,6 +216,27 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
             }
             `;
         }
+        kbinStyle = `
+        .entry-comment {
+            grid-template-areas:
+            "expando-icon avatar header vote"
+            "expando body body body"
+            "expando footer footer footer"
+            "expando kes-collapse-children kes-collapse-children kes-collapse-children";
+        }
+        `;
+        mbinStyle = `
+        .entry-comment {
+            grid-template-areas:
+            "expando-icon avatar header aside"
+            "expando body body body"
+            "expando footer footer footer"
+            "expando kes-collapse-children kes-collapse-children kes-collapse-children";
+        }
+        .comment-collapse {
+            display: none !important;
+        }
+        `;
         const hideDefaults = `
         .comment-wrap {
             display: none;
@@ -228,6 +244,8 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         `;
         safeGM("addStyle", hideDefaults, "hide-defaults");
         safeGM("addStyle", style, "threaded-comments");
+        if (getInstanceType() === "kbin") safeGM("addStyle", kbinStyle, "kbin-kes-comments-style")
+        if (getInstanceType() === "mbin") safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
     }
     function applyToNewPosts () {
         let comments = document.querySelectorAll(".entry-comment:not(.nested)");
@@ -451,6 +469,8 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         clearMores();
         safeGM("removeStyle", "hide-defaults");
         safeGM("removeStyle", "threaded-comments");
+        safeGM("removeStyle", "kbin-kes-comments-style")
+        safeGM("removeStyle", "mbin-kes-comments-style")
     }
     if (!toggle) {
         teardown()
