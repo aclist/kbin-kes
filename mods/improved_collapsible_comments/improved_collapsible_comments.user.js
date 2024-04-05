@@ -216,7 +216,7 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
             }
             `;
         }
-        kbinStyle = `
+        const kbinStyle = `
         .entry-comment {
             grid-template-areas:
             "expando-icon avatar header vote"
@@ -225,7 +225,7 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
             "expando kes-collapse-children kes-collapse-children kes-collapse-children";
         }
         `;
-        mbinStyle = `
+        const mbinStyle = `
         .entry-comment {
             grid-template-areas:
             "expando-icon avatar header aside"
@@ -244,7 +244,9 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         `;
         safeGM("addStyle", hideDefaults, "hide-defaults");
         safeGM("addStyle", style, "threaded-comments");
+        // eslint-disable-next-line no-undef
         if (getInstanceType() === "kbin") safeGM("addStyle", kbinStyle, "kbin-kes-comments-style")
+        // eslint-disable-next-line no-undef
         if (getInstanceType() === "mbin") safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
     }
     function applyToNewPosts () {

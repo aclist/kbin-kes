@@ -243,7 +243,7 @@ const funcObj = {
                 }
                 `;
             }
-            kbinStyle = `
+            const kbinStyle = `
             .entry-comment {
                 grid-template-areas:
                 "expando-icon avatar header vote"
@@ -252,7 +252,7 @@ const funcObj = {
                 "expando kes-collapse-children kes-collapse-children kes-collapse-children";
             }
             `;
-            mbinStyle = `
+            const mbinStyle = `
             .entry-comment {
                 grid-template-areas:
                 "expando-icon avatar header aside"
@@ -271,7 +271,9 @@ const funcObj = {
             `;
             safeGM("addStyle", hideDefaults, "hide-defaults");
             safeGM("addStyle", style, "threaded-comments");
+            // eslint-disable-next-line no-undef
             if (getInstanceType() === "kbin") safeGM("addStyle", kbinStyle, "kbin-kes-comments-style")
+            // eslint-disable-next-line no-undef
             if (getInstanceType() === "mbin") safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
         }
         function applyToNewPosts () {
@@ -1010,7 +1012,7 @@ const funcObj = {
     label:
 
     function labelOp (toggle) { // eslint-disable-line no-unused-vars
-        if (getInstanceType() === "mbin") return // eslint-disable-line no-unused-vars
+        if (getInstanceType() === "mbin") return // eslint-disable-line no-undef
         if (toggle) {
             let settings = getModSettings("labelcolors");
             let fg = settings["fgcolor"];
