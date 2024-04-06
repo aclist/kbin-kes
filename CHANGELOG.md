@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 - Added a "Fixes" category to the sidebar that holds add-ons responsible for patches, fixes, and connecting glue
 
 ### Changed
-- Mail label: this add-on was split into two, with the "Label submission" add-on being added
+- Mail label: this add-on was split into two, with the "Add submission prefix" add-on being added
 - Code syntax highlighting: now treats "Repair codeblocks" as a necessary dependency, so the act of turning on "Code syntax highlighting" will perforce turn on "Repair codeblocks"
 - Move federation warning to sidebar: updated this add-on to also support profile pages
 - Repair codeblocks: now treats "Code syntax highlighting" as dependent, so the act of turning off "Repair codeblocks" will perforce turn off "Code syntax highlighting"
@@ -24,8 +24,7 @@ All notable changes to this project will be documented in this file.
 - Clarify recipient: recipient label now appears on the direct message page, not only the inbox reply page
 - Code syntax highlighting: restored a missing divider line between the header and code block
 - Code syntax highlighting: unintended interaction with "Collapsible comments" add-on was causing header icons to be unclickable
-- Collapsible comments: fixed an issue where this add-on prevented the "code syntax highlighting add-on" from functioning correctly
-- Hover indicator: fixed an issue where the indicator would not appear unless the add-on's color field had been explicitly interacted with
+- Hover indicator: fixed an issue where the indicator would not appear unless the add-on's color field had been explicitly interacted with before
 - Magazine instance names: disabling this add-on would remove checkmarks created by the "Checkmark on subbed mags" add-on
 - Notification panel: fixed an issue where settings applied to the panel would sometimes leak into other menus
 - Report bug button: this add-on now also applies to the original post in a thread, but not on crossposts
