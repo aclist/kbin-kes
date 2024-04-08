@@ -1,0 +1,12 @@
+{
+  "name": "Collapsible comments",
+  "author": "artillect",
+  "version": "1.4.0",
+  "label": "Collapsible comments",
+  "desc": "Collapse comments by clicking on their headers, and the bars to their left.",
+  "login": false,
+  "recurs": false,
+  "entrypoint": "improved_collapsible_comments",
+  "page": "threads",
+  "namespace": "collapsibleComments"
+}

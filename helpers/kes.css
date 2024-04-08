@@ -404,7 +404,7 @@ span.kes-update {
 
 .kes-settings-modal-footer {
     grid-area: footer;
-    background-color: var(--kbin-footer-bg);
+    background-color: var(--kbin-primary-color);
     padding: 0.4rem 2rem;
     width: 100%;
     display: flex;
@@ -438,7 +438,7 @@ span.kes-update {
 }
 #kes-results-dialog,#kes-search-dialog,#kes-backup-dialog {
     border: none;
-    background-color: var(--kbin-footer-bg);
+    background-color: var(--kbin-primary-color);
     color: var(--kbin-input-text-color);
 }
 .kes-backup-button {
@@ -453,12 +453,15 @@ span.kes-update {
 .kes-backup-button:hover {
     opacity: 1;
 }
+.kes-search-field {
+    border-radius: 0px !important;
+}
 .kes-search-menu button, .kes-results-menu button, .kes-backup-menu button, .kes-search-new {
     border: 0px;
     opacity: 1;
     background-color: var(--kbin-section-bg);
     color: var(--kbin-input-text-color);
-    border-radius: 0px;
+    border-radius: 0px !important;
     margin: 4px;
 }
 .kes-backup-menu button {
@@ -500,7 +503,7 @@ span.kes-update {
     padding: 5px 20px 5px 20px;
 }
 
-.kes-search-text, .kes-search-menu button {
+.kes-search-text, .kes-search-menu button, .kes-search-new {
     margin-top: 10px;
 }
 .kes-search-new {

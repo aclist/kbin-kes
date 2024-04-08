@@ -1,14 +1,13 @@
-// ==UserScript==
-// @name         Color adjustments
-// @namespace    https://github.com/aclist
-// @version      0.2
-// @description  Adjust appearance of site
-// @author       minnieo
-// @match        https://kbin.social/*
-// @license      MIT
-// ==/UserScript==
-
-function adjustSite (toggle) {
+function adjustSite (toggle) { // eslint-disable-line no-unused-vars
+    // ==UserScript==
+    // @name         Color adjustments
+    // @namespace    https://github.com/aclist
+    // @version      0.2
+    // @description  Adjust appearance of site
+    // @author       minnieo
+    // @match        https://kbin.social/*
+    // @license      MIT
+    // ==/UserScript==
     const sheetName = "#custom-kes-colors"
 
     if (toggle) {
@@ -18,16 +17,15 @@ function adjustSite (toggle) {
     }
 
     function adjustColors (sheetName) {
-        safeGM("removeStyle", sheetName)
         let settings = getModSettings('adjust');
         let sepia = `${settings.sepia * 10}%`;
         let hue = `${settings.hueRotate * 10}deg`;
         let bright = `${(settings.bright * 10) + 100}%`;
         let saturate = `${(settings.saturate * 10) + 100}%`;
         let contrast = `${(settings.contrast * 10) + 100}%`;
-        let upvoteCol = getHex(settings.upvote);
-        let downvoteCol = getHex(settings.downvote);
-        let boostCol = getHex(settings.boost);
+        let upvoteCol = getHex(settings.upvote); // eslint-disable-line no-undef
+        let downvoteCol = getHex(settings.downvote); // eslint-disable-line no-undef
+        let boostCol = getHex(settings.boost); // eslint-disable-line no-undef
 
 
         const customCSS = `
@@ -47,6 +45,7 @@ function adjustSite (toggle) {
                 text-decoration: none;
             }
         `;
+        safeGM("removeStyle", sheetName);
         safeGM("addStyle", customCSS, sheetName)
     }
 }

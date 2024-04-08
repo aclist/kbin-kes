@@ -1,4 +1,5 @@
-function labelOp (toggle) {
+function labelOp (toggle) { // eslint-disable-line no-unused-vars
+    if (getInstanceType() === "mbin") return // eslint-disable-line no-undef
     if (toggle) {
         let settings = getModSettings("labelcolors");
         let fg = settings["fgcolor"];

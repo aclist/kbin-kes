@@ -1,0 +1,11 @@
+{
+  "name": "Hide Reputation",
+  "author": "artillect",
+  "version": "0.2",
+  "label": "Hide reputation",
+  "desc": "Hide reputation on users' profiles",
+  "login": false,
+  "recurs": false,
+  "entrypoint": "hide_reputation",
+  "page": "profiles"
+}

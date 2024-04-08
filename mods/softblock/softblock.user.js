@@ -1,4 +1,4 @@
-function softBlockInit (toggle) {
+function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     //TODO: don't apply on magazine pages
     const hostname = window.location.hostname;
     const softBlockCSS = `
@@ -50,11 +50,16 @@ function softBlockInit (toggle) {
         el.classList.add('softblocked-article');
     }
     function hideThreads (mags) {
+        let el
         const articles = document.querySelectorAll('.magazine-inline')
         articles.forEach((article) => {
             const instance = article.href.split('/')[4]
             if (mags.includes(instance)) {
-                const el = article.parentElement.parentElement;
+                if (getInstanceType() === "kbin") { // eslint-disable-line no-undef
+                    el = article.parentElement.parentElement;
+                } else {
+                    el = article.parentElement.parentElement.parentElement;
+                }
                 blankCSS(el);
             }
         });
@@ -71,7 +76,6 @@ function softBlockInit (toggle) {
             ic.className = "fa-solid fa-comment-slash"
             ch.appendChild(ic);
             ch.addEventListener('click', (e) => {
-                //const article = e.target.parentElement.parentElement.parentElement
                 const meta = e.target.parentElement.parentElement
                 const href = meta.querySelector('.magazine-inline').href
                 const mag = href.split('/')[4]
@@ -254,7 +258,7 @@ function softBlockInit (toggle) {
     }
 
     async function saveMags (hostname, mags) {
-        const savedMags = await safeGM("setValue", `softblock-mags-${hostname}`, mags)
+        await safeGM("setValue", `softblock-mags-${hostname}`, mags)
     }
     function removeEls () {
         let range

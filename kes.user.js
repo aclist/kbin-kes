@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.3.0
+// @version      4.0.0
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -28,64 +28,26 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://github.com/aclist/kbin-kes/raw/main/helpers/safegm.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/helpers/kbin-mod-options.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/safegm.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/kbin-mod-options.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/funcs.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/adjust/adjust.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/alpha-sort-subs/alpha-sort-subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/alt-all-content-access/alt-all-content-access.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/always-more/always-more.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/clarify-recipient/clarify-recipient.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/code-highlighting/code-highlighting.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/dropdown/dropdown.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/easy-emoticon/easy-emoticon.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/expand-posts/expand-posts.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/fix-codeblocks/fix-codeblocks.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-downvotes/hide-downvotes.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-logo/hide-logo.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-posts/hide-posts.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-reputation/hide-reputation.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-sidebar/hide-sidebar.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-thumbs/hide-thumbs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hide-upvotes/hide-upvotes.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/hover-indicator/hover-indicator.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/improved-collapsible-comments/improved-collapsible-comments.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/kbin-federation-awareness/kbin-federation-awareness.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/label/label.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mag-instance-names/mag-instance-names.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mail/mail.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/mobile-cleanup/mobile-cleanup.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/move-federation-warning/move-federation-warning.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/nav-icons/nav-icons.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/notifications-panel/notifications-panel.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/omni/omni.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/rearrange/rearrange.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/report-bug/report-bug.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/resize-text/resize-text.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/softblock/softblock.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/subs/subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/thread-checkmarks/thread-checkmarks.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/thread-delta/thread-delta.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/timestamp/timestamp.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/unblur/unblur.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/main/mods/user-instance-names/user-instance-names.user.js
-// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/main/helpers/ui.json
-// @resource     kes_json https://github.com/aclist/kbin-kes/raw/main/helpers/manifest.json
-// @resource     kes_css https://github.com/aclist/kbin-kes/raw/main/helpers/kes.css
-// @downloadURL  https://github.com/aclist/kbin-kes/raw/main/kes.user.js
-// @updateURL    https://github.com/aclist/kbin-kes/raw/main/kes.user.js
+// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/ui.json
+// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/manifest.json
+// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/kes.css
+// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/main/kes.user.js
+// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/main/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, altAllContentAccess, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, expandPostsInit, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, threadDeltaInit, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
-
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
+const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/"
 const branch = "main"
 const helpersPath = "helpers/"
-const branchPath = repositoryURL + "raw/" + branch + "/"
+const branchPath = rawURL + branch + "/"
 const versionFile = branchPath + "VERSION";
 const updateURL = branchPath + "kes.user.js";
 const bugURL = repositoryURL + "issues"
@@ -97,47 +59,6 @@ const magURL = "https://kbin.social/m/enhancement"
 const manifest = branchPath + helpersPath + "manifest.json"
 const cssURL = branchPath + helpersPath + "kes.css"
 const layoutURL = branchPath + helpersPath + "ui.json"
-
-const funcObj = {
-    addMail: addMail,
-    adjustSite: adjustSite,
-    alphaSortInit: alphaSortInit,
-    altAllContentAccess: altAllContentAccess,
-    bugReportInit: bugReportInit,
-    checksInit: checksInit,
-    clarifyRecipientInit: clarifyRecipientInit,
-    dropdownEntry: dropdownEntry,
-    easyEmoticon: easyEmoticon,
-    expandPostsInit: expandPostsInit,
-    fixLemmyCodeblocks: fixLemmyCodeblocks,
-    hideDownvotes: hideDownvotes,
-    hidePostsInit: hidePostsInit,
-    hideReputation: hideReputation,
-    hideSidebar: hideSidebar,
-    hideThumbs: hideThumbs,
-    hideUpvotes: hideUpvotes,
-    hoverIndicator: hoverIndicator,
-    initCodeHighlights: initCodeHighlights,
-    initCollapsibleComments: initCollapsibleComments,
-    initKFA: initKFA,
-    initMags: initMags,
-    labelOp: labelOp,
-    magInstanceEntry: magInstanceEntry,
-    mobileHideInit: mobileHideInit,
-    moreInit: moreInit,
-    moveFederationWarningEntry: moveFederationWarningEntry,
-    navbarIcons: navbarIcons,
-    notificationsPanel: notificationsPanel,
-    omniInit: omniInit,
-    rearrangeInit: rearrangeInit,
-    softBlockInit: softBlockInit,
-    textResize: textResize,
-    threadDeltaInit: threadDeltaInit,
-    toggleLogo: toggleLogo,
-    unblurInit: unblurInit,
-    updateTime: updateTime,
-    userInstanceEntry: userInstanceEntry
-};
 //END AUTO MASTHEAD
 
 async function checkUpdates (response) {
@@ -218,10 +139,10 @@ function validateData (rawCSS, rawJSON, rawLayout, isNew) {
     } else {
         safeGM("addStyle", rawCSS);
         const j = JSON.parse(rawJSON);
-        const json = j.sort( function( a, b ) {
+        const json = j.sort( function ( a, b ) {
             a = a.label.toLowerCase();
             b = b.label.toLowerCase();
-        return a < b ? -1 : a > b ? 1 : 0;
+            return a < b ? -1 : a > b ? 1 : 0;
         });
         const layoutArr = JSON.parse(rawLayout);
 
@@ -269,7 +190,7 @@ function constructMenu (json, layoutArr, isNew) {
         return kesPanel
     }
 
-    kesPanel = injectSettingsButton(layoutArr, isNew)
+    injectSettingsButton(layoutArr, isNew)
 
     var keyPressed = {};
     document.addEventListener('keydown', function (e) {
@@ -344,6 +265,20 @@ function constructMenu (json, layoutArr, isNew) {
         }
         let modsHR = " (" + activeMods + "/" + totalMods + ")"
         return modsHR
+    }
+    function getComputedFontSize(string){
+        if (typeof string === 'number') return string
+        if (isNaN(parseFloat(string)) === false) {
+            return parseFloat(string)
+        }
+        const el = document.querySelector(string)
+        if (!el) {
+            return null
+        }
+        const fontsize = document.defaultView.getComputedStyle(el).fontSize
+        let px = fontsize.split('px')[0]
+        px = parseFloat(px)
+        return px
     }
 
     function showSettingsModal () {
@@ -640,6 +575,11 @@ function constructMenu (json, layoutArr, isNew) {
                                         let initial = json[it].fields[k].initial
                                         if (json[it].fields[k].type === "color") {
                                             initial = getHex(initial);
+                                        } else if (json[it].fields[k].type === "number") {
+                                            initial = getComputedFontSize(initial)
+                                            if (!initial) {
+                                                initial = 14
+                                            }
                                         }
                                         found.setAttribute("value",initial);
                                         found.value = initial;
@@ -675,11 +615,26 @@ function constructMenu (json, layoutArr, isNew) {
                     case "number": {
                         const numberField = document.createElement('input');
                         numberField.setAttribute("type", fieldType);
+
+                        let val
+                        let size
                         if (modSettings[key] === undefined) {
-                            numberField.setAttribute("value", initial);
+                            size = getComputedFontSize(initial)
+                            if (!size) {
+                                val = 14
+                            } else {
+                                val = size
+                            }
                         } else {
-                            numberField.setAttribute("value", modSettings[key])
+                            size = getComputedFontSize(modSettings[key])
+                            if (!size) {
+                                val = 14
+                            } else {
+                                val = size
+                            }
                         }
+                        numberField.setAttribute("value", val)
+
                         numberField.setAttribute("kes-iter", it);
                         numberField.setAttribute("kes-key", key);
                         numberField.setAttribute('min', json[it].fields[i].min);
@@ -907,7 +862,7 @@ function constructMenu (json, layoutArr, isNew) {
             const names = parseNamespaces();
             const keys = Object.keys(contents);
             cleanNamespaces();
-            for(i = 0 ; i < keys.length ; ++i) {
+            for(let i = 0 ; i < keys.length ; ++i) {
                 if(keys[i] === "kes-settings" || names.includes(keys[i])) {
                     let namespace = keys[i];
                     let settings = contents[namespace];
@@ -1027,13 +982,13 @@ function constructMenu (json, layoutArr, isNew) {
             });
         });
 
-        function getMajorMinor(version){
+        function getMajorMinor (version) {
             const d = version.split('.')
             const major = d[0]
             const minor = d[1]
             return `${major}.${minor}`
         }
-        function generateSearchResults(resultsMenu, record, label){
+        function generateSearchResults (resultsMenu, record, label) {
             const page = record.page
             const br = document.createElement('br')
             const r = document.createElement('button')
@@ -1070,7 +1025,7 @@ function constructMenu (json, layoutArr, isNew) {
             resultsDialogForm.appendChild(resultsMenu);
 
             let label
-            for (i = 0; i < json.length; ++i) {
+            for (let i = 0; i < json.length; ++i) {
                 const origLabel = json[i].label
                 const labelLower = origLabel.toLowerCase();
                 const queryLower = query.toLowerCase();
@@ -1167,6 +1122,7 @@ function constructMenu (json, layoutArr, isNew) {
         bodyHolder.appendChild(kesUl);
         document.body.appendChild(modal);
         document.querySelector('.kes-settings-modal-sidebar ul').addEventListener("click", (e) => {
+            if (e.target.className != "kes-tab-link") return
             openTab(e.target.outerText);
         });
         document.querySelector('.kes-list').addEventListener("click", (e) => {
@@ -1286,30 +1242,116 @@ function constructMenu (json, layoutArr, isNew) {
 
         updateCrumbs();
         //necessarily reload the page when verbose timestamps are toggled off
-        //otherwise, triggers a loop of mutations because reverting timeago mutates the watched node
-        if ((func === "updateTime") && (state === false)) {
+        //otherwise, triggers a loop of mutations because reverting timeago mutates watched node
+        if ((func === "timestamp") && (state === false)) {
             window.location.reload();
         } else {
             toggleSettings(func);
         }
     }
 
+    function toggleDependencies (entry, state) {
+        let object
+        let depends
+        let entrypoint
+
+        for (let i = 0; i < json.length; ++i) {
+            if(json[i].entrypoint === entry) {
+                object = json[i]
+            }
+        }
+        if (!object.depends_on && !object.depends_off) return
+        if (state == true && !object.depends_on) return
+        if (state == false && !object.depends_off) return
+
+        if (state === true) {
+            depends = object.depends_on
+        } else {
+            depends = object.depends_off
+        }
+
+        const settings = getSettings();
+        for (let i = 0; i < depends.length; ++i) {
+            entrypoint = depends[i]
+            settings[entrypoint] = state
+            saveSettings(settings);
+            funcObj[entrypoint](state);
+        }
+    }
     function toggleSettings (entry) {
         const settings = getSettings()
         try {
             if (settings[entry] == true) {
+                toggleDependencies(entry, true)
                 funcObj[entry](true);
             } else {
+                toggleDependencies(entry, false)
                 funcObj[entry](false);
             }
         } catch (error) {
             console.log(error);
         }
     }
+    function legacyMigration (entry) {
+        const settings = getSettings();
+        const legacyEntrypoints = {
+            "mail": "addMail",
+            "subs": "initMags",
+            "adjust": "adjustSite",
+            "alpha_sort_subs": "alphaSortInit",
+            "alt_all_content_access": "altAllContentAccess",
+            "always_more": "moreInit",
+            "clarify_recipient": "clarifyRecipientInit",
+            "improved_collapsible_comments": "initCollapsibleComments",
+            "resize_text": "textResize",
+            "dropdown": "dropdownEntry",
+            "expand_posts": "expandPostsInit",
+            "fix_codeblocks": "fixLemmyCodeblocks",
+            "hide_downvotes": "hideDownvotes",
+            "hide_reputation": "hideReputation",
+            "hide_upvotes": "hideUpvotes",
+            "hide_sidebar": "hideSidebar",
+            "hide_thumbs": "hideThumbs",
+            "hover_indicator": "hoverIndicator",
+            "easy_emoticon": "easyEmoticon",
+            "label": "labelOp",
+            "mag_instance_names": "magInstanceEntry",
+            "mobile_cleanup": "mobileHideInit",
+            "move_federation_warning": "moveFederationWarningEntry",
+            "nav_icons": "navbarIcons",
+            "notifications_panel": "notificationsPanel",
+            "hide_posts": "hidePostsInit",
+            "rearrange": "rearrangeInit",
+            "thread_delta": "threadDeltaInit",
+            "softblock": "softBlockInit",
+            "report_bug": "bugReportInit",
+            "omni": "omniInit",
+            "thread_checkmarks": "checksInit",
+            "hide_logo": "toggleLogo",
+            "unblur": "unblurInit",
+            "user_instance_names": "userInstanceEntry",
+            "timestamp": "updateTime",
+            "code_highlighting": "initCodeHighlights",
+            "kbin_federation_awareness": "initKFA"
+        }
+        const legacyMapping = legacyEntrypoints[entry]
+        try {
+            if (settings[legacyMapping] == true) {
+                settings[entry] = true;
+                delete settings[legacyMapping];
+                saveSettings(settings);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
     function applySettings (entry, mutation) {
+        legacyMigration(entry);
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
+                toggleDependencies(entry, true)
                 funcObj[entry](true, mutation);
             }
         } catch (error) {
@@ -1370,7 +1412,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //reapplies verbose timestamps
                 //see also updateState()
                 if (mutation.target.textContent.indexOf("ago") >= 0) {
-                    applySettings("updateTime");
+                    applySettings("timestamp");
                 }
                 //triggering on the first mutation is sufficient to apply to all timestamps
                 return

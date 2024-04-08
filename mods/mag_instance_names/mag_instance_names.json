@@ -1,0 +1,11 @@
+{
+  "name": "Magazine Instance Names",
+  "author": "artillect",
+  "version": "0.1",
+  "label": "Magazine instance names",
+  "desc": "Show instance names next to magazines",
+  "login": false,
+  "recurs": true,
+  "entrypoint": "mag_instance_names",
+  "page": "general"
+}

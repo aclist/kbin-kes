@@ -1,0 +1,20 @@
+{
+  "name": "Thread checkmarks",
+  "author": "shazbot",
+  "version": "0.1.0",
+  "label": "Checkmark on subbed mags",
+  "desc": "Append a checkmark to magazines on the thread index you are subscribed to. The 'Subscriptions omnibar' option (page: General) must be enabled for this to work",
+  "login": false,
+  "recurs": true,
+  "entrypoint": "thread_checkmarks",
+  "namespace": "checks",
+  "fields": [
+    {
+      "type": "color",
+      "key": "check-color",
+      "label": "Checkmark color",
+      "initial": "--kbin-upvoted-color"
+    }
+  ],
+  "page": "threads"
+}

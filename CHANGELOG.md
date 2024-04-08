@@ -1,6 +1,41 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 4.0.0
+### Added
+- Unsanitize CSS (Pamasich): unsanitizes custom CSS on magazines to restore working functionality of custom styles
+- Fix pagination arrows (Pamasich): fixes broken pagination arrows when navigating between pages by restoring functionality to the back/forward buttons
+- Added a "Fixes" category to the sidebar that holds add-ons responsible for patches, fixes, and connecting glue
+
+### Changed
+- Mail label: this add-on was split into two, with the "Add submission prefix" add-on being added
+- Code syntax highlighting: now treats "Repair codeblocks" as a necessary dependency, so the act of turning on "Code syntax highlighting" will perforce turn on "Repair codeblocks"
+- Move federation warning to sidebar: updated this add-on to also support profile pages
+- Repair codeblocks: now treats "Code syntax highlighting" as dependent, so the act of turning off "Repair codeblocks" will perforce turn off "Code syntax highlighting"
+- Resize text: the add-on now attempts to parse the current point size of elements on the page, rather than defaulting to 14pt
+- Resize text: the add-on now gracefully toggles off without needing to reload the page
+- Resize text: consolidated resize logic into a single stylesheet and dropped extraneous fields
+
+### Fixed
+- Audited all add-ons and added compatibility with mbin instances
+- Releasing a click action on the KES sidebar while multiple pages were highlighted could break the menu
+- GitHub's redirection and caching mechanism could cause the contents of the KES menu to appear garbled
+- Add mail: fixed an issue where mail links would appear next to your own username
+- Clarify recipient: recipient label now appears on the direct message page, not only the inbox reply page
+- Code syntax highlighting: restored a missing divider line between the header and code block
+- Code syntax highlighting: unintended interaction with "Collapsible comments" add-on was causing header icons to be unclickable
+- Hover indicator: fixed an issue where the indicator would not appear unless the add-on's color field had been explicitly interacted with before
+- Magazine instance names: disabling this add-on would remove checkmarks created by the "Checkmark on subbed mags" add-on
+- Notification panel: fixed an issue where settings applied to the panel would sometimes leak into other menus
+- Report bug button: this add-on now also applies to the original post in a thread, but not on crossposts
+
+### API
+- Added the keys depends_on and depends_off to manifest to support add-on dependencies
+- Consolidated add-ons into global funcs.js file to reduce repository queries
+- Added function concatenation script and ephemeral gist generator to build tools
+- Added KES internal function getComputedFontSize() to retrieve rendered point size from element IDs
+- Added public utility function getInstanceName() to test whether an instance is of the type kbin or mbin
+
 ## 3.3.0
 ### Added
 - Alternative access to All Content (Pamasich): makes the magazine title in the navbar link to the All Content view and removes the dedicated button
