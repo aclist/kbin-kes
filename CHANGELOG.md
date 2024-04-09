@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 4.1.0
+### Fixed
+
+- Move federation warning: ensure that the add-on also applies to pages on the All Content area (kbin only)
+- Remove extraneous double border on KES icon in navbar when hovering
+
 ## 4.0.0
 ### Added
 - Unsanitize CSS (Pamasich): unsanitizes custom CSS on magazines to restore working functionality of custom styles
