@@ -266,7 +266,7 @@ function constructMenu (json, layoutArr, isNew) {
         let modsHR = " (" + activeMods + "/" + totalMods + ")"
         return modsHR
     }
-    function getComputedFontSize(string){
+    function getComputedFontSize (string) {
         if (typeof string === 'number') return string
         if (isNaN(parseFloat(string)) === false) {
             return parseFloat(string)
