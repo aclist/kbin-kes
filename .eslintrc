@@ -24,7 +24,7 @@
         "arrow-parens": ["error","always"],
         "space-before-function-paren": ["error", "always"],
         "space-before-blocks": ["error", "always"],
-        "indent": ["error", 4],
+        "indent": ["error", 4, {"SwitchCase": 2}],
         "max-len": ["warn", 100]
     },
     "overrides": [

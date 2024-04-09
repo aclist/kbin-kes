@@ -17,7 +17,8 @@ function moveFederationWarningEntry (toggle) { //eslint-disable-line no-unused-v
 
     const loc = window.location.href.split('/')
     // only run on magazine/profile pages
-    if ((loc[3] !== "m") && (loc[3] !== "u")) return;
+    if ((loc[3] !== "m") && (loc[3] !== "u") && (loc[3] !== "*")) return;
+    if ((loc[3] == "*") && (loc[4] !== "m")) return
 
     let settings = getModSettings("moveFederationWarning");
     let alertBox = $(".alert.alert__info");
