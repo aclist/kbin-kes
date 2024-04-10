@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.0.0-beta.75
+// @version      4.1.0-beta.2
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -266,7 +266,7 @@ function constructMenu (json, layoutArr, isNew) {
         let modsHR = " (" + activeMods + "/" + totalMods + ")"
         return modsHR
     }
-    function getComputedFontSize(string){
+    function getComputedFontSize (string) {
         if (typeof string === 'number') return string
         if (isNaN(parseFloat(string)) === false) {
             return parseFloat(string)

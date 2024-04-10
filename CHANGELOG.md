@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 4.1.0
+### Fixed
+
+- Move federation warning: ensure that the add-on also applies to pages on the All Content area (kbin only)
+- Remove extraneous double border on KES icon in navbar when hovering
+
 ## 4.0.0
 ### Added
 - Unsanitize CSS (Pamasich): unsanitizes custom CSS on magazines to restore working functionality of custom styles
@@ -38,6 +44,7 @@ All notable changes to this project will be documented in this file.
 
 ## 3.3.0
 ### Added
+- Alternative access to All Content (Pamasich): makes the magazine title in the navbar link to the All Content view and removes the dedicated button
 - Show new features added in current release: click the button on the search menu to list new add-ons incorporated into KES since the current minor version. E.g., if you are on version 3.2.x, this button
   will show all relevant add-ons since 3.2.0. Under the hood, this button performs a query using the `:new` keyword.
 - Search keywords: added a set of reserved keywords that can be used to search for add-ons matching certain criteria: `:new`, `:recurs`, and `:login`. These respectively will return a list of add-ons
@@ -60,6 +67,9 @@ All notable changes to this project will be documented in this file.
 ## 3.2.2
 ### Fixed
 - Expand post text in thread index: fixed an issue with extraneous newlines being inserted before and after a post body when fetching the remote text.
+- Collapsible comments: fixed issues with nested thread style failing to be removed when toggling off
+- Collapsible comments: fixed an issue with expand text buttons not working when nested comments are enabled
+- Collapsible comments: removed rounded corners from avatars, as this was undocumented/unspecified by the add-on
 
 ### Added
 - Expand post text in thread index: added the ability to set custom text labels for the Expand, Collapse, and Loading states.
