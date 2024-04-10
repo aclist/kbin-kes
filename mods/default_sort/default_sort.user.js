@@ -26,15 +26,17 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
     }
 
     function setup () {
-        // 1. get a list of sort options on the current page
+        // get a list of sort options on the current page
         const sortOptions = getSortOptions();
-        // 2. abort the mod if the list is empty
+        // abort the mod if the list is empty
         if (sortOptions.length == 0) return;
-        // 3. determine the default sort
+
         const defaultSort = determineDefaultSort();
-        // 4. abort the mod if there is no default sort specified for the current page
-        if (defaultSort == null) return;
-        // 5. Click the correct sort option
+        // TODO: change the sort button url so users can still manually access the default sort
+        if (defaultSort == null) {
+            return;
+        }
+
         const option = sortOptions.find((option) => option.textContent.trim() == defaultSort);
         // if the default sort option doesn't exist in the option array, abort the mod
         if (option == undefined) return;
@@ -85,6 +87,9 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
     /**
      * Determines the default sort option for the current page.
      * 
+     * @todo Right now, an explicitly sorted page has to go through this entire function to return
+     * null. This function should be abstracted so that it first looks for the rough supported urls,
+     * THEN checks that it doesn't end in any of the applicable sort options
      * @returns {string|null}
      */
     function determineDefaultSort () {
@@ -102,6 +107,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
             return defaultSort(SupportedPages.THREAD);
         }
         if (pathTokens[0] == "*") {
+            // TODO: This is too broad and will hit explicitly sorted views too
             // All Content page of magazines and frontpage
             return defaultSort(SupportedPages.THREAD);
         }
