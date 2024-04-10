@@ -36,6 +36,20 @@
         "label": "Select default sort on profiles:",
         "values": ["top", "hot", "newest", "active", "commented"],
         "initial": "newest"
+      },
+      {
+        "type": "select",
+        "key": "defaultMagazineSort",
+        "label": "Select default sort for magazines:",
+        "values": ["newest", "hot", "active", "abandoned"],
+        "initial": "hot"
+      },
+      {
+        "type": "select",
+        "key": "defaultProfileSort",
+        "label": "Select default sort on profiles:",
+        "values": ["top", "hot", "newest", "active", "commented"],
+        "initial": "newest"
       }
     ]
   }
