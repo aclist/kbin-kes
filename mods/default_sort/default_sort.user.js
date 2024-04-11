@@ -69,12 +69,24 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         // The boosts page does sorting a bit differently and is sorted from the start, so this
         // function has nothing to do there.
         if (isBoostsPage()) return;
+        // figure out if this is the comments page, which also needs some special handling
+        const pathTokens = getPathTokens();
+        var isCommentsPage = false;
+        if (pathTokens[0] == 'm' && pathTokens[2] == 't') {
+            if (pathTokens.length == 4) isCommentsPage = true;
+            if (pathTokens.length == 6 && pathTokens[4] == '-') isCommentsPage = true;
+        }
+        // actually make the changes
         for (var option of options) {
             const hrefTokens = option.pathname.split('/');
             if (hrefTokens[hrefTokens.length-1] != option.textContent.trim()) {
                 option.dataset.defaultSort_pathNameBeforeEdit = option.pathname;
-                option.pathname += option.pathname.endsWith('/') ? '' : '/';
-                option.pathname += option.textContent.trim();
+                if (isCommentsPage) {
+                    option.pathname += `/-/${option.textContent.trim()}`;
+                } else {
+                    option.pathname += option.pathname.endsWith('/') ? '' : '/';
+                    option.pathname += option.textContent.trim();
+                }
             }
         }
     }
@@ -95,9 +107,13 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      * @returns {HTMLAnchorElement[]}
      */
     function getSortOptions () {
-        return Array.from(document.querySelectorAll(
+        var results =  Array.from(document.querySelectorAll(
             "aside.options:has(menu.options__filters) > menu.options__main a"
         ));
+        if (results.length == 0) results = Array.from(document.querySelectorAll(
+            "aside.options:has(menu.options__layout) > menu.options__main a"
+        ));
+        return results;
     }
 
     /**
