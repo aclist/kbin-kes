@@ -30,31 +30,63 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         const sortOptions = getSortOptions();
         // abort the mod if the list is empty
         if (sortOptions.length == 0) return;
-
-        const defaultSort = determineDefaultSort();
-        // TODO: change the sort button url so users can still manually access the default sort
-        if (defaultSort == null) {
+        // abort the mod if the current page is already an explicitly sorted one
+        if (isCurrentPageExplicitlySorted(sortOptions)) {
+            makeOptionsExplicit(sortOptions);
             return;
         }
+
+        const defaultSort = determineDefaultSort();
+        if (defaultSort == null) return;
 
         const option = sortOptions.find((option) => option.textContent.trim() == defaultSort);
         // if the default sort option doesn't exist in the option array, abort the mod
         if (option == undefined) return;
         // ensure the option links to the correct page
-        const hrefTokens = option.pathname.split('/');
-        if (hrefTokens[hrefTokens.length-1] != option.textContent.trim()) {
-            option.href = `${option.href}/${option.textContent.trim()}`;
-        }
+        makeOptionsExplicit([option])
         option.click();
-        
     }
 
     function teardown () {
         for (var option of getSortOptions()) {
-            if (option.dataset.defaultSort_pathNameBeforeEdit == undefined) continue;
-            option.pathname = option.dataset.defaultSort_pathNameBeforeEdit;
-            delete option.dataset.defaultSort_pathNameBeforeEdit;
+            if (option.dataset.defaultSort_pathNameBeforeEdit != undefined) {
+                option.pathname = option.dataset.defaultSort_pathNameBeforeEdit;
+                delete option.dataset.defaultSort_pathNameBeforeEdit;
+            }
         }
+    }
+
+    /**
+     * The kbin-default sort option always links to the non-explicitly sorted page. This mod 
+     * redirects people on that page to the mod-default sorted one. This means, effectly, 
+     * there's no way to switch to the kbin-default sort anymore. 
+     * This function takes a list of option elements and makes sure they actually point to 
+     * the explicitly sorted page.
+     * 
+     * @param {HTMLAnchorElement[]} options
+     */
+    function makeOptionsExplicit (options) {
+        // The boosts page does sorting a bit differently and is sorted from the start, so this
+        // function has nothing to do there.
+        if (isBoostsPage()) return;
+        for (var option of options) {
+            const hrefTokens = option.pathname.split('/');
+            if (hrefTokens[hrefTokens.length-1] != option.textContent.trim()) {
+                option.dataset.defaultSort_pathNameBeforeEdit = option.pathname;
+                option.pathname += option.pathname.endsWith('/') ? '' : '/';
+                option.pathname += option.textContent.trim();
+            }
+        }
+    }
+
+    /**
+     * Identifies if the current page is the boosts page on the profile.
+     * 
+     * @returns {boolean}
+     */
+    function isBoostsPage () {
+        const pathTokens = getPathTokens();
+        return pathTokens.length == 3 && pathTokens[0] == "u" && pathTokens[2] == "boosts";
     }
 
     /**
@@ -63,16 +95,9 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      * @returns {HTMLAnchorElement[]}
      */
     function getSortOptions () {
-        const pathTokens = getPathTokens();
-        if (pathTokens.length == 2 && pathTokens[0] == "u") {
-            return Array.from(
-                document.querySelectorAll("aside.options--top > menu.options__main a")
-            );
-        } else {
-            return Array.from(
-                document.querySelectorAll("aside:not(#activity) > menu.options__main a")
-            );
-        }
+        return Array.from(document.querySelectorAll(
+            "aside.options:has(menu.options__filters) > menu.options__main a"
+        ));
     }
 
     /**
@@ -85,11 +110,26 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
     }
 
     /**
+     * Determines if the currently open page is already explicitly sorted. In that case going
+     * through all of {@link determineDefaultSort} should be avoided.
+     * 
+     * @param {HTMLAnchorElement[]} sortOptions
+     * @returns {boolean}
+     */
+    function isCurrentPageExplicitlySorted (sortOptions) {
+        // The boosts page on the profile has its own way of sorting
+        if (isBoostsPage() && window.location.search != '') return true;
+        const allowedRoutes = sortOptions.map((option) => option.textContent.trim());
+        const currentRoute = window.location.pathname;
+        for (var route of allowedRoutes) {
+            if (currentRoute.endsWith(`/${route}`)) return true;
+        }
+        return false;
+    }
+
+    /**
      * Determines the default sort option for the current page.
      * 
-     * @todo Right now, an explicitly sorted page has to go through this entire function to return
-     * null. This function should be abstracted so that it first looks for the rough supported urls,
-     * THEN checks that it doesn't end in any of the applicable sort options
      * @returns {string|null}
      */
     function determineDefaultSort () {
@@ -104,11 +144,6 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         }
         if (pathTokens[pathTokens.length-1] == "*") {
             // All Content page of collections
-            return defaultSort(SupportedPages.THREAD);
-        }
-        if (pathTokens[0] == "*") {
-            // TODO: This is too broad and will hit explicitly sorted views too
-            // All Content page of magazines and frontpage
             return defaultSort(SupportedPages.THREAD);
         }
         if (pathTokens.length == 1 && pathTokens[0] == "magazines") {
@@ -131,13 +166,17 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         if (pathTokens.length == 3 && pathTokens[0] == "u" && pathTokens[2] == "posts") {
             return defaultSort(SupportedPages.PROFILE);
         }
-        if (pathTokens.length == 3 && pathTokens[0] == "u" && pathTokens[2] == "boosts") {
+        if (isBoostsPage()) {
             return defaultSort(SupportedPages.PROFILE);
-        }
+        } 
         if (pathTokens.length == 3 && pathTokens[0] == "u" && pathTokens[2] == "overview") {
             return defaultSort(SupportedPages.PROFILE);
         }
         if (pathTokens.length == 2 && (pathTokens[0] == "m" || pathTokens[0] == "c")) {
+            return defaultSort(SupportedPages.THREAD);
+        }
+        if (pathTokens.length == 4 && pathTokens[0] == "u" && pathTokens[2] == "c") {
+            // Some collections seem to be accessible like this instead of directly via /c/
             return defaultSort(SupportedPages.THREAD);
         }
         if (pathTokens.length >= 4 && pathTokens[0] == "m" && pathTokens[2] == "t") {
@@ -145,6 +184,26 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
             if (pathTokens.length == 4) return defaultSort(SupportedPages.COMMENT);
             // when a thread is accessed via a - or its name after the id
             if (pathTokens.length == 5) return defaultSort(SupportedPages.COMMENT);
+        }
+        if (pathTokens.length == 2 && pathTokens[0] == "*") {
+            // All Content page of /sub and /all
+            return defaultSort(SupportedPages.THREAD);
+        }
+        if (pathTokens.length == 3 && pathTokens[0] == "*" && pathTokens[1] == "m") {
+            // All Content page of magazines
+            return defaultSort(SupportedPages.THREAD);
+        }
+        if (pathTokens.length == 2 && pathTokens[0] == "d") {
+            // Domain threads page
+            return defaultSort(SupportedPages.THREAD);
+        }
+        if (pathTokens.length == 3 && pathTokens[0] == "d" && pathTokens[2] == "comments") {
+            // Domain comments page
+            return defaultSort(SupportedPages.COMMENT);
+        }
+        if (pathTokens.length == 2 && pathTokens[0] == "tag") {
+            // Tag page
+            return defaultSort(SupportedPages.MICROBLOG);
         }
         return null;
     }
@@ -158,5 +217,15 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      */
     function defaultSort (pageType) {
         return getModSettings("default-sort")[`default${pageType}Sort`];
+    }
+
+    function getModSettings (someStr) {
+        return {
+            'defaultThreadSort': 'hot',
+            'defaultCommentSort': 'hot',
+            'defaultPostSort': 'hot',
+            'defaultProfileSort': 'newest',
+            'defaultMagazineSort': 'hot'
+        };
     }
 }
