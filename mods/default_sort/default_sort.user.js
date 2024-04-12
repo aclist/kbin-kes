@@ -3,7 +3,7 @@
  * specify one already. This can be configured separately for the different types of views
  * that have sort options.
  * 
- * @todo Make it work on kbin.run (mbin)
+ * @todo Add entrypoint to the json
  * 
  * @param {Boolean} isActive Whether the mod has been turned on
 */
@@ -30,6 +30,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         const sortOptions = getSortOptions();
         // abort the mod if the list is empty
         if (sortOptions.length == 0) return;
+        
         // abort the mod if the current page is already an explicitly sorted one
         if (isCurrentPageExplicitlySorted(sortOptions)) {
             makeOptionsExplicit(sortOptions);
@@ -39,13 +40,11 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         const defaultSort = determineDefaultSort();
         if (defaultSort == null) return;
 
-        const option = sortOptions.find(
-            (option) => option.textContent.toLowerCase().trim() == defaultSort
-        );
+        makeOptionsExplicit(sortOptions);
+        const option = sortOptions.find((option) => option.pathname.endsWith(defaultSort));
         // if the default sort option doesn't exist in the option array, abort the mod
         if (option == undefined) return;
         // ensure the option links to the correct page
-        makeOptionsExplicit([option])
         option.click();
     }
 
@@ -78,10 +77,21 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
             if (pathTokens.length == 4) isCommentsPage = true;
             if (pathTokens.length == 6 && pathTokens[4] == '-') isCommentsPage = true;
         }
+        
+        const optionsWithTokens = options.map((option) => {
+            const tokens = option.pathname.split('/');
+            return { tokens: tokens, count: tokens.length, option: option };
+        });
+        // determine the option with the lowest amount of tokens
+        const option = optionsWithTokens.reduce((min, obj) => {
+            (obj.count < min.count ? obj : min), optionsWithTokens[0]
+        });
+        option.dataset.defaultSort_pathNameBeforeEdit = option.pathname;
+        
+
         // actually make the changes
         for (var option of options) {
-            const hrefTokens = option.pathname.split('/');
-            if (hrefTokens[hrefTokens.length-1] != option.textContent.toLowerCase().trim()) {
+            /*if (hrefTokens[hrefTokens.length-1] != option.textContent.toLowerCase().trim()) {
                 option.dataset.defaultSort_pathNameBeforeEdit = option.pathname;
                 if (isCommentsPage) {
                     option.pathname += `/-/${option.textContent.toLowerCase().trim()}`;
@@ -91,7 +101,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
                     option.pathname += option.pathname.endsWith('/') ? '' : '/';
                     option.pathname += option.textContent.toLowerCase().trim();
                 }
-            }
+            }*/
         }
     }
 
