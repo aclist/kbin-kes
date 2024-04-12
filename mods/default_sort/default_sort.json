@@ -4,7 +4,7 @@
     "author": "Pamasich",
     "version": "1.0.0",
     "label": "Change Default Sort",
-    "desc": "Changes the default sort option used when viewing magazines or comments.",
+    "desc": "Changes the default sort option used when viewing magazines or comments.\n\nNote for mbin users:\nThe microblog and profile sort settings are non-functional on mbin.",
     "login": false,
     "recurs": false,
     "page": "general",
