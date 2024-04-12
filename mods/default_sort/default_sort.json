@@ -4,7 +4,7 @@
     "author": "Pamasich",
     "version": "1.0.0",
     "label": "Change Default Sort",
-    "desc": "Changes the default sort option used when viewing magazines or comments.\n\nNote for mbin users:\nThe microblog and profile sort settings are non-functional on mbin.",
+    "desc": "Changes the default sort option used when viewing magazines or comments.",
     "login": false,
     "recurs": false,
     "page": "general",
@@ -26,14 +26,14 @@
       {
         "type": "select",
         "key": "defaultPostSort",
-        "label": "Select default sort for microblogs:",
+        "label": "Select default sort for microblogs (kbin only):",
         "values": ["top", "hot", "newest", "active", "commented"],
         "initial": "hot"
       },
       {
         "type": "select",
         "key": "defaultProfileSort",
-        "label": "Select default sort on profiles:",
+        "label": "Select default sort on profiles (kbin only):",
         "values": ["top", "hot", "newest", "active", "commented"],
         "initial": "newest"
       },
