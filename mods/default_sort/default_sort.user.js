@@ -85,6 +85,8 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
                 option.dataset.defaultSort_pathNameBeforeEdit = option.pathname;
                 if (isCommentsPage) {
                     option.pathname += `/-/${option.textContent.toLowerCase().trim()}`;
+                } else if (getInstanceType() == "mbin" && option.pathname == "/") {
+                    option.pathname = `/home/${option.textContent.toLowerCase().trim()}`;
                 } else {
                     option.pathname += option.pathname.endsWith('/') ? '' : '/';
                     option.pathname += option.textContent.toLowerCase().trim();
@@ -118,7 +120,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         ));
         // mbin
         if (results.length == 0) results = Array.from(document.querySelectorAll(
-            "li.dropdown:has(button[aria-label='Sort by']) a"
+            "li.dropdown:has(button[aria-label='Sort by']) a" // TODO: this won't work
         ));
         if (results.length == 0) results = Array.from(document.querySelectorAll(
             "aside.options:has(menu.options__view) > menu.options__main a"
@@ -249,6 +251,18 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         return getModSettings("default-sort")[`default${pageType}Sort`];
     }
 
+    /**
+     * Mocked for testing
+     * @todo Remove before finalizing pull request
+     */
+    function getInstanceType () {
+        return "mbin";
+    }
+
+    /**
+     * Mocked for testing
+     * @todo Remove before finalizing pull request
+     */
     function getModSettings (someStr) {
         return {
             'defaultThreadSort': 'hot',
