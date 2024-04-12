@@ -8,6 +8,8 @@ function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
     // @match        https://kbin.social/*
     // @license      MIT
     // ==/UserScript==
+    const path = window.location.href.split('/')
+    if ((path[3] === "m") || (path[3] === "magazines")) return
     function showMagInstances () {
         $('.magazine-inline').each(function () {
             // Check if community is local
