@@ -14,10 +14,11 @@ gen(){
         awk '{print (NF ? "    " $0 : $0)}' $PWD/mods/$mod/$f
         [[ $i -ne $count ]] && echo ","
         i=$((i+1))
-        < "$json" jq --arg EP "$mod" '.entrypoint=$EP' | sponge "$json"
-        git add "$json"
+        < "$json" jq --arg EP "$mod" '.entrypoint=$EP' > manifest.tmp
+        mv manifest.tmp "$json"
+        [[ $1 == "-g" ]] && git add "$json"
     done
     echo "}"
 }
-gen > "$file"
-git add "$file"
+gen "$1" > "$file"
+[[ $1 == "-g" ]] && git add "$file"
