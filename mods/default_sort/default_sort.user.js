@@ -166,7 +166,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
             // logged-out frontpage
             return defaultSort(SupportedPages.THREAD);
         }
-        if (pathTokens[pathTokens.length-1] == "microblog") {
+        if (getInstanceType() != "mbin" && pathTokens[pathTokens.length-1] == "microblog") {
             // any microblog page
             return defaultSort(SupportedPages.MICROBLOG);
         }
