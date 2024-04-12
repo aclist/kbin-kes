@@ -24,8 +24,15 @@ try {
 }
 
 function getInstanceType() {
-    const keyw = document.querySelector('meta[name="keywords"]').content.split(',')[0]
-    return keyw
+    const links = document.getElementsByTagName("a");
+
+    for (var i = 0, l = links.length; i < l; i++) {
+        const link = links[i];
+        if (link.href.indexOf("MbinOrg") !== -1) {
+            return "mbin"
+        }
+    }
+    return "kbin"
 }
 
 function addCustomCSS (css, id) {
