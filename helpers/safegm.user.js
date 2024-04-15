@@ -24,7 +24,7 @@ try {
 }
 
 function getInstanceType() {
-    const links = document.querySelectorAll('.about-mbin li a');
+    const links = document.querySelectorAll('.kbin-promo .stretched-link');
 
     for (var i = 0, l = links.length; i < l; i++) {
         const link = links[i];

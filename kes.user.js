@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.1.0-beta.6
+// @version      4.1.0-beta.7
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1441,6 +1441,7 @@ function constructMenu (json, layoutArr, isNew) {
     }
 }
 
+console.log(getInstanceType())
 const versionElement = document.createElement('a');
 versionElement.innerText = tool + ' ' + version;
 versionElement.setAttribute('href', repositoryURL);
