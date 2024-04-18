@@ -3961,6 +3961,7 @@ const funcObj = {
             el.classList.add('softblocked-article');
         }
         function hideThreads (mags) {
+            if (!mags) return
             let el
             const articles = document.querySelectorAll('.magazine-inline')
             articles.forEach((article) => {

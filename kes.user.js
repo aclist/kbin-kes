@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.1.0-beta.7
+// @version      4.1.0-beta.8
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1126,6 +1126,7 @@ function constructMenu (json, layoutArr, isNew) {
             openTab(e.target.outerText);
         });
         document.querySelector('.kes-list').addEventListener("click", (e) => {
+            if (e.target.className != "kes-option") return
             openHelpBox(e.target.getAttribute('kes-iter'));
         });
         document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
@@ -1441,7 +1442,6 @@ function constructMenu (json, layoutArr, isNew) {
     }
 }
 
-console.log(getInstanceType())
 const versionElement = document.createElement('a');
 versionElement.innerText = tool + ' ' + version;
 versionElement.setAttribute('href', repositoryURL);
