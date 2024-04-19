@@ -516,3 +516,6 @@ span.kes-update {
 .kes-dimmed-colorpicker {
     opacity: 0.75;
 }
+#header .kbin-container {
+    max-width: 100%;
+}

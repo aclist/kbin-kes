@@ -50,6 +50,7 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         el.classList.add('softblocked-article');
     }
     function hideThreads (mags) {
+        if (!mags) return
         let el
         const articles = document.querySelectorAll('.magazine-inline')
         articles.forEach((article) => {

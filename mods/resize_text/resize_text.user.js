@@ -11,6 +11,17 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         }
     }
 
+    function modSelected () {
+        let state
+        document.querySelectorAll('.kes-option').forEach((mod) => {
+            if ((mod.style.opacity === "1") && mod.innerText === "Change font size") {
+                state = true
+            }
+        })
+        console.log(state)
+        return state
+    }
+
     function setOpacity (value) {
         const kesModalContent = document.querySelector(modalContent);
         const kesModalContainer = document.querySelector(modalContainer);
@@ -24,7 +35,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         clearTimeout(oldID)
 
         if (kesModalOpen()) {
-            setOpacity(0.2)
+            if (modSelected()) setOpacity(0.2)
         }
         const css = `
         /* MESSAGES */

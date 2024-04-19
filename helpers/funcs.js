@@ -1586,6 +1586,8 @@ const funcObj = {
         // @match        https://kbin.social/*
         // @license      MIT
         // ==/UserScript==
+        const path = window.location.href.split('/')
+        if ((path[3] === "m") || (path[3] === "magazines")) return
         function showMagInstances () {
             $('.magazine-inline').each(function () {
                 // Check if community is local
@@ -2527,6 +2529,17 @@ const funcObj = {
             }
         }
 
+        function modSelected () {
+            let state
+            document.querySelectorAll('.kes-option').forEach((mod) => {
+                if ((mod.style.opacity === "1") && mod.innerText === "Change font size") {
+                    state = true
+                }
+            })
+            console.log(state)
+            return state
+        }
+
         function setOpacity (value) {
             const kesModalContent = document.querySelector(modalContent);
             const kesModalContainer = document.querySelector(modalContainer);
@@ -2540,7 +2553,7 @@ const funcObj = {
             clearTimeout(oldID)
 
             if (kesModalOpen()) {
-                setOpacity(0.2)
+                if (modSelected()) setOpacity(0.2)
             }
             const css = `
             /* MESSAGES */
@@ -3682,7 +3695,7 @@ const funcObj = {
         }
 
         function kfaInitClasses () {
-            document.querySelectorAll('#content article.entry').forEach(function (article) {
+            document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
                 if (article.querySelector('[class^=data-]')) { return }
                 let op = article.querySelector('.user-inline').href
                 op = String(op)
@@ -3948,6 +3961,7 @@ const funcObj = {
             el.classList.add('softblocked-article');
         }
         function hideThreads (mags) {
+            if (!mags) return
             let el
             const articles = document.querySelectorAll('.magazine-inline')
             articles.forEach((article) => {
