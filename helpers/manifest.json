@@ -460,6 +460,17 @@
     "page": "fixes"
   },
   {
+    "name": "Remove ads",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Remove advertisement posts",
+    "desc": "Remove and block posts deemed to be unsolicited advertisements",
+    "login": true,
+    "recurs": true,
+    "entrypoint": "remove_ads",
+    "page": "general"
+  },
+  {
     "name": "Unblur NSFW",
     "author": "shazbot",
     "version": "0.1.0",
