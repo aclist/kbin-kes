@@ -464,7 +464,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Remove advertisement posts",
-    "desc": "Remove and block posts deemed to be unsolicited advertisements",
+    "desc": "Remove and block posts deemed to be unsolicited advertisements.\n\nToggling off has no effect.",
     "login": true,
     "recurs": true,
     "entrypoint": "remove_ads",
