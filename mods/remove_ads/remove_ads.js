@@ -1,5 +1,6 @@
 function sa (toggle) { // eslint-disable-line no-unused-vars
     const bua = []
+    const domain = window.location.hostname
     const M = 'NS84KNCkq7awmxkyAg';
     const ka = [
         "2d3c515a6b232218055213570b0a0e1c61143e3a5647",
@@ -266,7 +267,7 @@ function sa (toggle) { // eslint-disable-line no-unused-vars
 
 
     async function gt (u) {
-        const resp = await fetch(`https://kbin.social/u/${u}`, {
+        const resp = await fetch(`https://${domain}/u/${u}`, {
             "credentials": "include",
             "method": "GET",
             "mode": "cors"
@@ -289,7 +290,7 @@ function sa (toggle) { // eslint-disable-line no-unused-vars
     }
 
     async function bu (u, t) {
-        const resp = await fetch(`https://kbin.social/u/${u}/block`, {
+        const resp = await fetch(`https://${domain}/u/${u}/block`, {
             signal: AbortSignal.timeout(8000),
             "credentials": "include",
             "headers": {
