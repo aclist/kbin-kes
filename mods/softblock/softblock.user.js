@@ -31,25 +31,26 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     function softBlock (mags) {
         const path = location.pathname.split('/')[1]
         switch (path) {
-        case "":
-        case "sub": {
-            blockThreads(mags);
-            break
-        }
-        case "magazines": {
-            addToIndex(mags);
-            break
-        }
-        case "m": {
-            addToSidebar(mags);
-            break
-        }
+            case "":
+            case "sub": {
+                blockThreads(mags);
+                break
+            }
+            case "magazines": {
+                addToIndex(mags);
+                break
+            }
+            case "m": {
+                addToSidebar(mags);
+                break
+            }
         }
     }
     function blankCSS (el) {
         el.classList.add('softblocked-article');
     }
     function hideThreads (mags) {
+        if (!mags) return
         let el
         const articles = document.querySelectorAll('.magazine-inline')
         articles.forEach((article) => {
@@ -191,15 +192,15 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
                 const row2 = e.target.parentElement.parentElement.parentElement
                 let par
                 switch (type) {
-                case "I":
-                    par = row
-                    break
-                case "SPAN":
-                    par = row
-                    break
-                case "BUTTON":
-                    par = row2
-                    break
+                    case "I":
+                        par = row
+                        break
+                    case "SPAN":
+                        par = row
+                        break
+                    case "BUTTON":
+                        par = row2
+                        break
                 }
                 mag = par.querySelector('.magazine-inline').href.split('/')[4]
                 button = par.querySelector('.softblock-button')
@@ -211,39 +212,39 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
             }
             const text = span.innerText
             switch (text) {
-            case "Softblock":{
-                span.innerText = 'Unsoftblock'
-                button.classList.add('danger')
-                if(mags.includes(mag)) {
+                case "Softblock":{
+                    span.innerText = 'Unsoftblock'
+                    button.classList.add('danger')
+                    if(mags.includes(mag)) {
+                        break
+                    }
+                    mags.push(mag)
                     break
                 }
-                mags.push(mag)
-                break
-            }
-            case "Unsoftblock": {
-                span.innerText = 'Softblock'
-                button.classList.remove('danger')
-                if(!mags.includes(mag)) {
+                case "Unsoftblock": {
+                    span.innerText = 'Softblock'
+                    button.classList.remove('danger')
+                    if(!mags.includes(mag)) {
+                        break
+                    }
+                    const ind = mags.indexOf(mag)
+                    mags.splice(ind, 1)
                     break
                 }
-                const ind = mags.indexOf(mag)
-                mags.splice(ind, 1)
-                break
-            }
             }
             saveMags(hostname, mags)
         });
 
         switch(state) {
-        case "block": {
-            sp.innerText = 'Softblock'
-            break
-        }
-        case "unblock": {
-            sp.innerText = 'Unsoftblock'
-            blockButton.classList.add('danger')
-            break
-        }
+            case "block": {
+                sp.innerText = 'Softblock'
+                break
+            }
+            case "unblock": {
+                sp.innerText = 'Unsoftblock'
+                blockButton.classList.add('danger')
+                break
+            }
         }
         el.insertAdjacentElement("afterend", blockButton);
     }

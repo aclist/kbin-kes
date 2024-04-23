@@ -437,20 +437,20 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
     }
     function restoreTree (className, item) {
         switch (className) {
-        case ".nested":
+            case ".nested":
             //if parent has children container, reinsert children adjacent to parent
             //then remove children class
-            item.classList.remove('nested')
-            if (item.parentElement && item.parentElement.className === "kes-collapse-children") {
-                const par = item.parentElement.parentElement
-                par.insertAdjacentElement("afterend", item)
-            }
-            break
-        case ".listened":
-            item.classList.remove('listened')
-            break
-        default:
-            item.remove();
+                item.classList.remove('nested')
+                if (item.parentElement && item.parentElement.className === "kes-collapse-children") {
+                    const par = item.parentElement.parentElement
+                    par.insertAdjacentElement("afterend", item)
+                }
+                break
+            case ".listened":
+                item.classList.remove('listened')
+                break
+            default:
+                item.remove();
         }
     }
     function teardown () {

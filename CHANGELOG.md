@@ -1,6 +1,22 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 4.1.0
+### Added
+- Filter advertisements (shazbot): removes unsolicited advertisements and blocks the poster
+
+### Fixed
+
+- Move federation warning: ensure that the add-on also applies to pages on the All Content area (kbin only)
+- Remove extraneous double border on KES icon in navbar when hovering
+- Ensure that kbin navbar accommodates extra width when KES icons are added
+- Resize text: prevent this feature from causing the KES modal to become opaque when the "Collapsible Comments" feature is also enabled
+
+### Changed
+- Updated ESLint rules
+- Updated build scripts
+- API: made getInstanceType() logic more granular
+
 ## 4.0.0
 ### Added
 - Unsanitize CSS (Pamasich): unsanitizes custom CSS on magazines to restore working functionality of custom styles

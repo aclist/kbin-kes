@@ -8,11 +8,9 @@
 
 #kes-settings {
     color: var(--kbin-header-link-color);
-    border-bottom: 3px solid transparent;
 }
 
 #kes-settings:hover {
-    border-bottom: var(--kbin-header-hover-border);
     color: var(--kbin-header-link-hover-color);
     cursor: pointer;
 }
@@ -517,4 +515,7 @@ span.kes-update {
 }
 .kes-dimmed-colorpicker {
     opacity: 0.75;
+}
+#header .kbin-container {
+    max-width: 100%;
 }

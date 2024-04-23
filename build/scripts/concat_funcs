@@ -1,8 +1,28 @@
 #Placeholder logic for updated auto masthead generation, cf. #255
 
+tool="concat_funcs"
 file="$PWD/helpers/funcs.js"
 count=$(ls -1 $PWD/mods | wc -l)
 i=1
+
+usage(){
+    declare -A usage
+    local arrname="usage"
+    usage["build"]="build functions into file"
+    usage["add"]="same as build, but also add file to commit index"
+
+    local -n usage_arr="$arrname"
+    longest=$(printf "%s\n" "${!usage_arr[@]}" | sort | tail -n1)
+    wc=$(<<< "$longest" wc -m)
+    offset=$((wc + 4))
+    echo ""
+    printf "\tUSAGE: %s <mode>\n" "$tool"
+    echo ""
+    for i in ${!usage_arr[@]}; do
+        printf "\t%-${offset}s %s\n" "$i" "${usage_arr[$i]}"
+    done | sort
+    echo ""
+}
 gen(){
     echo "const funcObj = {"
     for f in $(find $PWD/mods -name "*.js" -printf "%f\n"); do
@@ -14,10 +34,24 @@ gen(){
         awk '{print (NF ? "    " $0 : $0)}' $PWD/mods/$mod/$f
         [[ $i -ne $count ]] && echo ","
         i=$((i+1))
-        < "$json" jq --arg EP "$mod" '.entrypoint=$EP' | sponge "$json"
-        git add "$json"
+        < "$json" jq --arg EP "$mod" '.entrypoint=$EP' > manifest.tmp &&
+        mv manifest.tmp "$json"
+        [[ $1 == "-g" ]] && git add "$json"
     done
     echo "}"
 }
-gen > "$file"
-git add "$file"
+build(){
+    gen "$1" > "$file"
+    [[ $? -eq 0 ]] && echo "Wrote functions to $file"
+}
+add(){
+    build
+    [[ $? -eq 0 ]] && git add "$file"
+}
+
+[[ $# -lt 1 ]] && { usage; exit 1; }
+if [[ $(type -t $1) == function ]]; then
+    $1
+else
+    usage
+fi

@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.0.0
+// @version      4.1.0
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -266,7 +266,7 @@ function constructMenu (json, layoutArr, isNew) {
         let modsHR = " (" + activeMods + "/" + totalMods + ")"
         return modsHR
     }
-    function getComputedFontSize(string){
+    function getComputedFontSize (string) {
         if (typeof string === 'number') return string
         if (isNaN(parseFloat(string)) === false) {
             return parseFloat(string)
@@ -1126,6 +1126,7 @@ function constructMenu (json, layoutArr, isNew) {
             openTab(e.target.outerText);
         });
         document.querySelector('.kes-list').addEventListener("click", (e) => {
+            if (e.target.className != "kes-option") return
             openHelpBox(e.target.getAttribute('kes-iter'));
         });
         document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
