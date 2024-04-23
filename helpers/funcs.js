@@ -2214,7 +2214,13 @@ const funcObj = {
         const bua = []
         const domain = window.location.hostname
         const M = 'NS84KNCkq7awmxkyAg';
+        const la = [
+            "39244f1a2721201e055813031b560e0a",
+            "25315d553e3a3a0a0356031e0c5608162c"
+        ]
         const ka = [
+            "233254516b2b2d0310590212001d050d",
+            "3821515e2e23261804431316431b0414",
             "2d3c515a6b232218055213570b0a0e1c61143e3a5647",
             "157d4f553f2d2b452c",
             "3d265f55396e270e17520f13080a",
@@ -2229,7 +2235,16 @@ const funcObj = {
             "2f204b5d383aa905125e00570e19071d240e3c324b",
             "232a4b51283b310e015f000500190800",
             "393b5940223d331e0356171e1b1d",
-            "283f5d4c232b2207055f151e1d0b"
+            "283f5d4c232b2207055f151e1d0b",
+            "2b205b5b393a304b02521301041b0e",
+            "2b205b5b393a63181445171e0e1d",
+            "21365514202b37045150141a00110e0a",
+            "2f3157463f272c055147081b010b",
+            "28325b5129212c005f540e1a",
+            "283a4c473b3c26180258",
+            "2d364a51293c2c111459",
+            "25364c5b6b2936061c5e0404",
+            "243e4e5d6b3c260a1d4318"
         ]
         const ia = [
             "5d357756d3a9de5a6034400649c62532ae2b25a5",
@@ -2265,6 +2280,21 @@ const funcObj = {
             "a8b3aa882b351b11559996074cf9d5961c53c975"
         ];
         const ua = [
+            "0e30594624222f0c1e420d12190d2b12230e207d4b5b28272207",
+            "0e3f515a20292c2b1a550819430b041a280622",
+            "0e3f57573e3a2c19480e211c0f11055732082d3a5958",
+            "0e325355282622051e4158402d1309102f493d3c5b5d2a22",
+            "0e2b575222250300135e0f591e170810200b",
+            "0e15545b3c082c19125222162d1309102f493d3c5b5d2a22",
+            "0e15545b3c082c19125222362d1309102f493d3c5b5d2a22",
+            "0e01574c222b2b0c3b5809191e1705392a05273d1647242d2a0a1d",
+            "0e21514d2a3d2e02055f211c0f11055732082d3a5958",
+            "0e38575322240300135e0f591e170810200b",
+            "0e2751443827240710440837061a02176f142130515527",
+            "0e3e51533e2b2f0c1e590837061a02176f142130515527",
+            "0e305958243f3602315c031e03561816220e2f3f",
+            "0e34555d3a3b260716770a150416450a2e04273254",
+            "0e215147202f2f021f560019040b0a392a05273d1647242d2a0a1d",
             "0e215d593f2f30020156131e1e38001b280960205757222f2f",
             "0e215d57393b2a1f1c520f030c1f0e17220e2b20785f29272d450258021e0c14",
             "0e30575022202a13315c031e03561816220e2f3f",
@@ -2364,6 +2394,9 @@ const funcObj = {
             "0e115d5222292e0a1f440937061a02176f142130515527"
         ]
         const da = [
+            "2d365652243c200e",
+            "253255552c3c22",
+            "2d365652243c200e",
             "223c4a402a2c",
             "29365651392720",
             "2d3f575a2a34261b105a",
@@ -2519,10 +2552,10 @@ const funcObj = {
             }
         }
 
-        function sc (el) {
-            const u = el.querySelector('.user-inline').href
+        function sc (a) {
+            const u = a.querySelector('.user-inline').href
             const n = u.split('/')[4]
-            el.remove()
+            a.remove()
             if (bua.includes(n)) {
                 return
             }
@@ -2541,9 +2574,12 @@ const funcObj = {
             let t = h.innerText.toLowerCase();
             for (let i = 0; i < ka.length; ++i) {
                 if (t.includes(xc.d(M, ka[i]))) {
-                    sc(a)
-                } else {
-                    rbt(a)
+                    sc(a);
+                    return
+                }
+                if (i === (ka.length -1)) {
+                    rbt(a);
+                    return
                 }
             }
         }
@@ -2566,13 +2602,24 @@ const funcObj = {
                 }
             }
         }
+        function rbl (a) {
+            const l = a.querySelector('.entry__domain a')
+            if (!l) return
+            const u = new URL(l.href)
+            const eu = xc.e(M, u)
+            if (la.includes(eu)) {
+                sc(a)
+            } else {
+                rbi(a);
+            }
+        }
         function rbu (a) {
-            const u = a.querySelector('.user-inline').href.split('/')[4]
+            const u = a.querySelector('.user-inline').title
             const eu = xc.e(M, u);
             if (ua.includes(eu)) {
                 sc(a)
             } else {
-                rbi(a);
+                rbl(a);
             }
         }
         const login = document.querySelector('.login');
