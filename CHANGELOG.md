@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## 4.1.0
 ### Added
-- Remove advertising posts (shazbot): removes unsolicited advertisements and blocks the poster
+- Filter advertisements (shazbot): removes unsolicited advertisements and blocks the poster
 
 ### Fixed
 
