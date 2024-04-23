@@ -3690,7 +3690,7 @@ const funcObj = {
         if (toggle) {
             loadCounts(hostname, mag);
         } else {
-            const countBar = document.querySelector('#kes-omni-tapbar')
+            const countBar = document.querySelector('#kes-thread-delta-bar')
             if (countBar) {
                 countBar.remove();
             }
