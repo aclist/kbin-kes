@@ -19,14 +19,14 @@ function updateTime (toggle) { // eslint-disable-line no-unused-vars
             let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
             let offset = "offset";
             switch (settings[offset]) {
-            case "UTC":
-                time.innerText = cleanISOTime;
-                break;
-            case "Local time":
-                time.innerText = localAsISO;
-                break;
-            default:
-                break;
+                case "UTC":
+                    time.innerText = cleanISOTime;
+                    break;
+                case "Local time":
+                    time.innerText = localAsISO;
+                    break;
+                default:
+                    break;
             }
         });
     } else {

@@ -22,19 +22,19 @@ function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
         const settings = getModSettings(ns);
         let opt = settings["logotype"];
         switch (opt) {
-        case "Hidden":
-            updateLogo(getDefaultLogo())
-            $('.brand a').hide();
-            break;
-        case "Kibby":
-            updateLogo(kibby);
-            break;
-        case "Kbin (no text)":
-            updateLogo(kbinMini);
-            break;
-        case "Kibby (no text)":
-            updateLogo(kibbyMini);
-            break;
+            case "Hidden":
+                updateLogo(getDefaultLogo())
+                $('.brand a').hide();
+                break;
+            case "Kibby":
+                updateLogo(kibby);
+                break;
+            case "Kbin (no text)":
+                updateLogo(kbinMini);
+                break;
+            case "Kibby (no text)":
+                updateLogo(kibbyMini);
+                break;
         }
     }
 
