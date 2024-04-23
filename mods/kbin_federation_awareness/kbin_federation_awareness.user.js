@@ -153,7 +153,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
     }
 
     function kfaInitClasses () {
-        document.querySelectorAll('#content article.entry').forEach(function (article) {
+        document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
             if (article.querySelector('[class^=data-]')) { return }
             let op = article.querySelector('.user-inline').href
             op = String(op)

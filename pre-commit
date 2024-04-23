@@ -61,7 +61,7 @@ bump_vers(){
         echo "$newvers" > $version_file
         ./build/scripts/gen_manifest.sh
         ./build/scripts/gen_kes.sh
-        ./build/scripts/concat_funcs
+        ./build/scripts/concat_funcs build
         echo
         echo "HOOK========>Bumping version from $vers to $newvers"
         echo

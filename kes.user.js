@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.0.0
+// @version      4.2.0
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -28,16 +28,16 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/safegm.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/kbin-mod-options.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/funcs.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/release/4.1.0/helpers/safegm.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/release/4.1.0/helpers/kbin-mod-options.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/release/4.1.0/helpers/funcs.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/ui.json
-// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/manifest.json
-// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/kes.css
-// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/main/kes.user.js
-// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/main/kes.user.js
+// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/release/4.1.0/helpers/ui.json
+// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/release/4.1.0/helpers/manifest.json
+// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/release/4.1.0/helpers/kes.css
+// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/release/4.1.0/kes.user.js
+// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/release/4.1.0/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
@@ -45,7 +45,7 @@ const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
 const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/"
-const branch = "main"
+const branch = "release/4.1.0"
 const helpersPath = "helpers/"
 const branchPath = rawURL + branch + "/"
 const versionFile = branchPath + "VERSION";
@@ -266,7 +266,7 @@ function constructMenu (json, layoutArr, isNew) {
         let modsHR = " (" + activeMods + "/" + totalMods + ")"
         return modsHR
     }
-    function getComputedFontSize(string){
+    function getComputedFontSize (string) {
         if (typeof string === 'number') return string
         if (isNaN(parseFloat(string)) === false) {
             return parseFloat(string)
@@ -1126,6 +1126,7 @@ function constructMenu (json, layoutArr, isNew) {
             openTab(e.target.outerText);
         });
         document.querySelector('.kes-list').addEventListener("click", (e) => {
+            if (e.target.className != "kes-option") return
             openHelpBox(e.target.getAttribute('kes-iter'));
         });
         document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
