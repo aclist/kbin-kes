@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 4.1.1
+### Fixed
+- Fixed an issue where the tappable navbar created when using the "Show thread/microblog delta since last visit" would not be removed when toggling the add-on off
+
 ## 4.1.0
 ### Added
 - Filter advertisements (shazbot): removes unsolicited advertisements and blocks the poster
