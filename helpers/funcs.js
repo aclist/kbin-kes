@@ -3175,7 +3175,6 @@ const funcObj = {
                     state = true
                 }
             })
-            console.log(state)
             return state
         }
 

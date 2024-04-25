@@ -18,7 +18,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
                 state = true
             }
         })
-        console.log(state)
         return state
     }
 
