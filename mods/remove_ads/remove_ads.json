@@ -7,5 +7,6 @@
   "login": true,
   "recurs": true,
   "entrypoint": "remove_ads",
-  "page": "general"
+  "page": "general",
+  "new_since": "4.1"
 }
