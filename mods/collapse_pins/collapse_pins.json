@@ -3,7 +3,7 @@
   "author": "shazbot",
   "version": "0.1.0",
   "label": "Collapse pinned posts",
-  "desc": "Adds a button to collapse/expand pinned posts in the thred index",
+  "desc": "Adds a button to collapse/expand pinned posts in the thread index",
   "login": false,
   "recurs": false,
   "entrypoint": "collapse_pins",
