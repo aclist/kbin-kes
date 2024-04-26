@@ -18,7 +18,7 @@ function pinsInit (toggle) {
 
         if (document.querySelector('#kes-pin-button')) return
         const pins = document.querySelectorAll('.entry:has(i[aria-label="Pinned"])')
-        if (!pins) return
+        if (pins.length === 0) return
         pins.forEach((pin) => {
             pin.classList.add('kes-pin')
         })
