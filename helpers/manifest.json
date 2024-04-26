@@ -468,7 +468,8 @@
     "login": true,
     "recurs": true,
     "entrypoint": "remove_ads",
-    "page": "general"
+    "page": "general",
+    "new_since": "4.1"
   },
   {
     "name": "Unblur NSFW",
@@ -756,6 +757,18 @@
       }
     ],
     "page": "general"
+  },
+  {
+    "name": "Collapse pins",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Collapse pinned posts",
+    "desc": "Adds a button to collapse/expand pinned posts in the thred index",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "collapse_pins",
+    "page": "threads",
+    "new_since": "4.2"
   },
   {
     "name": "Move federation warning to sidebar",
