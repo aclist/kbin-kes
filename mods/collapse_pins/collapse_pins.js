@@ -7,7 +7,7 @@ function pinsInit (toggle) {
     #kes-pin-button {
         cursor: pointer;
     }
-    .entry:has(i[aria-label="Pinned"]) {
+    .entry:has(footer i.fa-thumbtack) {
         border: 2px solid var(--kbin-alert-info-link-color)
     }
     `;
@@ -17,7 +17,7 @@ function pinsInit (toggle) {
         safeGM("addStyle", css, 'kes-pin-css');
 
         if (document.querySelector('#kes-pin-button')) return
-        const pins = document.querySelectorAll('.entry:has(i[aria-label="Pinned"])')
+        const pins = document.querySelectorAll('.entry:has(footer i.fa-thumbtack)')
         if (pins.length === 0) return
         pins.forEach((pin) => {
             pin.classList.add('kes-pin')
