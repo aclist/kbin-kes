@@ -3,6 +3,8 @@ function sa (toggle) { // eslint-disable-line no-unused-vars
     const domain = window.location.hostname
     const M = 'NS84KNCkq7awmxkyAg';
     const la = [
+        "39244f1a2a3c3702125b0413181c0e57220823",
+        "2d324a512e3c30451c5915120e1045163300",
         "3d304a5d3b3a2019184715121f5608162c",
         "3e3f594d653b2d0f125e0f12431b0414",
         "39245144276020041c",
@@ -103,7 +105,16 @@ function sa (toggle) { // eslint-disable-line no-unused-vars
         "3a365957232f21071419121d1b560216",
         "39244f1a3b2f3719185815031f0d1f1132492d3c55"
     ]
+    const utfa = [
+        "%E5%AE%8C%E6%95%B4%E7%89%88",
+        "%E0%B8%94%E0%B8%B9-%E0%B8%AB%E0%B8%99%E0%B8%B1%E0%B8%87"
+    ]
     const ka = [
+        "387e5a412825304b125805121e",
+        "233c565b3b212f1251500e570b0a0e1c",
+        "28215d516b2d2218191700071d",
+        "3e325f516b202c1f51510e02031c",
+        "3e21575a2e3c350e47",
         "3e36545d283b2f0a51540e1a1d140e0d20",
         "283a54596b2d2c06015b040302",
         "7f7e00047b",
@@ -220,6 +231,9 @@ function sa (toggle) { // eslint-disable-line no-unused-vars
         "a8b3aa882b351b11559996074cf9d5961c53c975"
     ];
     const ua = [
+        "0e2359407a7c705f44015637061a02176f0426324c",
+        "0e2a594d3e0e280918594f04021b02182d",
+        "0e1251793e3d2a082561211c0f11055732082d3a5958",
         "0e374a412c3d2019184715121f38001b280960205757222f2f",
         "0e3f51582737390a085b0037061a02176f142130515527",
         "0e3255512727220114510737061a02176f142130515527",
@@ -437,6 +451,7 @@ function sa (toggle) { // eslint-disable-line no-unused-vars
         "0e115d5222292e0a1f440937061a02176f142130515527"
     ]
     const da = [
+        "29365651392720",
         "2a324a42242d261f",
         "2d3c5b55222026",
         "2f3e5a5d2e20760616",
@@ -623,6 +638,12 @@ function sa (toggle) { // eslint-disable-line no-unused-vars
     function rbs (a) {
         const h = a.querySelector('header h2')
         let t = h.innerText.toLowerCase();
+        for (let i = 0; i < utfa.length; ++i) {
+            if (t.includes(decodeURI(utfa[i]))) {
+                sc(a);
+                return
+            }
+        }
         for (let i = 0; i < ka.length; ++i) {
             if (t.includes(xc.d(M, ka[i]))) {
                 sc(a);
