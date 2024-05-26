@@ -2244,23 +2244,26 @@ const funcObj = {
 
         const modalCSS = `
         #kes-filter-modal-bg {
+            position: fixed;
             width: 100%;
             height: 100%;
             z-index: 90;
-            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             left: 0;
             top: 0;
             background-color: rgba(0, 0, 0, 0.5) !important
         }
 
         #kes-filter-modal {
-            left: 25%;
-            top: 50%;
-            margin-top: -50px;
             background-color: gray;
             width: 500px;
             height: 100px;
-            position: fixed
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid black;
         }
         #kes-filter-text {
             color: black;
