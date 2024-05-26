@@ -462,13 +462,13 @@
   {
     "name": "Remove ads",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "label": "Filter advertisements",
-    "desc": "Remove and block posts from the thread index deemed to be unsolicited advertisements. Targets spam, affiliate links, MLM schemes, click farming, and robotic posts.\n\nThis is a one-way process; toggling off does not unblock, it merely stops filtering. Does not currently work on microblogs.",
+    "desc": "Hide posts or block users matching certain spam heuristics.\n\nThis is a one-way process; toggling off does not unblock, it merely stops filtering. Does not currently work on microblogs.",
     "login": true,
     "recurs": true,
     "entrypoint": "remove_ads",
-    "page": "general",
+    "page": "spam",
     "new_since": "4.1",
     "namespace": "spamfilter",
     "fields": [

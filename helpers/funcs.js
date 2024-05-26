@@ -3216,7 +3216,7 @@ const funcObj = {
         }
         `;
 
-        if (is_thread()) return // eslint-disable-line no-undef
+        if (isThread()) return // eslint-disable-line no-undef
 
         function applyPins () {
             safeGM("removeStyle", 'kes-pin-css');
