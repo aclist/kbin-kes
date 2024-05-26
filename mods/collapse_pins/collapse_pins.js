@@ -1,4 +1,4 @@
-function pinsInit (toggle) {
+function pinsInit (toggle) { // eslint-disable-line no-unused-vars
 
     const css = `
     .kes-pin {
@@ -11,6 +11,8 @@ function pinsInit (toggle) {
         border: 2px solid var(--kbin-alert-info-link-color)
     }
     `;
+
+    if (is_thread()) return // eslint-disable-line no-undef
 
     function applyPins () {
         safeGM("removeStyle", 'kes-pin-css');

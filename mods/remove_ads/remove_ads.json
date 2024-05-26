@@ -8,5 +8,26 @@
   "recurs": true,
   "entrypoint": "remove_ads",
   "page": "general",
-  "new_since": "4.1"
+  "new_since": "4.1",
+  "namespace": "spamfilter",
+  "fields": [
+    {
+      "type": "checkbox",
+      "initial": "on",
+      "key": "fresh",
+      "checkbox_label": "Hide posts from very new accounts"
+    },
+    {
+      "type": "checkbox",
+      "initial": "on",
+      "key": "weight",
+      "checkbox_label": "Hide posts with abnormally low relative rank"
+    },
+    {
+      "type": "checkbox",
+      "initial": "on",
+      "key": "block",
+      "checkbox_label": "Block users with spam-like activity"
+    }
+  ]
 }

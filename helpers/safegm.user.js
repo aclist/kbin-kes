@@ -75,6 +75,14 @@ function genericXMLRequest (url, callback) {
     });
 }
 
+function isThread(){
+    const url = new URL(window.location).href.split('/')
+    if (url.includes("t")) {
+        return true
+    }
+    return false
+}
+
 window.safeGM = function (func,...args) {
     let use
     const underscore = {
