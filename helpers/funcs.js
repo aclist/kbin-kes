@@ -2356,7 +2356,7 @@ const funcObj = {
                     continue
                 }
                 console.log("trying to apply filters for: ", unique_users[i])
-                //            checked.push(unique_users[i])
+                checked.push(unique_users[i])
                 applyFilters(unique_users[i])
             }
 
@@ -2465,7 +2465,7 @@ const funcObj = {
         function processFilters () {
             const articles = document.querySelectorAll('.entry')
             for (let i = 0; i < banned.length; ++i) {
-                gt(getRelativeName(banned[i]))
+                if (block) gt(getRelativeName(banned[i]))
             }
             for (let i = 0; i < articles.length; ++i) {
                 const name = getPoster(articles[i])
