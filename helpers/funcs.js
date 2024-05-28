@@ -2455,7 +2455,7 @@ const funcObj = {
             if (up_ct === 0 && down_ct > 1) {
                 return 1
             }
-            if (down_ct / up_ct > 1.5) {
+            if (up_ct > 0 && down_ct / up_ct > 1.5) {
                 return 1
             } else {
                 return 0
