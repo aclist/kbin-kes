@@ -26,6 +26,7 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
     let iteration
     
     const domain = window.location.hostname
+    const instance = getInstanceType();
     const url = new URL(window.location).href.split('/')
     if (url[3] !== "m") return
     if (url[5] === "t") return
@@ -68,7 +69,7 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
         modal_bg.id = "kes-filter-modal-bg"
         modal.id = "kes-filter-modal"
         text.id = "kes-filter-text"
-        text.innerText = "KES: filtering posts, please wait..."
+        text.innerText = "KES: filtering spam, please wait..."
         modal_bg.appendChild(modal)
         modal.appendChild(text)
         return modal_bg
@@ -143,7 +144,7 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
                 continue
             }
             console.log("trying to apply filters for: ", unique_users[i])
-            checked.push(unique_users[i])
+            //            checked.push(unique_users[i])
             applyFilters(unique_users[i])
         }
 
@@ -173,10 +174,15 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
         genericXMLRequest(url, parse)
     }
     async function parse (response) {
+        let u
         const parser = new DOMParser();
         const json = JSON.parse(response.responseText)
         const XML = parser.parseFromString(json.html, "text/html");
-        const u = XML.querySelector('.link-muted p').innerText
+        if (instance === "mbin") {
+            u = XML.querySelector('.user__name').innerText
+        } else {
+            u = XML.querySelector('.link-muted p').innerText
+        }
         const age = XML.querySelector('.timeago').innerText.split(' ')
         const repnum = XML.querySelector('header ul li:nth-of-type(2) a') .innerText.trim().split(' ')[2]
         const threadsnum = XML.querySelector('menu li:nth-of-type(1) a div:first-of-type').innerText
@@ -246,6 +252,9 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
 
     function processFilters () {
         const articles = document.querySelectorAll('.entry')
+        for (let i = 0; i < banned.length; ++i) {
+            gt(getRelativeName(banned[i]))
+        }
         for (let i = 0; i < articles.length; ++i) {
             const name = getPoster(articles[i])
             if (softbanned.includes(name)) {
@@ -259,7 +268,6 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
                 if (block) {
                     console.log("user chose to block")
                     removeArticle(articles[i])
-                    gt(getRelativeName(name))
                     continue
                 }
             }
