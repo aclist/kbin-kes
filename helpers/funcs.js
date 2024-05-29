@@ -2323,7 +2323,6 @@ const funcObj = {
 
             // first invocation
             if (!mutation) {
-                console.log("first invocation")
                 clearStorage();
                 for (let i = 0; i < unique_users.length; ++i) {
                     checked.push(unique_users[i]);
@@ -2331,7 +2330,6 @@ const funcObj = {
                 }
                 return
             }
-            console.log("caught mutation")
             const str_banned = localStorage.getItem("kes-banned-users")
             const str_softbanned = localStorage.getItem("kes-softbanned-users")
             const str_checked = localStorage.getItem("kes-checked-users")
@@ -2342,20 +2340,16 @@ const funcObj = {
                     modal.remove();
                 }
                 if (str_checked.split(',').includes(unique_users[i])) {
-                    console.log("user already checked: ", unique_users[i])
                     checked.push(unique_users[i])
                     --iteration
                     continue
                 } else if (str_banned.split(',').includes(unique_users[i])) {
-                    console.log("user already banned: ", unique_users[i])
                     banned.push(unique_users[i])
                     continue
                 } else if (str_softbanned.split(',').includes(unique_users[i])) {
-                    console.log("user already softbanned: ", unique_users[i])
                     softbanned.push(unique_users[i])
                     continue
                 }
-                console.log("trying to apply filters for: ", unique_users[i])
                 checked.push(unique_users[i])
                 applyFilters(unique_users[i])
             }
@@ -2471,14 +2465,12 @@ const funcObj = {
                 const name = getPoster(articles[i])
                 if (softbanned.includes(name)) {
                     if (fresh) {
-                        console.log("user chose to hide new accts")
                         removeArticle(articles[i])
                         continue
                     }
                 }
                 if (banned.includes(name)) {
                     if (block) {
-                        console.log("user chose to block")
                         removeArticle(articles[i])
                         continue
                     }
@@ -2486,7 +2478,6 @@ const funcObj = {
                 const weight = voteWeight(articles[i])
                 if (weight === 1) {
                     if (weighted) {
-                        console.log("user chose to hide low articles")
                         removeArticle(articles[i])
                         continue
                     }
@@ -2499,7 +2490,6 @@ const funcObj = {
         }
 
         async function gt (u) {
-            console.log("banning user: ", u)
             const resp = await fetch(`https://${domain}/u/${u}`, {
                 "credentials": "include",
                 "method": "GET",
