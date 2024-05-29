@@ -2269,7 +2269,9 @@ const funcObj = {
         #kes-filter-text {
             color: black;
             margin: 20px
-        }  `;
+        }
+
+        `;
 
 
         function makeModal () {
