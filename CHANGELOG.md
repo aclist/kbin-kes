@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 4.2.0
+### Added
+- Collapse pinned posts (shazbot): hides pinned posts on the thread index and provides a clickable area to reopen them
+- Added isThread() function to API: returns true if the current window location is a thread inside of a magazine
+
+### Changed
+- Filter advertisements: updated spam filter to v2 logic
+
 ## 4.1.1
 ### Fixed
 - Fixed an issue where the tappable navbar created when using the "Show thread/microblog delta since last visit" would not be removed when toggling the add-on off
