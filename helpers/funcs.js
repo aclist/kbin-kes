@@ -2394,7 +2394,7 @@ const funcObj = {
             const threadsnum = XML.querySelector('menu li:nth-of-type(1) a div:first-of-type').innerText
             const commentsnum = XML.querySelector('menu li:nth-of-type(2) a div:first-of-type').innerText
 
-            if ((parseInt(commentsnum) === 0) && (parseInt(threadsnum > 2))) {
+            if ((parseInt(commentsnum) === 0) && (parseInt(threadsnum) > 2)) {
                 banned.push(u)
             } else if (repnum.charAt(0) === "-") {
                 banned.push(u)
