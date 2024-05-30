@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 4.2.1
+### Fixed
+- Filter advertisements: fixed a bug that would cause one filter to not apply as intended
+
 ## 4.2.0
 ### Added
 - Collapse pinned posts (shazbot): hides pinned posts on the thread index and provides a clickable area to reopen them
