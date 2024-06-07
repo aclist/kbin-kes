@@ -1,9 +1,27 @@
 /**
- * Allows users to customize the default sort option selected when the url doesn't 
+ * Allows users to customize the default sort option selected when the url doesn"t 
  * specify one already. This can be configured separately for the different types of views
  * that have sort options.
  * 
  * @todo Add entrypoint to the json
+ * @todo rewrite
+ * - setup()
+ *  - change the default option to an explicit one
+ *      1. get all options on the page
+ *      2. find the non-explicit one — if there's none, abort
+ *      3. determine the current page
+ *      4. get the options that should be on the current page
+ *      5. make the non-explicit option link to the first option that should be on the page, which isn't
+ *  - when on the base site, redirect to the correctly sorted page
+ *      1. get all options on the page
+ *      2. get the user-defined default for the current page type
+ *      3. click the correct option (to make use of turbo mode)
+ * - teardown()
+ *  - change the added explicit sorting back via a data attribute
+ * // make sure to take into account:
+ * // - kbin + kbin mobile
+ * // - fedia + fedia mobile
+ * // - kbin.run + kbin.run mobile
  * 
  * @param {Boolean} isActive Whether the mod has been turned on
 */
@@ -12,11 +30,11 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      * The page types which are supported by this mod.
      */
     const SupportedPages = Object.freeze({
-        THREAD: 'Thread',
-        COMMENT: 'Comment',
-        MICROBLOG: 'Post',
-        PROFILE: 'Profile',
-        MAGAZINE: 'Magazine'
+        THREAD: { name: "Thread", options: ["hot", "top", "newest", "active", "commented"] },
+        COMMENT: { name: "Comment", options: ["hot", "top", "newest", "active", "oldest"] },
+        MICROBLOG: { name: "Post", options: ["hot", "top", "newest", "active", "commented"] },
+        PROFILE: { name: "Profile", options: ["hot", "top", "newest", "active", "commented"] },
+        MAGAZINE: { name: "Magazine", options: ["hot", "newest", "active", "abandoned"] },
     });
 
     if (isActive) {
@@ -42,7 +60,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
 
         makeOptionsExplicit(sortOptions);
         const option = sortOptions.find((option) => option.pathname.endsWith(defaultSort));
-        // if the default sort option doesn't exist in the option array, abort the mod
+        // if the default sort option doesn"t exist in the option array, abort the mod
         if (option == undefined) return;
         // ensure the option links to the correct page
         option.click();
@@ -60,7 +78,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
     /**
      * The kbin-default sort option always links to the non-explicitly sorted page. This mod 
      * redirects people on that page to the mod-default sorted one. This means, effectly, 
-     * there's no way to switch to the kbin-default sort anymore. 
+     * there"s no way to switch to the kbin-default sort anymore. 
      * This function takes a list of option elements and makes sure they actually point to 
      * the explicitly sorted page.
      * 
@@ -73,36 +91,58 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         // figure out if this is the comments page, which also needs some special handling
         const pathTokens = getPathTokens();
         var isCommentsPage = false;
-        if (pathTokens[0] == 'm' && pathTokens[2] == 't') {
+        if (pathTokens[0] == "m" && pathTokens[2] == "t") {
             if (pathTokens.length == 4) isCommentsPage = true;
-            if (pathTokens.length == 6 && pathTokens[4] == '-') isCommentsPage = true;
+            if (pathTokens.length == 6 && pathTokens[4] == "-") isCommentsPage = true;
         }
         
         const optionsWithTokens = options.map((option) => {
-            const tokens = option.pathname.split('/');
+            const tokens = option.pathname.split("/");
             return { tokens: tokens, count: tokens.length, option: option };
         });
         // determine the option with the lowest amount of tokens
-        const option = optionsWithTokens.reduce((min, obj) => {
+        const kbin_default_option = optionsWithTokens.reduce((min, obj) => {
             (obj.count < min.count ? obj : min), optionsWithTokens[0]
         });
-        option.dataset.defaultSort_pathNameBeforeEdit = option.pathname;
+
+        // save the current path so we can restore it on teardown
+        kbin_default_option.dataset.defaultSort_pathNameBeforeEdit = kbin_default_option.pathname;
+
+        // get the list of options that should be available on the current page
+        const allOptions = 
+
+        /* Goal:
+            - Of the available sort options, the kbin-default one points to the non-explicitly
+            sorted page instead. Since this mod redirects people on that page, it"s impossible
+            to reach the kbin-default sort option now. As such, the mod needs to make the
+            kbin-default option use an explicit link instead.
+           Issue:
+            - The label on the option might be translated to another language, so how do we
+            determine which the kbin-default is?
+           Possible Solution:
+            - Create an enum containing the available sort options and an array of which
+            pages they're available on.
+            - Get the list of options for the current page, ensure it matches the actual option list
+            in count.
+            - Iterate through the explicit options and remove their endpoint from the list.
+            - There should be only one option remaining, use that.
+        */
         
 
         // actually make the changes
-        for (var option of options) {
-            /*if (hrefTokens[hrefTokens.length-1] != option.textContent.toLowerCase().trim()) {
+        /*for (var option of options) {
+            if (hrefTokens[hrefTokens.length-1] != option.textContent.toLowerCase().trim()) {
                 option.dataset.defaultSort_pathNameBeforeEdit = option.pathname;
                 if (isCommentsPage) {
                     option.pathname += `/-/${option.textContent.toLowerCase().trim()}`;
                 } else if (getInstanceType() == "mbin" && option.pathname == "/") {
                     option.pathname = `/home/${option.textContent.toLowerCase().trim()}`;
                 } else {
-                    option.pathname += option.pathname.endsWith('/') ? '' : '/';
+                    option.pathname += option.pathname.endsWith("/") ? "" : "/";
                     option.pathname += option.textContent.toLowerCase().trim();
                 }
-            }*/
-        }
+            }
+        }*/
     }
 
     /**
@@ -130,7 +170,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         ));
         // mbin
         if (results.length == 0) results = Array.from(document.querySelectorAll(
-            "li.dropdown:has(button[aria-label='Sort by']) a" // TODO: this won't work
+            "li.dropdown:has(button[aria-label='Sort by']) a" // TODO: this won"t work
         ));
         if (results.length == 0) results = Array.from(document.querySelectorAll(
             "aside.options:has(menu.options__view) > menu.options__main a"
@@ -139,12 +179,12 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
     }
 
     /**
-     * Splits the current page's pathname into individual tokens.
+     * Splits the current page"s pathname into individual tokens.
      * 
      * @returns {string[]}
      */
     function getPathTokens () {
-        return window.location.pathname.split('/').filter((token) => token != '');
+        return window.location.pathname.split("/").filter((token) => token != "");
     }
 
     /**
@@ -156,7 +196,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      */
     function isCurrentPageExplicitlySorted (sortOptions) {
         // The boosts page on the profile has its own way of sorting
-        if (isBoostsPage() && window.location.search != '') return true;
+        if (isBoostsPage() && window.location.search != "") return true;
         const allowedRoutes = sortOptions.map((option) => option.textContent.toLowerCase().trim());
         const currentRoute = window.location.pathname;
         for (var route of allowedRoutes) {
@@ -189,7 +229,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
             return defaultSort(SupportedPages.MAGAZINE);
         }
         if (pathTokens.length == 1 && pathTokens[0] == "home") {
-            // mbin's `/` route
+            // mbin"s `/` route
             return defaultSort(SupportedPages.THREAD);
         }
         if (pathTokens.length == 1 && (pathTokens[0] == "sub" || pathTokens[0] == "all")) {
@@ -258,28 +298,6 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      * @returns {string}
      */
     function defaultSort (pageType) {
-        return getModSettings("default-sort")[`default${pageType}Sort`];
-    }
-
-    /**
-     * Mocked for testing
-     * @todo Remove before finalizing pull request
-     */
-    function getInstanceType () {
-        return "mbin";
-    }
-
-    /**
-     * Mocked for testing
-     * @todo Remove before finalizing pull request
-     */
-    function getModSettings (someStr) {
-        return {
-            'defaultThreadSort': 'hot',
-            'defaultCommentSort': 'hot',
-            'defaultPostSort': 'hot',
-            'defaultProfileSort': 'newest',
-            'defaultMagazineSort': 'hot'
-        };
+        return getModSettings("default-sort")[`default${pageType.name}Sort`];
     }
 }

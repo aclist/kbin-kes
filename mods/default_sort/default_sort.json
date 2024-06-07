@@ -13,36 +13,29 @@
         "type": "select",
         "key": "defaultThreadSort",
         "label": "Select default sort for threads:",
-        "values": ["top", "hot", "newest", "active", "commented"],
-        "initial": "hot"
+        "values": ["default", "top", "hot", "newest", "active", "commented"],
+        "initial": "default"
       },
       {
         "type": "select",
         "key": "defaultCommentSort",
         "label": "Select default sort for comments:",
-        "values": ["top", "hot", "active", "newest", "oldest"],
-        "initial": "hot"
+        "values": ["default", "top", "hot", "active", "newest", "oldest"],
+        "initial": "default"
       },
       {
         "type": "select",
         "key": "defaultPostSort",
-        "label": "Select default sort for microblogs (kbin only):",
-        "values": ["top", "hot", "newest", "active", "commented"],
-        "initial": "hot"
-      },
-      {
-        "type": "select",
-        "key": "defaultProfileSort",
-        "label": "Select default sort on profiles (kbin only):",
-        "values": ["top", "hot", "newest", "active", "commented"],
-        "initial": "newest"
+        "label": "Select default sort for microblogs:",
+        "values": ["default", "top", "hot", "newest", "active", "commented"],
+        "initial": "default"
       },
       {
         "type": "select",
         "key": "defaultMagazineSort",
         "label": "Select default sort for magazines:",
-        "values": ["newest", "hot", "active", "abandoned"],
-        "initial": "hot"
+        "values": ["default", "newest", "hot", "active", "abandoned"],
+        "initial": "default"
       }
     ]
   }
