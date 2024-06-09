@@ -85,7 +85,9 @@ function isThread () {
 
 function is_logged_in () {
     const login = document.querySelector('.login .user-name')
-    if (login) return true
+    if (login) {
+        return true
+    }
     return false
 }
 
