@@ -2530,7 +2530,7 @@ const funcObj = {
             }
         }
 
-        const login = document.querySelector('.login');
+        const login = document.querySelector('.login .user-name');
         if (!login) return;
         if (toggle) apply(mutation);
         if (!toggle) unapply();
