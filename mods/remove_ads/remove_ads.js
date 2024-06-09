@@ -318,8 +318,6 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
         }
     }
 
-    const login = document.querySelector('.login .user-name');
-    if (!login) return;
     if (toggle) apply(mutation);
     if (!toggle) unapply();
 }
