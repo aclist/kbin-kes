@@ -523,214 +523,214 @@ function constructMenu (json, layoutArr, isNew) {
                         saveModSettings(modSettings, ns);
                     }
                     switch (fieldType) {
-                    case "range": {
-                        const range = document.createElement('input');
-                        range.setAttribute("type", fieldType);
-                        if (modSettings[key] === undefined) {
-                            range.setAttribute("value", initial);
-                        } else {
-                            range.setAttribute("value", modSettings[key])
-                        }
-                        range.setAttribute("kes-iter", it);
-                        range.setAttribute("kes-key", key);
-                        range.setAttribute('min', json[it].fields[i].min);
-                        range.setAttribute('max', json[it].fields[i].max);
-                        if (json[it].fields[i].step) {
-                            range.setAttribute('step', json[it].fields[i].step);
-                        }
-                        if (json[it].fields[i].show_value) {
-                        //TODO: value should always be visible
-                            const rangeDiv = document.createElement('div');
-                            range.setAttribute('oninput', key + '.innerText = this.value');
-                            range.style.verticalAlign = 'middle';
-                            rangeDiv.appendChild(range);
-                            const rangeValue = document.createElement('label');
-                            rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
-                            rangeValue.id = key;
-                            rangeValue.for = key;
+                        case "range": {
+                            const range = document.createElement('input');
+                            range.setAttribute("type", fieldType);
                             if (modSettings[key] === undefined) {
-                                rangeValue.innerText = initial;
+                                range.setAttribute("value", initial);
                             } else {
-                                rangeValue.innerText = modSettings[key];
+                                range.setAttribute("value", modSettings[key])
                             }
-                            rangeDiv.appendChild(rangeValue);
-                            hBox.appendChild(rangeDiv);
-                        } else {
-                            hBox.appendChild(range);
-                        }
-                        hBox.appendChild(br);
-                        break;
-                    }
-                    case "reset": {
-                        const resetField = document.createElement('input');
-                        resetField.setAttribute("type",fieldType);
-                        resetField.addEventListener('click', ()=> {
-                            for (let j = 0; j < json[it].catch_reset.length; ++j) {
-                                let fieldToReset = json[it].catch_reset[j];
-                                let resetClassName = `.kes-settings-modal-helpbox input[kes-key="${fieldToReset}"]`
-                                let found = document.querySelector(resetClassName)
-                                let matchKey = found.getAttribute("kes-key")
-                                for (let k = 0 ; k < json[it].fields.length; ++k) {
-                                    if(json[it].fields[k].key === matchKey) {
-                                        let initial = json[it].fields[k].initial
-                                        if (json[it].fields[k].type === "color") {
-                                            initial = getHex(initial);
-                                        } else if (json[it].fields[k].type === "number") {
-                                            initial = getComputedFontSize(initial)
-                                            if (!initial) {
-                                                initial = 14
-                                            }
-                                        }
-                                        found.setAttribute("value",initial);
-                                        found.value = initial;
-                                    }
+                            range.setAttribute("kes-iter", it);
+                            range.setAttribute("kes-key", key);
+                            range.setAttribute('min', json[it].fields[i].min);
+                            range.setAttribute('max', json[it].fields[i].max);
+                            if (json[it].fields[i].step) {
+                                range.setAttribute('step', json[it].fields[i].step);
+                            }
+                            if (json[it].fields[i].show_value) {
+                                //TODO: value should always be visible
+                                const rangeDiv = document.createElement('div');
+                                range.setAttribute('oninput', key + '.innerText = this.value');
+                                range.style.verticalAlign = 'middle';
+                                rangeDiv.appendChild(range);
+                                const rangeValue = document.createElement('label');
+                                rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
+                                rangeValue.id = key;
+                                rangeValue.for = key;
+                                if (modSettings[key] === undefined) {
+                                    rangeValue.innerText = initial;
+                                } else {
+                                    rangeValue.innerText = modSettings[key];
                                 }
-                                updateState(found);
-                            }
-                        });
-                        hBox.appendChild(resetField)
-                        hBox.appendChild(br)
-                        break;
-                    }
-                    case "color": {
-                        const colorField = document.createElement('input');
-                        let realHex
-                        if (modSettings[key] === undefined) {
-                            realHex = getHex(initial);
-                        } else {
-                            realHex = getHex(modSettings[key])
-                        }
-                        colorField.setAttribute("value", realHex);
-                        colorField.setAttribute("type", fieldType);
-                        colorField.setAttribute("kes-iter", it);
-                        colorField.setAttribute("kes-key", key);
-                        //#220: explicit handling for labelOp mod (child inherits 75% opacity of author header)
-                        if (json[it].entrypoint == "labelOp") {
-                            colorField.className = "kes-dimmed-colorpicker";
-                        }
-                        hBox.appendChild(colorField);
-                        hBox.appendChild(br);
-                        break;
-                    }
-                    case "number": {
-                        const numberField = document.createElement('input');
-                        numberField.setAttribute("type", fieldType);
-
-                        let val
-                        let size
-                        if (modSettings[key] === undefined) {
-                            size = getComputedFontSize(initial)
-                            if (!size) {
-                                val = 14
+                                rangeDiv.appendChild(rangeValue);
+                                hBox.appendChild(rangeDiv);
                             } else {
-                                val = size
+                                hBox.appendChild(range);
                             }
-                        } else {
-                            size = getComputedFontSize(modSettings[key])
-                            if (!size) {
-                                val = 14
+                            hBox.appendChild(br);
+                            break;
+                        }
+                        case "reset": {
+                            const resetField = document.createElement('input');
+                            resetField.setAttribute("type",fieldType);
+                            resetField.addEventListener('click', ()=> {
+                                for (let j = 0; j < json[it].catch_reset.length; ++j) {
+                                    let fieldToReset = json[it].catch_reset[j];
+                                    let resetClassName = `.kes-settings-modal-helpbox input[kes-key="${fieldToReset}"]`
+                                    let found = document.querySelector(resetClassName)
+                                    let matchKey = found.getAttribute("kes-key")
+                                    for (let k = 0 ; k < json[it].fields.length; ++k) {
+                                        if(json[it].fields[k].key === matchKey) {
+                                            let initial = json[it].fields[k].initial
+                                            if (json[it].fields[k].type === "color") {
+                                                initial = getHex(initial);
+                                            } else if (json[it].fields[k].type === "number") {
+                                                initial = getComputedFontSize(initial)
+                                                if (!initial) {
+                                                    initial = 14
+                                                }
+                                            }
+                                            found.setAttribute("value",initial);
+                                            found.value = initial;
+                                        }
+                                    }
+                                    updateState(found);
+                                }
+                            });
+                            hBox.appendChild(resetField)
+                            hBox.appendChild(br)
+                            break;
+                        }
+                        case "color": {
+                            const colorField = document.createElement('input');
+                            let realHex
+                            if (modSettings[key] === undefined) {
+                                realHex = getHex(initial);
                             } else {
-                                val = size
+                                realHex = getHex(modSettings[key])
                             }
+                            colorField.setAttribute("value", realHex);
+                            colorField.setAttribute("type", fieldType);
+                            colorField.setAttribute("kes-iter", it);
+                            colorField.setAttribute("kes-key", key);
+                            //#220: explicit handling for labelOp mod (child inherits 75% opacity of author header)
+                            if (json[it].entrypoint == "labelOp") {
+                                colorField.className = "kes-dimmed-colorpicker";
+                            }
+                            hBox.appendChild(colorField);
+                            hBox.appendChild(br);
+                            break;
                         }
-                        numberField.setAttribute("value", val)
+                        case "number": {
+                            const numberField = document.createElement('input');
+                            numberField.setAttribute("type", fieldType);
 
-                        numberField.setAttribute("kes-iter", it);
-                        numberField.setAttribute("kes-key", key);
-                        numberField.setAttribute('min', json[it].fields[i].min);
-                        numberField.setAttribute('max', json[it].fields[i].max);
-                        if (json[it].fields[i].step) {
-                            numberField.setAttribute('step', json[it].fields[i].step);
-                        }
-                        numberField.addEventListener('change', (e)=> {
-                            let numTarg = e.target
-                            numTarg.setAttribute("value",numTarg.value)
-                        });
-                        hBox.appendChild(numberField);
-                        hBox.appendChild(br);
-                        break;
-                    }
-                    case "select": {
-                        const selectField = document.createElement('select');
-                        selectField.setAttribute('name', ns);
-                        selectField.setAttribute("kes-iter", it);
-                        selectField.setAttribute("kes-key", key);
-                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
-                            let opt = document.createElement('option');
-                            opt.setAttribute('value', json[it].fields[i].values[j]);
-                            opt.innerText = json[it].fields[i].values[j];
-                            if (modSettings[key] == json[it].fields[i].values[j]) {
-                                opt.selected = 'selected';
-                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
-                                opt.selected = 'selected'
+                            let val
+                            let size
+                            if (modSettings[key] === undefined) {
+                                size = getComputedFontSize(initial)
+                                if (!size) {
+                                    val = 14
+                                } else {
+                                    val = size
+                                }
+                            } else {
+                                size = getComputedFontSize(modSettings[key])
+                                if (!size) {
+                                    val = 14
+                                } else {
+                                    val = size
+                                }
                             }
-                            selectField.appendChild(opt);
-                        }
-                        hBox.appendChild(selectField);
-                        hBox.appendChild(br);
-                        break;
-                    }
-                    case "radio": {
-                        const radioDiv = document.createElement('div');
-                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
-                            const radioField = document.createElement('input');
-                            radioField.setAttribute("type", fieldType);
-                            radioField.setAttribute('name', ns);
-                            radioField.setAttribute('id', "kes-radio-" + j);
-                            radioField.setAttribute("kes-iter", it);
-                            radioField.setAttribute("kes-key", key);
-                            radioField.setAttribute("value", json[it].fields[i].values[j]);
-                            radioField.className = "kes-default-radio";
-                            if (modSettings[key] == json[it].fields[i].values[j]) {
-                                radioField.checked = true;
-                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
-                                radioField.checked = true;
+                            numberField.setAttribute("value", val)
+
+                            numberField.setAttribute("kes-iter", it);
+                            numberField.setAttribute("kes-key", key);
+                            numberField.setAttribute('min', json[it].fields[i].min);
+                            numberField.setAttribute('max', json[it].fields[i].max);
+                            if (json[it].fields[i].step) {
+                                numberField.setAttribute('step', json[it].fields[i].step);
                             }
-                            let radioLabel = document.createElement('label');
-                            radioLabel.setAttribute('for', "kes-radio-" + j);
-                            radioLabel.className = ("kes-radio-label");
-                            radioLabel.innerText = json[it].fields[i].values[j];
-                            radioDiv.appendChild(radioField);
-                            radioDiv.appendChild(radioLabel);
-                            let br = document.createElement('br');
-                            radioDiv.appendChild(br);
+                            numberField.addEventListener('change', (e)=> {
+                                let numTarg = e.target
+                                numTarg.setAttribute("value",numTarg.value)
+                            });
+                            hBox.appendChild(numberField);
+                            hBox.appendChild(br);
+                            break;
                         }
-                        hBox.appendChild(radioDiv);
-                        hBox.appendChild(br);
-                        break;
-                    }
-                    case "checkbox": {
-                        const checkboxLabel = document.createElement('label');
-                        const cfield = document.createElement('input');
-                        cfield.setAttribute("type", fieldType);
-                        if (modSettings[key] === undefined) {
-                            cfield.checked = initial
-                        } else {
-                            cfield.checked = modSettings[key]
+                        case "select": {
+                            const selectField = document.createElement('select');
+                            selectField.setAttribute('name', ns);
+                            selectField.setAttribute("kes-iter", it);
+                            selectField.setAttribute("kes-key", key);
+                            for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                                let opt = document.createElement('option');
+                                opt.setAttribute('value', json[it].fields[i].values[j]);
+                                opt.innerText = json[it].fields[i].values[j];
+                                if (modSettings[key] == json[it].fields[i].values[j]) {
+                                    opt.selected = 'selected';
+                                } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                    opt.selected = 'selected'
+                                }
+                                selectField.appendChild(opt);
+                            }
+                            hBox.appendChild(selectField);
+                            hBox.appendChild(br);
+                            break;
                         }
-                        cfield.setAttribute("kes-iter", it);
-                        cfield.setAttribute("kes-key", key);
-                        cfield.className = "kes-default-checkbox";
-                        checkboxLabel.appendChild(cfield);
-                        let ctext = document.createElement('text')
-                        ctext.innerText = json[it].fields[i].checkbox_label;
-                        checkboxLabel.appendChild(ctext)
-                        hBox.appendChild(checkboxLabel);
-                        break;
-                    }
-                    default: {
-                        const field = document.createElement('input');
-                        field.setAttribute("type", fieldType);
-                        if (modSettings[key] === undefined) {
-                            field.setAttribute("value", initial);
-                        } else {
-                            field.setAttribute("value", modSettings[key])
+                        case "radio": {
+                            const radioDiv = document.createElement('div');
+                            for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                                const radioField = document.createElement('input');
+                                radioField.setAttribute("type", fieldType);
+                                radioField.setAttribute('name', ns);
+                                radioField.setAttribute('id', "kes-radio-" + j);
+                                radioField.setAttribute("kes-iter", it);
+                                radioField.setAttribute("kes-key", key);
+                                radioField.setAttribute("value", json[it].fields[i].values[j]);
+                                radioField.className = "kes-default-radio";
+                                if (modSettings[key] == json[it].fields[i].values[j]) {
+                                    radioField.checked = true;
+                                } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                    radioField.checked = true;
+                                }
+                                let radioLabel = document.createElement('label');
+                                radioLabel.setAttribute('for', "kes-radio-" + j);
+                                radioLabel.className = ("kes-radio-label");
+                                radioLabel.innerText = json[it].fields[i].values[j];
+                                radioDiv.appendChild(radioField);
+                                radioDiv.appendChild(radioLabel);
+                                let br = document.createElement('br');
+                                radioDiv.appendChild(br);
+                            }
+                            hBox.appendChild(radioDiv);
+                            hBox.appendChild(br);
+                            break;
                         }
-                        field.setAttribute("kes-iter", it);
-                        field.setAttribute("kes-key", key);
-                        hBox.appendChild(field);
-                        hBox.appendChild(br);
-                    }
+                        case "checkbox": {
+                            const checkboxLabel = document.createElement('label');
+                            const cfield = document.createElement('input');
+                            cfield.setAttribute("type", fieldType);
+                            if (modSettings[key] === undefined) {
+                                cfield.checked = initial
+                            } else {
+                                cfield.checked = modSettings[key]
+                            }
+                            cfield.setAttribute("kes-iter", it);
+                            cfield.setAttribute("kes-key", key);
+                            cfield.className = "kes-default-checkbox";
+                            checkboxLabel.appendChild(cfield);
+                            let ctext = document.createElement('text')
+                            ctext.innerText = json[it].fields[i].checkbox_label;
+                            checkboxLabel.appendChild(ctext)
+                            hBox.appendChild(checkboxLabel);
+                            break;
+                        }
+                        default: {
+                            const field = document.createElement('input');
+                            field.setAttribute("type", fieldType);
+                            if (modSettings[key] === undefined) {
+                                field.setAttribute("value", initial);
+                            } else {
+                                field.setAttribute("value", modSettings[key])
+                            }
+                            field.setAttribute("kes-iter", it);
+                            field.setAttribute("kes-key", key);
+                            hBox.appendChild(field);
+                            hBox.appendChild(br);
+                        }
                     }
                 }
             }
@@ -947,18 +947,18 @@ function constructMenu (json, layoutArr, isNew) {
             let upload
             const dialog = document.querySelector('#kes-backup-dialog');
             switch (dialog.returnValue) {
-            case "import":
-                upload = document.getElementById("kes-import-dialog");
-                upload.click();
-                break;
-            case "export":
-                exportSettings();
-                break;
-            case "reset":
-                resetAll();
-                break;
-            case "close":
-                break;
+                case "import":
+                    upload = document.getElementById("kes-import-dialog");
+                    upload.click();
+                    break;
+                case "export":
+                    exportSettings();
+                    break;
+                case "reset":
+                    resetAll();
+                    break;
+                case "close":
+                    break;
             }
         });
 
@@ -1391,7 +1391,6 @@ function constructMenu (json, layoutArr, isNew) {
     function init () {
         for (let i = 0; i < json.length; ++i) {
             if ((json[i].login) && (!is_logged_in())) {
-                console.log("requires login, but not logged in")
                 continue
             }
             applySettings(json[i].entrypoint);
