@@ -59,6 +59,13 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         }
     }
 
+    function teardown () {
+        /** @type {HTMLElement} */
+        const markedOption = document.querySelector(`[${markerAttribute}]`);
+        const attrValue = markedOption.dataset[markerAttribute];
+        markedOption.setAttribute('href', attrValue);
+    }
+
     /** @param optionsByPage {string[]} What options should be available for this page */
     function isCurrentPageExplicitlySorted (optionsByPage) {
         const url = window.location.pathname;
