@@ -30,8 +30,9 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         THREAD: { id: "Thread", options: ["top", "hot", "newest", "active", "commented"] },
         COMMENTS: { id: "Comment", options: ["top", "hot", "active", "newest", "oldest"] },
         MICROBLOG: { id: "Post", options: ["top", "hot", "newest", "active", "commented"] },
-        MAGAZINES: { id: "Magazine", options: ["newest", "hot", "active", "abandoned"] },
+        MAGAZINES: { id: "Magazine", options: ["newest", "hot", "active", "abandoned"] }
     };
+    const markerAttribute = "default_sort:originalPath";
 
     if (isActive) {
         setup();
@@ -41,8 +42,77 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
 
     function setup () {
         const options = getOptionsFromPage();
-        if (options.length == 0) return;
+        if (options.length == 0) return; // this isn't a sortable page
+
         const pageType = determinePageType();
+        const optionsToHandle = determineInstanceDefault(options, pageType.options);
+        if (optionsToHandle == null) return; // all the options are already explicit
+        makeOptionExplicit(optionsToHandle.button, optionsToHandle.target);
+
+        if (!isCurrentPageExplicitlySorted(pageType.options)) {
+            const userDefault = getChosenDefault(pageType);
+            var buttonToClick = optionsToHandle.button;
+            if (!(userDefault == "default")) {
+                buttonToClick = findOptionByName(options, userDefault);
+            }
+            buttonToClick.click();
+        }
+    }
+
+    /** @param optionsByPage {string[]} What options should be available for this page */
+    function isCurrentPageExplicitlySorted (optionsByPage) {
+        const url = window.location.pathname;
+        return optionsByPage.some(
+            (option) => url.endsWith(`/${option}`) || url.includes(`/${option}/`)
+        );
+    }
+
+    /**
+     * @param optionButton {HTMLElement}
+     * @param optionTarget {string}
+     */
+    function makeOptionExplicit (optionButton, optionTarget) {
+        optionButton.dataset[markerAttribute] = optionButton.getAttribute('href');
+        const currentLink = optionButton.getAttribute('href').replace('#comments', '');
+        optionButton.setAttribute('href', `${currentLink}/${optionTarget}}`);
+    }
+
+    /** @param pageType {{id: string; options: string[]}} */
+    function getChosenDefault (pageType) {
+        return getModSettings("default-sort")[`default${pageType.id}Sort`];
+    }
+
+    /** 
+     * @param actualOptions {NodeListOf<HTMLElement>}
+     * @param expectedOptions {string[]}
+    */
+    function determineInstanceDefault (actualOptions, expectedOptions) {
+        var expectedOptions2 = Array.from(expectedOptions);
+        var actualOptions2 = Array.from(actualOptions);
+
+        for (var i = 0; i < actualOptions2.length; i++) {
+            const actual = actualOptions2[i];
+            const found = findOptionByName(expectedOptions, actual);
+            if (found) {
+                expectedOptions2 = expectedOptions2.filter((value) => value != found);
+                actualOptions2 = actualOptions2.filter((value) => value != actual);
+                i--;
+            }
+        }
+
+        if (actualOptions2.length == 0 || expectedOptions2.length == 0) return null;
+        return { button: actualOptions2[0], target: expectedOptions2[0] };
+    }
+
+    /**
+     * @param options {HTMLElement[]}
+     * @param target {string}
+     */
+    function findOptionByName (options, target) {
+        const url = target.getAttribute('href');
+        return options.find(
+            ((option) => url.endsWith(`/${option}`) || url.includes(`/${option}/`))
+        );
     }
 
     function determinePageType () {
@@ -52,6 +122,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         if (path.startsWith('/d/') && (path.endsWith('/comments') || path.includes('/comments/')))
             return pageTypes.COMMENTS;
         if (path.startsWith('/m/') && path.includes('/t/')) return pageTypes.COMMENTS;
+        // else:
         return pageTypes.THREAD;
     }
 
@@ -65,7 +136,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         const kbinQuery = `${excludeActivityElements} > .options__main > li > a`
             + excludeRelatedTags + excludePeoplePage + excludeSettings + excludeProfiles;
 
-        const mbinQuery = ".dropdown:has(i.fa-sort) .dropdown__menu > li";
+        const mbinQuery = ".dropdown:has(i.fa-sort) .dropdown__menu > li > a";
 
         return document.querySelectorAll(`${kbinQuery}, ${mbinQuery}`);
     }
