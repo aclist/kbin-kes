@@ -73,8 +73,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
 
     /** @param pageType {{id: string; options: string[]}} */
     function getChosenDefault (pageType) {
-        return "newest";
-        //return getModSettings("default-sort")[`default${pageType.id}Sort`];
+        return getModSettings("default-sort")[`default${pageType.id}Sort`];
     }
 
     /** 
