@@ -4,12 +4,8 @@
  * that have sort options.
  * 
  * @todo Add entrypoint to the json
- * @todo Testing
- * @todo Comments
- * 
- * Current Issues:
- * - Does not change 'hot'
- * - Instead seems to add '/top%7D' to /top, once on every execution
+ * @todo Test in KES context (important for the setting)
+ * @todo Add comments
  * 
  * @param {Boolean} isActive Whether the mod has been turned on
 */
@@ -20,7 +16,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         MICROBLOG: { id: "Post", options: ["top", "hot", "newest", "active", "commented"] },
         MAGAZINES: { id: "Magazine", options: ["newest", "hot", "active", "abandoned"] }
     };
-    const markerAttribute = "default_sort:originalPath";
+    const markerAttribute = "defaultSort_originalPath";
 
     if (isActive) {
         setup();
@@ -49,9 +45,11 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
 
     function teardown () {
         /** @type {HTMLElement} */
-        const markedOption = document.querySelector(`[${markerAttribute}]`);
-        const attrValue = markedOption.dataset[markerAttribute];
+        const markedOption = document.querySelector(`[data-${markerAttribute}]`);
+        if (markedOption == null) return; // already torn down
+        const attrValue = markedOption.getAttribute(`data-${markerAttribute}`);
         markedOption.setAttribute('href', attrValue);
+        markedOption.removeAttribute(`data-${markerAttribute}`);
     }
 
     /** @param optionsByPage {string[]} What options should be available for this page */
@@ -67,9 +65,10 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      * @param optionTarget {string}
      */
     function makeOptionExplicit (optionButton, optionTarget) {
-        optionButton.dataset[markerAttribute] = optionButton.getAttribute('href');
+        optionButton.setAttribute(`data-${markerAttribute}`, optionButton.getAttribute('href'));
         const currentLink = optionButton.getAttribute('href').replace('#comments', '');
-        optionButton.setAttribute('href', `${currentLink}/${optionTarget}`);
+        const newLink = currentLink + (currentLink == '/' ? '' : '/') + optionTarget;
+        optionButton.setAttribute('href', newLink);
     }
 
     /** @param pageType {{id: string; options: string[]}} */
@@ -89,13 +88,11 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         for (var i = 0; i < actualOptions2.length; i++) {
             const actual = actualOptions2[i];
 
-            // TODO
             const url = actual.getAttribute('href');
             const found = expectedOptions2.find((option) => {
                 return url.endsWith(`/${option}`) || url.includes(`/${option}/`);
             });
 
-            //const found = findOptionByName(expectedOptions, actual);
             if (found) {
                 expectedOptions2 = expectedOptions2.filter((value) => value != found);
                 actualOptions2 = actualOptions2.filter((value) => value != actual);
