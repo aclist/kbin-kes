@@ -7,6 +7,10 @@
  * @todo Testing
  * @todo Comments
  * 
+ * Current Issues:
+ * - Does not change 'hot'
+ * - Instead seems to add '/top%7D' to /top, once on every execution
+ * 
  * @param {Boolean} isActive Whether the mod has been turned on
 */
 function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
@@ -65,12 +69,13 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
     function makeOptionExplicit (optionButton, optionTarget) {
         optionButton.dataset[markerAttribute] = optionButton.getAttribute('href');
         const currentLink = optionButton.getAttribute('href').replace('#comments', '');
-        optionButton.setAttribute('href', `${currentLink}/${optionTarget}}`);
+        optionButton.setAttribute('href', `${currentLink}/${optionTarget}`);
     }
 
     /** @param pageType {{id: string; options: string[]}} */
     function getChosenDefault (pageType) {
-        return getModSettings("default-sort")[`default${pageType.id}Sort`];
+        return "newest";
+        //return getModSettings("default-sort")[`default${pageType.id}Sort`];
     }
 
     /** 
@@ -83,7 +88,14 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
 
         for (var i = 0; i < actualOptions2.length; i++) {
             const actual = actualOptions2[i];
-            const found = findOptionByName(expectedOptions, actual);
+
+            // TODO
+            const url = actual.getAttribute('href');
+            const found = expectedOptions2.find((option) => {
+                return url.endsWith(`/${option}`) || url.includes(`/${option}/`);
+            });
+
+            //const found = findOptionByName(expectedOptions, actual);
             if (found) {
                 expectedOptions2 = expectedOptions2.filter((value) => value != found);
                 actualOptions2 = actualOptions2.filter((value) => value != actual);
@@ -100,10 +112,10 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      * @param target {string}
      */
     function findOptionByName (options, target) {
-        const url = target.getAttribute('href');
-        return options.find(
-            ((option) => url.endsWith(`/${option}`) || url.includes(`/${option}/`))
-        );
+        return Array.from(options).find((option) => {
+            const url = option.getAttribute('href');
+            return url.endsWith(`/${target}`) || url.includes(`/${target}/`);
+        });
     }
 
     function determinePageType () {
