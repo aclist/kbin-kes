@@ -91,6 +91,14 @@ function is_logged_in () {
     return false
 }
 
+function isProfile () {
+    const url = new URL(window.location).href.split('/')
+    if (url.includes("u")) {
+        return true
+    }
+    return false
+}
+
 window.safeGM = function (func,...args) {
     let use
     const underscore = {

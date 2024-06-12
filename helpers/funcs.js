@@ -2530,8 +2530,6 @@ const funcObj = {
             }
         }
 
-        const login = document.querySelector('.login .user-name');
-        if (!login) return;
         if (toggle) apply(mutation);
         if (!toggle) unapply();
     }
@@ -3218,6 +3216,7 @@ const funcObj = {
         `;
 
         if (isThread()) return // eslint-disable-line no-undef
+        if (isProfile()) return // eslint-disable-line no-undef
 
         function applyPins () {
             safeGM("removeStyle", 'kes-pin-css');
