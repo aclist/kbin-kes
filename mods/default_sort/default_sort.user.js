@@ -3,7 +3,6 @@
  * specify one already. This can be configured separately for the different types of views
  * that have sort options.
  * 
- * @todo Add entrypoint to the json
  * @todo Test in KES context (important for the setting)
  * @todo Add comments
  * 
