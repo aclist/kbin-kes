@@ -13,6 +13,7 @@ function pinsInit (toggle) { // eslint-disable-line no-unused-vars
     `;
 
     if (isThread()) return // eslint-disable-line no-undef
+    if (isProfile()) return // eslint-disable-line no-undef
 
     function applyPins () {
         safeGM("removeStyle", 'kes-pin-css');
