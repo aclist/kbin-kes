@@ -4,24 +4,8 @@
  * that have sort options.
  * 
  * @todo Add entrypoint to the json
- * @todo rewrite
- * - setup()
- *  - change the default option to an explicit one
- *      1. get all options on the page
- *      2. find the non-explicit one — if there's none, abort
- *      3. determine the current page
- *      4. get the options that should be on the current page
- *      5. make the non-explicit option link to the first option that should be on the page, which isn't
- *  - when on the base site, redirect to the correctly sorted page
- *      1. get all options on the page
- *      2. get the user-defined default for the current page type
- *      3. click the correct option (to make use of turbo mode)
- * - teardown()
- *  - change the added explicit sorting back via a data attribute
- * // make sure to take into account:
- * // - kbin + kbin mobile
- * // - fedia + fedia mobile
- * // - kbin.run + kbin.run mobile
+ * @todo Testing
+ * @todo Comments
  * 
  * @param {Boolean} isActive Whether the mod has been turned on
 */
