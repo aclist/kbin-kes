@@ -1,11 +1,33 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 4.2.0
+### Added
+- Collapse pinned posts (shazbot): hides pinned posts on the thread index and provides a clickable area to reopen them
+- Added isThread() function to API: returns true if the current window location is a thread inside of a magazine
+
+### Changed
+- Filter advertisements: updated spam filter to v2 logic
+
+## 4.1.1
+### Fixed
+- Fixed an issue where the tappable navbar created when using the "Show thread/microblog delta since last visit" would not be removed when toggling the add-on off
+
 ## 4.1.0
+### Added
+- Filter advertisements (shazbot): removes unsolicited advertisements and blocks the poster
+
 ### Fixed
 
 - Move federation warning: ensure that the add-on also applies to pages on the All Content area (kbin only)
 - Remove extraneous double border on KES icon in navbar when hovering
+- Ensure that kbin navbar accommodates extra width when KES icons are added
+- Resize text: prevent this feature from causing the KES modal to become opaque when the "Collapsible Comments" feature is also enabled
+
+### Changed
+- Updated ESLint rules
+- Updated build scripts
+- API: made getInstanceType() logic more granular
 
 ## 4.0.0
 ### Added

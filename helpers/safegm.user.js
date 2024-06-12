@@ -75,6 +75,22 @@ function genericXMLRequest (url, callback) {
     });
 }
 
+function isThread () {
+    const url = new URL(window.location).href.split('/')
+    if (url.includes("t")) {
+        return true
+    }
+    return false
+}
+
+function is_logged_in () {
+    const login = document.querySelector('.login .user-name')
+    if (login) {
+        return true
+    }
+    return false
+}
+
 window.safeGM = function (func,...args) {
     let use
     const underscore = {

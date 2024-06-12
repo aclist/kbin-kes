@@ -464,20 +464,20 @@ const funcObj = {
         }
         function restoreTree (className, item) {
             switch (className) {
-            case ".nested":
+                case ".nested":
                 //if parent has children container, reinsert children adjacent to parent
                 //then remove children class
-                item.classList.remove('nested')
-                if (item.parentElement && item.parentElement.className === "kes-collapse-children") {
-                    const par = item.parentElement.parentElement
-                    par.insertAdjacentElement("afterend", item)
-                }
-                break
-            case ".listened":
-                item.classList.remove('listened')
-                break
-            default:
-                item.remove();
+                    item.classList.remove('nested')
+                    if (item.parentElement && item.parentElement.className === "kes-collapse-children") {
+                        const par = item.parentElement.parentElement
+                        par.insertAdjacentElement("afterend", item)
+                    }
+                    break
+                case ".listened":
+                    item.classList.remove('listened')
+                    break
+                default:
+                    item.remove();
             }
         }
         function teardown () {
@@ -645,12 +645,12 @@ const funcObj = {
             function setMagString (mode) {
                 let mags;
                 switch (mode) {
-                case 'default':
-                    mags = `omni-default-mags-${hostname}`
-                    break;
-                case 'user':
-                    mags = `omni-user-mags-${hostname}-${username}`
-                    break;
+                    case 'default':
+                        mags = `omni-default-mags-${hostname}`
+                        break;
+                    case 'user':
+                        mags = `omni-user-mags-${hostname}-${username}`
+                        break;
                 }
                 return mags;
             }
@@ -791,85 +791,85 @@ const funcObj = {
                 search.setAttribute
                 search.addEventListener("keydown", (e) => {
                     switch (e.key) {
-                    case code: {
-                        kickoffListener(e)
-                        break;
-                    }
-                    case "ArrowDown": {
-                        e.preventDefault();
-                        let packed = updateVisible();
-                        let vis = packed[0]
-                        let pos = packed[1]
-                        pos = ++pos
-                        if (pos >= vis.length) {
-                            pos = 0
+                        case code: {
+                            kickoffListener(e)
+                            break;
                         }
-                        makeActive(vis[pos]);
-                        scrollList('down', vis[pos]);
-                        break;
-                    }
-                    case "ArrowUp": {
-                        e.preventDefault();
-                        let packed = updateVisible();
-                        let vis = packed[0]
-                        let pos = packed[1]
-                        pos = --pos
-                        if (pos < 0) {
-                            pos = (vis.length - 1)
+                        case "ArrowDown": {
+                            e.preventDefault();
+                            let packed = updateVisible();
+                            let vis = packed[0]
+                            let pos = packed[1]
+                            pos = ++pos
+                            if (pos >= vis.length) {
+                                pos = 0
+                            }
+                            makeActive(vis[pos]);
+                            scrollList('down', vis[pos]);
+                            break;
                         }
-                        makeActive(vis[pos]);
-                        scrollList('up', vis[pos]);
-                        break;
-                    }
+                        case "ArrowUp": {
+                            e.preventDefault();
+                            let packed = updateVisible();
+                            let vis = packed[0]
+                            let pos = packed[1]
+                            pos = --pos
+                            if (pos < 0) {
+                                pos = (vis.length - 1)
+                            }
+                            makeActive(vis[pos]);
+                            scrollList('up', vis[pos]);
+                            break;
+                        }
                     }
                 });
                 search.addEventListener("keyup", (e) => {
                     switch (e.key) {
-                    case "Enter": {
-                        const act = document.querySelector("#kes-omni-list li.kes-subs-active")
-                        const dest = act.textContent
-                        window.location = `https://${hostname}/m/${dest}`
-                        break;
-                    }
-                    case "ArrowUp": {
-                        e.preventDefault();
-                        break;
-                    }
-                    case "ArrowDown": {
-                        break;
-                    }
-                    case code: {
-                        break;
-                    }
-                    default: {
-                        const visi = []
-                        const filter = e.target.value
-                        const parEl = e.target.parentElement
-                        const visiEl = parEl.querySelectorAll('li')
-                        for (let i = 0; i < visiEl.length; i++) {
-                            let t = visiEl[i].textContent
-                            if (t.toLowerCase().indexOf(filter) > -1) {
-                                visi.push(visiEl[i])
-                                visiEl[i].style.display = "";
+                        case "Enter": {
+                            const act = document.querySelector("#kes-omni-list li.kes-subs-active")
+                            const dest = act.textContent
+                            window.location = `https://${hostname}/m/${dest}`
+                            break;
+                        }
+                        case "ArrowUp": {
+                            e.preventDefault();
+                            break;
+                        }
+                        case "ArrowDown": {
+                            break;
+                        }
+                        case code: {
+                            break;
+                        }
+                        default: {
+                            const visi = []
+                            const filter = e.target.value
+                            const parEl = e.target.parentElement
+                            const visiEl = parEl.querySelectorAll('li')
+                            for (let i = 0; i < visiEl.length; i++) {
+                                let t = visiEl[i].textContent
+                                if (t.toLowerCase().indexOf(filter) > -1) {
+                                    visi.push(visiEl[i])
+                                    visiEl[i].style.display = "";
+                                } else {
+                                    visiEl[i].style.display= "none";
+                                    makeInactive(visiEl[i])
+                                }
+                            }
+                            for (let k = 0; k < visi.length; ++k) {
+                                if (k === 0) {
+                                    makeActive(visi[k])
+                                } else {
+                                    makeInactive(visi[k])
+                                }
+                            }
+                            const el = document.querySelector('#kes-omni-counter')
+                            if (filter === "") {
+                                updateCounter(el,0,visiEl.length)
                             } else {
-                                visiEl[i].style.display= "none";
-                                makeInactive(visiEl[i])
+                                updateCounter(el, visi.length, visiEl.length);
                             }
                         }
-                        for (let k = 0; k < visi.length; ++k) {
-                            if (k === 0) {
-                                makeActive(visi[k])
-                            } else {
-                                makeInactive(visi[k])
-                            }
-                        }
-                        const el = document.querySelector('#kes-omni-counter')
-                        if (filter === "") {
-                            updateCounter(el,0,visiEl.length)
-                        } else {
-                            updateCounter(el, visi.length, visiEl.length);
-                        }
-                    }
                     }
                 });
 
@@ -1807,27 +1807,27 @@ const funcObj = {
         }
         function captureHeaderClicks (e) {
             switch (e.target.className) {
-            case "fa-solid fa-copy hljs-section": {
-                const par = e.target.parentElement
-                const next = getNextValidSibling(par);
-                navigator.clipboard.writeText(next.innerText);
-                const t = document.querySelector('#copied-tooltip')
-                t.style.display = 'inline';
-                setTimeout(function () {
-                    t.style.display = 'none';
-                }, 1000);
-                break;
-            }
-            case "fa-solid fa-chevron-up hljs-section": {
-                e.target.className = 'fa-solid fa-chevron-down hljs-section'
-                toggleCollapse(e.target);
-                break;
-            }
-            case "fa-solid fa-chevron-down hljs-section": {
-                e.target.className = 'fa-solid fa-chevron-up hljs-section'
-                toggleCollapse(e.target);
-                break;
-            }
+                case "fa-solid fa-copy hljs-section": {
+                    const par = e.target.parentElement
+                    const next = getNextValidSibling(par);
+                    navigator.clipboard.writeText(next.innerText);
+                    const t = document.querySelector('#copied-tooltip')
+                    t.style.display = 'inline';
+                    setTimeout(function () {
+                        t.style.display = 'none';
+                    }, 1000);
+                    break;
+                }
+                case "fa-solid fa-chevron-up hljs-section": {
+                    e.target.className = 'fa-solid fa-chevron-down hljs-section'
+                    toggleCollapse(e.target);
+                    break;
+                }
+                case "fa-solid fa-chevron-down hljs-section": {
+                    e.target.className = 'fa-solid fa-chevron-up hljs-section'
+                    toggleCollapse(e.target);
+                    break;
+                }
             }
         }
         function toggleCollapse (child) {
@@ -2208,6 +2208,335 @@ const funcObj = {
     }
 ,
 
+    remove_ads:
+
+    function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
+
+        const settings = getModSettings("spamfilter")
+        if (!settings) return
+        const fresh = settings["fresh"]
+        const weighted = settings["weight"]
+        const block = settings["block"]
+
+        //
+        //currently unused
+        //const votes = document.querySelectorAll('.vote')
+        //function filter (posts) {
+        //    return Array.from(posts).filter((el) =>
+        //        parseInt(el.querySelector('.vote__up button span').innerText) <= parseInt(el.querySelector('.vote__down button span').innerText)
+        //    )
+        //}
+
+        const user_ids = []
+        const user_links = []
+        const checked = []
+        const banned = []
+        const softbanned = []
+
+        let unique_users = {}
+        let modal
+        let iteration
+    
+        const domain = window.location.hostname
+        const instance = getInstanceType();
+        const url = new URL(window.location).href.split('/')
+        if (url[3] !== "m") return
+        if (url[5] === "t") return
+
+        const modalCSS = `
+        #kes-filter-modal-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 90;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            left: 0;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.5) !important
+        }
+
+        #kes-filter-modal {
+            background-color: gray;
+            width: 500px;
+            height: 100px;
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid black;
+        }
+        #kes-filter-text {
+            color: black;
+            margin: 20px
+        }
+
+        `;
+
+
+        function makeModal () {
+            const modal_bg = document.createElement('div')
+            const modal = document.createElement('div')
+            const text = document.createElement('p')
+            modal_bg.id = "kes-filter-modal-bg"
+            modal.id = "kes-filter-modal"
+            text.id = "kes-filter-text"
+            text.innerText = "KES: filtering spam, please wait..."
+            modal_bg.appendChild(modal)
+            modal.appendChild(text)
+            return modal_bg
+        }
+    
+        function apply () {
+            modal = makeModal()
+            document.body.appendChild(modal)
+            safeGM("removeStyle", "kes-filter-css")
+            safeGM("addStyle", modalCSS, "kes-filter-css")
+            check();
+        }
+        function unapply () {
+            safeGM("removeStyle", "kes-filter-css")
+        }
+
+        function filterDupes (array) {
+            const filtered = [...new Set(array)]
+            const sorted = filtered.sort(function (a, b) {
+                return a.toLowerCase().localeCompare(b.toLowerCase());
+            });
+            return sorted
+        }
+
+        function clearStorage () {
+            localStorage.setItem("kes-banned-users", "")
+            localStorage.setItem("kes-softbanned-users", "")
+            localStorage.setItem("kes-checked-users", "")
+        }
+
+        function check () {
+            document.querySelectorAll('.user-inline').forEach((user) => {
+                user_ids.push(user.title)
+                user_links.push(user.href)
+            })
+
+            unique_users = filterDupes(user_ids)
+            iteration = unique_users.length
+
+            // first invocation
+            if (!mutation) {
+                clearStorage();
+                for (let i = 0; i < unique_users.length; ++i) {
+                    checked.push(unique_users[i]);
+                    applyFilters(unique_users[i]);
+                }
+                return
+            }
+            const str_banned = localStorage.getItem("kes-banned-users")
+            const str_softbanned = localStorage.getItem("kes-softbanned-users")
+            const str_checked = localStorage.getItem("kes-checked-users")
+            //applies on DOM mutation events; check prior lists to save time
+            //arrays are initialized empty on each DOM recursion
+            for (let i = 0; i < unique_users.length; ++i) {
+                if (iteration == 1) {
+                    modal.remove();
+                }
+                if (str_checked.split(',').includes(unique_users[i])) {
+                    checked.push(unique_users[i])
+                    --iteration
+                    continue
+                } else if (str_banned.split(',').includes(unique_users[i])) {
+                    banned.push(unique_users[i])
+                    continue
+                } else if (str_softbanned.split(',').includes(unique_users[i])) {
+                    softbanned.push(unique_users[i])
+                    continue
+                }
+                checked.push(unique_users[i])
+                applyFilters(unique_users[i])
+            }
+
+        }
+
+        function getRelativeName (user) {
+            let relative_name
+            if (user.split('@')[2] === domain) {
+                relative_name = user.split('@')[1]
+            } else {
+                relative_name = user
+            }
+            return relative_name
+        }
+
+        function applyFilters (user) {
+            const relative_name = getRelativeName(user)
+            const url = `https://${domain}/ajax/fetch_user_popup/${relative_name}`
+            if (softbanned.includes(name)) {
+                --iteration
+                return
+            }
+            if (banned.includes(name)) {
+                --iteration
+                return
+            }
+            genericXMLRequest(url, parse)
+        }
+        async function parse (response) {
+            let u
+            const parser = new DOMParser();
+            const json = JSON.parse(response.responseText)
+            const XML = parser.parseFromString(json.html, "text/html");
+            if (instance === "mbin") {
+                u = XML.querySelector('.user__name').innerText
+            } else {
+                u = XML.querySelector('.link-muted p').innerText
+            }
+            const age = XML.querySelector('.timeago').innerText.split(' ')
+            const repnum = XML.querySelector('header ul li:nth-of-type(2) a') .innerText.trim().split(' ')[2]
+            const threadsnum = XML.querySelector('menu li:nth-of-type(1) a div:first-of-type').innerText
+            const commentsnum = XML.querySelector('menu li:nth-of-type(2) a div:first-of-type').innerText
+
+            if ((parseInt(commentsnum) === 0) && (parseInt(threadsnum > 2))) {
+                banned.push(u)
+            } else if (repnum.charAt(0) === "-") {
+                banned.push(u)
+            } else {
+                switch (age[1]) {
+                    case "hour":
+                    case "hours":
+                        softbanned.push(u)
+                        break;
+                    case "day":
+                    case "days": {
+                        if ( age[0] < 3) {
+                            softbanned.push(u)
+                        }
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
+
+            --iteration
+            if (iteration === 0) {
+                updateStorage();
+                processFilters();
+            }
+        }
+
+        function updateStorage () {
+            localStorage.setItem("kes-softbanned-users", filterDupes(softbanned))
+            localStorage.setItem("kes-banned-users", filterDupes(banned))
+            localStorage.setItem("kes-checked-users", filterDupes(checked))
+        }
+
+        function removeArticle (article) {
+            article.remove()
+        }
+
+        function getPoster (article) {
+            const user = article.querySelector('.user-inline').title
+            return user
+        }
+
+        function voteWeight (article) {
+            const up = article.querySelector('.vote__up')
+            const down = article.querySelector('.vote__down')
+            let up_ct = up.querySelector('[data-subject-target="favCounter"]').innerText
+            let down_ct = down.querySelector('[data-subject-target="downvoteCounter"]').innerText
+            up_ct = parseFloat(up_ct)
+            down_ct = parseFloat(down_ct)
+
+            if (up_ct === 0 && down_ct > 1) {
+                return 1
+            }
+            if (up_ct > 0 && down_ct / up_ct > 1.5) {
+                return 1
+            } else {
+                return 0
+            }
+        }
+
+        function processFilters () {
+            const articles = document.querySelectorAll('.entry')
+            for (let i = 0; i < banned.length; ++i) {
+                if (block) gt(getRelativeName(banned[i]))
+            }
+            for (let i = 0; i < articles.length; ++i) {
+                const name = getPoster(articles[i])
+                if (softbanned.includes(name)) {
+                    if (fresh) {
+                        removeArticle(articles[i])
+                        continue
+                    }
+                }
+                if (banned.includes(name)) {
+                    if (block) {
+                        removeArticle(articles[i])
+                        continue
+                    }
+                }
+                const weight = voteWeight(articles[i])
+                if (weight === 1) {
+                    if (weighted) {
+                        removeArticle(articles[i])
+                        continue
+                    }
+                }
+            }
+            modal.remove()
+            localStorage.setItem("kes-banned-users", banned)
+            localStorage.setItem("kes-softbanned-users", softbanned)
+            localStorage.setItem("kes-checked-users", checked)
+        }
+
+        async function gt (u) {
+            const resp = await fetch(`https://${domain}/u/${u}`, {
+                "credentials": "include",
+                "method": "GET",
+                "mode": "cors"
+            });
+            switch (await resp.status) {
+                case 200: {
+                    const respText = await resp.text()
+                    const parser = new DOMParser();
+                    const XML = parser.parseFromString(respText, "text/html");
+                    const form = XML.querySelector('[name="user_block"]')
+                    if (form) {
+                        const t = form.querySelector('input').value
+                        bu(u, t)
+                    }
+                    break
+                }
+                default:
+                    break
+            }
+        }
+
+        async function bu (u, t) {
+            const resp = await fetch(`https://${domain}/u/${u}/block`, {
+                signal: AbortSignal.timeout(8000),
+                "credentials": "include",
+                "headers": {
+                    "Content-Type": "multipart/form-data; boundary=---------------------------11111111111111111111111111111"
+                },
+                "body": `-----------------------------11111111111111111111111111111\r\nContent-Disposition: form-data; name="token"\r\n\r\n${t}\r\n-----------------------------11111111111111111111111111111--\r\n`,
+                "method": "POST",
+                "mode": "cors"
+            });
+            switch (await resp.status) {
+                case 200: {
+                    break;
+                }
+            }
+        }
+
+        const login = document.querySelector('.login .user-name');
+        if (!login) return;
+        if (toggle) apply(mutation);
+        if (!toggle) unapply();
+    }
+,
+
     unblur:
 
     function unblurInit (toggle) { // eslint-disable-line no-unused-vars
@@ -2536,7 +2865,6 @@ const funcObj = {
                     state = true
                 }
             })
-            console.log(state)
             return state
         }
 
@@ -2695,19 +3023,19 @@ const funcObj = {
             const settings = getModSettings(ns);
             let opt = settings["logotype"];
             switch (opt) {
-            case "Hidden":
-                updateLogo(getDefaultLogo())
-                $('.brand a').hide();
-                break;
-            case "Kibby":
-                updateLogo(kibby);
-                break;
-            case "Kbin (no text)":
-                updateLogo(kbinMini);
-                break;
-            case "Kibby (no text)":
-                updateLogo(kibbyMini);
-                break;
+                case "Hidden":
+                    updateLogo(getDefaultLogo())
+                    $('.brand a').hide();
+                    break;
+                case "Kibby":
+                    updateLogo(kibby);
+                    break;
+                case "Kbin (no text)":
+                    updateLogo(kbinMini);
+                    break;
+                case "Kibby (no text)":
+                    updateLogo(kibbyMini);
+                    break;
             }
         }
 
@@ -2748,14 +3076,14 @@ const funcObj = {
                 let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
                 let offset = "offset";
                 switch (settings[offset]) {
-                case "UTC":
-                    time.innerText = cleanISOTime;
-                    break;
-                case "Local time":
-                    time.innerText = localAsISO;
-                    break;
-                default:
-                    break;
+                    case "UTC":
+                        time.innerText = cleanISOTime;
+                        break;
+                    case "Local time":
+                        time.innerText = localAsISO;
+                        break;
+                    default:
+                        break;
                 }
             });
         } else {
@@ -2870,6 +3198,75 @@ const funcObj = {
         } else {
             $('.kes-mail-link').remove();
         }
+    }
+,
+
+    collapse_pins:
+
+    function pinsInit (toggle) { // eslint-disable-line no-unused-vars
+
+        const css = `
+        .kes-pin {
+            display: none;
+        }
+        #kes-pin-button {
+            cursor: pointer;
+        }
+        .entry:has(footer i.fa-thumbtack) {
+            border: 2px solid var(--kbin-alert-info-link-color)
+        }
+        `;
+
+        if (isThread()) return // eslint-disable-line no-undef
+
+        function applyPins () {
+            safeGM("removeStyle", 'kes-pin-css');
+            safeGM("addStyle", css, 'kes-pin-css');
+
+            if (document.querySelector('#kes-pin-button')) return
+            const pins = document.querySelectorAll('.entry:has(footer i.fa-thumbtack)')
+            if (pins.length === 0) return
+            pins.forEach((pin) => {
+                pin.classList.add('kes-pin')
+            })
+
+            let suffix
+            if (pins.length === 1) suffix = "post"
+            if (pins.length > 1) suffix = "posts"
+        
+
+            const b = document.createElement('div')
+            const p = document.createElement('p')
+            const toggleOnText = `Hiding ${pins.length} pinned ${suffix}. Click to expand.`
+            const toggleOffText = `Showing ${pins.length} pinned ${suffix}. Click to collapse.`
+
+            b.id = 'kes-pin-button'
+            p.innerText = toggleOnText
+
+            b.addEventListener('click', () => {
+                if (p.innerText === toggleOnText) {
+                    p.innerText = toggleOffText
+                } else {
+                    p.innerText = toggleOnText
+                }
+                pins.forEach((pin) => {
+                    pin.classList.toggle('kes-pin')
+                })
+            })
+
+            b.appendChild(p)
+            document.querySelector('#content').prepend(b)
+
+        }
+
+        function unapplyPins () {
+            document.querySelector('#kes-pin-button').remove();
+            safeGM("removeStyle", "kes-pin-css");
+        }
+
+        if (toggle) applyPins();
+        if (!toggle) unapplyPins();
+
     }
 ,
 
@@ -3269,7 +3666,7 @@ const funcObj = {
         if (toggle) {
             loadCounts(hostname, mag);
         } else {
-            const countBar = document.querySelector('#kes-omni-tapbar')
+            const countBar = document.querySelector('#kes-thread-delta-bar')
             if (countBar) {
                 countBar.remove();
             }
@@ -3942,19 +4339,19 @@ const funcObj = {
         function softBlock (mags) {
             const path = location.pathname.split('/')[1]
             switch (path) {
-            case "":
-            case "sub": {
-                blockThreads(mags);
-                break
-            }
-            case "magazines": {
-                addToIndex(mags);
-                break
-            }
-            case "m": {
-                addToSidebar(mags);
-                break
-            }
+                case "":
+                case "sub": {
+                    blockThreads(mags);
+                    break
+                }
+                case "magazines": {
+                    addToIndex(mags);
+                    break
+                }
+                case "m": {
+                    addToSidebar(mags);
+                    break
+                }
             }
         }
         function blankCSS (el) {
@@ -4103,15 +4500,15 @@ const funcObj = {
                     const row2 = e.target.parentElement.parentElement.parentElement
                     let par
                     switch (type) {
-                    case "I":
-                        par = row
-                        break
-                    case "SPAN":
-                        par = row
-                        break
-                    case "BUTTON":
-                        par = row2
-                        break
+                        case "I":
+                            par = row
+                            break
+                        case "SPAN":
+                            par = row
+                            break
+                        case "BUTTON":
+                            par = row2
+                            break
                     }
                     mag = par.querySelector('.magazine-inline').href.split('/')[4]
                     button = par.querySelector('.softblock-button')
@@ -4123,39 +4520,39 @@ const funcObj = {
                 }
                 const text = span.innerText
                 switch (text) {
-                case "Softblock":{
-                    span.innerText = 'Unsoftblock'
-                    button.classList.add('danger')
-                    if(mags.includes(mag)) {
+                    case "Softblock":{
+                        span.innerText = 'Unsoftblock'
+                        button.classList.add('danger')
+                        if(mags.includes(mag)) {
+                            break
+                        }
+                        mags.push(mag)
                         break
                     }
-                    mags.push(mag)
-                    break
-                }
-                case "Unsoftblock": {
-                    span.innerText = 'Softblock'
-                    button.classList.remove('danger')
-                    if(!mags.includes(mag)) {
+                    case "Unsoftblock": {
+                        span.innerText = 'Softblock'
+                        button.classList.remove('danger')
+                        if(!mags.includes(mag)) {
+                            break
+                        }
+                        const ind = mags.indexOf(mag)
+                        mags.splice(ind, 1)
                         break
                     }
-                    const ind = mags.indexOf(mag)
-                    mags.splice(ind, 1)
-                    break
-                }
                 }
                 saveMags(hostname, mags)
             });
 
             switch(state) {
-            case "block": {
-                sp.innerText = 'Softblock'
-                break
-            }
-            case "unblock": {
-                sp.innerText = 'Unsoftblock'
-                blockButton.classList.add('danger')
-                break
-            }
+                case "block": {
+                    sp.innerText = 'Softblock'
+                    break
+                }
+                case "unblock": {
+                    sp.innerText = 'Unsoftblock'
+                    blockButton.classList.add('danger')
+                    break
+                }
             }
             el.insertAdjacentElement("afterend", blockButton);
         }

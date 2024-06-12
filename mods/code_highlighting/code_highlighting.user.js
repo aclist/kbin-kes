@@ -84,27 +84,27 @@ function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
     }
     function captureHeaderClicks (e) {
         switch (e.target.className) {
-        case "fa-solid fa-copy hljs-section": {
-            const par = e.target.parentElement
-            const next = getNextValidSibling(par);
-            navigator.clipboard.writeText(next.innerText);
-            const t = document.querySelector('#copied-tooltip')
-            t.style.display = 'inline';
-            setTimeout(function () {
-                t.style.display = 'none';
-            }, 1000);
-            break;
-        }
-        case "fa-solid fa-chevron-up hljs-section": {
-            e.target.className = 'fa-solid fa-chevron-down hljs-section'
-            toggleCollapse(e.target);
-            break;
-        }
-        case "fa-solid fa-chevron-down hljs-section": {
-            e.target.className = 'fa-solid fa-chevron-up hljs-section'
-            toggleCollapse(e.target);
-            break;
-        }
+            case "fa-solid fa-copy hljs-section": {
+                const par = e.target.parentElement
+                const next = getNextValidSibling(par);
+                navigator.clipboard.writeText(next.innerText);
+                const t = document.querySelector('#copied-tooltip')
+                t.style.display = 'inline';
+                setTimeout(function () {
+                    t.style.display = 'none';
+                }, 1000);
+                break;
+            }
+            case "fa-solid fa-chevron-up hljs-section": {
+                e.target.className = 'fa-solid fa-chevron-down hljs-section'
+                toggleCollapse(e.target);
+                break;
+            }
+            case "fa-solid fa-chevron-down hljs-section": {
+                e.target.className = 'fa-solid fa-chevron-up hljs-section'
+                toggleCollapse(e.target);
+                break;
+            }
         }
     }
     function toggleCollapse (child) {
