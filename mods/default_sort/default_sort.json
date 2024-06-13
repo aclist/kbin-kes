@@ -2,7 +2,7 @@
     "name": "Customizable Default Sort Option",
     "namespace": "default-sort",
     "author": "Pamasich",
-    "version": "dev-1.0.0",
+    "version": "1.0.0",
     "label": "Change default sort",
     "desc": "Enables customizing the default sort order used. When opening a sortable page, you automatically get redirected to your chosen default option.\n\nIf you do not get redirected, check whether your chosen option is available on your instance before reporting the issue.",
     "login": false,
