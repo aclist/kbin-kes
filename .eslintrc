@@ -6,6 +6,7 @@
     },
     "globals": {
         "Promise": "readonly",
+        "funcObj": "readonly",
         "safeGM": "readonly",
         "getHex": "readonly",
         "genericXMLRequest": "readonly",
@@ -23,7 +24,7 @@
         "arrow-parens": ["error","always"],
         "space-before-function-paren": ["error", "always"],
         "space-before-blocks": ["error", "always"],
-        "indent": ["error", 4],
+        "indent": ["error", 4, {"SwitchCase": 1}],
         "max-len": ["warn", 100]
     },
     "overrides": [

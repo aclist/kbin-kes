@@ -1,0 +1,32 @@
+{
+  "name": "Expand post descriptions from thread index",
+  "author": "shazbot",
+  "version": "0.1.1",
+  "label": "Expand post text in thread index",
+  "desc": "Adds an expand/collapse button used to read the full body text of posts without leaving the thread index.",
+  "login": false,
+  "recurs": true,
+  "entrypoint": "expand_posts",
+  "page": "threads",
+  "namespace": "expand-posts",
+  "fields": [
+    {
+      "type": "text",
+      "initial": "EXPAND",
+      "key": "expand",
+      "label": "Expand label"
+    },
+    {
+      "type": "text",
+      "initial": "COLLAPSE",
+      "key": "collapse",
+      "label": "Collapse label"
+    },
+    {
+      "type": "text",
+      "initial": "LOADING",
+      "key": "loading",
+      "label": "Loading label"
+    }
+  ]
+}

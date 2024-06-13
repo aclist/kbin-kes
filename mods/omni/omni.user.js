@@ -1,4 +1,4 @@
-function omniInit (toggle) {
+function omniInit (toggle) { // eslint-disable-line no-unused-vars
 
     const kesActive = 'kes-subs-active'
     const omniCSS = `
@@ -126,12 +126,12 @@ function omniInit (toggle) {
         function setMagString (mode) {
             let mags;
             switch (mode) {
-            case 'default':
-                mags = `omni-default-mags-${hostname}`
-                break;
-            case 'user':
-                mags = `omni-user-mags-${hostname}-${username}`
-                break;
+                case 'default':
+                    mags = `omni-default-mags-${hostname}`
+                    break;
+                case 'user':
+                    mags = `omni-user-mags-${hostname}-${username}`
+                    break;
             }
             return mags;
         }
@@ -272,85 +272,85 @@ function omniInit (toggle) {
             search.setAttribute
             search.addEventListener("keydown", (e) => {
                 switch (e.key) {
-                case code: {
-                    kickoffListener(e)
-                    break;
-                }
-                case "ArrowDown": {
-                    e.preventDefault();
-                    let packed = updateVisible();
-                    let vis = packed[0]
-                    let pos = packed[1]
-                    pos = ++pos
-                    if (pos >= vis.length) {
-                        pos = 0
+                    case code: {
+                        kickoffListener(e)
+                        break;
                     }
-                    makeActive(vis[pos]);
-                    scrollList('down', vis[pos]);
-                    break;
-                }
-                case "ArrowUp": {
-                    e.preventDefault();
-                    let packed = updateVisible();
-                    let vis = packed[0]
-                    let pos = packed[1]
-                    pos = --pos
-                    if (pos < 0) {
-                        pos = (vis.length - 1)
+                    case "ArrowDown": {
+                        e.preventDefault();
+                        let packed = updateVisible();
+                        let vis = packed[0]
+                        let pos = packed[1]
+                        pos = ++pos
+                        if (pos >= vis.length) {
+                            pos = 0
+                        }
+                        makeActive(vis[pos]);
+                        scrollList('down', vis[pos]);
+                        break;
                     }
-                    makeActive(vis[pos]);
-                    scrollList('up', vis[pos]);
-                    break;
-                }
+                    case "ArrowUp": {
+                        e.preventDefault();
+                        let packed = updateVisible();
+                        let vis = packed[0]
+                        let pos = packed[1]
+                        pos = --pos
+                        if (pos < 0) {
+                            pos = (vis.length - 1)
+                        }
+                        makeActive(vis[pos]);
+                        scrollList('up', vis[pos]);
+                        break;
+                    }
                 }
             });
             search.addEventListener("keyup", (e) => {
                 switch (e.key) {
-                case "Enter": {
-                    const act = document.querySelector("#kes-omni-list li.kes-subs-active")
-                    const dest = act.textContent
-                    window.location = `https://${hostname}/m/${dest}`
-                    break;
-                }
-                case "ArrowUp": {
-                    e.preventDefault();
-                    break;
-                }
-                case "ArrowDown": {
-                    break;
-                }
-                case code: {
-                    break;
-                }
-                default: {
-                    const visi = []
-                    const filter = e.target.value
-                    const parEl = e.target.parentElement
-                    const visiEl = parEl.querySelectorAll('li')
-                    for (let i = 0; i < visiEl.length; i++) {
-                        let t = visiEl[i].textContent
-                        if (t.toLowerCase().indexOf(filter) > -1) {
-                            visi.push(visiEl[i])
-                            visiEl[i].style.display = "";
+                    case "Enter": {
+                        const act = document.querySelector("#kes-omni-list li.kes-subs-active")
+                        const dest = act.textContent
+                        window.location = `https://${hostname}/m/${dest}`
+                        break;
+                    }
+                    case "ArrowUp": {
+                        e.preventDefault();
+                        break;
+                    }
+                    case "ArrowDown": {
+                        break;
+                    }
+                    case code: {
+                        break;
+                    }
+                    default: {
+                        const visi = []
+                        const filter = e.target.value
+                        const parEl = e.target.parentElement
+                        const visiEl = parEl.querySelectorAll('li')
+                        for (let i = 0; i < visiEl.length; i++) {
+                            let t = visiEl[i].textContent
+                            if (t.toLowerCase().indexOf(filter) > -1) {
+                                visi.push(visiEl[i])
+                                visiEl[i].style.display = "";
+                            } else {
+                                visiEl[i].style.display= "none";
+                                makeInactive(visiEl[i])
+                            }
+                        }
+                        for (let k = 0; k < visi.length; ++k) {
+                            if (k === 0) {
+                                makeActive(visi[k])
+                            } else {
+                                makeInactive(visi[k])
+                            }
+                        }
+                        const el = document.querySelector('#kes-omni-counter')
+                        if (filter === "") {
+                            updateCounter(el,0,visiEl.length)
                         } else {
-                            visiEl[i].style.display= "none";
-                            makeInactive(visiEl[i])
+                            updateCounter(el, visi.length, visiEl.length);
                         }
                     }
-                    for (let k = 0; k < visi.length; ++k) {
-                        if (k === 0) {
-                            makeActive(visi[k])
-                        } else {
-                            makeInactive(visi[k])
-                        }
-                    }
-                    const el = document.querySelector('#kes-omni-counter')
-                    if (filter === "") {
-                        updateCounter(el,0,visiEl.length)
-                    } else {
-                        updateCounter(el, visi.length, visiEl.length);
-                    }
-                }
                 }
             });
 

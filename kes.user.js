@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      3.2.2-beta.7
+// @version      4.2.0-beta.17
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -28,63 +28,26 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/safegm.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/helpers/kbin-mod-options.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/kbin-mod-options.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/funcs.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/adjust/adjust.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/alpha-sort-subs/alpha-sort-subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/always-more/always-more.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/clarify-recipient/clarify-recipient.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/code-highlighting/code-highlighting.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/dropdown/dropdown.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/easy-emoticon/easy-emoticon.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/expand-posts/expand-posts.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/fix-codeblocks/fix-codeblocks.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-downvotes/hide-downvotes.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-logo/hide-logo.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-posts/hide-posts.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-reputation/hide-reputation.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-sidebar/hide-sidebar.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-thumbs/hide-thumbs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hide-upvotes/hide-upvotes.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/hover-indicator/hover-indicator.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/improved-collapsible-comments/improved-collapsible-comments.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/kbin-federation-awareness/kbin-federation-awareness.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/label/label.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mag-instance-names/mag-instance-names.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mail/mail.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/mobile-cleanup/mobile-cleanup.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/move-federation-warning/move-federation-warning.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/nav-icons/nav-icons.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/notifications-panel/notifications-panel.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/omni/omni.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/rearrange/rearrange.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/report-bug/report-bug.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/resize-text/resize-text.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/softblock/softblock.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/subs/subs.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/thread-checkmarks/thread-checkmarks.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/thread-delta/thread-delta.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/timestamp/timestamp.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/unblur/unblur.user.js
-// @require      https://github.com/aclist/kbin-kes/raw/testing/mods/user-instance-names/user-instance-names.user.js
-// @resource     kes_layout https://github.com/aclist/kbin-kes/raw/testing/helpers/ui.json
-// @resource     kes_json https://github.com/aclist/kbin-kes/raw/testing/helpers/manifest.json
-// @resource     kes_css https://github.com/aclist/kbin-kes/raw/testing/helpers/kes.css
-// @downloadURL  https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
-// @updateURL    https://github.com/aclist/kbin-kes/raw/testing/kes.user.js
+// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json
+// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/manifest.json
+// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/kes.css
+// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
+// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-/* global addMail, adjustSite, alphaSortInit, bugReportInit, checksInit, clarifyRecipientInit, dropdownEntry, easyEmoticon, expandPostsInit, fixLemmyCodeblocks, hideDownvotes, hidePostsInit, hideReputation, hideSidebar, hideThumbs, hideUpvotes, hoverIndicator, initCodeHighlights, initCollapsibleComments, initKFA, initMags, labelOp, magInstanceEntry, mobileHideInit, moreInit, moveFederationWarningEntry, navbarIcons, notificationsPanel, omniInit, rearrangeInit, softBlockInit, textResize, threadDeltaInit, toggleLogo, unblurInit, updateTime, userInstanceEntry, safeGM, getHex */
-
 const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
+const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/"
 const branch = "testing"
 const helpersPath = "helpers/"
-const branchPath = repositoryURL + "raw/" + branch + "/"
+const branchPath = rawURL + branch + "/"
 const versionFile = branchPath + "VERSION";
 const updateURL = branchPath + "kes.user.js";
 const bugURL = repositoryURL + "issues"
@@ -96,46 +59,6 @@ const magURL = "https://kbin.social/m/enhancement"
 const manifest = branchPath + helpersPath + "manifest.json"
 const cssURL = branchPath + helpersPath + "kes.css"
 const layoutURL = branchPath + helpersPath + "ui.json"
-
-const funcObj = {
-    addMail: addMail,
-    adjustSite: adjustSite,
-    alphaSortInit: alphaSortInit,
-    bugReportInit: bugReportInit,
-    checksInit: checksInit,
-    clarifyRecipientInit: clarifyRecipientInit,
-    dropdownEntry: dropdownEntry,
-    easyEmoticon: easyEmoticon,
-    expandPostsInit: expandPostsInit,
-    fixLemmyCodeblocks: fixLemmyCodeblocks,
-    hideDownvotes: hideDownvotes,
-    hidePostsInit: hidePostsInit,
-    hideReputation: hideReputation,
-    hideSidebar: hideSidebar,
-    hideThumbs: hideThumbs,
-    hideUpvotes: hideUpvotes,
-    hoverIndicator: hoverIndicator,
-    initCodeHighlights: initCodeHighlights,
-    initCollapsibleComments: initCollapsibleComments,
-    initKFA: initKFA,
-    initMags: initMags,
-    labelOp: labelOp,
-    magInstanceEntry: magInstanceEntry,
-    mobileHideInit: mobileHideInit,
-    moreInit: moreInit,
-    moveFederationWarningEntry: moveFederationWarningEntry,
-    navbarIcons: navbarIcons,
-    notificationsPanel: notificationsPanel,
-    omniInit: omniInit,
-    rearrangeInit: rearrangeInit,
-    softBlockInit: softBlockInit,
-    textResize: textResize,
-    threadDeltaInit: threadDeltaInit,
-    toggleLogo: toggleLogo,
-    unblurInit: unblurInit,
-    updateTime: updateTime,
-    userInstanceEntry: userInstanceEntry
-};
 //END AUTO MASTHEAD
 
 async function checkUpdates (response) {
@@ -215,7 +138,12 @@ function validateData (rawCSS, rawJSON, rawLayout, isNew) {
         document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
     } else {
         safeGM("addStyle", rawCSS);
-        const json = JSON.parse(rawJSON);
+        const j = JSON.parse(rawJSON);
+        const json = j.sort( function ( a, b ) {
+            a = a.label.toLowerCase();
+            b = b.label.toLowerCase();
+            return a < b ? -1 : a > b ? 1 : 0;
+        });
         const layoutArr = JSON.parse(rawLayout);
 
         constructMenu(json, layoutArr, isNew);
@@ -262,7 +190,7 @@ function constructMenu (json, layoutArr, isNew) {
         return kesPanel
     }
 
-    kesPanel = injectSettingsButton(layoutArr, isNew)
+    injectSettingsButton(layoutArr, isNew)
 
     var keyPressed = {};
     document.addEventListener('keydown', function (e) {
@@ -338,6 +266,20 @@ function constructMenu (json, layoutArr, isNew) {
         let modsHR = " (" + activeMods + "/" + totalMods + ")"
         return modsHR
     }
+    function getComputedFontSize (string) {
+        if (typeof string === 'number') return string
+        if (isNaN(parseFloat(string)) === false) {
+            return parseFloat(string)
+        }
+        const el = document.querySelector(string)
+        if (!el) {
+            return null
+        }
+        const fontsize = document.defaultView.getComputedStyle(el).fontSize
+        let px = fontsize.split('px')[0]
+        px = parseFloat(px)
+        return px
+    }
 
     function showSettingsModal () {
         const settings = getSettings();
@@ -396,6 +338,7 @@ function constructMenu (json, layoutArr, isNew) {
         headerSearchButton.addEventListener('click', () => {
             const searchDialog = document.querySelector('#kes-search-dialog');
             searchDialog.showModal();
+            document.querySelector('.kes-search-field').focus();
         });
 
 
@@ -575,199 +518,219 @@ function constructMenu (json, layoutArr, isNew) {
                         label.innerText = json[it].fields[i].label;
                         hBox.appendChild(label);
                     }
-                    if (!modSettings[key]) {
+                    if (modSettings[key] === undefined) {
                         modSettings[key] = initial;
                         saveModSettings(modSettings, ns);
                     }
                     switch (fieldType) {
-                    case "range": {
-                        const range = document.createElement('input');
-                        range.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
-                            range.setAttribute("value", initial);
-                        } else {
-                            range.setAttribute("value", modSettings[key])
-                        }
-                        range.setAttribute("kes-iter", it);
-                        range.setAttribute("kes-key", key);
-                        range.setAttribute('min', json[it].fields[i].min);
-                        range.setAttribute('max', json[it].fields[i].max);
-                        if (json[it].fields[i].step) {
-                            range.setAttribute('step', json[it].fields[i].step);
-                        }
-                        if (json[it].fields[i].show_value) {
-                        //TODO: value should always be visible
-                            const rangeDiv = document.createElement('div');
-                            range.setAttribute('oninput', key + '.innerText = this.value');
-                            range.style.verticalAlign = 'middle';
-                            rangeDiv.appendChild(range);
-                            const rangeValue = document.createElement('label');
-                            rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
-                            rangeValue.id = key;
-                            rangeValue.for = key;
-                            if (!modSettings[key]) {
-                                rangeValue.innerText = initial;
+                        case "range": {
+                            const range = document.createElement('input');
+                            range.setAttribute("type", fieldType);
+                            if (modSettings[key] === undefined) {
+                                range.setAttribute("value", initial);
                             } else {
-                                rangeValue.innerText = modSettings[key];
+                                range.setAttribute("value", modSettings[key])
                             }
-                            rangeDiv.appendChild(rangeValue);
-                            hBox.appendChild(rangeDiv);
-                        } else {
-                            hBox.appendChild(range);
-                        }
-                        hBox.appendChild(br);
-                        break;
-                    }
-                    case "reset": {
-                        const resetField = document.createElement('input');
-                        resetField.setAttribute("type",fieldType);
-                        resetField.addEventListener('click', ()=> {
-                            for (let j = 0; j < json[it].catch_reset.length; ++j) {
-                                let fieldToReset = json[it].catch_reset[j];
-                                let resetClassName = `.kes-settings-modal-helpbox input[kes-key="${fieldToReset}"]`
-                                let found = document.querySelector(resetClassName)
-                                let matchKey = found.getAttribute("kes-key")
-                                for (let k = 0 ; k < json[it].fields.length; ++k) {
-                                    if(json[it].fields[k].key === matchKey) {
-                                        let initial = json[it].fields[k].initial
-                                        if (json[it].fields[k].type === "color") {
-                                            initial = getHex(initial);
-                                        }
-                                        found.setAttribute("value",initial);
-                                        found.value = initial;
-                                    }
+                            range.setAttribute("kes-iter", it);
+                            range.setAttribute("kes-key", key);
+                            range.setAttribute('min', json[it].fields[i].min);
+                            range.setAttribute('max', json[it].fields[i].max);
+                            if (json[it].fields[i].step) {
+                                range.setAttribute('step', json[it].fields[i].step);
+                            }
+                            if (json[it].fields[i].show_value) {
+                                //TODO: value should always be visible
+                                const rangeDiv = document.createElement('div');
+                                range.setAttribute('oninput', key + '.innerText = this.value');
+                                range.style.verticalAlign = 'middle';
+                                rangeDiv.appendChild(range);
+                                const rangeValue = document.createElement('label');
+                                rangeValue.setAttribute('style', 'display: inline-block; vertical-align: middle; margin-left: 1em;');
+                                rangeValue.id = key;
+                                rangeValue.for = key;
+                                if (modSettings[key] === undefined) {
+                                    rangeValue.innerText = initial;
+                                } else {
+                                    rangeValue.innerText = modSettings[key];
                                 }
-                                updateState(found);
+                                rangeDiv.appendChild(rangeValue);
+                                hBox.appendChild(rangeDiv);
+                            } else {
+                                hBox.appendChild(range);
                             }
-                        });
-                        hBox.appendChild(resetField)
-                        hBox.appendChild(br)
-                        break;
-                    }
-                    case "color": {
-                        const colorField = document.createElement('input');
-                        let realHex
-                        if (!modSettings[key]) {
-                            realHex = getHex(initial);
-                        } else {
-                            realHex = getHex(modSettings[key])
+                            hBox.appendChild(br);
+                            break;
                         }
-                        colorField.setAttribute("value", realHex);
-                        colorField.setAttribute("type", fieldType);
-                        colorField.setAttribute("kes-iter", it);
-                        colorField.setAttribute("kes-key", key);
-                        //#220: explicit handling for labelOp mod (child inherits 75% opacity of author header)
-                        if (json[it].entrypoint == "labelOp") {
-                            colorField.className = "kes-dimmed-colorpicker";
+                        case "reset": {
+                            const resetField = document.createElement('input');
+                            resetField.setAttribute("type",fieldType);
+                            resetField.addEventListener('click', ()=> {
+                                for (let j = 0; j < json[it].catch_reset.length; ++j) {
+                                    let fieldToReset = json[it].catch_reset[j];
+                                    let resetClassName = `.kes-settings-modal-helpbox input[kes-key="${fieldToReset}"]`
+                                    let found = document.querySelector(resetClassName)
+                                    let matchKey = found.getAttribute("kes-key")
+                                    for (let k = 0 ; k < json[it].fields.length; ++k) {
+                                        if(json[it].fields[k].key === matchKey) {
+                                            let initial = json[it].fields[k].initial
+                                            if (json[it].fields[k].type === "color") {
+                                                initial = getHex(initial);
+                                            } else if (json[it].fields[k].type === "number") {
+                                                initial = getComputedFontSize(initial)
+                                                if (!initial) {
+                                                    initial = 14
+                                                }
+                                            }
+                                            found.setAttribute("value",initial);
+                                            found.value = initial;
+                                        }
+                                    }
+                                    updateState(found);
+                                }
+                            });
+                            hBox.appendChild(resetField)
+                            hBox.appendChild(br)
+                            break;
                         }
-                        hBox.appendChild(colorField);
-                        hBox.appendChild(br);
-                        break;
-                    }
-                    case "number": {
-                        const numberField = document.createElement('input');
-                        numberField.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
-                            numberField.setAttribute("value", initial);
-                        } else {
-                            numberField.setAttribute("value", modSettings[key])
-                        }
-                        numberField.setAttribute("kes-iter", it);
-                        numberField.setAttribute("kes-key", key);
-                        numberField.setAttribute('min', json[it].fields[i].min);
-                        numberField.setAttribute('max', json[it].fields[i].max);
-                        if (json[it].fields[i].step) {
-                            numberField.setAttribute('step', json[it].fields[i].step);
-                        }
-                        numberField.addEventListener('change', (e)=> {
-                            let numTarg = e.target
-                            numTarg.setAttribute("value",numTarg.value)
-                        });
-                        hBox.appendChild(numberField);
-                        hBox.appendChild(br);
-                        break;
-                    }
-                    case "select": {
-                        const selectField = document.createElement('select');
-                        selectField.setAttribute('name', ns);
-                        selectField.setAttribute("kes-iter", it);
-                        selectField.setAttribute("kes-key", key);
-                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
-                            let opt = document.createElement('option');
-                            opt.setAttribute('value', json[it].fields[i].values[j]);
-                            opt.innerText = json[it].fields[i].values[j];
-                            if (modSettings[key] == json[it].fields[i].values[j]) {
-                                opt.selected = 'selected';
-                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
-                                opt.selected = 'selected'
+                        case "color": {
+                            const colorField = document.createElement('input');
+                            let realHex
+                            if (modSettings[key] === undefined) {
+                                realHex = getHex(initial);
+                            } else {
+                                realHex = getHex(modSettings[key])
                             }
-                            selectField.appendChild(opt);
-                        }
-                        hBox.appendChild(selectField);
-                        hBox.appendChild(br);
-                        break;
-                    }
-                    case "radio": {
-                        const radioDiv = document.createElement('div');
-                        for (let j = 0; j < json[it].fields[i].values.length; ++j) {
-                            const radioField = document.createElement('input');
-                            radioField.setAttribute("type", fieldType);
-                            radioField.setAttribute('name', ns);
-                            radioField.setAttribute('id', "kes-radio-" + j);
-                            radioField.setAttribute("kes-iter", it);
-                            radioField.setAttribute("kes-key", key);
-                            radioField.setAttribute("value", json[it].fields[i].values[j]);
-                            radioField.className = "kes-default-radio";
-                            if (modSettings[key] == json[it].fields[i].values[j]) {
-                                radioField.checked = true;
-                            } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
-                                radioField.checked = true;
+                            colorField.setAttribute("value", realHex);
+                            colorField.setAttribute("type", fieldType);
+                            colorField.setAttribute("kes-iter", it);
+                            colorField.setAttribute("kes-key", key);
+                            //#220: explicit handling for labelOp mod (child inherits 75% opacity of author header)
+                            if (json[it].entrypoint == "labelOp") {
+                                colorField.className = "kes-dimmed-colorpicker";
                             }
-                            let radioLabel = document.createElement('label');
-                            radioLabel.setAttribute('for', "kes-radio-" + j);
-                            radioLabel.className = ("kes-radio-label");
-                            radioLabel.innerText = json[it].fields[i].values[j];
-                            radioDiv.appendChild(radioField);
-                            radioDiv.appendChild(radioLabel);
-                            let br = document.createElement('br');
-                            radioDiv.appendChild(br);
+                            hBox.appendChild(colorField);
+                            hBox.appendChild(br);
+                            break;
                         }
-                        hBox.appendChild(radioDiv);
-                        hBox.appendChild(br);
-                        break;
-                    }
-                    case "checkbox": {
-                        const checkboxLabel = document.createElement('label');
-                        const cfield = document.createElement('input');
-                        cfield.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
-                            cfield.checked = initial
-                        } else {
-                            cfield.checked = modSettings[key]
+                        case "number": {
+                            const numberField = document.createElement('input');
+                            numberField.setAttribute("type", fieldType);
+
+                            let val
+                            let size
+                            if (modSettings[key] === undefined) {
+                                size = getComputedFontSize(initial)
+                                if (!size) {
+                                    val = 14
+                                } else {
+                                    val = size
+                                }
+                            } else {
+                                size = getComputedFontSize(modSettings[key])
+                                if (!size) {
+                                    val = 14
+                                } else {
+                                    val = size
+                                }
+                            }
+                            numberField.setAttribute("value", val)
+
+                            numberField.setAttribute("kes-iter", it);
+                            numberField.setAttribute("kes-key", key);
+                            numberField.setAttribute('min', json[it].fields[i].min);
+                            numberField.setAttribute('max', json[it].fields[i].max);
+                            if (json[it].fields[i].step) {
+                                numberField.setAttribute('step', json[it].fields[i].step);
+                            }
+                            numberField.addEventListener('change', (e)=> {
+                                let numTarg = e.target
+                                numTarg.setAttribute("value",numTarg.value)
+                            });
+                            hBox.appendChild(numberField);
+                            hBox.appendChild(br);
+                            break;
                         }
-                        cfield.setAttribute("kes-iter", it);
-                        cfield.setAttribute("kes-key", key);
-                        cfield.className = "kes-default-checkbox";
-                        checkboxLabel.appendChild(cfield);
-                        let ctext = document.createElement('text')
-                        ctext.innerText = json[it].fields[i].checkbox_label;
-                        checkboxLabel.appendChild(ctext)
-                        hBox.appendChild(checkboxLabel);
-                        break;
-                    }
-                    default: {
-                        const field = document.createElement('input');
-                        field.setAttribute("type", fieldType);
-                        if (!modSettings[key]) {
-                            field.setAttribute("value", initial);
-                        } else {
-                            field.setAttribute("value", modSettings[key])
+                        case "select": {
+                            const selectField = document.createElement('select');
+                            selectField.setAttribute('name', ns);
+                            selectField.setAttribute("kes-iter", it);
+                            selectField.setAttribute("kes-key", key);
+                            for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                                let opt = document.createElement('option');
+                                opt.setAttribute('value', json[it].fields[i].values[j]);
+                                opt.innerText = json[it].fields[i].values[j];
+                                if (modSettings[key] == json[it].fields[i].values[j]) {
+                                    opt.selected = 'selected';
+                                } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                    opt.selected = 'selected'
+                                }
+                                selectField.appendChild(opt);
+                            }
+                            hBox.appendChild(selectField);
+                            hBox.appendChild(br);
+                            break;
                         }
-                        field.setAttribute("kes-iter", it);
-                        field.setAttribute("kes-key", key);
-                        hBox.appendChild(field);
-                        hBox.appendChild(br);
-                    }
+                        case "radio": {
+                            const radioDiv = document.createElement('div');
+                            for (let j = 0; j < json[it].fields[i].values.length; ++j) {
+                                const radioField = document.createElement('input');
+                                radioField.setAttribute("type", fieldType);
+                                radioField.setAttribute('name', ns);
+                                radioField.setAttribute('id', "kes-radio-" + j);
+                                radioField.setAttribute("kes-iter", it);
+                                radioField.setAttribute("kes-key", key);
+                                radioField.setAttribute("value", json[it].fields[i].values[j]);
+                                radioField.className = "kes-default-radio";
+                                if (modSettings[key] == json[it].fields[i].values[j]) {
+                                    radioField.checked = true;
+                                } else if (json[it].fields[i].values[j] == json[it].fields[i].initial) {
+                                    radioField.checked = true;
+                                }
+                                let radioLabel = document.createElement('label');
+                                radioLabel.setAttribute('for', "kes-radio-" + j);
+                                radioLabel.className = ("kes-radio-label");
+                                radioLabel.innerText = json[it].fields[i].values[j];
+                                radioDiv.appendChild(radioField);
+                                radioDiv.appendChild(radioLabel);
+                                let br = document.createElement('br');
+                                radioDiv.appendChild(br);
+                            }
+                            hBox.appendChild(radioDiv);
+                            hBox.appendChild(br);
+                            break;
+                        }
+                        case "checkbox": {
+                            const checkboxLabel = document.createElement('label');
+                            const cfield = document.createElement('input');
+                            cfield.setAttribute("type", fieldType);
+                            if (modSettings[key] === undefined) {
+                                cfield.checked = initial
+                            } else {
+                                cfield.checked = modSettings[key]
+                            }
+                            cfield.setAttribute("kes-iter", it);
+                            cfield.setAttribute("kes-key", key);
+                            cfield.className = "kes-default-checkbox";
+                            checkboxLabel.appendChild(cfield);
+                            let ctext = document.createElement('text')
+                            ctext.innerText = json[it].fields[i].checkbox_label;
+                            checkboxLabel.appendChild(ctext)
+                            hBox.appendChild(checkboxLabel);
+                            break;
+                        }
+                        default: {
+                            const field = document.createElement('input');
+                            field.setAttribute("type", fieldType);
+                            if (modSettings[key] === undefined) {
+                                field.setAttribute("value", initial);
+                            } else {
+                                field.setAttribute("value", modSettings[key])
+                            }
+                            field.setAttribute("kes-iter", it);
+                            field.setAttribute("kes-key", key);
+                            hBox.appendChild(field);
+                            hBox.appendChild(br);
+                        }
                     }
                 }
             }
@@ -899,7 +862,7 @@ function constructMenu (json, layoutArr, isNew) {
             const names = parseNamespaces();
             const keys = Object.keys(contents);
             cleanNamespaces();
-            for(i = 0 ; i < keys.length ; ++i) {
+            for(let i = 0 ; i < keys.length ; ++i) {
                 if(keys[i] === "kes-settings" || names.includes(keys[i])) {
                     let namespace = keys[i];
                     let settings = contents[namespace];
@@ -959,10 +922,11 @@ function constructMenu (json, layoutArr, isNew) {
         searchNativeModal.innerHTML = `
         <form method="dialog">
         <menu class="kes-search-menu">
-        <input type="text" class="kes-search-field">
-          <span class="kes-search-text">Type enter to submit search</span>
-          <button class="kes-search-hidden" type="submit" value="submit">Submit</button>
-          <button class="kes-search-closebutton" type="submit" value="close">Close</button>
+            <input class="kes-search-hidden" type="submit" value="submit" hidden>
+            <button class="kes-search-new" type="submit" value="list-new">Show add-ons new to v${getMajorMinor(version)}</button>
+            <input type="text" class="kes-search-field">
+            <span class="kes-search-text">Type enter to submit search</span>
+            <button class="kes-search-closebutton" type="submit" value="close">Close</button>
         </menu>
       </form>
       `
@@ -983,18 +947,18 @@ function constructMenu (json, layoutArr, isNew) {
             let upload
             const dialog = document.querySelector('#kes-backup-dialog');
             switch (dialog.returnValue) {
-            case "import":
-                upload = document.getElementById("kes-import-dialog");
-                upload.click();
-                break;
-            case "export":
-                exportSettings();
-                break;
-            case "reset":
-                resetAll();
-                break;
-            case "close":
-                break;
+                case "import":
+                    upload = document.getElementById("kes-import-dialog");
+                    upload.click();
+                    break;
+                case "export":
+                    exportSettings();
+                    break;
+                case "reset":
+                    resetAll();
+                    break;
+                case "close":
+                    break;
             }
         });
 
@@ -1018,16 +982,37 @@ function constructMenu (json, layoutArr, isNew) {
             });
         });
 
-        searchNativeModal.addEventListener('close', () => {
-            const outerDialog = document.querySelector('#kes-search-dialog');
-            const innerDialog = document.querySelector('.kes-search-field');
-            const query = innerDialog.value;
-            innerDialog.value = "";
-            if (outerDialog.returnValue === "close") {
+        function getMajorMinor (version) {
+            const d = version.split('.')
+            const major = d[0]
+            const minor = d[1]
+            return `${major}.${minor}`
+        }
+        function generateSearchResults (resultsMenu, record, label) {
+            const page = record.page
+            const br = document.createElement('br')
+            const r = document.createElement('button')
+            r.type = "submit";
+            r.className = "kes-results-fullbutton";
+            r.value = page + "@" + label;
+            r.innerText = label;
+            resultsMenu.appendChild(r);
+            resultsMenu.appendChild(br);
+        }
+        searchNativeModal.addEventListener('submit', (e) => {
+            const rval = e.submitter.value
+            let query
+            if (rval === "close") {
                 return
             }
-            if (query === "") {
-                return
+            if (rval === "list-new") {
+                query = ":new"
+            }
+            if (rval === "submit") {
+                const innerDialog = document.querySelector('.kes-search-field')
+                query = innerDialog.value
+                innerDialog.value = ""
+                if (query === "") return
             }
             const resultsDialog = document.querySelector('#kes-results-dialog');
             const oldMenu = document.querySelector('.kes-results-menu')
@@ -1039,38 +1024,27 @@ function constructMenu (json, layoutArr, isNew) {
             const resultsDialogForm = resultsDialog.querySelector('form');
             resultsDialogForm.appendChild(resultsMenu);
 
-            //TODO: alpha sort
-            //:isnew
-            //if (json[i].newsince == version)
             let label
-            for (i = 0; i < json.length; ++i) {
+            for (let i = 0; i < json.length; ++i) {
                 const origLabel = json[i].label
                 const labelLower = origLabel.toLowerCase();
                 const queryLower = query.toLowerCase();
-                if (query.includes(":recurs")) {
-                    if (json[i].recurs) {
+                if (query === ":recurs") {
+                    if (!json[i].recurs) continue
+                    label = json[i].label;
+                    generateSearchResults(resultsMenu, json[i], label)
+                } else if (query === ":new") {
+                    if (json[i].new_since === getMajorMinor(version)) {
                         label = json[i].label;
-                        const page = json[i].page
-                        const br = document.createElement('br')
-                        const r = document.createElement('button')
-                        r.type = "submit";
-                        r.className = "kes-results-fullbutton";
-                        r.value = page + "@" + label;
-                        r.innerText = label;
-                        resultsMenu.appendChild(r);
-                        resultsMenu.appendChild(br);
+                        generateSearchResults(resultsMenu, json[i], label)
                     }
+                } else if (query === ":login") {
+                    if (!json[i].login) continue
+                    label = json[i].label;
+                    generateSearchResults(resultsMenu, json[i], label)
                 } else if(labelLower.includes(queryLower)) {
                     label = json[i].label;
-                    const page = json[i].page
-                    const br = document.createElement('br')
-                    const r = document.createElement('button')
-                    r.type = "submit";
-                    r.className = "kes-results-fullbutton";
-                    r.value = page + "@" + label;
-                    r.innerText = label;
-                    resultsMenu.appendChild(r);
-                    resultsMenu.appendChild(br);
+                    generateSearchResults(resultsMenu, json[i], label)
                 }
             }
             if (label === undefined) {
@@ -1148,9 +1122,11 @@ function constructMenu (json, layoutArr, isNew) {
         bodyHolder.appendChild(kesUl);
         document.body.appendChild(modal);
         document.querySelector('.kes-settings-modal-sidebar ul').addEventListener("click", (e) => {
+            if (e.target.className != "kes-tab-link") return
             openTab(e.target.outerText);
         });
         document.querySelector('.kes-list').addEventListener("click", (e) => {
+            if (e.target.className != "kes-option") return
             openHelpBox(e.target.getAttribute('kes-iter'));
         });
         document.querySelector('.kes-settings-modal-helpbox').addEventListener("input", (e) => {
@@ -1267,21 +1243,117 @@ function constructMenu (json, layoutArr, isNew) {
 
         updateCrumbs();
         //necessarily reload the page when verbose timestamps are toggled off
-        //otherwise, triggers a loop of mutations because reverting timeago mutates the watched node
-        if ((func === "updateTime") && (state === false)) {
+        //otherwise, triggers a loop of mutations because reverting timeago mutates watched node
+        if ((func === "timestamp") && (state === false)) {
             window.location.reload();
         } else {
-            applySettings(func);
+            toggleSettings(func);
         }
     }
 
-    function applySettings (entry,mutation) {
+    function toggleDependencies (entry, state) {
+        let object
+        let depends
+        let entrypoint
+
+        for (let i = 0; i < json.length; ++i) {
+            if(json[i].entrypoint === entry) {
+                object = json[i]
+            }
+        }
+        if (!object.depends_on && !object.depends_off) return
+        if (state == true && !object.depends_on) return
+        if (state == false && !object.depends_off) return
+
+        if (state === true) {
+            depends = object.depends_on
+        } else {
+            depends = object.depends_off
+        }
+
+        const settings = getSettings();
+        for (let i = 0; i < depends.length; ++i) {
+            entrypoint = depends[i]
+            settings[entrypoint] = state
+            saveSettings(settings);
+            funcObj[entrypoint](state);
+        }
+    }
+    function toggleSettings (entry) {
+        const settings = getSettings()
+        try {
+            if (settings[entry] == true) {
+                toggleDependencies(entry, true)
+                funcObj[entry](true);
+            } else {
+                toggleDependencies(entry, false)
+                funcObj[entry](false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    function legacyMigration (entry) {
+        const settings = getSettings();
+        const legacyEntrypoints = {
+            "mail": "addMail",
+            "subs": "initMags",
+            "adjust": "adjustSite",
+            "alpha_sort_subs": "alphaSortInit",
+            "alt_all_content_access": "altAllContentAccess",
+            "always_more": "moreInit",
+            "clarify_recipient": "clarifyRecipientInit",
+            "improved_collapsible_comments": "initCollapsibleComments",
+            "resize_text": "textResize",
+            "dropdown": "dropdownEntry",
+            "expand_posts": "expandPostsInit",
+            "fix_codeblocks": "fixLemmyCodeblocks",
+            "hide_downvotes": "hideDownvotes",
+            "hide_reputation": "hideReputation",
+            "hide_upvotes": "hideUpvotes",
+            "hide_sidebar": "hideSidebar",
+            "hide_thumbs": "hideThumbs",
+            "hover_indicator": "hoverIndicator",
+            "easy_emoticon": "easyEmoticon",
+            "label": "labelOp",
+            "mag_instance_names": "magInstanceEntry",
+            "mobile_cleanup": "mobileHideInit",
+            "move_federation_warning": "moveFederationWarningEntry",
+            "nav_icons": "navbarIcons",
+            "notifications_panel": "notificationsPanel",
+            "hide_posts": "hidePostsInit",
+            "rearrange": "rearrangeInit",
+            "thread_delta": "threadDeltaInit",
+            "softblock": "softBlockInit",
+            "report_bug": "bugReportInit",
+            "omni": "omniInit",
+            "thread_checkmarks": "checksInit",
+            "hide_logo": "toggleLogo",
+            "unblur": "unblurInit",
+            "user_instance_names": "userInstanceEntry",
+            "timestamp": "updateTime",
+            "code_highlighting": "initCodeHighlights",
+            "kbin_federation_awareness": "initKFA"
+        }
+        const legacyMapping = legacyEntrypoints[entry]
+        try {
+            if (settings[legacyMapping] == true) {
+                settings[entry] = true;
+                delete settings[legacyMapping];
+                saveSettings(settings);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+    function applySettings (entry, mutation) {
+        legacyMigration(entry);
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
+                toggleDependencies(entry, true)
                 funcObj[entry](true, mutation);
-            } else {
-                funcObj[entry](false);
             }
         } catch (error) {
             console.log(error);
@@ -1318,6 +1390,9 @@ function constructMenu (json, layoutArr, isNew) {
 
     function init () {
         for (let i = 0; i < json.length; ++i) {
+            if ((json[i].login) && (!is_logged_in())) {
+                continue
+            }
             applySettings(json[i].entrypoint);
         }
     }
@@ -1341,7 +1416,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //reapplies verbose timestamps
                 //see also updateState()
                 if (mutation.target.textContent.indexOf("ago") >= 0) {
-                    applySettings("updateTime");
+                    applySettings("timestamp");
                 }
                 //triggering on the first mutation is sufficient to apply to all timestamps
                 return

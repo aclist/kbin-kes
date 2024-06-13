@@ -1,6 +1,5 @@
-const ns = 'timestamp'
-
-function updateTime (toggle) {
+function updateTime (toggle) { // eslint-disable-line no-unused-vars
+    const ns = 'timestamp'
     let times = document.querySelectorAll('.timeago')
     const settings = getModSettings(ns);
     if (toggle) {
@@ -20,14 +19,14 @@ function updateTime (toggle) {
             let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
             let offset = "offset";
             switch (settings[offset]) {
-            case "UTC":
-                time.innerText = cleanISOTime;
-                break;
-            case "Local time":
-                time.innerText = localAsISO;
-                break;
-            default:
-                break;
+                case "UTC":
+                    time.innerText = cleanISOTime;
+                    break;
+                case "Local time":
+                    time.innerText = localAsISO;
+                    break;
+                default:
+                    break;
             }
         });
     } else {

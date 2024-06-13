@@ -1,9 +1,119 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 4.2.0
+### Added
+- Collapse pinned posts (shazbot): hides pinned posts on the thread index and provides a clickable area to reopen them
+- Added isThread() function to API: returns true if the current window location is a thread inside of a magazine
+
+### Changed
+- Filter advertisements: updated spam filter to v2 logic
+
+## 4.1.1
+### Fixed
+- Fixed an issue where the tappable navbar created when using the "Show thread/microblog delta since last visit" would not be removed when toggling the add-on off
+
+## 4.1.0
+### Added
+- Filter advertisements (shazbot): removes unsolicited advertisements and blocks the poster
+
+### Fixed
+
+- Move federation warning: ensure that the add-on also applies to pages on the All Content area (kbin only)
+- Remove extraneous double border on KES icon in navbar when hovering
+- Ensure that kbin navbar accommodates extra width when KES icons are added
+- Resize text: prevent this feature from causing the KES modal to become opaque when the "Collapsible Comments" feature is also enabled
+
+### Changed
+- Updated ESLint rules
+- Updated build scripts
+- API: made getInstanceType() logic more granular
+
+## 4.0.0
+### Added
+- Unsanitize CSS (Pamasich): unsanitizes custom CSS on magazines to restore working functionality of custom styles
+- Fix pagination arrows (Pamasich): fixes broken pagination arrows when navigating between pages by restoring functionality to the back/forward buttons
+- Added a "Fixes" category to the sidebar that holds add-ons responsible for patches, fixes, and connecting glue
+
+### Changed
+- Mail label: this add-on was split into two, with the "Add submission prefix" add-on being added
+- Code syntax highlighting: now treats "Repair codeblocks" as a necessary dependency, so the act of turning on "Code syntax highlighting" will perforce turn on "Repair codeblocks"
+- Move federation warning to sidebar: updated this add-on to also support profile pages
+- Repair codeblocks: now treats "Code syntax highlighting" as dependent, so the act of turning off "Repair codeblocks" will perforce turn off "Code syntax highlighting"
+- Resize text: the add-on now attempts to parse the current point size of elements on the page, rather than defaulting to 14pt
+- Resize text: the add-on now gracefully toggles off without needing to reload the page
+- Resize text: consolidated resize logic into a single stylesheet and dropped extraneous fields
+
+### Fixed
+- Audited all add-ons and added compatibility with mbin instances
+- Releasing a click action on the KES sidebar while multiple pages were highlighted could break the menu
+- GitHub's redirection and caching mechanism could cause the contents of the KES menu to appear garbled
+- Add mail: fixed an issue where mail links would appear next to your own username
+- Clarify recipient: recipient label now appears on the direct message page, not only the inbox reply page
+- Code syntax highlighting: restored a missing divider line between the header and code block
+- Code syntax highlighting: unintended interaction with "Collapsible comments" add-on was causing header icons to be unclickable
+- Hover indicator: fixed an issue where the indicator would not appear unless the add-on's color field had been explicitly interacted with before
+- Magazine instance names: disabling this add-on would remove checkmarks created by the "Checkmark on subbed mags" add-on
+- Notification panel: fixed an issue where settings applied to the panel would sometimes leak into other menus
+- Report bug button: this add-on now also applies to the original post in a thread, but not on crossposts
+
+### API
+- Added the keys depends_on and depends_off to manifest to support add-on dependencies
+- Consolidated add-ons into global funcs.js file to reduce repository queries
+- Added function concatenation script and ephemeral gist generator to build tools
+- Added KES internal function getComputedFontSize() to retrieve rendered point size from element IDs
+- Added public utility function getInstanceName() to test whether an instance is of the type kbin or mbin
+
+## 3.3.0
+### Added
+- Alternative access to All Content (Pamasich): makes the magazine title in the navbar link to the All Content view and removes the dedicated button
+- Show new features added in current release: click the button on the search menu to list new add-ons incorporated into KES since the current minor version. E.g., if you are on version 3.2.x, this button
+  will show all relevant add-ons since 3.2.0. Under the hood, this button performs a query using the `:new` keyword.
+- Search keywords: added a set of reserved keywords that can be used to search for add-ons matching certain criteria: `:new`, `:recurs`, and `:login`. These respectively will return a list of add-ons
+  that are a) new to the current minor version; b) recur each time new content is updated on the page (comments, replies, infinite scrolling, etc.); and c) requires logging in to use.
+
+### Changed
+- Alpha sort add-ons in pages: the pages listing add-ons are now sorted alphabetically by add-on title
+- Start search field focused: when opening the search menu, the text field is automatically focused
+
+### Fixed
+- Prevent add-ons from applying settings in some cases if the add-on is toggled off
+- Hide logo: added support for Mbin instances
+- Fixed cases where add-ons providing sub-settings initially set to true revert to false
+- Fixed an issue where changes to kbin's styling caused extraneous checkmarks to be drawn next to checkboxes
+
+## 3.2.3
+### Fixed
+- Expand post text in thread index: fixed another issue with expand button becoming hidden after collapsing text
+
+## 3.2.2
+### Fixed
+- Expand post text in thread index: fixed an issue with extraneous newlines being inserted before and after a post body when fetching the remote text.
+- Collapsible comments: fixed issues with nested thread style failing to be removed when toggling off
+- Collapsible comments: fixed an issue with expand text buttons not working when nested comments are enabled
+- Collapsible comments: removed rounded corners from avatars, as this was undocumented/unspecified by the add-on
+
+### Added
+- Expand post text in thread index: added the ability to set custom text labels for the Expand, Collapse, and Loading states.
+
+## 3.2.1
+### Fixed
+- Expand post text in thread index: fixed an issue with expand button becoming hidden after collapsing text
+
+## 3.2.0
+### Added
+- Turbo mode support: propagate changes on both turbo and normal mode
+- Sponsor button: jumps to GitHub Sponsors page
+- Expand post text in thread index (shazbot): open the full body of a thread's OP without leaving the thread index
+- Show thread/microblog delta since last visit (shazbot): adds an informational panel to the top of the page that prints post deltas
+
+### Fixed
+- Hotfix for 'Repair Lemmy code blocks' add-on
+- Hotfix for mods failing to revert the background appearance of some pages (login, etc.)
+
 ## 3.1.0
 ### Added
-- Sanitize code blocks federated from other instances (@Pamasich)
+- Sanitize code blocks federated from other instances (Pamasich)
 ### Fixed
 - Restore browser default appearance of checkboxes and radio fields
 - Label OP: properly show expected opacity (75%) of final label due to inherited opacity of parent element

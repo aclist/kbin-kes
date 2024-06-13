@@ -1,0 +1,11 @@
+{
+  "name": "Hide Downvotes",
+  "author": "artillect",
+  "version": "0.2",
+  "label": "Hide reduces",
+  "login": false,
+  "recurs": true,
+  "desc": "Hide reduces (downvotes) on threads, posts, and comments",
+  "entrypoint": "hide_downvotes",
+  "page": "general"
+}

@@ -22,12 +22,26 @@ try {
 } catch (error) {
     console.log(error);
 }
+
+function getInstanceType() {
+    const links = document.querySelectorAll('.kbin-promo .stretched-link');
+
+    for (var i = 0, l = links.length; i < l; i++) {
+        const link = links[i];
+        if (link.href.indexOf("MbinOrg") !== -1) {
+            return "mbin"
+        }
+    }
+    return "kbin"
+}
+
 function addCustomCSS (css, id) {
     const style = document.createElement('style');
     style.id = id;
     style.innerHTML = css;
     document.head.appendChild(style);
 }
+
 function removeCustomCSS (id) {
     const toRemove = document.getElementById(id);
     if (toRemove) {
@@ -36,6 +50,7 @@ function removeCustomCSS (id) {
         return
     }
 }
+
 function getHex (value) {
     let realHex;
     const firstChar = Array.from(value)[0];
@@ -47,6 +62,7 @@ function getHex (value) {
     }
     return realHex;
 }
+
 function genericXMLRequest (url, callback) {
     safeGM("xmlhttpRequest", {
         method: 'GET',
@@ -57,6 +73,30 @@ function genericXMLRequest (url, callback) {
             "Accept": "text/xml"
         }
     });
+}
+
+function isThread () {
+    const url = new URL(window.location).href.split('/')
+    if (url.includes("t")) {
+        return true
+    }
+    return false
+}
+
+function is_logged_in () {
+    const login = document.querySelector('.login .user-name')
+    if (login) {
+        return true
+    }
+    return false
+}
+
+function isProfile () {
+    const url = new URL(window.location).href.split('/')
+    if (url.includes("u")) {
+        return true
+    }
+    return false
 }
 
 window.safeGM = function (func,...args) {
