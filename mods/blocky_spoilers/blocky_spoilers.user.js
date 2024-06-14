@@ -63,7 +63,10 @@ function blockifySpoilers (isActive) { // eslint-disable-line no-unused-vars
         newElement.setAttribute(`data-${markerAttributeNew}`, '');
         spoiler.setAttribute(`data-${markerAttributeOld}`, '');
 
-        context.onclick = () => newElement.classList.toggle(showSpoilerClass);
+        context.onclick = () => {
+            if (getClickEnabled())
+                newElement.classList.toggle(showSpoilerClass);
+        }
     }
 
     function applyCSS () {
