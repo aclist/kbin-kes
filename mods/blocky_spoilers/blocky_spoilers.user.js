@@ -84,6 +84,10 @@ function blockifySpoilers (isActive) { // eslint-disable-line no-unused-vars
 
                 > p {
                     font-size: .8rem;
+
+                    ${getClickEnabled() ? `
+                    cursor: pointer;
+                    ` : ''}
                 }
                 
                 > div {
