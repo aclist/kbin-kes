@@ -1,3 +1,4 @@
+/* globals removeCustomCSS, addCustomCSS */
 /**
  * Spoilers on kbin/mbin are weirdly implemented as <details> elements that are collapsed by default
  * but can be opened up. This isn't really how spoilers are usually done. The usual approach I've
@@ -31,16 +32,6 @@ function blockifySpoilers (isActive) { // eslint-disable-line no-unused-vars
     }
 
     function teardown () {
-        /* TEMPORARY FOR TESTING */
-        function removeCustomCSS (id) {
-            const toRemove = document.getElementById(id);
-            if (toRemove) {
-                document.head.removeChild(toRemove);
-            } else {
-                return
-            }
-        }
-
         removeCustomCSS(cssId);
         document.querySelectorAll(`[data-${markerAttributeNew}]`)
             .forEach((element) => element.remove());
@@ -110,36 +101,17 @@ function blockifySpoilers (isActive) { // eslint-disable-line no-unused-vars
             }
         `;
 
-        /* TEMPORARY FOR TESTING */
-        function addCustomCSS (css, id) {
-            const style = document.createElement('style');
-            style.id = id;
-            style.innerHTML = css;
-            document.head.appendChild(style);
-        }
-        /* TEMPORARY FOR TESTING */
-        function removeCustomCSS (id) {
-            const toRemove = document.getElementById(id);
-            if (toRemove) {
-                document.head.removeChild(toRemove);
-            } else {
-                return
-            }
-        }
-
         removeCustomCSS(cssId);
         addCustomCSS(style, cssId);
     }
 
     /** @returns {boolean} */
     function getHoverEnabled () {
-        return true;
-        //return getModSettings("blocky-spoilers")[`showOnHover`];
+        return getModSettings("blocky-spoilers")[`showOnHover`];
     }
 
     /** @returns {boolean} */
     function getClickEnabled () {
-        return true;
-        //return getModSettings("blocky-spoilers")[`showOnClick`];
+        return getModSettings("blocky-spoilers")[`showOnClick`];
     }
 }
