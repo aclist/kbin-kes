@@ -1,0 +1,27 @@
+{
+    "name": "Old Reddit style spoilers",
+    "namespace": "blocky-spoilers",
+    "author": "Pamasich",
+    "version": "0.1.0",
+    "label": "Alternate spoilers",
+    "desc": "Spoilers on kbin/mbin are implemented as an element that can be collapsed and expanded. This addon is meant for users who prefer spoilers to be obscured rather than hidden entirely, like how they work on Reddit for example.",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "blocky_spoilers",
+    "page": "general",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "showOnHover",
+        "initial": false,
+        "label": "Actions that show the content:",
+        "checkbox_label": "hover"
+      },
+      {
+        "type": "checkbox",
+        "key": "showOnClick",
+        "initial": true,
+        "checkbox_label": "click"
+      }
+    ]
+  }
