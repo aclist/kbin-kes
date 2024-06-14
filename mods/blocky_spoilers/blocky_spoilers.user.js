@@ -63,9 +63,7 @@ function blockifySpoilers (isActive) { // eslint-disable-line no-unused-vars
         newElement.setAttribute(`data-${markerAttributeNew}`, '');
         spoiler.setAttribute(`data-${markerAttributeOld}`, '');
 
-        if (getClickEnabled()) {
-            context.onclick = () => newElement.classList.toggle(showSpoilerClass);
-        }
+        context.onclick = () => newElement.classList.toggle(showSpoilerClass);
     }
 
     function applyCSS () {
@@ -89,10 +87,12 @@ function blockifySpoilers (isActive) { // eslint-disable-line no-unused-vars
                     visibility: hidden;
                 }
 
+                ${getClickEnabled() ? `
                 &.${showSpoilerClass} * {
                     visibility: visible !important;
                 }
-
+                ` : ''}
+                
                 ${getHoverEnabled() ? `
                 &:hover * {
                     visibility: visible !important;
