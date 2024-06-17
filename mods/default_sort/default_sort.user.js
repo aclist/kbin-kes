@@ -94,8 +94,8 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         var currentLink = optionElement.getAttribute('href').replace('#comments', '');
         const parameters = currentLink.match(urlParameterRegex)?.[0];
         if (parameters != undefined) currentLink = currentLink.replace(urlParameterRegex, '');
-
-        const newLink = currentLink + (currentLink == '/' ? '' : '/') + optionTarget + parameters;
+        var newLink = currentLink + (currentLink == '/' ? '' : '/') + optionTarget;
+        newLink = parameters == undefined ? newLink : newLink + parameters;
         optionElement.setAttribute('href', newLink);
     }
 
