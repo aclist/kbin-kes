@@ -19,6 +19,8 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
     };
     /** The attribute used to mark which sort option has been modified. */
     const markerAttribute = "defaultSort_originalPath";
+    /** Regex pattern used to remove or extract the url parameters from a URL. */
+    const urlParameterRegex = /\?.+/;
 
     if (isActive) setup();
     else teardown();
@@ -71,8 +73,10 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      * Checks whether a URL is explicitly sorted. That means the sort option used is 
      * mentioned in the url.
      * @param validOptions {string[]} The options the url should be tested for
+     * @param url {string} The url to check
      */
     function isUrlExplicitlySorted (url, validOptions) {
+        url = url.replace(urlParameterRegex, '');
         return validOptions.some(
             (option) => url.endsWith(`/${option}`) || url.includes(`/${option}/`)
         );
@@ -87,8 +91,11 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      */
     function makeOptionExplicit (optionElement, optionTarget) {
         optionElement.setAttribute(`data-${markerAttribute}`, optionElement.getAttribute('href'));
-        const currentLink = optionElement.getAttribute('href').replace('#comments', '');
-        const newLink = currentLink + (currentLink == '/' ? '' : '/') + optionTarget;
+        var currentLink = optionElement.getAttribute('href').replace('#comments', '');
+        const parameters = currentLink.match(urlParameterRegex)?.[0];
+        if (parameters != undefined) currentLink = currentLink.replace(urlParameterRegex, '');
+
+        const newLink = currentLink + (currentLink == '/' ? '' : '/') + optionTarget + parameters;
         optionElement.setAttribute('href', newLink);
     }
 
@@ -120,7 +127,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         for (var i = 0; i < actualOptions2.length; i++) {
             const actual = actualOptions2[i];
 
-            const url = actual.getAttribute('href');
+            const url = actual.getAttribute('href').replace(urlParameterRegex, '');
             const found = expectedOptions2.find((option) => {
                 return url.endsWith(`/${option}`) || url.includes(`/${option}/`);
             });
@@ -143,7 +150,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      */
     function findOptionByName (options, target) {
         return Array.from(options).find((option) => {
-            const url = option.getAttribute('href');
+            const url = option.getAttribute('href').replace(urlParameterRegex, '');
             return url.endsWith(`/${target}`) || url.includes(`/${target}/`);
         });
     }
