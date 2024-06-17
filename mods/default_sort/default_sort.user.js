@@ -160,7 +160,7 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
      * Will always return THREAD by default if no other page type is found to apply.
      */
     function determinePageType () {
-        const path = window.location.pathname;
+        const path = window.location.pathname.replace(urlParameterRegex, '');
         if (path.includes('/microblog/') || path.endsWith('/microblog')) return pageTypes.MICROBLOG;
         if (path.startsWith('/magazines')) return pageTypes.MAGAZINES;
         if (path.startsWith('/d/') && (path.endsWith('/comments') || path.includes('/comments/')))
