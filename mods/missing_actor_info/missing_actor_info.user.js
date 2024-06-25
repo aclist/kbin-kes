@@ -81,6 +81,38 @@ function missingActorInfo (isActive) { // eslint-disable-line no-unused-vars
      */
     function addControls (parent, pageType) {
         parent.append(buildEditURLUI());
+        const separatedPath = separateResourcePath(window.location.pathname);
+        if (separatedPath.domain != undefined) {
+            // add the buttons for remote actors
+            parent.append(buildSearchButton());
+        } else if (pageType == 'magazine') {
+            parent.append(buildCreateMagazineButton());
+        }
+    }
+
+    /** @returns {HTMLElement} */
+    function buildSearchButton () {
+        /** @type {HTMLAnchorElement} */
+        const goToSearchBtn = create('a');
+        goToSearchBtn.textContent = "Go to Search";
+        goToSearchBtn.className = 'btn btn-link btn__secondary';
+        const path = separateResourcePath(window.location.pathname);
+        goToSearchBtn.href = `/search?q=${path.resource}@${path.domain}`;
+        goToSearchBtn.style.marginTop = '1rem';
+        goToSearchBtn.style.display = 'inline-block';
+        return goToSearchBtn;
+    }
+
+    /** @returns {HTMLElement} */
+    function buildCreateMagazineButton () {
+        /** @type {HTMLAnchorElement} */
+        const createMagBtn = create('a');
+        createMagBtn.textContent = "Create New Magazine";
+        createMagBtn.className = 'btn btn-link btn__secondary';
+        createMagBtn.href = `/newMagazine`;
+        createMagBtn.style.marginTop = '1rem';
+        createMagBtn.style.display = 'inline-block';
+        return createMagBtn;
     }
 
     /** @returns {HTMLElement} @param {'user' | 'magazine'} pageType  */
