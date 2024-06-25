@@ -22,8 +22,7 @@ function missingActorInfo (isActive) { // eslint-disable-line no-unused-vars
         <br/>Please verify you've written their name correctly.
         <br/><br/>
         If you meant to access a remote user, you should append their instance's domain after 
-        the username.<br/><br/>
-        <add form to edit in a domain, and a retry button>
+        the username.
     `;
     const EXPLAIN_LOCAL_MAG = `
         It seems you've tried to access a magazine from this instance, but such a magazine does not 
@@ -32,9 +31,6 @@ function missingActorInfo (isActive) { // eslint-disable-line no-unused-vars
         <br/><br/>
         If you meant to access a remote magazine, you should append its instance's domain after the 
         magazine's name.
-        <br/><br/>
-        <add form to edit in a domain, and a retry button><br/>
-        <add shortcut button to create the magazine>
     `;
     const EXPLAIN_REMOTE = `
         It seems you've tried to access a {page} from {instance}, but that {page} is not known to 
@@ -47,9 +43,6 @@ function missingActorInfo (isActive) { // eslint-disable-line no-unused-vars
         To prompt ${INSTANCE_NAME} to create a {page} page for this URL, search for it on the 
         search page. This URL will then be available within moments.<br/>
         To actually see new posts federated over however, you will need to subscribe to the {page}.
-        <br/><br/>
-        <add shortcut to search the magazine or user><br/>
-        <add link to the remote page>
     `;
     
     if (isActive) setup();
@@ -120,7 +113,14 @@ function missingActorInfo (isActive) { // eslint-disable-line no-unused-vars
         div.style.color = 'inherit';
         div.style.fontSize = 'var(--kbin-body-font-size)';
         div.style.fontWeight = 'var(--kbin-body-font-weight)';
-        div.append("Edit Name & Domain:", create("br"), nameField, "@", domainField, reloadBtn);
+        div.style.marginTop = '3rem';
+        div.append(
+            "Edit User Name & Instance Domain:", 
+            create("br"), 
+            nameField, 
+            "@", 
+            domainField, 
+            reloadBtn);
         return div;
     }
 
