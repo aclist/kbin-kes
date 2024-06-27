@@ -41,7 +41,8 @@ function missingActorInfo (isActive) { // eslint-disable-line no-unused-vars
         ${INSTANCE_NAME} to express interest in this {page}.
         <br/><br/>
         To prompt ${INSTANCE_NAME} to create a {page} page for this URL, search for it on the 
-        search page. This URL will then be available within moments.<br/>
+        search page. This URL will then be available within moments, provided communication
+        between the instances works correctly.<br/>
         To actually see new posts federated over however, you will need to subscribe to the {page}.
     `;
     
