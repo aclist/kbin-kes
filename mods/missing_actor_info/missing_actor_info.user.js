@@ -83,36 +83,59 @@ function missingActorInfo (isActive) { // eslint-disable-line no-unused-vars
         parent.append(buildEditURLUI());
         const separatedPath = separateResourcePath(window.location.pathname);
         if (separatedPath.domain != undefined) {
-            // add the buttons for remote actors
             parent.append(buildSearchButton());
+            (async () => {
+                const btn = await buildOriginalLinkButton();
+                if (btn != undefined) parent.append(btn);
+            })();
         } else if (pageType == 'magazine') {
             parent.append(buildCreateMagazineButton());
         }
     }
 
-    /** @returns {HTMLElement} */
-    function buildSearchButton () {
+    /** @returns {HTMLAnchorElement} */
+    function buildButton (text, link) {
         /** @type {HTMLAnchorElement} */
-        const goToSearchBtn = create('a');
-        goToSearchBtn.textContent = "Go to Search";
-        goToSearchBtn.className = 'btn btn-link btn__secondary';
-        const path = separateResourcePath(window.location.pathname);
-        goToSearchBtn.href = `/search?q=${path.resource}@${path.domain}`;
-        goToSearchBtn.style.marginTop = '1rem';
-        goToSearchBtn.style.display = 'inline-block';
-        return goToSearchBtn;
+        const btn = create('a');
+        btn.textContent = text;
+        btn.className = 'btn btn-link btn__secondary';
+        btn.href = link;
+        btn.style.marginTop = '1rem';
+        btn.style.display = 'inline-block';
+        return btn;
     }
 
-    /** @returns {HTMLElement} */
+    /** @returns {HTMLAnchorElement} */
+    async function buildOriginalLinkButton () {
+        // this function does NOT currently work with Lemmy
+        const btn = buildButton("View on original instance", 'placeholder');
+        const path = separateResourcePath(window.location.pathname);
+        const domain = path.domain;
+        const resourceName = `${path.resource}@${path.domain}`;
+        const url = `https://${domain}/.well-known/webfinger?resource=${resourceName}`;
+        const headers = new Headers({ 'Accept': 'application/activity+json' });
+
+        const response = await fetch(url, { method: 'GET', headers });
+        if (response.ok == false) return undefined;
+        const data = await response.json();
+        data['links'].forEach((link) => {
+            if (link['rel'] == 'self') {
+                btn.href = link['href'];
+                return;
+            }
+        });
+        return btn;
+    }
+
+    /** @returns {HTMLAnchorElement} */
+    function buildSearchButton () {
+        const path = separateResourcePath(window.location.pathname);
+        return buildButton("Go to search", `/search?q=${path.resource}@${path.domain}`);
+    }
+
+    /** @returns {HTMLAnchorElement} */
     function buildCreateMagazineButton () {
-        /** @type {HTMLAnchorElement} */
-        const createMagBtn = create('a');
-        createMagBtn.textContent = "Create New Magazine";
-        createMagBtn.className = 'btn btn-link btn__secondary';
-        createMagBtn.href = `/newMagazine`;
-        createMagBtn.style.marginTop = '1rem';
-        createMagBtn.style.display = 'inline-block';
-        return createMagBtn;
+        return buildButton("Create New Magazine", '/newMagazine');
     }
 
     /** @returns {HTMLElement} @param {'user' | 'magazine'} pageType  */
