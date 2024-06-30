@@ -1,0 +1,43 @@
+{
+    "name": "Customizable Default Sort Option",
+    "namespace": "default-sort",
+    "author": "Pamasich",
+    "version": "1.0.0",
+    "label": "Change default sort",
+    "desc": "Enables customizing the default sort order used. When opening a sortable page, you automatically get redirected to your chosen default option.\n\nIf you do not get redirected, check whether your chosen option is available on your instance before reporting the issue.",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "default_sort",
+    "page": "general",
+    "fields": [
+      {
+        "type": "select",
+        "key": "defaultThreadSort",
+        "label": "Select default sort for threads:",
+        "values": ["default", "top", "hot", "newest", "active", "commented"],
+        "initial": "default"
+      },
+      {
+        "type": "select",
+        "key": "defaultCommentSort",
+        "label": "Select default sort for comments:",
+        "values": ["default", "top", "hot", "active", "newest", "oldest"],
+        "initial": "default"
+      },
+      {
+        "type": "select",
+        "key": "defaultPostSort",
+        "label": "Select default sort for microblogs:",
+        "values": ["default", "top", "hot", "newest", "active", "commented"],
+        "initial": "default"
+      },
+      {
+        "type": "select",
+        "key": "defaultMagazineSort",
+        "label": "Select default sort for magazines:",
+        "values": ["default", "newest", "hot", "active", "abandoned"],
+        "initial": "default"
+      }
+    ]
+  }
+  
