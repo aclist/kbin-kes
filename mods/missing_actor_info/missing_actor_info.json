@@ -1,0 +1,11 @@
+{
+    "name": "Helpful overhaul of the user/magazine is missing page",
+    "author": "Pamasich",
+    "version": "0.1.0",
+    "label": "Helpful missing user/magazine page",
+    "desc": "Overhauls the page that's shown when kbin cannot find a user or magazine you're trying to access. Instead of the native 404 error, this addon enhances the page with an explanation and helpful links.",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "missing_actor_info",
+    "page": "general"
+}
