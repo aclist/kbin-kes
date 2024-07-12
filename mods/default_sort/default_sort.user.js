@@ -43,7 +43,27 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         const pageType = determinePageType();
         const optionsToHandle = determineInstanceDefault(options, pageType.options);
         if (optionsToHandle == null) return; // all the options are already explicit
-        makeOptionExplicit(optionsToHandle.element, optionsToHandle.target);
+
+        // Rewrite the link of the default option to lead to the explicitly sorted page.
+        const exampleLink = options.find(
+            (option) => option.getAttribute('href') != optionsToHandle.element.getAttribute('href')
+        ).getAttribute('href');
+        optionsToHandle.element.setAttribute(
+            `data-${markerAttribute}`, 
+            optionsToHandle.element.getAttribute('href')
+        );
+        optionsToHandle.element.setAttribute('href', (() => {
+            const baseRegex = `\\/(?:${pageType.options.join('|')})`;
+            var newLink = exampleLink.replaceAll(
+                // replace at end
+                new RegExp(`${baseRegex}$`, 'g'), `/${optionsToHandle.target}`
+            );
+            newLink = exampleLink.replaceAll(
+                // replace within
+                new RegExp(`${baseRegex}\\/`, 'g'), `/${optionsToHandle.target}/`
+            );
+            return newLink;
+        })());
 
         if (!isUrlExplicitlySorted(window.location.pathname, pageType.options)) {
             const userDefault = getChosenDefault(pageType);
@@ -80,23 +100,6 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         return validOptions.some(
             (option) => url.endsWith(`/${option}`) || url.includes(`/${option}/`)
         );
-    }
-
-    /**
-     * Change a menu item so it points to a desired explicitly sorted page. The element provided
-     * is expected to not already have an explicitly sorted url, otherwise the result of this 
-     * function will be erroneous.
-     * @param optionElement {HTMLElement} Which element to change the link on
-     * @param optionTarget {string} Which sort endpoint to use
-     */
-    function makeOptionExplicit (optionElement, optionTarget) {
-        optionElement.setAttribute(`data-${markerAttribute}`, optionElement.getAttribute('href'));
-        var currentLink = optionElement.getAttribute('href').replace('#comments', '');
-        const parameters = currentLink.match(urlParameterRegex)?.[0];
-        if (parameters != undefined) currentLink = currentLink.replace(urlParameterRegex, '');
-        var newLink = currentLink + (currentLink == '/' ? '' : '/') + optionTarget;
-        newLink = parameters == undefined ? newLink : newLink + parameters;
-        optionElement.setAttribute('href', newLink);
     }
 
     /**
