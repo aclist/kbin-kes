@@ -118,6 +118,33 @@
     "page": "fixes"
   },
   {
+    "name": "Reddit style spoilers",
+    "namespace": "blocky-spoilers",
+    "author": "Pamasich",
+    "version": "1.0.0",
+    "label": "Alternate spoilers",
+    "desc": "Spoilers on kbin/mbin are implemented as an element that can be collapsed and expanded. This addon is meant for users who prefer spoilers to be obscured rather than hidden entirely, like how they work on Reddit for example.\n\nThe contents of spoilers can be shown either by hovering over them or by clicking the title row.",
+    "login": false,
+    "recurs": true,
+    "entrypoint": "blocky_spoilers",
+    "page": "general",
+    "fields": [
+      {
+        "type": "checkbox",
+        "key": "showOnClick",
+        "initial": true,
+        "checkbox_label": "click"
+      },
+      {
+        "type": "checkbox",
+        "key": "showOnHover",
+        "initial": false,
+        "label": "Actions that show the content:",
+        "checkbox_label": "hover"
+      }
+    ]
+  },
+  {
     "name": "Notifications panel",
     "author": [
       "blobcat",
@@ -789,7 +816,25 @@
     "recurs": false,
     "entrypoint": "collapse_pins",
     "page": "threads",
-    "new_since": "4.2"
+    "new_since": "4.2",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Add colored outline",
+        "key": "outline",
+        "label": "Colored outline on pinned posts",
+        "values": [
+          "Add colored outline",
+          "No colored outline"
+        ]
+      },
+      {
+        "type": "color",
+        "initial": "--kbin-alert-info-link-color",
+        "key": "bordercolor",
+        "label": "Outline color"
+      }
+    ]
   },
   {
     "name": "Move federation warning to sidebar",

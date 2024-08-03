@@ -2,11 +2,10 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.2.0-beta.19
+// @version      4.2.0-beta.20
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
-// @match        https://kbin.run/*
 // @match        https://lab2.kbin.pub/*
 // @match        https://lab3.kbin.pub/*
 // @match        https://fedia.io/*
