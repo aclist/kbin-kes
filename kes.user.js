@@ -25,7 +25,6 @@
 // @grant        GM.getValue
 // @grant        GM.setValue
 // @grant        GM.setClipboard
-// @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/main/helpers/safegm.user.js
