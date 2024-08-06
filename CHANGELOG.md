@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 4.3.0
+### Added
+- Change Default Sort (pamasich): gives the user granular control over which type of posts are sorted by default
+- Alternate Spoilers (pamasich): gives spoilers more clarity by using block-style formatting
+- Added isProfile() function to API: returns true if the current window location is a user's profile page
+
+### Fixed
+- Prevented the collapse pins add-on from triggering on user profile pages
+
+### Changed
+- KES now checks whether an add-on requires login, obviating add-ons from having to load custom logic for this check
+
 ## 4.2.0
 ### Added
 - Collapse pinned posts (shazbot): hides pinned posts on the thread index and provides a clickable area to reopen them
