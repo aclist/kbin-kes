@@ -118,11 +118,16 @@ function blockifySpoilers (isActive) { // eslint-disable-line no-unused-vars
 
     /** @returns {boolean} */
     function getHoverEnabled () {
-        return getModSettings("blocky-spoilers")[`showOnHover`];
+        return getModSettings("blocky-spoilers")[`showOnHover`] == "on";
     }
 
-    /** @returns {boolean} */
+    /** 
+     * Currently always enabled, as this doesn't really need to be a setting.
+     * But I'm leaving the relevant code in in case I want to return the setting in the future.
+     * @returns {boolean}
+     */
     function getClickEnabled () {
-        return getModSettings("blocky-spoilers")[`showOnClick`];
+        return true;
+        //return getModSettings("blocky-spoilers")[`showOnClick`];
     }
 }
