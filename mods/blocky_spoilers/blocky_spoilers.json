@@ -4,18 +4,17 @@
     "author": "Pamasich",
     "version": "1.0.0",
     "label": "Alternate spoilers",
-    "desc": "Spoilers on kbin/mbin are implemented as an element that can be collapsed and expanded. This is different from the usual approach where the spoiler text is shown in full but obscured by a black bar until hovered over or clicked.\n\nThis addon changes spoilers to work like on other platforms you might be more familiar with.\n\nBy default you'll be able to toggle whether a spoiler is obscured by clicking on its header (the always visible text). Optionally, hovering is also supported to temporarily show a spoiler. But you'll still have to click to make it stick.",
+    "desc": "Spoilers on kbin/mbin are implemented as an element that can be collapsed and expanded. This is different from the usual approach where the spoiler text is shown in full but obscured by a black bar until hovered over or clicked.\n\nThis addon changes spoilers to work like on other platforms, which you might be more familiar with.\n\nBy default you'll be able to toggle whether a spoiler is obscured by clicking on its header (the always visible text). Optionally, hovering is also supported to temporarily show a spoiler. But you'll still have to click to make it stick.",
     "login": false,
     "recurs": true,
     "entrypoint": "blocky_spoilers",
     "page": "general",
     "fields": [
       {
-        "type": "radio",
+        "type": "checkbox",
         "key": "showOnHover",
         "initial": false,
-        "label": "Choose whether to display spoilers on hover:",
-        "values": [ "on", "off" ]
+        "checkbox_label": "Display spoilers on hover"
       }
     ]
   }
