@@ -41,7 +41,10 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         if (options.length == 0) return; // this isn't a sortable page
 
         const pageType = determinePageType();
-        if (getChosenDefault(pageType) == 'default') return;
+        if (getChosenDefault(pageType) == 'default') {
+            teardown(); // remove changes made by previous runs of setup()
+            return;
+        }
 
         const optionsToHandle = determineInstanceDefault(options, pageType.options);
         if (optionsToHandle == null) return; // all the options are already explicit
