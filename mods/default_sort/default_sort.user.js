@@ -41,6 +41,11 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
         if (options.length == 0) return; // this isn't a sortable page
 
         const pageType = determinePageType();
+        if (getChosenDefault(pageType) == 'default') {
+            teardown();
+            return;
+        }
+
         const optionsToHandle = determineInstanceDefault(options, pageType.options);
         if (optionsToHandle == null) return; // all the options are already explicit
 
@@ -64,9 +69,6 @@ function defaultSort (isActive) {  // eslint-disable-line no-unused-vars
             );
             return newLink;
         })());
-        
-        // Exit early if the default option is retained, there's no reason to navigate then
-        if (getChosenDefault(pageType) == 'default') return;
 
         if (!isUrlExplicitlySorted(window.location.pathname, pageType.options)) {
             const userDefault = getChosenDefault(pageType);
