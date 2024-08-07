@@ -670,6 +670,7 @@ const funcObj = {
                 genericXMLRequest(url, parseMags)
             }
             function parseMags (response) {
+                //TODO: user may have no subscribed mags
                 let links
                 let mags
                 let parser = new DOMParser();

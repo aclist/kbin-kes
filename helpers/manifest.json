@@ -789,7 +789,25 @@
     "recurs": false,
     "entrypoint": "collapse_pins",
     "page": "threads",
-    "new_since": "4.2"
+    "new_since": "4.2",
+    "fields": [
+      {
+        "type": "radio",
+        "initial": "Add colored outline",
+        "key": "outline",
+        "label": "Colored outline on pinned posts",
+        "values": [
+          "Add colored outline",
+          "No colored outline"
+        ]
+      },
+      {
+        "type": "color",
+        "initial": "--kbin-alert-info-link-color",
+        "key": "bordercolor",
+        "label": "Outline color"
+      }
+    ]
   },
   {
     "name": "Move federation warning to sidebar",

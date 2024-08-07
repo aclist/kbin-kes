@@ -152,6 +152,7 @@ slug="${owner}/kbin-kes"
 
 instances=(
     "https://kbin.social/*"
+    "https://kbin.run/*"
     "https://lab2.kbin.pub/*"
     "https://lab3.kbin.pub/*"
     "https://fedia.io/*"
