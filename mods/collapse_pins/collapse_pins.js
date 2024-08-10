@@ -1,6 +1,15 @@
 function pinsInit (toggle) { // eslint-disable-line no-unused-vars
 
-    const css = `
+    function setCSS () {
+        let color
+        const settings = getModSettings("collapse_pins")
+        const outline = settings["outline"]
+        if (outline == "Add colored outline") {
+            color = getHex(settings["bordercolor"])
+        } else {
+            color = "transparent"
+        }
+        const css = `
     .kes-pin {
         display: none;
     }
@@ -8,14 +17,18 @@ function pinsInit (toggle) { // eslint-disable-line no-unused-vars
         cursor: pointer;
     }
     .entry:has(footer i.fa-thumbtack) {
-        border: 2px solid var(--kbin-alert-info-link-color)
+        border: 2px solid ${color}
     }
     `;
+        return css
+    }
 
     if (isThread()) return // eslint-disable-line no-undef
     if (isProfile()) return // eslint-disable-line no-undef
 
     function applyPins () {
+
+        const css = setCSS();
         safeGM("removeStyle", 'kes-pin-css');
         safeGM("addStyle", css, 'kes-pin-css');
 
