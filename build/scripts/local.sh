@@ -21,5 +21,5 @@ build
     
     echo "Wrote mock KES script with local resource paths to '$alt'"
 
-printf "Initializing local server\n"
+printf "Initializing local server. Keyboard interrupt terminates\n"
 python3 -m http.server 8080 --bind 127.0.0.1
