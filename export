@@ -28,7 +28,7 @@ abort(){
 }
 validate(){
     [[ $1 -eq 0 ]] && return 0
-    [[ $1 -lt ${#scripts[@]} ]] && abort
+    [[ $1 -lt 0 ]] && abort
     [[ $1 -gt ${#scripts[@]} ]] && abort
 }
 
