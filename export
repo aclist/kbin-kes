@@ -9,6 +9,7 @@ options=(
         "Build functions file only"
         "Build KES script only"
         "Build local: build all files and load from local server"
+        "Quit"
 )
 scripts=(
         "gen_manifest.sh"
@@ -33,6 +34,7 @@ validate(){
 }
 
 select opt in "${options[@]}"; do
+    [[ $opt == "Quit" ]] && exit 0
     ind=$(($REPLY-1))
     validate "$ind"
     case "$ind" in
