@@ -13,3 +13,4 @@ gen(){
 }
 
 validate
+printf "Wrote manifest to '%s'\n" "$PWD/helpers/$file"

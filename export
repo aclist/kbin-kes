@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+build_path="build/scripts"
+COLUMNS=12
+PS3='Please enter your choice: '
+options=(
+        "Build all: manifest, functions file, and KES script"
+        "Build manifest only"
+        "Build functions file only"
+        "Build KES script only"
+        "Build local: build all files and load from local server"
+)
+scripts=(
+        "gen_manifest.sh"
+        "concat_funcs"
+        "gen_kes.sh"
+        "local.sh"
+        )
+
+build(){
+    for i in "$@"; do
+        ${build_path}/${scripts[$i]}
+    done
+}
+abort(){
+    printf "Invalid option or outside of range\n"
+    exit 1
+}
+validate(){
+    [[ $1 -eq 0 ]] && return 0
+    [[ $1 -lt ${#scripts[@]} ]] && abort
+    [[ $1 -gt ${#scripts[@]} ]] && abort
+}
+
+select opt in "${options[@]}"; do
+    ind=$(($REPLY-1))
+    validate "$ind"
+    case "$ind" in
+    "0")
+        build 0 1 2
+        break
+        ;;
+    *)
+        build "$((ind-1))"
+        break
+        ;;
+    esac
+done

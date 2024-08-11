@@ -175,3 +175,4 @@ eslint_funcs+=("safeGM" "getHex")
 
 cp $base_file $base_file.bak
 main > $base_file
+printf "Wrote KES script to '%s'\n" "$base_file"
