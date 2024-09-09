@@ -780,6 +780,76 @@
     "page": "general"
   },
   {
+    "name": "Customizable Default Sort Option",
+    "namespace": "default-sort",
+    "author": "Pamasich",
+    "version": "1.0.0",
+    "label": "Change default sort",
+    "desc": "When you access a page on Mbin without specifying sort options in the URL, default options are applied that you cannot customize. If you for example want to always see the latest threads, you always have to manually switch to the \"newest\" sort.\n\nThis addon tries to add this missing element of customization by redirecting you from the default sorted page to your chosen explicitly sorted one.\n\nMbin has four distinct types of sorted pages that have different options available to them. You can disable this addon from working on any of them by setting them to \"default\".",
+    "login": false,
+    "recurs": false,
+    "entrypoint": "default_sort",
+    "new_since": "4.3",
+    "page": "general",
+    "fields": [
+      {
+        "type": "select",
+        "key": "defaultThreadSort",
+        "label": "Desired option for pages listing threads:",
+        "values": [
+          "default",
+          "top",
+          "hot",
+          "newest",
+          "active",
+          "commented"
+        ],
+        "initial": "default"
+      },
+      {
+        "type": "select",
+        "key": "defaultCommentSort",
+        "label": "Desired option for pages listing comments:",
+        "values": [
+          "default",
+          "top",
+          "hot",
+          "active",
+          "newest",
+          "oldest"
+        ],
+        "initial": "default"
+      },
+      {
+        "type": "select",
+        "key": "defaultPostSort",
+        "label": "Desired option for pages listing microblog posts:",
+        "values": [
+          "default",
+          "top",
+          "hot",
+          "newest",
+          "active",
+          "commented"
+        ],
+        "initial": "default"
+      },
+      {
+        "type": "select",
+        "key": "defaultMagazineSort",
+        "label": "Desired option for pages listing magazines:",
+        "values": [
+          "default",
+          "newest",
+          "hot",
+          "active",
+          "abandoned"
+        ],
+        "initial": "default"
+      }
+    ]
+  },
+  {
     "name": "Collapse pins",
     "author": "shazbot",
     "version": "0.1.0",
