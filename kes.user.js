@@ -6,7 +6,7 @@
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
-// @match        https://kbin.run/*
+// @match        https://kbin.earth/*
 // @match        https://lab2.kbin.pub/*
 // @match        https://lab3.kbin.pub/*
 // @match        https://fedia.io/*
