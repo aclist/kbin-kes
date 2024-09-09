@@ -820,12 +820,12 @@ function constructMenu (json, layoutArr, isNew) {
         const footer = document.createElement("div");
         footer.className = "kes-settings-modal-footer";
 
-        const magLink = document.createElement("a");
-        magLink.className = "kes-settings-modal-magazine";
-        magLink.innerText = "/m/enhancement";
-        magLink.setAttribute('href', magURL);
-        magLink.setAttribute('target', '_blank');
-        footer.appendChild(magLink)
+//        const magLink = document.createElement("a");
+//        magLink.className = "kes-settings-modal-magazine";
+//        magLink.innerText = "/m/enhancement";
+//        magLink.setAttribute('href', magURL);
+//        magLink.setAttribute('target', '_blank');
+//        footer.appendChild(magLink)
 
         const backupButton = document.createElement('button');
         backupButton.innerText = "SETTINGS";
