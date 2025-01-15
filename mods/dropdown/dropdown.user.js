@@ -31,7 +31,7 @@ function dropdownEntry (toggle) { // eslint-disable-line no-unused-vars
 
         // event listener
         $(document).on('change', '#dropdown-select', function () {
-            const page = $('#dropdown-select').val();
+            const page = $('#dropdown-select').val().toLowerCase();
             const pref = 'https://' + window.location.hostname + '/u/'
             const finalUrl = pref + user + "/" + page;
             window.location = finalUrl;
