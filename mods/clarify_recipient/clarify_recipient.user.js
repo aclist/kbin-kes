@@ -1,5 +1,5 @@
 function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
-    function rewrite (title) {
+    function rewrite (form) {
         const self = document.querySelector('.dropdown .login').getAttribute("href").split('/')[2]
         const loc = window.location.href.split('/')[3]
         let recipientName
@@ -10,19 +10,20 @@ function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
             recipientName = window.location.href.split('/')[4]
         }
 
-        title.innerText = "Sending message to " + recipientName
+        form["backup"] = form.innerHTML
+        form.innerHTML = "Sending message to " + recipientName + form.innerHTML
     }
-    function reset (title) {
-        title.innerText = "Body"
+    function reset (form) {
+        form.innerHTML = form["backup"]
     }
 
     const ar = window.location.href.split('/')
     if ((ar[3] != "profile") && (ar[4] != "messages") && (ar[3] != "u")) return
-    const title = document.querySelector('form[name="message"] .required')
-    if (!title) return
+    const form = document.querySelector('form[name="message"]')
+    if (!form) return
     if (toggle) {
-        rewrite(title);
+        rewrite(form)
     } else {
-        reset(title);
+        reset(form)
     }
 }
