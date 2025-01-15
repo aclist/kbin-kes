@@ -376,8 +376,10 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
             iframe.remove();
             clickModal.remove();
             safeGM("addStyle",resetDropdownCSS)
-        })
-        document.querySelector('.kbin-container').appendChild(clickModal)
+        });
+        const container = document.querySelector('.kbin-container') 
+            ?? document.querySelector('.mbin-container');
+        container.appendChild(clickModal);
         listItem.appendChild(iframe);
         genericXMLRequest(notificationsURL + '?p=1',insertMsgs);
     }
@@ -385,7 +387,8 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
     function build () {
         const notiPanel = document.querySelector('li.notification-button');
         if (notiPanel) return
-        const parentElement = document.querySelector('.header .kbin-container');
+        const parentElement = document.querySelector('.header .kbin-container')
+                ?? document.querySelector('.header .mbin-container');
         if (parentElement) {
             const listItem = document.createElement('li');
             listItem.classList.add('notification-button');
