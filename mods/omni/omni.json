@@ -13,7 +13,7 @@
       "type": "checkbox",
       "key": "mobile",
       "label": "Mobile device support",
-      "checkbox_label": "Add tappable element to screen"
+      "checkbox_label": "Add tappable element (yellow bar) to screen"
     },
     {
       "type": "radio",
