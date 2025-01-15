@@ -1,7 +1,7 @@
 {
   "name": "Customize font size",
   "author": "minnieo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "label": "Change font size",
   "login": false,
   "recurs": true,
@@ -115,15 +115,6 @@
       "initial": "div.page-messages",
       "key": "optionMessages",
       "label": "Inbox messages:",
-      "step": "0.1",
-      "min": "5",
-      "max": "50"
-    },
-    {
-      "type": "number",
-      "initial": "#footer > .kbin-container > section menu li",
-      "key": "optionFooter",
-      "label": "Footer:",
       "step": "0.1",
       "min": "5",
       "max": "50"
