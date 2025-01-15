@@ -197,10 +197,8 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         let iff = document.querySelector('.notifications-iframe');
         let parser = new DOMParser();
         let notificationsXML = parser.parseFromString(response.responseText, "text/html");
-        const readTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/read"] input')
-        const readToken = readTokenEl.value
-        const purgeTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/clear"] input')
-        const purgeToken = purgeTokenEl.value
+        const token = notificationsXML.querySelector('#push-subscription-div')
+            .getAttribute('data-application-server-public-key');
         let currentPage = notificationsXML.all[6].content.split('=')[1]
         let currentPageInt = parseInt(currentPage)
         let sects = notificationsXML.querySelectorAll('.notification');
@@ -277,7 +275,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
             readButton.style.setProperty('--noti-button-opacity','0.7')
             readButton.addEventListener('click', () => {
                 clearPanel();
-                genericPOSTRequest(notificationsURL + '/read', readAndReset, readToken);
+                genericPOSTRequest(notificationsURL + '/read', readAndReset, token);
             });
         } else {
             readButton.style.opacity = 0.7;
@@ -285,7 +283,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         }
         purgeButton.addEventListener('click', () => {
             clearPanel();
-            genericPOSTRequest(notificationsURL + '/clear', readAndReset, purgeToken);
+            genericPOSTRequest(notificationsURL + '/clear', readAndReset, token);
         });
 
         if (currentPageInt != 1) {
