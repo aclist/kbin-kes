@@ -162,7 +162,8 @@ function constructMenu (json, layoutArr, isNew) {
         }
         let kbinContainer
         if (window.innerWidth > 576) {
-            kbinContainer = document.querySelector('.kbin-container > menu');
+            kbinContainer = document.querySelector('.kbin-container > menu')
+                ?? document.querySelector('.mbin-container > menu');
         } else {
             kbinContainer = document.querySelector('.sidebar-options > .section > menu > ul')
         }
