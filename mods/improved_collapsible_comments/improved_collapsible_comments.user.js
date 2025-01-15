@@ -19,7 +19,7 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
             padding-bottom: 4px !important;
         }
 
-        .comments div {
+        .comments > div[class^="comment-line--"] {
             border-left: none !important;
         }
         .entry-comment .kes-collapse-children {
@@ -211,7 +211,7 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         `;
         for (let i = 1; i < 10; i++) {
             style += `
-            blockquote.comment-level--${i} {
+            blockquote:not(.post-comment).comment-level--${i} {
                 margin-left: 0 !important;
             }
             `;

@@ -1,7 +1,7 @@
 {
   "name": "Collapsible comments",
   "author": "artillect",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "label": "Collapsible comments",
   "desc": "Collapse comments by clicking on the bars to their left.",
   "login": false,
