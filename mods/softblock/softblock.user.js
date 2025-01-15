@@ -32,7 +32,8 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         const path = location.pathname.split('/')[1]
         switch (path) {
             case "":
-            case "sub": {
+            case "sub":
+            case "all": {
                 blockThreads(mags);
                 break
             }
