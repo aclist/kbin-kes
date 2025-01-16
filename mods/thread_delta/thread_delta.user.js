@@ -2,7 +2,7 @@ function threadDeltaInit (toggle) { // eslint-disable-line no-unused-vars
     const settings = getModSettings('thread-delta');
     const fgcolor = getHex(settings["fgcolor"]) // eslint-disable-line no-undef
     const bgcolor = getHex(settings["bgcolor"]) // eslint-disable-line no-undef
-    const state = settings["state"]
+    const state = settings["always_on"]
 
     const hostname = window.location.hostname;
     const loc = window.location.pathname.split('/')
