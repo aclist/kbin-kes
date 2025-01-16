@@ -3,7 +3,7 @@
   "author": "shazbot",
   "version": "0.1.0",
   "label": "Checkmark on subbed mags",
-  "desc": "Append a checkmark to magazines on the thread index you are subscribed to. The 'Subscriptions omnibar' option (page: General) must be enabled for this to work",
+  "desc": "Append a checkmark to magazines on the thread index you are subscribed to.",
   "login": false,
   "recurs": true,
   "entrypoint": "thread_checkmarks",
@@ -16,5 +16,8 @@
       "initial": "--kbin-upvoted-color"
     }
   ],
-  "page": "threads"
+  "page": "threads",
+  "depends_on": [
+    "omni"
+  ]
 }
