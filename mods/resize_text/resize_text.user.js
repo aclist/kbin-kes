@@ -44,6 +44,9 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .page-messages > .kbin-container > #main > h1 {
             font-size: ${settings["optionMessages"] * 2.5}px
         }
+        .page-messages > .mbin-container > #main > h1 {
+            font-size: ${settings["optionMessages"] * 2.5}px
+        }
         /* SIDEBAR */
         #sidebar * {
             font-size: ${settings["optionHomeSidebar"]}px !important
