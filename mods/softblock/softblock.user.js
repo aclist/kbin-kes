@@ -68,7 +68,7 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     }
     function blockThreads (mags) {
         hideThreads(mags)
-        document.querySelectorAll('.meta').forEach((item) => {
+        document.querySelectorAll('.entry__meta').forEach((item) => {
             if (item.querySelector('.softblock-icon')) {
                 return
             }
