@@ -199,8 +199,9 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         let notificationsXML = parser.parseFromString(response.responseText, "text/html");
         const token = notificationsXML.querySelector('#push-subscription-div')
             .getAttribute('data-application-server-public-key');
-        let currentPage = notificationsXML.all[6].content.split('=')[1]
+        let currentPage = notificationsXML.querySelector('[property="og:url"]').content.split('=')[1]
         let currentPageInt = parseInt(currentPage)
+        // 2025-01-19: there can be 25 messages before pagination occurs
         let sects = notificationsXML.querySelectorAll('.notification');
         if (sects.length === 0) {
             loadingSpinner.remove();
