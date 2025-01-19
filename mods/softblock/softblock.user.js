@@ -57,11 +57,7 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         articles.forEach((article) => {
             const instance = article.href.split('/')[4]
             if (mags.includes(instance)) {
-                if (getInstanceType() === "kbin") { // eslint-disable-line no-undef
-                    el = article.parentElement.parentElement;
-                } else {
-                    el = article.parentElement.parentElement.parentElement;
-                }
+                el = article.parentElement.parentElement.parentElement;
                 blankCSS(el);
             }
         });
