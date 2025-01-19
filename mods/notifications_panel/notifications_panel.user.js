@@ -362,6 +362,13 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         const iframe = document.createElement('div');
         iframe.className = 'notifications-iframe dropdown__menu';
         iframe.style.cssText = iframeCSS
+        iframe.addEventListener('click', () => {
+            if (iframe.querySelector('.noti-no-messages')) {
+                iframe.remove();
+                document.querySelector('.clickmodal').remove();
+                return;
+            }
+            });
 
         let loading = document.createElement('div')
         loading.className = "loadingmsg"
