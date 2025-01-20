@@ -1,0 +1,46 @@
+name: Add-on request
+description: Suggest an add-on to load into KES
+title: "[MOD] Your title here"
+labels: ["mod"]
+assignees:
+  - aclist
+body:
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options:
+        - Firefox-based
+        - Chromium-based
+        - Safari
+        - Other (respond in comments)
+      default: 0
+    validations:
+      required: true
+  - type: dropdown
+    id: handler
+    attributes:
+      label: Script manager
+      options:
+        - Greasemonkey
+        - Tampermonkey
+        - Violentmonkey
+        - Other (respond in comments)
+      default: 0
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: KES version
+    validations:
+      required: true
+      placeholder: "E.g., 4.2.0"
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Describe the add-on
+      description: What kind of functionality, and why? Who will this benefit?
+      placeholder: "E.g., Create an add-on that supports doing X. Currently, it's not possible to do X because of Y. Adding X will help with scenarios A, B, and C. Include as much detail as possible."
+    validations:
+      required: true
