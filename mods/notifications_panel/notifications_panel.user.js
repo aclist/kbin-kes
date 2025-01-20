@@ -197,12 +197,11 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         let iff = document.querySelector('.notifications-iframe');
         let parser = new DOMParser();
         let notificationsXML = parser.parseFromString(response.responseText, "text/html");
-        const readTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/read"] input')
-        const readToken = readTokenEl.value
-        const purgeTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/clear"] input')
-        const purgeToken = purgeTokenEl.value
-        let currentPage = notificationsXML.all[6].content.split('=')[1]
+        const token = notificationsXML.querySelector('#push-subscription-div')
+            .getAttribute('data-application-server-public-key');
+        let currentPage = notificationsXML.querySelector('[property="og:url"]').content.split('=')[1]
         let currentPageInt = parseInt(currentPage)
+        // 2025-01-19: there can be 25 messages before pagination occurs
         let sects = notificationsXML.querySelectorAll('.notification');
         if (sects.length === 0) {
             loadingSpinner.remove();
@@ -277,7 +276,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
             readButton.style.setProperty('--noti-button-opacity','0.7')
             readButton.addEventListener('click', () => {
                 clearPanel();
-                genericPOSTRequest(notificationsURL + '/read', readAndReset, readToken);
+                genericPOSTRequest(notificationsURL + '/read', readAndReset, token);
             });
         } else {
             readButton.style.opacity = 0.7;
@@ -285,7 +284,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         }
         purgeButton.addEventListener('click', () => {
             clearPanel();
-            genericPOSTRequest(notificationsURL + '/clear', readAndReset, purgeToken);
+            genericPOSTRequest(notificationsURL + '/clear', readAndReset, token);
         });
 
         if (currentPageInt != 1) {
@@ -363,6 +362,13 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         const iframe = document.createElement('div');
         iframe.className = 'notifications-iframe dropdown__menu';
         iframe.style.cssText = iframeCSS
+        iframe.addEventListener('click', () => {
+            if (iframe.querySelector('.noti-no-messages')) {
+                iframe.remove();
+                document.querySelector('.clickmodal').remove();
+                return;
+            }
+            });
 
         let loading = document.createElement('div')
         loading.className = "loadingmsg"
@@ -376,8 +382,10 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
             iframe.remove();
             clickModal.remove();
             safeGM("addStyle",resetDropdownCSS)
-        })
-        document.querySelector('.kbin-container').appendChild(clickModal)
+        });
+        const container = document.querySelector('.kbin-container') 
+            ?? document.querySelector('.mbin-container');
+        container.appendChild(clickModal);
         listItem.appendChild(iframe);
         genericXMLRequest(notificationsURL + '?p=1',insertMsgs);
     }
@@ -385,7 +393,8 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
     function build () {
         const notiPanel = document.querySelector('li.notification-button');
         if (notiPanel) return
-        const parentElement = document.querySelector('.header .kbin-container');
+        const parentElement = document.querySelector('.header .kbin-container')
+                ?? document.querySelector('.header .mbin-container');
         if (parentElement) {
             const listItem = document.createElement('li');
             listItem.classList.add('notification-button');
