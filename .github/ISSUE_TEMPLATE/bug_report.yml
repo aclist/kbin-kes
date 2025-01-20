@@ -1,4 +1,4 @@
-name: Bug report test
+name: Bug report
 description: Submit bugs that affect functionality here
 title: "[BUG] Your title here"
 labels: ["bug"]
