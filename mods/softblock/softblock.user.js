@@ -247,10 +247,10 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     async function loadMags (hostname) {
-        const mags = await safeGM("getValue", `softblock-mags-${hostname}`)
+        let mags = await safeGM("getValue", `softblock-mags-${hostname}`)
         if (!mags) {
-            const e = [];
-            saveMags(hostname, e)
+            mags = [];
+            saveMags(hostname, mags)
         }
         softBlock(mags)
     }
