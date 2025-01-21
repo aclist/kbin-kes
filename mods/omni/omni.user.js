@@ -426,7 +426,8 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
                 kt.focus()
             }
 
-            const pageHolder = document.querySelector('.kbin-container')
+            const pageHolder = document.querySelector('.kbin-container') 
+                ?? document.querySelector('.mbin-container')
             const kth = document.createElement('div');
             kth.style.cssText = 'height: 0px; width: 0px'
             const ktb = document.createElement('button')
@@ -436,6 +437,7 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
             pageHolder.insertBefore(kth, pageHolder.children[0])
             ktb.addEventListener('keyup',kickoffListener)
             const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
+                ?? document.querySelector('[data-controller="mbin notifications"]');
             globalKeyInsert.addEventListener('keydown',keyTrap)
 
 

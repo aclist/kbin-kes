@@ -19,7 +19,7 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
             padding-bottom: 4px !important;
         }
 
-        .comments div {
+        .comments > div[class^="comment-line--"] {
             border-left: none !important;
         }
         .entry-comment .kes-collapse-children {
@@ -211,20 +211,11 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         `;
         for (let i = 1; i < 10; i++) {
             style += `
-            blockquote.comment-level--${i} {
+            blockquote:not(.post-comment).comment-level--${i} {
                 margin-left: 0 !important;
             }
             `;
         }
-        const kbinStyle = `
-        .entry-comment {
-            grid-template-areas:
-            "expando-icon avatar header vote"
-            "expando body body body"
-            "expando footer footer footer"
-            "expando kes-collapse-children kes-collapse-children kes-collapse-children";
-        }
-        `;
         const mbinStyle = `
         .entry-comment {
             grid-template-areas:
@@ -244,10 +235,7 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         `;
         safeGM("addStyle", hideDefaults, "hide-defaults");
         safeGM("addStyle", style, "threaded-comments");
-        // eslint-disable-next-line no-undef
-        if (getInstanceType() === "kbin") safeGM("addStyle", kbinStyle, "kbin-kes-comments-style")
-        // eslint-disable-next-line no-undef
-        if (getInstanceType() === "mbin") safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
+        safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
     }
     function applyToNewPosts () {
         let comments = document.querySelectorAll(".entry-comment:not(.nested)");
@@ -471,7 +459,6 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         clearMores();
         safeGM("removeStyle", "hide-defaults");
         safeGM("removeStyle", "threaded-comments");
-        safeGM("removeStyle", "kbin-kes-comments-style")
         safeGM("removeStyle", "mbin-kes-comments-style")
     }
     if (!toggle) {

@@ -1,7 +1,7 @@
 {
   "name": "Show thread/microblog delta since last visit",
   "author": "shazbot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "label": "Show thread/microblog delta since last visit",
   "desc": "Intended for magazine moderators (or others) checking for new magazine activity. If there are new threads/microblogs since your last visit, shows the delta at the top of the page.",
   "login": true,
@@ -25,7 +25,7 @@
     {
       "type": "radio",
       "initial": "on",
-      "key": "state",
+      "key": "always_on",
       "label": "Permanently display counts in top bar (best for mobile). Set to off to only display bar when there are new threads/blogs.",
       "values": [
         "on",

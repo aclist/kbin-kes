@@ -1,7 +1,7 @@
 {
   "name": "Hide Reputation",
   "author": "artillect",
-  "version": "0.2",
+  "version": "0.3",
   "label": "Hide reputation",
   "desc": "Hide reputation on users' profiles",
   "login": false,
