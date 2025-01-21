@@ -216,15 +216,6 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
             }
             `;
         }
-        const kbinStyle = `
-        .entry-comment {
-            grid-template-areas:
-            "expando-icon avatar header vote"
-            "expando body body body"
-            "expando footer footer footer"
-            "expando kes-collapse-children kes-collapse-children kes-collapse-children";
-        }
-        `;
         const mbinStyle = `
         .entry-comment {
             grid-template-areas:
@@ -244,10 +235,7 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         `;
         safeGM("addStyle", hideDefaults, "hide-defaults");
         safeGM("addStyle", style, "threaded-comments");
-        // eslint-disable-next-line no-undef
-        if (getInstanceType() === "kbin") safeGM("addStyle", kbinStyle, "kbin-kes-comments-style")
-        // eslint-disable-next-line no-undef
-        if (getInstanceType() === "mbin") safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
+        safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
     }
     function applyToNewPosts () {
         let comments = document.querySelectorAll(".entry-comment:not(.nested)");
@@ -471,7 +459,6 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         clearMores();
         safeGM("removeStyle", "hide-defaults");
         safeGM("removeStyle", "threaded-comments");
-        safeGM("removeStyle", "kbin-kes-comments-style")
         safeGM("removeStyle", "mbin-kes-comments-style")
     }
     if (!toggle) {
