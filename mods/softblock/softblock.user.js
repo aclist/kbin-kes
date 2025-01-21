@@ -32,7 +32,8 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         const path = location.pathname.split('/')[1]
         switch (path) {
             case "":
-            case "sub": {
+            case "sub":
+            case "all": {
                 blockThreads(mags);
                 break
             }
@@ -56,18 +57,14 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         articles.forEach((article) => {
             const instance = article.href.split('/')[4]
             if (mags.includes(instance)) {
-                if (getInstanceType() === "kbin") { // eslint-disable-line no-undef
-                    el = article.parentElement.parentElement;
-                } else {
-                    el = article.parentElement.parentElement.parentElement;
-                }
+                el = article.parentElement.parentElement.parentElement;
                 blankCSS(el);
             }
         });
     }
     function blockThreads (mags) {
         hideThreads(mags)
-        document.querySelectorAll('.meta').forEach((item) => {
+        document.querySelectorAll('.entry__meta').forEach((item) => {
             if (item.querySelector('.softblock-icon')) {
                 return
             }
@@ -250,10 +247,10 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     async function loadMags (hostname) {
-        const mags = await safeGM("getValue", `softblock-mags-${hostname}`)
+        let mags = await safeGM("getValue", `softblock-mags-${hostname}`)
         if (!mags) {
-            const e = [];
-            saveMags(hostname, e)
+            mags = [];
+            saveMags(hostname, mags)
         }
         softBlock(mags)
     }
