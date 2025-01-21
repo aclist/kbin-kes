@@ -8,13 +8,16 @@ function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
             recipientName = recipient.href.split('/')[4]
         } else {
             recipientName = window.location.href.split('/')[4]
-        }
+        } 
 
-        form["backup"] = form.innerHTML
-        form.innerHTML = "Sending message to " + recipientName + form.innerHTML
+        const holder = document.createElement('div');
+        holder.id = "mes-compose-holder";
+        holder.textContent = "Sending message to " + recipientName;
+        holder.style.paddingRight = '10px';
+        form.prepend(holder);
     }
-    function reset (form) {
-        form.innerHTML = form["backup"]
+    function reset () {
+        document.querySelector('#mes-compose-holder').remove();
     }
 
     const ar = window.location.href.split('/')
