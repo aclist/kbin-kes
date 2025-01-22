@@ -23,6 +23,7 @@ function abort(){
     kill -9 $pid
     log cleanup
     rm -rf tmp
+    exit
 }
 
 trap abort SIGINT INT
@@ -41,7 +42,10 @@ build
 printf "Initializing local server. Type 'q' to terminate\n"
 python3 -m http.server 8080 --bind 127.0.0.1 &
 pid=$!
-read -rsn1 key
-if [[ $key == "q" ]]; then
-    abort
-fi
+while true; do
+    read -rsn1 key
+    if [[ $key == "q" ]]; then
+        abort
+        break
+    fi
+done
