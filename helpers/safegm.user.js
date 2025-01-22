@@ -92,7 +92,10 @@ function loadMags (callback) {
     const username = document.querySelector('.login .user-name')?.textContent;
 
     const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
-    if (cachedValue) callback(cachedValue);
+    if (cachedValue) {
+        callback(cachedValue);
+        return;
+    }
 
     if (!username) return;
     const loadedMags = [];

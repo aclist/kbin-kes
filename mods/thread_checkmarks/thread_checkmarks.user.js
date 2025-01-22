@@ -8,7 +8,7 @@ function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
     if ((!threadIndex) || (!username)) return
 
     function addCheck (subs, item) {
-        if (item.querySelector('#kes-omni-check')) return
+        if (item.parentNode.querySelector('#kes-omni-check')) return
         const mag = item.getAttribute('href').split('/')[2]
         if (subs.includes(mag)) {
             const ch = document.createElement('span')
