@@ -1,4 +1,8 @@
 #Placeholder logic for updated auto masthead generation, cf. #255
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
 
 tool="concat_funcs"
 file="$PWD/helpers/funcs.js"

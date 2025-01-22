@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
+
 file="manifest.json"
 validate(){
     for i in $(find $PWD/mods -name "*.json"); do

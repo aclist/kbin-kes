@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
 
 get_owner(){
     local raw=$(git config --get remote.origin.url)
