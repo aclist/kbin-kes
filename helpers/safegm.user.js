@@ -23,6 +23,14 @@ try {
     console.log(error);
 }
 
+function log(string){
+    const date = new Date()
+    const iso = date.toISOString()
+    const caller = (new Error()).stack?.split("\n")[1].split("@")[0]
+    const line = `[KES:${caller}] [${iso}] ${string}`
+    console.log(line)
+}
+
 function addCustomCSS (css, id) {
     const style = document.createElement('style');
     style.id = id;
