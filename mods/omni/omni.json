@@ -30,8 +30,5 @@
       ]
     }
   ],
-  "page": "general",
-  "depends_off": [
-    "thread_checkmarks"
-  ]
+  "page": "general"
 }

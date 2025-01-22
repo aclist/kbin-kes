@@ -89,7 +89,6 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
     const hostname = window.location.hostname
-    const fetchedMags = []
 
     const tapBar = document.querySelector('#kes-omni-tapbar')
     if (tapBar) {
@@ -105,53 +104,29 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         safeGM("removeStyle", "omni-css")
         safeGM("addStyle", omniCSS, "omni-css")
 
-        let str
         if (username) {
-            str = 'user'
-            loadMags(str, username)
+            loadMags(alphaSort);  // eslint-disable-line no-undef
         } else {
-            str = 'default'
-            loadMags(str)
+            loadDefaultMags();
         }
 
-        async function loadMags (mode, username) {
-            const dataStr = setMagString(mode);
-            const loaded = await safeGM("getValue", dataStr)
+        async function loadDefaultMags () {
+            const loaded = await safeGM("getValue", `omni-default-mags-${hostname}`);
             if ((!loaded) || (loaded.length < 1)) {
-                fetchMags(username, 1);
+                fetchDefaultMags();
             } else {
                 omni(loaded);
             }
         }
-        function setMagString (mode) {
-            let mags;
-            switch (mode) {
-                case 'default':
-                    mags = `omni-default-mags-${hostname}`
-                    break;
-                case 'user':
-                    mags = `omni-user-mags-${hostname}-${username}`
-                    break;
-            }
-            return mags;
-        }
-        async function saveMags (mode, mags) {
-            const dataStr = setMagString(mode);
-            await safeGM("setValue", dataStr, mags)
+        async function saveDefaultMags (mags) {
+            await safeGM("setValue", `omni-default-mags-${hostname}`, mags)
             omni(mags);
         }
-
-        function fetchMags (username, page) {
-            let url
-            if (username) {
-                url = `https://${hostname}/u/${username}/subscriptions?p=${page}`
-            } else {
-                url = `https://${hostname}/magazines`
-            }
-            genericXMLRequest(url, parseMags)
+        function fetchDefaultMags () {
+            let url = `https://${hostname}/magazines`
+            genericXMLRequest(url, parseDefaultMags)
         }
-        function parseMags (response) {
-            //TODO: user may have no subscribed mags
+        function parseDefaultMags (response) {
             let links
             let mags
             let parser = new DOMParser();
@@ -162,36 +137,23 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
                 links = mags.querySelectorAll('.stretched-link')
                 defaultFetched.push(links)
                 alphaSort(defaultFetched);
-            } else {
-                let page
-                mags = notificationsXML.querySelector('.magazines-columns');
-                links = mags.querySelectorAll('.stretched-link');
-                const username = notificationsXML.querySelector('.login').getAttribute("href").split('/')[2];
-                const paginator = notificationsXML.querySelector('.pagination__item.pagination__item--next-page');
-                if (paginator) {
-                    const tip = paginator.getAttribute("href")
-                    if (tip) {
-                        page = tip.split('=')[1]
-                    }
-                }
-                fetchedMags.push(links);
-                if (links.length < 48) {
-                    alphaSort(fetchedMags)
-                } else {
-                    const url = `https://${hostname}/u/${username}/subscriptions?p=${page}`
-                    genericXMLRequest(url, parseMags)
-                }
             }
         }
         function alphaSort (links) {
-            const clean = []
-            for (let i = 0; i < links.length; ++i) {
-                links[i].forEach((link) => {
-                    clean.push(link.href.split('/')[4])
-                    clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
-                });
+            if (!links) return;
+            if (typeof links[0] === "string") {
+                links.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+                omni(links);
+            } else {
+                const clean = []
+                for (let i = 0; i < links.length; ++i) {
+                    links[i].forEach((link) => {
+                        clean.push(link.href.split('/')[4])
+                        clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+                    });
+                }
+                saveDefaultMags(clean)
             }
-            saveMags(str, clean)
         }
         function updateVisible () {
             let pos
@@ -447,7 +409,7 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         createOmni();
     } else {
         const e = []
-        safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e)
+        clearMags() // eslint-disable-line no-undef
         safeGM("setValue",`omni-default-mags-${hostname}`, e)
         const kt = document.querySelector('#kes-omni-keytrap')
         const q = document.querySelector('.kes-omni-modal')

@@ -3,7 +3,7 @@
   "author": "shazbot",
   "version": "0.1.0",
   "label": "Checkmark on subbed mags",
-  "desc": "Append a checkmark to magazines on the thread index you are subscribed to.",
+  "desc": "Append a checkmark to magazines on the thread index you are subscribed to. The cached list of magazines won't be updated unless this mod is turned off and on again.",
   "login": false,
   "recurs": true,
   "entrypoint": "thread_checkmarks",
@@ -16,8 +16,5 @@
       "initial": "--kbin-upvoted-color"
     }
   ],
-  "page": "threads",
-  "depends_on": [
-    "omni"
-  ]
+  "page": "threads"
 }
