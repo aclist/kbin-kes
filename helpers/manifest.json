@@ -13,9 +13,9 @@
   {
     "name": "Collapsible comments",
     "author": "artillect",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "label": "Collapsible comments",
-    "desc": "Collapse comments by clicking on their headers, and the bars to their left.",
+    "desc": "Collapse comments by clicking on the bars to their left.",
     "login": false,
     "recurs": false,
     "entrypoint": "improved_collapsible_comments",
@@ -25,7 +25,7 @@
   {
     "name": "Subs omnibar",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Subscriptions omnibar",
     "desc": "Quickly jump to a magazine by viewing your subs in a floating search panel (type to search). Use the meta key to open/close the omnibar. The meta key will not take effect inside of text fields. If you are logged out, the omnibar shows default magazines (most popular). To refresh the cached list of your magazines or change settings while this add-on is enabled, toggle off and then on again.",
     "login": false,
@@ -37,7 +37,7 @@
         "type": "checkbox",
         "key": "mobile",
         "label": "Mobile device support",
-        "checkbox_label": "Add tappable element to screen"
+        "checkbox_label": "Add tappable element (yellow bar) to screen"
       },
       {
         "type": "radio",
@@ -68,35 +68,9 @@
     "page": "profile"
   },
   {
-    "name": "Label OP",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Add OP label",
-    "login": false,
-    "recurs": true,
-    "desc": "Print OP label next to thread author. Colors are shown dimmed to 75% opacity to emulate how labels will look when inserted into post headers. This add-on has no effect on mbin.",
-    "entrypoint": "label",
-    "namespace": "labelcolors",
-    "page": "threads",
-    "fields": [
-      {
-        "type": "color",
-        "initial": "#FFFFFF",
-        "key": "fgcolor",
-        "label": "Foreground color"
-      },
-      {
-        "type": "color",
-        "initial": "#111111",
-        "key": "bgcolor",
-        "label": "Background color"
-      }
-    ]
-  },
-  {
     "name": "Hide Reputation",
     "author": "artillect",
-    "version": "0.2",
+    "version": "0.3",
     "label": "Hide reputation",
     "desc": "Hide reputation on users' profiles",
     "login": false,
@@ -105,25 +79,12 @@
     "page": "profiles"
   },
   {
-    "name": "Magazine CSS Fix — Unsanitize",
-    "namespace": "unsanitize-css",
-    "author": "Pamasich",
-    "version": "1.0.0",
-    "label": "Unsanitize Magazine CSS",
-    "desc": "Kbin supports custom CSS for magazines, but that functionality is limited because kbin wrongly replaces some important CSS characters with HTML escape codes, making the code partially non-functional. This addon fixes the issue by undoing those replacements, making the CSS actually work as expected.\n\nThis mod is unnecessary on mbin.",
-    "login": false,
-    "recurs": false,
-    "entrypoint": "unsanitize_css",
-    "new_since": "4.0",
-    "page": "fixes"
-  },
-  {
     "name": "Notifications panel",
     "author": [
       "blobcat",
       "shazbot"
     ],
-    "version": "0.3.1",
+    "version": "0.3.2",
     "label": "Add a notifications panel",
     "login": true,
     "recurs": false,
@@ -141,26 +102,6 @@
     "recurs": true,
     "entrypoint": "mag_instance_names",
     "page": "general"
-  },
-  {
-    "name": "Alternative access to the All Content view",
-    "namespace": "alt-all-content-access",
-    "author": "Pamasich",
-    "version": "1.0.1",
-    "label": "Alternative access to All Content",
-    "desc": "Makes the magazine title in the navbar link to the All Content view and removes the dedicated button instead.\n\nThis addon is useless on mbin.",
-    "login": false,
-    "recurs": false,
-    "entrypoint": "alt_all_content_access",
-    "page": "navbar",
-    "fields": [
-      {
-        "type": "checkbox",
-        "initial": true,
-        "key": "hideAllContentButton",
-        "checkbox_label": "Hide the All Content button"
-      }
-    ]
   },
   {
     "name": "kbin-code-highlighting",
@@ -423,41 +364,15 @@
     ]
   },
   {
-    "name": "Fix Lemmy Code Blocks",
-    "author": "Pamasich",
-    "version": "1.0.1",
-    "label": "Repair Lemmy code blocks",
-    "desc": "Lemmy federates special <span> HTML tags on each line of its code blocks which /kbin displays in plaintext, resulting in code blocks being hard to read. This add-on removes those tags.\n\nThis addon is useless on mbin.",
-    "login": false,
-    "recurs": true,
-    "entrypoint": "fix_codeblocks",
-    "depends_off": [
-      "code_highlighting"
-    ],
-    "page": "fixes"
-  },
-  {
     "name": "Dropdown links",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Dropdown links",
     "login": false,
     "recurs": false,
     "desc": "Convert navigation links on profile pages to dropdown",
     "entrypoint": "dropdown",
     "page": "profile"
-  },
-  {
-    "name": "Fix Pagination Arrows",
-    "author": "Pamasich",
-    "version": "1.0.0",
-    "label": "Fix broken pagination",
-    "desc": "In some cases, like on the All Content view, the pagination is broken. The arrows behave like they're on the first page, regardless of which page the user is on. This addon ensures they work as expected.\n\nThis addon is useless on mbin.",
-    "login": false,
-    "recurs": false,
-    "entrypoint": "fix_pagination_arrows",
-    "new_since": "4.0",
-    "page": "fixes"
   },
   {
     "name": "Remove ads",
@@ -1077,7 +992,7 @@
   {
     "name": "Show thread/microblog delta since last visit",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Show thread/microblog delta since last visit",
     "desc": "Intended for magazine moderators (or others) checking for new magazine activity. If there are new threads/microblogs since your last visit, shows the delta at the top of the page.",
     "login": true,
@@ -1101,7 +1016,7 @@
       {
         "type": "radio",
         "initial": "on",
-        "key": "state",
+        "key": "always_on",
         "label": "Permanently display counts in top bar (best for mobile). Set to off to only display bar when there are new threads/blogs.",
         "values": [
           "on",
@@ -1364,7 +1279,7 @@
   {
     "name": "Softblock magazines",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Softblock magazines",
     "desc": "Prevent a magazine from appearing on the main subscriptions index, but do not explicitly block its content altogether if visiting the magazine directly. Adds a softblock button next to magazine names on the thread index. Softblocked mags can be managed via the magazine subscriptions index or via a specific magazine's sidebar. Disabling this add-on will clear your softblocked magazines",
     "login": false,

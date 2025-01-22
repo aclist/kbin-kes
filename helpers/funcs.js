@@ -46,7 +46,7 @@ const funcObj = {
                 padding-bottom: 4px !important;
             }
 
-            .comments div {
+            .comments > div[class^="comment-line--"] {
                 border-left: none !important;
             }
             .entry-comment .kes-collapse-children {
@@ -238,20 +238,11 @@ const funcObj = {
             `;
             for (let i = 1; i < 10; i++) {
                 style += `
-                blockquote.comment-level--${i} {
+                blockquote:not(.post-comment).comment-level--${i} {
                     margin-left: 0 !important;
                 }
                 `;
             }
-            const kbinStyle = `
-            .entry-comment {
-                grid-template-areas:
-                "expando-icon avatar header vote"
-                "expando body body body"
-                "expando footer footer footer"
-                "expando kes-collapse-children kes-collapse-children kes-collapse-children";
-            }
-            `;
             const mbinStyle = `
             .entry-comment {
                 grid-template-areas:
@@ -271,10 +262,7 @@ const funcObj = {
             `;
             safeGM("addStyle", hideDefaults, "hide-defaults");
             safeGM("addStyle", style, "threaded-comments");
-            // eslint-disable-next-line no-undef
-            if (getInstanceType() === "kbin") safeGM("addStyle", kbinStyle, "kbin-kes-comments-style")
-            // eslint-disable-next-line no-undef
-            if (getInstanceType() === "mbin") safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
+            safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
         }
         function applyToNewPosts () {
             let comments = document.querySelectorAll(".entry-comment:not(.nested)");
@@ -498,7 +486,6 @@ const funcObj = {
             clearMores();
             safeGM("removeStyle", "hide-defaults");
             safeGM("removeStyle", "threaded-comments");
-            safeGM("removeStyle", "kbin-kes-comments-style")
             safeGM("removeStyle", "mbin-kes-comments-style")
         }
         if (!toggle) {
@@ -945,7 +932,8 @@ const funcObj = {
                     kt.focus()
                 }
 
-                const pageHolder = document.querySelector('.kbin-container')
+                const pageHolder = document.querySelector('.kbin-container') 
+                    ?? document.querySelector('.mbin-container')
                 const kth = document.createElement('div');
                 kth.style.cssText = 'height: 0px; width: 0px'
                 const ktb = document.createElement('button')
@@ -955,6 +943,7 @@ const funcObj = {
                 pageHolder.insertBefore(kth, pageHolder.children[0])
                 ktb.addEventListener('keyup',kickoffListener)
                 const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
+                    ?? document.querySelector('[data-controller="mbin notifications"]');
                 globalKeyInsert.addEventListener('keydown',keyTrap)
 
 
@@ -1010,109 +999,25 @@ const funcObj = {
     }
 ,
 
-    label:
-
-    function labelOp (toggle) { // eslint-disable-line no-unused-vars
-        if (getInstanceType() === "mbin") return // eslint-disable-line no-undef
-        if (toggle) {
-            let settings = getModSettings("labelcolors");
-            let fg = settings["fgcolor"];
-            let bg = settings["bgcolor"];
-            const labelCSS = `
-                    blockquote.author > header > a.user-inline::after {
-                    content: 'OP';
-                    font-weight: bold;
-                    color: ${fg};
-                    background-color: ${bg};
-                    margin-left: 4px;
-                    padding: 0px 5px 0px 5px;
-                }
-                body.rounded-edges blockquote.author a.user-inline::after {
-                    border-radius: var(--kbin-rounded-edges-radius);
-                }
-            `;
-            safeGM("addStyle", labelCSS, "labelop-css")
-        } else {
-            safeGM("removeStyle", "labelop-css")
-        }
-    }
-,
-
     hide_reputation:
 
     function hideReputation (toggle) { //eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         kbin Vote Hider
         // @namespace    https://github.com/aclist
-        // @version      0.2
+        // @version      0.3
         // @description  Hide upvotes, downvotes, and karma
         // @author       artillect
         // @match        https://kbin.social/*
         // @license      MIT
         // ==/UserScript==
+        const itemSelector = 'li:has(a[href$="/reputation/threads"])'
         if (toggle) {
-            $('#sidebar > section.section.user-info > ul > li:nth-child(2)').hide();
-            document.styleSheets[0].addRule('.user-popover ul li:nth-of-type(2)','display:none')
+            $(`#sidebar > section.section.user-info > ul > ${itemSelector}`).hide()
+            document.styleSheets[0].addRule(`.user-popover ul ${itemSelector}`,'display:none')
         } else {
-            $('#sidebar > section.section.user-info > ul > li:nth-child(2)').show();
-            document.styleSheets[0].addRule('.user-popover ul li:nth-of-type(2)','display:initial')
-        }
-    }
-,
-
-    unsanitize_css:
-
-    /**
-     * Kbin currently wrongly sanitizes its custom CSS (as defined by magazines and users),
-     * causing some characters to be replaced by HTML escape codes. This breaks CSS rules involving,
-     * for example, the direct descendant selector (>) or nested CSS using the & character.
-     * 
-     * This mod aims to fix that issue until kbin does.
-     * 
-     * @param {Boolean} isActive Whether the mod has been turned on
-     */
-    function fixWronglySanitizedCss (isActive) { // eslint-disable-line no-unused-vars
-        if (isActive) {
-            setup();
-        } else {
-            teardown();
-        }
-
-        function setup () {
-            var dummy = document.createElement("div");
-            document.querySelectorAll("style:not([id])").forEach((style) => {
-                dummy.innerHTML = style.textContent;
-                if (dummy.innerHTML != dummy.textContent) {
-                    style.textContent = dummy.textContent;
-                    markAsUnsanitized(style);
-                }
-            });
-            dummy.remove();
-        }
-
-        function teardown () {
-            var dummy = document.createElement("div");
-            Array.from(document.querySelectorAll("style:not([id])"))
-                .filter((style) => isUnsanitized(style))
-                .forEach((style) => {
-                    dummy.textContent = style.textContent;
-                    style.textContent = dummy.innerHTML;
-                    markAsSanitized(style);
-                });
-            dummy.remove();
-        }
-
-        /** @param {HTMLElement} elem @returns {Boolean} */
-        function isUnsanitized (elem) {
-            return elem.dataset.unsanitized;
-        } 
-        /** @param {HTMLElement} elem */
-        function markAsUnsanitized (elem) {
-            elem.dataset.unsanitized = true;
-        }
-        /** @param {HTMLElement} elem */
-        function markAsSanitized (elem) {
-            delete elem.dataset.unsanitized;
+            $(`#sidebar > section.section.user-info > ul > ${itemSelector}`).show()
+            document.styleSheets[0].addRule(`.user-popover ul ${itemSelector}`,'display:initial')
         }
     }
 ,
@@ -1318,12 +1223,11 @@ const funcObj = {
             let iff = document.querySelector('.notifications-iframe');
             let parser = new DOMParser();
             let notificationsXML = parser.parseFromString(response.responseText, "text/html");
-            const readTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/read"] input')
-            const readToken = readTokenEl.value
-            const purgeTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/clear"] input')
-            const purgeToken = purgeTokenEl.value
-            let currentPage = notificationsXML.all[6].content.split('=')[1]
+            const token = notificationsXML.querySelector('#push-subscription-div')
+                .getAttribute('data-application-server-public-key');
+            let currentPage = notificationsXML.querySelector('[property="og:url"]').content.split('=')[1]
             let currentPageInt = parseInt(currentPage)
+            // 2025-01-19: there can be 25 messages before pagination occurs
             let sects = notificationsXML.querySelectorAll('.notification');
             if (sects.length === 0) {
                 loadingSpinner.remove();
@@ -1398,7 +1302,7 @@ const funcObj = {
                 readButton.style.setProperty('--noti-button-opacity','0.7')
                 readButton.addEventListener('click', () => {
                     clearPanel();
-                    genericPOSTRequest(notificationsURL + '/read', readAndReset, readToken);
+                    genericPOSTRequest(notificationsURL + '/read', readAndReset, token);
                 });
             } else {
                 readButton.style.opacity = 0.7;
@@ -1406,7 +1310,7 @@ const funcObj = {
             }
             purgeButton.addEventListener('click', () => {
                 clearPanel();
-                genericPOSTRequest(notificationsURL + '/clear', readAndReset, purgeToken);
+                genericPOSTRequest(notificationsURL + '/clear', readAndReset, token);
             });
 
             if (currentPageInt != 1) {
@@ -1484,6 +1388,13 @@ const funcObj = {
             const iframe = document.createElement('div');
             iframe.className = 'notifications-iframe dropdown__menu';
             iframe.style.cssText = iframeCSS
+            iframe.addEventListener('click', () => {
+                if (iframe.querySelector('.noti-no-messages')) {
+                    iframe.remove();
+                    document.querySelector('.clickmodal').remove();
+                    return;
+                }
+                });
 
             let loading = document.createElement('div')
             loading.className = "loadingmsg"
@@ -1497,8 +1408,10 @@ const funcObj = {
                 iframe.remove();
                 clickModal.remove();
                 safeGM("addStyle",resetDropdownCSS)
-            })
-            document.querySelector('.kbin-container').appendChild(clickModal)
+            });
+            const container = document.querySelector('.kbin-container') 
+                ?? document.querySelector('.mbin-container');
+            container.appendChild(clickModal);
             listItem.appendChild(iframe);
             genericXMLRequest(notificationsURL + '?p=1',insertMsgs);
         }
@@ -1506,7 +1419,8 @@ const funcObj = {
         function build () {
             const notiPanel = document.querySelector('li.notification-button');
             if (notiPanel) return
-            const parentElement = document.querySelector('.header .kbin-container');
+            const parentElement = document.querySelector('.header .kbin-container')
+                    ?? document.querySelector('.header .mbin-container');
             if (parentElement) {
                 const listItem = document.createElement('li');
                 listItem.classList.add('notification-button');
@@ -1615,107 +1529,6 @@ const funcObj = {
             showMagInstances();
         } else {
             hideCommunityInstances();
-        }
-    }
-,
-
-    alt_all_content_access:
-
-    /**
-     * This mod aims to make clicking the magazine name in the navbar lead to the All Content
-     * view instead of the Threads view, while removing the All Content button itself.
-     * 
-     * @param {Boolean} isActive Whether the mod has been turned on
-    */
-    function altAllContentAccess (isActive) {  // eslint-disable-line no-unused-vars
-        const titleList = getTitle();
-        const buttons = getAllContentButton();
-
-        if (titleList.length == 0) return;
-        if (buttons.length == 0) return;
-        if (isActive) {
-            setup();
-        } else {
-            teardown();
-        }
-
-        function setup () {
-            const currentViewIsCollection = isCurrentViewCollection();
-            titleList.forEach((title) => {
-                const href = title.getAttribute("href");
-                if (!currentViewIsCollection && !href.startsWith("/*/")) {
-                    title.setAttribute("href", `/*${href}`);
-                } else if (currentViewIsCollection && !href.endsWith("/*")) {
-                    title.setAttribute("href", `${href}/*`);
-                }
-            });
-            setButtonVisibility(true);
-        }
-
-        function teardown () {
-            titleList.forEach((title) => {
-                const href = title.getAttribute("href");
-                if (href.startsWith("/*/")) title.setAttribute("href", href.slice(2));
-                else if (href.endsWith("/*")) title.setAttribute("href", href.slice(0, href.length-2));
-            });
-            setButtonVisibility(false);
-        }
-
-        /**
-         * Checks whether the existing All Content button should be hidden.
-         * 
-         * @returns {Boolean}
-         */
-        function doHideButton () {
-            return getModSettings("alt-all-content-access")["hideAllContentButton"];
-        }
-
-        /**
-         * Retrieves both the regular and the mobile button.
-         * @returns {HTMLElement[]}
-         */
-        function getAllContentButton () {
-            const threadsAttributePattern = "[href^='/*']";
-            const collectionsAttributePattern = "[href$='/*']";
-            const allContentQuery = "menu.head-nav__menu > li > a";
-            const allContentMobileQuery = "div.mobile-nav menu.info a";
-            return Array.from(
-                document.querySelectorAll(`
-                    ${allContentQuery}${threadsAttributePattern}, 
-                    ${allContentMobileQuery}${threadsAttributePattern},
-                    ${allContentQuery}${collectionsAttributePattern}, 
-                    ${allContentMobileQuery}${collectionsAttributePattern}
-                `)
-            );
-        }
-
-        /**
-         * Retrieves the clickable magazine name title, both the regular one and the mobile one..
-         * @returns {HTMLElement[]}
-         */
-        function getTitle () {
-            return Array.from(document.querySelectorAll("div.head-title a"));
-        }
-
-        /**
-         * Makes the buttons appear or disappear depending on the setting in KES and whether the mod
-         * is turned on or off.
-         */
-        function setButtonVisibility () {
-            buttons.forEach((button) => {
-                /** @type {HTMLElement} */
-                const parent = button.parentNode;
-                if (doHideButton() && isActive) parent.style.display = "none";
-                else parent.style.removeProperty("display");
-            });
-        }
-
-        /**
-         * The All Content URL of collections works differently.
-         * @returns {Boolean}
-         */
-        function  isCurrentViewCollection () {
-            return buttons[0].getAttribute("href").endsWith("/*");
         }
     }
 ,
@@ -1910,100 +1723,6 @@ const funcObj = {
     }
 ,
 
-    fix_codeblocks:
-
-    /**
-     * Lemmy federates its code blocks with syntax highlighting, but /kbin doesn't currently 
-     * correctly handle that. It just displays the additional <span> tags for the syntax
-     * highlighting in plain text. This makes the code very hard to read.
-     * This mod fixes the issue by removing those erroneous tags.
-     * 
-     * @param {Boolean} isActive Whether the mod has been turned on
-     */
-    function fixLemmyCodeblocks (isActive) { // eslint-disable-line no-unused-vars
-        /** @type {String} */
-        const STYLEPATTERN = "((font-style:italic|font-weight:bold);)?color:#[0-9a-fA-F]{6};";
-    
-        if (isActive) {
-            setup();
-        } else {
-            teardown();
-        }
-
-        function setup () {
-            getCodeBlocks()
-                .filter((code) => isErroneousCode(code))
-                .filter((code) => !isFixed(code))
-                .forEach((code) => fix(code));
-        }
-
-        function teardown () {
-            getCodeBlocks(true).forEach((code) => {
-                /** @type {HTMLElement} */
-                code.nextElementSibling.remove();
-                code.style.removeProperty("display");
-                markAsUnfixed(code);
-            });
-        }
-
-        /**
-         * Repairs a given code block.
-         * @param {HTMLElement} original The code block that needs to be fixed
-         */
-        function fix (original) {
-            const fixed = document.createElement("code");
-            original.after(fixed);
-
-            const start = new RegExp(`^\\n?<span style="${STYLEPATTERN}">`);
-            const end = new RegExp(`\\n<\\/span>\\n?$`);
-            const combined = new RegExp(`<\\/span><span style="${STYLEPATTERN}">`, "g");
-
-            fixed.textContent = original.textContent
-                .replace(start, "")
-                .replaceAll(combined, "")
-                .replace(end, "");
-
-            original.style.display = "none";
-            markAsFixed(original);
-        }
-
-        /**
-         * Checks whether a given code block needs to be fixed.
-         * @param {HTMLElement} code
-         * @returns {Boolean}
-         */
-        function isErroneousCode (code) {
-            const pattern = new RegExp(`^\\n?<span style="${STYLEPATTERN}">(.+\\n)+<\\/span>\\n?$`);
-            return pattern.test(code.textContent);
-        }
-
-        /**
-         * @param {Boolean} fixedCodeOnly Whether to only return those code blocks that have been fixed 
-         * (optional)
-         * @returns {HTMLElement[]} A list of all the code blocks on the page
-         */
-        function getCodeBlocks (fixedCodeOnly = false) {
-            const allBlocks = Array.from(document.querySelectorAll("pre code"));
-            return fixedCodeOnly
-                ? allBlocks.filter((block) => isFixed(block))
-                : allBlocks;
-        }
-
-        /** @param {HTMLElement} elem @returns {Boolean} */
-        function isFixed (elem) {
-            return elem.dataset.fixed;
-        } 
-        /** @param {HTMLElement} */
-        function markAsFixed (elem) {
-            elem.dataset.fixed = true;
-        }
-        /** @param {HTMLElement} */
-        function markAsUnfixed (elem) {
-            delete elem.dataset.fixed;
-        }
-    }
-,
-
     dropdown:
 
     function dropdownEntry (toggle) { // eslint-disable-line no-unused-vars
@@ -2039,7 +1758,7 @@ const funcObj = {
 
             // event listener
             $(document).on('change', '#dropdown-select', function () {
-                const page = $('#dropdown-select').val();
+                const page = $('#dropdown-select').val().toLowerCase();
                 const pref = 'https://' + window.location.hostname + '/u/'
                 const finalUrl = pref + user + "/" + page;
                 window.location = finalUrl;
@@ -2071,140 +1790,6 @@ const funcObj = {
             } else {
                 addDropdown(user, testMsg);
             }
-        }
-    }
-,
-
-    fix_pagination_arrows:
-
-    /**
-     * This mod aims to fix a current kbin issue.
-     * On some views, like All Content, the pagination is broken. The arrows behave like they're on
-     * the first page, regardless of which they're actually on. This mod is meant to fix the issue
-     * by manually rewriting the arrows to work correctly.
-     * 
-     * @param {Boolean} isActive Whether the mod has been turned on
-     */
-    function fixPaginationArrows (isActive) { // eslint-disable-line no-unused-vars
-        /** @type {HTMLElement} */
-        const leftArrow = document.querySelector(`span.pagination__item--previous-page`);
-        /** @type {HTMLElement} */
-        const rightArrow = document.querySelector("a.pagination__item--next-page");
-        /** @type {Number} */
-        const currentPage = Number(window.location.search?.slice(3)) ?? 1;
-
-        // everything is correct for the first page, so no need to change anything there
-        if (currentPage > 1) {
-            if (isActive) {
-                setup();
-            } else {
-                teardown();
-            }
-        }
-
-        function setup () {
-            // The left arrow query specifically looks for an uninteractable one. If it is found
-            // past page 1, that means it needs to be fixed. There's no other conditions needed.
-            if (leftArrow && !isFixed(leftArrow)) {
-                leftArrow.style.display = "none";
-                leftArrow.before(createClickable(leftArrow, currentPage-1, "prev"));
-                markAsFixed(leftArrow);
-            }
-            if (rightArrow && !isFixed(rightArrow) && isNextPageWrong()) {
-                if (isThisLastPage()) {
-                    disable(rightArrow);
-                } else {
-                    rightArrow.setAttribute("href", buildUrl(currentPage+1));
-                }
-                markAsFixed(rightArrow);
-            }
-        }
-
-        function teardown () {
-            if (leftArrow && isFixed(leftArrow)) {
-                document.querySelector("a.pagination__item--previous-page").remove();
-                leftArrow.style.removeProperty("display");
-                markAsUnfixed(leftArrow);
-            }
-            if (rightArrow && isFixed(rightArrow)) {
-                if (rightArrow.classList.contains("pagination__item--disabled")) {
-                    rightArrow.classList.remove("pagination__item--disabled");
-                    rightArrow.style.removeProperty("color");
-                    rightArrow.style.removeProperty("font-weight");
-                }
-                rightArrow.setAttribute("href", buildUrl(2));
-                markAsUnfixed(rightArrow);
-            }
-        }
-
-        /**
-         * Disables an arrow, making it non-clickable.
-         * @param {HTMLElement} elem
-         */
-        function disable (elem) {
-            elem.style.color = "var(--kbin-meta-text-color)";
-            elem.style.fontWeight = "400";
-            elem.classList.add("pagination__item--disabled");
-            elem.removeAttribute("href");
-        }
-
-        /**
-         * The left arrow remains uninteractable when this bug happens, regardless of page. This
-         * function creates a clickable element to replace it with.
-         * @param {HTMLElement} original
-         * @param {Number} page What page the new interactable arrow should point to
-         * @param {String} role The value for the rel attribute
-         * @returns {HTMLElement}
-         */
-        function createClickable (original, page, role) {
-            const newElement = document.createElement("a");
-            newElement.classList = original.classList;
-            newElement.classList.remove("pagination__item--disabled");
-            newElement.textContent = original.textContent;
-            newElement.setAttribute("href", buildUrl(page));
-            newElement.setAttribute("rel", role);
-            return newElement;
-        }
-
-        /**
-         * Checks whether the current page is the last one.
-         * @returns {Boolean}
-         */
-        function isThisLastPage () {
-            const lastPage = rightArrow.previousElementSibling.textContent;
-            return lastPage == currentPage;
-        }
-
-        /**
-         * Checks if the right arrow points to the correct page. Or rather, the wrong one.
-         * @returns {Boolean}
-         */
-        function isNextPageWrong () {
-            const actualUrl = rightArrow.getAttribute("href");
-            const expectedUrl = buildUrl(currentPage+1);
-            return actualUrl != expectedUrl;
-        }
-
-        /**
-         * Constructs the correct full URL for one of the arrows.
-         * @param {Number} page
-         * @returns {String}
-         */
-        function buildUrl (page) {
-            return `${window.location.pathname}?p=${page}`;
-        }
-
-        /** @param {HTMLElement} elem @returns {Boolean} */
-        function isFixed (elem) {
-            return elem.dataset.fixed;
-        } 
-        /** @param {HTMLElement} */
-        function markAsFixed (elem) {
-            elem.dataset.fixed = true;
-        }
-        /** @param {HTMLElement} */
-        function markAsUnfixed (elem) {
-            delete elem.dataset.fixed;
         }
     }
 ,
@@ -3793,7 +3378,7 @@ const funcObj = {
         const settings = getModSettings('thread-delta');
         const fgcolor = getHex(settings["fgcolor"]) // eslint-disable-line no-undef
         const bgcolor = getHex(settings["bgcolor"]) // eslint-disable-line no-undef
-        const state = settings["state"]
+        const state = settings["always_on"]
 
         const hostname = window.location.hostname;
         const loc = window.location.pathname.split('/')
@@ -4549,7 +4134,8 @@ const funcObj = {
             const path = location.pathname.split('/')[1]
             switch (path) {
                 case "":
-                case "sub": {
+                case "sub":
+                case "all": {
                     blockThreads(mags);
                     break
                 }
@@ -4573,18 +4159,14 @@ const funcObj = {
             articles.forEach((article) => {
                 const instance = article.href.split('/')[4]
                 if (mags.includes(instance)) {
-                    if (getInstanceType() === "kbin") { // eslint-disable-line no-undef
-                        el = article.parentElement.parentElement;
-                    } else {
-                        el = article.parentElement.parentElement.parentElement;
-                    }
+                    el = article.parentElement.parentElement.parentElement;
                     blankCSS(el);
                 }
             });
         }
         function blockThreads (mags) {
             hideThreads(mags)
-            document.querySelectorAll('.meta').forEach((item) => {
+            document.querySelectorAll('.entry__meta').forEach((item) => {
                 if (item.querySelector('.softblock-icon')) {
                     return
                 }
@@ -4767,10 +4349,10 @@ const funcObj = {
         }
 
         async function loadMags (hostname) {
-            const mags = await safeGM("getValue", `softblock-mags-${hostname}`)
+            let mags = await safeGM("getValue", `softblock-mags-${hostname}`)
             if (!mags) {
-                const e = [];
-                saveMags(hostname, e)
+                mags = [];
+                saveMags(hostname, mags)
             }
             softBlock(mags)
         }
