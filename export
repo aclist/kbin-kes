@@ -19,8 +19,15 @@ scripts=(
         )
 
 build(){
+    local opts=("main" "testing")
+    printf "Set upstream URL\n"
+    select opt in ${opts[@]}; do
+        local ind=$((REPLY-1))
+        local branch=${opts[$ind]}
+        break
+    done
     for i in "$@"; do
-        ${build_path}/${scripts[$i]}
+        ${build_path}/${scripts[$i]} "$branch"
     done
 }
 abort(){
