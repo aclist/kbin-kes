@@ -177,5 +177,11 @@ readarray -t eslint_funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | s
 eslint_funcs+=("safeGM" "getHex")
 
 cp $base_file $base_file.bak
+if [[ $1 == "local" ]]; then
+    cp $base_file.bak tmp/$base_file.bak
+    cp $base_file tmp/$base_file
+    base_file="tmp/$base_file"
+fi
+
 main > $base_file
-printf "Wrote KES script to '%s'\n" "$base_file"
+printf "Wrote KES script to '%s'\n" "$PWD/$base_file"

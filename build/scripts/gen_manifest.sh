@@ -4,7 +4,8 @@ if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
     exit 1
 fi
 
-file="manifest.json"
+file="helpers/manifest.json"
+[[ $1 == "local" ]] && file="tmp/helpers/manifest.json"
 validate(){
     for i in $(find $PWD/mods -name "*.json"); do
         < "$i" jq empty 2>/dev/null || { printf "ERROR: %s is malformed JSON\n" "$i"; exit 1; }
@@ -14,8 +15,8 @@ validate(){
 gen(){
     for i in $(find $PWD/mods -name "*.json"); do
         cat $i
-    done | jq -s > $PWD/helpers/$file
+    done | jq -s > $PWD/$file
 }
 
 validate
-printf "Wrote manifest to '%s'\n" "$PWD/helpers/$file"
+printf "Wrote manifest to '%s'\n" "$PWD/$file"

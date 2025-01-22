@@ -5,15 +5,15 @@ if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
 fi
 
 build_dir="build/scripts"
-kes="kes.user.js"
+kes="tmp/kes.user.js"
 alt="${kes}.alt"
 prefix="https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/"
 lcl="http://127.0.0.1:8080/helpers/"
 
 build(){
-    "$build_dir/gen_kes.sh"
-    "$build_dir/gen_manifest.sh"
-    "$build_dir/concat_funcs"
+    "$build_dir/gen_kes.sh" "local"
+    "$build_dir/gen_manifest.sh" "local"
+    "$build_dir/concat_funcs" "local"
 }
 escape(){
     <<< "$1" sed 's@/@\\/@g'
@@ -22,17 +22,21 @@ escape(){
 function abort(){
     kill -9 $pid
     log cleanup
-    rm "$alt"
+    rm -rf tmp
 }
 
-trap abort EXIT SIGINT INT
+trap abort SIGINT INT
 
 echo
+[[ ! -d tmp ]] && mkdir tmp
+[[ ! -d tmp/helpers ]] && mkdir tmp/helpers
+cp -R helpers tmp/helpers
+
 build
 < $kes sed \
     -e "s/\(\/\/ @require *\)\($(escape $prefix)\)\(.*\)/\1$(escape $lcl)\3/g" \
     -e "s/\(\/\/ @resource *\)\(.*\) \($(escape $prefix)\)\(.*\)/\1\2 $(escape $lcl)\4/g" > $alt &&
-    echo "Copy the contents of '$alt' into your *monkey extension to use local resources"
+    echo "Copy the contents of '$PWD/$alt' into your *monkey extension to use local resources"
     echo
 
 printf "Initializing local server. Type 'q' to terminate\n"
@@ -40,6 +44,5 @@ python3 -m http.server 8080 --bind 127.0.0.1 &
 pid=$!
 read -rsn1 key
 if [[ $key == "q" ]]; then
-    kill -9 $pid
     abort
 fi
