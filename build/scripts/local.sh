@@ -8,12 +8,12 @@ build_dir="build/scripts"
 kes="tmp/kes.user.js"
 alt="${kes}.alt"
 prefix="https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/"
-lcl="http://127.0.0.1:8080/helpers/"
+lcl="http://127.0.0.1:8080/tmp/helpers/"
 
 build(){
-    "$build_dir/gen_kes.sh" "local"
-    "$build_dir/gen_manifest.sh" "local"
-    "$build_dir/concat_funcs" "local"
+    "$build_dir/gen_kes.sh" "testing" "local"
+    "$build_dir/gen_manifest.sh" "testing" "local"
+    "$build_dir/concat_funcs" "testing" "local"
 }
 escape(){
     <<< "$1" sed 's@/@\\/@g'
@@ -29,8 +29,7 @@ trap abort SIGINT INT
 
 echo
 [[ ! -d tmp ]] && mkdir tmp
-[[ ! -d tmp/helpers ]] && mkdir tmp/helpers
-cp -R helpers tmp/helpers
+cp -R helpers tmp
 
 build
 < $kes sed \
