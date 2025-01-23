@@ -27,8 +27,6 @@ set_branch(){
 
 build(){
     local branch=""
-    echo "${scripts[$1]}"
-exit
     case "$1" in
         Build[[:space:]]all*)
             branch=$(set_branch)
