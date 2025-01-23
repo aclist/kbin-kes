@@ -6,7 +6,7 @@ fi
 
 tool="concat_funcs"
 file="$PWD/helpers/funcs.js"
-[[ $2 == "local" ]] && file="tmp/helpers/funcs.js"
+[[ $2 == "local" ]] && file="$PWD/tmp/helpers/funcs.js"
 count=$(ls -1 $PWD/mods | wc -l)
 i=1
 
@@ -29,6 +29,6 @@ gen(){
 }
 build(){
     gen "$1" > "$file"
-    [[ $? -eq 0 ]] && echo "Wrote functions to '$PWD/$file'"
+    [[ $? -eq 0 ]] && echo "Wrote functions to '$file'"
 }
 build
