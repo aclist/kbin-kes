@@ -620,7 +620,7 @@ function constructMenu (json, layoutArr, isNew) {
 
                             let val
                             let size
-                            if (modSettings[key] === undefined) {
+                            if ((modSettings[key] === undefined) || (modSettings[key] === "")) {
                                 size = getComputedFontSize(initial)
                                 if (!size) {
                                     val = 14
