@@ -109,27 +109,19 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
 
     function kfaStartup () {
         kfaInitClasses();
-        kfaInjectedCss = safeGM("addStyle",kfaGetCss());
+        safeGM("addStyle",kfaGetCss(),"kfaInjectedCss");
     }
 
     function kfaShutdown () {
-        if (kfaInjectedCss) {
-            kfaInjectedCss.remove();
-        }
-        function removeOld () {
-            for (let i = 0; i<arguments.length; ++i) {
-                arguments[i].forEach((el) => {
-                    el.remove();
-                });
-            }
-        }
-        const dh = document.querySelectorAll('header .data-home')
-        const df = document.querySelectorAll('header .data-federated')
-        const dm = document.querySelectorAll('header .data-moderated')
-        const mh = document.querySelectorAll('.meta.entry__meta .data-home')
-        const mf = document.querySelectorAll('.meta.entry__meta .data-federated')
-        const mm = document.querySelectorAll('.meta.entry__meta .data-moderated')
-        removeOld(dh, df, dm, mh, mf, mm);
+        safeGM("removeStyle","kfaInjectedCss");
+        document.querySelectorAll('div.data-home, div.data-federated, div.data-moderated')
+            .forEach((element) => element.remove());
+        document.querySelectorAll('.data-home')
+            .forEach((element) => element.classList.remove('data-home'));
+        document.querySelectorAll('.data-federated')
+            .forEach((element) => element.classList.remove('data-federated'));
+        document.querySelectorAll('.data-moderated')
+            .forEach((element) => element.classList.remove('data-moderated'));
     }
 
     function findHostname (op) {
@@ -194,7 +186,6 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
         });
     }
 
-    let kfaInjectedCss;
     let kfaSettingsFed;
     let kfaSettingsMod;
     let kfaSettingsHome;
@@ -210,6 +201,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
         kfaSettingsArticleSide = settings['kfaPostSide'];
         kfaSettingsStyle = settings['kfaStyle'];
         kfaSettingsScale = settings['kfaBubbleScale'];
+        kfaShutdown();
         kfaStartup();
     } else {
         kfaShutdown();
