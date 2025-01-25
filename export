@@ -11,17 +11,43 @@ options=(
         "Build local: build all files and load from local server"
         "Quit"
 )
-scripts=(
-        "gen_manifest.sh"
-        "concat_funcs"
-        "gen_kes.sh"
-        "local.sh"
-        )
+declare -A scripts
+scripts["LOCAL"]="local.sh"
+scripts["FUNCS"]="concat_funcs"
+scripts["MANIFEST"]="gen_manifest.sh"
+scripts["KES"]="gen_kes.sh"
+
+set_branch(){
+    select opt in main testing; do
+        branch=$opt
+        break
+    done
+    echo "$branch"
+}
 
 build(){
-    for i in "$@"; do
-        ${build_path}/${scripts[$i]}
-    done
+    local branch=""
+    case "$1" in
+        Build[[:space:]]all*)
+            branch=$(set_branch)
+            for i in "FUNCS" "MANIFEST" "KES"; do
+                ${build_path}/${scripts[$i]} "$branch"
+            done
+            ;;
+        Build[[:space:]]manifest*)
+            ${build_path}/${scripts["MANIFEST"]}
+            ;;
+        Build[[:space:]]functions*)
+            ${build_path}/${scripts["FUNCS"]}
+            ;;
+        Build[[:space:]]KES*)
+            branch=$(set_branch)
+            ${build_path}/${scripts["KES"]} "$branch"
+            ;;
+        Build[[:space:]]local*)
+            ${build_path}/${scripts["LOCAL"]}
+            ;;
+    esac
 }
 abort(){
     printf "Invalid option or outside of range\n"
@@ -37,14 +63,6 @@ select opt in "${options[@]}"; do
     [[ $opt == "Quit" ]] && exit 0
     ind=$(($REPLY-1))
     validate "$ind"
-    case "$ind" in
-    "0")
-        build 0 1 2
-        break
-        ;;
-    *)
-        build "$((ind-1))"
-        break
-        ;;
-    esac
+    build "$opt"
+    break
 done
