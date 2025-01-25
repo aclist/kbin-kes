@@ -21,7 +21,6 @@ escape(){
 
 function abort(){
     kill -9 $pid
-    log cleanup
     rm -rf tmp
     exit
 }
