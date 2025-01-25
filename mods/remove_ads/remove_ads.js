@@ -26,7 +26,6 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
     let iteration
     
     const domain = window.location.hostname
-    const instance = getInstanceType();
     const url = new URL(window.location).href.split('/')
     if (url[3] !== "m") return
     if (url[5] === "t") return
@@ -168,17 +167,12 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
         genericXMLRequest(url, parse)
     }
     async function parse (response) {
-        let u
         const parser = new DOMParser();
         const json = JSON.parse(response.responseText)
         const XML = parser.parseFromString(json.html, "text/html");
-        if (instance === "mbin") {
-            u = XML.querySelector('.user__name').innerText
-        } else {
-            u = XML.querySelector('.link-muted p').innerText
-        }
+        const u = XML.querySelector('.user__name span').innerText.split('\n')[1].trim()
         const age = XML.querySelector('.timeago').innerText.split(' ')
-        const repnum = XML.querySelector('header ul li:nth-of-type(2) a') .innerText.trim().split(' ')[2]
+        const repnum = XML.querySelector('header ul li:nth-of-type(3)').innerText.trim().split(' ')[2]
         const threadsnum = XML.querySelector('menu li:nth-of-type(1) a div:first-of-type').innerText
         const commentsnum = XML.querySelector('menu li:nth-of-type(2) a div:first-of-type').innerText
 
