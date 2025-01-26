@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-TEST_NAME="Check for missing manifest"
+TEST_NAME="Check for missing manifest entries"
 
 find_mods(){
     readarray -t mods < <(find mods/ -mindepth 1 -type d | sort)

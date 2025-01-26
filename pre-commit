@@ -80,12 +80,13 @@ result(){
     local res="$1"
     case "$res" in
         0)
-            printf "Result: OK\n"
-            printf "\n"
+            printf "Result: \e[0;32mOK\n"
+            printf "\e[0m"
             return 0
             ;;
         1)
-            printf "Result: FAIL\n"
+            printf "Result: \e[0;31mFAIL\n"
+            printf "\e[0m"
             exit 1
             ;;
     esac
@@ -99,6 +100,7 @@ for ((i=0; i <${#tests[@]}; ++i)); do
     test_executable "${tests[$i]}"
     inc=$((i+1))
     name=$(awk -F\" '/TEST_NAME/ {print $2}' "${tests[$i]}")
+    printf "\n"
     printf "Test %s/%s: %s\n" "$inc" "${#tests[@]}" "$name"
     ${tests[$i]}
     result "$?"
