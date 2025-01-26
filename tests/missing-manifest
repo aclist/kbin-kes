@@ -32,7 +32,7 @@ fi
 
 res=$(comm -13 <(find_mods) <(find_entrypoints))
 if [[ ! $res == "" ]]; then
-    abort "Found values in manifest.json present as local mods:" "$res"
+    abort "Found values in manifest.json not present as local mods:" "$res"
 fi
 
 exit 0
