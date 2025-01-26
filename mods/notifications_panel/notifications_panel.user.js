@@ -368,7 +368,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
                 document.querySelector('.clickmodal').remove();
                 return;
             }
-            });
+        });
 
         let loading = document.createElement('div')
         loading.className = "loadingmsg"
