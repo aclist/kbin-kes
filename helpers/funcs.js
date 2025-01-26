@@ -1394,7 +1394,7 @@ const funcObj = {
                     document.querySelector('.clickmodal').remove();
                     return;
                 }
-                });
+            });
 
             let loading = document.createElement('div')
             loading.className = "loadingmsg"
@@ -1824,7 +1824,6 @@ const funcObj = {
         let iteration
     
         const domain = window.location.hostname
-        const instance = getInstanceType();
         const url = new URL(window.location).href.split('/')
         if (url[3] !== "m") return
         if (url[5] === "t") return
@@ -1966,17 +1965,12 @@ const funcObj = {
             genericXMLRequest(url, parse)
         }
         async function parse (response) {
-            let u
             const parser = new DOMParser();
             const json = JSON.parse(response.responseText)
             const XML = parser.parseFromString(json.html, "text/html");
-            if (instance === "mbin") {
-                u = XML.querySelector('.user__name').innerText
-            } else {
-                u = XML.querySelector('.link-muted p').innerText
-            }
+            const u = XML.querySelector('.user__name span').innerText.split('\n')[1].trim()
             const age = XML.querySelector('.timeago').innerText.split(' ')
-            const repnum = XML.querySelector('header ul li:nth-of-type(2) a') .innerText.trim().split(' ')[2]
+            const repnum = XML.querySelector('header ul li:nth-of-type(3)').innerText.trim().split(' ')[2]
             const threadsnum = XML.querySelector('menu li:nth-of-type(1) a div:first-of-type').innerText
             const commentsnum = XML.querySelector('menu li:nth-of-type(2) a div:first-of-type').innerText
 
@@ -2475,6 +2469,9 @@ const funcObj = {
             .page-messages > .kbin-container > #main > h1 {
                 font-size: ${settings["optionMessages"] * 2.5}px
             }
+            .page-messages > .mbin-container > #main > h1 {
+                font-size: ${settings["optionMessages"] * 2.5}px
+            }
             /* SIDEBAR */
             #sidebar * {
                 font-size: ${settings["optionHomeSidebar"]}px !important
@@ -2529,16 +2526,8 @@ const funcObj = {
                 font-size: ${settings["optionUserSettings"] * 2.5}px
             }
             /* ============= */
-            /* FOOTER */
-            #footer > .kbin-container > section * {
-                font-size: ${settings["optionFooter"]}px
-            }
-            #footer > .kbin-container > section h5 {
-                font-size: ${settings["optionFooter"] * 1.222}px
-            }
-            /* ============= */
             /* SORT OPTIONS */
-            aside#options menu li a, aside#options menu i {
+            aside#options menu li a, aside#options menu i, aside#options menu button span {
                 font-size: ${settings["optionSortBy"]}px
             }
             /* INBOX NOTIFICATIONS */
@@ -2549,6 +2538,15 @@ const funcObj = {
                 font-size: ${settings["optionNotifs"] * 0.85}px
             }
             .page-notifications > .kbin-container > main > h1 {
+                font-size: ${settings["optionNotifs"] * 2.5}px !important
+            }
+            .page-notifications > .mbin-container > main > * {
+                font-size: ${settings["optionNotifs"]}px
+            }
+            .page-notifications > .mbin-container > main > .pills > menu > form > button {
+                font-size: ${settings["optionNotifs"] * 0.85}px
+            }
+            .page-notifications > .mbin-container > main > h1 {
                 font-size: ${settings["optionNotifs"] * 2.5}px !important
             }
             /* ============= */
@@ -3842,27 +3840,19 @@ const funcObj = {
 
         function kfaStartup () {
             kfaInitClasses();
-            kfaInjectedCss = safeGM("addStyle",kfaGetCss());
+            safeGM("addStyle",kfaGetCss(),"kfaInjectedCss");
         }
 
         function kfaShutdown () {
-            if (kfaInjectedCss) {
-                kfaInjectedCss.remove();
-            }
-            function removeOld () {
-                for (let i = 0; i<arguments.length; ++i) {
-                    arguments[i].forEach((el) => {
-                        el.remove();
-                    });
-                }
-            }
-            const dh = document.querySelectorAll('header .data-home')
-            const df = document.querySelectorAll('header .data-federated')
-            const dm = document.querySelectorAll('header .data-moderated')
-            const mh = document.querySelectorAll('.meta.entry__meta .data-home')
-            const mf = document.querySelectorAll('.meta.entry__meta .data-federated')
-            const mm = document.querySelectorAll('.meta.entry__meta .data-moderated')
-            removeOld(dh, df, dm, mh, mf, mm);
+            safeGM("removeStyle","kfaInjectedCss");
+            document.querySelectorAll('div.data-home, div.data-federated, div.data-moderated')
+                .forEach((element) => element.remove());
+            document.querySelectorAll('.data-home')
+                .forEach((element) => element.classList.remove('data-home'));
+            document.querySelectorAll('.data-federated')
+                .forEach((element) => element.classList.remove('data-federated'));
+            document.querySelectorAll('.data-moderated')
+                .forEach((element) => element.classList.remove('data-moderated'));
         }
 
         function findHostname (op) {
@@ -3927,7 +3917,6 @@ const funcObj = {
             });
         }
 
-        let kfaInjectedCss;
         let kfaSettingsFed;
         let kfaSettingsMod;
         let kfaSettingsHome;
@@ -3943,6 +3932,7 @@ const funcObj = {
             kfaSettingsArticleSide = settings['kfaPostSide'];
             kfaSettingsStyle = settings['kfaStyle'];
             kfaSettingsScale = settings['kfaBubbleScale'];
+            kfaShutdown();
             kfaStartup();
         } else {
             kfaShutdown();
