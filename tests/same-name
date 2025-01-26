@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+TEST_NAME="Check mod names"
+abort(){
+    printf "Mod file '%s' does not share directory name '%s'\n" "$1" "$2"
+    exit 1
+}
+
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
+
+readarray -t dirs < <(find $PWD/mods -mindepth 1 -type d)
+for dir in "${dirs[@]}"; do
+    base_dir=$(basename $dir)
+    readarray -t files < <(find "$dir" -type f)
+    for file in "${files[@]}"; do
+        base_file=$(basename "$file" | awk -F. '{print $1}')
+        [[ ! $base_dir == "$base_file" ]] && abort "$base_file" "$base_dir"
+    done
+done

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+TEST_NAME="Lint JS files"
+
+abort(){
+    local msg="$1"
+    printf "%s\n" "$msg"
+    exit 1
+}
+
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
+
+command -v eslint 1>&2 > /dev/null
+[[ ! $? -eq 0 ]] && abort "Missing dependency 'eslint'"
+
+eslint --quiet $PWD/mods/*
+[[ ! $? -eq 0 ]] && abort "ESLint exited with errors"
+
+for file in kes.user.js helpers/funcs.js; do
+    eslint --quiet "$file"
+    [[ ! $? -eq 0 ]] && abort "ESLint exited with errors"
+done

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+TEST_NAME="Check for reserved keys"
+
+abort(){
+    printf "The file '%s' contains the reserved key '%s'\n" "$file" "state"
+    exit 1
+}
+
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
+
+readarray -t files < <(find $PWD/mods -mindepth 1 -type f)
+for file in "${files[@]}"; do
+    res=$(awk '/\["state"\]/||/"key": "state"/' "$file")
+    [[ -n "$res" ]] && abort "$file"
+done
+exit 0

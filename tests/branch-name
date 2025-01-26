@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+TEST_NAME="Check branch nomenclature"
+
+usage(){
+    _format(){
+        printf "\n"
+        printf "Invalid branch name. Supported branch prefixes:\n"
+        printf "\n"
+        printf "testing - dev sandbox\n"
+        printf "fix/<NAME> - hotfix (bumps patch version)\n"
+        printf "feat/<NAME> - feature (bumps minor version)\n"
+        printf "api/<NAME> - breaking change (bumps major version)\n"
+        printf "release/<NAME> - pre-release\n"
+        printf "\n"
+    }
+    _format | sed 's/^/\t/g'
+}
+abort(){
+    usage
+    exit 1
+}
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
+
+branch=$(git name-rev --name-only HEAD)
+if [[ ! $branch == "testing" ]] && [[ ! $branch =~ / ]]; then
+    abort
+fi
+if [[ $branch =~ / ]]; then
+    prefix=$(<<< "$branch" awk -F/ '{print $1}')
+    case "$prefix" in
+        "fix"|"feat"|"api")
+            :
+            ;;
+        *)
+            abort
+            ;;
+    esac
+fi
