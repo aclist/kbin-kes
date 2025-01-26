@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+TEST_NAME="Check version number"
+
+#testing
+#prompt to bump or skip
+#redirect to version bump function
+
+#release/
+#version can't be -beta
+
+#fix/feat/api
+#version can't be -beta
+#bump version one time based on branch

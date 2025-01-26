@@ -38,3 +38,5 @@ for file in kes.user.js helpers/funcs.js; do
     eslint --quiet "$file"
     [[ ! $? -eq 0 ]] && abort "ESLint exited with errors"
 done
+
+exit 0

@@ -19,3 +19,5 @@ for dir in "${dirs[@]}"; do
         [[ ! $base_dir == "$base_file" ]] && abort "$base_file" "$base_dir"
     done
 done
+
+exit 0
