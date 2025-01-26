@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.3.0-beta.7
+// @version      4.3.0-beta.8
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -54,7 +54,6 @@ const updateURL = branchPath + "kes.user.js";
 const bugURL = repositoryURL + "issues"
 const sponsorURL = "https://github.com/sponsors/aclist"
 const changelogURL = repositoryURL + "blob/" + branch + "/CHANGELOG.md"
-const magURL = "https://kbin.social/m/enhancement"
 
 //resource URLs used by legacy GM. API
 const manifest = branchPath + helpersPath + "manifest.json"
@@ -821,13 +820,6 @@ function constructMenu (json, layoutArr, isNew) {
         const footer = document.createElement("div");
         footer.className = "kes-settings-modal-footer";
 
-//        const magLink = document.createElement("a");
-//        magLink.className = "kes-settings-modal-magazine";
-//        magLink.innerText = "/m/enhancement";
-//        magLink.setAttribute('href', magURL);
-//        magLink.setAttribute('target', '_blank');
-//        footer.appendChild(magLink)
-
         const backupButton = document.createElement('button');
         backupButton.innerText = "SETTINGS";
         backupButton.className = "kes-backup-button";
@@ -1392,7 +1384,8 @@ function constructMenu (json, layoutArr, isNew) {
 
     function init () {
         for (let i = 0; i < json.length; ++i) {
-            if ((json[i].login) && (!is_logged_in())) {
+            if ((json[i].login) && (!is_logged_in())) { // eslint-disable-line no-undef
+
                 continue
             }
             applySettings(json[i].entrypoint);
