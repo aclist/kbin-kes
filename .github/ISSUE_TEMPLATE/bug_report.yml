@@ -3,7 +3,7 @@ description: Submit bugs that affect functionality here
 title: "[BUG] Your title here"
 labels: ["bug"]
 assignees:
-  - aclist
+  - aclist,pamasich
 body:
   - type: dropdown
     id: browser

@@ -3,7 +3,7 @@ description: Suggest a feature for the KES interface
 title: "[FEAT] Your title here"
 labels: ["enhancement"]
 assignees:
-  - aclist
+  - aclist,pamasich
 body:
   - type: dropdown
     id: browser
