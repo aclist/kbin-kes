@@ -6,79 +6,81 @@
     License:        MIT
 */
 const kmoStyles = `
-    .switch {
-        position: relative;
-        //display: inline-block;
-        display: block;
-        width: 36px;
-        height: 24px;
-    }
-
-    .switch input {
-        display: none;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: var(--kbin-bg);
-        --webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: '';
-        height: 12px;
-        width: 12px;
-        left: 2px;
-        top: 2px;
-        background-color: var(--kbin-meta-text-color);
-        --webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    input:checked + .slider {
-        background-color: var(--kbin-success-color);
-    }
-
-    input:focus + .slider {
-        box-shadow: 0 0 1px var(--kbin-success-color);
-    }
-
-    input:checked + .slider:before {
-        --webkit-transform: translateX(20px);
-        --ms-transform: translateX(20px);
-        transform: translateX(20px);
-    }
-
-    .kmo-settings-row.expanded {
-        display: block !important;
-    }
-
-    .kmo-settings-header {
-        border-bottom: var(--kbin-sidebar-header-border);
-        color: var(--kbin-sidebar-header-text-color);
-        margin-bottom: 0.5em;
-    }
-
-    .kmo-settings-row {
-        display: none;
-        animation: showKmoSettingsRow .25s ease-in-out;
-    }
-
-    @keyframes showKmoSettingsRow {
-        0% {
-            opacity: 0;
-            transform: translateY(-1.5em);
+    .kes-settings-modal-content {
+        .switch {
+            position: relative;
+            //display: inline-block;
+            display: block;
+            width: 36px;
+            height: 24px;
         }
-        to {
-            opacity: 1;
-            transform: translateY(0);
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--kbin-bg);
+            --webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: '';
+            height: 12px;
+            width: 12px;
+            left: 2px;
+            top: 2px;
+            background-color: var(--kbin-meta-text-color);
+            --webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: var(--kbin-success-color);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--kbin-success-color);
+        }
+
+        input:checked + .slider:before {
+            --webkit-transform: translateX(20px);
+            --ms-transform: translateX(20px);
+            transform: translateX(20px);
+        }
+
+        .kmo-settings-row.expanded {
+            display: block !important;
+        }
+
+        .kmo-settings-header {
+            border-bottom: var(--kbin-sidebar-header-border);
+            color: var(--kbin-sidebar-header-text-color);
+            margin-bottom: 0.5em;
+        }
+
+        .kmo-settings-row {
+            display: none;
+            animation: showKmoSettingsRow .25s ease-in-out;
+        }
+
+        @keyframes showKmoSettingsRow {
+            0% {
+                opacity: 0;
+                transform: translateY(-1.5em);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     }
 `
