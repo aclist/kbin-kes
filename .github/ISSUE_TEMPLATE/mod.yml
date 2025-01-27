@@ -3,7 +3,7 @@ description: Suggest an add-on to load into KES
 title: "[MOD] Your title here"
 labels: ["mod"]
 assignees:
-  - aclist
+  - aclist,pamasich
 body:
   - type: dropdown
     id: browser
