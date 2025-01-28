@@ -1,74 +1,51 @@
 #!/usr/bin/env bash
-npm_flag="--no-git-tag-version"
-COLUMNS=1
-version_file="VERSION"
-master_file="kes.user.js"
-funcs_file="helpers/funcs.js"
-manifest="helpers/manifest.json"
-vers=$(< $version_file)
-branch=$(git name-rev --name-only HEAD)
-    opts=(
-            "MAJOR (breaking API change)"
-            "MINOR (feature)"
-            "PATCH (hotfix)"
-            "chore (static docs/task/file manipulation)"
-         )
-bump_npm(){
-    case "$1" in
-        "prerelease")
-            npm version "$1" --preid=rc "$npm_flag"
-            ;;
-        "beta")
-            npm version "$1" --preid=beta "$npm_flag"
-            ;;
-        *)
-            npm version "$1" "$npm_flag"
-            ;;
-        esac
-}
 bump_vers(){
-    [[ $1 == chore ]] && return
-    local ma=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\1/g')
-    local mi=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\3/g')
-    local pa=$(<<< "$vers" sed 's/\([0-9]\+\)\(.\)\([0-9]\+\)\(.\)\([0-9]\+\)/\5/g')
-    if [[ $branch == "main" ]]; then
-        bump_npm "$1"
-        case $1 in
-            "major")
-            ma=$((ma+1))
-            mi=0
-            pa=0
+    local version="$1"
+    local bump="$2"
+    local pref=$(<<< "$version" awk -F- '{print $1}')
+
+    IFS="." read -r -a arr <<< "$pref"
+    local major=${arr[0]}
+    local minor=${arr[1]}
+    local patch=${arr[2]}
+
+    case "$bump" in
+        "MAJOR")
+            major=$((major+1))
+            minor=0
+            patch=0
             ;;
-        "minor")
-            mi=$((mi+1))
-            pa=0
+        "MINOR")
+            minor=$((minor+1))
+            patch=0
             ;;
-        "patch")
-            pa=$((pa+1))
+        "PATCH")
+            patch=$((patch+1))
             ;;
-        esac
-        local newvers="${ma}.${mi}.${pa}"
-    elif [[ $branch =~ ^release/ ]]; then
-        local inc=$(<<< "$vers" awk -F"." '{print $4}')
-        local pref=$(<<< "$vers" awk -F"-" '{print $1}')
-        newvers="${pref}-rc.$((inc+1))"
-        bump_npm prerelease
-    else
-        local inc=$(<<< "$vers" awk -F"." '{print $4}')
-        local pref=$(<<< "$vers" awk -F"-" '{print $1}')
-        newvers="${pref}-beta.$((inc+1))"
-    fi
-        echo "$newvers" > $version_file
-        ./build/scripts/gen_manifest.sh
-        ./build/scripts/gen_kes.sh
-        ./build/scripts/concat_funcs
-        echo
-        echo "HOOK========>Bumping version from $vers to $newvers"
-        echo
-        git add $manifest
-        git add $version_file
-        git add $master_file
-        git add "$funcs_file"
+    esac
+
+    echo "${major}.${minor}.${patch}"
+}
+
+build_with_version(){
+    local version="$1"
+    local branch="$2"
+    local version_file="VERSION"
+
+    echo "$version" > $version_file
+    for script in gen_manifest.sh gen_kes.sh concat_funcs; do
+        ./build/scripts/${script} "$branch"
+    done
+
+    local files=(
+        "VERSION"
+        "kes.user.js"
+        "helpers/funcs.js"
+        "helpers/manifest.json"
+    )
+    for file in "${files[@]}"; do
+        git add "$file"
+    done
 }
 
 abort(){
@@ -76,6 +53,7 @@ abort(){
     printf "%s\n" "$msg"
     exit 1
 }
+
 result(){
     local res="$1"
     case "$res" in
@@ -91,28 +69,160 @@ result(){
             ;;
     esac
 }
+
 test_executable(){
     local f="$1"
     [[ ! -x "$f" ]] && abort "Test '$f' is not executable"
 }
-readarray -t tests < <(find $PWD/tests -type f)
-for ((i=0; i <${#tests[@]}; ++i)); do
-    test_executable "${tests[$i]}"
-    inc=$((i+1))
-    name=$(awk -F\" '/TEST_NAME/ {print $2}' "${tests[$i]}")
-    printf "\n"
-    printf "Test %s/%s: %s\n" "$inc" "${#tests[@]}" "$name"
-    ${tests[$i]}
-    result "$?"
-done
 
-#echo "This commit change is of type:"
-#select opt in "${opts[@]}"; do
-#case $opt in
-#${opts[0]}) bump_vers major ;;
-#${opts[1]}) bump_vers minor ;;
-#${opts[2]}) bump_vers patch ;;
-#${opts[3]}) : ;;
-#esac
-#break
-#done < /dev/tty
+is_beta(){
+    local vers="$1"
+    local res
+    res=$(<<< "$vers" awk '/beta/')
+    if [[ -z $res ]]; then
+        echo 0
+    else
+        echo 1
+    fi
+}
+
+increment_beta(){
+    local vers="$1"
+    local pref=$(<<< "$vers" awk -F. 'BEGIN{OFS="."}{$NF=""; print $0}')
+    local inc=$(<<< "$vers" awk -F. 'BEGIN{OFS="."}{print $NF}')
+    inc=$((inc+1))
+    echo "${pref}${inc}"
+}
+
+beta_bump_menu(){
+    local choice="$1"
+
+    local opts=(
+        "Increment beta version only"
+        "Bump major/minor/version and reset beta increment"
+        "Skip version bump"
+    )
+    declare -A enums
+    enums["Increment beta version only"]="BETA"
+    enums["Bump major/minor/version and reset beta increment"]="BUMP"
+    enums["Skip version bump"]="SKIP"
+    [[ $choice == "BRANCH" ]] && unset opts[1]
+
+    PS3="Select a choice: "
+    select opt in "${opts[@]}"; do
+        break
+    done < /dev/tty
+    echo "${enums[$opt]}"
+
+}
+bump_menu(){
+    local version="$1"
+
+    #use one dimensional array to keep sort order
+    local opts=(
+        "MAJOR (breaking API change)"
+        "MINOR (feature)"
+        "PATCH (hotfix)"
+        "Skip version bump"
+    )
+    declare -A enums
+    enums["MAJOR (breaking API change)"]="MAJOR"
+    enums["MINOR (feature)"]="MINOR"
+    enums["PATCH (hotfix)"]="PATCH"
+    enums["Skip version bump"]="SKIP"
+
+    PS3="Select a choice: "
+    select opt in "${opts[@]}"; do
+        break
+    done < /dev/tty
+    echo "${enums[$opt]}"
+}
+
+run_tests(){
+    readarray -t tests < <(find $PWD/tests -type f)
+    for ((i=0; i <${#tests[@]}; ++i)); do
+        test_executable "${tests[$i]}"
+        inc=$((i+1))
+        name=$(awk -F\" '/TEST_NAME/ {print $2}' "${tests[$i]}")
+        printf "Test %s/%s: %s\n" "$inc" "${#tests[@]}" "$name"
+        ${tests[$i]}
+        result "$?"
+    done
+}
+
+confirm_version(){
+    local prior="$1"
+    local new="$2"
+    local branch="$3"
+    printf "\n"
+    printf "Current version: %s\n" "$prior"
+    printf "After change:    %s\n" "$new"
+    printf "Target branch:   %s\n" "$branch"
+    while true; do
+        read -p "Make this change? [Y/n] " reply
+        case "$reply" in
+            ""|"Y"|"y")
+                return 0
+                ;;
+            "n"|"N")
+                return 1
+        esac
+    done
+}
+
+main(){
+    run_tests
+
+    local branch=$(git name-rev --name-only HEAD)
+    local prefix=$(<<< "$branch" awk -F/ '{print $1}')
+    local test_version=$(git show testing:VERSION)
+    [[ -z $test_version ]] && abort "VERSION file missing from branch 'testing'"
+    local cur_version=$(< VERSION)
+    [[ -z $cur_version ]] && abort "VERSION file missing from branch '$branch'"
+
+    local choice
+    local new_version
+    local branch
+
+    case "$prefix" in
+        "release")
+            if [[ $(is_beta "$cur_version") -eq 1 ]]; then
+                choice=$(bump_menu)
+                [[ $choice == "SKIP" ]] && return 0
+                new_version=$(bump_vers "$cur_version" "$choice")
+                branch="main"
+            fi
+            ;;
+        "fix"|"feat"|"api")
+            [[ $cur_version != "$test_version" ]] && exit 0
+            cur_version="$test_version"
+            choice=$(beta_bump_menu "BRANCH")
+            [[ $choice == "SKIP" ]] && return 0
+            new_version=$(increment_beta "$cur_version")
+            branch="testing"
+            ;;
+        "testing")
+            cur_version="$test_version"
+            branch="testing"
+            choice=$(beta_bump_menu "TESTING")
+            [[ $choice == "SKIP" ]] && exit 0
+            if [[ $choice == "BETA" ]]; then
+                new_version=$(increment_beta "$test_version")
+            elif [[ $choice == "BUMP" ]]; then
+                choice=$(bump_menu)
+                [[ $choice == "SKIP" ]] && exit 0
+                new_version=$(bump_vers "$test_version" "$choice")
+                new_version="${new_version}-beta.1"
+            fi
+            ;;
+    esac
+    confirm_version "$cur_version" "$new_version" "$branch"
+    if [[ $? -eq 0 ]]; then
+        build_with_version "$new_version"
+    else
+        exit 1
+    fi
+}
+
+COLUMNS=1
+main
