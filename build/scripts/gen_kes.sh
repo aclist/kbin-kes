@@ -51,7 +51,6 @@ gen_requires(){
     prefix="https://raw.githubusercontent.com/$slug/$branch/"
     deps=(
         "safegm.user.js"
-        "kbin-mod-options.js"
         "funcs.js"
     )
     external=(
