@@ -1236,13 +1236,7 @@ function constructMenu (json, layoutArr, isNew) {
         saveModSettings(modSettings, ns);
 
         updateCrumbs();
-        //necessarily reload the page when verbose timestamps are toggled off
-        //otherwise, triggers a loop of mutations because reverting timeago mutates watched node
-        if ((func === "timestamp") && (state === false)) {
-            window.location.reload();
-        } else {
-            toggleSettings(func);
-        }
+        toggleSettings(func);
     }
 
     function toggleDependencies (entry, state) {
