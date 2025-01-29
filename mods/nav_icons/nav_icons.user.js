@@ -7,7 +7,6 @@ function navbarIcons (toggle) { // eslint-disable-line no-unused-vars
     let weight = settings.fontWeight
     let searchText = document.querySelector('header menu li a[aria-label="Search"] i')
     let postText = document.querySelector('header menu li a[aria-label="Add"] i')
-    let subsText = document.querySelector('header menu li a[aria-label="Select a channel"] i')
     const css = `header menu li a[aria-label="Search"] i::before {
         content: "${search}";
         font-family: ${font};
@@ -18,18 +17,12 @@ function navbarIcons (toggle) { // eslint-disable-line no-unused-vars
         font-family: ${font};
         font-weight: ${weight * 100};
     }
-    header menu li a[aria-label="Select a channel"] i::before {
-        content: "${subs}";
-        font-family: ${font};
-        font-weight: ${weight * 100};
-    }
     `;
     if (toggle) {
         safeGM("removeStyle", "navbar-icons-css")
         safeGM("addStyle", css, "navbar-icons-css")
         searchText.innerText = "" ;
         postText.innerText = "" ;
-        subsText.innerText = "" ;
     } else {
         safeGM("removeStyle", "navbar-icons-css")
     }
