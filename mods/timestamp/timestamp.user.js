@@ -16,7 +16,7 @@ function updateTime (toggle) { // eslint-disable-line no-unused-vars
     function cleanTime (time) {
         const iso = time.getAttribute('datetime');
         const isoYear = (iso.split('T')[0]);
-        const isoTime = (iso.split('T')[1]);
+        let isoTime = (iso.split('T')[1]);
         isoTime = (isoTime.split('+')[0]);
         const utcTime = isoYear + " @ " + isoTime;
         const localTime = new Date(iso);
