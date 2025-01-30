@@ -2,7 +2,6 @@ function navbarIcons (toggle) { // eslint-disable-line no-unused-vars
     let settings = getModSettings("nav_icons");
     let search = settings.search
     let post = settings.post
-    let subs = settings.subs
     let font = "var(--kbin-body-font-family)"
     let weight = settings.fontWeight
     let searchText = document.querySelector('header menu li a[aria-label="Search"] i')

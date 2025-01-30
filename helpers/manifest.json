@@ -76,7 +76,7 @@
     "login": false,
     "recurs": false,
     "entrypoint": "hide_reputation",
-    "page": "profiles"
+    "page": "profile"
   },
   {
     "name": "Notifications panel",
