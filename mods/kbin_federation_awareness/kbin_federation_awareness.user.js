@@ -207,4 +207,3 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
         kfaShutdown();
     }
 }
-

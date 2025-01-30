@@ -1,7 +1,6 @@
-const funcObj = {
+const funcObj = { // eslint-disable-line no-unused-vars
 
-    always_more:
-
+    always_more: //mes-func
     function moreInit (toggle) { // eslint-disable-line no-unused-vars 
         const more = document.querySelectorAll('.entry__body > .more')
         if (toggle) {
@@ -20,11 +19,9 @@ const funcObj = {
             });
 
         }
-    }
-,
+    },
 
-    improved_collapsible_comments:
-
+    improved_collapsible_comments: //mes-func
     function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-unused-vars
         function applyCommentStyles () {
             var style = `
@@ -499,11 +496,9 @@ const funcObj = {
         } else {
             enterMain();
         }
-    }
-,
+    },
 
-    omni:
-
+    omni: //mes-func
     function omniInit (toggle) { // eslint-disable-line no-unused-vars
 
         const kesActive = 'kes-subs-active'
@@ -964,11 +959,9 @@ const funcObj = {
                 q.remove();
             }
         }
-    }
-,
+    },
 
-    clarify_recipient:
-
+    clarify_recipient: //mes-func
     function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
         function rewrite (title) {
             const self = document.querySelector('.dropdown .login').getAttribute("href").split('/')[2]
@@ -996,11 +989,9 @@ const funcObj = {
         } else {
             reset(title);
         }
-    }
-,
+    },
 
-    hide_reputation:
-
+    hide_reputation: //mes-func
     function hideReputation (toggle) { //eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         kbin Vote Hider
@@ -1019,11 +1010,9 @@ const funcObj = {
             $(`#sidebar > section.section.user-info > ul > ${itemSelector}`).show()
             document.styleSheets[0].addRule(`.user-popover ul ${itemSelector}`,'display:initial')
         }
-    }
-,
+    },
 
-    notifications_panel:
-
+    notifications_panel: //mes-func
     function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         const spinnerCSS = `
         @keyframes spinner {
@@ -1486,11 +1475,9 @@ const funcObj = {
         } else {
             shutdown();
         }
-    }
-,
+    },
 
-    mag_instance_names:
-
+    mag_instance_names: //mes-func
     function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Magazine Instance Names
@@ -1530,11 +1517,9 @@ const funcObj = {
         } else {
             hideCommunityInstances();
         }
-    }
-,
+    },
 
-    code_highlighting:
-
+    code_highlighting: //mes-func
     function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
         /* global hljs */
         let kchCssUrl;
@@ -1691,11 +1676,9 @@ const funcObj = {
         } else {
             kchShutdown();
         }
-    }
-,
+    },
 
-    rearrange:
-
+    rearrange: //mes-func
     function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
         function rearrangeSetup () {
             if (window.location.href.split('#')[1] != 'comments') return
@@ -1720,11 +1703,9 @@ const funcObj = {
             const content = document.querySelector('#content');
             content.style.display = 'unset';
         }
-    }
-,
+    },
 
-    dropdown:
-
+    dropdown: //mes-func
     function dropdownEntry (toggle) { // eslint-disable-line no-unused-vars
         function addDropdown (user, testMsg) {
             function addOption (item) {
@@ -1791,11 +1772,9 @@ const funcObj = {
                 addDropdown(user, testMsg);
             }
         }
-    }
-,
+    },
 
-    remove_ads:
-
+    remove_ads: //mes-func
     function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
 
         const settings = getModSettings("spamfilter")
@@ -2112,11 +2091,9 @@ const funcObj = {
 
         if (toggle) apply(mutation);
         if (!toggle) unapply();
-    }
-,
+    },
 
-    unblur:
-
+    unblur: //mes-func
     function unblurInit (toggle) { // eslint-disable-line no-unused-vars
 
         const unblurCSS = `
@@ -2140,11 +2117,9 @@ const funcObj = {
         } else {
             safeGM("removeStyle", 'unblurred');
         }
-    }
-,
+    },
 
-    easy_emoticon:
-
+    easy_emoticon: //mes-func
     function easyEmoticon (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Kbin Easy Emoticon
@@ -2378,11 +2353,9 @@ const funcObj = {
         } else {
             document.removeEventListener('input', eventListener);
         }
-    }
-,
+    },
 
-    nav_icons:
-
+    nav_icons: //mes-func
     function navbarIcons (toggle) { // eslint-disable-line no-unused-vars
         let settings = getModSettings("nav_icons");
         let search = settings.search
@@ -2418,11 +2391,9 @@ const funcObj = {
         } else {
             safeGM("removeStyle", "navbar-icons-css")
         }
-    }
-,
+    },
 
-    resize_text:
-
+    resize_text: //mes-func
     function textResize (toggle) { // eslint-disable-line no-unused-vars
         const modalContent = ".kes-settings-modal-content"
         const modalContainer = ".kes-settings-modal-container"
@@ -2576,11 +2547,9 @@ const funcObj = {
             safeGM("removeStyle", "resize-css")
             return
         }
-    }
-,
+    },
 
-    hide_logo:
-
+    hide_logo: //mes-func
     function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
         const prefix = "https://raw.githubusercontent.com/aclist/kbin-kes/main/images"
         const kibby = `${prefix}/kbin_logo_kibby.svg`
@@ -2632,11 +2601,9 @@ const funcObj = {
         } else {
             restoreLogo();
         }
-    }
-,
+    },
 
-    timestamp:
-
+    timestamp: //mes-func
     function updateTime (toggle) { // eslint-disable-line no-unused-vars
         const ns = 'timestamp'
         let times = document.querySelectorAll('.timeago')
@@ -2671,11 +2638,9 @@ const funcObj = {
         } else {
             return
         }
-    }
-,
+    },
 
-    report_bug:
-
+    report_bug: //mes-func
     function bugReportInit (toggle) { // eslint-disable-line no-unused-vars
         const reportURL = 'https://github.com/aclist/kbin-kes/issues/new?assignees=&labels=bug&projects=&template=bug_report.md' +
             '&title=[BUG]+<Your title here>&body='
@@ -2712,11 +2677,9 @@ const funcObj = {
         } else {
             $('.kes-report-bug').hide();
         }
-    }
-,
+    },
 
-    mail:
-
+    mail: //mes-func
     function addMail (toggle) { // eslint-disable-line no-unused-vars
         function insertElementAfter (target, element) {
             if (target.nextSibling) {
@@ -2780,11 +2743,9 @@ const funcObj = {
         } else {
             $('.kes-mail-link').remove();
         }
-    }
-,
+    },
 
-    default_sort:
-
+    default_sort: //mes-func
     /**
      * Allows users to customize the default sort option selected when the url doesn"t 
      * specify one already. This can be configured separately for the different types of pages
@@ -2976,11 +2937,9 @@ const funcObj = {
 
             return Array.from(document.querySelectorAll(`${kbinQuery}, ${mbinQuery}`));
         }
-    }
-,
+    },
 
-    collapse_pins:
-
+    collapse_pins: //mes-func
     function pinsInit (toggle) { // eslint-disable-line no-unused-vars
 
         function setCSS () {
@@ -3059,11 +3018,9 @@ const funcObj = {
         if (toggle) applyPins();
         if (!toggle) unapplyPins();
 
-    }
-,
+    },
 
-    move_federation_warning:
-
+    move_federation_warning: //mes-func
     function moveFederationWarningEntry (toggle) { //eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Kbin: Move federation alert
@@ -3113,11 +3070,9 @@ const funcObj = {
         if(alertBox !== null && insertAfter !== null) {
             insertAfter.after(alertBox);
         }
-    }
-,
+    },
 
-    hide_thumbs:
-
+    hide_thumbs: //mes-func
     function hideThumbs (toggle) { //eslint-disable-line no-unused-vars
         const settings = getModSettings('hidethumbs')
         const index = 'kes-index-thumbs'
@@ -3154,11 +3109,9 @@ const funcObj = {
             unset(index)
             unset(inline)
         }
-    }
-,
+    },
 
-    adjust:
-
+    adjust: //mes-func
     function adjustSite (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Color adjustments
@@ -3209,11 +3162,9 @@ const funcObj = {
             safeGM("removeStyle", sheetName);
             safeGM("addStyle", customCSS, sheetName)
         }
-    }
-,
+    },
 
-    alpha_sort_subs:
-
+    alpha_sort_subs: //mes-func
     function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
         const ind = window.location.href.split('/')[5]
         if (!ind) return
@@ -3254,11 +3205,9 @@ const funcObj = {
             $('.alpha-sorted-subs').remove();
             $(ul).show();
         }
-    }
-,
+    },
 
-    expand_posts:
-
+    expand_posts: //mes-func
     function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
 
         async function update (response) {
@@ -3367,11 +3316,9 @@ const funcObj = {
                 button.remove();
             });
         }
-    }
-,
+    },
 
-    thread_delta:
-
+    thread_delta: //mes-func
     function threadDeltaInit (toggle) { // eslint-disable-line no-unused-vars
         const settings = getModSettings('thread-delta');
         const fgcolor = getHex(settings["fgcolor"]) // eslint-disable-line no-undef
@@ -3465,11 +3412,9 @@ const funcObj = {
             const e = []
             saveCounts(hostname, mag, e)
         }
-    }
-,
+    },
 
-    hide_upvotes:
-
+    hide_upvotes: //mes-func
     function hideUpvotes (toggle) { //eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         kbin Vote Hider
@@ -3485,11 +3430,9 @@ const funcObj = {
         } else {
             $('form.vote__up').show();
         }
-    }
-,
+    },
 
-    hide_sidebar:
-
+    hide_sidebar: //mes-func
     function hideSidebar (toggle) { // eslint-disable-line no-unused-vars
 
         const obj = {
@@ -3521,11 +3464,9 @@ const funcObj = {
                 $(obj[key]).show();
             }
         }
-    }
-,
+    },
 
-    hover_indicator:
-
+    hover_indicator: //mes-func
     function hoverIndicator (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Hover Indicator
@@ -3595,11 +3536,9 @@ const funcObj = {
             safeGM("addStyle", mergedCSS, "kes-hover-css")
             safeGM("addStyle", exclusions, "kes-hover-exclusions")
         }
-    }
-,
+    },
 
-    thread_checkmarks:
-
+    thread_checkmarks: //mes-func
     function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
         const settings = getModSettings('checks');
         const checkColor = settings["check-color"]
@@ -3648,11 +3587,9 @@ const funcObj = {
                 check.remove();
             });
         }
-    }
-,
+    },
 
-    user_instance_names:
-
+    user_instance_names: //mes-func
     function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
         function showUserInstances () {
             $('.user-inline').each(function () {
@@ -3682,11 +3619,9 @@ const funcObj = {
         } else {
             hideUserInstances();
         }
-    }
-,
+    },
 
-    submission_label:
-
+    submission_label: //mes-func
     function addPrefix (toggle) { // eslint-disable-line no-unused-vars 
 
         const settings = getModSettings("submission_label");
@@ -3704,11 +3639,9 @@ const funcObj = {
         } else {
             safeGM("removeStyle", "submission-css")
         }
-    }
-,
+    },
 
-    hide_downvotes:
-
+    hide_downvotes: //mes-func
     function hideDownvotes (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         kbin Vote Hider
@@ -3724,11 +3657,9 @@ const funcObj = {
         } else {
             $('form.vote__down').show();
         }
-    }
-,
+    },
 
-    kbin_federation_awareness:
-
+    kbin_federation_awareness: //mes-func
     function initKFA (toggle) { // eslint-disable-line no-unused-vars
         /*
             License: MIT
@@ -3937,12 +3868,9 @@ const funcObj = {
         } else {
             kfaShutdown();
         }
-    }
+    },
 
-,
-
-    mobile_cleanup:
-
+    mobile_cleanup: //mes-func
     function mobileHideInit (toggle) { // eslint-disable-line no-unused-vars
         function mobileHideTeardown () {
             let filterBtn
@@ -3988,11 +3916,9 @@ const funcObj = {
         } else {
             mobileHideTeardown();
         }
-    }
-,
+    },
 
-    hide_posts:
-
+    hide_posts: //mes-func
     function hidePostsInit (toggle) { //eslint-disable-line no-unused-vars
 
         async function wipeArray () {
@@ -4085,11 +4011,9 @@ const funcObj = {
         } else {
             fetchCurrentPage();
         }
-    }
-,
+    },
 
-    softblock:
-
+    softblock: //mes-func
     function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         //TODO: don't apply on magazine pages
         const hostname = window.location.hostname;
@@ -4369,11 +4293,9 @@ const funcObj = {
             const e = []
             saveMags(hostname, e)
         }
-    }
-,
+    },
 
-    subs:
-
+    subs: //mes-func
     function initMags (toggle) { // eslint-disable-line no-unused-vars
 
         function createMags () {

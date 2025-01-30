@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+TEST_NAME="Validate JSON files"
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
+abort(){
+    local msg="$1"
+    printf "%s\n" "$msg"
+    exit 1
+}
+
+for file in $(find mods -name "*.json"); do
+    res=$(< "$file" json_pp 2>/dev/null)
+    [[ ! $? -eq 0 ]] && abort "JSON file '$file' is malformed"
+done
+
+exit 0

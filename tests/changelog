@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+TEST_NAME="Check CHANGELOG version"
+
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
+
+branch=$(git name-rev --name-only HEAD)
+[[ ! $branch =~ release/ ]] && exit 0
+
+version=$(< VERSION)
+clog_version=$(grep '^## ' CHANGELOG.md | head -n1 | sed 's/^## //g')
+if [[ $version != $clog_version ]]; then
+    printf "Changelog version '%s' does not match local version '%s'\n" "$clog_version" "$version"
+    exit 1
+fi
