@@ -108,6 +108,7 @@ beta_bump_menu(){
     enums["Skip version bump"]="SKIP"
     [[ $choice == "BRANCH" ]] && unset opts[1]
 
+    COLUMNS=12
     PS3="Select a choice: "
     select opt in "${opts[@]}"; do
         break
@@ -224,5 +225,4 @@ main(){
     fi
 }
 
-COLUMNS=1
 main
