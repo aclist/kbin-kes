@@ -11,6 +11,7 @@
         "getHex": "readonly",
         "genericXMLRequest": "readonly",
         "getModSettings": "readonly",
+        "getComputedFontSize": "readonly",
         "gmPrefix": "readonly"
     },
     "env": {
