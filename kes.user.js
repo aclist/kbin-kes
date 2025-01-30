@@ -1409,7 +1409,7 @@ function constructMenu (json, layoutArr, isNew) {
             //implies that the active 60s timestamp is updating
             //see also updateState()
             if (mutation.target.className === 'timeago') {
-                if (mutation.target.textContent.indexOf("ago") >= 0) {
+                if (!mutation.target.classList.contains("hidden-timeago")) {
                     applySettings("timestamp");
                 }
                 //triggering on the first mutation is sufficient to apply to all timestamps
