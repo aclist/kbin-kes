@@ -87,6 +87,87 @@ function is_logged_in () {
     return false
 }
 
+function getPageType(){
+    const url = window.location.href.split('/')
+    if ((url.length === 4) && (url[3] === "")) {
+        return "Mbin.Top"
+    }
+    if ((url[3] === "settings") && (url[4] === "notifications")) {
+        return "Mbin.Notifications"
+    }
+    if ((url[3] === "profile") && (url[4] === "messages")) {
+        return "Mbin.Inbox"
+    }
+    if (url[3] === "search") {
+        return "Mbin.Search"
+    }
+    if (url[3] === "settings") {
+        return "Mbin.Settings"
+    }
+    if (url[3] === "magazines") {
+        return "Mbin.Magazines"
+    }
+    if (url[3] === "people") {
+        return "Mbin.People"
+    }
+    if (url[3] === "microblog") {
+        return "Mbin.Microblog"
+    }
+    if (url[3] === "tag") {
+        return "Mbin.Tag"
+    }
+    //user pages
+    if ((url[3] === "u") && (url[5] == "subscriptions")) {
+        return "Mbin.User.Subscriptions"
+    }
+    if ((url[3] === "u") && (url[5] === "message")) {
+        return "Mbin.User.Direct_Message"
+    }
+    if ((url[3] === "u") && (url[5] === "threads")) {
+        return "Mbin.User.Threads"
+    }
+    if ((url[3] === "u") && (url[5] === "comments")) {
+        return "Mbin.User.Comments"
+    }
+    if ((url[3] === "u") && (url[5] === "posts")) {
+        return "Mbin.User.Posts"
+    }
+    if ((url[3] === "u") && (url[5] === "replies")) {
+        return "Mbin.User.Replies"
+    }
+    if ((url[3] === "u") && (url[5] === "boosts")) {
+        return "Mbin.User.Boosts"
+    }
+    if ((url[3] === "u") && (url[5] === "following")) {
+        return "Mbin.User.Following"
+    }
+    if ((url[3] === "u") && (url[5] == "followers")) {
+        return "Mbin.User.Followers"
+    }
+    if (url[3] === "u") {
+        return "Mbin.User"
+    }
+    //domain pages
+    if ((url[3] === "d") && (url[5] === "comments")) {
+        return "Mbin.Domain.Comments"
+    }
+    if (url[3] === "d") {
+        return "Mbin.Domain"
+    }
+    //threads
+    if ((url[3] === "m") && (url[5] === "t")) {
+        switch(url[(url.length-1)]) {
+            case "favourites":
+                return "Mbin.Thread.Favorites"
+            case "up":
+                return "Mbin.Thread.Boosts"
+            default:
+                return "Mbin.Thread.Comments"
+        }
+    }
+    return "Unknown"
+}
+
 function isProfile () {
     const url = new URL(window.location).href.split('/')
     if (url.includes("u")) {
