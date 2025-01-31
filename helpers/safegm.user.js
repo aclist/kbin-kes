@@ -93,10 +93,13 @@ function getPageType(){
         return "Mbin.Top"
     }
     if ((url[3] === "settings") && (url[4] === "notifications")) {
-        return "Mbin.Notifications"
+        return "Mbin.Messages.Notifications"
+    }
+    if ((url[3] === "profile") && (url[4] === "messages") && (url.length === 6)) {
+        return "Mbin.Messages.Thread"
     }
     if ((url[3] === "profile") && (url[4] === "messages")) {
-        return "Mbin.Inbox"
+        return "Mbin.Messages.Inbox"
     }
     if (url[3] === "search") {
         return "Mbin.Search"
