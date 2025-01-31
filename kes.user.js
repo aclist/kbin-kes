@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.3.0-beta.9
+// @version      4.3.0-beta.10
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -29,15 +29,15 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/funcs.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/fix/user-instance-names/helpers/safegm.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/fix/user-instance-names/helpers/funcs.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json
-// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/manifest.json
-// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/kes.css
-// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
-// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
+// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/fix/user-instance-names/helpers/ui.json
+// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/fix/user-instance-names/helpers/manifest.json
+// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/fix/user-instance-names/helpers/kes.css
+// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/fix/user-instance-names/kes.user.js
+// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/fix/user-instance-names/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
@@ -45,7 +45,7 @@ const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
 const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/"
-const branch = "testing"
+const branch = "fix/user-instance-names"
 const helpersPath = "helpers/"
 const branchPath = rawURL + branch + "/"
 const versionFile = branchPath + "VERSION";

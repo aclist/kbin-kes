@@ -3583,33 +3583,53 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     user_instance_names: //mes-func
     function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
-        function showUserInstances () {
-            $('.user-inline').each(function () {
-                if (!$(this).hasClass('instance')) {
-                    $(this).addClass('instance');
-                    // Get user's instance from their profile link
-                    var userInstance = $(this).attr('href').split('@')[2];
-                    // Check if user's link includes an @
+
+        function showUserInstances (selector) {
+            const els = document.querySelectorAll(selector);
+            els.forEach((el) => {
+                if (el.getAttribute("data-instance") !== "true") {
+                    const userInstance = el.getAttribute("href").split("@")[2];
                     if (userInstance) {
-                        // Add instance name to user's name
-                        $(this).html($(this).html() +
-                            '<span class="user-instance">@' +
-                            userInstance +
-                            '</span>');
+                        el.innerText = el.innerText + "@" + userInstance;
+                        el.setAttribute("data-instance", "true")
                     }
                 }
             });
         }
-        function hideUserInstances () {
-            $('.user-inline.instance').each(function () {
-                $(this).removeClass('instance');
-                $(this).html($(this).html().split('<span class="user-instance">@')[0]);
+
+        function hideUserInstances (selector) {
+            const els = document.querySelectorAll(selector);
+            els.forEach((el) => {
+                if (el.getAttribute("data-instance") === "true") {
+                    el.setAttribute("data-instance", "false");
+                    el.innerText = el.innerText.split("@")[0]
+                }
             });
         }
+
+        function setSelector () {
+            const page = getPageType() //eslint-disable-line no-undef
+            let el
+            switch (page) {
+                case "Mbin.Thread.Favorites":
+                case "Mbin.User.Followers":
+                case "Mbin.User.Following":
+                    el = ".users-columns .stretched-link"
+                    break;
+                default:
+                    el = ".user-inline"
+                    break;
+            }
+            return el
+        }
+
+        const selector = setSelector();
+
         if (toggle) {
-            showUserInstances();
+            showUserInstances(selector);
         } else {
-            hideUserInstances();
+            hideUserInstances(selector);
+            return
         }
     },
 
