@@ -29,15 +29,15 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/feat/get-page-type/helpers/safegm.user.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/feat/get-page-type/helpers/funcs.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/funcs.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/feat/get-page-type/helpers/ui.json
-// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/feat/get-page-type/helpers/manifest.json
-// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/feat/get-page-type/helpers/kes.css
-// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/feat/get-page-type/kes.user.js
-// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/feat/get-page-type/kes.user.js
+// @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json
+// @resource     kes_json https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/manifest.json
+// @resource     kes_css https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/kes.css
+// @downloadURL  https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
+// @updateURL    https://raw.githubusercontent.com/aclist/kbin-kes/testing/kes.user.js
 // ==/UserScript==
 
 //START AUTO MASTHEAD
@@ -45,7 +45,7 @@ const version = safeGM("info").script.version;
 const tool = safeGM("info").script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
 const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/"
-const branch = "feat/get-page-type"
+const branch = "testing"
 const helpersPath = "helpers/"
 const branchPath = rawURL + branch + "/"
 const versionFile = branchPath + "VERSION";
