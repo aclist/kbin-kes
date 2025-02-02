@@ -120,7 +120,7 @@ function getPageType(){
         return "Mbin.Tag"
     }
     //user pages
-    if ((url[3] === "u") && (url[5] == "subscriptions")) {
+    if ((url[3] === "u") && (url[5].includes("subscriptions"))) {
         return "Mbin.User.Subscriptions"
     }
     if ((url[3] === "u") && (url[5] === "message")) {
