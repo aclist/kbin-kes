@@ -1,41 +1,38 @@
 function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
-    const ind = window.location.href.split('/')[5]
-    if (!ind) return
-    if ((ind.indexOf('subscriptions') < 0) && (ind.indexOf('followers') < 0)) return
-    const ul = document.querySelector('.section.magazines.magazines-columns ul,.section.users.users-columns ul')
-    const obj = {}
+    if (getPageType() !== "Mbin.User.Subscriptions") return // eslint-disable-line no-undef
 
-    if (toggle) {
-        const mags = document.querySelectorAll('.section.magazines.magazines-columns ul li a,.section.users.users-columns ul li a');
-        const namesArr = []
-
-        mags.forEach((item) => {
-            const dest = item.href;
-            const hrName = item.innerText;
-            obj[hrName] = dest
-            namesArr.push(hrName);
-        });
-
-        const sorted = namesArr.sort((a, b) => {
-            return a.localeCompare(b, undefined, { sensitivity: 'base' });
-        });
-
-        const outer = document.querySelector('.section.magazines.magazines-columns,.section.users.users-columns')
-        $(ul).hide();
-
-        for (let i =0; i<sorted.length; ++i) {
-            const myListItem = document.createElement('li');
-            myListItem.className = "alpha-sorted-subs"
-            const mySubsLink = document.createElement('a');
-            mySubsLink.setAttribute('href', obj[sorted[i]]);
-            mySubsLink.innerText = namesArr[i];
-            mySubsLink.className = 'subs-nav';
-            myListItem.append(mySubsLink);
-            outer.append(myListItem);
+    function compare (a, b) {
+        function _getMagName (magEl) {
+            return magEl.querySelector('.stretched-link').innerText.toUpperCase();
         }
 
+        return _getMagName(a) > _getMagName(b) ? 1: -1
+    }
+
+    if (toggle) {
+        const columns = document.querySelector('.magazines-columns')
+        const ul = columns.querySelector('ul');
+        const mags = ul.querySelectorAll('li');
+        const arr = [];
+
+        mags.forEach((mag) => {
+            arr.push(mag);
+        })
+
+        const ulCloned = document.createElement('ul');
+        ulCloned.id = "mes-alpha-sort";
+        arr.sort(compare);
+        arr.forEach((mag)=>{
+            //perform deep copy of children
+            const clone = mag.cloneNode(true);
+            ulCloned.appendChild(clone);
+        })
+        ul.style.display = "none";
+        ul.after(ulCloned);
     } else {
-        $('.alpha-sorted-subs').remove();
-        $(ul).show();
+        const ul = document.querySelector('.magazines-columns ul');
+        ul.style.display = "";
+        const ulCloned = document.querySelector('#mes-alpha-sort');
+        ulCloned.remove();
     }
 }
