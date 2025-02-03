@@ -118,32 +118,32 @@ function getPageType () { //eslint-disable-line no-unused-vars
     if ((url[3] === "u") && (url[5] === "message")) {
         return "Mbin.User.Direct_Message"
     }
-    if ((url[3] === "u") && (url[5] === "threads")) {
+    if ((url[3] === "u") && (url[5].includes("threads"))) {
         return "Mbin.User.Threads"
     }
-    if ((url[3] === "u") && (url[5] === "comments")) {
+    if ((url[3] === "u") && (url[5].includes("comments"))) {
         return "Mbin.User.Comments"
     }
-    if ((url[3] === "u") && (url[5] === "posts")) {
+    if ((url[3] === "u") && (url[5].includes("posts"))) {
         return "Mbin.User.Posts"
     }
-    if ((url[3] === "u") && (url[5] === "replies")) {
+    if ((url[3] === "u") && (url[5].includes("replies"))) {
         return "Mbin.User.Replies"
     }
-    if ((url[3] === "u") && (url[5] === "boosts")) {
+    if ((url[3] === "u") && (url[5].includes("boosts"))) {
         return "Mbin.User.Boosts"
     }
-    if ((url[3] === "u") && (url[5] === "following")) {
+    if ((url[3] === "u") && (url[5].includes("following"))) {
         return "Mbin.User.Following"
     }
-    if ((url[3] === "u") && (url[5] == "followers")) {
+    if ((url[3] === "u") && (url[5].includes("followers"))) {
         return "Mbin.User.Followers"
     }
     if (url[3] === "u") {
         return "Mbin.User"
     }
     //domain pages
-    if ((url[3] === "d") && (url[5] === "comments")) {
+    if ((url[3] === "d") && (url[5].includes("comments"))) {
         return "Mbin.Domain.Comments"
     }
     if (url[3] === "d") {
@@ -151,13 +151,14 @@ function getPageType () { //eslint-disable-line no-unused-vars
     }
     //threads
     if ((url[3] === "m") && (url[5] === "t")) {
-        switch(url[(url.length-1)]) {
-            case "favourites":
-                return "Mbin.Thread.Favorites"
-            case "up":
-                return "Mbin.Thread.Boosts"
-            default:
-                return "Mbin.Thread.Comments"
+        if (url[(url.length-1)].includes("favourites")) {
+            return "Mbin.Thread.Favorites"
+        }
+        else if (url[(url.length-1)].includes("up")) {
+            return "Mbin.Thread.Favorites"
+        }
+        else {
+            return "Mbin.Thread.Comments"
         }
     }
     return "Unknown"
