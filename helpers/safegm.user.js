@@ -71,15 +71,7 @@ function genericXMLRequest (url, callback) { //eslint-disable-line no-unused-var
     });
 }
 
-function isThread () {
-    const url = new URL(window.location).href.split('/')
-    if (url.includes("t")) {
-        return true
-    }
-    return false
-}
-
-function is_logged_in () {
+function isLoggedIn () { //eslint-disable-line no-unused-vars
     const login = document.querySelector('.login .user-name')
     if (login) {
         return true
@@ -169,14 +161,6 @@ function getPageType () { //eslint-disable-line no-unused-vars
         }
     }
     return "Unknown"
-}
-
-function isProfile () {
-    const url = new URL(window.location).href.split('/')
-    if (url.includes("u")) {
-        return true
-    }
-    return false
 }
 
 window.safeGM = function (func,...args) {
