@@ -23,7 +23,7 @@ try {
     console.log(error);
 }
 
-function log(string){
+function log (string) { // eslint-disable-line no-unused-vars
     const date = new Date()
     const iso = date.toISOString()
     const caller = (new Error()).stack?.split("\n")[1].split("@")[0]
@@ -47,7 +47,7 @@ function removeCustomCSS (id) {
     }
 }
 
-function getHex (value) {
+function getHex (value) { //eslint-disable-line no-unused-vars
     let realHex;
     const firstChar = Array.from(value)[0];
     const theme = document.querySelector('body');
@@ -59,7 +59,7 @@ function getHex (value) {
     return realHex;
 }
 
-function genericXMLRequest (url, callback) {
+function genericXMLRequest (url, callback) { //eslint-disable-line no-unused-vars
     safeGM("xmlhttpRequest", {
         method: 'GET',
         url: url,
@@ -87,7 +87,7 @@ function is_logged_in () {
     return false
 }
 
-function getPageType(){
+function getPageType () { //eslint-disable-line no-unused-vars
     const url = window.location.href.split('/')
     if ((url.length === 4) && (url[3] === "")) {
         return "Mbin.Top"
