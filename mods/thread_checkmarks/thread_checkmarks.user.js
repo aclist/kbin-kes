@@ -4,17 +4,11 @@ function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
     const threadIndex = document.querySelector('[data-controller="subject-list"]')
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
-    const hostname = window.location.hostname
 
     if ((!threadIndex) || (!username)) return
 
-    async function fetchMags (username) {
-        const loaded = await safeGM("getValue", `omni-user-mags-${hostname}-${username}`)
-        if (!loaded) return
-        setChecks(loaded)
-    }
     function addCheck (subs, item) {
-        if (item.querySelector('#kes-omni-check')) return
+        if (item.parentNode.querySelector('#kes-omni-check')) return
         const mag = item.getAttribute('href').split('/')[2]
         if (subs.includes(mag)) {
             const ch = document.createElement('span')
@@ -27,6 +21,7 @@ function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
         }
     }
     function setChecks (subs) {
+        if (!subs) return
         const exists = document.querySelector('#kes-omni-check')
         if (exists) {
             document.querySelectorAll('#kes-omni-check').forEach((item) => {
@@ -39,8 +34,9 @@ function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
     }
 
     if (toggle) {
-        fetchMags(username);
+        loadMags(setChecks); // eslint-disable-line no-undef
     } else {
+        clearMags(); // eslint-disable-line no-undef
         const oldChecks = document.querySelectorAll('#kes-omni-check')
         oldChecks.forEach((check) => {
             check.remove();

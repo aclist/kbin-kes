@@ -95,6 +95,46 @@ function isProfile () {
     return false
 }
 
+function loadMags (callback) {
+    const hostname = window.location.hostname;
+    const username = document.querySelector('.login .user-name')?.textContent;
+
+    const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
+    if (cachedValue) {
+        callback(cachedValue);
+        return;
+    }
+
+    if (!username) return;
+    const loadedMags = [];
+    function loadFromPage (username, page) {
+        const url = `https://${hostname}/u/${username}/subscriptions?p=${page}`;
+        genericXMLRequest(url, (response) => {
+            const dom = new DOMParser().parseFromString(response.responseText, "text/html");
+            // get the magazines from this page
+            const mags = Array.from(dom.querySelectorAll('#content .stretched-link'))
+                .map((link) => link.getAttribute('href').split('/')[2]);
+            loadedMags.push(...mags);
+            // load more pages if there are
+            const nextPage = dom.querySelector('#content .pagination__item--next-page');
+            if (nextPage.hasAttribute('href') && nextPage.href != window.location.href) {
+                loadFromPage(username, nextPage.getAttribute('href').split('=')[1]);
+            } else {
+                // finished loading all pages
+                safeGM("setValue",`user-mags-${hostname}-${username}`, loadedMags);
+                callback(loadedMags);
+            }
+        });
+    }
+    loadFromPage(username, 1);
+}
+
+function clearMags () {
+    const hostname = window.location.hostname;
+    const username = document.querySelector('.login .user-name')?.textContent;
+    safeGM("setValue",`user-mags-${hostname}-${username}`, []);
+}
+
 window.safeGM = function (func,...args) {
     let use
     const underscore = {
