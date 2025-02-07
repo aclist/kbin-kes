@@ -1235,13 +1235,7 @@ function constructMenu (json, layoutArr, isNew) {
         saveModSettings(modSettings, ns);
 
         updateCrumbs();
-        //necessarily reload the page when verbose timestamps are toggled off
-        //otherwise, triggers a loop of mutations because reverting timeago mutates watched node
-        if ((func === "timestamp") && (state === false)) {
-            window.location.reload();
-        } else {
-            toggleSettings(func);
-        }
+        toggleSettings(func);
     }
 
     function toggleDependencies (entry, state) {
@@ -1404,17 +1398,23 @@ function constructMenu (json, layoutArr, isNew) {
                 }
                 return
             }
+            //trigger when username popover dialog is spawned on hover
+            //there can only be one popover spawned at a given time
+            if (mutation.target.id === "popover"){
+                applySettings("timestamp");
+                return
+            }
+            //workaround for timeago ticks changing timestamp textContent
+            //implies that the active 60s timestamp is updating
+            //see also updateState()
             if (mutation.target.className === 'timeago') {
-                //workaround for timeago ticks changing timestamp textContent
-                //implies that the active 60s timestamp is updating
-                //reapplies verbose timestamps
-                //see also updateState()
-                if (mutation.target.textContent.indexOf("ago") >= 0) {
+                if (!mutation.target.classList.contains("hidden-timeago")) {
                     applySettings("timestamp");
                 }
                 //triggering on the first mutation is sufficient to apply to all timestamps
                 return
-            } else if ((mutation.target.getAttribute("data-controller") == "subject-list") || (mutation.target.id == "comments")) {
+            }
+            if ((mutation.target.getAttribute("data-controller") == "subject-list") || (mutation.target.id == "comments")) {
                 //implies that a recurring/infinite scroll event like new threads or comment creation occurred
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
