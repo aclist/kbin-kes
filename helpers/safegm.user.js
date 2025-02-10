@@ -1,27 +1,3 @@
-let gmPrefix
-const dotPrefix = "GM."
-const underPrefix = "GM_"
-try {
-    if (GM_info) {
-        let scriptHandler = GM_info.scriptHandler;
-        switch (scriptHandler) {
-            case "Greasemonkey":
-                gmPrefix = dotPrefix;
-                break;
-            case "FireMonkey":
-                gmPrefix = dotPrefix;
-                break;
-            case "Userscripts":
-                gmPrefix = dotPrefix;
-                break;
-            default:
-                gmPrefix = underPrefix;
-                break;
-        }
-    }
-} catch (error) {
-    console.log(error);
-}
 
 function log (string) { // eslint-disable-line no-unused-vars
     const date = new Date()

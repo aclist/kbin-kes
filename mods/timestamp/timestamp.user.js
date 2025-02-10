@@ -28,7 +28,7 @@ function updateTime (toggle) { // eslint-disable-line no-unused-vars
         const sibling = el.nextElementSibling;
         const variant = sibling.dataset.timeVariant;
         const cleanedTime = cleanTime(el);
-        if (settings["offset"] != variant){
+        if (settings["offset"] != variant) {
             setTime(sibling, cleanedTime);
         }
     }
@@ -67,7 +67,7 @@ function updateTime (toggle) { // eslint-disable-line no-unused-vars
             time.insertAdjacentElement("afterend", clone);
             time.style.display = "none";
             time.classList.add(class_hidden);
-            cleanedTime = cleanTime(time);
+            const cleanedTime = cleanTime(time);
             setTime(clone, cleanedTime);
         });
     } else {
