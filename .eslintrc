@@ -11,7 +11,14 @@
         "getHex": "readonly",
         "genericXMLRequest": "readonly",
         "getModSettings": "readonly",
-        "gmPrefix": "readonly"
+        "gmPrefix": "readonly",
+        "GM": "readonly",
+        "GM_info": "readonly",
+        "GM_setValue": "readonly",
+        "GM_getValue": "readonly",
+        "GM_getResourceText": "readonly",
+        "GM_setClipboard": "readonly",
+        "GM_xmlhttpRequest": "readonly"
     },
     "env": {
         "browser": true,
