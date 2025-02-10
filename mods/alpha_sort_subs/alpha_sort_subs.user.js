@@ -1,4 +1,13 @@
 function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
+
+    function compare (a, b) {
+        function _getMagName (magEl) {
+            return magEl.querySelector('.stretched-link').innerText.toUpperCase();
+        }
+
+        return _getMagName(a) > _getMagName(b) ? 1: -1
+    }
+
     const pt = getPageType(); // eslint-disable-line no-undef
     let list_columns
     switch (pt) {
@@ -14,16 +23,9 @@ function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
         default:
             return
     }
-    function compare (a, b) {
-        function _getMagName (magEl) {
-            return magEl.querySelector('.stretched-link').innerText.toUpperCase();
-        }
-
-        return _getMagName(a) > _getMagName(b) ? 1: -1
-    }
+    const columns = document.querySelector(list_columns)
 
     if (toggle) {
-        const columns = document.querySelector(list_columns)
         const ul = columns.querySelector('ul');
         const mags = ul.querySelectorAll('li');
         const arr = [];
@@ -43,7 +45,7 @@ function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
         ul.style.display = "none";
         ul.after(ulCloned);
     } else {
-        const ul = document.querySelector('.magazines-columns ul');
+        const ul = columns.querySelector('ul');
         ul.style.display = "";
         const ulCloned = document.querySelector('#mes-alpha-sort');
         ulCloned.remove();
