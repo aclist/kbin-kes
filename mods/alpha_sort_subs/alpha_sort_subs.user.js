@@ -1,10 +1,16 @@
 function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
     const pt = getPageType(); // eslint-disable-line no-undef
+    let list_columns
     switch (pt) {
-        case "Mbin.User.Subscriptions":
-        case "Mbin.User.Followers":
-        case "Mbin.User.Following":
+        case "Mbin.User.Subscriptions": {
+            list_columns = '.magazines-columns'
             break;
+        }
+        case "Mbin.User.Followers":
+        case "Mbin.User.Following": {
+            list_columns = '.users-columns'
+            break;
+        }
         default:
             return
     }
@@ -17,7 +23,7 @@ function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     if (toggle) {
-        const columns = document.querySelector('.magazines-columns')
+        const columns = document.querySelector(list_columns)
         const ul = columns.querySelector('ul');
         const mags = ul.querySelectorAll('li');
         const arr = [];
