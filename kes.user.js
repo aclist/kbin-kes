@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.3.0-beta.10
+// @version      4.3.0-beta.11
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1377,7 +1377,7 @@ function constructMenu (json, layoutArr, isNew) {
 
     function init () {
         for (let i = 0; i < json.length; ++i) {
-            if ((json[i].login) && (!is_logged_in())) { // eslint-disable-line no-undef
+            if ((json[i].login) && (!isLoggedIn())) { // eslint-disable-line no-undef
 
                 continue
             }
@@ -1400,7 +1400,7 @@ function constructMenu (json, layoutArr, isNew) {
             }
             //trigger when username popover dialog is spawned on hover
             //there can only be one popover spawned at a given time
-            if (mutation.target.id === "popover"){
+            if (mutation.target.id === "popover") {
                 applySettings("timestamp");
                 return
             }

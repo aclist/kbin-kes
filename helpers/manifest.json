@@ -953,7 +953,7 @@
     "author": "shazbot",
     "version": "0.1.1",
     "label": "Expand post text in thread index",
-    "desc": "Adds an expand/collapse button used to read the full body text of posts without leaving the thread index.",
+    "desc": "Adds an expand/collapse button used to read the full body text of posts without leaving the thread index. By design, does not work in mbin's compact view mode, which truncates detailed post descriptions.",
     "login": false,
     "recurs": true,
     "entrypoint": "expand_posts",
