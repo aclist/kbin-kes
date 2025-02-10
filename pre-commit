@@ -108,6 +108,7 @@ beta_bump_menu(){
     enums["Skip version bump"]="SKIP"
     [[ $choice == "BRANCH" ]] && unset opts[1]
 
+    COLUMNS=12
     PS3="Select a choice: "
     select opt in "${opts[@]}"; do
         break
@@ -158,6 +159,7 @@ confirm_version(){
     printf "Current version: %s\n" "$prior"
     printf "After change:    %s\n" "$new"
     printf "Target branch:   %s\n" "$branch"
+    printf "\n"
     while true; do
         read -p "Make this change? [Y/n] " reply
         case "$reply" in
@@ -167,7 +169,7 @@ confirm_version(){
             "n"|"N")
                 return 1
         esac
-    done
+    done < /dev/tty
 }
 
 main(){
@@ -218,11 +220,10 @@ main(){
     esac
     confirm_version "$cur_version" "$new_version" "$branch"
     if [[ $? -eq 0 ]]; then
-        build_with_version "$new_version"
+        build_with_version "$new_version" "$branch"
     else
         exit 1
     fi
 }
 
-COLUMNS=1
 main

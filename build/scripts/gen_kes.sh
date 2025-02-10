@@ -93,7 +93,6 @@ gen_consts(){
 		const bugURL = repositoryURL + "issues"
 		const sponsorURL = "https://github.com/sponsors/aclist"
 		const changelogURL = repositoryURL + "blob/" + branch + "/CHANGELOG.md"
-		const magURL = "https://kbin.social/m/enhancement"
 
 		//resource URLs used by legacy GM. API
 		const manifest = branchPath + helpersPath + "manifest.json"

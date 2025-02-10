@@ -2360,12 +2360,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
         let settings = getModSettings("nav_icons");
         let search = settings.search
         let post = settings.post
-        let subs = settings.subs
         let font = "var(--kbin-body-font-family)"
         let weight = settings.fontWeight
         let searchText = document.querySelector('header menu li a[aria-label="Search"] i')
         let postText = document.querySelector('header menu li a[aria-label="Add"] i')
-        let subsText = document.querySelector('header menu li a[aria-label="Select a channel"] i')
         const css = `header menu li a[aria-label="Search"] i::before {
             content: "${search}";
             font-family: ${font};
@@ -2376,18 +2374,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
             font-family: ${font};
             font-weight: ${weight * 100};
         }
-        header menu li a[aria-label="Select a channel"] i::before {
-            content: "${subs}";
-            font-family: ${font};
-            font-weight: ${weight * 100};
-        }
         `;
         if (toggle) {
             safeGM("removeStyle", "navbar-icons-css")
             safeGM("addStyle", css, "navbar-icons-css")
             searchText.innerText = "" ;
             postText.innerText = "" ;
-            subsText.innerText = "" ;
         } else {
             safeGM("removeStyle", "navbar-icons-css")
         }
@@ -2605,38 +2597,79 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     timestamp: //mes-func
     function updateTime (toggle) { // eslint-disable-line no-unused-vars
-        const ns = 'timestamp'
-        let times = document.querySelectorAll('.timeago')
+
+        function teardown () {
+            times.forEach((time) => {
+                if (time.classList.contains(class_hidden)) {
+                    time.classList.remove(class_hidden);
+                    time.style.display = "initial";
+                }
+            })
+            const isoTimes = document.querySelectorAll("." + class_iso);
+            isoTimes.forEach((isoTime) => {
+                isoTime.remove();
+            })
+        }
+
+        function cleanTime (time) {
+            const iso = time.getAttribute('datetime');
+            const isoYear = (iso.split('T')[0]);
+            let isoTime = (iso.split('T')[1]);
+            isoTime = (isoTime.split('+')[0]);
+            const utcTime = isoYear + " @ " + isoTime;
+            const localTime = new Date(iso);
+            const localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
+            return [utcTime, localAsISO]
+        }
+
+        function updateSibling (el) {
+            const sibling = el.nextElementSibling;
+            const variant = sibling.dataset.timeVariant;
+            const cleanedTime = cleanTime(el);
+            if (settings["offset"] != variant) {
+                setTime(sibling, cleanedTime);
+            }
+        }
+
+        function setTime (el, time) {
+            switch (settings["offset"]) {
+                case "UTC":
+                    el.innerText = time[0];
+                    el.dataset.timeVariant = "UTC";
+                    break;
+                case "Local time":
+                    el.innerText = time[1];
+                    el.dataset.timeVariant = "Local time";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        const ns = 'timestamp';
+        const class_timeago = "timeago"
+        const class_hidden = "hidden-timeago"
+        const class_iso = "iso-timeago"
         const settings = getModSettings(ns);
+        const times = document.querySelectorAll("." + class_timeago);
+
         if (toggle) {
             times.forEach((time) => {
-                if (time.innerText === "just now") {
+                if (time.classList.contains(class_hidden)) {
+                    //update time variant in case user changed preference while mod is on
+                    updateSibling(time);
                     return
                 }
-                if (time.innerText.indexOf("seconds") > -1) {
-                    return
-                }
-                let iso = time.getAttribute('datetime');
-                let isoYear = (iso.split('T')[0]);
-                let isoTime = (iso.split('T')[1]);
-                isoTime = (isoTime.split('+')[0]);
-                let cleanISOTime = isoYear + " @ " + isoTime;
-                let localTime = new Date(iso);
-                let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
-                let offset = "offset";
-                switch (settings[offset]) {
-                    case "UTC":
-                        time.innerText = cleanISOTime;
-                        break;
-                    case "Local time":
-                        time.innerText = localAsISO;
-                        break;
-                    default:
-                        break;
-                }
+                const clone = time.cloneNode(false);
+                clone.className = class_iso;
+                time.insertAdjacentElement("afterend", clone);
+                time.style.display = "none";
+                time.classList.add(class_hidden);
+                const cleanedTime = cleanTime(time);
+                setTime(clone, cleanedTime);
             });
         } else {
-            return
+            teardown();
         }
     },
 
@@ -3591,33 +3624,53 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     user_instance_names: //mes-func
     function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
-        function showUserInstances () {
-            $('.user-inline').each(function () {
-                if (!$(this).hasClass('instance')) {
-                    $(this).addClass('instance');
-                    // Get user's instance from their profile link
-                    var userInstance = $(this).attr('href').split('@')[2];
-                    // Check if user's link includes an @
+
+        function showUserInstances (selector) {
+            const els = document.querySelectorAll(selector);
+            els.forEach((el) => {
+                if (el.getAttribute("data-instance") !== "true") {
+                    const userInstance = el.getAttribute("href").split("@")[2];
                     if (userInstance) {
-                        // Add instance name to user's name
-                        $(this).html($(this).html() +
-                            '<span class="user-instance">@' +
-                            userInstance +
-                            '</span>');
+                        el.innerText = el.innerText + "@" + userInstance;
+                        el.setAttribute("data-instance", "true")
                     }
                 }
             });
         }
-        function hideUserInstances () {
-            $('.user-inline.instance').each(function () {
-                $(this).removeClass('instance');
-                $(this).html($(this).html().split('<span class="user-instance">@')[0]);
+
+        function hideUserInstances (selector) {
+            const els = document.querySelectorAll(selector);
+            els.forEach((el) => {
+                if (el.getAttribute("data-instance") === "true") {
+                    el.setAttribute("data-instance", "false");
+                    el.innerText = el.innerText.split("@")[0]
+                }
             });
         }
+
+        function setSelector () {
+            const page = getPageType() //eslint-disable-line no-undef
+            let el
+            switch (page) {
+                case "Mbin.Thread.Favorites":
+                case "Mbin.User.Followers":
+                case "Mbin.User.Following":
+                    el = ".users-columns .stretched-link"
+                    break;
+                default:
+                    el = ".user-inline"
+                    break;
+            }
+            return el
+        }
+
+        const selector = setSelector();
+
         if (toggle) {
-            showUserInstances();
+            showUserInstances(selector);
         } else {
-            hideUserInstances();
+            hideUserInstances(selector);
+            return
         }
     },
 

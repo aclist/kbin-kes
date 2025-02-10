@@ -1,5 +1,29 @@
-//logs the calling function, timestamp, and string to the console
-function log(string){
+let gmPrefix
+const dotPrefix = "GM."
+const underPrefix = "GM_"
+try {
+    if (GM_info) {
+        let scriptHandler = GM_info.scriptHandler;
+        switch (scriptHandler) {
+            case "Greasemonkey":
+                gmPrefix = dotPrefix;
+                break;
+            case "FireMonkey":
+                gmPrefix = dotPrefix;
+                break;
+            case "Userscripts":
+                gmPrefix = dotPrefix;
+                break;
+            default:
+                gmPrefix = underPrefix;
+                break;
+        }
+    }
+} catch (error) {
+    console.log(error);
+}
+
+function log (string) { // eslint-disable-line no-unused-vars
     const date = new Date()
     const iso = date.toISOString()
     const caller = (new Error()).stack?.split("\n")[1].split("@")[0]
@@ -26,7 +50,7 @@ function removeCustomCSS (id) {
 }
 
 //returns the real hex color value of internal theme colors
-function getHex (value) {
+function getHex (value) { //eslint-disable-line no-unused-vars
     let realHex;
     const firstChar = Array.from(value)[0];
     const theme = document.querySelector('body');
@@ -39,7 +63,7 @@ function getHex (value) {
 }
 
 //helper function to simplify pushing the results of a GET request to a callback
-function genericXMLRequest (url, callback) {
+function genericXMLRequest (url, callback) { //eslint-disable-line no-unused-vars
     safeGM("xmlhttpRequest", {
         method: 'GET',
         url: url,
@@ -67,17 +91,8 @@ function getComputedFontSize (string) {
     return px
 }
 
-//returns whether the page is a thread inside a magazine
-function isThread () {
-    const url = new URL(window.location).href.split('/')
-    if (url.includes("t")) {
-        return true
-    }
-    return false
-}
-
 //returns whether the user is currently logged in
-function is_logged_in () {
+function isLoggedIn () { //eslint-disable-line no-unused-vars
     const login = document.querySelector('.login .user-name')
     if (login) {
         return true
@@ -85,13 +100,89 @@ function is_logged_in () {
     return false
 }
 
-//returns whether the page is a user profile page
-function isProfile () {
-    const url = new URL(window.location).href.split('/')
-    if (url.includes("u")) {
-        return true
+function getPageType () { //eslint-disable-line no-unused-vars
+    const url = window.location.href.split('/')
+    if ((url.length === 4) && (url[3] === "")) {
+        return "Mbin.Top"
     }
-    return false
+    if ((url[3] === "settings") && (url[4] === "notifications")) {
+        return "Mbin.Messages.Notifications"
+    }
+    if ((url[3] === "profile") && (url[4] === "messages") && (url.length === 6)) {
+        return "Mbin.Messages.Thread"
+    }
+    if ((url[3] === "profile") && (url[4] === "messages")) {
+        return "Mbin.Messages.Inbox"
+    }
+    if (url[3] === "search") {
+        return "Mbin.Search"
+    }
+    if (url[3] === "settings") {
+        return "Mbin.Settings"
+    }
+    if (url[3] === "magazines") {
+        return "Mbin.Magazines"
+    }
+    if (url[3] === "people") {
+        return "Mbin.People"
+    }
+    if (url[3] === "microblog") {
+        return "Mbin.Microblog"
+    }
+    if (url[3] === "tag") {
+        return "Mbin.Tag"
+    }
+    //user pages
+    if ((url[3] === "u") && (url[5].includes("subscriptions"))) {
+        return "Mbin.User.Subscriptions"
+    }
+    if ((url[3] === "u") && (url[5] === "message")) {
+        return "Mbin.User.Direct_Message"
+    }
+    if ((url[3] === "u") && (url[5].includes("threads"))) {
+        return "Mbin.User.Threads"
+    }
+    if ((url[3] === "u") && (url[5].includes("comments"))) {
+        return "Mbin.User.Comments"
+    }
+    if ((url[3] === "u") && (url[5].includes("posts"))) {
+        return "Mbin.User.Posts"
+    }
+    if ((url[3] === "u") && (url[5].includes("replies"))) {
+        return "Mbin.User.Replies"
+    }
+    if ((url[3] === "u") && (url[5].includes("boosts"))) {
+        return "Mbin.User.Boosts"
+    }
+    if ((url[3] === "u") && (url[5].includes("following"))) {
+        return "Mbin.User.Following"
+    }
+    if ((url[3] === "u") && (url[5].includes("followers"))) {
+        return "Mbin.User.Followers"
+    }
+    if (url[3] === "u") {
+        return "Mbin.User"
+    }
+    //domain pages
+    if ((url[3] === "d") && (url[5].includes("comments"))) {
+        return "Mbin.Domain.Comments"
+    }
+    if (url[3] === "d") {
+        return "Mbin.Domain"
+    }
+    //threads
+    if ((url[3] === "m") && (url[5] === "t")) {
+        if (url[(url.length-1)].includes("favourites")) {
+            return "Mbin.Thread.Favorites"
+        }
+        else if (url[(url.length-1)].includes("up")) {
+            return "Mbin.Thread.Boosts"
+        }
+        else {
+            return "Mbin.Thread.Comments"
+        }
+    }
+    return "Unknown"
 }
 
 //sets the type of GM API being used (dot or underscore notation) based on scripthandler metadata
