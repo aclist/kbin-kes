@@ -1,6 +1,13 @@
 function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
-    if (getPageType() !== "Mbin.User.Subscriptions") return // eslint-disable-line no-undef
-
+    const pt = getPageType(); // eslint-disable-line no-undef
+    switch (pt) {
+        case "Mbin.User.Subscriptions":
+        case "Mbin.User.Followers":
+        case "Mbin.User.Following":
+            break;
+        default:
+            return
+    }
     function compare (a, b) {
         function _getMagName (magEl) {
             return magEl.querySelector('.stretched-link').innerText.toUpperCase();
