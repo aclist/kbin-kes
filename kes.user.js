@@ -266,20 +266,6 @@ function constructMenu (json, layoutArr, isNew) {
         let modsHR = " (" + activeMods + "/" + totalMods + ")"
         return modsHR
     }
-    function getComputedFontSize (string) {
-        if (typeof string === 'number') return string
-        if (isNaN(parseFloat(string)) === false) {
-            return parseFloat(string)
-        }
-        const el = document.querySelector(string)
-        if (!el) {
-            return null
-        }
-        const fontsize = document.defaultView.getComputedStyle(el).fontSize
-        let px = fontsize.split('px')[0]
-        px = parseFloat(px)
-        return px
-    }
 
     function showSettingsModal () {
         const settings = getSettings();
