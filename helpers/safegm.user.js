@@ -155,7 +155,7 @@ function getPageType () { //eslint-disable-line no-unused-vars
             return "Mbin.Thread.Favorites"
         }
         else if (url[(url.length-1)].includes("up")) {
-            return "Mbin.Thread.Favorites"
+            return "Mbin.Thread.Boosts"
         }
         else {
             return "Mbin.Thread.Comments"
