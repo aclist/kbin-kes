@@ -24,8 +24,7 @@ function pinsInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     const pt = getPageType(); // eslint-disable-line no-undef
-    if (pt.includes("Mbin.Thread")) return
-    if (pt.includes("Mbin.User")) return
+    if (pt !== "Mbin.Magazine") return
 
     function applyPins () {
 

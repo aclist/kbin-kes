@@ -52,7 +52,7 @@ function genericXMLRequest (url, callback) { //eslint-disable-line no-unused-var
 }
 
 //returns the relative onscreen point size of an element after styling is applied
-function getComputedFontSize (string) {
+function getComputedFontSize (string) { // eslint-disable-line no-unused-vars
     if (typeof string === 'number') return string
     if (isNaN(parseFloat(string)) === false) {
         return parseFloat(string)
@@ -147,6 +147,9 @@ function getPageType () { //eslint-disable-line no-unused-vars
         return "Mbin.Domain"
     }
     //threads
+    if ((url[3] === "m") && (url[5] === undefined)) {
+        return "Mbin.Magazine"
+    }
     if ((url[3] === "m") && (url[5] === "t")) {
         if (url[(url.length-1)].includes("favourites")) {
             return "Mbin.Thread.Favorites"
@@ -169,18 +172,18 @@ try {
     if (GM_info) {
         let scriptHandler = GM_info.scriptHandler;
         switch (scriptHandler) {
-        case "Greasemonkey":
-            gmPrefix = dotPrefix;
-            break;
-        case "FireMonkey":
-            gmPrefix = dotPrefix;
-            break;
-        case "Userscripts":
-            gmPrefix = dotPrefix;
-            break;
-        default:
-            gmPrefix = underPrefix;
-            break;
+            case "Greasemonkey":
+                gmPrefix = dotPrefix;
+                break;
+            case "FireMonkey":
+                gmPrefix = dotPrefix;
+                break;
+            case "Userscripts":
+                gmPrefix = dotPrefix;
+                break;
+            default:
+                gmPrefix = underPrefix;
+                break;
         }
     }
 } catch (error) {
