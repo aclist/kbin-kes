@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
-    echo "Must be run from repository root"
-    exit 1
-fi
 
 build_dir="build/scripts"
 kes="tmp/kes.user.js"
@@ -25,7 +21,24 @@ function abort(){
     exit
 }
 
+check_pyver(){
+    local pyver=$(python3 --version | awk '{print $2}')
+    if [[ -z $pyver ]] || [[ ${pyver:0:1} -lt 3 ]]; then
+        local msg="Requires Python >= 3.0.0"
+        printf "%s\n" "$msg"
+        exit 1
+    fi
+}
+
+
 trap abort SIGINT INT
+
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
+
+check_pyver
 
 echo
 [[ ! -d tmp ]] && mkdir tmp
