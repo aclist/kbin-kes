@@ -27,7 +27,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             var style = `
             .entry-comment {
             grid-column-gap: 2px;
-            padding: 2px 0 0 0 !important;
+            padding: 10px 0 0 0 !important;
             }
 
             .subject .more {
@@ -159,16 +159,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 width: 20px;
             }
 
-            .entry-comment > figure > a > img, .entry-comment > figure > a > .no-avatar {
-                max-width: 20px!important;
-                max-height: 20px!important;
-                border: 0px transparent !important;
-            }
             @media (max-width: 992px) {
                 .entry-comment.nested {
-                    padding: 2px 0 0 2px !important;
+                    padding: 10px 0 0 2px !important;
                     grid-column-gap: 0px;
-                    grid-template-columns: 14px min-content auto auto;
                     border: 0px;
                 }
                 .comment-level--1 {
@@ -181,10 +175,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
                 .threadLine {
                     width: 2px;
-                }
-                .entry-comment figure a img {
-                    height: 16px;
-                    width: 16px;
                 }
             }
 
@@ -208,7 +198,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
             .entry-comment {
                 border-color: transparent !important;
-                grid-template-columns: 20px 20px auto min-content;
+                grid-template-columns: 40px 50px auto min-content;
                 grid-template-rows: min-content auto auto;
                 display: grid;
                 margin-left: 0 !important;
@@ -963,7 +953,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     clarify_recipient: //mes-func
     function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
-        function rewrite (title) {
+        function rewrite (form) {
             const self = document.querySelector('.dropdown .login').getAttribute("href").split('/')[2]
             const loc = window.location.href.split('/')[3]
             let recipientName
@@ -972,22 +962,26 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 recipientName = recipient.href.split('/')[4]
             } else {
                 recipientName = window.location.href.split('/')[4]
-            }
+            } 
 
-            title.innerText = "Sending message to " + recipientName
+            const holder = document.createElement('div');
+            holder.id = "mes-compose-holder";
+            holder.textContent = "Sending message to " + recipientName;
+            holder.style.paddingRight = '10px';
+            form.prepend(holder);
         }
-        function reset (title) {
-            title.innerText = "Body"
+        function reset () {
+            document.querySelector('#mes-compose-holder').remove();
         }
 
-        const ar = window.location.href.split('/')
-        if ((ar[3] != "profile") && (ar[4] != "messages") && (ar[3] != "u")) return
-        const title = document.querySelector('form[name="message"] .required')
-        if (!title) return
+        const pt = getPageType(); // eslint-disable-line no-undef
+        if (pt !== "Mbin.User.Direct_Message") return
+        const form = document.querySelector('form[name="message"]')
+        if (!form) return
         if (toggle) {
-            rewrite(title);
+            rewrite(form)
         } else {
-            reset(title);
+            reset(form)
         }
     },
 
