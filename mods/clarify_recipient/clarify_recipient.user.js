@@ -22,7 +22,6 @@ function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
 
     const ar = window.location.href.split('/')
     const pt = getPageType();
-    if (pt === "Mbin.Messages.Thread") return
     if (pt !== "Mbin.User.Direct_Message") return
     const form = document.querySelector('form[name="message"]')
     if (!form) return
