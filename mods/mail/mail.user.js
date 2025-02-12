@@ -9,9 +9,6 @@ function addMail (toggle) { // eslint-disable-line no-unused-vars
 
     function getUsername (item) {
         try {
-            if (item.href.split('/u/')[1].charAt(0) == '@') {
-                return null
-            }
             return item.href.split('/u/')[1];
         } catch (error) {
             return null;
@@ -52,9 +49,9 @@ function addMail (toggle) { // eslint-disable-line no-unused-vars
         });
     }
 
+    if (!isLoggedIn()) return // eslint-disable-line no-undef
     const login = document.querySelector('.login');
     const settings = getModSettings("mail")
-    if (!login) return;
     const self_username = login.href.split('/')[4];
     if (toggle) {
         addLink(settings);
