@@ -1,4 +1,5 @@
 function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
+    if (!isLoggedIn()) return // eslint-disable-line no-undef
     const spinnerCSS = `
     @keyframes spinner {
         0% {
