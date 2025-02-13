@@ -17,6 +17,11 @@
       "checkbox_label": "Hide sidebar entirely"
     },
     {
+      "key": "subs",
+      "type": "checkbox",
+      "checkbox_label": "Subscriptions"
+    },
+    {
       "key": "mags",
       "type": "checkbox",
       "checkbox_label": "Random mags"
