@@ -53,9 +53,9 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
             transition: margin-left 0.2s ease;
         }
 
-        /*.collapsed-comment figure, .collapsed-comment header {
+        .collapsed-comment header {
             margin-left: 24px !important;
-        }*/
+        }
 
         .expando {
             cursor: pointer;
