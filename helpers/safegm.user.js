@@ -77,90 +77,55 @@ function isLoggedIn () { //eslint-disable-line no-unused-vars
 }
 
 function getPageType () { //eslint-disable-line no-unused-vars
-    const url = window.location.href.split('/')
-    if ((url.length === 4) && (url[3] === "")) {
-        return "Mbin.Top"
-    }
-    if ((url[3] === "settings") && (url[4] === "notifications")) {
-        return "Mbin.Messages.Notifications"
-    }
-    if ((url[3] === "profile") && (url[4] === "messages") && (url.length === 6)) {
-        return "Mbin.Messages.Thread"
-    }
-    if ((url[3] === "profile") && (url[4] === "messages")) {
-        return "Mbin.Messages.Inbox"
-    }
-    if (url[3] === "search") {
-        return "Mbin.Search"
-    }
-    if (url[3] === "settings") {
-        return "Mbin.Settings"
-    }
-    if (url[3] === "magazines") {
-        return "Mbin.Magazines"
-    }
-    if (url[3] === "people") {
-        return "Mbin.People"
-    }
-    if (url[3] === "microblog") {
-        return "Mbin.Microblog"
-    }
-    if (url[3] === "tag") {
-        return "Mbin.Tag"
-    }
-    //user pages
-    if ((url[3] === "u") && (url[5].includes("subscriptions"))) {
-        return "Mbin.User.Subscriptions"
-    }
-    if ((url[3] === "u") && (url[5] === "message")) {
-        return "Mbin.User.Direct_Message"
-    }
-    if ((url[3] === "u") && (url[5].includes("threads"))) {
-        return "Mbin.User.Threads"
-    }
-    if ((url[3] === "u") && (url[5].includes("comments"))) {
-        return "Mbin.User.Comments"
-    }
-    if ((url[3] === "u") && (url[5].includes("posts"))) {
-        return "Mbin.User.Posts"
-    }
-    if ((url[3] === "u") && (url[5].includes("replies"))) {
-        return "Mbin.User.Replies"
-    }
-    if ((url[3] === "u") && (url[5].includes("boosts"))) {
-        return "Mbin.User.Boosts"
-    }
-    if ((url[3] === "u") && (url[5].includes("following"))) {
-        return "Mbin.User.Following"
-    }
-    if ((url[3] === "u") && (url[5].includes("followers"))) {
-        return "Mbin.User.Followers"
-    }
-    if (url[3] === "u") {
-        return "Mbin.User"
-    }
-    //domain pages
-    if ((url[3] === "d") && (url[5].includes("comments"))) {
-        return "Mbin.Domain.Comments"
-    }
-    if (url[3] === "d") {
-        return "Mbin.Domain"
-    }
-    //threads
-    if ((url[3] === "m") && (url[5] === undefined)) {
-        return "Mbin.Magazine"
-    }
-    if ((url[3] === "m") && (url[5] === "t")) {
-        if (url[(url.length-1)].includes("favourites")) {
-            return "Mbin.Thread.Favorites"
-        }
-        else if (url[(url.length-1)].includes("up")) {
-            return "Mbin.Thread.Boosts"
-        }
-        else {
+    const url = window.location.href.split("/")
+    switch (url[3]) {
+        case "":
+        case "sub":
+        case "all":
+        case "threads":
+            return "Mbin.Top"
+        case "search":
+            return "Mbin.Search"
+        case "magazines":
+            return "Mbin.Magazines"
+        case "people":
+            return "Mbin.People"
+        case "bookmark-lists":
+            return "Mbin.Bookmarks"
+        case "tag":
+            return "Mbin.Tag"
+        case "microblog":
+            return "Mbin.Microblog"
+        case "profile":
+            if ((url[4] === "messages") && (url.length === 6)) return "Mbin.Messages.Thread"
+            return "Mbin.Messages.Inbox"
+        case "settings":
+            if ((url[4]) === "notifications") return "Mbin.Messages.Notifications"
+            return "Mbin.Settings"
+        case "u":
+            if (url[5] === undefined) return "Mbin.User"
+            if (url[5] === "message") return "Mbin.User.Direct_Message"
+            if (url[5].includes("subscriptions")) return "Mbin.User.Subscriptions"
+            if (url[5].includes("threads")) return "Mbin.User.Threads"
+            if (url[5].includes("comments")) return "Mbin.User.Comments"
+            if (url[5].includes("posts")) return "Mbin.User.Posts"
+            if (url[5].includes("replies")) return "Mbin.User.Replies"
+            if (url[5].includes("boosts")) return "Mbin.User.Boosts"
+            if (url[5].includes("following")) return "Mbin.User.Following"
+            if (url[5].includes("followers")) return "Mbin.User.Followers"
+            return "Mbin.User"
+        case "d":
+            if ((url.length === 6) && (url[5].includes("comments"))) return "Mbin.Domain.Comments"
+            return "Mbin.Domain"
+        case "m":
+            if (url[5] === undefined) return "Mbin.Magazine"
+            if ((url[5] === "t") && (url[url.length-1].includes("favourites"))) return "Mbin.Thread.Favorites"
+            if ((url[5] === "t") && (url[url.length-1].includes("up"))) return "Mbin.Thread.Boosts"
             return "Mbin.Thread.Comments"
-        }
+        default:
+            break;
     }
+    if (url[3].includes("?type=")) return "Mbin.Top"
     return "Unknown"
 }
 
