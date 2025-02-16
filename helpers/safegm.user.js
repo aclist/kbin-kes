@@ -119,6 +119,7 @@ function getPageType () { //eslint-disable-line no-unused-vars
             return "Mbin.Domain"
         case "m":
             if (url[5] === undefined) return "Mbin.Magazine"
+            if (url[5] === "microblog") return "Mbin.Microblog"
             if ((url[5] === "t") && (url[url.length-1].includes("favourites"))) return "Mbin.Thread.Favorites"
             if ((url[5] === "t") && (url[url.length-1].includes("up"))) return "Mbin.Thread.Boosts"
             return "Mbin.Thread.Comments"

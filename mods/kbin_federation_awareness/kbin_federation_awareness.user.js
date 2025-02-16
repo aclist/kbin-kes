@@ -97,12 +97,42 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
             // Scale 1-10; Default 5 (i.e., 50%); 10 is 50% of 20. 20 * (x * 0.1)
             const defaultScale = 20;
             const setScale = defaultScale * (kfaSettingsScale * 0.1);
-            let fedStyle = ` .comment div.data-federated, article .data-federated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-            let modStyle = ` .comment div.data-moderated, article .data-moderated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-            let homeStyle = ` .comment div.data-home, article .data-home { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-            modStyle += `0 0 3px 2px ` + modColor0 + `; background-color: ` + modColor0 + `; margin-right: 4px; margin-left: 4px; }`;
-            fedStyle += `0 0 3px 2px ` + fedColor0 + `; background-color: ` + fedColor0 + `; margin-right: 4px; margin-left: 4px; }`;
-            homeStyle += `0 0 3px 2px ` + homeColor0 + `; background-color: ` + homeColor0 + `; margin-right: 4px; margin-left: 4px; }`;
+            fedStyle=`
+            header div.data-federated, article .data-federated {
+                display: inline-block;
+                width: ${setScale}px;
+                height: ${setScale}px;
+                border-radius: 10px;
+                box-shadow: 0 0 3px 2px ${fedColor0};
+                background-color: ${fedColor0};
+                margin-right: 4px;
+                margin-left: 4px
+            }
+            `;
+            modStyle=`
+            header div.data-moderated, article .data-moderated {
+                display: inline-block;
+                width: ${setScale}px;
+                height: ${setScale}px;
+                border-radius: 10px;
+                box-shadow: 0 0 3px 2px ${modColor0};
+                background-color: ${modColor0};
+                margin-right: 4px;
+                margin-left: 4px;
+            }
+            `;
+            homeStyle=`
+            header div.data-home, article .data-home {
+                display: inline-block;
+                width: ${setScale}px;
+                height: ${setScale}px;
+                border-radius: 10px;
+                box-shadow: 0 0 3px 2px ${homeColor0};
+                background-color: ${homeColor0};
+                margin-right: 4px;
+                margin-left: 4px;
+            }
+            `;
             return modStyle + fedStyle + homeStyle;
         }
     }
@@ -138,13 +168,47 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
     function toggleClass (article, classname) {
         const articleIndicator = document.createElement('div');
         const articleAside = article.querySelector('aside');
-        articleAside.prepend(articleIndicator);
 
         article.classList.toggle(classname);
         articleIndicator.classList.toggle(classname);
+        articleAside.prepend(articleIndicator);
+    }
+
+    function prependToComment(comment) {
+        const commentHeader = comment.querySelector('header');
+        const userInfo = commentHeader.querySelector('a.user-inline');
+        if (userInfo) {
+            const userHostname = userInfo.title.split('@').reverse()[0];
+            let commentIndicator = document.createElement('div');
+
+            if (kfaIsStrictlyModerated(userHostname)) {
+                comment.classList.toggle('data-moderated');
+                commentIndicator.classList.toggle('data-moderated');
+            } else if (userHostname !== window.location.hostname) {
+                comment.classList.toggle('data-federated');
+                commentIndicator.classList.toggle('data-federated');
+            } else {
+                comment.classList.toggle('data-home');
+                commentIndicator.classList.toggle('data-home');
+            }
+            commentHeader.prepend(commentIndicator);
+        }
     }
 
     function kfaInitClasses () {
+        const page = getPageType();
+        if (page === "Mbin.Microblog") {
+            document.querySelectorAll('.section.post.subject').forEach(function (comment) {
+                if (comment.querySelector('[class^=data-]')) { return }
+                prependToComment(comment);
+            });
+            document.querySelectorAll('.comments blockquote.post-comment').forEach(function (comment) {
+                if (comment.querySelector('[class^=data-]')) { return }
+                prependToComment(comment);
+            });
+            return
+        }
+        if (page !== "Mbin.Microblog") {
         document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
             if (article.querySelector('[class^=data-]')) { return }
             let op = article.querySelector('.user-inline').href
@@ -184,6 +248,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
                 commentHeader.prepend(commentIndicator);
             }
         });
+     }
     }
 
     let kfaSettingsFed;
