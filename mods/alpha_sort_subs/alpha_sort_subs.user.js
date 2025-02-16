@@ -8,7 +8,7 @@ function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
         return _getMagName(a) > _getMagName(b) ? 1: -1
     }
 
-    const pt = getPageType(); // eslint-disable-line no-undef
+    const pt = getPageType();
     let list_columns
     switch (pt) {
         case Mbin.User.Subscriptions: {
