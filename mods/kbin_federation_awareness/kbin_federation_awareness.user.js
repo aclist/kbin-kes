@@ -2,7 +2,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
     /*
         License: MIT
         Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
-    */
+        */
 
     const kfaHasStrictModerationRules = [
         'beehaw.org',
@@ -97,7 +97,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
             // Scale 1-10; Default 5 (i.e., 50%); 10 is 50% of 20. 20 * (x * 0.1)
             const defaultScale = 20;
             const setScale = defaultScale * (kfaSettingsScale * 0.1);
-            fedStyle=`
+            const fedStyle=`
             header div.data-federated, article .data-federated {
                 display: inline-block;
                 width: ${setScale}px;
@@ -109,7 +109,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
                 margin-left: 4px
             }
             `;
-            modStyle=`
+            const modStyle=`
             header div.data-moderated, article .data-moderated {
                 display: inline-block;
                 width: ${setScale}px;
@@ -121,7 +121,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
                 margin-left: 4px;
             }
             `;
-            homeStyle=`
+            const homeStyle=`
             header div.data-home, article .data-home {
                 display: inline-block;
                 width: ${setScale}px;
@@ -174,7 +174,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
         articleAside.prepend(articleIndicator);
     }
 
-    function prependToComment(comment) {
+    function prependToComment (comment) {
         const commentHeader = comment.querySelector('header');
         const userInfo = commentHeader.querySelector('a.user-inline');
         if (userInfo) {
@@ -196,7 +196,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
     }
 
     function kfaInitClasses () {
-        const page = getPageType();
+        const page = getPageType(); // eslint-disable-line no-undef
         if (page === "Mbin.Microblog") {
             document.querySelectorAll('.section.post.subject').forEach(function (comment) {
                 if (comment.querySelector('[class^=data-]')) { return }
@@ -209,46 +209,46 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
             return
         }
         if (page !== "Mbin.Microblog") {
-        document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
-            if (article.querySelector('[class^=data-]')) { return }
-            let op = article.querySelector('.user-inline').href
-            op = String(op)
-            const hostname = findHostname(op);
-            article.setAttribute('data-hostname', hostname);
-            let type
+            document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
+                if (article.querySelector('[class^=data-]')) { return }
+                let op = article.querySelector('.user-inline').href
+                op = String(op)
+                const hostname = findHostname(op);
+                article.setAttribute('data-hostname', hostname);
+                let type
 
-            if (kfaIsStrictlyModerated(hostname)) {
-                type = 'data-moderated'
-            } else if (hostname !== window.location.hostname) {
-                type = 'data-federated'
-            } else {
-                type = 'data-home'
-            }
-            toggleClass(article, type)
-        });
-
-        document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
-            if (comment.querySelector('[class^=data-]')) { return }
-            let commentHeader = comment.querySelector('header');
-            const userInfo = commentHeader.querySelector('a.user-inline');
-            if (userInfo) {
-                const userHostname = userInfo.title.split('@').reverse()[0];
-                let commentIndicator = document.createElement('div');
-
-                if (kfaIsStrictlyModerated(userHostname)) {
-                    comment.classList.toggle('data-moderated');
-                    commentIndicator.classList.toggle('data-moderated');
-                } else if (userHostname !== window.location.hostname) {
-                    comment.classList.toggle('data-federated');
-                    commentIndicator.classList.toggle('data-federated');
+                if (kfaIsStrictlyModerated(hostname)) {
+                    type = 'data-moderated'
+                } else if (hostname !== window.location.hostname) {
+                    type = 'data-federated'
                 } else {
-                    comment.classList.toggle('data-home');
-                    commentIndicator.classList.toggle('data-home');
+                    type = 'data-home'
                 }
-                commentHeader.prepend(commentIndicator);
-            }
-        });
-     }
+                toggleClass(article, type)
+            });
+
+            document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
+                if (comment.querySelector('[class^=data-]')) { return }
+                let commentHeader = comment.querySelector('header');
+                const userInfo = commentHeader.querySelector('a.user-inline');
+                if (userInfo) {
+                    const userHostname = userInfo.title.split('@').reverse()[0];
+                    let commentIndicator = document.createElement('div');
+
+                    if (kfaIsStrictlyModerated(userHostname)) {
+                        comment.classList.toggle('data-moderated');
+                        commentIndicator.classList.toggle('data-moderated');
+                    } else if (userHostname !== window.location.hostname) {
+                        comment.classList.toggle('data-federated');
+                        commentIndicator.classList.toggle('data-federated');
+                    } else {
+                        comment.classList.toggle('data-home');
+                        commentIndicator.classList.toggle('data-home');
+                    }
+                    commentHeader.prepend(commentIndicator);
+                }
+            });
+        }
     }
 
     let kfaSettingsFed;
