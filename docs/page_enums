@@ -6,7 +6,7 @@ Mbin.Bookmarks: 5,
 Mbin.Tag: 6,
 Mbin.Microblog: 7,
 Mbin.Settings: 8,
-Mbin.Magazine: 9,
+Mbin.Magazine: 9
 
 Mbin.Messages.Inbox: 1
 Mbin.Messages.Notifications: 2
@@ -25,7 +25,7 @@ Mbin.User.Followers: 10
 
 Mbin.Thread.Comments: 1,
 Mbin.Thread.Favorites: 2,
-Mbin.Thread.Boosts: 3,
+Mbin.Thread.Boosts: 3
 
-Mbin.Domain.Default:1
-Mbin.Domain.Comments:2
+Mbin.Domain.Default: 1
+Mbin.Domain.Comments: 2
