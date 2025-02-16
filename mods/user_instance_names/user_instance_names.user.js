@@ -32,6 +32,8 @@ function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
             case "Mbin.User.Following":
                 el = ".users-columns .stretched-link"
                 break;
+            case "Mbin.User":
+                el = ".user-inline"
             default:
                 el = ".user-inline"
                 break;
