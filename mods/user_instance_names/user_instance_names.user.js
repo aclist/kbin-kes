@@ -34,6 +34,7 @@ function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
                 break;
             case "Mbin.User":
                 el = ".user-inline"
+                break;
             default:
                 el = ".user-inline"
                 break;
