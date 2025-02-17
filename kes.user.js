@@ -31,7 +31,6 @@
 // @connect      github.com
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/funcs.js
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/pages.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json
@@ -1222,7 +1221,7 @@ function constructMenu (json, layoutArr, isNew) {
         saveModSettings(modSettings, ns);
 
         updateCrumbs();
-        toggleSettings(func);
+        toggleSettings(json[it]);
     }
 
     function toggleDependencies (entry, state) {
@@ -1253,7 +1252,13 @@ function constructMenu (json, layoutArr, isNew) {
             funcObj[entrypoint](state);
         }
     }
-    function toggleSettings (entry) {
+    function toggleSettings (json) {
+        const login = json.login
+        const entry = json.entrypoint
+        if (requiresLoginButLoggedOut(login)) {
+            log(`Mod '${entry}' requires login, but user is logged out`)
+            return
+        }
         const settings = getSettings()
         try {
             if (settings[entry] == true) {
@@ -1321,11 +1326,17 @@ function constructMenu (json, layoutArr, isNew) {
         }
 
     }
-    function applySettings (entry, mutation) {
+    function applySettings (json, mutation) {
+        const entry = json.entrypoint
+        const login = json.login
         legacyMigration(entry);
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
+                if (requiresLoginButLoggedOut(login)) {
+                    log(`Mod '${entry}' requires login, but user is logged out`)
+                    return
+                }
                 toggleDependencies(entry, true)
                 funcObj[entry](true, mutation);
             }
@@ -1362,17 +1373,20 @@ function constructMenu (json, layoutArr, isNew) {
         localStorage.setItem("kes-settings", JSON.stringify(settings));
     }
 
+    function requiresLoginButLoggedOut (login) {
+        if (login === false) return false
+        if ((login === true) && (!isLoggedIn())) return true
+        return false
+    }
+
     function init () {
         for (let i = 0; i < json.length; ++i) {
-            if ((json[i].login) && (!isLoggedIn())) { // eslint-disable-line no-undef
-
-                continue
-            }
-            applySettings(json[i].entrypoint);
+            applySettings(json[i]);
         }
     }
 
     function initmut (list) {
+        const timestamp_json = {"login": false, "entrypoint": "timestamp"}
         for (const mutation of list) {
             if (mutation.target.nodeName == "HTML") {
                 //implies that turbo mode reloaded the entire DOM tree
@@ -1381,14 +1395,14 @@ function constructMenu (json, layoutArr, isNew) {
                 //reinjected into the kbin navbar
                 injectSettingsButton(layoutArr, isNew)
                 for (let i = 0; i < json.length; ++i) {
-                    applySettings(json[i].entrypoint, mutation);
+                    applySettings(json[i], mutation);
                 }
                 return
             }
             //trigger when username popover dialog is spawned on hover
             //there can only be one popover spawned at a given time
             if (mutation.target.id === "popover") {
-                applySettings("timestamp");
+                applySettings(timestamp_json);
                 return
             }
             //workaround for timeago ticks changing timestamp textContent
@@ -1396,7 +1410,7 @@ function constructMenu (json, layoutArr, isNew) {
             //see also updateState()
             if (mutation.target.className === 'timeago') {
                 if (!mutation.target.classList.contains("hidden-timeago")) {
-                    applySettings("timestamp");
+                    applySettings(timestamp_json);
                 }
                 //triggering on the first mutation is sufficient to apply to all timestamps
                 return
@@ -1405,7 +1419,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //implies that a recurring/infinite scroll event like new threads or comment creation occurred
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i].entrypoint, mutation);
+                        applySettings(json[i], mutation);
                         obs.takeRecords();
                     }
                 }
