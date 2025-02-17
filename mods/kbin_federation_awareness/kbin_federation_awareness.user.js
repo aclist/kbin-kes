@@ -197,7 +197,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
 
     function kfaInitClasses () {
         const page = getPageType(); // eslint-disable-line no-undef
-        if (page === "Mbin.Microblog") {
+        if (page === Mbin.Microblog) {
             document.querySelectorAll('.section.post.subject').forEach(function (comment) {
                 if (comment.querySelector('[class^=data-]')) { return }
                 prependToComment(comment);
@@ -208,7 +208,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
             });
             return
         }
-        if (page !== "Mbin.Microblog") {
+        if (page !== Mbin.Microblog) {
             document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
                 if (article.querySelector('[class^=data-]')) { return }
                 let op = article.querySelector('.user-inline').href
