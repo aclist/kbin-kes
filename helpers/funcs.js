@@ -77,9 +77,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 transition: margin-left 0.2s ease;
             }
 
-            /*.collapsed-comment figure, .collapsed-comment header {
+            .collapsed-comment header {
                 margin-left: 24px !important;
-            }*/
+            }
 
             .expando {
                 cursor: pointer;
@@ -975,7 +975,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== "Mbin.User.Direct_Message") return
+        if (pt !== Mbin.User.DirectMessage) return
         const form = document.querySelector('form[name="message"]')
         if (!form) return
         if (toggle) {
@@ -2319,9 +2319,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         } // end of displayCommandsModal()
 
+        function isTextField (el) {
+            if (el.target.tagName === "TEXTAREA") return true
+            if ((el.target.tagName === "INPUT") && (el.target.type === "text")) return true
+            return false
+        }
+
         function emoticonGen () {
             eventListener = (e) => {
-                if (e.target.tagName === 'TEXTAREA') {
+                if (isTextField(e)) {
                     emoticonMake(e.target);
                     // handle the "/help" command
                     if (e.target.value.includes('/help') || e.target.value.includes('/commands')) {
@@ -3202,15 +3208,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
             return _getMagName(a) > _getMagName(b) ? 1: -1
         }
 
-        const pt = getPageType(); // eslint-disable-line no-undef
+        const pt = getPageType();
         let list_columns
         switch (pt) {
-            case "Mbin.User.Subscriptions": {
+            case Mbin.User.Subscriptions: {
                 list_columns = '.magazines-columns'
                 break;
             }
-            case "Mbin.User.Followers":
-            case "Mbin.User.Following": {
+            case Mbin.User.Followers:
+            case Mbin.User.Following: {
                 list_columns = '.users-columns'
                 break;
             }
@@ -3481,7 +3487,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
             posts: '#sidebar > .posts',
             threads: '#sidebar > .entries',
             instance: '#sidebar > .kbin-promo',
-            intro: '.sidebar-options > .intro'
+            intro: '.sidebar-options > .intro',
+            subs: '#sidebar > .sidebar-subscriptions'
         }
 
         const settings = getModSettings('hide-sidebar');
@@ -3497,10 +3504,23 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     $(obj[key]).show();
                 }
             }
+            // expand the content to cover the space freed up by hiding the sidebar
+            const main = document.querySelector('.mbin-container > #main');
+            if (settings["sidebar"] && settings["expand"]) {
+                main.style.gridColumn = "span 2";
+            } else {
+                if (main.style.gridColumn == "span 2") {
+                    main.style.gridColumn = '';
+                }
+            }
         } else {
             for (let i = 0; i< keys.length; i++) {
                 let key = keys[i]
                 $(obj[key]).show();
+            }
+            const main = document.querySelector('.mbin-container > #main');
+            if (main.style.gridColumn == "span 2") {
+                main.style.gridColumn = '';
             }
         }
     },
@@ -3658,12 +3678,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const page = getPageType() //eslint-disable-line no-undef
             let el
             switch (page) {
-                case "Mbin.Thread.Favorites":
-                case "Mbin.User.Followers":
-                case "Mbin.User.Following":
+                case Mbin.Thread.Favorites:
+                case Mbin.User.Followers:
+                case Mbin.User.Following:
                     el = ".users-columns .stretched-link"
                     break;
-                case "Mbin.User":
+                case Mbin.User.Default:
                     el = ".user-inline"
                     break;
                 default:
@@ -3921,7 +3941,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function kfaInitClasses () {
             const page = getPageType(); // eslint-disable-line no-undef
-            if (page === "Mbin.Microblog") {
+            if (page === Mbin.Microblog) {
                 document.querySelectorAll('.section.post.subject').forEach(function (comment) {
                     if (comment.querySelector('[class^=data-]')) { return }
                     prependToComment(comment);
@@ -3932,7 +3952,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 });
                 return
             }
-            if (page !== "Mbin.Microblog") {
+            if (page !== Mbin.Microblog) {
                 document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
                     if (article.querySelector('[class^=data-]')) { return }
                     let op = article.querySelector('.user-inline').href
