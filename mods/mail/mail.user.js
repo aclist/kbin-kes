@@ -49,7 +49,6 @@ function addMail (toggle) { // eslint-disable-line no-unused-vars
         });
     }
 
-    if (!isLoggedIn()) return // eslint-disable-line no-undef
     const login = document.querySelector('.login');
     const settings = getModSettings("mail")
     const self_username = login.href.split('/')[4];
