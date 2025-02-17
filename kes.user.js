@@ -31,6 +31,7 @@
 // @connect      github.com
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/funcs.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/pages.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json
@@ -1386,7 +1387,7 @@ function constructMenu (json, layoutArr, isNew) {
     }
 
     function initmut (list) {
-        const timestamp_json = {"login": false, "entrypoint": "timestamp"}
+        const timestamp_json = { "login": false, "entrypoint": "timestamp" }
         for (const mutation of list) {
             if (mutation.target.nodeName == "HTML") {
                 //implies that turbo mode reloaded the entire DOM tree
