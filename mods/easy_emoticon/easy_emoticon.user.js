@@ -203,9 +203,15 @@ function easyEmoticon (toggle) { // eslint-disable-line no-unused-vars
 
     } // end of displayCommandsModal()
 
+    function isTextField (el) {
+        if (el.target.tagName === "TEXTAREA") return true
+        if ((el.target.tagName === "INPUT") && (el.target.type === "text")) return true
+        return false
+    }
+
     function emoticonGen () {
         eventListener = (e) => {
-            if (e.target.tagName === 'TEXTAREA') {
+            if (isTextField(e)) {
                 emoticonMake(e.target);
                 // handle the "/help" command
                 if (e.target.value.includes('/help') || e.target.value.includes('/commands')) {
