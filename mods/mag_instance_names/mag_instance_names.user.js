@@ -1,5 +1,5 @@
 function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
-    function cloneMagazineName(el){
+    function cloneMagazineName (el) {
         document.querySelectorAll(el).forEach((magazine) => {
             if (magazine.dataset.checkedRemote !== undefined) return
             magazine.dataset.checkedRemote = "true"
@@ -34,8 +34,8 @@ function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
         });
         for (let i in els) {
             document.querySelectorAll(els[i]).forEach((magazine) => {
-            delete magazine.dataset.checkedRemote
-        });
+                delete magazine.dataset.checkedRemote
+            });
         }
     }
 
