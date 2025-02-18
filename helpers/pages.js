@@ -9,29 +9,29 @@ const Mbin = Object.freeze({ //eslint-disable-line no-unused-vars
     Settings: 8,
     Magazine: 9,
     Messages: Object.freeze({
-        Inbox: 1,
-        Notifications: 2,
-        Thread: 3
+        Inbox: 10,
+        Notifications: 11,
+        Thread: 12
     }),
     User: Object.freeze({
-        Default: 1,
-        DirectMessage: 2,
-        Subscriptions: 3,
-        Threads: 4,
-        Comments: 5,
-        Posts: 6,
-        Replies: 7,
-        Boosts: 8,
-        Following: 9,
-        Followers: 10
+        Default: 13,
+        DirectMessage: 14,
+        Subscriptions: 15,
+        Threads: 16,
+        Comments: 17,
+        Posts: 18,
+        Replies: 19,
+        Boosts: 20,
+        Following: 21,
+        Followers: 22
     }),
     Thread: Object.freeze({
-        Comments: 1,
-        Favorites: 2,
-        Boosts: 3
+        Comments: 23,
+        Favorites: 24,
+        Boosts: 25
     }),
     Domain: Object.freeze({
-        Default: 1,
-        Comments: 2
+        Default: 26,
+        Comments: 27
     })
 })
