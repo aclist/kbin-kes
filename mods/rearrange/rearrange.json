@@ -2,7 +2,7 @@
   "name": "Rearrange comments",
   "author": "shazbot",
   "version": "0.1.0",
-  "label": "Rearrange post order",
+  "label": "Rearrange thread order",
   "login": false,
   "recurs": false,
   "desc": "Rearrange the order elements appear inside threads. Recommended sort order is 1, 2, 4, 5, 6, 3",
