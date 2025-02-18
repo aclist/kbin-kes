@@ -8,7 +8,8 @@ function hideSidebar (toggle) { // eslint-disable-line no-unused-vars
         threads: '#sidebar > .entries',
         instance: '#sidebar > .kbin-promo',
         intro: '.sidebar-options > .intro',
-        subs: '#sidebar > .sidebar-subscriptions'
+        subs: '#sidebar > .sidebar-subscriptions',
+        about: '#sidebar > .about'
     }
 
     const settings = getModSettings('hide-sidebar');
