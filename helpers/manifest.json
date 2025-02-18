@@ -660,7 +660,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add mail icon",
-    "desc": "Add mail link to usernames if on own instance",
+    "desc": "Add mail link/icon next to usernames",
     "login": false,
     "recurs": true,
     "entrypoint": "mail",
@@ -974,7 +974,7 @@
       },
       {
         "type": "text",
-        "initial": "LOADING",
+        "initial": "LOADING...",
         "key": "loading",
         "label": "Loading label"
       }

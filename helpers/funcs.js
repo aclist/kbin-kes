@@ -2724,9 +2724,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function getUsername (item) {
             try {
-                if (item.href.split('/u/')[1].charAt(0) == '@') {
-                    return null
-                }
                 return item.href.split('/u/')[1];
             } catch (error) {
                 return null;
@@ -2769,7 +2766,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         const login = document.querySelector('.login');
         const settings = getModSettings("mail")
-        if (!login) return;
         const self_username = login.href.split('/')[4];
         if (toggle) {
             addLink(settings);
@@ -3255,111 +3251,145 @@ const funcObj = { // eslint-disable-line no-unused-vars
     expand_posts: //mes-func
     function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
 
+        function makePost (post, original) {
+            const newBody = document.createElement('div');
+            newBody.id = "mes-expanded-post"
+            newBody.appendChild(post);
+            original.insertAdjacentElement("afterend", newBody);
+            original.style.cssText = "display:none"
+        }
+
         async function update (response) {
             const xml = response.response
             const parser = new DOMParser();
             const doc = parser.parseFromString(xml, "text/html");
             const articleId = doc.querySelector('article').id
-            const postBody = doc.querySelector('.content').innerText
+            const newPost = doc.querySelector('.content')
             const arr = Array.from(document.querySelectorAll('.entry'))
             const res = arr.find((el) => el.id === articleId);
-            const oldBody = res.querySelector('.short-desc p');
-            const settings = getModSettings("expand-posts")
-            const collapseLabel = settings.collapse
-            const newButton = makeButton(collapseLabel, res)
-            newButton.className = 'kes-collapse-post-button'
 
-            oldBody.innerText = postBody
-            oldBody.appendChild(newButton)
-            if (oldBody.childNodes[0].nodeName === "BR") {
-                oldBody.children[0].remove()
-            }
-            const prev = newButton.previousElementSibling
-            const prevOfPrev = newButton.previousElementSibling.previousElementSibling
-            if (prev.nodeName === "BR" && prevOfPrev.nodeName=== "BR") {
-                prevOfPrev.remove()
-            }
+            const oldPost = res.querySelector('.short-desc p');
+            const oldButton = document.querySelector(".mes-loading-post-button");
+
+            updateExpandMode(oldButton)
+            makePost(newPost, oldPost);
         }
-        function makeButton (text, parent) {
+
+        function makeButton (parent) {
+            const buttonCSS = `
+            .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
+                font-size: 0.8rem;
+                padding: 0px 5px 0px 5px;
+                cursor: pointer;
+            }
+            .mes-expand-post-button.btn.btn-link.btn__primary {
+                color: var(--kbin-button-primary-text-color) !important;
+            }
+            .mes-collapse-post-button.btn.btn-link.btn__primary {
+                color: var(--kbin-button-primary-text-color) !important;
+            }
+            .mes-loading-post-button.btn.btn-link.btn__primary {
+                color: var(--kbin-button-primary-text-color) !important;
+            }
+            `;
+
+            safeGM("addStyle", buttonCSS, "expand-css");
             const button = document.createElement('a')
-            const br = document.createElement('br')
-            button.innerText = text
-            button.className = 'kes-expand-post-button'
-            button.style.cursor = 'pointer'
-            button.addEventListener('click', (e) => {
-                const mode = e.target.innerText
-                const settings = getModSettings("expand-posts")
-                const loadingLabel = settings.loading
-                const expandLabel = settings.expand
-                if (mode === expandLabel) {
-                    button.innerText = loadingLabel
-                    button.className = 'kes-loading-post-button'
-                    const link = parent.querySelector('header h2 a')
-                    genericXMLRequest(link, update)
+ 
+            //initialize button expand mode
+            button.innerText = settings.expand
+            button.dataset.expandMode = "expand"
+            button.className = "mes-expand-post-button"
+            button.classList.add("btn", "btn-link", "btn__primary")
+
+            button.addEventListener('click', () => {
+                if (button.dataset.expandMode === "expand") {
+                    updateExpandMode(button)
+                    const link = parent.querySelector('header h2 a');
+                    genericXMLRequest(link, update);
                 } else {
-                    const body = parent.querySelector('.short-desc p')
-                    const ar = body.innerText.split('\n')
-                    for (let i = 0; i < ar.length; ++i) {
-                        if (ar[i]) {
-                            body.innerText = ar[i] + '...'
-                            button.innerText = expandLabel
-                            button.className = 'kes-expand-post-button'
-                            body.appendChild(br)
-                            body.appendChild(button)
-                            break
-                        }
-                    }
+                    updateExpandMode(button)
+                    collapsePost(button, parent);
                 }
             });
             return button
         }
+
+        function collapsePost (button, post) {
+            const body = post.querySelector('.short-desc');
+            const oldPost = body.querySelector("p");
+            oldPost.style.cssText = ""
+            body.querySelector("#mes-expanded-post").remove();
+            oldPost.insertAdjacentElement("afterend", button);
+        }
+
+        function updateExpandMode (button) {
+            const mode = button.dataset.expandMode
+            let newMode
+            switch (mode) {
+                case "expand":
+                    newMode = "loading"
+                    break;
+                case "loading":
+                    newMode = "collapse"
+                    break;
+                case "collapse":
+                    newMode = "expand"
+                    break;
+            }
+            button.dataset.expandMode = newMode
+            button.innerText = settings[newMode]
+            button.classList.replace(`mes-${mode}-post-button`, `mes-${newMode}-post-button`)
+        }
+
         function propagateButtons () {
             const entries = document.querySelectorAll('.entry')
             entries.forEach((entry) => {
-                const b = entry.querySelector('.short-desc p')
-                const br = document.createElement('br')
-                if (b) {
-                    const end = b.innerText.slice(-3)
-                    if (end == "...") {
-                        br.id = "kes-expand-divider"
-                        const button = makeButton(expandLabel, entry)
-                        b.appendChild(br)
-                        b.appendChild(button)
-                    }
+                if (entry.dataset.expand !== undefined) return
+                entry.dataset.expand = "true"
+                const blurb = entry.querySelector('.short-desc p')
+                if (!blurb) return
+                if (blurb.innerText.slice(-3) === "...") {
+                    const button = makeButton(entry)
+                    blurb.insertAdjacentElement("afterend", button)
                 }
             });
             updateButtonLabels();
         }
+
         function updateButtonLabels () {
-            const expandLabels = document.querySelectorAll('.kes-expand-post-button')
-            const loadingLabels = document.querySelectorAll('.kes-loading-post-button')
-            const collapseLabels = document.querySelectorAll('.kes-collapse-post-button')
-            expandLabels.forEach((label) =>{
-                label.innerText = expandLabel
-            });
-            collapseLabels.forEach((label) =>{
-                label.innerText = collapseLabel
-            });
-            loadingLabels.forEach((label) =>{
-                label.innerText = loadingLabel
-            });
+            let allEls
+            for (let i in els) {
+                allEls = document.querySelectorAll("." + els[i]);
+                allEls.forEach((el)=>{
+                    const label = els[i].split("-")[1]
+                    const hr = settings[label]
+                    el.innerText = hr
+                })
+            }
         }
 
         const settings = getModSettings("expand-posts")
-        const loadingLabel = settings.loading
-        const expandLabel = settings.expand
-        const collapseLabel = settings.collapse
+        const els = [
+            "mes-expand-post-button",
+            "mes-loading-post-button",
+            "mes-collapse-post-button"
+        ]
+
         if (toggle) {
             propagateButtons();
         } else {
-            const oldButtons = document.querySelectorAll('.kes-expand-post-button')
-            const oldButtons2 = document.querySelectorAll('.kes-collapse-post-button')
-            oldButtons.forEach((button)=>{
-                button.remove();
+            let allEls
+            for (let i in els) {
+                allEls = document.querySelectorAll("." + els[i]);
+                allEls.forEach((el)=>{
+                    el.remove();
+                })
+            }
+            document.querySelectorAll('.entry').forEach((entry) => {
+                delete entry.dataset.expand
             });
-            oldButtons2.forEach((button)=>{
-                button.remove();
-            });
+            safeGM("removeStyle", "expand-css");
         }
     },
 
