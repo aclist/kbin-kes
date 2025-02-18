@@ -30,12 +30,6 @@
       "initial": "Post",
       "key": "post",
       "label": "Post icon"
-    },
-    {
-      "type": "text",
-      "initial": "Subs",
-      "key": "subs",
-      "label": "Subs icon"
     }
   ],
   "page": "navbar"
