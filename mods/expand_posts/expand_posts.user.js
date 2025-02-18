@@ -18,7 +18,7 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
         const res = arr.find((el) => el.id === articleId);
 
         const oldPost = res.querySelector('.short-desc p');
-        const oldButton = document.querySelector(".kes-loading-post-button");
+        const oldButton = document.querySelector(".mes-loading-post-button");
 
         updateExpandMode(oldButton)
         makePost(newPost, oldPost);
@@ -26,18 +26,18 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
 
     function makeButton (parent) {
         const buttonCSS = `
-        .kes-expand-post-button, .kes-loading-post-button, .kes-collapse-post-button {
+        .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
             font-size: 0.8rem;
             padding: 0px 5px 0px 5px;
             cursor: pointer;
         }
-        .kes-expand-post-button.btn.btn-link.btn__primary {
+        .mes-expand-post-button.btn.btn-link.btn__primary {
             color: var(--kbin-button-primary-text-color) !important;
         }
-        .kes-collapse-post-button.btn.btn-link.btn__primary {
+        .mes-collapse-post-button.btn.btn-link.btn__primary {
             color: var(--kbin-button-primary-text-color) !important;
         }
-        .kes-loading-post-button.btn.btn-link.btn__primary {
+        .mes-loading-post-button.btn.btn-link.btn__primary {
             color: var(--kbin-button-primary-text-color) !important;
         }
         `;
@@ -48,10 +48,10 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
         //initialize button expand mode
         button.innerText = settings.expand
         button.dataset.expandMode = "expand"
-        button.className = "kes-expand-post-button"
+        button.className = "mes-expand-post-button"
         button.classList.add("btn", "btn-link", "btn__primary")
 
-        button.addEventListener('click', (e) => {
+        button.addEventListener('click', () => {
             if (button.dataset.expandMode === "expand") {
                 updateExpandMode(button)
                 const link = parent.querySelector('header h2 a');
@@ -64,7 +64,7 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
         return button
     }
 
-    function collapsePost(button, post){
+    function collapsePost (button, post) {
         const body = post.querySelector('.short-desc');
         const oldPost = body.querySelector("p");
         oldPost.style.cssText = ""
@@ -72,7 +72,7 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
         oldPost.insertAdjacentElement("afterend", button);
     }
 
-    function updateExpandMode(button){
+    function updateExpandMode (button) {
         const mode = button.dataset.expandMode
         let newMode
         switch (mode) {
@@ -88,7 +88,7 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
         }
         button.dataset.expandMode = newMode
         button.innerText = settings[newMode]
-        button.classList.replace(`kes-${mode}-post-button`, `kes-${newMode}-post-button`)
+        button.classList.replace(`mes-${mode}-post-button`, `mes-${newMode}-post-button`)
     }
 
     function propagateButtons () {
@@ -108,7 +108,7 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
 
     function updateButtonLabels () {
         let allEls
-        for (i in els) {
+        for (let i in els) {
             allEls = document.querySelectorAll("." + els[i]);
             allEls.forEach((el)=>{
                 const label = els[i].split("-")[1]
@@ -120,16 +120,16 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
 
     const settings = getModSettings("expand-posts")
     const els = [
-        "kes-expand-post-button",
-        "kes-loading-post-button",
-        "kes-collapse-post-button"
+        "mes-expand-post-button",
+        "mes-loading-post-button",
+        "mes-collapse-post-button"
     ]
 
     if (toggle) {
         propagateButtons();
     } else {
         let allEls
-        for (i in els) {
+        for (let i in els) {
             allEls = document.querySelectorAll("." + els[i]);
             allEls.forEach((el)=>{
                 el.remove();
