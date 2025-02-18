@@ -103,17 +103,20 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         margin: 0 5px;
     }
     .noti-panel-header {
-        background: var(--kbin-button-primary-bg);
+        background: var(--kbin-sidebar-settings-switch-off-bg);
         display: flex;
         padding: 5px;
     }
+
     .noti-arrow-holder {
         margin-left: auto
     }
     .noti-read, .noti-purge {
-        background: var(--kbin-button-secondary-hover-bg);
         margin-left: 7px;
+        background: var(--kbin-sidebar-settings-switch-on-bg);
+        color: var(--kbin-sidebar-settings-switch-on-color);
     }
+
     .noti-read,.noti-purge,.noti-back,.noti-forward {
         padding: 5px;
         cursor: pointer;

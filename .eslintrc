@@ -21,7 +21,9 @@
         "GM_setClipboard": "readonly",
         "GM_xmlhttpRequest": "readonly",
         "Mbin": "readonly",
-        "getPageType": "readonly"
+        "getPageType": "readonly",
+        "isLoggedIn": "readonly",
+        "log": "readonly"
     },
     "env": {
         "browser": true,
