@@ -1084,6 +1084,11 @@
         "checkbox_label": "Explore the fediverse intro text"
       },
       {
+        "key": "about",
+        "type": "checkbox",
+        "checkbox_label": "Mbin instance About card"
+      },
+      {
         "label": "Behavior",
         "key": "expand",
         "type": "checkbox",
