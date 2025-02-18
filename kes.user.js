@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.3.0-beta.21
+// @version      4.3.0-beta.22
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -62,16 +62,18 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 //END AUTO MASTHEAD
 
 async function checkUpdates (response) {
-    const newVersion = await response.responseText.trim();
-
-    if (newVersion && newVersion != version) {
-        // Change version link into a button for updating
-        versionElement.innerText = 'Install update: ' + newVersion;
-        versionElement.setAttribute('href', updateURL);
-        versionElement.className = 'new';
-        await safeGM("setValue", "isnew", "yes");
-    } else {
-        await safeGM("setValue", "isnew", "no");
+    if (response.status === 200) {
+        log("Checking for new version at remote");
+        const newVersion = await response.responseText.trim();
+        if (newVersion && newVersion != version) {
+            // Change version link into a button for updating
+            versionElement.innerText = 'Install update: ' + newVersion;
+            versionElement.setAttribute('href', updateURL);
+            versionElement.className = 'new';
+            await safeGM("setValue", "isnew", "yes");
+        } else {
+            await safeGM("setValue", "isnew", "no");
+        }
     }
     preparePayloads();
 }
