@@ -349,8 +349,8 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
     }
 
     function startup () {
-        safeGM("addStyle",customPanelCSS);
-        safeGM("addStyle",spinnerCSS);
+        safeGM("addStyle", customPanelCSS, "notipanel-main-css");
+        safeGM("addStyle", spinnerCSS, "notipanel-spinner-css");
         build();
     }
 
@@ -384,7 +384,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         clickModal.addEventListener('click', () => {
             iframe.remove();
             clickModal.remove();
-            safeGM("addStyle",resetDropdownCSS)
+            safeGM("addStyle", resetDropdownCSS, "notipanel-reset-css")
         });
         const container = document.querySelector('.kbin-container') 
             ?? document.querySelector('.mbin-container');
@@ -441,7 +441,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
                 anchorOuterElement.appendChild(notiBadgeHolder);
             }
             anchorOuterElement.addEventListener('click', () => {
-                safeGM("addStyle",forceDropdownCSS);
+                safeGM("addStyle", forceDropdownCSS, "notipanel-force-css");
                 toggleIframe(listItem)
             });
         }
@@ -455,6 +455,15 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
             $(msgCounterElement).show();
             $(counterElement).show();
             notiPanel.remove();
+        }
+        const styles = [
+            "notipanel-main-css",
+            "notipanel-spinner-css",
+            "notipanel-reset-css",
+            "notipanel-force-css"
+        ]
+        for (let i in styles) {
+            safeGM("removeStyle", styles[i]);
         }
     }
 
