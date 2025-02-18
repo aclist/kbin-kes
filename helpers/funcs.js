@@ -3051,7 +3051,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== "Mbin.Magazine") return
+        if (pt !== Mbin.Magazine) return
 
         function applyPins () {
 
