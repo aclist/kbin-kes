@@ -127,6 +127,7 @@ function getPageType () { //eslint-disable-line no-unused-vars
             break;
     }
     if (url[3].includes("?type=")) return Mbin.Top
+    if (url[3].includes("magazines?")) return Mbin.Magazines
     return "Unknown"
 }
 
