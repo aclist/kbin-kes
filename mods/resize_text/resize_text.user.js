@@ -125,15 +125,15 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             font-size: ${settings["optionNotifs"] * 2.5}px !important
         }
         /* ============= */
-        /* POSTS/THREADS */
+        /* THREADS */
         article.entry > header > h2 a {
-            font-size: ${settings["optionPosts"] * 1.295}px
+            font-size: ${settings["optionThreads"] * 1.295}px
         }
         article.entry > .content * {
-            font-size: ${settings["optionPosts"]}px
+            font-size: ${settings["optionThreads"]}px
         }
         article.entry * {
-            font-size: ${settings["optionPosts"]}px
+            font-size: ${settings["optionThreads"]}px
         }
         `;
         safeGM("removeStyle", "resize-css")

@@ -11,7 +11,7 @@
   "page": "accessibility",
   "catch_reset": [
     "optionHeader",
-    "optionPosts",
+    "optionThreads",
     "optionComments",
     "optionHomeSidebar",
     "optionCreate",
@@ -41,8 +41,8 @@
     {
       "type": "number",
       "initial": "article.entry .content p",
-      "key": "optionPosts",
-      "label": "Posts:",
+      "key": "optionThreads",
+      "label": "Threads:",
       "step": "0.1",
       "min": "5",
       "max": "50"
