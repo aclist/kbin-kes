@@ -23,7 +23,8 @@
         "Mbin": "readonly",
         "getPageType": "readonly",
         "isLoggedIn": "readonly",
-        "log": "readonly"
+        "log": "readonly",
+        "Log": "readonly"
     },
     "env": {
         "browser": true,

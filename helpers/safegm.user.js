@@ -1,10 +1,27 @@
+const Log = Object.freeze({ //eslint-disable-line no-unused-vars
+    Log: 1,
+    Warn: 2,
+    Error: 3,
+})
 
-function log (string) { // eslint-disable-line no-unused-vars
+function log (string, level) { // eslint-disable-line no-unused-vars
     const date = new Date()
     const iso = date.toISOString()
     const caller = (new Error()).stack?.split("\n")[1].split("@")[0]
     const line = `[KES:${caller}] [${iso}] ${string}`
-    console.log(line)
+    switch (level) {
+        case Log.Log:
+            console.log(line)
+            break;
+        case Log.Warn:
+            console.warn(line)
+            break;
+        case Log.Error:
+            console.error(line)
+            break;
+        default:
+            break;
+    }
 }
 
 //adds custom CSS to the document head by named ID
