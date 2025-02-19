@@ -97,8 +97,11 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         }
         /* ============= */
         /* SETTINGS */
-        .page-settings * {
-            font-size: ${settings["optionUserSettings"]}px
+        form[name="user_settings"] * {
+            font-size: ${settings["optionUserSettings"]}px;
+        }
+        form[name="user_settings"] .ts-control * {
+            font-size: ${settings["optionUserSettings"]}px;
         }
         .page-settings h2 {
             font-size: ${settings["optionUserSettings"] * 2.5}px

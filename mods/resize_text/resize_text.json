@@ -18,7 +18,7 @@
     "optionProfile",
     "optionUserSettings",
     "optionMessages",
-    "optionSortBy",
+    "optionMenubar",
     "optionNotifs",
     "optionFooter"
   ],
@@ -77,8 +77,8 @@
     {
       "type": "number",
       "initial": "aside#options menu li a, aside#options menu i",
-      "key": "optionSortBy",
-      "label": "Sort by bar:",
+      "key": "optionMenubar",
+      "label": "Options bars (top of pages):",
       "step": "0.1",
       "min": "5",
       "max": "50"
