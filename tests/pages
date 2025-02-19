@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+TEST_NAME="Check for valid page name"
+
+abort(){
+    local str="$1"
+    printf "%s\n" "$str"
+    exit 1
+}
+
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
+
+#order mirrors list in UI
+allowed_pages=(
+    "general"
+    "navbar"
+    "threads"
+    "profile"
+    "accessibility"
+    "mobile"
+    "debug"
+    "fixes"
+    "cosmetic"
+    "spam"
+    )
+
+for file in $(find $PWD/mods -name "*.json"); do
+    allowed=0
+    res=$(< "$file" jq -r '.page')
+    if [[ ! "${allowed_pages[*]}" =~ $res ]]; then
+        abort "Page '$res' in '$file' is not an allowed UI page"
+    fi
+done
+
+exit 0

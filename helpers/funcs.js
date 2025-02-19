@@ -1,7 +1,6 @@
-const funcObj = {
+const funcObj = { // eslint-disable-line no-unused-vars
 
-    always_more:
-
+    always_more: //mes-func
     function moreInit (toggle) { // eslint-disable-line no-unused-vars 
         const more = document.querySelectorAll('.entry__body > .more')
         if (toggle) {
@@ -20,17 +19,37 @@ const funcObj = {
             });
 
         }
-    }
-,
+    },
 
-    improved_collapsible_comments:
+    suppress_cover: //mes-func
+    function suppressCoverInit (toggle) { //eslint-disable-line no-unused-vars
+        const pt = getPageType();
+        switch (pt) {
+            case Mbin.Thread.Comments:
+            case Mbin.Thread.Favorites:
+            case Mbin.Thread.Boosts:
+            case Mbin.Magazine:
+                break;
+            default:
+                return
+        }
 
+        const cover = document.querySelector('#sidebar .magazine.section figure');
+
+        if (toggle) {
+            cover.style.display = "none"
+        } else {
+            cover.style.removeProperty("display");
+        }
+    },
+
+    improved_collapsible_comments: //mes-func
     function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-unused-vars
         function applyCommentStyles () {
             var style = `
             .entry-comment {
             grid-column-gap: 2px;
-            padding: 2px 0 0 0 !important;
+            padding: 10px 0 0 0 !important;
             }
 
             .subject .more {
@@ -46,7 +65,7 @@ const funcObj = {
                 padding-bottom: 4px !important;
             }
 
-            .comments div {
+            .comments > div[class^="comment-line--"] {
                 border-left: none !important;
             }
             .entry-comment .kes-collapse-children {
@@ -80,9 +99,9 @@ const funcObj = {
                 transition: margin-left 0.2s ease;
             }
 
-            /*.collapsed-comment figure, .collapsed-comment header {
+            .collapsed-comment header {
                 margin-left: 24px !important;
-            }*/
+            }
 
             .expando {
                 cursor: pointer;
@@ -162,16 +181,10 @@ const funcObj = {
                 width: 20px;
             }
 
-            .entry-comment > figure > a > img, .entry-comment > figure > a > .no-avatar {
-                max-width: 20px!important;
-                max-height: 20px!important;
-                border: 0px transparent !important;
-            }
             @media (max-width: 992px) {
                 .entry-comment.nested {
-                    padding: 2px 0 0 2px !important;
+                    padding: 10px 0 0 2px !important;
                     grid-column-gap: 0px;
-                    grid-template-columns: 14px min-content auto auto;
                     border: 0px;
                 }
                 .comment-level--1 {
@@ -184,10 +197,6 @@ const funcObj = {
 
                 .threadLine {
                     width: 2px;
-                }
-                .entry-comment figure a img {
-                    height: 16px;
-                    width: 16px;
                 }
             }
 
@@ -211,7 +220,7 @@ const funcObj = {
             }
             .entry-comment {
                 border-color: transparent !important;
-                grid-template-columns: 20px 20px auto min-content;
+                grid-template-columns: 40px 50px auto min-content;
                 grid-template-rows: min-content auto auto;
                 display: grid;
                 margin-left: 0 !important;
@@ -238,20 +247,11 @@ const funcObj = {
             `;
             for (let i = 1; i < 10; i++) {
                 style += `
-                blockquote.comment-level--${i} {
+                blockquote:not(.post-comment).comment-level--${i} {
                     margin-left: 0 !important;
                 }
                 `;
             }
-            const kbinStyle = `
-            .entry-comment {
-                grid-template-areas:
-                "expando-icon avatar header vote"
-                "expando body body body"
-                "expando footer footer footer"
-                "expando kes-collapse-children kes-collapse-children kes-collapse-children";
-            }
-            `;
             const mbinStyle = `
             .entry-comment {
                 grid-template-areas:
@@ -271,10 +271,7 @@ const funcObj = {
             `;
             safeGM("addStyle", hideDefaults, "hide-defaults");
             safeGM("addStyle", style, "threaded-comments");
-            // eslint-disable-next-line no-undef
-            if (getInstanceType() === "kbin") safeGM("addStyle", kbinStyle, "kbin-kes-comments-style")
-            // eslint-disable-next-line no-undef
-            if (getInstanceType() === "mbin") safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
+            safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
         }
         function applyToNewPosts () {
             let comments = document.querySelectorAll(".entry-comment:not(.nested)");
@@ -498,7 +495,6 @@ const funcObj = {
             clearMores();
             safeGM("removeStyle", "hide-defaults");
             safeGM("removeStyle", "threaded-comments");
-            safeGM("removeStyle", "kbin-kes-comments-style")
             safeGM("removeStyle", "mbin-kes-comments-style")
         }
         if (!toggle) {
@@ -512,11 +508,9 @@ const funcObj = {
         } else {
             enterMain();
         }
-    }
-,
+    },
 
-    omni:
-
+    omni: //mes-func
     function omniInit (toggle) { // eslint-disable-line no-unused-vars
 
         const kesActive = 'kes-subs-active'
@@ -945,9 +939,11 @@ const funcObj = {
                     kt.focus()
                 }
 
-                const pageHolder = document.querySelector('.kbin-container')
+                const pageHolder = document.querySelector('.kbin-container') 
+                    ?? document.querySelector('.mbin-container')
                 const kth = document.createElement('div');
-                kth.style.cssText = 'height: 0px; width: 0px'
+                kth.style.cssText = 'height: 0px; width: 0px;'
+                kth.id = 'kes-omni-keytrap-holder'
                 const ktb = document.createElement('button')
                 ktb.style.cssText = 'opacity:0;width:0'
                 ktb.id = 'kes-omni-keytrap'
@@ -955,11 +951,15 @@ const funcObj = {
                 pageHolder.insertBefore(kth, pageHolder.children[0])
                 ktb.addEventListener('keyup',kickoffListener)
                 const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
+                    ?? document.querySelector('[data-controller="mbin notifications"]');
                 globalKeyInsert.addEventListener('keydown',keyTrap)
 
 
             }
         }
+        const keytrap = document.querySelector('#kes-omni-keytrap-holder');
+        if (keytrap) keytrap.remove();
+
         if (toggle) {
             createOmni();
         } else {
@@ -975,13 +975,11 @@ const funcObj = {
                 q.remove();
             }
         }
-    }
-,
+    },
 
-    clarify_recipient:
-
+    clarify_recipient: //mes-func
     function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
-        function rewrite (title) {
+        function rewrite (form) {
             const self = document.querySelector('.dropdown .login').getAttribute("href").split('/')[2]
             const loc = window.location.href.split('/')[3]
             let recipientName
@@ -990,135 +988,51 @@ const funcObj = {
                 recipientName = recipient.href.split('/')[4]
             } else {
                 recipientName = window.location.href.split('/')[4]
-            }
+            } 
 
-            title.innerText = "Sending message to " + recipientName
+            const holder = document.createElement('div');
+            holder.id = "mes-compose-holder";
+            holder.textContent = "Sending message to " + recipientName;
+            holder.style.paddingRight = '10px';
+            form.prepend(holder);
         }
-        function reset (title) {
-            title.innerText = "Body"
+        function reset () {
+            document.querySelector('#mes-compose-holder').remove();
         }
 
-        const ar = window.location.href.split('/')
-        if ((ar[3] != "profile") && (ar[4] != "messages") && (ar[3] != "u")) return
-        const title = document.querySelector('form[name="message"] .required')
-        if (!title) return
+        const pt = getPageType(); // eslint-disable-line no-undef
+        if (pt !== Mbin.User.DirectMessage) return
+        const form = document.querySelector('form[name="message"]')
+        if (!form) return
         if (toggle) {
-            rewrite(title);
+            rewrite(form)
         } else {
-            reset(title);
+            reset(form)
         }
-    }
-,
+    },
 
-    label:
-
-    function labelOp (toggle) { // eslint-disable-line no-unused-vars
-        if (getInstanceType() === "mbin") return // eslint-disable-line no-undef
-        if (toggle) {
-            let settings = getModSettings("labelcolors");
-            let fg = settings["fgcolor"];
-            let bg = settings["bgcolor"];
-            const labelCSS = `
-                    blockquote.author > header > a.user-inline::after {
-                    content: 'OP';
-                    font-weight: bold;
-                    color: ${fg};
-                    background-color: ${bg};
-                    margin-left: 4px;
-                    padding: 0px 5px 0px 5px;
-                }
-                body.rounded-edges blockquote.author a.user-inline::after {
-                    border-radius: var(--kbin-rounded-edges-radius);
-                }
-            `;
-            safeGM("addStyle", labelCSS, "labelop-css")
-        } else {
-            safeGM("removeStyle", "labelop-css")
-        }
-    }
-,
-
-    hide_reputation:
-
+    hide_reputation: //mes-func
     function hideReputation (toggle) { //eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         kbin Vote Hider
         // @namespace    https://github.com/aclist
-        // @version      0.2
+        // @version      0.3
         // @description  Hide upvotes, downvotes, and karma
         // @author       artillect
         // @match        https://kbin.social/*
         // @license      MIT
         // ==/UserScript==
+        const itemSelector = 'li:has(a[href$="/reputation/threads"])'
         if (toggle) {
-            $('#sidebar > section.section.user-info > ul > li:nth-child(2)').hide();
-            document.styleSheets[0].addRule('.user-popover ul li:nth-of-type(2)','display:none')
+            $(`#sidebar > section.section.user-info > ul > ${itemSelector}`).hide()
+            document.styleSheets[0].addRule(`.user-popover ul ${itemSelector}`,'display:none')
         } else {
-            $('#sidebar > section.section.user-info > ul > li:nth-child(2)').show();
-            document.styleSheets[0].addRule('.user-popover ul li:nth-of-type(2)','display:initial')
+            $(`#sidebar > section.section.user-info > ul > ${itemSelector}`).show()
+            document.styleSheets[0].addRule(`.user-popover ul ${itemSelector}`,'display:initial')
         }
-    }
-,
+    },
 
-    unsanitize_css:
-
-    /**
-     * Kbin currently wrongly sanitizes its custom CSS (as defined by magazines and users),
-     * causing some characters to be replaced by HTML escape codes. This breaks CSS rules involving,
-     * for example, the direct descendant selector (>) or nested CSS using the & character.
-     * 
-     * This mod aims to fix that issue until kbin does.
-     * 
-     * @param {Boolean} isActive Whether the mod has been turned on
-     */
-    function fixWronglySanitizedCss (isActive) { // eslint-disable-line no-unused-vars
-        if (isActive) {
-            setup();
-        } else {
-            teardown();
-        }
-
-        function setup () {
-            var dummy = document.createElement("div");
-            document.querySelectorAll("style:not([id])").forEach((style) => {
-                dummy.innerHTML = style.textContent;
-                if (dummy.innerHTML != dummy.textContent) {
-                    style.textContent = dummy.textContent;
-                    markAsUnsanitized(style);
-                }
-            });
-            dummy.remove();
-        }
-
-        function teardown () {
-            var dummy = document.createElement("div");
-            Array.from(document.querySelectorAll("style:not([id])"))
-                .filter((style) => isUnsanitized(style))
-                .forEach((style) => {
-                    dummy.textContent = style.textContent;
-                    style.textContent = dummy.innerHTML;
-                    markAsSanitized(style);
-                });
-            dummy.remove();
-        }
-
-        /** @param {HTMLElement} elem @returns {Boolean} */
-        function isUnsanitized (elem) {
-            return elem.dataset.unsanitized;
-        } 
-        /** @param {HTMLElement} elem */
-        function markAsUnsanitized (elem) {
-            elem.dataset.unsanitized = true;
-        }
-        /** @param {HTMLElement} elem */
-        function markAsSanitized (elem) {
-            delete elem.dataset.unsanitized;
-        }
-    }
-,
-
-    notifications_panel:
-
+    notifications_panel: //mes-func
     function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         const spinnerCSS = `
         @keyframes spinner {
@@ -1224,17 +1138,20 @@ const funcObj = {
             margin: 0 5px;
         }
         .noti-panel-header {
-            background: var(--kbin-button-primary-bg);
+            background: var(--kbin-sidebar-settings-switch-off-bg);
             display: flex;
             padding: 5px;
         }
+
         .noti-arrow-holder {
             margin-left: auto
         }
         .noti-read, .noti-purge {
-            background: var(--kbin-button-secondary-hover-bg);
             margin-left: 7px;
+            background: var(--kbin-sidebar-settings-switch-on-bg);
+            color: var(--kbin-sidebar-settings-switch-on-color);
         }
+
         .noti-read,.noti-purge,.noti-back,.noti-forward {
             padding: 5px;
             cursor: pointer;
@@ -1318,12 +1235,11 @@ const funcObj = {
             let iff = document.querySelector('.notifications-iframe');
             let parser = new DOMParser();
             let notificationsXML = parser.parseFromString(response.responseText, "text/html");
-            const readTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/read"] input')
-            const readToken = readTokenEl.value
-            const purgeTokenEl = notificationsXML.querySelector('.pills menu form[action="/settings/notifications/clear"] input')
-            const purgeToken = purgeTokenEl.value
-            let currentPage = notificationsXML.all[6].content.split('=')[1]
+            const token = notificationsXML.querySelector('#push-subscription-div')
+                .getAttribute('data-application-server-public-key');
+            let currentPage = notificationsXML.querySelector('[property="og:url"]').content.split('=')[1]
             let currentPageInt = parseInt(currentPage)
+            // 2025-01-19: there can be 25 messages before pagination occurs
             let sects = notificationsXML.querySelectorAll('.notification');
             if (sects.length === 0) {
                 loadingSpinner.remove();
@@ -1398,7 +1314,7 @@ const funcObj = {
                 readButton.style.setProperty('--noti-button-opacity','0.7')
                 readButton.addEventListener('click', () => {
                     clearPanel();
-                    genericPOSTRequest(notificationsURL + '/read', readAndReset, readToken);
+                    genericPOSTRequest(notificationsURL + '/read', readAndReset, token);
                 });
             } else {
                 readButton.style.opacity = 0.7;
@@ -1406,7 +1322,7 @@ const funcObj = {
             }
             purgeButton.addEventListener('click', () => {
                 clearPanel();
-                genericPOSTRequest(notificationsURL + '/clear', readAndReset, purgeToken);
+                genericPOSTRequest(notificationsURL + '/clear', readAndReset, token);
             });
 
             if (currentPageInt != 1) {
@@ -1468,8 +1384,8 @@ const funcObj = {
         }
 
         function startup () {
-            safeGM("addStyle",customPanelCSS);
-            safeGM("addStyle",spinnerCSS);
+            safeGM("addStyle", customPanelCSS, "notipanel-main-css");
+            safeGM("addStyle", spinnerCSS, "notipanel-spinner-css");
             build();
         }
 
@@ -1484,6 +1400,13 @@ const funcObj = {
             const iframe = document.createElement('div');
             iframe.className = 'notifications-iframe dropdown__menu';
             iframe.style.cssText = iframeCSS
+            iframe.addEventListener('click', () => {
+                if (iframe.querySelector('.noti-no-messages')) {
+                    iframe.remove();
+                    document.querySelector('.clickmodal').remove();
+                    return;
+                }
+            });
 
             let loading = document.createElement('div')
             loading.className = "loadingmsg"
@@ -1496,9 +1419,11 @@ const funcObj = {
             clickModal.addEventListener('click', () => {
                 iframe.remove();
                 clickModal.remove();
-                safeGM("addStyle",resetDropdownCSS)
-            })
-            document.querySelector('.kbin-container').appendChild(clickModal)
+                safeGM("addStyle", resetDropdownCSS, "notipanel-reset-css")
+            });
+            const container = document.querySelector('.kbin-container') 
+                ?? document.querySelector('.mbin-container');
+            container.appendChild(clickModal);
             listItem.appendChild(iframe);
             genericXMLRequest(notificationsURL + '?p=1',insertMsgs);
         }
@@ -1506,7 +1431,8 @@ const funcObj = {
         function build () {
             const notiPanel = document.querySelector('li.notification-button');
             if (notiPanel) return
-            const parentElement = document.querySelector('.header .kbin-container');
+            const parentElement = document.querySelector('.header .kbin-container')
+                    ?? document.querySelector('.header .mbin-container');
             if (parentElement) {
                 const listItem = document.createElement('li');
                 listItem.classList.add('notification-button');
@@ -1550,7 +1476,7 @@ const funcObj = {
                     anchorOuterElement.appendChild(notiBadgeHolder);
                 }
                 anchorOuterElement.addEventListener('click', () => {
-                    safeGM("addStyle",forceDropdownCSS);
+                    safeGM("addStyle", forceDropdownCSS, "notipanel-force-css");
                     toggleIframe(listItem)
                 });
             }
@@ -1565,6 +1491,15 @@ const funcObj = {
                 $(counterElement).show();
                 notiPanel.remove();
             }
+            const styles = [
+                "notipanel-main-css",
+                "notipanel-spinner-css",
+                "notipanel-reset-css",
+                "notipanel-force-css"
+            ]
+            for (let i in styles) {
+                safeGM("removeStyle", styles[i]);
+            }
         }
 
         if (toggle) {
@@ -1572,156 +1507,62 @@ const funcObj = {
         } else {
             shutdown();
         }
-    }
-,
+    },
 
-    mag_instance_names:
-
+    mag_instance_names: //mes-func
     function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
-        // ==UserScript==
-        // @name         Magazine Instance Names
-        // @namespace    https://github.com/aclist
-        // @version      0.1
-        // @description  Shows instance names next to non-local magazines
-        // @author       artillect
-        // @match        https://kbin.social/*
-        // @license      MIT
-        // ==/UserScript==
-        const path = window.location.href.split('/')
-        if ((path[3] === "m") || (path[3] === "magazines")) return
-        function showMagInstances () {
-            $('.magazine-inline').each(function () {
-                // Check if community is local
-                if (!$(this).hasClass('instance')) {
-                    $(this).addClass('instance');
-                    // Get community's instance from their profile link
-                    var magInstance = $(this).attr('href').split('@')[1];
-                    // Check if community's link includes an @
-                    if (magInstance) {
-                        // Add instance name to community's name
-                        $(this).html($(this).html() + '<span class="mag-instance">@' + magInstance + '</span>');
-                    }
+        function cloneMagazineName (el) {
+            document.querySelectorAll(el).forEach((magazine) => {
+                if (magazine.dataset.checkedRemote !== undefined) return
+                magazine.dataset.checkedRemote = "true"
+                const arr = magazine.getAttribute("href").split("@")
+                const name = arr[0].split("/")[2]
+                const remote = arr[1]
+                if (remote) {
+                    const oldSpan = magazine.querySelector("span")
+                    oldSpan.classList.add("hidden-instance");
+                    oldSpan.style.display = "none"
+                    const newSpan = document.createElement("span")
+                    newSpan.innerText = name + "@" + remote
+                    newSpan.classList.add("mes-remote-instance");
+                    oldSpan.insertAdjacentElement("afterend", newSpan)
                 }
             });
         }
-        function hideCommunityInstances () {
-            $('.magazine-inline.instance').each(function () {
-                $(this).removeClass('instance');
-                $(this).html($(this).html().split('<span class="mag-instance">@')[0]);
-            });
+
+        function showRemotes () {
+            for (let i in els) {
+                cloneMagazineName(els[i]);
+            }
         }
-        //const localInstance = window.location.href.split('/')[2];
+
+        function hideRemotes () {
+            document.querySelectorAll('.hidden-instance').forEach((magazine) => {
+                magazine.style.removeProperty("display");
+                magazine.classList.remove("hidden-instance");
+            });
+            document.querySelectorAll('.mes-remote-instance').forEach((magazine) => {
+                magazine.remove();
+            });
+            for (let i in els) {
+                document.querySelectorAll(els[i]).forEach((magazine) => {
+                    delete magazine.dataset.checkedRemote
+                });
+            }
+        }
+
+        const els = [
+            ".magazine-inline",
+            ".subscription-list .stretched-link"
+        ]
         if (toggle) {
-            showMagInstances();
+            showRemotes();
         } else {
-            hideCommunityInstances();
+            hideRemotes();
         }
-    }
-,
+    },
 
-    alt_all_content_access:
-
-    /**
-     * This mod aims to make clicking the magazine name in the navbar lead to the All Content
-     * view instead of the Threads view, while removing the All Content button itself.
-     * 
-     * @param {Boolean} isActive Whether the mod has been turned on
-    */
-    function altAllContentAccess (isActive) {  // eslint-disable-line no-unused-vars
-        const titleList = getTitle();
-        const buttons = getAllContentButton();
-
-        if (titleList.length == 0) return;
-        if (buttons.length == 0) return;
-        if (isActive) {
-            setup();
-        } else {
-            teardown();
-        }
-
-        function setup () {
-            const currentViewIsCollection = isCurrentViewCollection();
-            titleList.forEach((title) => {
-                const href = title.getAttribute("href");
-                if (!currentViewIsCollection && !href.startsWith("/*/")) {
-                    title.setAttribute("href", `/*${href}`);
-                } else if (currentViewIsCollection && !href.endsWith("/*")) {
-                    title.setAttribute("href", `${href}/*`);
-                }
-            });
-            setButtonVisibility(true);
-        }
-
-        function teardown () {
-            titleList.forEach((title) => {
-                const href = title.getAttribute("href");
-                if (href.startsWith("/*/")) title.setAttribute("href", href.slice(2));
-                else if (href.endsWith("/*")) title.setAttribute("href", href.slice(0, href.length-2));
-            });
-            setButtonVisibility(false);
-        }
-
-        /**
-         * Checks whether the existing All Content button should be hidden.
-         * 
-         * @returns {Boolean}
-         */
-        function doHideButton () {
-            return getModSettings("alt-all-content-access")["hideAllContentButton"];
-        }
-
-        /**
-         * Retrieves both the regular and the mobile button.
-         * @returns {HTMLElement[]}
-         */
-        function getAllContentButton () {
-            const threadsAttributePattern = "[href^='/*']";
-            const collectionsAttributePattern = "[href$='/*']";
-            const allContentQuery = "menu.head-nav__menu > li > a";
-            const allContentMobileQuery = "div.mobile-nav menu.info a";
-            return Array.from(
-                document.querySelectorAll(`
-                    ${allContentQuery}${threadsAttributePattern}, 
-                    ${allContentMobileQuery}${threadsAttributePattern},
-                    ${allContentQuery}${collectionsAttributePattern}, 
-                    ${allContentMobileQuery}${collectionsAttributePattern}
-                `)
-            );
-        }
-
-        /**
-         * Retrieves the clickable magazine name title, both the regular one and the mobile one..
-         * @returns {HTMLElement[]}
-         */
-        function getTitle () {
-            return Array.from(document.querySelectorAll("div.head-title a"));
-        }
-
-        /**
-         * Makes the buttons appear or disappear depending on the setting in KES and whether the mod
-         * is turned on or off.
-         */
-        function setButtonVisibility () {
-            buttons.forEach((button) => {
-                /** @type {HTMLElement} */
-                const parent = button.parentNode;
-                if (doHideButton() && isActive) parent.style.display = "none";
-                else parent.style.removeProperty("display");
-            });
-        }
-
-        /**
-         * The All Content URL of collections works differently.
-         * @returns {Boolean}
-         */
-        function  isCurrentViewCollection () {
-            return buttons[0].getAttribute("href").endsWith("/*");
-        }
-    }
-,
-
-    code_highlighting:
-
+    code_highlighting: //mes-func
     function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
         /* global hljs */
         let kchCssUrl;
@@ -1878,26 +1719,31 @@ const funcObj = {
         } else {
             kchShutdown();
         }
-    }
-,
+    },
 
-    rearrange:
-
+    rearrange: //mes-func
     function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
         function rearrangeSetup () {
-            if (window.location.href.split('#')[1] != 'comments') return
+            const pt = getPageType();
+            if (pt !== Mbin.Thread.Comments) return
             const settings = getModSettings('rearrange');
             const content = document.querySelector('#content');
             content.style.display = 'grid';
             const op = document.querySelector('.section--top');
             const activity = document.querySelector('#activity');
-            const post = document.querySelector('#comment-add');
             const options = document.querySelector('#options');
             const comments = document.querySelector('#comments');
+            const cross = document.querySelector('.entries-cross');
 
             op.style.order = settings["op"]
             activity.style.order = settings["activity"]
-            post.style.order = settings["post"]
+            if (isLoggedIn()) {
+                const post = document.querySelector('#comment-add');
+                post.style.order = settings["post"]
+            }
+            if (cross) {
+                cross.style.order = settings["crossposts"]
+            }
             options.style.order = settings["options"]
             comments.style.order = settings["comments"]
         }
@@ -1907,105 +1753,9 @@ const funcObj = {
             const content = document.querySelector('#content');
             content.style.display = 'unset';
         }
-    }
-,
+    },
 
-    fix_codeblocks:
-
-    /**
-     * Lemmy federates its code blocks with syntax highlighting, but /kbin doesn't currently 
-     * correctly handle that. It just displays the additional <span> tags for the syntax
-     * highlighting in plain text. This makes the code very hard to read.
-     * This mod fixes the issue by removing those erroneous tags.
-     * 
-     * @param {Boolean} isActive Whether the mod has been turned on
-     */
-    function fixLemmyCodeblocks (isActive) { // eslint-disable-line no-unused-vars
-        /** @type {String} */
-        const STYLEPATTERN = "((font-style:italic|font-weight:bold);)?color:#[0-9a-fA-F]{6};";
-    
-        if (isActive) {
-            setup();
-        } else {
-            teardown();
-        }
-
-        function setup () {
-            getCodeBlocks()
-                .filter((code) => isErroneousCode(code))
-                .filter((code) => !isFixed(code))
-                .forEach((code) => fix(code));
-        }
-
-        function teardown () {
-            getCodeBlocks(true).forEach((code) => {
-                /** @type {HTMLElement} */
-                code.nextElementSibling.remove();
-                code.style.removeProperty("display");
-                markAsUnfixed(code);
-            });
-        }
-
-        /**
-         * Repairs a given code block.
-         * @param {HTMLElement} original The code block that needs to be fixed
-         */
-        function fix (original) {
-            const fixed = document.createElement("code");
-            original.after(fixed);
-
-            const start = new RegExp(`^\\n?<span style="${STYLEPATTERN}">`);
-            const end = new RegExp(`\\n<\\/span>\\n?$`);
-            const combined = new RegExp(`<\\/span><span style="${STYLEPATTERN}">`, "g");
-
-            fixed.textContent = original.textContent
-                .replace(start, "")
-                .replaceAll(combined, "")
-                .replace(end, "");
-
-            original.style.display = "none";
-            markAsFixed(original);
-        }
-
-        /**
-         * Checks whether a given code block needs to be fixed.
-         * @param {HTMLElement} code
-         * @returns {Boolean}
-         */
-        function isErroneousCode (code) {
-            const pattern = new RegExp(`^\\n?<span style="${STYLEPATTERN}">(.+\\n)+<\\/span>\\n?$`);
-            return pattern.test(code.textContent);
-        }
-
-        /**
-         * @param {Boolean} fixedCodeOnly Whether to only return those code blocks that have been fixed 
-         * (optional)
-         * @returns {HTMLElement[]} A list of all the code blocks on the page
-         */
-        function getCodeBlocks (fixedCodeOnly = false) {
-            const allBlocks = Array.from(document.querySelectorAll("pre code"));
-            return fixedCodeOnly
-                ? allBlocks.filter((block) => isFixed(block))
-                : allBlocks;
-        }
-
-        /** @param {HTMLElement} elem @returns {Boolean} */
-        function isFixed (elem) {
-            return elem.dataset.fixed;
-        } 
-        /** @param {HTMLElement} */
-        function markAsFixed (elem) {
-            elem.dataset.fixed = true;
-        }
-        /** @param {HTMLElement} */
-        function markAsUnfixed (elem) {
-            delete elem.dataset.fixed;
-        }
-    }
-,
-
-    dropdown:
-
+    dropdown: //mes-func
     function dropdownEntry (toggle) { // eslint-disable-line no-unused-vars
         function addDropdown (user, testMsg) {
             function addOption (item) {
@@ -2039,7 +1789,7 @@ const funcObj = {
 
             // event listener
             $(document).on('change', '#dropdown-select', function () {
-                const page = $('#dropdown-select').val();
+                const page = $('#dropdown-select').val().toLowerCase();
                 const pref = 'https://' + window.location.hostname + '/u/'
                 const finalUrl = pref + user + "/" + page;
                 window.location = finalUrl;
@@ -2072,145 +1822,9 @@ const funcObj = {
                 addDropdown(user, testMsg);
             }
         }
-    }
-,
+    },
 
-    fix_pagination_arrows:
-
-    /**
-     * This mod aims to fix a current kbin issue.
-     * On some views, like All Content, the pagination is broken. The arrows behave like they're on
-     * the first page, regardless of which they're actually on. This mod is meant to fix the issue
-     * by manually rewriting the arrows to work correctly.
-     * 
-     * @param {Boolean} isActive Whether the mod has been turned on
-     */
-    function fixPaginationArrows (isActive) { // eslint-disable-line no-unused-vars
-        /** @type {HTMLElement} */
-        const leftArrow = document.querySelector(`span.pagination__item--previous-page`);
-        /** @type {HTMLElement} */
-        const rightArrow = document.querySelector("a.pagination__item--next-page");
-        /** @type {Number} */
-        const currentPage = Number(window.location.search?.slice(3)) ?? 1;
-
-        // everything is correct for the first page, so no need to change anything there
-        if (currentPage > 1) {
-            if (isActive) {
-                setup();
-            } else {
-                teardown();
-            }
-        }
-
-        function setup () {
-            // The left arrow query specifically looks for an uninteractable one. If it is found
-            // past page 1, that means it needs to be fixed. There's no other conditions needed.
-            if (leftArrow && !isFixed(leftArrow)) {
-                leftArrow.style.display = "none";
-                leftArrow.before(createClickable(leftArrow, currentPage-1, "prev"));
-                markAsFixed(leftArrow);
-            }
-            if (rightArrow && !isFixed(rightArrow) && isNextPageWrong()) {
-                if (isThisLastPage()) {
-                    disable(rightArrow);
-                } else {
-                    rightArrow.setAttribute("href", buildUrl(currentPage+1));
-                }
-                markAsFixed(rightArrow);
-            }
-        }
-
-        function teardown () {
-            if (leftArrow && isFixed(leftArrow)) {
-                document.querySelector("a.pagination__item--previous-page").remove();
-                leftArrow.style.removeProperty("display");
-                markAsUnfixed(leftArrow);
-            }
-            if (rightArrow && isFixed(rightArrow)) {
-                if (rightArrow.classList.contains("pagination__item--disabled")) {
-                    rightArrow.classList.remove("pagination__item--disabled");
-                    rightArrow.style.removeProperty("color");
-                    rightArrow.style.removeProperty("font-weight");
-                }
-                rightArrow.setAttribute("href", buildUrl(2));
-                markAsUnfixed(rightArrow);
-            }
-        }
-
-        /**
-         * Disables an arrow, making it non-clickable.
-         * @param {HTMLElement} elem
-         */
-        function disable (elem) {
-            elem.style.color = "var(--kbin-meta-text-color)";
-            elem.style.fontWeight = "400";
-            elem.classList.add("pagination__item--disabled");
-            elem.removeAttribute("href");
-        }
-
-        /**
-         * The left arrow remains uninteractable when this bug happens, regardless of page. This
-         * function creates a clickable element to replace it with.
-         * @param {HTMLElement} original
-         * @param {Number} page What page the new interactable arrow should point to
-         * @param {String} role The value for the rel attribute
-         * @returns {HTMLElement}
-         */
-        function createClickable (original, page, role) {
-            const newElement = document.createElement("a");
-            newElement.classList = original.classList;
-            newElement.classList.remove("pagination__item--disabled");
-            newElement.textContent = original.textContent;
-            newElement.setAttribute("href", buildUrl(page));
-            newElement.setAttribute("rel", role);
-            return newElement;
-        }
-
-        /**
-         * Checks whether the current page is the last one.
-         * @returns {Boolean}
-         */
-        function isThisLastPage () {
-            const lastPage = rightArrow.previousElementSibling.textContent;
-            return lastPage == currentPage;
-        }
-
-        /**
-         * Checks if the right arrow points to the correct page. Or rather, the wrong one.
-         * @returns {Boolean}
-         */
-        function isNextPageWrong () {
-            const actualUrl = rightArrow.getAttribute("href");
-            const expectedUrl = buildUrl(currentPage+1);
-            return actualUrl != expectedUrl;
-        }
-
-        /**
-         * Constructs the correct full URL for one of the arrows.
-         * @param {Number} page
-         * @returns {String}
-         */
-        function buildUrl (page) {
-            return `${window.location.pathname}?p=${page}`;
-        }
-
-        /** @param {HTMLElement} elem @returns {Boolean} */
-        function isFixed (elem) {
-            return elem.dataset.fixed;
-        } 
-        /** @param {HTMLElement} */
-        function markAsFixed (elem) {
-            elem.dataset.fixed = true;
-        }
-        /** @param {HTMLElement} */
-        function markAsUnfixed (elem) {
-            delete elem.dataset.fixed;
-        }
-    }
-,
-
-    remove_ads:
-
+    remove_ads: //mes-func
     function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
 
         const settings = getModSettings("spamfilter")
@@ -2239,7 +1853,6 @@ const funcObj = {
         let iteration
     
         const domain = window.location.hostname
-        const instance = getInstanceType();
         const url = new URL(window.location).href.split('/')
         if (url[3] !== "m") return
         if (url[5] === "t") return
@@ -2381,17 +1994,12 @@ const funcObj = {
             genericXMLRequest(url, parse)
         }
         async function parse (response) {
-            let u
             const parser = new DOMParser();
             const json = JSON.parse(response.responseText)
             const XML = parser.parseFromString(json.html, "text/html");
-            if (instance === "mbin") {
-                u = XML.querySelector('.user__name').innerText
-            } else {
-                u = XML.querySelector('.link-muted p').innerText
-            }
+            const u = XML.querySelector('.user__name span').innerText.split('\n')[1].trim()
             const age = XML.querySelector('.timeago').innerText.split(' ')
-            const repnum = XML.querySelector('header ul li:nth-of-type(2) a') .innerText.trim().split(' ')[2]
+            const repnum = XML.querySelector('header ul li:nth-of-type(3)').innerText.trim().split(' ')[2]
             const threadsnum = XML.querySelector('menu li:nth-of-type(1) a div:first-of-type').innerText
             const commentsnum = XML.querySelector('menu li:nth-of-type(2) a div:first-of-type').innerText
 
@@ -2533,11 +2141,9 @@ const funcObj = {
 
         if (toggle) apply(mutation);
         if (!toggle) unapply();
-    }
-,
+    },
 
-    unblur:
-
+    unblur: //mes-func
     function unblurInit (toggle) { // eslint-disable-line no-unused-vars
 
         const unblurCSS = `
@@ -2561,11 +2167,9 @@ const funcObj = {
         } else {
             safeGM("removeStyle", 'unblurred');
         }
-    }
-,
+    },
 
-    easy_emoticon:
-
+    easy_emoticon: //mes-func
     function easyEmoticon (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Kbin Easy Emoticon
@@ -2771,9 +2375,15 @@ const funcObj = {
 
         } // end of displayCommandsModal()
 
+        function isTextField (el) {
+            if (el.target.tagName === "TEXTAREA") return true
+            if ((el.target.tagName === "INPUT") && (el.target.type === "text")) return true
+            return false
+        }
+
         function emoticonGen () {
             eventListener = (e) => {
-                if (e.target.tagName === 'TEXTAREA') {
+                if (isTextField(e)) {
                     emoticonMake(e.target);
                     // handle the "/help" command
                     if (e.target.value.includes('/help') || e.target.value.includes('/commands')) {
@@ -2799,21 +2409,17 @@ const funcObj = {
         } else {
             document.removeEventListener('input', eventListener);
         }
-    }
-,
+    },
 
-    nav_icons:
-
+    nav_icons: //mes-func
     function navbarIcons (toggle) { // eslint-disable-line no-unused-vars
         let settings = getModSettings("nav_icons");
         let search = settings.search
         let post = settings.post
-        let subs = settings.subs
         let font = "var(--kbin-body-font-family)"
         let weight = settings.fontWeight
         let searchText = document.querySelector('header menu li a[aria-label="Search"] i')
         let postText = document.querySelector('header menu li a[aria-label="Add"] i')
-        let subsText = document.querySelector('header menu li a[aria-label="Select a channel"] i')
         const css = `header menu li a[aria-label="Search"] i::before {
             content: "${search}";
             font-family: ${font};
@@ -2824,26 +2430,18 @@ const funcObj = {
             font-family: ${font};
             font-weight: ${weight * 100};
         }
-        header menu li a[aria-label="Select a channel"] i::before {
-            content: "${subs}";
-            font-family: ${font};
-            font-weight: ${weight * 100};
-        }
         `;
         if (toggle) {
             safeGM("removeStyle", "navbar-icons-css")
             safeGM("addStyle", css, "navbar-icons-css")
             searchText.innerText = "" ;
             postText.innerText = "" ;
-            subsText.innerText = "" ;
         } else {
             safeGM("removeStyle", "navbar-icons-css")
         }
-    }
-,
+    },
 
-    resize_text:
-
+    resize_text: //mes-func
     function textResize (toggle) { // eslint-disable-line no-unused-vars
         const modalContent = ".kes-settings-modal-content"
         const modalContainer = ".kes-settings-modal-container"
@@ -2888,6 +2486,9 @@ const funcObj = {
                 font-size: ${settings["optionMessages"]}px
             }
             .page-messages > .kbin-container > #main > h1 {
+                font-size: ${settings["optionMessages"] * 2.5}px
+            }
+            .page-messages > .mbin-container > #main > h1 {
                 font-size: ${settings["optionMessages"] * 2.5}px
             }
             /* SIDEBAR */
@@ -2944,16 +2545,8 @@ const funcObj = {
                 font-size: ${settings["optionUserSettings"] * 2.5}px
             }
             /* ============= */
-            /* FOOTER */
-            #footer > .kbin-container > section * {
-                font-size: ${settings["optionFooter"]}px
-            }
-            #footer > .kbin-container > section h5 {
-                font-size: ${settings["optionFooter"] * 1.222}px
-            }
-            /* ============= */
             /* SORT OPTIONS */
-            aside#options menu li a, aside#options menu i {
+            aside#options menu li a, aside#options menu i, aside#options menu button span {
                 font-size: ${settings["optionSortBy"]}px
             }
             /* INBOX NOTIFICATIONS */
@@ -2964,6 +2557,15 @@ const funcObj = {
                 font-size: ${settings["optionNotifs"] * 0.85}px
             }
             .page-notifications > .kbin-container > main > h1 {
+                font-size: ${settings["optionNotifs"] * 2.5}px !important
+            }
+            .page-notifications > .mbin-container > main > * {
+                font-size: ${settings["optionNotifs"]}px
+            }
+            .page-notifications > .mbin-container > main > .pills > menu > form > button {
+                font-size: ${settings["optionNotifs"] * 0.85}px
+            }
+            .page-notifications > .mbin-container > main > h1 {
                 font-size: ${settings["optionNotifs"] * 2.5}px !important
             }
             /* ============= */
@@ -2993,11 +2595,9 @@ const funcObj = {
             safeGM("removeStyle", "resize-css")
             return
         }
-    }
-,
+    },
 
-    hide_logo:
-
+    hide_logo: //mes-func
     function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
         const prefix = "https://raw.githubusercontent.com/aclist/kbin-kes/main/images"
         const kibby = `${prefix}/kbin_logo_kibby.svg`
@@ -3049,50 +2649,87 @@ const funcObj = {
         } else {
             restoreLogo();
         }
-    }
-,
+    },
 
-    timestamp:
-
+    timestamp: //mes-func
     function updateTime (toggle) { // eslint-disable-line no-unused-vars
-        const ns = 'timestamp'
-        let times = document.querySelectorAll('.timeago')
+
+        function teardown () {
+            times.forEach((time) => {
+                if (time.classList.contains(class_hidden)) {
+                    time.classList.remove(class_hidden);
+                    time.style.display = "initial";
+                }
+            })
+            const isoTimes = document.querySelectorAll("." + class_iso);
+            isoTimes.forEach((isoTime) => {
+                isoTime.remove();
+            })
+        }
+
+        function cleanTime (time) {
+            const iso = time.getAttribute('datetime');
+            const isoYear = (iso.split('T')[0]);
+            let isoTime = (iso.split('T')[1]);
+            isoTime = (isoTime.split('+')[0]);
+            const utcTime = isoYear + " @ " + isoTime;
+            const localTime = new Date(iso);
+            const localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
+            return [utcTime, localAsISO]
+        }
+
+        function updateSibling (el) {
+            const sibling = el.nextElementSibling;
+            const variant = sibling.dataset.timeVariant;
+            const cleanedTime = cleanTime(el);
+            if (settings["offset"] != variant) {
+                setTime(sibling, cleanedTime);
+            }
+        }
+
+        function setTime (el, time) {
+            switch (settings["offset"]) {
+                case "UTC":
+                    el.innerText = time[0];
+                    el.dataset.timeVariant = "UTC";
+                    break;
+                case "Local time":
+                    el.innerText = time[1];
+                    el.dataset.timeVariant = "Local time";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        const ns = 'timestamp';
+        const class_timeago = "timeago"
+        const class_hidden = "hidden-timeago"
+        const class_iso = "iso-timeago"
         const settings = getModSettings(ns);
+        const times = document.querySelectorAll("." + class_timeago);
+
         if (toggle) {
             times.forEach((time) => {
-                if (time.innerText === "just now") {
+                if (time.classList.contains(class_hidden)) {
+                    //update time variant in case user changed preference while mod is on
+                    updateSibling(time);
                     return
                 }
-                if (time.innerText.indexOf("seconds") > -1) {
-                    return
-                }
-                let iso = time.getAttribute('datetime');
-                let isoYear = (iso.split('T')[0]);
-                let isoTime = (iso.split('T')[1]);
-                isoTime = (isoTime.split('+')[0]);
-                let cleanISOTime = isoYear + " @ " + isoTime;
-                let localTime = new Date(iso);
-                let localAsISO = localTime.toLocaleString('sv').replace(' ', ' @ ');
-                let offset = "offset";
-                switch (settings[offset]) {
-                    case "UTC":
-                        time.innerText = cleanISOTime;
-                        break;
-                    case "Local time":
-                        time.innerText = localAsISO;
-                        break;
-                    default:
-                        break;
-                }
+                const clone = time.cloneNode(false);
+                clone.className = class_iso;
+                time.insertAdjacentElement("afterend", clone);
+                time.style.display = "none";
+                time.classList.add(class_hidden);
+                const cleanedTime = cleanTime(time);
+                setTime(clone, cleanedTime);
             });
         } else {
-            return
+            teardown();
         }
-    }
-,
+    },
 
-    report_bug:
-
+    report_bug: //mes-func
     function bugReportInit (toggle) { // eslint-disable-line no-unused-vars
         const reportURL = 'https://github.com/aclist/kbin-kes/issues/new?assignees=&labels=bug&projects=&template=bug_report.md' +
             '&title=[BUG]+<Your title here>&body='
@@ -3129,11 +2766,9 @@ const funcObj = {
         } else {
             $('.kes-report-bug').hide();
         }
-    }
-,
+    },
 
-    mail:
-
+    mail: //mes-func
     function addMail (toggle) { // eslint-disable-line no-unused-vars
         function insertElementAfter (target, element) {
             if (target.nextSibling) {
@@ -3145,9 +2780,6 @@ const funcObj = {
 
         function getUsername (item) {
             try {
-                if (item.href.split('/u/')[1].charAt(0) == '@') {
-                    return null
-                }
                 return item.href.split('/u/')[1];
             } catch (error) {
                 return null;
@@ -3190,18 +2822,15 @@ const funcObj = {
 
         const login = document.querySelector('.login');
         const settings = getModSettings("mail")
-        if (!login) return;
         const self_username = login.href.split('/')[4];
         if (toggle) {
             addLink(settings);
         } else {
             $('.kes-mail-link').remove();
         }
-    }
-,
+    },
 
-    default_sort:
-
+    default_sort: //mes-func
     /**
      * Allows users to customize the default sort option selected when the url doesn"t 
      * specify one already. This can be configured separately for the different types of pages
@@ -3393,11 +3022,9 @@ const funcObj = {
 
             return Array.from(document.querySelectorAll(`${kbinQuery}, ${mbinQuery}`));
         }
-    }
-,
+    },
 
-    collapse_pins:
-
+    collapse_pins: //mes-func
     function pinsInit (toggle) { // eslint-disable-line no-unused-vars
 
         function setCSS () {
@@ -3423,8 +3050,8 @@ const funcObj = {
             return css
         }
 
-        if (isThread()) return // eslint-disable-line no-undef
-        if (isProfile()) return // eslint-disable-line no-undef
+        const pt = getPageType(); // eslint-disable-line no-undef
+        if (pt !== Mbin.Magazine) return
 
         function applyPins () {
 
@@ -3476,11 +3103,9 @@ const funcObj = {
         if (toggle) applyPins();
         if (!toggle) unapplyPins();
 
-    }
-,
+    },
 
-    move_federation_warning:
-
+    move_federation_warning: //mes-func
     function moveFederationWarningEntry (toggle) { //eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Kbin: Move federation alert
@@ -3530,11 +3155,9 @@ const funcObj = {
         if(alertBox !== null && insertAfter !== null) {
             insertAfter.after(alertBox);
         }
-    }
-,
+    },
 
-    hide_thumbs:
-
+    hide_thumbs: //mes-func
     function hideThumbs (toggle) { //eslint-disable-line no-unused-vars
         const settings = getModSettings('hidethumbs')
         const index = 'kes-index-thumbs'
@@ -3571,11 +3194,9 @@ const funcObj = {
             unset(index)
             unset(inline)
         }
-    }
-,
+    },
 
-    adjust:
-
+    adjust: //mes-func
     function adjustSite (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Color adjustments
@@ -3626,174 +3247,214 @@ const funcObj = {
             safeGM("removeStyle", sheetName);
             safeGM("addStyle", customCSS, sheetName)
         }
-    }
-,
+    },
 
-    alpha_sort_subs:
-
+    alpha_sort_subs: //mes-func
     function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
-        const ind = window.location.href.split('/')[5]
-        if (!ind) return
-        if ((ind.indexOf('subscriptions') < 0) && (ind.indexOf('followers') < 0)) return
-        const ul = document.querySelector('.section.magazines.magazines-columns ul,.section.users.users-columns ul')
-        const obj = {}
 
-        if (toggle) {
-            const mags = document.querySelectorAll('.section.magazines.magazines-columns ul li a,.section.users.users-columns ul li a');
-            const namesArr = []
-
-            mags.forEach((item) => {
-                const dest = item.href;
-                const hrName = item.innerText;
-                obj[hrName] = dest
-                namesArr.push(hrName);
-            });
-
-            const sorted = namesArr.sort((a, b) => {
-                return a.localeCompare(b, undefined, { sensitivity: 'base' });
-            });
-
-            const outer = document.querySelector('.section.magazines.magazines-columns,.section.users.users-columns')
-            $(ul).hide();
-
-            for (let i =0; i<sorted.length; ++i) {
-                const myListItem = document.createElement('li');
-                myListItem.className = "alpha-sorted-subs"
-                const mySubsLink = document.createElement('a');
-                mySubsLink.setAttribute('href', obj[sorted[i]]);
-                mySubsLink.innerText = namesArr[i];
-                mySubsLink.className = 'subs-nav';
-                myListItem.append(mySubsLink);
-                outer.append(myListItem);
+        function compare (a, b) {
+            function _getMagName (magEl) {
+                return magEl.querySelector('.stretched-link').innerText.toUpperCase();
             }
 
-        } else {
-            $('.alpha-sorted-subs').remove();
-            $(ul).show();
+            return _getMagName(a) > _getMagName(b) ? 1: -1
         }
-    }
-,
 
-    expand_posts:
+        const pt = getPageType();
+        let list_columns
+        switch (pt) {
+            case Mbin.User.Subscriptions: {
+                list_columns = '.magazines-columns'
+                break;
+            }
+            case Mbin.User.Followers:
+            case Mbin.User.Following: {
+                list_columns = '.users-columns'
+                break;
+            }
+            default:
+                return
+        }
+        const columns = document.querySelector(list_columns)
 
+        if (toggle) {
+            const ul = columns.querySelector('ul');
+            const mags = ul.querySelectorAll('li');
+            const arr = [];
+
+            mags.forEach((mag) => {
+                arr.push(mag);
+            })
+
+            const ulCloned = document.createElement('ul');
+            ulCloned.id = "mes-alpha-sort";
+            arr.sort(compare);
+            arr.forEach((mag)=>{
+                //perform deep copy of children
+                const clone = mag.cloneNode(true);
+                ulCloned.appendChild(clone);
+            })
+            ul.style.display = "none";
+            ul.after(ulCloned);
+        } else {
+            const ul = columns.querySelector('ul');
+            ul.style.display = "";
+            const ulCloned = document.querySelector('#mes-alpha-sort');
+            ulCloned.remove();
+        }
+    },
+
+    expand_posts: //mes-func
     function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
+
+        function makePost (post, original) {
+            const newBody = document.createElement('div');
+            newBody.id = "mes-expanded-post"
+            newBody.appendChild(post);
+            original.insertAdjacentElement("afterend", newBody);
+            original.style.cssText = "display:none"
+        }
 
         async function update (response) {
             const xml = response.response
             const parser = new DOMParser();
             const doc = parser.parseFromString(xml, "text/html");
             const articleId = doc.querySelector('article').id
-            const postBody = doc.querySelector('.content').innerText
+            const newPost = doc.querySelector('.content')
             const arr = Array.from(document.querySelectorAll('.entry'))
             const res = arr.find((el) => el.id === articleId);
-            const oldBody = res.querySelector('.short-desc p');
-            const settings = getModSettings("expand-posts")
-            const collapseLabel = settings.collapse
-            const newButton = makeButton(collapseLabel, res)
-            newButton.className = 'kes-collapse-post-button'
 
-            oldBody.innerText = postBody
-            oldBody.appendChild(newButton)
-            if (oldBody.childNodes[0].nodeName === "BR") {
-                oldBody.children[0].remove()
-            }
-            const prev = newButton.previousElementSibling
-            const prevOfPrev = newButton.previousElementSibling.previousElementSibling
-            if (prev.nodeName === "BR" && prevOfPrev.nodeName=== "BR") {
-                prevOfPrev.remove()
-            }
+            const oldPost = res.querySelector('.short-desc p');
+            const oldButton = document.querySelector(".mes-loading-post-button");
+
+            updateExpandMode(oldButton)
+            makePost(newPost, oldPost);
         }
-        function makeButton (text, parent) {
+
+        function makeButton (parent) {
+            const buttonCSS = `
+            .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
+                font-size: 0.8rem;
+                padding: 0px 5px 0px 5px;
+                cursor: pointer;
+            }
+            .mes-expand-post-button.btn.btn-link.btn__primary {
+                color: var(--kbin-button-primary-text-color) !important;
+            }
+            .mes-collapse-post-button.btn.btn-link.btn__primary {
+                color: var(--kbin-button-primary-text-color) !important;
+            }
+            .mes-loading-post-button.btn.btn-link.btn__primary {
+                color: var(--kbin-button-primary-text-color) !important;
+            }
+            `;
+
+            safeGM("addStyle", buttonCSS, "expand-css");
             const button = document.createElement('a')
-            const br = document.createElement('br')
-            button.innerText = text
-            button.className = 'kes-expand-post-button'
-            button.style.cursor = 'pointer'
-            button.addEventListener('click', (e) => {
-                const mode = e.target.innerText
-                const settings = getModSettings("expand-posts")
-                const loadingLabel = settings.loading
-                const expandLabel = settings.expand
-                if (mode === expandLabel) {
-                    button.innerText = loadingLabel
-                    button.className = 'kes-loading-post-button'
-                    const link = parent.querySelector('header h2 a')
-                    genericXMLRequest(link, update)
+ 
+            //initialize button expand mode
+            button.innerText = settings.expand
+            button.dataset.expandMode = "expand"
+            button.className = "mes-expand-post-button"
+            button.classList.add("btn", "btn-link", "btn__primary")
+
+            button.addEventListener('click', () => {
+                if (button.dataset.expandMode === "expand") {
+                    updateExpandMode(button)
+                    const link = parent.querySelector('header h2 a');
+                    genericXMLRequest(link, update);
                 } else {
-                    const body = parent.querySelector('.short-desc p')
-                    const ar = body.innerText.split('\n')
-                    for (let i = 0; i < ar.length; ++i) {
-                        if (ar[i]) {
-                            body.innerText = ar[i] + '...'
-                            button.innerText = expandLabel
-                            button.className = 'kes-expand-post-button'
-                            body.appendChild(br)
-                            body.appendChild(button)
-                            break
-                        }
-                    }
+                    updateExpandMode(button)
+                    collapsePost(button, parent);
                 }
             });
             return button
         }
+
+        function collapsePost (button, post) {
+            const body = post.querySelector('.short-desc');
+            const oldPost = body.querySelector("p");
+            oldPost.style.cssText = ""
+            body.querySelector("#mes-expanded-post").remove();
+            oldPost.insertAdjacentElement("afterend", button);
+        }
+
+        function updateExpandMode (button) {
+            const mode = button.dataset.expandMode
+            let newMode
+            switch (mode) {
+                case "expand":
+                    newMode = "loading"
+                    break;
+                case "loading":
+                    newMode = "collapse"
+                    break;
+                case "collapse":
+                    newMode = "expand"
+                    break;
+            }
+            button.dataset.expandMode = newMode
+            button.innerText = settings[newMode]
+            button.classList.replace(`mes-${mode}-post-button`, `mes-${newMode}-post-button`)
+        }
+
         function propagateButtons () {
             const entries = document.querySelectorAll('.entry')
             entries.forEach((entry) => {
-                const b = entry.querySelector('.short-desc p')
-                const br = document.createElement('br')
-                if (b) {
-                    const end = b.innerText.slice(-3)
-                    if (end == "...") {
-                        br.id = "kes-expand-divider"
-                        const button = makeButton(expandLabel, entry)
-                        b.appendChild(br)
-                        b.appendChild(button)
-                    }
+                if (entry.dataset.expand !== undefined) return
+                entry.dataset.expand = "true"
+                const blurb = entry.querySelector('.short-desc p')
+                if (!blurb) return
+                if (blurb.innerText.slice(-3) === "...") {
+                    const button = makeButton(entry)
+                    blurb.insertAdjacentElement("afterend", button)
                 }
             });
             updateButtonLabels();
         }
+
         function updateButtonLabels () {
-            const expandLabels = document.querySelectorAll('.kes-expand-post-button')
-            const loadingLabels = document.querySelectorAll('.kes-loading-post-button')
-            const collapseLabels = document.querySelectorAll('.kes-collapse-post-button')
-            expandLabels.forEach((label) =>{
-                label.innerText = expandLabel
-            });
-            collapseLabels.forEach((label) =>{
-                label.innerText = collapseLabel
-            });
-            loadingLabels.forEach((label) =>{
-                label.innerText = loadingLabel
-            });
+            let allEls
+            for (let i in els) {
+                allEls = document.querySelectorAll("." + els[i]);
+                allEls.forEach((el)=>{
+                    const label = els[i].split("-")[1]
+                    const hr = settings[label]
+                    el.innerText = hr
+                })
+            }
         }
 
         const settings = getModSettings("expand-posts")
-        const loadingLabel = settings.loading
-        const expandLabel = settings.expand
-        const collapseLabel = settings.collapse
+        const els = [
+            "mes-expand-post-button",
+            "mes-loading-post-button",
+            "mes-collapse-post-button"
+        ]
+
         if (toggle) {
             propagateButtons();
         } else {
-            const oldButtons = document.querySelectorAll('.kes-expand-post-button')
-            const oldButtons2 = document.querySelectorAll('.kes-collapse-post-button')
-            oldButtons.forEach((button)=>{
-                button.remove();
+            let allEls
+            for (let i in els) {
+                allEls = document.querySelectorAll("." + els[i]);
+                allEls.forEach((el)=>{
+                    el.remove();
+                })
+            }
+            document.querySelectorAll('.entry').forEach((entry) => {
+                delete entry.dataset.expand
             });
-            oldButtons2.forEach((button)=>{
-                button.remove();
-            });
+            safeGM("removeStyle", "expand-css");
         }
-    }
-,
+    },
 
-    thread_delta:
-
+    thread_delta: //mes-func
     function threadDeltaInit (toggle) { // eslint-disable-line no-unused-vars
         const settings = getModSettings('thread-delta');
         const fgcolor = getHex(settings["fgcolor"]) // eslint-disable-line no-undef
         const bgcolor = getHex(settings["bgcolor"]) // eslint-disable-line no-undef
-        const state = settings["state"]
+        const state = settings["always_on"]
 
         const hostname = window.location.hostname;
         const loc = window.location.pathname.split('/')
@@ -3882,11 +3543,9 @@ const funcObj = {
             const e = []
             saveCounts(hostname, mag, e)
         }
-    }
-,
+    },
 
-    hide_upvotes:
-
+    hide_upvotes: //mes-func
     function hideUpvotes (toggle) { //eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         kbin Vote Hider
@@ -3902,11 +3561,9 @@ const funcObj = {
         } else {
             $('form.vote__up').show();
         }
-    }
-,
+    },
 
-    hide_sidebar:
-
+    hide_sidebar: //mes-func
     function hideSidebar (toggle) { // eslint-disable-line no-unused-vars
 
         const obj = {
@@ -3916,7 +3573,9 @@ const funcObj = {
             posts: '#sidebar > .posts',
             threads: '#sidebar > .entries',
             instance: '#sidebar > .kbin-promo',
-            intro: '.sidebar-options > .intro'
+            intro: '.sidebar-options > .intro',
+            subs: '#sidebar > .sidebar-subscriptions',
+            about: '#sidebar > .about'
         }
 
         const settings = getModSettings('hide-sidebar');
@@ -3932,17 +3591,28 @@ const funcObj = {
                     $(obj[key]).show();
                 }
             }
+            // expand the content to cover the space freed up by hiding the sidebar
+            const main = document.querySelector('.mbin-container > #main');
+            if (settings["sidebar"] && settings["expand"]) {
+                main.style.gridColumn = "span 2";
+            } else {
+                if (main.style.gridColumn == "span 2") {
+                    main.style.gridColumn = '';
+                }
+            }
         } else {
             for (let i = 0; i< keys.length; i++) {
                 let key = keys[i]
                 $(obj[key]).show();
             }
+            const main = document.querySelector('.mbin-container > #main');
+            if (main.style.gridColumn == "span 2") {
+                main.style.gridColumn = '';
+            }
         }
-    }
-,
+    },
 
-    hover_indicator:
-
+    hover_indicator: //mes-func
     function hoverIndicator (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         Hover Indicator
@@ -4012,11 +3682,9 @@ const funcObj = {
             safeGM("addStyle", mergedCSS, "kes-hover-css")
             safeGM("addStyle", exclusions, "kes-hover-exclusions")
         }
-    }
-,
+    },
 
-    thread_checkmarks:
-
+    thread_checkmarks: //mes-func
     function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
         const settings = getModSettings('checks');
         const checkColor = settings["check-color"]
@@ -4065,45 +3733,64 @@ const funcObj = {
                 check.remove();
             });
         }
-    }
-,
+    },
 
-    user_instance_names:
-
+    user_instance_names: //mes-func
     function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
-        function showUserInstances () {
-            $('.user-inline').each(function () {
-                if (!$(this).hasClass('instance')) {
-                    $(this).addClass('instance');
-                    // Get user's instance from their profile link
-                    var userInstance = $(this).attr('href').split('@')[2];
-                    // Check if user's link includes an @
+
+        function showUserInstances (selector) {
+            const els = document.querySelectorAll(selector);
+            els.forEach((el) => {
+                if (el.getAttribute("data-instance") !== "true") {
+                    const userInstance = el.getAttribute("href").split("@")[2];
                     if (userInstance) {
-                        // Add instance name to user's name
-                        $(this).html($(this).html() +
-                            '<span class="user-instance">@' +
-                            userInstance +
-                            '</span>');
+                        el.innerText = el.innerText + "@" + userInstance;
+                        el.setAttribute("data-instance", "true")
                     }
                 }
             });
         }
-        function hideUserInstances () {
-            $('.user-inline.instance').each(function () {
-                $(this).removeClass('instance');
-                $(this).html($(this).html().split('<span class="user-instance">@')[0]);
+
+        function hideUserInstances (selector) {
+            const els = document.querySelectorAll(selector);
+            els.forEach((el) => {
+                if (el.getAttribute("data-instance") === "true") {
+                    el.setAttribute("data-instance", "false");
+                    el.innerText = el.innerText.split("@")[0]
+                }
             });
         }
-        if (toggle) {
-            showUserInstances();
-        } else {
-            hideUserInstances();
+
+        function setSelector () {
+            const page = getPageType() //eslint-disable-line no-undef
+            let el
+            switch (page) {
+                case Mbin.Thread.Favorites:
+                case Mbin.User.Followers:
+                case Mbin.User.Following:
+                    el = ".users-columns .stretched-link"
+                    break;
+                case Mbin.User.Default:
+                    el = ".user-inline"
+                    break;
+                default:
+                    el = ".user-inline"
+                    break;
+            }
+            return el
         }
-    }
-,
 
-    submission_label:
+        const selector = setSelector();
 
+        if (toggle) {
+            showUserInstances(selector);
+        } else {
+            hideUserInstances(selector);
+            return
+        }
+    },
+
+    submission_label: //mes-func
     function addPrefix (toggle) { // eslint-disable-line no-unused-vars 
 
         const settings = getModSettings("submission_label");
@@ -4121,11 +3808,9 @@ const funcObj = {
         } else {
             safeGM("removeStyle", "submission-css")
         }
-    }
-,
+    },
 
-    hide_downvotes:
-
+    hide_downvotes: //mes-func
     function hideDownvotes (toggle) { // eslint-disable-line no-unused-vars
         // ==UserScript==
         // @name         kbin Vote Hider
@@ -4141,16 +3826,14 @@ const funcObj = {
         } else {
             $('form.vote__down').show();
         }
-    }
-,
+    },
 
-    kbin_federation_awareness:
-
+    kbin_federation_awareness: //mes-func
     function initKFA (toggle) { // eslint-disable-line no-unused-vars
         /*
             License: MIT
             Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
-        */
+            */
 
         const kfaHasStrictModerationRules = [
             'beehaw.org',
@@ -4245,39 +3928,61 @@ const funcObj = {
                 // Scale 1-10; Default 5 (i.e., 50%); 10 is 50% of 20. 20 * (x * 0.1)
                 const defaultScale = 20;
                 const setScale = defaultScale * (kfaSettingsScale * 0.1);
-                let fedStyle = ` .comment div.data-federated, article .data-federated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-                let modStyle = ` .comment div.data-moderated, article .data-moderated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-                let homeStyle = ` .comment div.data-home, article .data-home { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-                modStyle += `0 0 3px 2px ` + modColor0 + `; background-color: ` + modColor0 + `; margin-right: 4px; margin-left: 4px; }`;
-                fedStyle += `0 0 3px 2px ` + fedColor0 + `; background-color: ` + fedColor0 + `; margin-right: 4px; margin-left: 4px; }`;
-                homeStyle += `0 0 3px 2px ` + homeColor0 + `; background-color: ` + homeColor0 + `; margin-right: 4px; margin-left: 4px; }`;
+                const fedStyle=`
+                header div.data-federated, article .data-federated {
+                    display: inline-block;
+                    width: ${setScale}px;
+                    height: ${setScale}px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 3px 2px ${fedColor0};
+                    background-color: ${fedColor0};
+                    margin-right: 4px;
+                    margin-left: 4px
+                }
+                `;
+                const modStyle=`
+                header div.data-moderated, article .data-moderated {
+                    display: inline-block;
+                    width: ${setScale}px;
+                    height: ${setScale}px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 3px 2px ${modColor0};
+                    background-color: ${modColor0};
+                    margin-right: 4px;
+                    margin-left: 4px;
+                }
+                `;
+                const homeStyle=`
+                header div.data-home, article .data-home {
+                    display: inline-block;
+                    width: ${setScale}px;
+                    height: ${setScale}px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 3px 2px ${homeColor0};
+                    background-color: ${homeColor0};
+                    margin-right: 4px;
+                    margin-left: 4px;
+                }
+                `;
                 return modStyle + fedStyle + homeStyle;
             }
         }
 
         function kfaStartup () {
             kfaInitClasses();
-            kfaInjectedCss = safeGM("addStyle",kfaGetCss());
+            safeGM("addStyle",kfaGetCss(),"kfaInjectedCss");
         }
 
         function kfaShutdown () {
-            if (kfaInjectedCss) {
-                kfaInjectedCss.remove();
-            }
-            function removeOld () {
-                for (let i = 0; i<arguments.length; ++i) {
-                    arguments[i].forEach((el) => {
-                        el.remove();
-                    });
-                }
-            }
-            const dh = document.querySelectorAll('header .data-home')
-            const df = document.querySelectorAll('header .data-federated')
-            const dm = document.querySelectorAll('header .data-moderated')
-            const mh = document.querySelectorAll('.meta.entry__meta .data-home')
-            const mf = document.querySelectorAll('.meta.entry__meta .data-federated')
-            const mm = document.querySelectorAll('.meta.entry__meta .data-moderated')
-            removeOld(dh, df, dm, mh, mf, mm);
+            safeGM("removeStyle","kfaInjectedCss");
+            document.querySelectorAll('div.data-home, div.data-federated, div.data-moderated')
+                .forEach((element) => element.remove());
+            document.querySelectorAll('.data-home')
+                .forEach((element) => element.classList.remove('data-home'));
+            document.querySelectorAll('.data-federated')
+                .forEach((element) => element.classList.remove('data-federated'));
+            document.querySelectorAll('.data-moderated')
+                .forEach((element) => element.classList.remove('data-moderated'));
         }
 
         function findHostname (op) {
@@ -4294,55 +3999,89 @@ const funcObj = {
         function toggleClass (article, classname) {
             const articleIndicator = document.createElement('div');
             const articleAside = article.querySelector('aside');
-            articleAside.prepend(articleIndicator);
 
             article.classList.toggle(classname);
             articleIndicator.classList.toggle(classname);
+            articleAside.prepend(articleIndicator);
+        }
+
+        function prependToComment (comment) {
+            const commentHeader = comment.querySelector('header');
+            const userInfo = commentHeader.querySelector('a.user-inline');
+            if (userInfo) {
+                const userHostname = userInfo.title.split('@').reverse()[0];
+                let commentIndicator = document.createElement('div');
+
+                if (kfaIsStrictlyModerated(userHostname)) {
+                    comment.classList.toggle('data-moderated');
+                    commentIndicator.classList.toggle('data-moderated');
+                } else if (userHostname !== window.location.hostname) {
+                    comment.classList.toggle('data-federated');
+                    commentIndicator.classList.toggle('data-federated');
+                } else {
+                    comment.classList.toggle('data-home');
+                    commentIndicator.classList.toggle('data-home');
+                }
+                commentHeader.prepend(commentIndicator);
+            }
         }
 
         function kfaInitClasses () {
-            document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
-                if (article.querySelector('[class^=data-]')) { return }
-                let op = article.querySelector('.user-inline').href
-                op = String(op)
-                const hostname = findHostname(op);
-                article.setAttribute('data-hostname', hostname);
-                let type
+            const page = getPageType(); // eslint-disable-line no-undef
+            if (page === Mbin.Microblog) {
+                document.querySelectorAll('.section.post.subject').forEach(function (comment) {
+                    if (comment.querySelector('[class^=data-]')) { return }
+                    prependToComment(comment);
+                });
+                document.querySelectorAll('.comments blockquote.post-comment').forEach(function (comment) {
+                    if (comment.querySelector('[class^=data-]')) { return }
+                    prependToComment(comment);
+                });
+                return
+            }
+            if (page !== Mbin.Microblog) {
+                document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
+                    if (article.querySelector('[class^=data-]')) { return }
+                    let op = article.querySelector('.user-inline').href
+                    op = String(op)
+                    const hostname = findHostname(op);
+                    article.setAttribute('data-hostname', hostname);
+                    let type
 
-                if (kfaIsStrictlyModerated(hostname)) {
-                    type = 'data-moderated'
-                } else if (hostname !== window.location.hostname) {
-                    type = 'data-federated'
-                } else {
-                    type = 'data-home'
-                }
-                toggleClass(article, type)
-            });
-
-            document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
-                if (comment.querySelector('[class^=data-]')) { return }
-                let commentHeader = comment.querySelector('header');
-                const userInfo = commentHeader.querySelector('a.user-inline');
-                if (userInfo) {
-                    const userHostname = userInfo.title.split('@').reverse()[0];
-                    let commentIndicator = document.createElement('div');
-
-                    if (kfaIsStrictlyModerated(userHostname)) {
-                        comment.classList.toggle('data-moderated');
-                        commentIndicator.classList.toggle('data-moderated');
-                    } else if (userHostname !== window.location.hostname) {
-                        comment.classList.toggle('data-federated');
-                        commentIndicator.classList.toggle('data-federated');
+                    if (kfaIsStrictlyModerated(hostname)) {
+                        type = 'data-moderated'
+                    } else if (hostname !== window.location.hostname) {
+                        type = 'data-federated'
                     } else {
-                        comment.classList.toggle('data-home');
-                        commentIndicator.classList.toggle('data-home');
+                        type = 'data-home'
                     }
-                    commentHeader.prepend(commentIndicator);
-                }
-            });
+                    toggleClass(article, type)
+                });
+
+                document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
+                    if (comment.querySelector('[class^=data-]')) { return }
+                    let commentHeader = comment.querySelector('header');
+                    const userInfo = commentHeader.querySelector('a.user-inline');
+                    if (userInfo) {
+                        const userHostname = userInfo.title.split('@').reverse()[0];
+                        let commentIndicator = document.createElement('div');
+
+                        if (kfaIsStrictlyModerated(userHostname)) {
+                            comment.classList.toggle('data-moderated');
+                            commentIndicator.classList.toggle('data-moderated');
+                        } else if (userHostname !== window.location.hostname) {
+                            comment.classList.toggle('data-federated');
+                            commentIndicator.classList.toggle('data-federated');
+                        } else {
+                            comment.classList.toggle('data-home');
+                            commentIndicator.classList.toggle('data-home');
+                        }
+                        commentHeader.prepend(commentIndicator);
+                    }
+                });
+            }
         }
 
-        let kfaInjectedCss;
         let kfaSettingsFed;
         let kfaSettingsMod;
         let kfaSettingsHome;
@@ -4358,16 +4097,14 @@ const funcObj = {
             kfaSettingsArticleSide = settings['kfaPostSide'];
             kfaSettingsStyle = settings['kfaStyle'];
             kfaSettingsScale = settings['kfaBubbleScale'];
+            kfaShutdown();
             kfaStartup();
         } else {
             kfaShutdown();
         }
-    }
+    },
 
-,
-
-    mobile_cleanup:
-
+    mobile_cleanup: //mes-func
     function mobileHideInit (toggle) { // eslint-disable-line no-unused-vars
         function mobileHideTeardown () {
             let filterBtn
@@ -4413,11 +4150,9 @@ const funcObj = {
         } else {
             mobileHideTeardown();
         }
-    }
-,
+    },
 
-    hide_posts:
-
+    hide_posts: //mes-func
     function hidePostsInit (toggle) { //eslint-disable-line no-unused-vars
 
         async function wipeArray () {
@@ -4510,11 +4245,9 @@ const funcObj = {
         } else {
             fetchCurrentPage();
         }
-    }
-,
+    },
 
-    softblock:
-
+    softblock: //mes-func
     function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         //TODO: don't apply on magazine pages
         const hostname = window.location.hostname;
@@ -4549,7 +4282,8 @@ const funcObj = {
             const path = location.pathname.split('/')[1]
             switch (path) {
                 case "":
-                case "sub": {
+                case "sub":
+                case "all": {
                     blockThreads(mags);
                     break
                 }
@@ -4573,18 +4307,15 @@ const funcObj = {
             articles.forEach((article) => {
                 const instance = article.href.split('/')[4]
                 if (mags.includes(instance)) {
-                    if (getInstanceType() === "kbin") { // eslint-disable-line no-undef
-                        el = article.parentElement.parentElement;
-                    } else {
-                        el = article.parentElement.parentElement.parentElement;
-                    }
+                    el = article.parentElement.parentElement.parentElement;
                     blankCSS(el);
                 }
             });
         }
         function blockThreads (mags) {
             hideThreads(mags)
-            document.querySelectorAll('.meta').forEach((item) => {
+            document.querySelectorAll('.entry:not(.entry-cross) aside.meta.entry__meta').forEach((item) => {
+            //document.querySelectorAll('.entry__meta').forEach((item) => {
                 if (item.querySelector('.softblock-icon')) {
                     return
                 }
@@ -4767,10 +4498,10 @@ const funcObj = {
         }
 
         async function loadMags (hostname) {
-            const mags = await safeGM("getValue", `softblock-mags-${hostname}`)
+            let mags = await safeGM("getValue", `softblock-mags-${hostname}`)
             if (!mags) {
-                const e = [];
-                saveMags(hostname, e)
+                mags = [];
+                saveMags(hostname, mags)
             }
             softBlock(mags)
         }
@@ -4797,11 +4528,9 @@ const funcObj = {
             const e = []
             saveMags(hostname, e)
         }
-    }
-,
+    },
 
-    subs:
-
+    subs: //mes-func
     function initMags (toggle) { // eslint-disable-line no-unused-vars
 
         function createMags () {

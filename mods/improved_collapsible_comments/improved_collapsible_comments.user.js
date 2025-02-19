@@ -3,7 +3,7 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         var style = `
         .entry-comment {
         grid-column-gap: 2px;
-        padding: 2px 0 0 0 !important;
+        padding: 10px 0 0 0 !important;
         }
 
         .subject .more {
@@ -53,9 +53,9 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
             transition: margin-left 0.2s ease;
         }
 
-        /*.collapsed-comment figure, .collapsed-comment header {
+        .collapsed-comment header {
             margin-left: 24px !important;
-        }*/
+        }
 
         .expando {
             cursor: pointer;
@@ -135,16 +135,10 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
             width: 20px;
         }
 
-        .entry-comment > figure > a > img, .entry-comment > figure > a > .no-avatar {
-            max-width: 20px!important;
-            max-height: 20px!important;
-            border: 0px transparent !important;
-        }
         @media (max-width: 992px) {
             .entry-comment.nested {
-                padding: 2px 0 0 2px !important;
+                padding: 10px 0 0 2px !important;
                 grid-column-gap: 0px;
-                grid-template-columns: 14px min-content auto auto;
                 border: 0px;
             }
             .comment-level--1 {
@@ -157,10 +151,6 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
 
             .threadLine {
                 width: 2px;
-            }
-            .entry-comment figure a img {
-                height: 16px;
-                width: 16px;
             }
         }
 
@@ -184,7 +174,7 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         }
         .entry-comment {
             border-color: transparent !important;
-            grid-template-columns: 20px 20px auto min-content;
+            grid-template-columns: 40px 50px auto min-content;
             grid-template-rows: min-content auto auto;
             display: grid;
             margin-left: 0 !important;

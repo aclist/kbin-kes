@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+TEST_NAME="Check for missing manifest entries"
+
+find_mods(){
+    readarray -t mods < <(find mods/ -mindepth 1 -type d | sort)
+    for mod in "${mods[@]}"; do
+        basename "${mod}"
+    done
+}
+
+find_entrypoints(){
+    < helpers/manifest.json jq -r '.[].entrypoint' | sort
+}
+
+abort(){
+    local msg="$1"
+    local res="$2"
+    printf "%s\n" "$msg"
+    printf "%s\n" "$res"
+    exit 1
+}
+
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
+
+res=$(comm -23 <(find_mods) <(find_entrypoints))
+if [[ ! $res == "" ]]; then
+    abort "Found local mods not present in manifest.json:" "$res"
+fi
+
+res=$(comm -13 <(find_mods) <(find_entrypoints))
+if [[ ! $res == "" ]]; then
+    abort "Found values in manifest.json not present as local mods:" "$res"
+fi
+
+exit 0

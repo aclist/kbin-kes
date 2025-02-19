@@ -1,0 +1,32 @@
+Mbin.Top: 1
+Mbin.Search: 2
+Mbin.Magazines: 3
+Mbin.People: 4
+Mbin.Bookmarks: 5
+Mbin.Tag: 6
+Mbin.Microblog: 7
+Mbin.Settings: 8
+Mbin.Magazine: 9
+
+Mbin.Messages.Inbox: 10
+Mbin.Messages.Notifications: 11
+Mbin.Messages.Thread: 12
+
+Mbin.User.Default: 13
+Mbin.User.DirectMessage: 14
+Mbin.User.Subscriptions: 15
+Mbin.User.Threads: 16
+Mbin.User.Comments: 17
+Mbin.User.Posts: 18
+Mbin.User.Replies: 19
+Mbin.User.Boosts: 20
+Mbin.User.Following: 21
+Mbin.User.Followers: 22
+
+
+Mbin.Thread.Comments: 23
+Mbin.Thread.Favorites: 24
+Mbin.Thread.Boosts: 25
+
+Mbin.Domain.Default: 26
+Mbin.Domain.Comments: 27

@@ -1,5 +1,5 @@
 function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
-    function rewrite (title) {
+    function rewrite (form) {
         const self = document.querySelector('.dropdown .login').getAttribute("href").split('/')[2]
         const loc = window.location.href.split('/')[3]
         let recipientName
@@ -8,21 +8,25 @@ function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
             recipientName = recipient.href.split('/')[4]
         } else {
             recipientName = window.location.href.split('/')[4]
-        }
+        } 
 
-        title.innerText = "Sending message to " + recipientName
+        const holder = document.createElement('div');
+        holder.id = "mes-compose-holder";
+        holder.textContent = "Sending message to " + recipientName;
+        holder.style.paddingRight = '10px';
+        form.prepend(holder);
     }
-    function reset (title) {
-        title.innerText = "Body"
+    function reset () {
+        document.querySelector('#mes-compose-holder').remove();
     }
 
-    const ar = window.location.href.split('/')
-    if ((ar[3] != "profile") && (ar[4] != "messages") && (ar[3] != "u")) return
-    const title = document.querySelector('form[name="message"] .required')
-    if (!title) return
+    const pt = getPageType(); // eslint-disable-line no-undef
+    if (pt !== Mbin.User.DirectMessage) return
+    const form = document.querySelector('form[name="message"]')
+    if (!form) return
     if (toggle) {
-        rewrite(title);
+        rewrite(form)
     } else {
-        reset(title);
+        reset(form)
     }
 }

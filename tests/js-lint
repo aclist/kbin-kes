@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+TEST_NAME="Lint JS files"
+
+abort(){
+    local msg="$1"
+    printf "%s\n" "$msg"
+    exit 1
+}
+compare(){
+    local current=$(node --version | sed 's/^v//g')
+    local target="18.0.0"
+    local res
+    res=$(printf "%s\n%s\n" "$current" "$target" | sort -V | head -n1)
+    if [[ $res == $target ]]; then
+        return 0
+    else
+        abort "node version must be >= $target"
+    fi
+}
+
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
+
+command -v node 1>&2 >/dev/null
+[[ ! $? -eq 0 ]] && abort "Missing dependency 'node'"
+
+command -v eslint 1>&2 > /dev/null
+[[ ! $? -eq 0 ]] && abort "Missing dependency 'eslint'"
+
+compare
+
+eslint --quiet $PWD/mods/*
+[[ ! $? -eq 0 ]] && abort "ESLint exited with errors"
+
+for file in kes.user.js helpers/funcs.js; do
+    eslint --quiet "$file"
+    [[ ! $? -eq 0 ]] && abort "ESLint exited with errors"
+done
+
+exit 0

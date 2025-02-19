@@ -11,11 +11,22 @@
     "page": "threads"
   },
   {
+    "name": "Hide cover image on magazines",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Hide cover image on magazines",
+    "login": false,
+    "recurs": false,
+    "desc": "Hides the large cover image on the sidebar of magazines.",
+    "entrypoint": "suppress_cover",
+    "page": "cosmetic"
+  },
+  {
     "name": "Collapsible comments",
     "author": "artillect",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "label": "Collapsible comments",
-    "desc": "Collapse comments by clicking on their headers, and the bars to their left.",
+    "desc": "Collapse comments by clicking on the bars to their left.",
     "login": false,
     "recurs": false,
     "entrypoint": "improved_collapsible_comments",
@@ -25,7 +36,7 @@
   {
     "name": "Subs omnibar",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Subscriptions omnibar",
     "desc": "Quickly jump to a magazine by viewing your subs in a floating search panel (type to search). Use the meta key to open/close the omnibar. The meta key will not take effect inside of text fields. If you are logged out, the omnibar shows default magazines (most popular). To refresh the cached list of your magazines or change settings while this add-on is enabled, toggle off and then on again.",
     "login": false,
@@ -37,7 +48,7 @@
         "type": "checkbox",
         "key": "mobile",
         "label": "Mobile device support",
-        "checkbox_label": "Add tappable element to screen"
+        "checkbox_label": "Add tappable element (yellow bar) to screen"
       },
       {
         "type": "radio",
@@ -59,7 +70,7 @@
   {
     "name": "Clearer PM box",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Show recipient on compose",
     "login": true,
     "recurs": false,
@@ -68,54 +79,15 @@
     "page": "profile"
   },
   {
-    "name": "Label OP",
-    "author": "shazbot",
-    "version": "0.1.0",
-    "label": "Add OP label",
-    "login": false,
-    "recurs": true,
-    "desc": "Print OP label next to thread author. Colors are shown dimmed to 75% opacity to emulate how labels will look when inserted into post headers. This add-on has no effect on mbin.",
-    "entrypoint": "label",
-    "namespace": "labelcolors",
-    "page": "threads",
-    "fields": [
-      {
-        "type": "color",
-        "initial": "#FFFFFF",
-        "key": "fgcolor",
-        "label": "Foreground color"
-      },
-      {
-        "type": "color",
-        "initial": "#111111",
-        "key": "bgcolor",
-        "label": "Background color"
-      }
-    ]
-  },
-  {
     "name": "Hide Reputation",
     "author": "artillect",
-    "version": "0.2",
+    "version": "0.3",
     "label": "Hide reputation",
     "desc": "Hide reputation on users' profiles",
     "login": false,
     "recurs": false,
     "entrypoint": "hide_reputation",
-    "page": "profiles"
-  },
-  {
-    "name": "Magazine CSS Fix — Unsanitize",
-    "namespace": "unsanitize-css",
-    "author": "Pamasich",
-    "version": "1.0.0",
-    "label": "Unsanitize Magazine CSS",
-    "desc": "Kbin supports custom CSS for magazines, but that functionality is limited because kbin wrongly replaces some important CSS characters with HTML escape codes, making the code partially non-functional. This addon fixes the issue by undoing those replacements, making the CSS actually work as expected.\n\nThis mod is unnecessary on mbin.",
-    "login": false,
-    "recurs": false,
-    "entrypoint": "unsanitize_css",
-    "new_since": "4.0",
-    "page": "fixes"
+    "page": "profile"
   },
   {
     "name": "Notifications panel",
@@ -123,7 +95,7 @@
       "blobcat",
       "shazbot"
     ],
-    "version": "0.3.1",
+    "version": "0.3.2",
     "label": "Add a notifications panel",
     "login": true,
     "recurs": false,
@@ -141,26 +113,6 @@
     "recurs": true,
     "entrypoint": "mag_instance_names",
     "page": "general"
-  },
-  {
-    "name": "Alternative access to the All Content view",
-    "namespace": "alt-all-content-access",
-    "author": "Pamasich",
-    "version": "1.0.1",
-    "label": "Alternative access to All Content",
-    "desc": "Makes the magazine title in the navbar link to the All Content view and removes the dedicated button instead.\n\nThis addon is useless on mbin.",
-    "login": false,
-    "recurs": false,
-    "entrypoint": "alt_all_content_access",
-    "page": "navbar",
-    "fields": [
-      {
-        "type": "checkbox",
-        "initial": true,
-        "key": "hideAllContentButton",
-        "checkbox_label": "Hide the All Content button"
-      }
-    ]
   },
   {
     "name": "kbin-code-highlighting",
@@ -367,10 +319,10 @@
     "name": "Rearrange comments",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Rearrange post order",
+    "label": "Rearrange thread order",
     "login": false,
     "recurs": false,
-    "desc": "Rearrange the order elements appear inside threads. Recommended sort order is 1, 4, 5, 3, 2",
+    "desc": "Rearrange the order elements appear inside threads. Recommended sort order is 1, 2, 4, 5, 6, 3",
     "namespace": "rearrange",
     "entrypoint": "rearrange",
     "page": "threads",
@@ -378,7 +330,7 @@
       {
         "type": "number",
         "min": 1,
-        "max": 5,
+        "max": 6,
         "step": 1,
         "initial": 1,
         "label": "Original post",
@@ -387,77 +339,60 @@
       {
         "type": "number",
         "min": 1,
-        "max": 5,
+        "max": 6,
         "step": 1,
         "initial": 2,
-        "label": "Thread sort options",
-        "key": "options"
+        "label": "Crossposts",
+        "key": "crossposts"
       },
       {
         "type": "number",
         "min": 1,
-        "max": 5,
+        "max": 6,
         "step": 1,
         "initial": 3,
-        "label": "Comments",
-        "key": "comments"
-      },
-      {
-        "type": "number",
-        "min": 1,
-        "max": 5,
-        "step": 1,
-        "initial": 4,
         "label": "Add comment",
         "key": "post"
       },
       {
         "type": "number",
         "min": 1,
-        "max": 5,
+        "max": 6,
+        "step": 1,
+        "initial": 4,
+        "label": "Thread sort options",
+        "key": "options"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 6,
         "step": 1,
         "initial": 5,
+        "label": "Comments",
+        "key": "comments"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "initial": 6,
         "label": "Activity panel",
         "key": "activity"
       }
     ]
   },
   {
-    "name": "Fix Lemmy Code Blocks",
-    "author": "Pamasich",
-    "version": "1.0.1",
-    "label": "Repair Lemmy code blocks",
-    "desc": "Lemmy federates special <span> HTML tags on each line of its code blocks which /kbin displays in plaintext, resulting in code blocks being hard to read. This add-on removes those tags.\n\nThis addon is useless on mbin.",
-    "login": false,
-    "recurs": true,
-    "entrypoint": "fix_codeblocks",
-    "depends_off": [
-      "code_highlighting"
-    ],
-    "page": "fixes"
-  },
-  {
     "name": "Dropdown links",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Dropdown links",
     "login": false,
     "recurs": false,
     "desc": "Convert navigation links on profile pages to dropdown",
     "entrypoint": "dropdown",
     "page": "profile"
-  },
-  {
-    "name": "Fix Pagination Arrows",
-    "author": "Pamasich",
-    "version": "1.0.0",
-    "label": "Fix broken pagination",
-    "desc": "In some cases, like on the All Content view, the pagination is broken. The arrows behave like they're on the first page, regardless of which page the user is on. This addon ensures they work as expected.\n\nThis addon is useless on mbin.",
-    "login": false,
-    "recurs": false,
-    "entrypoint": "fix_pagination_arrows",
-    "new_since": "4.0",
-    "page": "fixes"
   },
   {
     "name": "Remove ads",
@@ -546,12 +481,6 @@
         "initial": "Post",
         "key": "post",
         "label": "Post icon"
-      },
-      {
-        "type": "text",
-        "initial": "Subs",
-        "key": "subs",
-        "label": "Subs icon"
       }
     ],
     "page": "navbar"
@@ -559,11 +488,11 @@
   {
     "name": "Customize font size",
     "author": "minnieo",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Change font size",
     "login": false,
     "recurs": true,
-    "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes. Note: reload required when toggling off.",
+    "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes.",
     "entrypoint": "resize_text",
     "namespace": "resize",
     "page": "accessibility",
@@ -676,15 +605,6 @@
         "step": "0.1",
         "min": "5",
         "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": "#footer > .kbin-container > section menu li",
-        "key": "optionFooter",
-        "label": "Footer:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
       }
     ]
   },
@@ -754,7 +674,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add mail icon",
-    "desc": "Add mail link to usernames if on own instance",
+    "desc": "Add mail link/icon next to usernames",
     "login": false,
     "recurs": true,
     "entrypoint": "mail",
@@ -1032,13 +952,13 @@
     ]
   },
   {
-    "name": "Alpha sort subs/followers",
+    "name": "Alpha sort subscriptions/followers/following",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Alpha sort subs/followers list",
+    "label": "Alpha sort subscriptions/followers/following",
     "login": true,
     "recurs": false,
-    "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions) and followers (/followers).",
+    "desc": "Alphabetically sort the list of subscribed magazines, followers, and followed users on your profile page and other users' profile pages.",
     "entrypoint": "alpha_sort_subs",
     "page": "profile"
   },
@@ -1047,7 +967,7 @@
     "author": "shazbot",
     "version": "0.1.1",
     "label": "Expand post text in thread index",
-    "desc": "Adds an expand/collapse button used to read the full body text of posts without leaving the thread index.",
+    "desc": "Adds an expand/collapse button used to read the full body text of posts without leaving the thread index. By design, does not work in mbin's compact view mode, which truncates detailed post descriptions.",
     "login": false,
     "recurs": true,
     "entrypoint": "expand_posts",
@@ -1068,7 +988,7 @@
       },
       {
         "type": "text",
-        "initial": "LOADING",
+        "initial": "LOADING...",
         "key": "loading",
         "label": "Loading label"
       }
@@ -1077,7 +997,7 @@
   {
     "name": "Show thread/microblog delta since last visit",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Show thread/microblog delta since last visit",
     "desc": "Intended for magazine moderators (or others) checking for new magazine activity. If there are new threads/microblogs since your last visit, shows the delta at the top of the page.",
     "login": true,
@@ -1101,7 +1021,7 @@
       {
         "type": "radio",
         "initial": "on",
-        "key": "state",
+        "key": "always_on",
         "label": "Permanently display counts in top bar (best for mobile). Set to off to only display bar when there are new threads/blogs.",
         "values": [
           "on",
@@ -1124,7 +1044,7 @@
   {
     "name": "Hide sidebar",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Hide sidebar elements",
     "login": false,
     "recurs": true,
@@ -1138,6 +1058,11 @@
         "key": "sidebar",
         "type": "checkbox",
         "checkbox_label": "Hide sidebar entirely"
+      },
+      {
+        "key": "subs",
+        "type": "checkbox",
+        "checkbox_label": "Subscriptions"
       },
       {
         "key": "mags",
@@ -1168,6 +1093,17 @@
         "key": "intro",
         "type": "checkbox",
         "checkbox_label": "Explore the fediverse intro text"
+      },
+      {
+        "key": "about",
+        "type": "checkbox",
+        "checkbox_label": "Mbin instance About card"
+      },
+      {
+        "label": "Behavior",
+        "key": "expand",
+        "type": "checkbox",
+        "checkbox_label": "Expand content if possible"
       }
     ]
   },
@@ -1225,7 +1161,7 @@
     "author": "artillect",
     "version": "0.1",
     "label": "User instance names",
-    "desc": "Show instance names next to users",
+    "desc": "Shows instance names next to users if they are not on your home instance",
     "entrypoint": "user_instance_names",
     "recurs": true,
     "login": false,
@@ -1265,7 +1201,7 @@
   {
     "name": "kbin-federation-awareness",
     "author": "@Ori@sacredori.net",
-    "version": "0.2.5",
+    "version": "0.2.6",
     "label": "Federation Awareness",
     "login": false,
     "recurs": true,
@@ -1364,7 +1300,7 @@
   {
     "name": "Softblock magazines",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Softblock magazines",
     "desc": "Prevent a magazine from appearing on the main subscriptions index, but do not explicitly block its content altogether if visiting the magazine directly. Adds a softblock button next to magazine names on the thread index. Softblocked mags can be managed via the magazine subscriptions index or via a specific magazine's sidebar. Disabling this add-on will clear your softblocked magazines",
     "login": false,

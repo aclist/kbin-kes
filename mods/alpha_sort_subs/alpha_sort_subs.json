@@ -1,11 +1,11 @@
 {
-  "name": "Alpha sort subs/followers",
+  "name": "Alpha sort subscriptions/followers/following",
   "author": "shazbot",
   "version": "0.1.0",
-  "label": "Alpha sort subs/followers list",
+  "label": "Alpha sort subscriptions/followers/following",
   "login": true,
   "recurs": false,
-  "desc": "Alphabetically sort the list of subscribed magazines (/subscriptions) and followers (/followers).",
+  "desc": "Alphabetically sort the list of subscribed magazines, followers, and followed users on your profile page and other users' profile pages.",
   "entrypoint": "alpha_sort_subs",
   "page": "profile"
 }

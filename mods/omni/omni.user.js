@@ -391,7 +391,8 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
             const pageHolder = document.querySelector('.kbin-container') 
                 ?? document.querySelector('.mbin-container')
             const kth = document.createElement('div');
-            kth.style.cssText = 'height: 0px; width: 0px'
+            kth.style.cssText = 'height: 0px; width: 0px;'
+            kth.id = 'kes-omni-keytrap-holder'
             const ktb = document.createElement('button')
             ktb.style.cssText = 'opacity:0;width:0'
             ktb.id = 'kes-omni-keytrap'
@@ -405,6 +406,9 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
 
         }
     }
+    const keytrap = document.querySelector('#kes-omni-keytrap-holder');
+    if (keytrap) keytrap.remove();
+
     if (toggle) {
         createOmni();
     } else {

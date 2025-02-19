@@ -2,7 +2,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
     /*
         License: MIT
         Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
-    */
+        */
 
     const kfaHasStrictModerationRules = [
         'beehaw.org',
@@ -97,39 +97,61 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
             // Scale 1-10; Default 5 (i.e., 50%); 10 is 50% of 20. 20 * (x * 0.1)
             const defaultScale = 20;
             const setScale = defaultScale * (kfaSettingsScale * 0.1);
-            let fedStyle = ` .comment div.data-federated, article .data-federated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-            let modStyle = ` .comment div.data-moderated, article .data-moderated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-            let homeStyle = ` .comment div.data-home, article .data-home { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-            modStyle += `0 0 3px 2px ` + modColor0 + `; background-color: ` + modColor0 + `; margin-right: 4px; margin-left: 4px; }`;
-            fedStyle += `0 0 3px 2px ` + fedColor0 + `; background-color: ` + fedColor0 + `; margin-right: 4px; margin-left: 4px; }`;
-            homeStyle += `0 0 3px 2px ` + homeColor0 + `; background-color: ` + homeColor0 + `; margin-right: 4px; margin-left: 4px; }`;
+            const fedStyle=`
+            header div.data-federated, article .data-federated {
+                display: inline-block;
+                width: ${setScale}px;
+                height: ${setScale}px;
+                border-radius: 10px;
+                box-shadow: 0 0 3px 2px ${fedColor0};
+                background-color: ${fedColor0};
+                margin-right: 4px;
+                margin-left: 4px
+            }
+            `;
+            const modStyle=`
+            header div.data-moderated, article .data-moderated {
+                display: inline-block;
+                width: ${setScale}px;
+                height: ${setScale}px;
+                border-radius: 10px;
+                box-shadow: 0 0 3px 2px ${modColor0};
+                background-color: ${modColor0};
+                margin-right: 4px;
+                margin-left: 4px;
+            }
+            `;
+            const homeStyle=`
+            header div.data-home, article .data-home {
+                display: inline-block;
+                width: ${setScale}px;
+                height: ${setScale}px;
+                border-radius: 10px;
+                box-shadow: 0 0 3px 2px ${homeColor0};
+                background-color: ${homeColor0};
+                margin-right: 4px;
+                margin-left: 4px;
+            }
+            `;
             return modStyle + fedStyle + homeStyle;
         }
     }
 
     function kfaStartup () {
         kfaInitClasses();
-        kfaInjectedCss = safeGM("addStyle",kfaGetCss());
+        safeGM("addStyle",kfaGetCss(),"kfaInjectedCss");
     }
 
     function kfaShutdown () {
-        if (kfaInjectedCss) {
-            kfaInjectedCss.remove();
-        }
-        function removeOld () {
-            for (let i = 0; i<arguments.length; ++i) {
-                arguments[i].forEach((el) => {
-                    el.remove();
-                });
-            }
-        }
-        const dh = document.querySelectorAll('header .data-home')
-        const df = document.querySelectorAll('header .data-federated')
-        const dm = document.querySelectorAll('header .data-moderated')
-        const mh = document.querySelectorAll('.meta.entry__meta .data-home')
-        const mf = document.querySelectorAll('.meta.entry__meta .data-federated')
-        const mm = document.querySelectorAll('.meta.entry__meta .data-moderated')
-        removeOld(dh, df, dm, mh, mf, mm);
+        safeGM("removeStyle","kfaInjectedCss");
+        document.querySelectorAll('div.data-home, div.data-federated, div.data-moderated')
+            .forEach((element) => element.remove());
+        document.querySelectorAll('.data-home')
+            .forEach((element) => element.classList.remove('data-home'));
+        document.querySelectorAll('.data-federated')
+            .forEach((element) => element.classList.remove('data-federated'));
+        document.querySelectorAll('.data-moderated')
+            .forEach((element) => element.classList.remove('data-moderated'));
     }
 
     function findHostname (op) {
@@ -146,55 +168,89 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
     function toggleClass (article, classname) {
         const articleIndicator = document.createElement('div');
         const articleAside = article.querySelector('aside');
-        articleAside.prepend(articleIndicator);
 
         article.classList.toggle(classname);
         articleIndicator.classList.toggle(classname);
+        articleAside.prepend(articleIndicator);
+    }
+
+    function prependToComment (comment) {
+        const commentHeader = comment.querySelector('header');
+        const userInfo = commentHeader.querySelector('a.user-inline');
+        if (userInfo) {
+            const userHostname = userInfo.title.split('@').reverse()[0];
+            let commentIndicator = document.createElement('div');
+
+            if (kfaIsStrictlyModerated(userHostname)) {
+                comment.classList.toggle('data-moderated');
+                commentIndicator.classList.toggle('data-moderated');
+            } else if (userHostname !== window.location.hostname) {
+                comment.classList.toggle('data-federated');
+                commentIndicator.classList.toggle('data-federated');
+            } else {
+                comment.classList.toggle('data-home');
+                commentIndicator.classList.toggle('data-home');
+            }
+            commentHeader.prepend(commentIndicator);
+        }
     }
 
     function kfaInitClasses () {
-        document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
-            if (article.querySelector('[class^=data-]')) { return }
-            let op = article.querySelector('.user-inline').href
-            op = String(op)
-            const hostname = findHostname(op);
-            article.setAttribute('data-hostname', hostname);
-            let type
+        const page = getPageType(); // eslint-disable-line no-undef
+        if (page === Mbin.Microblog) {
+            document.querySelectorAll('.section.post.subject').forEach(function (comment) {
+                if (comment.querySelector('[class^=data-]')) { return }
+                prependToComment(comment);
+            });
+            document.querySelectorAll('.comments blockquote.post-comment').forEach(function (comment) {
+                if (comment.querySelector('[class^=data-]')) { return }
+                prependToComment(comment);
+            });
+            return
+        }
+        if (page !== Mbin.Microblog) {
+            document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
+                if (article.querySelector('[class^=data-]')) { return }
+                let op = article.querySelector('.user-inline').href
+                op = String(op)
+                const hostname = findHostname(op);
+                article.setAttribute('data-hostname', hostname);
+                let type
 
-            if (kfaIsStrictlyModerated(hostname)) {
-                type = 'data-moderated'
-            } else if (hostname !== window.location.hostname) {
-                type = 'data-federated'
-            } else {
-                type = 'data-home'
-            }
-            toggleClass(article, type)
-        });
-
-        document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
-            if (comment.querySelector('[class^=data-]')) { return }
-            let commentHeader = comment.querySelector('header');
-            const userInfo = commentHeader.querySelector('a.user-inline');
-            if (userInfo) {
-                const userHostname = userInfo.title.split('@').reverse()[0];
-                let commentIndicator = document.createElement('div');
-
-                if (kfaIsStrictlyModerated(userHostname)) {
-                    comment.classList.toggle('data-moderated');
-                    commentIndicator.classList.toggle('data-moderated');
-                } else if (userHostname !== window.location.hostname) {
-                    comment.classList.toggle('data-federated');
-                    commentIndicator.classList.toggle('data-federated');
+                if (kfaIsStrictlyModerated(hostname)) {
+                    type = 'data-moderated'
+                } else if (hostname !== window.location.hostname) {
+                    type = 'data-federated'
                 } else {
-                    comment.classList.toggle('data-home');
-                    commentIndicator.classList.toggle('data-home');
+                    type = 'data-home'
                 }
-                commentHeader.prepend(commentIndicator);
-            }
-        });
+                toggleClass(article, type)
+            });
+
+            document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
+                if (comment.querySelector('[class^=data-]')) { return }
+                let commentHeader = comment.querySelector('header');
+                const userInfo = commentHeader.querySelector('a.user-inline');
+                if (userInfo) {
+                    const userHostname = userInfo.title.split('@').reverse()[0];
+                    let commentIndicator = document.createElement('div');
+
+                    if (kfaIsStrictlyModerated(userHostname)) {
+                        comment.classList.toggle('data-moderated');
+                        commentIndicator.classList.toggle('data-moderated');
+                    } else if (userHostname !== window.location.hostname) {
+                        comment.classList.toggle('data-federated');
+                        commentIndicator.classList.toggle('data-federated');
+                    } else {
+                        comment.classList.toggle('data-home');
+                        commentIndicator.classList.toggle('data-home');
+                    }
+                    commentHeader.prepend(commentIndicator);
+                }
+            });
+        }
     }
 
-    let kfaInjectedCss;
     let kfaSettingsFed;
     let kfaSettingsMod;
     let kfaSettingsHome;
@@ -210,9 +266,9 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
         kfaSettingsArticleSide = settings['kfaPostSide'];
         kfaSettingsStyle = settings['kfaStyle'];
         kfaSettingsScale = settings['kfaBubbleScale'];
+        kfaShutdown();
         kfaStartup();
     } else {
         kfaShutdown();
     }
 }
-

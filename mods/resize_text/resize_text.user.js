@@ -44,6 +44,9 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .page-messages > .kbin-container > #main > h1 {
             font-size: ${settings["optionMessages"] * 2.5}px
         }
+        .page-messages > .mbin-container > #main > h1 {
+            font-size: ${settings["optionMessages"] * 2.5}px
+        }
         /* SIDEBAR */
         #sidebar * {
             font-size: ${settings["optionHomeSidebar"]}px !important
@@ -98,16 +101,8 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             font-size: ${settings["optionUserSettings"] * 2.5}px
         }
         /* ============= */
-        /* FOOTER */
-        #footer > .kbin-container > section * {
-            font-size: ${settings["optionFooter"]}px
-        }
-        #footer > .kbin-container > section h5 {
-            font-size: ${settings["optionFooter"] * 1.222}px
-        }
-        /* ============= */
         /* SORT OPTIONS */
-        aside#options menu li a, aside#options menu i {
+        aside#options menu li a, aside#options menu i, aside#options menu button span {
             font-size: ${settings["optionSortBy"]}px
         }
         /* INBOX NOTIFICATIONS */
@@ -118,6 +113,15 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             font-size: ${settings["optionNotifs"] * 0.85}px
         }
         .page-notifications > .kbin-container > main > h1 {
+            font-size: ${settings["optionNotifs"] * 2.5}px !important
+        }
+        .page-notifications > .mbin-container > main > * {
+            font-size: ${settings["optionNotifs"]}px
+        }
+        .page-notifications > .mbin-container > main > .pills > menu > form > button {
+            font-size: ${settings["optionNotifs"] * 0.85}px
+        }
+        .page-notifications > .mbin-container > main > h1 {
             font-size: ${settings["optionNotifs"] * 2.5}px !important
         }
         /* ============= */

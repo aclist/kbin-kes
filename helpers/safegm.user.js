@@ -1,28 +1,30 @@
-let gmPrefix
-const dotPrefix = "GM."
-const underPrefix = "GM_"
-try {
-    if (GM_info) {
-        let scriptHandler = GM_info.scriptHandler;
-        switch (scriptHandler) {
-        case "Greasemonkey":
-            gmPrefix = dotPrefix;
+const Log = Object.freeze({ //eslint-disable-line no-unused-vars
+    Log: 1,
+    Warn: 2,
+    Error: 3,
+})
+
+function log (string, level) { // eslint-disable-line no-unused-vars
+    const date = new Date()
+    const iso = date.toISOString()
+    const caller = (new Error()).stack?.split("\n")[1].split("@")[0]
+    const line = `[KES:${caller}] [${iso}] ${string}`
+    switch (level) {
+        case Log.Log:
+            console.log(line)
             break;
-        case "FireMonkey":
-            gmPrefix = dotPrefix;
+        case Log.Warn:
+            console.warn(line)
             break;
-        case "Userscripts":
-            gmPrefix = dotPrefix;
+        case Log.Error:
+            console.error(line)
             break;
         default:
-            gmPrefix = underPrefix;
             break;
-        }
     }
-} catch (error) {
-    console.log(error);
 }
 
+//adds custom CSS to the document head by named ID
 function addCustomCSS (css, id) {
     const style = document.createElement('style');
     style.id = id;
@@ -30,6 +32,7 @@ function addCustomCSS (css, id) {
     document.head.appendChild(style);
 }
 
+//removes CSS from the document head by named ID
 function removeCustomCSS (id) {
     const toRemove = document.getElementById(id);
     if (toRemove) {
@@ -39,7 +42,8 @@ function removeCustomCSS (id) {
     }
 }
 
-function getHex (value) {
+//returns the real hex color value of internal theme colors
+function getHex (value) { //eslint-disable-line no-unused-vars
     let realHex;
     const firstChar = Array.from(value)[0];
     const theme = document.querySelector('body');
@@ -51,7 +55,8 @@ function getHex (value) {
     return realHex;
 }
 
-function genericXMLRequest (url, callback) {
+//helper function to simplify pushing the results of a GET request to a callback
+function genericXMLRequest (url, callback) { //eslint-disable-line no-unused-vars
     safeGM("xmlhttpRequest", {
         method: 'GET',
         url: url,
@@ -63,15 +68,24 @@ function genericXMLRequest (url, callback) {
     });
 }
 
-function isThread () {
-    const url = new URL(window.location).href.split('/')
-    if (url.includes("t")) {
-        return true
+//returns the relative onscreen point size of an element after styling is applied
+function getComputedFontSize (string) { // eslint-disable-line no-unused-vars
+    if (typeof string === 'number') return string
+    if (isNaN(parseFloat(string)) === false) {
+        return parseFloat(string)
     }
-    return false
+    const el = document.querySelector(string)
+    if (!el) {
+        return null
+    }
+    const fontsize = document.defaultView.getComputedStyle(el).fontSize
+    let px = fontsize.split('px')[0]
+    px = parseFloat(px)
+    return px
 }
 
-function is_logged_in () {
+//returns whether the user is currently logged in
+function isLoggedIn () { //eslint-disable-line no-unused-vars
     const login = document.querySelector('.login .user-name')
     if (login) {
         return true
@@ -79,12 +93,59 @@ function is_logged_in () {
     return false
 }
 
-function isProfile () {
-    const url = new URL(window.location).href.split('/')
-    if (url.includes("u")) {
-        return true
+function getPageType () { //eslint-disable-line no-unused-vars
+    const url = window.location.href.split("/")
+    switch (url[3]) {
+        case "":
+        case "sub":
+        case "all":
+        case "threads":
+            return Mbin.Top
+        case "search":
+            return Mbin.Search
+        case "magazines":
+            return Mbin.Magazines
+        case "people":
+            return Mbin.People
+        case "bookmark-lists":
+            return Mbin.Bookmarks
+        case "tag":
+            return Mbin.Tag
+        case "microblog":
+            return Mbin.Microblog
+        case "profile":
+            if ((url[4] === "messages") && (url.length === 6)) return "Mbin.Messages.Thread"
+            return Mbin.Messages.Inbox
+        case "settings":
+            if ((url[4]) === "notifications") return "Mbin.Messages.Notifications"
+            return Mbin.Settings
+        case "u":
+            if (url[5] === undefined) return Mbin.User.Default
+            if (url[5] === "message") return Mbin.User.DirectMessage
+            if (url[5].includes("subscriptions")) return Mbin.User.Subscriptions
+            if (url[5].includes("threads")) return Mbin.User.Threads
+            if (url[5].includes("comments")) return Mbin.User.Comments
+            if (url[5].includes("posts")) return Mbin.User.Posts
+            if (url[5].includes("replies")) return Mbin.User.Replies
+            if (url[5].includes("boosts")) return Mbin.User.Boosts
+            if (url[5].includes("following")) return Mbin.User.Following
+            if (url[5].includes("followers")) return Mbin.User.Followers
+            return Mbin.User.Default
+        case "d":
+            if ((url.length === 6) && (url[5].includes("comments"))) return Mbin.Domain.Comments
+            return Mbin.Domain.Default
+        case "m":
+            if (url[5] === undefined) return Mbin.Magazine
+            if (url[5] === "microblog") return Mbin.Microblog
+            if ((url[5] === "t") && (url[url.length-1].includes("favourites"))) return Mbin.Thread.Favorites
+            if ((url[5] === "t") && (url[url.length-1].includes("up"))) return Mbin.Thread.Boosts
+            return Mbin.Thread.Comments
+        default:
+            break;
     }
-    return false
+    if (url[3].includes("?type=")) return Mbin.Top
+    if (url[3].includes("magazines?")) return Mbin.Magazines
+    return "Unknown"
 }
 
 function loadMags (callback) {

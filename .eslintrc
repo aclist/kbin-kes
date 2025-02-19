@@ -11,11 +11,25 @@
         "getHex": "readonly",
         "genericXMLRequest": "readonly",
         "getModSettings": "readonly",
-        "gmPrefix": "readonly"
+        "getComputedFontSize": "readonly",
+        "gmPrefix": "readonly",
+        "GM": "readonly",
+        "GM_info": "readonly",
+        "GM_setValue": "readonly",
+        "GM_getValue": "readonly",
+        "GM_getResourceText": "readonly",
+        "GM_setClipboard": "readonly",
+        "GM_xmlhttpRequest": "readonly",
+        "Mbin": "readonly",
+        "getPageType": "readonly",
+        "isLoggedIn": "readonly",
+        "log": "readonly",
+        "Log": "readonly"
     },
     "env": {
         "browser": true,
-        "jquery": true
+        "jquery": true,
+        "es6": true
     },
     "extends": "eslint:recommended",
     "rules": {

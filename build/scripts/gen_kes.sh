@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-
+if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
+    echo "Must be run from repository root"
+    exit 1
+fi
 
 get_owner(){
     local raw=$(git config --get remote.origin.url)
@@ -48,8 +51,8 @@ gen_requires(){
     prefix="https://raw.githubusercontent.com/$slug/$branch/"
     deps=(
         "safegm.user.js"
-        "kbin-mod-options.js"
         "funcs.js"
+        "pages.js"
     )
     external=(
         "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"
@@ -91,7 +94,6 @@ gen_consts(){
 		const bugURL = repositoryURL + "issues"
 		const sponsorURL = "https://github.com/sponsors/aclist"
 		const changelogURL = repositoryURL + "blob/" + branch + "/CHANGELOG.md"
-		const magURL = "https://kbin.social/m/enhancement"
 
 		//resource URLs used by legacy GM. API
 		const manifest = branchPath + helpersPath + "manifest.json"
@@ -174,5 +176,11 @@ readarray -t eslint_funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | s
 eslint_funcs+=("safeGM" "getHex")
 
 cp $base_file $base_file.bak
+if [[ $2 == "local" ]]; then
+    cp $base_file.bak tmp/$base_file.bak
+    cp $base_file tmp/$base_file
+    base_file="tmp/$base_file"
+fi
+
 main > $base_file
-printf "Wrote KES script to '%s'\n" "$base_file"
+printf "Wrote KES script to '%s'\n" "$PWD/$base_file"
