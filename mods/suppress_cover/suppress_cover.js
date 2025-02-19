@@ -15,6 +15,6 @@ function suppressCoverInit (toggle) { //eslint-disable-line no-unused-vars
     if (toggle) {
         cover.style.display = "none"
     } else {
-        cover.style.display = "block"
+        cover.style.removeProperty("display");
     }
 }
