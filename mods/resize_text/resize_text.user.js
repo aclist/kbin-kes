@@ -75,6 +75,9 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         /* ============= */
         /* POST CREATION PAGES */
         /*TODO: this line is not applying */
+        form[name="magazine"] * {
+            font-size: ${settings["optionCreate"]}px
+        }
         .entry-create > div > #entry_link_title_max_length {
             font-size: ${settings["optionCreate"]}px
         }
