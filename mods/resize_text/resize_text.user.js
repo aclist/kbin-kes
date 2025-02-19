@@ -104,9 +104,9 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             font-size: ${settings["optionUserSettings"] * 2.5}px
         }
         /* ============= */
-        /* SORT OPTIONS */
+        /* MENUBAR OPTIONS */
         aside#options menu li a, aside#options menu i, aside#options menu button span {
-            font-size: ${settings["optionSortBy"]}px
+            font-size: ${settings["optionMenubar"]}px
         }
         /* INBOX NOTIFICATIONS */
         .page-notifications > .kbin-container > main > * {
