@@ -48,7 +48,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             font-size: ${settings["optionMessages"] * 2.5}px
         }
         /* SIDEBAR */
-        #sidebar * {
+        .sidebar-subscriptions *,  #sidebar * {
             font-size: ${settings["optionHomeSidebar"]}px !important
         }
         /* COMMENTS */
