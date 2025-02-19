@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.3.0-beta.31
+// @version      4.3.0-beta.32
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -63,7 +63,7 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 
 async function checkUpdates (response) {
     if (response.status === 200) {
-        log("Checking for new version at remote");
+        log("Checking for new version at remote", Log.Log);
         const newVersion = await response.responseText.trim();
         if (newVersion && newVersion != version) {
             // Change version link into a button for updating
@@ -358,7 +358,20 @@ function constructMenu (json, layoutArr, isNew) {
         sidebar.className = "kes-settings-modal-sidebar";
         let sidebarUl = document.createElement('ul');
 
+        function dedupePages () {
+            const arr = [];
+            for (let i = 0; i < json.length; i++) {
+                arr.push(json[i].page);
+            }
+            return [...new Set(arr)]
+        }
+        //prune valid pages to those actually used by mods
+        const validPages = dedupePages()
         for (let i = 0; i < sidebarPages.length; ++i) {
+            if (!validPages.includes(sidebarPages[i])) {
+                log(`The sidebar page '${sidebarPages[i]}' is unused`, Log.Warn)
+                continue
+            }
             let pageUpper = sidebarPages[i].charAt(0).toUpperCase() + sidebarPages[i].slice(1);
             let sidebarListItem = document.createElement('li');
             sidebarListItem.innerHTML = `
@@ -1259,7 +1272,7 @@ function constructMenu (json, layoutArr, isNew) {
         const login = json.login
         const entry = json.entrypoint
         if (requiresLoginButLoggedOut(login)) {
-            log(`Mod '${entry}' requires login, but user is logged out`)
+            log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
             return
         }
         const settings = getSettings()
@@ -1337,7 +1350,7 @@ function constructMenu (json, layoutArr, isNew) {
         try {
             if (settings[entry] == true) {
                 if (requiresLoginButLoggedOut(login)) {
-                    log(`Mod '${entry}' requires login, but user is logged out`)
+                    log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
                     return
                 }
                 toggleDependencies(entry, true)
