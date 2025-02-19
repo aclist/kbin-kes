@@ -26,8 +26,8 @@ function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
 
     function hideRemotes () {
         document.querySelectorAll('.hidden-instance').forEach((magazine) => {
-            magazine.style.display = "block"
-            magazine.classList.remove("hidden-instance")
+            magazine.style.removeProperty("display");
+            magazine.classList.remove("hidden-instance");
         });
         document.querySelectorAll('.mes-remote-instance').forEach((magazine) => {
             magazine.remove();
