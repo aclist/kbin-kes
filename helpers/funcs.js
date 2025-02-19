@@ -39,7 +39,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         if (toggle) {
             cover.style.display = "none"
         } else {
-            cover.style.display = "block"
+            cover.style.removeProperty("display");
         }
     },
 
@@ -1538,8 +1538,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function hideRemotes () {
             document.querySelectorAll('.hidden-instance').forEach((magazine) => {
-                magazine.style.display = "block"
-                magazine.classList.remove("hidden-instance")
+                magazine.style.removeProperty("display");
+                magazine.classList.remove("hidden-instance");
             });
             document.querySelectorAll('.mes-remote-instance').forEach((magazine) => {
                 magazine.remove();
