@@ -32,9 +32,11 @@ function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
     }
 
     if (toggle) {
-        loadMags(setChecks);
+        loadMags(setChecks, settings["refresh"] == "Manual");
     } else {
-        clearCachedMags();
+        if (settings["refresh"] == "Manual") {
+            clearCachedMags();
+        }
         const oldChecks = document.querySelectorAll('#kes-omni-check')
         oldChecks.forEach((check) => {
             check.remove();
