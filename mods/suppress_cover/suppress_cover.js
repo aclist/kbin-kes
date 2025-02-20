@@ -11,6 +11,7 @@ function suppressCoverInit (toggle) { //eslint-disable-line no-unused-vars
     }
 
     const cover = document.querySelector('#sidebar .magazine.section figure');
+    if (!cover) return
 
     if (toggle) {
         cover.style.display = "none"
