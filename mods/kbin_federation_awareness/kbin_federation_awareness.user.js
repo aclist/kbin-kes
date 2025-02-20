@@ -82,6 +82,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
             article.data-federated,
             .comment.data-federated {
                 box-shadow: ${scale}px 0 0 ${fed};
+            }
             article.data-moderated,
             .comment.data-moderated {
                 box-shadow: ${scale}px 0 0 ${mod};
