@@ -90,22 +90,18 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
     const username = user.href.split('/')[4];
     const hostname = window.location.hostname
 
-    const tapBar = document.querySelector('#kes-omni-tapbar')
-    if (tapBar) {
-        tapBar.remove();
+    function cleanup () {
+        document.querySelector('#kes-omni-tapbar')?.remove();
+        document.querySelector('.kes-omni-modal')?.remove();
+        document.querySelector('#kes-omni-keytrap-holder')?.remove();
     }
-    const q = document.querySelector('.kes-omni-modal')
-    if (q) {
-        q.remove();
-    }
-
     function createOmni () {
 
         safeGM("removeStyle", "omni-css")
         safeGM("addStyle", omniCSS, "omni-css")
 
         if (username) {
-            loadMags(alphaSort);  // eslint-disable-line no-undef
+            loadMags(alphaSort, false);
         } else {
             loadDefaultMags();
         }
@@ -140,6 +136,7 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
             }
         }
         function alphaSort (links) {
+            cleanup();
             if (!links) return;
             if (typeof links[0] === "string") {
                 links.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
@@ -406,22 +403,11 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
 
         }
     }
-    const keytrap = document.querySelector('#kes-omni-keytrap-holder');
-    if (keytrap) keytrap.remove();
 
     if (toggle) {
         createOmni();
     } else {
         const e = []
-        clearMags() // eslint-disable-line no-undef
-        safeGM("setValue",`omni-default-mags-${hostname}`, e)
-        const kt = document.querySelector('#kes-omni-keytrap')
-        const q = document.querySelector('.kes-omni-modal')
-        if (kt) {
-            kt.remove();
-        }
-        if (q) {
-            q.remove();
-        }
+        cleanup();
     }
 }
