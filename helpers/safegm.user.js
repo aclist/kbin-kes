@@ -151,6 +151,7 @@ function getPageType () { //eslint-disable-line no-unused-vars
 function loadMags (callback) {
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
+    if (!username) return;
 
     const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
     if (cachedValue) {
@@ -158,33 +159,47 @@ function loadMags (callback) {
         return;
     }
 
-    if (!username) return;
-    const loadedMags = [];
-    function loadFromPage (username, page) {
+    let loadedMags = [];
+    function loadFromPage (username, page, mags = []) {
         const url = `https://${hostname}/u/${username}/subscriptions?p=${page}`;
         genericXMLRequest(url, (response) => {
             const dom = new DOMParser().parseFromString(response.responseText, "text/html");
             // get the magazines from this page
-            const mags = Array.from(dom.querySelectorAll('#content .stretched-link'))
-                .map((link) => link.getAttribute('href').split('/')[2]);
-            loadedMags.push(...mags);
+            mags.push(...(
+                Array.from(dom.querySelectorAll('#content .stretched-link'))
+                    .map((link) => link.getAttribute('href').split('/')[2])
+            ));
             // load more pages if there are
             const nextPage = dom.querySelector('#content .pagination__item--next-page');
             if (nextPage.hasAttribute('href') && nextPage.href != window.location.href) {
-                loadFromPage(username, nextPage.getAttribute('href').split('=')[1]);
+                loadFromPage(username, nextPage.getAttribute('href').split('=')[1], mags);
             } else {
                 // finished loading all pages
-                safeGM("setValue",`user-mags-${hostname}-${username}`, loadedMags);
+                loadedMags = mags;
                 callback(loadedMags);
             }
         });
     }
-    loadFromPage(username, 1);
+    // do the sidebar first
+    if (document.querySelector('.subscription-list') != undefined) {
+        const magList = [...document.querySelectorAll('.subscription')];
+        const containsShowMore = magList[magList.length-1].querySelector('button') != undefined;
+        loadedMags = (containsShowMore ? magList.slice(0,-1) : magList)
+            .map((mag) => mag.querySelector('a').getAttribute('href').split('/')[2]);
+        callback(loadedMags);
+        if (containsShowMore) {
+            loadFromPage(username, 1);
+        }
+    } else {
+        loadFromPage(username, 1);
+    }
+    safeGM("setValue",`user-mags-${hostname}-${username}`, loadedMags);
 }
 
 function clearMags () {
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
+    if (!username) return;
     safeGM("setValue",`user-mags-${hostname}-${username}`, []);
 }
 
