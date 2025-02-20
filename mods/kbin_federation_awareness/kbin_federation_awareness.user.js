@@ -34,7 +34,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
                 header div.data-moderated,
                 header div.data-home,
                 article .data-federated,
-                article .data-moderated
+                article .data-moderated,
                 article .data-home {
                     display: inline-block;
                     width: ${scale}px;
@@ -97,6 +97,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
 
     function kfaStartup () {
         kfaInitClasses();
+        safeGM("removeStyle","kfaInjectedCss");
         safeGM("addStyle",kfaGenCSS(),"kfaInjectedCss");
     }
 
@@ -213,7 +214,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
     }
 
     if (toggle) {
-        kfaShutdown();
+        //kfaShutdown();
         kfaStartup();
     } else {
         kfaShutdown();
