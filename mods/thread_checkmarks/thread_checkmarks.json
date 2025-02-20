@@ -1,7 +1,7 @@
 {
   "name": "Thread checkmarks",
   "author": "shazbot",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "label": "Checkmark on subbed mags",
   "desc": "Append a checkmark to magazines on the thread index you are subscribed to.\n\nIf \"Refresh Cache\" is set to \"Manual\", the mod has to be turned off and on again to reload the cached magazines.",
   "login": false,
