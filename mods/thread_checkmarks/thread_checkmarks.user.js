@@ -12,12 +12,10 @@ function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
         const mag = item.getAttribute('href').split('/')[2]
         if (subs.includes(mag)) {
             const ch = document.createElement('span')
-            ch.style.color = getHex(checkColor); // eslint-disable-line no-undef
+            ch.style.color = getHex(checkColor);
             ch.id = 'kes-omni-check'
             ch.innerText = " ✓"
-            //FIXME: append adjacent; collision with mag instance mod
             item.after(ch)
-            //item.appendChild(ch)
         }
     }
     function setChecks (subs) {
@@ -25,7 +23,7 @@ function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
         const exists = document.querySelector('#kes-omni-check')
         if (exists) {
             document.querySelectorAll('#kes-omni-check').forEach((item) => {
-                item.style.color = getHex(checkColor); // eslint-disable-line no-undef
+                item.style.color = getHex(checkColor);
             });
         }
         document.querySelectorAll('.magazine-inline').forEach((item) => {
@@ -34,9 +32,9 @@ function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
     }
 
     if (toggle) {
-        loadMags(setChecks); // eslint-disable-line no-undef
+        loadMags(setChecks);
     } else {
-        clearMags(); // eslint-disable-line no-undef
+        clearCachedMags();
         const oldChecks = document.querySelectorAll('#kes-omni-check')
         oldChecks.forEach((check) => {
             check.remove();

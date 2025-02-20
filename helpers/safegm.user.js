@@ -148,15 +148,17 @@ function getPageType () { //eslint-disable-line no-unused-vars
     return "Unknown"
 }
 
-function loadMags (callback) {
+function loadMags (callback, useCache) {
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
 
-    const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
-    if (cachedValue) {
-        callback(cachedValue);
-        return;
+    if (useCache) {
+        const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
+        if (cachedValue) {
+            callback(cachedValue);
+            return;
+        }
     }
 
     let loadedMags = [];
@@ -196,7 +198,7 @@ function loadMags (callback) {
     safeGM("setValue",`user-mags-${hostname}-${username}`, loadedMags);
 }
 
-function clearMags () {
+function clearCachedMags () {
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
