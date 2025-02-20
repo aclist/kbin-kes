@@ -59,15 +59,15 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
             if (bubbleFuzz === true) {
                 const fuzzCSS = `
                     header div.data-federated,
-                    article.data-federated {
+                    article .data-federated {
                         box-shadow: 0 0 3px 2px ${fed};
                     }
                     header div.data-moderated,
-                    article.data-moderated {
+                    article .data-moderated {
                         box-shadow: 0 0 3px 2px ${mod};
                     }
                     header div.data-home,
-                    article.data-home {
+                    article .data-home {
                         box-shadow: 0 0 3px 2px ${home};
                     }
                 `;
@@ -215,7 +215,6 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
     }
 
     if (toggle) {
-        //kfaShutdown();
         kfaStartup();
     } else {
         kfaShutdown();
