@@ -38,12 +38,6 @@
       "label": "Indicator Style"
     },
     {
-      "type": "checkbox",
-      "key": "kfaBubbleShadow",
-      "initial": false,
-      "checkbox_label": "Apply fuzzy edges to bubble indicators"
-    },
-    {
       "type": "range",
       "key": "kfaScale",
       "initial": 3,
@@ -51,6 +45,12 @@
       "max": 5,
       "show_value": true,
       "label": "Indicator size"
+    },
+    {
+      "type": "checkbox",
+      "key": "kfaBubbleShadow",
+      "initial": false,
+      "checkbox_label": "Apply fuzzy edges to bubble indicators"
     }
   ],
   "page": "threads"
