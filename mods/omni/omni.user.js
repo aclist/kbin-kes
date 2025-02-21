@@ -408,6 +408,7 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         createOmni();
     } else {
         const e = []
+        clearCachedMags();
         cleanup();
     }
 }

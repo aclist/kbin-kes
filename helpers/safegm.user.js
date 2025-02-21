@@ -167,10 +167,10 @@ function loadMags (callback, useCache, runCallbackOnlyOnce) {
         genericXMLRequest(url, (response) => {
             const dom = new DOMParser().parseFromString(response.responseText, "text/html");
             // get the magazines from this page
-            mags.push(...(
-                Array.from(dom.querySelectorAll('#content .stretched-link'))
+            mags.push(
+                ...Array.from(dom.querySelectorAll('#content .stretched-link'))
                     .map((link) => link.getAttribute('href').split('/')[2])
-            ));
+            );
             // load more pages if there are
             const nextPage = dom.querySelector('#content .pagination__item--next-page');
             if (nextPage.hasAttribute('href') && nextPage.href != window.location.href) {
@@ -186,6 +186,10 @@ function loadMags (callback, useCache, runCallbackOnlyOnce) {
     // do the sidebar first
     if (document.querySelector('.subscription-list') != undefined) {
         const magList = [...document.querySelectorAll('.subscription')];
+        if (magList.length == 0) {
+            callback([]);
+            return;
+        }
         const containsShowMore = magList[magList.length-1].querySelector('button') != undefined;
         loadedMags = (containsShowMore ? magList.slice(0,-1) : magList)
             .map((mag) => mag.querySelector('a').getAttribute('href').split('/')[2]);
