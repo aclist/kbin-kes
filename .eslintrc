@@ -24,7 +24,9 @@
         "getPageType": "readonly",
         "isLoggedIn": "readonly",
         "log": "readonly",
-        "Log": "readonly"
+        "Log": "readonly",
+        "loadMags": "readonly",
+        "clearCachedMags": "readonly"
     },
     "env": {
         "browser": true,
