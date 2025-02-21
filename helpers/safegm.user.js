@@ -148,7 +148,7 @@ function getPageType () { //eslint-disable-line no-unused-vars
     return "Unknown"
 }
 
-function loadMags (callback, useCache) {
+function loadMags (callback, useCache, runCallbackOnlyOnce) {
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
@@ -178,6 +178,7 @@ function loadMags (callback, useCache) {
             } else {
                 // finished loading all pages
                 loadedMags = mags;
+                safeGM("setValue",`user-mags-${hostname}-${username}`, loadedMags);
                 callback(loadedMags);
             }
         });
@@ -188,14 +189,16 @@ function loadMags (callback, useCache) {
         const containsShowMore = magList[magList.length-1].querySelector('button') != undefined;
         loadedMags = (containsShowMore ? magList.slice(0,-1) : magList)
             .map((mag) => mag.querySelector('a').getAttribute('href').split('/')[2]);
-        callback(loadedMags);
+        if (!runCallbackOnlyOnce) {
+            safeGM("setValue",`user-mags-${hostname}-${username}`, loadedMags);
+            callback(loadedMags);
+        }
         if (containsShowMore) {
             loadFromPage(username, 1);
         }
     } else {
         loadFromPage(username, 1);
     }
-    safeGM("setValue",`user-mags-${hostname}-${username}`, loadedMags);
 }
 
 function clearCachedMags () {

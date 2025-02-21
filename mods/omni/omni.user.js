@@ -101,7 +101,7 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         safeGM("addStyle", omniCSS, "omni-css")
 
         if (username) {
-            loadMags(alphaSort, false);
+            loadMags(alphaSort, true, true);
         } else {
             loadDefaultMags();
         }
