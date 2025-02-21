@@ -35,6 +35,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const cover = document.querySelector('#sidebar .magazine.section figure');
+        if (!cover) return
 
         if (toggle) {
             cover.style.display = "none"
@@ -1518,8 +1519,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 const arr = magazine.getAttribute("href").split("@")
                 const name = arr[0].split("/")[2]
                 const remote = arr[1]
+                let spanEl
                 if (remote) {
-                    const oldSpan = magazine.querySelector("span")
+                    //subscriptions sidebar uses a different span syntax
+                    if (el === ".subscription-list .stretched-link") {
+                        spanEl = ".magazine-name"
+                    } else {
+                        spanEl = "span"
+                    }
+                    const oldSpan = magazine.querySelector(spanEl)
                     oldSpan.classList.add("hidden-instance");
                     oldSpan.style.display = "none"
                     const newSpan = document.createElement("span")
