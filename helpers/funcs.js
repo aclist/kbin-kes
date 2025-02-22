@@ -933,12 +933,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 kesModal.style.display = 'none';
                 document.body.appendChild(kesModal)
 
-                function keyTrap (e) {
-                    if (e.target.tagName === "INPUT") return
-                    if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
-                    const kt = document.querySelector('#kes-omni-keytrap')
-                    kt.focus()
-                }
 
                 const pageHolder = document.querySelector('.kbin-container') 
                     ?? document.querySelector('.mbin-container')
@@ -958,6 +952,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
             }
         }
+        function keyTrap (e) {
+            if (e.target.tagName === "INPUT") return
+            if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
+            const kt = document.querySelector('#kes-omni-keytrap');
+            kt.focus();
+        }
+
         const keytrap = document.querySelector('#kes-omni-keytrap-holder');
         if (keytrap) keytrap.remove();
 
@@ -965,16 +966,14 @@ const funcObj = { // eslint-disable-line no-unused-vars
             createOmni();
         } else {
             const e = []
-            safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e)
-            safeGM("setValue",`omni-default-mags-${hostname}`, e)
-            const kt = document.querySelector('#kes-omni-keytrap')
-            const q = document.querySelector('.kes-omni-modal')
-            if (kt) {
-                kt.remove();
-            }
-            if (q) {
-                q.remove();
-            }
+            safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e);
+            safeGM("setValue",`omni-default-mags-${hostname}`, e);
+            document.querySelector('#kes-omni-keytrap')?.remove();
+            document.querySelector('.kes-omni-modal')?.remove;
+
+            const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
+                ?? document.querySelector('[data-controller="mbin notifications"]');
+            globalKeyInsert.removeEventListener('keydown',keyTrap);
         }
     },
 
