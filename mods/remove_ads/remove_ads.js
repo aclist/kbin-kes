@@ -41,11 +41,11 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
         align-items: center;
         left: 0;
         top: 0;
-        background-color: var(--kbin-section-bg) !important;
+        background-color: rgba(0, 0, 0, 0.5) !important;
     }
 
     #kes-filter-modal {
-        background-color: gray;
+        background-color: var(--kbin-section-bg);
         width: 500px;
         height: 100px;
         display: grid;
@@ -54,7 +54,7 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
         border: 1px solid black;
     }
     #kes-filter-text {
-        color: black;
+        color: var(--kbin-section-text-color);
         margin: 20px
     }
 
