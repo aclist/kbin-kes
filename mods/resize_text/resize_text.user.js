@@ -1,157 +1,127 @@
 function textResize (toggle) { // eslint-disable-line no-unused-vars
-    const modalContent = ".kes-settings-modal-content"
-    const modalContainer = ".kes-settings-modal-container"
 
-    function kesModalOpen () {
-        const kesModalContent = document.querySelector(modalContent);
-        if (kesModalContent) {
-            return true
-        } else {
-            return false
-        }
-    }
-
-    function modSelected () {
-        let state
-        document.querySelectorAll('.kes-option').forEach((mod) => {
-            if ((mod.style.opacity === "1") && mod.innerText === "Change font size") {
-                state = true
-            }
-        })
-        return state
-    }
-
-    function setOpacity (value) {
-        const kesModalContent = document.querySelector(modalContent);
-        const kesModalContainer = document.querySelector(modalContainer);
-        kesModalContent.style.opacity = value;
-        kesModalContainer.style.opacity = value;
+    function resolveSize (value) {
+        //const rem = (value - (value*0.785)*(0.935))
+        //midpoint of 5 = 0.85rem, default
+        //header is 5 rem by default
+        //threads are 4
+        const rem = 1 + ( (value - 5) * 0.15)
+        return rem
     }
 
     function resizeText () {
         const settings = getModSettings('resize');
-        let oldID = sessionStorage.getItem('modalFade');
-        clearTimeout(oldID)
-
-        if (kesModalOpen()) {
-            if (modSelected()) setOpacity(0.2)
-        }
         const css = `
         /* MESSAGES */
         .page-messages * {
-            font-size: ${settings["optionMessages"]}px
+            font-size: ${resolveSize(settings["optionMessages"])}rem
         }
         .page-messages > .kbin-container > #main > h1 {
-            font-size: ${settings["optionMessages"] * 2.5}px
+            font-size: ${resolveSize(settings["optionMessages"])}rem
         }
         .page-messages > .mbin-container > #main > h1 {
-            font-size: ${settings["optionMessages"] * 2.5}px
+            font-size: ${resolveSize(settings["optionMessages"])}rem
         }
         /* SIDEBAR */
         .sidebar-subscriptions *,  #sidebar * {
-            font-size: ${settings["optionHomeSidebar"]}px !important
+            font-size: ${resolveSize(settings["optionHomeSidebar"])}rem !important
         }
         /* COMMENTS */
         .entry-comment * {
-            font-size: ${settings["optionComments"]}px
+            font-size: ${resolveSize(settings["optionComments"])}rem !important
         }
         /* ============= */
         /* PROFILE PAGES */
         .user-main > div > .user__actions * {
-            font-size: ${settings["optionProfile"]}px
+            font-size: ${resolveSize(settings["optionProfile"])}rem
         }
         .user-box * {
-            font-size: ${settings["optionProfile"]}px
+            font-size: ${resolveSize(settings["optionProfile"])}rem
         }
         .section.user-info > ul > li a {
-            font-size: ${settings["optionProfile"]}px !important
+            font-size: ${resolveSize(settings["optionProfile"])}rem !important
         }
         .section.user-info > h3 {
-            font-size: ${settings["optionProfile"]}px !important
+            font-size: ${resolveSize(settings["optionProfile"])}rem !important
         }
         .section.user-info > ul > li {
-            font-size: ${settings["optionProfile"]}px
+            font-size: ${resolveSize(settings["optionProfile"])}rem
         }
         /* ============= */
         /* POST CREATION PAGES */
         /*TODO: this line is not applying */
         form[name="magazine"] * {
-            font-size: ${settings["optionCreate"]}px
+            font-size: ${resolveSize(settings["optionCreate"])}rem
         }
         .entry-create > div > #entry_link_title_max_length {
-            font-size: ${settings["optionCreate"]}px
+            font-size: ${resolveSize(settings["optionCreate"])}rem
         }
         .entry-create > div > div > .ts-control > * {
-            font-size: ${settings["optionCreate"]}px
+            font-size: ${resolveSize(settings["optionCreate"])}rem
         }
         .options.options--top.options-activity * {
-            font-size: ${settings["optionCreate"]}px !important
+            font-size: ${resolveSize(settings["optionCreate"])}rem !important
         }
         .entry-create * {
-            font-size: ${settings["optionCreate"]}px
+            font-size: ${resolveSize(settings["optionCreate"])}rem
         }
         /* ============= */
         /* HEADERS */
         #header :not(.icon) {
-            font-size: ${settings["optionHeader"]}px
+            font-size: ${resolveSize(settings["optionHeader"])}rem
         }
         /* ============= */
         /* SETTINGS */
         form[name="user_settings"] * {
-            font-size: ${settings["optionUserSettings"]}px;
+            font-size: ${resolveSize(settings["optionUserSettings"])}rem;
         }
         form[name="user_settings"] .ts-control * {
-            font-size: ${settings["optionUserSettings"]}px;
+            font-size: ${resolveSize(settings["optionUserSettings"])}rem;
         }
         .page-settings h2 {
-            font-size: ${settings["optionUserSettings"] * 2.5}px
+            font-size: ${resolveSize(settings["optionUserSettings"])}rem
         }
         /* ============= */
         /* MENUBAR OPTIONS */
         aside#options menu li a, aside#options menu i, aside#options menu button span {
-            font-size: ${settings["optionMenubar"]}px
+            font-size: ${resolveSize(settings["optionMenubar"])}rem
         }
         /* INBOX NOTIFICATIONS */
         .page-notifications > .kbin-container > main > * {
-            font-size: ${settings["optionNotifs"]}px
+            font-size: ${resolveSize(settings["optionNotifs"])}rem
         }
         .page-notifications > .kbin-container > main > .pills > menu > form > button {
-            font-size: ${settings["optionNotifs"] * 0.85}px
+            font-size: ${resolveSize(settings["optionNotifs"])}rem
         }
         .page-notifications > .kbin-container > main > h1 {
-            font-size: ${settings["optionNotifs"] * 2.5}px !important
+            font-size: ${resolveSize(settings["optionNotifs"])}rem !important
         }
         .page-notifications > .mbin-container > main > * {
-            font-size: ${settings["optionNotifs"]}px
+            font-size: ${resolveSize(settings["optionNotifs"])}rem
         }
         .page-notifications > .mbin-container > main > .pills > menu > form > button {
-            font-size: ${settings["optionNotifs"] * 0.85}px
+            font-size: ${resolveSize(settings["optionNotifs"])}rem
         }
         .page-notifications > .mbin-container > main > h1 {
-            font-size: ${settings["optionNotifs"] * 2.5}px !important
+            font-size: ${resolveSize(settings["optionNotifs"])}rem !important
         }
         /* ============= */
         /* THREADS */
         article.entry > header > h2 a {
-            font-size: ${settings["optionThreads"] * 1.295}px
+            font-size: ${resolveSize(settings["optionThreads"])}rem
         }
         article.entry > .content * {
-            font-size: ${settings["optionThreads"]}px
+            font-size: ${resolveSize(settings["optionThreads"])}rem
         }
         article.entry * {
-            font-size: ${settings["optionThreads"]}px
+            font-size: ${resolveSize(settings["optionThreads"])}rem
         }
         `;
-        safeGM("removeStyle", "resize-css")
         safeGM("addStyle", css, "resize-css")
-
-        if (kesModalOpen()) {
-            let timerID = setTimeout(setOpacity ,1000, 1.0);
-            sessionStorage.setItem('modalFade', timerID);
-        }
     }
 
     if (toggle) {
+        safeGM("removeStyle", "resize-css")
         resizeText();
     } else {
         safeGM("removeStyle", "resize-css")
