@@ -8,6 +8,10 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     .softblock-manage, .softblock-icon:hover {
         cursor: pointer;
     }
+    .softblock-aside {
+        display: flex;
+        justify-content: center;
+    }
     #softblock-panel {
         background-color: gray;
         z-index: 99999;
@@ -95,14 +99,15 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         }
     }
     function addToSidebar (mags) {
-        const mag = location.pathname.split('/')[2]
-        const el = document.querySelector('.magazine__subscribe form[name="magazine_block"]')
-        const state = returnState(mags, mag);
+        console.log(mags)
+        //const mag = location.pathname.split('/')[2]
+        //const el = document.querySelector('.magazine__subscribe form[name="magazine_block"]')
+        //const state = returnState(mags, mag);
         const old = document.querySelector('.softblock-button')
         if (old) {
             return
         }
-        insertBlockButton(mags, state, el);
+        //insertBlockButton(mags, state, el);
     }
     function clean (mags) {
         const list = document.createElement('table');
@@ -160,20 +165,30 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         });
         par.insertAdjacentElement("afterend", but)
 
-        const rows = document.querySelectorAll('.magazines.table-responsive .magazine-inline')
-        rows.forEach((link) => {
+        const header = document.querySelector('.magazines.table-responsive table thead tr')
+        const softblockHead = document.createElement('th')
+        softblockHead.style.textAlign = "center"
+        softblockHead.innerText = "Softblock"
+        header.appendChild(softblockHead)
+
+        const tableRow = document.querySelectorAll('.magazines.table-responsive tbody tr');
+        tableRow.forEach((row) => {
+            const link = row.querySelector('.magazine-inline')
             const mag = link.href.split('/')[4]
-            const row = link.parentElement.parentElement
-            const el = row.querySelector('.magazine__subscribe form[name="magazine_block"]')
             const state = returnState(mags, mag);
-            if (el.querySelector('.softblock-button')) {
-                return
-            }
-            insertBlockButton(mags, state, el);
+            if (row.querySelector(".softblock-row")) return
+            const t = document.createElement("td");
+            t.className = "softblock-row"
+            row.appendChild(t);
+            const a = document.createElement("aside")
+            a.className = "softblock-aside"
+            const button = createBlockButton(mags, state)
+            a.appendChild(button)
+            t.appendChild(a)
         });
     }
 
-    function insertBlockButton (mags, state, el) {
+    function createBlockButton (mags, state) {
 
         const blockButton = document.createElement('button');
         blockButton.classList.add('softblock-button', 'btn', 'btn__secondary', 'action')
@@ -251,7 +266,9 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
                 break
             }
         }
-        el.insertAdjacentElement("afterend", blockButton);
+        blockButton.dataset.mag = "generic"
+        return blockButton
+        //el.insertAdjacentElement("afterend", blockButton);
     }
 
     async function loadMags (hostname) {
