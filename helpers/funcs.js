@@ -498,6 +498,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
             safeGM("removeStyle", "threaded-comments");
             safeGM("removeStyle", "mbin-kes-comments-style")
         }
+
+        const pt = getPageType();
+        if (pt !== Mbin.Thread.Comments) return
         if (!toggle) {
             teardown()
             return
