@@ -15,40 +15,20 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         display: flex;
         justify-content: center;
     }
-    #softblock-panel {
-        background-color: gray;
-        z-index: 99999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 150px;
-        width: 50%;
-        overflow-y: scroll;
-        flex-direction: column-reverse;
-        padding-top: 10px;
-    }
-    .softblock-panel-close {
-        margin: auto;
-    }
-    .softblock-panel-list {
-        color: white;
-    }
     `
 
     function softBlock (mags) {
-        const path = location.pathname.split('/')[1]
-        switch (path) {
-            case "":
-            case "sub":
-            case "all": {
+        const pt = getPageType();
+        switch (pt) {
+            case Mbin.Top: {
                 blockThreads(mags);
                 break
             }
-            case "magazines": {
+            case Mbin.Magazines: {
                 addToIndex(mags);
                 break
             }
-            case "m": {
+            case Mbin.Magazine: {
                 addToSidebar(mags);
                 break
             }
@@ -245,11 +225,13 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
                     const ind = mags.indexOf(mag)
                     mags.splice(ind, 1)
 
+                    //remove applicable row from modal
                     if (document.querySelector("#softblock-panel-inner-modal-content")) {
                         const parRow = target.parentNode.parentNode.parentNode
                         parRow.remove();
                         const m = `.magazine-inline[href="/m/${mag}"]`
                         const tableRow = document.querySelector(m)
+                        //also unsubscribe from magazine table
                         if (tableRow) {
                             tableRow.parentNode.parentNode.querySelector(".softblock-button").click();
                         }
