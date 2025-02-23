@@ -4,6 +4,91 @@ const Log = Object.freeze({ //eslint-disable-line no-unused-vars
     Error: 3,
 })
 
+function makeModal (id) {
+    function makeCSS(id){
+        modalCSS= `
+        #${id}-outer-modal {
+            position: fixed;
+            z-index: 90;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        #${id}-inner-modal-content {
+            background-color: var(--kbin-section-bg);
+            border: var(--kbin-options-border);
+            position: relative;
+            min-width: 800px;
+            max-width: 1360px;
+            min-height: 80vh;
+            max-height: 500px;
+            display: grid;
+            grid-template-areas: "content" "footer";
+            overflow-y: scroll;
+        }
+        @media (max-width: 1367px) {
+            #${id}-settings-modal-container {
+            min-width: 100%;
+            height: 100%;
+        }
+        }
+        #${id}-inner-modal-header {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+        #${id}-inner-modal-header-close {
+            cursor: pointer;
+            float: right;
+        }
+        `
+        const sheetID = `${id}-mes-generic-modal`
+        safeGM("addStyle", modalCSS, sheetID)
+        log(`Appended stylesheet with the id '${sheetID}'`, Log.Log)
+    }
+
+    const modal = document.createElement("div");
+    modal.id = `${id}-outer-modal`
+
+    const modalContent = document.createElement("div");
+    modalContent.id = `${id}-inner-modal-content`;
+
+    const header = document.createElement("div");
+    header.id = `${id}-inner-modal-header`;
+
+    const headerCloseButton = document.createElement('span');
+    headerCloseButton.id = `${id}-inner-modal-header-close`;
+
+    const headerCloseIcon = document.createElement('i');
+    headerCloseIcon.className = "fa-solid fa-times"
+    headerCloseButton.appendChild(headerCloseIcon);
+
+    const modalBody = document.createElement("div");
+    modalBody.id = `${id}-inner-modal-body`
+
+    modal.appendChild(modalContent);
+    modalContent.appendChild(header);
+    modalContent.appendChild(modalBody);
+    header.appendChild(headerCloseButton);
+
+    headerCloseButton.addEventListener("click", () => {
+            modal.remove();
+        });
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+    makeCSS(id)
+    return modal
+}
+
+
 function log (string, level) { // eslint-disable-line no-unused-vars
     const date = new Date()
     const iso = date.toISOString()

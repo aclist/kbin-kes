@@ -105,16 +105,31 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         insertBlockButton(mags, state, el);
     }
     function clean (mags) {
-        const list = document.createElement('ul')
-        list.className = 'softblock-panel-list'
+        const list = document.createElement('table');
+        const body = document.createElement('tbody');
+        list.appendChild(body);
+        list.className = 'softblock-panel-table'
         const sorted = mags.sort((a, b) => {
             return a.localeCompare(b, undefined, { sensitivity: 'base' });
         });
         for (let i=0; i<sorted.length; ++i) {
-            const it = document.createElement('li')
-            it.innerText = sorted[i]
-            insertBlockButton(mags, 'unblock', it)
-            list.appendChild(it)
+            const it = document.createElement('tr')
+            const td1 = document.createElement('td')
+            const td1a = document.createElement("a")
+            td1.appendChild(td1a)
+            td1a.innerText = sorted[i]
+            td1a.setAttribute("href", "m/" + sorted[i])
+            const td2 = document.createElement('td')
+            const tdb = document.createElement("button")
+            td1.style.padding = "0.5rem 1rem"
+            td2.style.padding = "0.5rem 1rem"
+            tdb.classList.add("softblock-button", "btn", "btn__secondary", "action", "danger")
+            tdb.innerText = "Unsoftblock"
+            td2.appendChild(tdb)
+            //insertBlockButton(mags, 'unblock', td2)
+            it.appendChild(td1)
+            it.appendChild(td2)
+            body.appendChild(it)
         }
         if (mags.length === 0) {
             const empty = document.createElement('text')
@@ -133,23 +148,15 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         const par = sib.parentElement
         const but = document.createElement('a')
         but.className = 'softblock-manage'
-        but.innerText = "softblocked"
+        but.innerText = "Softblocked"
         but.addEventListener('click', () => {
             if (document.querySelector('#softblock-panel')) {
                 return
             }
             const cleanmags = clean(mags)
-            const mod = document.createElement('div')
-            mod.id = 'softblock-panel'
-            const closeButton = document.createElement('button')
-            closeButton.innerText = 'close'
-            closeButton.className = 'softblock-panel-close'
-            closeButton.addEventListener('click', (e)=>{
-                e.target.parentElement.remove();
-            });
-            mod.appendChild(cleanmags)
-            mod.appendChild(closeButton)
-            document.querySelector('header').appendChild(mod)
+            const mod = makeModal("softblock-panel")
+            mod.querySelector("#softblock-panel-inner-modal-body").appendChild(cleanmags)
+            document.body.appendChild(mod)
         });
         par.insertAdjacentElement("afterend", but)
 
