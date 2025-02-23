@@ -4,10 +4,17 @@ function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
         const els = document.querySelectorAll(selector);
         els.forEach((el) => {
             if (el.getAttribute("data-instance") !== "true") {
-                const userInstance = el.getAttribute("href").split("@")[2];
-                if (userInstance) {
-                    el.innerText = el.innerText + "@" + userInstance;
-                    el.setAttribute("data-instance", "true")
+                if (el.classList.contains("hidden-instance")) return
+                const arr = el.getAttribute("title").split("@");
+                const name = arr[1];
+                const remote = arr[2];
+                if (name) {
+                    const clone = el.cloneNode(false);
+                    clone.innerText = name + "@" + remote;
+                    clone.setAttribute("data-instance", "true");
+                    el.classList.add("hidden-instance");
+                    el.style.display = "none";
+                    el.insertAdjacentElement("afterend", clone);
                 }
             }
         });
@@ -17,10 +24,13 @@ function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
         const els = document.querySelectorAll(selector);
         els.forEach((el) => {
             if (el.getAttribute("data-instance") === "true") {
-                el.setAttribute("data-instance", "false");
-                el.innerText = el.innerText.split("@")[0]
+                el.remove();
             }
         });
+        document.querySelectorAll(".hidden-instance").forEach((el) => {
+            el.style.removeProperty("display");
+            el.classList.remove("hidden-instance");
+        })
     }
 
     function setSelector () {
@@ -43,11 +53,6 @@ function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
     }
 
     const selector = setSelector();
-
-    if (toggle) {
-        showUserInstances(selector);
-    } else {
-        hideUserInstances(selector);
-        return
-    }
+    if (toggle) showUserInstances(selector);
+    if (!toggle) hideUserInstances(selector);
 }
