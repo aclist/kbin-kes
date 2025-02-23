@@ -619,24 +619,12 @@ function constructMenu (json, layoutArr, isNew) {
                             numberField.setAttribute("type", fieldType);
 
                             let val
-                            let size
                             if ((modSettings[key] === undefined) || (modSettings[key] === "")) {
-                                size = getComputedFontSize(initial)
-                                if (!size) {
-                                    val = 14
-                                } else {
-                                    val = size
-                                }
+                                val = getComputedFontSize(initial)
                             } else {
-                                size = getComputedFontSize(modSettings[key])
-                                if (!size) {
-                                    val = 14
-                                } else {
-                                    val = size
-                                }
+                                val = getComputedFontSize(modSettings[key])
                             }
                             numberField.setAttribute("value", val)
-
                             numberField.setAttribute("kes-iter", it);
                             numberField.setAttribute("kes-key", key);
                             numberField.setAttribute('min', json[it].fields[i].min);
