@@ -17,10 +17,10 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             font-size: ${resolveSize(settings["optionMessages"])}rem
         }
         .page-messages > .kbin-container > #main > h1 {
-            font-size: ${resolveSize(settings["optionMessages"])}rem
+            font-size: ${resolveSize(settings["optionMessages"]) * 2.5}rem
         }
         .page-messages > .mbin-container > #main > h1 {
-            font-size: ${resolveSize(settings["optionMessages"])}rem
+            font-size: ${resolveSize(settings["optionMessages"]) * 2.5}rem
         }
         /* SIDEBAR */
         .sidebar-subscriptions *,  #sidebar * {
@@ -79,7 +79,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             font-size: ${resolveSize(settings["optionUserSettings"])}rem;
         }
         .page-settings h2 {
-            font-size: ${resolveSize(settings["optionUserSettings"])}rem
+            font-size: ${resolveSize(settings["optionUserSettings"]) * 2.5}rem
         }
         /* ============= */
         /* MENUBAR OPTIONS */
@@ -91,24 +91,24 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             font-size: ${resolveSize(settings["optionNotifs"])}rem
         }
         .page-notifications > .kbin-container > main > .pills > menu > form > button {
-            font-size: ${resolveSize(settings["optionNotifs"])}rem
+            font-size: ${resolveSize(settings["optionNotifs"]) * 0.85}rem
         }
         .page-notifications > .kbin-container > main > h1 {
-            font-size: ${resolveSize(settings["optionNotifs"])}rem !important
+            font-size: ${resolveSize(settings["optionNotifs"]) * 2.5}rem !important
         }
         .page-notifications > .mbin-container > main > * {
             font-size: ${resolveSize(settings["optionNotifs"])}rem
         }
         .page-notifications > .mbin-container > main > .pills > menu > form > button {
-            font-size: ${resolveSize(settings["optionNotifs"])}rem
+            font-size: ${resolveSize(settings["optionNotifs"]) * 0.85}rem
         }
         .page-notifications > .mbin-container > main > h1 {
-            font-size: ${resolveSize(settings["optionNotifs"])}rem !important
+            font-size: ${resolveSize(settings["optionNotifs"]) * 2.5}rem !important
         }
         /* ============= */
         /* THREADS */
         article.entry > header > h2 a {
-            font-size: ${resolveSize(settings["optionThreads"])}rem
+            font-size: ${resolveSize(settings["optionThreads"]) * 1.295}rem
         }
         article.entry > .content * {
             font-size: ${resolveSize(settings["optionThreads"])}rem
