@@ -1878,7 +1878,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             align-items: center;
             left: 0;
             top: 0;
-            background-color: rgba(0, 0, 0, 0.5) !important
+            background-color: var(--kbin-section-bg) !important;
         }
 
         #kes-filter-modal {
