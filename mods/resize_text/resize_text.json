@@ -99,6 +99,15 @@
       "initial": 5,
       "min": 1,
       "max": 10
+    },
+    {
+      "type": "range",
+      "key": "optionTables",
+      "label": "Table content:",
+      "show_value": true,
+      "initial": 4,
+      "min": 1,
+      "max": 10
     }
   ]
 }

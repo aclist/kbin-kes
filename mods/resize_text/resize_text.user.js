@@ -116,6 +116,13 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         article.entry * {
             font-size: ${resolveSize(settings["optionThreads"])}rem
         }
+        /* TABLES */
+        .table-responsive {
+            font-size: ${resolveSize(settings["optionTables"])}rem
+        }
+        table .action {
+            font-size: ${resolveSize(settings["optionTables"]) * 0.85}rem
+        }
         `;
         safeGM("addStyle", css, "resize-css")
     }
