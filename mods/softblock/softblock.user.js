@@ -1,5 +1,4 @@
 function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
-    //TODO: don't apply on magazine pages
     const hostname = window.location.hostname;
     const softBlockCSS = `
     .softblocked-article {
@@ -9,6 +8,10 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         cursor: pointer;
     }
     .softblock-aside {
+        display: flex;
+        justify-content: center;
+    }
+    .softblock-table-empty {
         display: flex;
         justify-content: center;
     }
@@ -69,7 +72,6 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     function blockThreads (mags) {
         hideThreads(mags)
         document.querySelectorAll('.entry:not(.entry-cross) aside.meta.entry__meta').forEach((item) => {
-        //document.querySelectorAll('.entry__meta').forEach((item) => {
             if (item.querySelector('.softblock-icon')) {
                 return
             }
@@ -98,17 +100,30 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
             return 'block'
         }
     }
-    function addToSidebar (mags) {
-        console.log(mags)
-        //const mag = location.pathname.split('/')[2]
-        //const el = document.querySelector('.magazine__subscribe form[name="magazine_block"]')
-        //const state = returnState(mags, mag);
-        const old = document.querySelector('.softblock-button')
-        if (old) {
-            return
-        }
-        //insertBlockButton(mags, state, el);
+
+    function makeEmpty () {
+        const empty = document.createElement('text')
+        empty.className = "softblock-table-empty"
+        empty.innerText = "No softblocked mags."
+        return empty
     }
+
+    function wipeTable () {
+        document.querySelector('.softblock-panel-table')?.remove();
+        const body = document.querySelector('#softblock-panel-inner-modal-body');
+        const empty = makeEmpty();
+        body.appendChild(empty);
+    }
+
+    function addToSidebar (mags) {
+        const el = document.querySelector('.magazine__subscribe form[name="magazine_block"]')
+        if (!el) return
+        if (document.querySelector('.softblock-button')) return
+        const mag = el.action.split("/")[4]
+        const button = createBlockButton(mags, mag);
+        el.insertAdjacentElement("afterend", button)
+    }
+
     function clean (mags) {
         const list = document.createElement('table');
         const body = document.createElement('tbody');
@@ -117,6 +132,9 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         const sorted = mags.sort((a, b) => {
             return a.localeCompare(b, undefined, { sensitivity: 'base' });
         });
+        if (mags.length === 0) {
+            return makeEmpty()
+        }
         for (let i=0; i<sorted.length; ++i) {
             const it = document.createElement('tr')
             const td1 = document.createElement('td')
@@ -125,22 +143,13 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
             td1a.innerText = sorted[i]
             td1a.setAttribute("href", "m/" + sorted[i])
             const td2 = document.createElement('td')
-            const tdb = document.createElement("button")
+            const tdb = createBlockButton(mags, sorted[i])
             td1.style.padding = "0.5rem 1rem"
             td2.style.padding = "0.5rem 1rem"
-            tdb.classList.add("softblock-button", "btn", "btn__secondary", "action", "danger")
-            tdb.innerText = "Unsoftblock"
             td2.appendChild(tdb)
-            //insertBlockButton(mags, 'unblock', td2)
             it.appendChild(td1)
             it.appendChild(td2)
             body.appendChild(it)
-        }
-        if (mags.length === 0) {
-            const empty = document.createElement('text')
-            empty.innerText = "No softblocked mags."
-            list.appendChild(empty)
-
         }
         return list
     }
@@ -175,21 +184,18 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         tableRow.forEach((row) => {
             const link = row.querySelector('.magazine-inline')
             const mag = link.href.split('/')[4]
-            const state = returnState(mags, mag);
             if (row.querySelector(".softblock-row")) return
             const t = document.createElement("td");
             t.className = "softblock-row"
             row.appendChild(t);
-            const a = document.createElement("aside")
-            a.className = "softblock-aside"
-            const button = createBlockButton(mags, state)
-            a.appendChild(button)
-            t.appendChild(a)
+            const button = createBlockButton(mags, mag)
+            t.appendChild(button)
         });
     }
 
-    function createBlockButton (mags, state) {
+    function createBlockButton (mags, mag) {
 
+        const state = returnState(mags, mag)
         const blockButton = document.createElement('button');
         blockButton.classList.add('softblock-button', 'btn', 'btn__secondary', 'action')
 
@@ -202,59 +208,6 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         blockButton.appendChild(blockIcon);
         blockButton.appendChild(sp);
 
-        blockButton.addEventListener('click', (e) => {
-            let mag
-            let button
-            let span
-            if (location.pathname.split('/')[1] === "magazines") {
-                const type = e.target.tagName
-                const row = e.target.parentElement.parentElement.parentElement.parentElement
-                const row2 = e.target.parentElement.parentElement.parentElement
-                let par
-                switch (type) {
-                    case "I":
-                        par = row
-                        break
-                    case "SPAN":
-                        par = row
-                        break
-                    case "BUTTON":
-                        par = row2
-                        break
-                }
-                mag = par.querySelector('.magazine-inline').href.split('/')[4]
-                button = par.querySelector('.softblock-button')
-                span = par.querySelector('.softblock-span')
-            } else {
-                mag = location.pathname.split('/')[2];
-                button = document.querySelector('.softblock-button')
-                span = document.querySelector('.softblock-span')
-            }
-            const text = span.innerText
-            switch (text) {
-                case "Softblock":{
-                    span.innerText = 'Unsoftblock'
-                    button.classList.add('danger')
-                    if(mags.includes(mag)) {
-                        break
-                    }
-                    mags.push(mag)
-                    break
-                }
-                case "Unsoftblock": {
-                    span.innerText = 'Softblock'
-                    button.classList.remove('danger')
-                    if(!mags.includes(mag)) {
-                        break
-                    }
-                    const ind = mags.indexOf(mag)
-                    mags.splice(ind, 1)
-                    break
-                }
-            }
-            saveMags(hostname, mags)
-        });
-
         switch(state) {
             case "block": {
                 sp.innerText = 'Softblock'
@@ -266,9 +219,55 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
                 break
             }
         }
-        blockButton.dataset.mag = "generic"
-        return blockButton
-        //el.insertAdjacentElement("afterend", blockButton);
+        blockButton.dataset.mag = mag
+
+        blockButton.addEventListener('click', (e) => {
+            const target = e.currentTarget
+            const mag = target.dataset.mag
+            const span = target.querySelector('.softblock-span')
+            let text = span.innerText
+            switch (text) {
+                case "Softblock":{
+                    span.innerText = 'Unsoftblock'
+                    target.classList.add('danger')
+                    if(mags.includes(mag)) {
+                        break
+                    }
+                    mags.push(mag)
+                    break
+                }
+                case "Unsoftblock": {
+                    span.innerText = 'Softblock'
+                    target.classList.remove('danger')
+                    if(!mags.includes(mag)) {
+                        break
+                    }
+                    const ind = mags.indexOf(mag)
+                    mags.splice(ind, 1)
+
+                    if (document.querySelector("#softblock-panel-inner-modal-content")) {
+                        const parRow = target.parentNode.parentNode.parentNode
+                        parRow.remove();
+                        const m = `.magazine-inline[href="/m/${mag}"]`
+                        const tableRow = document.querySelector(m)
+                        if (tableRow) {
+                            tableRow.parentNode.parentNode.querySelector(".softblock-button").click();
+                        }
+                        if (mags.length === 0) {
+                            wipeTable();
+                        }
+                    }
+
+                    break
+                }
+            }
+            saveMags(hostname, mags)
+        });
+
+        const aside = document.createElement("aside")
+        aside.className = "softblock-aside"
+        aside.appendChild(blockButton)
+        return aside
     }
 
     async function loadMags (hostname) {
