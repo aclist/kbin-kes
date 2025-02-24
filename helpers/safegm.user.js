@@ -33,7 +33,7 @@ function makeModal (id) {
             overflow-y: scroll;
         }
         @media (max-width: 1367px) {
-            #${id}-settings-modal-container {
+            #${id}-inner-modal-content {
             min-width: 100%;
             height: 100%;
         }
