@@ -378,12 +378,6 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
 
-            function keyTrap (e) {
-                if (e.target.tagName === "INPUT") return
-                if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
-                const kt = document.querySelector('#kes-omni-keytrap')
-                kt.focus()
-            }
 
             const pageHolder = document.querySelector('.kbin-container') 
                 ?? document.querySelector('.mbin-container')
@@ -399,9 +393,13 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
             const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
                 ?? document.querySelector('[data-controller="mbin notifications"]');
             globalKeyInsert.addEventListener('keydown',keyTrap)
-
-
         }
+    }
+    function keyTrap (e) {
+        if (e.target.tagName === "INPUT") return
+        if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
+        const kt = document.querySelector('#kes-omni-keytrap');
+        kt.focus();
     }
 
     if (toggle) {
@@ -409,6 +407,10 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
     } else {
         const e = []
         clearCachedMags();
+        safeGM("setValue",`omni-default-mags-${hostname}`, e);
         cleanup();
+        const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
+            ?? document.querySelector('[data-controller="mbin notifications"]');
+        globalKeyInsert.removeEventListener('keydown',keyTrap);
     }
 }
