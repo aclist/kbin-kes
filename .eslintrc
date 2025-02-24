@@ -24,7 +24,8 @@
         "getPageType": "readonly",
         "isLoggedIn": "readonly",
         "log": "readonly",
-        "Log": "readonly"
+        "Log": "readonly",
+        "makeLoader": "readonly"
     },
     "env": {
         "browser": true,
