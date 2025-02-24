@@ -6,15 +6,6 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
     const weighted = settings["weight"]
     const block = settings["block"]
 
-    //
-    //currently unused
-    //const votes = document.querySelectorAll('.vote')
-    //function filter (posts) {
-    //    return Array.from(posts).filter((el) =>
-    //        parseInt(el.querySelector('.vote__up button span').innerText) <= parseInt(el.querySelector('.vote__down button span').innerText)
-    //    )
-    //}
-
     const user_ids = []
     const user_links = []
     const checked = []
@@ -30,59 +21,14 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
     if (url[3] !== "m") return
     if (url[5] === "t") return
 
-    const modalCSS = `
-    #kes-filter-modal-bg {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        z-index: 90;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        left: 0;
-        top: 0;
-        background-color: rgba(0, 0, 0, 0.5) !important;
-    }
-
-    #kes-filter-modal {
-        background-color: var(--kbin-section-bg);
-        width: 500px;
-        height: 100px;
-        display: grid;
-        justify-content: center;
-        align-items: center;
-        border: 1px solid black;
-    }
-    #kes-filter-text {
-        color: var(--kbin-section-text-color);
-        margin: 20px
-    }
-
-    `;
-
-
-    function makeModal () {
-        const modal_bg = document.createElement('div')
-        const modal = document.createElement('div')
-        const text = document.createElement('p')
-        modal_bg.id = "kes-filter-modal-bg"
-        modal.id = "kes-filter-modal"
-        text.id = "kes-filter-text"
-        text.innerText = "KES: filtering spam, please wait..."
-        modal_bg.appendChild(modal)
-        modal.appendChild(text)
-        return modal_bg
-    }
     
     function apply () {
-        modal = makeModal()
-        document.body.appendChild(modal)
-        safeGM("removeStyle", "kes-filter-css")
-        safeGM("addStyle", modalCSS, "kes-filter-css")
+        modal = makeLoader("spam-modal", "KES: filtering spam, please wait...");
+        document.body.appendChild(modal);
         check();
     }
     function unapply () {
-        safeGM("removeStyle", "kes-filter-css")
+        safeGM("removeStyle", "mes-filter-css");
     }
 
     function filterDupes (array) {
