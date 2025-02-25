@@ -15,7 +15,7 @@ function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
                     spanEl = "span"
                 }
                 const oldSpan = magazine.querySelector(spanEl)
-                oldSpan.classList.add("hidden-instance");
+                oldSpan.classList.add("mag-hidden-instance");
                 oldSpan.style.display = "none"
                 const newSpan = document.createElement("span")
                 newSpan.innerText = name + "@" + remote
@@ -32,9 +32,9 @@ function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
     }
 
     function hideRemotes () {
-        document.querySelectorAll('.hidden-instance').forEach((magazine) => {
+        document.querySelectorAll('.mag-hidden-instance').forEach((magazine) => {
             magazine.style.removeProperty("display");
-            magazine.classList.remove("hidden-instance");
+            magazine.classList.remove("mag-hidden-instance");
         });
         document.querySelectorAll('.mes-remote-instance').forEach((magazine) => {
             magazine.remove();
