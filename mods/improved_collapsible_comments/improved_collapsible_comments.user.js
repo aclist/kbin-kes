@@ -174,8 +174,8 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         }
         .entry-comment {
             border-color: transparent !important;
-            grid-template-columns: 40px 50px auto min-content;
             grid-template-rows: min-content auto auto;
+            grid-template-columns: 40px 50px auto min-content;
             display: grid;
             margin-left: 0 !important;
         }
@@ -223,9 +223,25 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
             display: none;
         }
         `;
+        const hiddenfigureCSS = `
+        .entry-comment {
+            grid-template-columns: 40px 0px auto min-content;
+        }
+        .collapsed-comment {
+            grid-template-columns: 20px 0px auto!important;
+        }
+        .collapsed-comment header {
+            margin-left: 0px !important
+        }
+        `;
         safeGM("addStyle", hideDefaults, "hide-defaults");
         safeGM("addStyle", style, "threaded-comments");
-        safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
+        safeGM("addStyle", mbinStyle, "mbin-kes-comments-style");
+        const el = document.querySelector('.entry-comment figure');
+        const display = window.getComputedStyle(el).display
+        if (display === "none") {
+            safeGM("addStyle", hiddenfigureCSS, "mbin-kes-comments-figure-style");
+        }
     }
     function applyToNewPosts () {
         let comments = document.querySelectorAll(".entry-comment:not(.nested)");
@@ -449,7 +465,8 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         clearMores();
         safeGM("removeStyle", "hide-defaults");
         safeGM("removeStyle", "threaded-comments");
-        safeGM("removeStyle", "mbin-kes-comments-style")
+        safeGM("removeStyle", "mbin-kes-comments-style");
+        safeGM("removeStyle", "mbin-kes-comments-figure-style");
     }
 
     const pt = getPageType();
