@@ -1530,7 +1530,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                         spanEl = "span"
                     }
                     const oldSpan = magazine.querySelector(spanEl)
-                    oldSpan.classList.add("hidden-instance");
+                    oldSpan.classList.add("mag-hidden-instance");
                     oldSpan.style.display = "none"
                     const newSpan = document.createElement("span")
                     newSpan.innerText = name + "@" + remote
@@ -1547,9 +1547,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function hideRemotes () {
-            document.querySelectorAll('.hidden-instance').forEach((magazine) => {
+            document.querySelectorAll('.mag-hidden-instance').forEach((magazine) => {
                 magazine.style.removeProperty("display");
-                magazine.classList.remove("hidden-instance");
+                magazine.classList.remove("mag-hidden-instance");
             });
             document.querySelectorAll('.mes-remote-instance').forEach((magazine) => {
                 magazine.remove();
@@ -3697,10 +3697,17 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const els = document.querySelectorAll(selector);
             els.forEach((el) => {
                 if (el.getAttribute("data-instance") !== "true") {
-                    const userInstance = el.getAttribute("href").split("@")[2];
-                    if (userInstance) {
-                        el.innerText = el.innerText + "@" + userInstance;
-                        el.setAttribute("data-instance", "true")
+                    if (el.classList.contains("user-hidden-instance")) return
+                    const arr = el.getAttribute("title").split("@");
+                    const name = arr[1];
+                    const remote = arr[2];
+                    if (name) {
+                        const clone = el.cloneNode(false);
+                        clone.innerText = name + "@" + remote;
+                        clone.setAttribute("data-instance", "true");
+                        el.classList.add("user-hidden-instance");
+                        el.style.display = "none";
+                        el.insertAdjacentElement("afterend", clone);
                     }
                 }
             });
@@ -3710,10 +3717,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const els = document.querySelectorAll(selector);
             els.forEach((el) => {
                 if (el.getAttribute("data-instance") === "true") {
-                    el.setAttribute("data-instance", "false");
-                    el.innerText = el.innerText.split("@")[0]
+                    el.remove();
                 }
             });
+            document.querySelectorAll(".user-hidden-instance").forEach((el) => {
+                el.style.removeProperty("display");
+                el.classList.remove("user-hidden-instance");
+            })
         }
 
         function setSelector () {
@@ -3736,13 +3746,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const selector = setSelector();
-
-        if (toggle) {
-            showUserInstances(selector);
-        } else {
-            hideUserInstances(selector);
-            return
-        }
+        if (toggle) showUserInstances(selector);
+        if (!toggle) hideUserInstances(selector);
     },
 
     submission_label: //mes-func
