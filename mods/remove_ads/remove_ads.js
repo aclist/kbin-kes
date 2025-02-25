@@ -210,7 +210,7 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
                 }
             }
         }
-        modal.remove()
+        clearLoader("spam-modal")
         localStorage.setItem("kes-banned-users", banned)
         localStorage.setItem("kes-softbanned-users", softbanned)
         localStorage.setItem("kes-checked-users", checked)
