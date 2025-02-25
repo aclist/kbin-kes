@@ -54,7 +54,7 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         }
 
         .collapsed-comment header {
-            margin-left: 24px !important
+            margin-left: 24px !important;
         }
 
         .expando {
@@ -233,14 +233,14 @@ function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-
         .collapsed-comment header {
             margin-left: 0px !important
         }
-        `
+        `;
         safeGM("addStyle", hideDefaults, "hide-defaults");
         safeGM("addStyle", style, "threaded-comments");
-        safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
-        const el = document.querySelector('.entry-comment figure')
+        safeGM("addStyle", mbinStyle, "mbin-kes-comments-style");
+        const el = document.querySelector('.entry-comment figure');
         const display = window.getComputedStyle(el).display
         if (display === "none") {
-            safeGM("addStyle", hiddenfigureCSS, "mbin-kes-comments-figure-style")
+            safeGM("addStyle", hiddenfigureCSS, "mbin-kes-comments-figure-style");
         }
     }
     function applyToNewPosts () {
