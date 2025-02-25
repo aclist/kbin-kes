@@ -104,10 +104,10 @@ function makeLoader (id, text) {
     spinner.className = "hourglass";
     msg.appendChild(spinner);
     modal.appendChild(span);
-    const css-id = "mes-loader-css";
-    safeGM("removeStyle", css-id);
-    safeGM("addStyle", modalCSS, css-id);
-    log(`Added the sheet '${css-id}' to the document head`, Log.Log);
+    const cssID = "mes-loader-css";
+    safeGM("removeStyle", cssID);
+    safeGM("addStyle", modalCSS, cssID);
+    log(`Added the sheet '${cssID}' to the document head`, Log.Log);
     return modal_bg
 }
 
