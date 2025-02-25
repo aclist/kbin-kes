@@ -1,5 +1,6 @@
 function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
-    const settings = getModSettings('checks');
+    const id = 'checks';
+    const settings = getModSettings(id);
     const checkColor = settings["check-color"]
     const threadIndex = document.querySelector('[data-controller="subject-list"]')
     const user = document.querySelector('.login');
@@ -32,8 +33,9 @@ function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
     }
 
     if (toggle) {
-        loadMags(setChecks, settings["refresh"] == "Manual");
+        loadMags(setChecks, id, settings["refresh"] == "Manual");
     } else {
+        loadMags.cancel(id);
         if (settings["refresh"] == "Manual") {
             clearCachedMags();
         }

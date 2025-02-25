@@ -148,15 +148,24 @@ function getPageType () { //eslint-disable-line no-unused-vars
     return "Unknown"
 }
 
-async function loadMags (callback, useCache, runCallbackOnlyOnce) {
+async function loadMags (callback, id, useCache, runCallbackOnlyOnce) {
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
 
+    const cancelKey = `loadMags-${hostname}-${username}-${id}`;
+    safeGM("setValue", cancelKey, false);
+
+    async function runCallback (mags) {
+        if (safeGM("getValue", cancelKey)) return;
+        safeGM("setValue",`user-mags-${hostname}-${username}`, mags);
+        callback(mags);
+    }
+
     if (useCache) {
         const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
         if (cachedValue) {
-            callback(cachedValue);
+            runCallback(cachedValue);
             return;
         }
     }
@@ -177,9 +186,7 @@ async function loadMags (callback, useCache, runCallbackOnlyOnce) {
                 loadFromPage(username, nextPage.getAttribute('href').split('=')[1], mags);
             } else {
                 // finished loading all pages
-                loadedMags = mags;
-                safeGM("setValue",`user-mags-${hostname}-${username}`, loadedMags);
-                callback(loadedMags);
+                runCallback(mags);
             }
         });
     }
@@ -187,7 +194,7 @@ async function loadMags (callback, useCache, runCallbackOnlyOnce) {
     if (document.querySelector('.subscription-list') != undefined) {
         const magList = [...document.querySelectorAll('.subscription')];
         if (magList.length == 0) {
-            callback([]);
+            runCallback([]);
             return;
         }
         const containsShowMore = magList[magList.length-1].querySelector('button') != undefined;
@@ -195,7 +202,7 @@ async function loadMags (callback, useCache, runCallbackOnlyOnce) {
             .map((mag) => mag.querySelector('a').getAttribute('href').split('/')[2]);
         if (!runCallbackOnlyOnce || !containsShowMore) {
             safeGM("setValue",`user-mags-${hostname}-${username}`, loadedMags);
-            callback(loadedMags);
+            runCallback(loadedMags);
         }
         if (containsShowMore) {
             loadFromPage(username, 1);
@@ -203,6 +210,13 @@ async function loadMags (callback, useCache, runCallbackOnlyOnce) {
     } else {
         loadFromPage(username, 1);
     }
+}
+
+loadMags.cancel = function (id) {
+    const hostname = window.location.hostname;
+    const username = document.querySelector('.login .user-name')?.textContent;
+    if (!username) return;
+    safeGM("setValue", `loadMags-${hostname}-${username}-${id}`, true);
 }
 
 function clearCachedMags () {

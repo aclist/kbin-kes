@@ -82,7 +82,8 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         "Right bracket": "]"
     }
 
-    const settings = getModSettings('omni');
+    const id = "omni";
+    const settings = getModSettings(id);
     const meta = settings["meta"]
     const code = keyCodes[meta]
     const mobile = settings["mobile"]
@@ -101,7 +102,7 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         safeGM("addStyle", omniCSS, "omni-css")
 
         if (username) {
-            loadMags(alphaSort, true, true);
+            loadMags(alphaSort, id, true, true);
         } else {
             loadDefaultMags();
         }
@@ -406,6 +407,7 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         createOmni();
     } else {
         const e = []
+        loadMags.cancel(id);
         clearCachedMags();
         safeGM("setValue",`omni-default-mags-${hostname}`, e);
         cleanup();
