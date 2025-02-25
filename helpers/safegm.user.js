@@ -111,6 +111,12 @@ function makeLoader (id, text) {
     return modal_bg
 }
 
+//removes a loading dialog created with makeLoader()
+function clearLoader (id) {
+    document.querySelector(`${id}-filter-modal-bg`);
+    safeGM("removeStyle", "mes-loader-css");
+}
+
 //adds custom CSS to the document head by named ID
 function addCustomCSS (css, id) {
     const style = document.createElement('style');

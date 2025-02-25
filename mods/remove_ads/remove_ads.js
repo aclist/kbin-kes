@@ -13,7 +13,6 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
     const softbanned = []
 
     let unique_users = {}
-    let modal
     let iteration
     
     const domain = window.location.hostname
@@ -23,7 +22,7 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
 
     
     function apply () {
-        modal = makeLoader("spam-modal", "KES: filtering spam, please wait...");
+        const modal = makeLoader("spam-modal", "KES: filtering spam, please wait...");
         document.body.appendChild(modal);
         check();
     }
@@ -70,7 +69,7 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
         //arrays are initialized empty on each DOM recursion
         for (let i = 0; i < unique_users.length; ++i) {
             if (iteration == 1) {
-                modal.remove();
+                clearLoader("spam-modal");
             }
             if (str_checked.split(',').includes(unique_users[i])) {
                 checked.push(unique_users[i])
