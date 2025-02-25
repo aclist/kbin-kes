@@ -148,7 +148,7 @@ function getPageType () { //eslint-disable-line no-unused-vars
     return "Unknown"
 }
 
-function loadMags (callback, useCache, runCallbackOnlyOnce) {
+async function loadMags (callback, useCache, runCallbackOnlyOnce) {
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
@@ -162,7 +162,7 @@ function loadMags (callback, useCache, runCallbackOnlyOnce) {
     }
 
     let loadedMags = [];
-    function loadFromPage (username, page, mags = []) {
+    async function loadFromPage (username, page, mags = []) {
         const url = `https://${hostname}/u/${username}/subscriptions?p=${page}`;
         genericXMLRequest(url, (response) => {
             const dom = new DOMParser().parseFromString(response.responseText, "text/html");
