@@ -4,7 +4,7 @@ function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
         const els = document.querySelectorAll(selector);
         els.forEach((el) => {
             if (el.getAttribute("data-instance") !== "true") {
-                if (el.classList.contains("hidden-instance")) return
+                if (el.classList.contains("user-hidden-instance")) return
                 const arr = el.getAttribute("title").split("@");
                 const name = arr[1];
                 const remote = arr[2];
@@ -12,7 +12,7 @@ function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
                     const clone = el.cloneNode(false);
                     clone.innerText = name + "@" + remote;
                     clone.setAttribute("data-instance", "true");
-                    el.classList.add("hidden-instance");
+                    el.classList.add("user-hidden-instance");
                     el.style.display = "none";
                     el.insertAdjacentElement("afterend", clone);
                 }
@@ -27,9 +27,9 @@ function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
                 el.remove();
             }
         });
-        document.querySelectorAll(".hidden-instance").forEach((el) => {
+        document.querySelectorAll(".user-hidden-instance").forEach((el) => {
             el.style.removeProperty("display");
-            el.classList.remove("hidden-instance");
+            el.classList.remove("user-hidden-instance");
         })
     }
 
