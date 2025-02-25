@@ -32,7 +32,6 @@ function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
             i.setAttribute("src", link)
             i.id = "logo"
             sp.insertAdjacentElement("afterend", i)
-
         } else {
             img.setAttribute("src", link);
         }
@@ -63,7 +62,6 @@ function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
             return
         }
         updateLogo(getDefaultLogo());
-
     }
 
     if (toggle) {
