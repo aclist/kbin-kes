@@ -2842,17 +2842,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 if (!username) return;
                 if (username === self_username) return;
                 const sib = item.nextSibling
-                let link
-                try {
-                    if ((sib) && (sib.nodeName === "#text")) {
-                        link = document.createElement('a');
-                        const ownInstance = window.location.hostname;
-                        link.setAttribute('href', `https://${ownInstance}/u/${username}/message`);
-                        insertElementAfter(item, link);
-                    } else {
-                        link = sib;
-                    }
-                } finally {
+                if ((sib) && (sib.nodeName === "#text")) {
+                    const link = document.createElement('a');
+                    const ownInstance = window.location.hostname;
+                    link.setAttribute('href', `https://${ownInstance}/u/${username}/message`);
+                    insertElementAfter(item, link);
                     if (link) {
                         if (settings["type"] == "Text") {
                             link.className = 'kes-mail-link';
