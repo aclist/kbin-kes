@@ -49,7 +49,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         }
         /* ============= */
         /* POST CREATION PAGES */
-        /*TODO: this line is not applying */
         form[name="magazine"] * {
             font-size: ${resolveSize(settings["optionCreate"])}rem
         }
