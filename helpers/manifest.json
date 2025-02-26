@@ -651,6 +651,8 @@
         "key": "logotype",
         "values": [
           "Hidden",
+          "Mbin",
+          "Mbin (no text)",
           "Kbin (no text)",
           "Kibby",
           "Kibby (no text)"
