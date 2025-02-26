@@ -420,14 +420,14 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
 
-            $(document).on("keypress.customkey", function (e) {
+            $(document).on("keypress.omnikey", function (e) {
                 kickoffListener(e)
             });
         }
     }
 
     if (toggle) {
-        $(document).off("keypress.customkey");
+        $(document).off("keypress.omnikey");
         createOmni();
     } else {
         const e = []
@@ -435,6 +435,6 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         safeGM("setValue",`omni-default-mags-${hostname}`, e);
         document.querySelector("kes-omni-modal")?.remove();
         document.querySelector("kes-omni-tapbar")?.remove();
-        $(document).off("keypress.customkey");
+        $(document).off("keypress.omnikey");
     }
 }
