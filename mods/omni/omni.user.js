@@ -441,8 +441,7 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
     function keyTrap (e) {
         if (e.target.tagName === "INPUT") return
         if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
-        const kt = document.querySelector('#kes-omni-keytrap');
-        kt.focus();
+        document.querySelector('#kes-omni-keytrap')?.focus();
     }
 
     const keytrap = document.querySelector('#kes-omni-keytrap-holder');
@@ -456,9 +455,5 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         safeGM("setValue",`omni-default-mags-${hostname}`, e);
         document.querySelector('#kes-omni-keytrap')?.remove();
         document.querySelector('.kes-omni-modal')?.remove;
-
-        const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
-            ?? document.querySelector('[data-controller="mbin notifications"]');
-        globalKeyInsert.removeEventListener('keydown',keyTrap);
     }
 }
