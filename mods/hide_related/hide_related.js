@@ -2,12 +2,10 @@ function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
 
     function isIndex () {
         const pt = getPageType();
-        log(isIndex, Log.Log)
         switch (pt) {
             case Mbin.Domain.Default:
             case Mbin.Domain.Comments:
             case Mbin.Top:
-                log("found index", Log.Log)
                 return true
             default:
                 return false
@@ -27,7 +25,7 @@ function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
 
     function hideRelated () {
         restoreRelated();
-        const settings = getModSettings("hide_related")
+        const settings = getModSettings("hide_related");
         if ((settings["index"]) && (isIndex())) {
             document.querySelectorAll(".entry-cross").forEach((entry) => {
                 entry.style.display = "none"
@@ -42,10 +40,10 @@ function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
 
     function restoreRelated () {
         document.querySelectorAll(".entry-cross").forEach((entry) => {
-            entry.style.removeProperty("display")
+            entry.style.removeProperty("display");
         })
         document.querySelectorAll(".entries-cross").forEach((entry) => {
-            entry.style.removeProperty("display")
+            entry.style.removeProperty("display");
         })
     }
 
