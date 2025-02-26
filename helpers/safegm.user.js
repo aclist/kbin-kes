@@ -113,7 +113,7 @@ function makeLoader (id, text) {
 
 //removes a loading dialog created with makeLoader()
 function clearLoader (id) {
-    document.querySelector(`${id}-filter-modal-bg`);
+    document.querySelector(`#${id}-filter-modal-bg`)?.remove();
     safeGM("removeStyle", "mes-loader-css");
 }
 
