@@ -56,8 +56,10 @@ function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
         $('.brand').show();
         //special handling for instances with text-only logo
         const sp = document.querySelector(".brand a span");
+        const a = document.querySelector(".brand a");
         if (sp) {
             sp.style.removeProperty("display");
+            a.style.removeProperty("display");
             document.querySelector(".brand a img").remove();
             return
         }
