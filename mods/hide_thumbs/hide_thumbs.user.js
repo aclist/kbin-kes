@@ -1,6 +1,5 @@
 function hideThumbs (toggle) { //eslint-disable-line no-unused-vars
     function show () {
-        log("trying to show thumbnails", Log.Log)
         document.querySelectorAll(".figure-container").forEach((container) => {
             if (container.dataset.hidden === "true") {
                 container.style.removeProperty("display");
