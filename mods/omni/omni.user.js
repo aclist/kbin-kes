@@ -427,6 +427,7 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     if (toggle) {
+        $(document).off("keypress.customkey");
         createOmni();
     } else {
         const e = []
