@@ -420,7 +420,7 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
 
-            $(document).bind("keypress.customkey", function (e) {
+            $(document).on("keypress.customkey", function (e) {
                 kickoffListener(e)
             });
         }
@@ -434,6 +434,6 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         safeGM("setValue",`omni-default-mags-${hostname}`, e);
         document.querySelector("kes-omni-modal")?.remove();
         document.querySelector("kes-omni-tapbar")?.remove();
-        $(document).unbind("keypress.customkey");
+        $(document).off("keypress.customkey");
     }
 }
