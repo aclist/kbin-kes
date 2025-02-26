@@ -1,0 +1,24 @@
+{
+  "name": "Hide related",
+  "author": "shazbot",
+  "version": "0.1",
+  "label": "Hide crossposts",
+  "login": false,
+  "recurs": true,
+  "desc": "Hide the crosspost section from the thread index/threads",
+  "entrypoint": "hide_related",
+  "page": "threads",
+  "namespace": "hide_related",
+  "fields": [
+    {
+      "key": "index",
+      "type": "checkbox",
+      "checkbox_label": "Hide on thread index"
+    },
+    {
+      "key": "thread",
+      "type": "checkbox",
+      "checkbox_label": "Hide inside threads"
+    }
+  ]
+}

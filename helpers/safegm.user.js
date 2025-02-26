@@ -109,6 +109,99 @@ function log (string, level) { // eslint-disable-line no-unused-vars
     }
 }
 
+//returns a generic loading prompt with spinner
+function makeLoader (id, text) {
+    const modalCSS = `
+    #${id}-filter-modal-bg {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 90;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.5) !important;
+    }
+
+    #${id}-filter-modal {
+        background-color: var(--kbin-section-bg);
+        width: 500px;
+        height: 100px;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid black;
+    }
+    #${id}-filter-text {
+        color: var(--kbin-section-text-color);
+        margin: 20px
+    }
+    .hourglass,
+    .hourglass:after {
+      box-sizing: border-box;
+    }
+    .hourglass {
+      display: inline-flex;
+      position: relative;
+      width: 10px;
+      height: 10px;
+    }
+    .hourglass:after {
+      content: " ";
+      display: block;
+      border-radius: 50%;
+      width: 0;
+      height: 0;
+      margin: 8px;
+      box-sizing: border-box;
+      border: 10px solid currentColor;
+      border-color: currentColor transparent currentColor transparent;
+      animation: hourglass 1.2s infinite;
+    }
+    @keyframes hourglass {
+      0% {
+        transform: rotate(0);
+        animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+      }
+      50% {
+        transform: rotate(900deg);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+      100% {
+        transform: rotate(1800deg);
+      }
+    }
+
+    `;
+    const modal_bg = document.createElement("div");
+    const modal = document.createElement("div");
+    const span = document.createElement("span");
+    const msg = document.createElement("p");
+    modal_bg.id = `${id}-filter-modal-bg`;
+    modal.id = `${id}-filter-modal`;
+    msg.id = `${id}-filter-text`;
+    msg.innerText = `${text}`;
+    modal_bg.appendChild(modal);
+    span.appendChild(msg);
+    const spinner = document.createElement("div");
+    spinner.className = "hourglass";
+    msg.appendChild(spinner);
+    modal.appendChild(span);
+    const cssID = "mes-loader-css";
+    safeGM("removeStyle", cssID);
+    safeGM("addStyle", modalCSS, cssID);
+    log(`Added the sheet '${cssID}' to the document head`, Log.Log);
+    return modal_bg
+}
+
+//removes a loading dialog created with makeLoader()
+function clearLoader (id) {
+    document.querySelector(`#${id}-filter-modal-bg`)?.remove();
+    safeGM("removeStyle", "mes-loader-css");
+}
+
 //adds custom CSS to the document head by named ID
 function addCustomCSS (css, id) {
     const style = document.createElement('style');

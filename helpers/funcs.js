@@ -221,8 +221,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
             .entry-comment {
                 border-color: transparent !important;
-                grid-template-columns: 40px 50px auto min-content;
                 grid-template-rows: min-content auto auto;
+                grid-template-columns: 40px 50px auto min-content;
                 display: grid;
                 margin-left: 0 !important;
             }
@@ -270,9 +270,25 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 display: none;
             }
             `;
+            const hiddenfigureCSS = `
+            .entry-comment {
+                grid-template-columns: 40px 0px auto min-content;
+            }
+            .collapsed-comment {
+                grid-template-columns: 20px 0px auto!important;
+            }
+            .collapsed-comment header {
+                margin-left: 0px !important
+            }
+            `;
             safeGM("addStyle", hideDefaults, "hide-defaults");
             safeGM("addStyle", style, "threaded-comments");
-            safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
+            safeGM("addStyle", mbinStyle, "mbin-kes-comments-style");
+            const el = document.querySelector('.entry-comment figure');
+            const display = window.getComputedStyle(el).display
+            if (display === "none") {
+                safeGM("addStyle", hiddenfigureCSS, "mbin-kes-comments-figure-style");
+            }
         }
         function applyToNewPosts () {
             let comments = document.querySelectorAll(".entry-comment:not(.nested)");
@@ -496,7 +512,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
             clearMores();
             safeGM("removeStyle", "hide-defaults");
             safeGM("removeStyle", "threaded-comments");
-            safeGM("removeStyle", "mbin-kes-comments-style")
+            safeGM("removeStyle", "mbin-kes-comments-style");
+            safeGM("removeStyle", "mbin-kes-comments-figure-style");
         }
 
         const pt = getPageType();
@@ -758,6 +775,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
             function kickoffListener (e) {
                 if (e.key !== code) return
+                if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
+                if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
                 e.preventDefault();
                 const exists = document.querySelector('.kes-omni-modal')
                 if (exists) {
@@ -932,51 +951,25 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     });
 
                 }
-
                 kesModal.style.display = 'none';
                 document.body.appendChild(kesModal)
 
-
-                const pageHolder = document.querySelector('.kbin-container') 
-                    ?? document.querySelector('.mbin-container')
-                const kth = document.createElement('div');
-                kth.style.cssText = 'height: 0px; width: 0px;'
-                kth.id = 'kes-omni-keytrap-holder'
-                const ktb = document.createElement('button')
-                ktb.style.cssText = 'opacity:0;width:0'
-                ktb.id = 'kes-omni-keytrap'
-                kth.appendChild(ktb)
-                pageHolder.insertBefore(kth, pageHolder.children[0])
-                ktb.addEventListener('keyup',kickoffListener)
-                const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
-                    ?? document.querySelector('[data-controller="mbin notifications"]');
-                globalKeyInsert.addEventListener('keydown',keyTrap)
-
-
+                $(document).on("keypress.omnikey", function (e) {
+                    kickoffListener(e)
+                });
             }
         }
-        function keyTrap (e) {
-            if (e.target.tagName === "INPUT") return
-            if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
-            const kt = document.querySelector('#kes-omni-keytrap');
-            kt.focus();
-        }
-
-        const keytrap = document.querySelector('#kes-omni-keytrap-holder');
-        if (keytrap) keytrap.remove();
 
         if (toggle) {
+            $(document).off("keypress.omnikey");
             createOmni();
         } else {
             const e = []
             safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e);
             safeGM("setValue",`omni-default-mags-${hostname}`, e);
-            document.querySelector('#kes-omni-keytrap')?.remove();
-            document.querySelector('.kes-omni-modal')?.remove;
-
-            const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
-                ?? document.querySelector('[data-controller="mbin notifications"]');
-            globalKeyInsert.removeEventListener('keydown',keyTrap);
+            document.querySelector("kes-omni-modal")?.remove();
+            document.querySelector("kes-omni-tapbar")?.remove();
+            $(document).off("keypress.omnikey");
         }
     },
 
@@ -1530,7 +1523,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                         spanEl = "span"
                     }
                     const oldSpan = magazine.querySelector(spanEl)
-                    oldSpan.classList.add("hidden-instance");
+                    oldSpan.classList.add("mag-hidden-instance");
                     oldSpan.style.display = "none"
                     const newSpan = document.createElement("span")
                     newSpan.innerText = name + "@" + remote
@@ -1547,9 +1540,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function hideRemotes () {
-            document.querySelectorAll('.hidden-instance').forEach((magazine) => {
+            document.querySelectorAll('.mag-hidden-instance').forEach((magazine) => {
                 magazine.style.removeProperty("display");
-                magazine.classList.remove("hidden-instance");
+                magazine.classList.remove("mag-hidden-instance");
             });
             document.querySelectorAll('.mes-remote-instance').forEach((magazine) => {
                 magazine.remove();
@@ -1834,6 +1827,60 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
     },
 
+    hide_related: //mes-func
+    function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
+
+        function isIndex () {
+            const pt = getPageType();
+            switch (pt) {
+                case Mbin.Domain.Default:
+                case Mbin.Domain.Comments:
+                case Mbin.Top:
+                    return true
+                default:
+                    return false
+            }
+        }
+        function isThread () {
+            const pt = getPageType();
+            switch (pt) {
+                case Mbin.Thread.Comments:
+                case Mbin.Thread.Favorites:
+                case Mbin.Thread.Boosts:
+                    return true
+                default:
+                    return false
+            }
+        }
+
+        function hideRelated () {
+            restoreRelated();
+            const settings = getModSettings("hide_related");
+            if ((settings["index"]) && (isIndex())) {
+                document.querySelectorAll(".entry-cross").forEach((entry) => {
+                    entry.style.display = "none"
+                })
+            }
+            if ((settings["thread"]) && (isThread())) {
+                document.querySelectorAll(".entries-cross").forEach((entry) => {
+                    entry.style.display = "none"
+                });
+            }
+        }
+
+        function restoreRelated () {
+            document.querySelectorAll(".entry-cross").forEach((entry) => {
+                entry.style.removeProperty("display");
+            })
+            document.querySelectorAll(".entries-cross").forEach((entry) => {
+                entry.style.removeProperty("display");
+            })
+        }
+
+        if (toggle) hideRelated();
+        if (!toggle) restoreRelated();
+    },
+
     remove_ads: //mes-func
     function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
 
@@ -1843,15 +1890,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const weighted = settings["weight"]
         const block = settings["block"]
 
-        //
-        //currently unused
-        //const votes = document.querySelectorAll('.vote')
-        //function filter (posts) {
-        //    return Array.from(posts).filter((el) =>
-        //        parseInt(el.querySelector('.vote__up button span').innerText) <= parseInt(el.querySelector('.vote__down button span').innerText)
-        //    )
-        //}
-
         const user_ids = []
         const user_links = []
         const checked = []
@@ -1859,7 +1897,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const softbanned = []
 
         let unique_users = {}
-        let modal
         let iteration
     
         const domain = window.location.hostname
@@ -1867,59 +1904,14 @@ const funcObj = { // eslint-disable-line no-unused-vars
         if (url[3] !== "m") return
         if (url[5] === "t") return
 
-        const modalCSS = `
-        #kes-filter-modal-bg {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: 90;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            left: 0;
-            top: 0;
-            background-color: var(--kbin-section-bg) !important;
-        }
-
-        #kes-filter-modal {
-            background-color: gray;
-            width: 500px;
-            height: 100px;
-            display: grid;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid black;
-        }
-        #kes-filter-text {
-            color: black;
-            margin: 20px
-        }
-
-        `;
-
-
-        function makeModal () {
-            const modal_bg = document.createElement('div')
-            const modal = document.createElement('div')
-            const text = document.createElement('p')
-            modal_bg.id = "kes-filter-modal-bg"
-            modal.id = "kes-filter-modal"
-            text.id = "kes-filter-text"
-            text.innerText = "KES: filtering spam, please wait..."
-            modal_bg.appendChild(modal)
-            modal.appendChild(text)
-            return modal_bg
-        }
     
         function apply () {
-            modal = makeModal()
-            document.body.appendChild(modal)
-            safeGM("removeStyle", "kes-filter-css")
-            safeGM("addStyle", modalCSS, "kes-filter-css")
+            const modal = makeLoader("spam-modal", "KES: filtering spam, please wait...");
+            document.body.appendChild(modal);
             check();
         }
         function unapply () {
-            safeGM("removeStyle", "kes-filter-css")
+            safeGM("removeStyle", "mes-filter-css");
         }
 
         function filterDupes (array) {
@@ -1961,7 +1953,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             //arrays are initialized empty on each DOM recursion
             for (let i = 0; i < unique_users.length; ++i) {
                 if (iteration == 1) {
-                    modal.remove();
+                    clearLoader("spam-modal");
                 }
                 if (str_checked.split(',').includes(unique_users[i])) {
                     checked.push(unique_users[i])
@@ -2102,7 +2094,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     }
                 }
             }
-            modal.remove()
+            clearLoader("spam-modal")
             localStorage.setItem("kes-banned-users", banned)
             localStorage.setItem("kes-softbanned-users", softbanned)
             localStorage.setItem("kes-checked-users", checked)
@@ -2613,6 +2605,16 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const kibby = `${prefix}/kbin_logo_kibby.svg`
         const kibbyMini = `${prefix}/kibby-mini.svg`
         const kbinMini = `${prefix}/kbin-mini.svg`
+        const mbinNoText = "https://raw.githubusercontent.com/MbinOrg/mbin/refs/heads/main/assets/images/sources/mbin-notext.svg"
+        const mbin = "https://raw.githubusercontent.com/MbinOrg/mbin/refs/heads/main/assets/images/sources/mbin-logo.svg"
+
+        const logos = {
+            "Kbin (no text)": kbinMini,
+            "Kibby": kibby,
+            "Kibby (no text)": kibbyMini,
+            "Mbin (no text)": mbinNoText,
+            "Mbin": mbin
+        }
 
         function getDefaultLogo () {
             const keyw = document.querySelector('meta[name="keywords"]').content.split(',')[0]
@@ -2622,36 +2624,48 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function updateLogo (link) {
             $('.brand a').show();
+            document.querySelector(".head-nav__menu").style.removeProperty("padding-left")
             const img = document.querySelector('.brand a img');
-            img.setAttribute("src", link);
+            //special handling for instances with text-only logo
+            if (!img) {
+                const sp = document.querySelector(".brand a span")
+                sp.style.display = "none"
+                const i = document.createElement("img");
+                i.setAttribute("src", link)
+                i.id = "logo"
+                sp.insertAdjacentElement("afterend", i)
+            } else {
+                img.setAttribute("src", link);
+            }
         }
 
         function changeLogo () {
             const ns = "changelogo";
-
             const settings = getModSettings(ns);
             let opt = settings["logotype"];
             switch (opt) {
                 case "Hidden":
                     updateLogo(getDefaultLogo())
                     $('.brand a').hide();
+                    document.querySelector(".head-nav__menu").style.paddingLeft = "20px"
                     break;
-                case "Kibby":
-                    updateLogo(kibby);
-                    break;
-                case "Kbin (no text)":
-                    updateLogo(kbinMini);
-                    break;
-                case "Kibby (no text)":
-                    updateLogo(kibbyMini);
-                    break;
+                default:
+                    updateLogo(logos[opt])
             }
         }
 
         function restoreLogo () {
             $('.brand').show();
+            //special handling for instances with text-only logo
+            const sp = document.querySelector(".brand a span");
+            const a = document.querySelector(".brand a");
+            if (sp) {
+                sp.style.removeProperty("display");
+                a.style.removeProperty("display");
+                document.querySelector(".brand a img").remove();
+                return
+            }
             updateLogo(getDefaultLogo());
-
         }
 
         if (toggle) {
@@ -2804,17 +2818,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 if (!username) return;
                 if (username === self_username) return;
                 const sib = item.nextSibling
-                let link
-                try {
-                    if ((sib) && (sib.nodeName === "#text")) {
-                        link = document.createElement('a');
-                        const ownInstance = window.location.hostname;
-                        link.setAttribute('href', `https://${ownInstance}/u/${username}/message`);
-                        insertElementAfter(item, link);
-                    } else {
-                        link = sib;
-                    }
-                } finally {
+                if ((sib) && (sib.nodeName === "#text")) {
+                    const link = document.createElement('a');
+                    const ownInstance = window.location.hostname;
+                    link.setAttribute('href', `https://${ownInstance}/u/${username}/message`);
+                    insertElementAfter(item, link);
                     if (link) {
                         if (settings["type"] == "Text") {
                             link.className = 'kes-mail-link';
@@ -3169,41 +3177,41 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     hide_thumbs: //mes-func
     function hideThumbs (toggle) { //eslint-disable-line no-unused-vars
-        const settings = getModSettings('hidethumbs')
-        const index = 'kes-index-thumbs'
-        const inline = 'kes-inline-thumbs'
-        const thumbsCSS = `
-        .entry.section.subject figure, .no-image-placeholder {
-            display: none
+        function show () {
+            document.querySelectorAll(".figure-container").forEach((container) => {
+                if (container.dataset.hidden === "true") {
+                    container.style.removeProperty("display");
+                    delete container.dataset.hidden
+                }
+            });
+            document.querySelectorAll(".mes-thumbs-hide").forEach((icon) => {
+                icon.remove();
+            });
         }
-        `
-        const inlineCSS = `
-        .thumbs {
-            display:none
+
+        function hide () {
+            document.querySelectorAll('.figure-container').forEach((container) => {
+                if (container.dataset.hidden === "true") return
+                container.dataset.hidden = "true"
+
+                const prev = document.createElement('i')
+                prev.classList.add("mes-thumbs-hide", "fas", "fa-photo-video");
+                prev.ariaLabel = "Expand/collapse this image"
+                prev.addEventListener("click", () => {
+                    if (container.style.display === "none") {
+                        container.style.removeProperty("display");
+                    } else {
+                        container.style.display = "none"
+                    }
+                });
+
+                container.insertAdjacentElement("beforebegin", prev);
+                container.style.display = "none"
+            })
         }
-        `
-        function apply (sheet, name) {
-            unset(name)
-            safeGM("addStyle", sheet, name)
-        }
-        function unset (name) {
-            safeGM("removeStyle", name)
-        }
-        if (toggle) {
-            if (settings["index"]) {
-                apply(thumbsCSS, index);
-            } else {
-                unset(index)
-            }
-            if (settings["inline"]) {
-                apply(inlineCSS, inline)
-            } else {
-                unset(inline)
-            }
-        } else {
-            unset(index)
-            unset(inline)
-        }
+
+        if (toggle) hide();
+        if (!toggle) show();
     },
 
     adjust: //mes-func
@@ -3752,10 +3760,17 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const els = document.querySelectorAll(selector);
             els.forEach((el) => {
                 if (el.getAttribute("data-instance") !== "true") {
-                    const userInstance = el.getAttribute("href").split("@")[2];
-                    if (userInstance) {
-                        el.innerText = el.innerText + "@" + userInstance;
-                        el.setAttribute("data-instance", "true")
+                    if (el.classList.contains("user-hidden-instance")) return
+                    const arr = el.getAttribute("title").split("@");
+                    const name = arr[1];
+                    const remote = arr[2];
+                    if (name) {
+                        const clone = el.cloneNode(false);
+                        clone.innerText = name + "@" + remote;
+                        clone.setAttribute("data-instance", "true");
+                        el.classList.add("user-hidden-instance");
+                        el.style.display = "none";
+                        el.insertAdjacentElement("afterend", clone);
                     }
                 }
             });
@@ -3765,10 +3780,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const els = document.querySelectorAll(selector);
             els.forEach((el) => {
                 if (el.getAttribute("data-instance") === "true") {
-                    el.setAttribute("data-instance", "false");
-                    el.innerText = el.innerText.split("@")[0]
+                    el.remove();
                 }
             });
+            document.querySelectorAll(".user-hidden-instance").forEach((el) => {
+                el.style.removeProperty("display");
+                el.classList.remove("user-hidden-instance");
+            })
         }
 
         function setSelector () {
@@ -3791,13 +3809,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const selector = setSelector();
-
-        if (toggle) {
-            showUserInstances(selector);
-        } else {
-            hideUserInstances(selector);
-            return
-        }
+        if (toggle) showUserInstances(selector);
+        if (!toggle) hideUserInstances(selector);
     },
 
     submission_label: //mes-func

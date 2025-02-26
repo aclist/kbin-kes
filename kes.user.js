@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.3.0-beta.38
+// @version      4.3.0-beta.47
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1404,17 +1404,6 @@ function constructMenu (json, layoutArr, isNew) {
     function initmut (list) {
         const timestamp_json = { "login": false, "entrypoint": "timestamp" }
         for (const mutation of list) {
-            if (mutation.target.nodeName == "HTML") {
-                //implies that turbo mode reloaded the entire DOM tree
-                //the KES modal is itself running in the background,
-                //but when the entire DOM is reloaded in place the settings icon should be
-                //reinjected into the kbin navbar
-                injectSettingsButton(layoutArr, isNew)
-                for (let i = 0; i < json.length; ++i) {
-                    applySettings(json[i], mutation);
-                }
-                return
-            }
             //trigger when username popover dialog is spawned on hover
             //there can only be one popover spawned at a given time
             if (mutation.target.id === "popover") {

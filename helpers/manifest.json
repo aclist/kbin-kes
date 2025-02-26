@@ -395,6 +395,30 @@
     "page": "profile"
   },
   {
+    "name": "Hide related",
+    "author": "shazbot",
+    "version": "0.1",
+    "label": "Hide crossposts",
+    "login": false,
+    "recurs": true,
+    "desc": "Hide the crosspost section from the thread index/threads",
+    "entrypoint": "hide_related",
+    "page": "threads",
+    "namespace": "hide_related",
+    "fields": [
+      {
+        "key": "index",
+        "type": "checkbox",
+        "checkbox_label": "Hide on thread index"
+      },
+      {
+        "key": "thread",
+        "type": "checkbox",
+        "checkbox_label": "Hide inside threads"
+      }
+    ]
+  },
+  {
     "name": "Remove ads",
     "author": "shazbot",
     "version": "0.2.0",
@@ -627,6 +651,8 @@
         "key": "logotype",
         "values": [
           "Hidden",
+          "Mbin",
+          "Mbin (no text)",
           "Kbin (no text)",
           "Kibby",
           "Kibby (no text)"
@@ -828,25 +854,12 @@
     "name": "Hide thumbnails",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Hide thumbnails",
+    "label": "Hide thumbnails on microblogs",
     "login": false,
     "recurs": true,
-    "desc": "Hide thumbnails on threads and comments",
+    "desc": "Hide inline thumbnails on microblogs. For thumbnails on the thread index, use Mbin's native setting.",
     "entrypoint": "hide_thumbs",
-    "page": "general",
-    "namespace": "hidethumbs",
-    "fields": [
-      {
-        "type": "checkbox",
-        "key": "index",
-        "checkbox_label": "Hide on thread index"
-      },
-      {
-        "type": "checkbox",
-        "key": "inline",
-        "checkbox_label": "Hide inline thumbnails"
-      }
-    ]
+    "page": "general"
   },
   {
     "name": "Adjust colors",
