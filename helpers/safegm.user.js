@@ -167,14 +167,6 @@ function getComputedFontSize (string) { // eslint-disable-line no-unused-vars
     if (isNaN(parseFloat(string)) === false) {
         return parseFloat(string)
     }
-    const el = document.querySelector(string)
-    if (!el) {
-        return null
-    }
-    const fontsize = document.defaultView.getComputedStyle(el).fontSize
-    let px = fontsize.split('px')[0]
-    px = parseFloat(px)
-    return px
 }
 
 //returns whether the user is currently logged in
