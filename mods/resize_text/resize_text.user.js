@@ -88,7 +88,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         }
         /* ============= */
         /* MENUBAR OPTIONS */
-        aside#options menu li a, aside#options menu i, aside#options menu button span {
+        #activity menu li, aside#options menu li a, aside#options menu i, aside#options menu button span {
             font-size: ${resolveSize(settings["optionMenubar"])}rem
         }
         /* INBOX NOTIFICATIONS */
