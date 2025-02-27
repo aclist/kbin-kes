@@ -241,6 +241,31 @@ function getPageType () { //eslint-disable-line no-unused-vars
     return "Unknown"
 }
 
+function isIndex () {
+    const pt = getPageType();
+    switch (pt) {
+        case Mbin.Domain.Default:
+        case Mbin.Domain.Comments:
+        case Mbin.Top:
+            return true
+        default:
+            return false
+    }
+}
+
+function isThread () {
+    const pt = getPageType();
+    switch (pt) {
+        case Mbin.Thread.Comments:
+        case Mbin.Thread.Favorites:
+        case Mbin.Thread.Boosts:
+            return true
+        default:
+            return false
+    }
+}
+
+
 //sets the type of GM API being used (dot or underscore notation) based on scripthandler metadata
 let gmPrefix
 const dotPrefix = "GM."
