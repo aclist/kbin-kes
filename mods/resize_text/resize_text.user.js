@@ -30,8 +30,15 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         #comment-add * {
             font-size: ${resolveSize(settings["optionPostComment"])}rem
         }
+        /* ABOUT PAGES */
+        #main[data-controller="lightbox timeago confirmation"] h1 {
+            font-size: ${resolveSize(settings["optionAbout"]) * 2.5}rem
+        }
+        #main[data-controller="lightbox timeago confirmation"] #content {
+            font-size: ${resolveSize(settings["optionAbout"])}rem
+        }
         /* COMMENTS */
-        .entry-comment * {
+        .section.post.subject *, .entry-comment * {
             font-size: ${resolveSize(settings["optionComments"])}rem !important
         }
         /* USER META POPOVER */
@@ -92,7 +99,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         }
         /* ============= */
         /* MENUBAR OPTIONS */
-        #activity menu li, aside#options menu li a, aside#options menu i, aside#options menu button span {
+        .pills menu li, #activity menu li, aside#options menu li a, aside#options menu i, aside#options menu button span {
             font-size: ${resolveSize(settings["optionMenubar"])}rem
         }
         /* INBOX NOTIFICATIONS */
@@ -127,6 +134,9 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         }
         /* TABLES */
         .table-responsive {
+            font-size: ${resolveSize(settings["optionTables"])}rem
+        }
+        table * {
             font-size: ${resolveSize(settings["optionTables"])}rem
         }
         table .action {
