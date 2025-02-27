@@ -26,6 +26,10 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .sidebar-subscriptions *,  #sidebar * {
             font-size: ${resolveSize(settings["optionHomeSidebar"])}rem !important
         }
+        /* POST COMMENT */
+        #comment-add * {
+            font-size: ${resolveSize(settings["optionPostComment"])}rem
+        }
         /* COMMENTS */
         .entry-comment * {
             font-size: ${resolveSize(settings["optionComments"])}rem !important

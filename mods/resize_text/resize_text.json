@@ -39,6 +39,15 @@
     },
     {
       "type": "range",
+      "key": "optionPostComment",
+      "label": "Post comment area:",
+      "show_value": true,
+      "initial": 4,
+      "min": 1,
+      "max": 10
+    },
+    {
+      "type": "range",
       "key": "optionNotifs",
       "label": "Notifications:",
       "show_value": true,
