@@ -2070,7 +2070,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         function processFilters () {
             const articles = document.querySelectorAll('.entry')
             for (let i = 0; i < banned.length; ++i) {
-                if (block) gt(getRelativeName(banned[i]))
+                if (block) bu(getRelativeName(banned[i]))
             }
             for (let i = 0; i < articles.length; ++i) {
                 const name = getPoster(articles[i])
@@ -2100,37 +2100,14 @@ const funcObj = { // eslint-disable-line no-unused-vars
             localStorage.setItem("kes-checked-users", checked)
         }
 
-        async function gt (u) {
-            const resp = await fetch(`https://${domain}/u/${u}`, {
-                "credentials": "include",
-                "method": "GET",
-                "mode": "cors"
-            });
-            switch (await resp.status) {
-                case 200: {
-                    const respText = await resp.text()
-                    const parser = new DOMParser();
-                    const XML = parser.parseFromString(respText, "text/html");
-                    const form = XML.querySelector('[name="user_block"]')
-                    if (form) {
-                        const t = form.querySelector('input').value
-                        bu(u, t)
-                    }
-                    break
-                }
-                default:
-                    break
-            }
-        }
-
-        async function bu (u, t) {
+        async function bu (u) {
             const resp = await fetch(`https://${domain}/u/${u}/block`, {
                 signal: AbortSignal.timeout(8000),
                 "credentials": "include",
                 "headers": {
                     "Content-Type": "multipart/form-data; boundary=---------------------------11111111111111111111111111111"
                 },
-                "body": `-----------------------------11111111111111111111111111111\r\nContent-Disposition: form-data; name="token"\r\n\r\n${t}\r\n-----------------------------11111111111111111111111111111--\r\n`,
+                "body": `-----------------------------11111111111111111111111111111\r\nContent-Disposition: form-data;`,
                 "method": "POST",
                 "mode": "cors"
             });
@@ -3350,24 +3327,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function makeButton (parent) {
-            const buttonCSS = `
-            .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
-                font-size: 0.8rem;
-                padding: 0px 5px 0px 5px;
-                cursor: pointer;
-            }
-            .mes-expand-post-button.btn.btn-link.btn__primary {
-                color: var(--kbin-button-primary-text-color) !important;
-            }
-            .mes-collapse-post-button.btn.btn-link.btn__primary {
-                color: var(--kbin-button-primary-text-color) !important;
-            }
-            .mes-loading-post-button.btn.btn-link.btn__primary {
-                color: var(--kbin-button-primary-text-color) !important;
-            }
-            `;
-
-            safeGM("addStyle", buttonCSS, "expand-css");
             const button = document.createElement('a')
  
             //initialize button expand mode
@@ -3398,6 +3357,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function updateExpandMode (button) {
+            const settings = getModSettings("expand-posts")
             const mode = button.dataset.expandMode
             let newMode
             switch (mode) {
@@ -3449,8 +3409,27 @@ const funcObj = { // eslint-disable-line no-unused-vars
             "mes-loading-post-button",
             "mes-collapse-post-button"
         ]
+        const buttonCSS = `
+        .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
+            font-size: 0.8rem;
+            padding: 0px 5px 0px 5px;
+            cursor: pointer;
+        }
+        .mes-expand-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        .mes-collapse-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        .mes-loading-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        `;
+
 
         if (toggle) {
+            safeGM("removeStyle", "expand-css");
+            safeGM("addStyle", buttonCSS, "expand-css");
             propagateButtons();
         } else {
             let allEls
