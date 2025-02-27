@@ -50,7 +50,7 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .section.user-info > ul > li {
             font-size: ${resolveSize(settings["optionProfile"])}rem
         }
-        #content h2 {
+        #content > h2 {
             font-size: ${resolveSize(settings["optionProfile"]) * 2}rem
         }
         /* ============= */
