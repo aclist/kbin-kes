@@ -25,6 +25,7 @@
         "isLoggedIn": "readonly",
         "log": "readonly",
         "Log": "readonly",
+        "makeModal": "readonly",
         "makeLoader": "readonly",
         "clearLoader": "readonly"
     },
