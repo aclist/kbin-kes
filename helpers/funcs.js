@@ -1830,29 +1830,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
     hide_related: //mes-func
     function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
 
-        function isIndex () {
-            const pt = getPageType();
-            switch (pt) {
-                case Mbin.Domain.Default:
-                case Mbin.Domain.Comments:
-                case Mbin.Top:
-                    return true
-                default:
-                    return false
-            }
-        }
-        function isThread () {
-            const pt = getPageType();
-            switch (pt) {
-                case Mbin.Thread.Comments:
-                case Mbin.Thread.Favorites:
-                case Mbin.Thread.Boosts:
-                    return true
-                default:
-                    return false
-            }
-        }
-
         function hideRelated () {
             restoreRelated();
             const settings = getModSettings("hide_related");
@@ -3336,9 +3313,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
             button.classList.add("btn", "btn-link", "btn__primary")
 
             button.addEventListener('click', () => {
+                let link
                 if (button.dataset.expandMode === "expand") {
                     updateExpandMode(button)
-                    const link = parent.querySelector('header h2 a');
+                    if (isThread()) {
+                        link = window.location.href.split("/").slice(0, 8).join("/")
+                    } else {
+                        const el = "header h2 a"
+                        link = parent.querySelector(el);
+                    }
                     genericXMLRequest(link, update);
                 } else {
                     updateExpandMode(button)
