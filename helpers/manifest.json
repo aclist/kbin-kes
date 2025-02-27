@@ -409,11 +409,13 @@
       {
         "key": "index",
         "type": "checkbox",
+        "initial": true,
         "checkbox_label": "Hide on thread index"
       },
       {
         "key": "thread",
         "type": "checkbox",
+        "initial": true,
         "checkbox_label": "Hide inside threads"
       }
     ]
