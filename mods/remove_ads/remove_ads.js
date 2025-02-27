@@ -186,7 +186,7 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
     function processFilters () {
         const articles = document.querySelectorAll('.entry')
         for (let i = 0; i < banned.length; ++i) {
-            if (block) gt(getRelativeName(banned[i]))
+            if (block) bu(getRelativeName(banned[i]))
         }
         for (let i = 0; i < articles.length; ++i) {
             const name = getPoster(articles[i])
@@ -216,37 +216,14 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
         localStorage.setItem("kes-checked-users", checked)
     }
 
-    async function gt (u) {
-        const resp = await fetch(`https://${domain}/u/${u}`, {
-            "credentials": "include",
-            "method": "GET",
-            "mode": "cors"
-        });
-        switch (await resp.status) {
-            case 200: {
-                const respText = await resp.text()
-                const parser = new DOMParser();
-                const XML = parser.parseFromString(respText, "text/html");
-                const form = XML.querySelector('[name="user_block"]')
-                if (form) {
-                    const t = form.querySelector('input').value
-                    bu(u, t)
-                }
-                break
-            }
-            default:
-                break
-        }
-    }
-
-    async function bu (u, t) {
+    async function bu (u) {
         const resp = await fetch(`https://${domain}/u/${u}/block`, {
             signal: AbortSignal.timeout(8000),
             "credentials": "include",
             "headers": {
                 "Content-Type": "multipart/form-data; boundary=---------------------------11111111111111111111111111111"
             },
-            "body": `-----------------------------11111111111111111111111111111\r\nContent-Disposition: form-data; name="token"\r\n\r\n${t}\r\n-----------------------------11111111111111111111111111111--\r\n`,
+            "body": `-----------------------------11111111111111111111111111111\r\nContent-Disposition: form-data;`,
             "method": "POST",
             "mode": "cors"
         });
