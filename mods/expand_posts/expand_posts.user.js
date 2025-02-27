@@ -25,24 +25,6 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     function makeButton (parent) {
-        const buttonCSS = `
-        .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
-            font-size: 0.8rem;
-            padding: 0px 5px 0px 5px;
-            cursor: pointer;
-        }
-        .mes-expand-post-button.btn.btn-link.btn__primary {
-            color: var(--kbin-button-primary-text-color) !important;
-        }
-        .mes-collapse-post-button.btn.btn-link.btn__primary {
-            color: var(--kbin-button-primary-text-color) !important;
-        }
-        .mes-loading-post-button.btn.btn-link.btn__primary {
-            color: var(--kbin-button-primary-text-color) !important;
-        }
-        `;
-
-        safeGM("addStyle", buttonCSS, "expand-css");
         const button = document.createElement('a')
  
         //initialize button expand mode
@@ -73,6 +55,7 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     function updateExpandMode (button) {
+        const settings = getModSettings("expand-posts")
         const mode = button.dataset.expandMode
         let newMode
         switch (mode) {
@@ -124,8 +107,27 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
         "mes-loading-post-button",
         "mes-collapse-post-button"
     ]
+    const buttonCSS = `
+    .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
+        font-size: 0.8rem;
+        padding: 0px 5px 0px 5px;
+        cursor: pointer;
+    }
+    .mes-expand-post-button.btn.btn-link.btn__primary {
+        color: var(--kbin-button-primary-text-color) !important;
+    }
+    .mes-collapse-post-button.btn.btn-link.btn__primary {
+        color: var(--kbin-button-primary-text-color) !important;
+    }
+    .mes-loading-post-button.btn.btn-link.btn__primary {
+        color: var(--kbin-button-primary-text-color) !important;
+    }
+    `;
+
 
     if (toggle) {
+        safeGM("removeStyle", "expand-css");
+        safeGM("addStyle", buttonCSS, "expand-css");
         propagateButtons();
     } else {
         let allEls
