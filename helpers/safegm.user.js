@@ -164,7 +164,7 @@ async function loadMags (callback, id, useCache, runCallbackOnlyOnce) {
 
     if (useCache) {
         const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
-        if (cachedValue) {
+        if (cachedValue && cachedValue.length > 0) {
             runCallback(cachedValue);
             return;
         }
