@@ -31,17 +31,30 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             font-size: ${resolveSize(settings["optionPostComment"])}rem
         }
         /* ABOUT PAGES */
-        #main[data-controller="lightbox timeago confirmation"] h1 {
+        #middle[class="page-about"] h1,
+        #middle[class="page-faq"] h1,
+        #middle[class="page-terms"] h1,
+        #middle[class="page-privacy-policy"] h1,
+        #middle[class="page-magazine-panel page-magazine-moderators"] h1,
+        #middle[class="page-federation"] h1 {
             font-size: ${resolveSize(settings["optionAbout"]) * 2.5}rem
         }
-        #main[data-controller="lightbox timeago confirmation"] #content {
+        #middle[class="page-about"] #content *,
+        #middle[class="page-faq"] #content *,
+        #middle[class="page-terms"] #content * ,
+        #middle[class="page-privacy-policy"] #content * ,
+        #middle[class="page-magazine-panel page-magazine-moderators"] #content *,
+        #middle[class="page-stats"] #content *,
+        #middle[class="page-federation"] .section:not(table) {
             font-size: ${resolveSize(settings["optionAbout"])}rem
+        }
+        #middle[class="page-federation"] .section h3 {
+            font-size: ${resolveSize(settings["optionAbout"]) * 2}rem
         }
         /* COMMENTS */
         .section.post.subject *, .entry-comment * {
             font-size: ${resolveSize(settings["optionComments"])}rem !important
         }
-        /* USER META POPOVER */
         #popover * {
             font-size: ${resolveSize(settings["optionPopover"])}rem !important
         }
@@ -64,7 +77,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         #content > h2 {
             font-size: ${resolveSize(settings["optionProfile"]) * 2}rem
         }
-        /* ============= */
         /* POST CREATION PAGES */
         form[name="magazine"] * {
             font-size: ${resolveSize(settings["optionCreate"])}rem
@@ -81,12 +93,10 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .entry-create * {
             font-size: ${resolveSize(settings["optionCreate"])}rem
         }
-        /* ============= */
         /* NAVBAR */
         #header :not(.icon) {
             font-size: ${resolveSize(settings["optionNavbar"])}rem
         }
-        /* ============= */
         /* SETTINGS */
         form[name="user_settings"] * {
             font-size: ${resolveSize(settings["optionUserSettings"])}rem;
@@ -97,9 +107,12 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .page-settings h2 {
             font-size: ${resolveSize(settings["optionUserSettings"]) * 2.5}rem
         }
-        /* ============= */
         /* MENUBAR OPTIONS */
-        .pills menu li, #activity menu li, aside#options menu li a, aside#options menu i, aside#options menu button span {
+        .pills menu li,
+        #activity menu li,
+        aside#options menu li a,
+        aside#options menu i,
+        aside#options menu button span {
             font-size: ${resolveSize(settings["optionMenubar"])}rem
         }
         /* INBOX NOTIFICATIONS */
@@ -121,7 +134,6 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .page-notifications > .mbin-container > main > h1 {
             font-size: ${resolveSize(settings["optionNotifs"]) * 2.5}rem !important
         }
-        /* ============= */
         /* THREADS */
         article.entry > header > h2 a {
             font-size: ${resolveSize(settings["optionThreads"]) * 1.295}rem
@@ -141,6 +153,18 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         }
         table .action {
             font-size: ${resolveSize(settings["optionTables"]) * 0.85}rem
+        }
+        /* MODLOG */
+        #middle[class="page-modlog"] .section--small.log,
+        #middle[class="page-modlog"] .alert.alert__danger {
+            font-size: ${resolveSize(settings["optionModlog"])}rem
+        }
+        #middle[class="page-modlog"] h1 {
+            font-size: ${resolveSize(settings["optionModlog"]) * 2.5}rem
+        }
+        /* PAGINATION FOOTER */
+        .pagination.section {
+            font-size: ${resolveSize(settings["optionPagination"])}rem
         }
         `;
         safeGM("addStyle", css, "resize-css")
