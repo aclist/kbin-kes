@@ -3723,7 +3723,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             els.forEach((el) => {
                 if (el.getAttribute("data-instance") !== "true") {
                     if (el.classList.contains("user-hidden-instance")) return
-                    const arr = el.getAttribute("title").split("@");
+                    const arr = el.getAttribute("href").split("@");
                     const name = arr[1];
                     const remote = arr[2];
                     if (name) {
