@@ -12,8 +12,8 @@
   "fields": [
     {
       "type": "range",
-      "key": "optionHeader",
-      "label": "Header:",
+      "key": "optionNavbar",
+      "label": "Navbar:",
       "show_value": true,
       "initial": 4,
       "min": 1,
@@ -88,6 +88,15 @@
       "label": "User profiles:",
       "show_value": true,
       "initial": 5,
+      "min": 1,
+      "max": 10
+    },
+    {
+      "type": "range",
+      "key": "optionPopover",
+      "label": "User popover card:",
+      "show_value": true,
+      "initial": 4,
       "min": 1,
       "max": 10
     },

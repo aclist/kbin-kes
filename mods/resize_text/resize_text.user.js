@@ -50,6 +50,9 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .section.user-info > ul > li {
             font-size: ${resolveSize(settings["optionProfile"])}rem
         }
+        #content h2 {
+            font-size: ${resolveSize(settings["optionProfile"]) * 2}rem
+        }
         /* ============= */
         /* POST CREATION PAGES */
         form[name="magazine"] * {
@@ -68,9 +71,9 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             font-size: ${resolveSize(settings["optionCreate"])}rem
         }
         /* ============= */
-        /* HEADERS */
+        /* NAVBAR */
         #header :not(.icon) {
-            font-size: ${resolveSize(settings["optionHeader"])}rem
+            font-size: ${resolveSize(settings["optionNavbar"])}rem
         }
         /* ============= */
         /* SETTINGS */
