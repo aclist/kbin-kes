@@ -30,7 +30,10 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
         .entry-comment * {
             font-size: ${resolveSize(settings["optionComments"])}rem !important
         }
-        /* ============= */
+        /* USER META POPOVER */
+        #popover * {
+            font-size: ${resolveSize(settings["optionPopover"])}rem !important
+        }
         /* PROFILE PAGES */
         .user-main > div > .user__actions * {
             font-size: ${resolveSize(settings["optionProfile"])}rem
