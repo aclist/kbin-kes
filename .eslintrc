@@ -26,7 +26,9 @@
         "log": "readonly",
         "Log": "readonly",
         "makeLoader": "readonly",
-        "clearLoader": "readonly"
+        "clearLoader": "readonly",
+        "isIndex": "readonly",
+        "isThread": "readonly"
     },
     "env": {
         "browser": true,
