@@ -34,9 +34,15 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
         button.classList.add("btn", "btn-link", "btn__primary")
 
         button.addEventListener('click', () => {
+            let link
             if (button.dataset.expandMode === "expand") {
                 updateExpandMode(button)
-                const link = parent.querySelector('header h2 a');
+                if (isThread()) {
+                    link = window.location.href.split("/").slice(0, 8).join("/")
+                } else {
+                    const el = "header h2 a"
+                    link = parent.querySelector(el);
+                }
                 genericXMLRequest(link, update);
             } else {
                 updateExpandMode(button)

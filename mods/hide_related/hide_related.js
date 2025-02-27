@@ -1,28 +1,5 @@
 function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
 
-    function isIndex () {
-        const pt = getPageType();
-        switch (pt) {
-            case Mbin.Domain.Default:
-            case Mbin.Domain.Comments:
-            case Mbin.Top:
-                return true
-            default:
-                return false
-        }
-    }
-    function isThread () {
-        const pt = getPageType();
-        switch (pt) {
-            case Mbin.Thread.Comments:
-            case Mbin.Thread.Favorites:
-            case Mbin.Thread.Boosts:
-                return true
-            default:
-                return false
-        }
-    }
-
     function hideRelated () {
         restoreRelated();
         const settings = getModSettings("hide_related");
