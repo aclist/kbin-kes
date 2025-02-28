@@ -395,6 +395,32 @@
     "page": "profile"
   },
   {
+    "name": "Hide related",
+    "author": "shazbot",
+    "version": "0.1",
+    "label": "Hide crossposts",
+    "login": false,
+    "recurs": true,
+    "desc": "Hide the crosspost section from the thread index/threads",
+    "entrypoint": "hide_related",
+    "page": "threads",
+    "namespace": "hide_related",
+    "fields": [
+      {
+        "key": "index",
+        "type": "checkbox",
+        "initial": true,
+        "checkbox_label": "Hide on thread index"
+      },
+      {
+        "key": "thread",
+        "type": "checkbox",
+        "initial": true,
+        "checkbox_label": "Hide inside threads"
+      }
+    ]
+  },
+  {
     "name": "Remove ads",
     "author": "shazbot",
     "version": "0.2.0",
@@ -489,122 +515,157 @@
     "name": "Customize font size",
     "author": "minnieo",
     "version": "0.1.1",
-    "label": "Change font size",
+    "label": "Change font scale factor",
     "login": false,
     "recurs": true,
-    "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes.",
+    "desc": "Customize the font scale on a per-page/component basis.",
     "entrypoint": "resize_text",
     "namespace": "resize",
     "page": "accessibility",
-    "catch_reset": [
-      "optionHeader",
-      "optionPosts",
-      "optionComments",
-      "optionHomeSidebar",
-      "optionCreate",
-      "optionProfile",
-      "optionUserSettings",
-      "optionMessages",
-      "optionSortBy",
-      "optionNotifs",
-      "optionFooter"
-    ],
     "fields": [
       {
-        "type": "reset",
-        "key": "resetNumFields",
-        "label": "Reset values to defaults:",
-        "value": "reset"
+        "type": "range",
+        "key": "optionNavbar",
+        "label": "Navbar:",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "#header.header",
-        "key": "optionHeader",
-        "label": "Header:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "type": "range",
+        "key": "optionThreads",
+        "label": "Threads:",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "article.entry .content p",
-        "key": "optionPosts",
-        "label": "Posts:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": ".entry-comment .content",
+        "type": "range",
         "key": "optionComments",
         "label": "Comments:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "div.page-notifications",
+        "type": "range",
+        "key": "optionPostComment",
+        "label": "Post comment area:",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
         "key": "optionNotifs",
         "label": "Notifications:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "div.container form[name=\"user_settings\"",
+        "type": "range",
         "key": "optionUserSettings",
-        "label": "Settings, magazine index:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "label": "Settings",
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "aside#options menu li a, aside#options menu i",
-        "key": "optionSortBy",
-        "label": "Sort by bar:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "type": "range",
+        "key": "optionMenubar",
+        "label": "Options bars (top of pages):",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "aside#sidebar section.related-magazines",
+        "type": "range",
         "key": "optionHomeSidebar",
         "label": "Sidebars:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "form.entry-create",
+        "type": "range",
         "key": "optionCreate",
         "label": "Create (threads, mags, links, etc):",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "div.user-box",
+        "type": "range",
         "key": "optionProfile",
         "label": "User profiles:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "div.page-messages",
+        "type": "range",
+        "key": "optionPopover",
+        "label": "User popover card:",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
         "key": "optionMessages",
         "label": "Inbox messages:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
+        "key": "optionTables",
+        "label": "Table content:",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
+        "key": "optionAbout",
+        "label": "About pages:",
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
+        "key": "optionModlog",
+        "label": "Moderation log:",
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
+        "key": "optionPagination",
+        "label": "Pagination footer:",
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
       }
     ]
   },
@@ -627,6 +688,8 @@
         "key": "logotype",
         "values": [
           "Hidden",
+          "Mbin",
+          "Mbin (no text)",
           "Kbin (no text)",
           "Kibby",
           "Kibby (no text)"
@@ -828,25 +891,12 @@
     "name": "Hide thumbnails",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Hide thumbnails",
+    "label": "Hide thumbnails on microblogs",
     "login": false,
     "recurs": true,
-    "desc": "Hide thumbnails on threads and comments",
+    "desc": "Hide inline thumbnails on microblogs. For thumbnails on the thread index, use Mbin's native setting.",
     "entrypoint": "hide_thumbs",
-    "page": "general",
-    "namespace": "hidethumbs",
-    "fields": [
-      {
-        "type": "checkbox",
-        "key": "index",
-        "checkbox_label": "Hide on thread index"
-      },
-      {
-        "type": "checkbox",
-        "key": "inline",
-        "checkbox_label": "Hide inline thumbnails"
-      }
-    ]
+    "page": "general"
   },
   {
     "name": "Adjust colors",

@@ -26,7 +26,11 @@
         "log": "readonly",
         "Log": "readonly",
         "loadMags": "readonly",
-        "clearCachedMags": "readonly"
+        "clearCachedMags": "readonly",
+        "makeLoader": "readonly",
+        "clearLoader": "readonly",
+        "isIndex": "readonly",
+        "isThread": "readonly"
     },
     "env": {
         "browser": true,

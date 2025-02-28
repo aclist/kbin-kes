@@ -221,8 +221,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
             .entry-comment {
                 border-color: transparent !important;
-                grid-template-columns: 40px 50px auto min-content;
                 grid-template-rows: min-content auto auto;
+                grid-template-columns: 40px 50px auto min-content;
                 display: grid;
                 margin-left: 0 !important;
             }
@@ -270,9 +270,25 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 display: none;
             }
             `;
+            const hiddenfigureCSS = `
+            .entry-comment {
+                grid-template-columns: 40px 0px auto min-content;
+            }
+            .collapsed-comment {
+                grid-template-columns: 20px 0px auto!important;
+            }
+            .collapsed-comment header {
+                margin-left: 0px !important
+            }
+            `;
             safeGM("addStyle", hideDefaults, "hide-defaults");
             safeGM("addStyle", style, "threaded-comments");
-            safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
+            safeGM("addStyle", mbinStyle, "mbin-kes-comments-style");
+            const el = document.querySelector('.entry-comment figure');
+            const display = window.getComputedStyle(el).display
+            if (display === "none") {
+                safeGM("addStyle", hiddenfigureCSS, "mbin-kes-comments-figure-style");
+            }
         }
         function applyToNewPosts () {
             let comments = document.querySelectorAll(".entry-comment:not(.nested)");
@@ -496,7 +512,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
             clearMores();
             safeGM("removeStyle", "hide-defaults");
             safeGM("removeStyle", "threaded-comments");
-            safeGM("removeStyle", "mbin-kes-comments-style")
+            safeGM("removeStyle", "mbin-kes-comments-style");
+            safeGM("removeStyle", "mbin-kes-comments-figure-style");
         }
 
         const pt = getPageType();
@@ -758,6 +775,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
             function kickoffListener (e) {
                 if (e.key !== code) return
+                if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
+                if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
                 e.preventDefault();
                 const exists = document.querySelector('.kes-omni-modal')
                 if (exists) {
@@ -932,51 +951,25 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     });
 
                 }
-
                 kesModal.style.display = 'none';
                 document.body.appendChild(kesModal)
 
-
-                const pageHolder = document.querySelector('.kbin-container') 
-                    ?? document.querySelector('.mbin-container')
-                const kth = document.createElement('div');
-                kth.style.cssText = 'height: 0px; width: 0px;'
-                kth.id = 'kes-omni-keytrap-holder'
-                const ktb = document.createElement('button')
-                ktb.style.cssText = 'opacity:0;width:0'
-                ktb.id = 'kes-omni-keytrap'
-                kth.appendChild(ktb)
-                pageHolder.insertBefore(kth, pageHolder.children[0])
-                ktb.addEventListener('keyup',kickoffListener)
-                const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
-                    ?? document.querySelector('[data-controller="mbin notifications"]');
-                globalKeyInsert.addEventListener('keydown',keyTrap)
-
-
+                $(document).on("keypress.omnikey", function (e) {
+                    kickoffListener(e)
+                });
             }
         }
-        function keyTrap (e) {
-            if (e.target.tagName === "INPUT") return
-            if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
-            const kt = document.querySelector('#kes-omni-keytrap');
-            kt.focus();
-        }
-
-        const keytrap = document.querySelector('#kes-omni-keytrap-holder');
-        if (keytrap) keytrap.remove();
 
         if (toggle) {
+            $(document).off("keypress.omnikey");
             createOmni();
         } else {
             const e = []
             safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e);
             safeGM("setValue",`omni-default-mags-${hostname}`, e);
-            document.querySelector('#kes-omni-keytrap')?.remove();
-            document.querySelector('.kes-omni-modal')?.remove;
-
-            const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
-                ?? document.querySelector('[data-controller="mbin notifications"]');
-            globalKeyInsert.removeEventListener('keydown',keyTrap);
+            document.querySelector("kes-omni-modal")?.remove();
+            document.querySelector("kes-omni-tapbar")?.remove();
+            $(document).off("keypress.omnikey");
         }
     },
 
@@ -1530,7 +1523,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                         spanEl = "span"
                     }
                     const oldSpan = magazine.querySelector(spanEl)
-                    oldSpan.classList.add("hidden-instance");
+                    oldSpan.classList.add("mag-hidden-instance");
                     oldSpan.style.display = "none"
                     const newSpan = document.createElement("span")
                     newSpan.innerText = name + "@" + remote
@@ -1547,9 +1540,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function hideRemotes () {
-            document.querySelectorAll('.hidden-instance').forEach((magazine) => {
+            document.querySelectorAll('.mag-hidden-instance').forEach((magazine) => {
                 magazine.style.removeProperty("display");
-                magazine.classList.remove("hidden-instance");
+                magazine.classList.remove("mag-hidden-instance");
             });
             document.querySelectorAll('.mes-remote-instance').forEach((magazine) => {
                 magazine.remove();
@@ -1834,6 +1827,37 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
     },
 
+    hide_related: //mes-func
+    function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
+
+        function hideRelated () {
+            restoreRelated();
+            const settings = getModSettings("hide_related");
+            if ((settings["index"]) && (isIndex())) {
+                document.querySelectorAll(".entry-cross").forEach((entry) => {
+                    entry.style.display = "none"
+                })
+            }
+            if ((settings["thread"]) && (isThread())) {
+                document.querySelectorAll(".entries-cross").forEach((entry) => {
+                    entry.style.display = "none"
+                });
+            }
+        }
+
+        function restoreRelated () {
+            document.querySelectorAll(".entry-cross").forEach((entry) => {
+                entry.style.removeProperty("display");
+            })
+            document.querySelectorAll(".entries-cross").forEach((entry) => {
+                entry.style.removeProperty("display");
+            })
+        }
+
+        if (toggle) hideRelated();
+        if (!toggle) restoreRelated();
+    },
+
     remove_ads: //mes-func
     function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
 
@@ -1843,15 +1867,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const weighted = settings["weight"]
         const block = settings["block"]
 
-        //
-        //currently unused
-        //const votes = document.querySelectorAll('.vote')
-        //function filter (posts) {
-        //    return Array.from(posts).filter((el) =>
-        //        parseInt(el.querySelector('.vote__up button span').innerText) <= parseInt(el.querySelector('.vote__down button span').innerText)
-        //    )
-        //}
-
         const user_ids = []
         const user_links = []
         const checked = []
@@ -1859,7 +1874,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const softbanned = []
 
         let unique_users = {}
-        let modal
         let iteration
     
         const domain = window.location.hostname
@@ -1867,59 +1881,14 @@ const funcObj = { // eslint-disable-line no-unused-vars
         if (url[3] !== "m") return
         if (url[5] === "t") return
 
-        const modalCSS = `
-        #kes-filter-modal-bg {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: 90;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            left: 0;
-            top: 0;
-            background-color: var(--kbin-section-bg) !important;
-        }
-
-        #kes-filter-modal {
-            background-color: gray;
-            width: 500px;
-            height: 100px;
-            display: grid;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid black;
-        }
-        #kes-filter-text {
-            color: black;
-            margin: 20px
-        }
-
-        `;
-
-
-        function makeModal () {
-            const modal_bg = document.createElement('div')
-            const modal = document.createElement('div')
-            const text = document.createElement('p')
-            modal_bg.id = "kes-filter-modal-bg"
-            modal.id = "kes-filter-modal"
-            text.id = "kes-filter-text"
-            text.innerText = "KES: filtering spam, please wait..."
-            modal_bg.appendChild(modal)
-            modal.appendChild(text)
-            return modal_bg
-        }
     
         function apply () {
-            modal = makeModal()
-            document.body.appendChild(modal)
-            safeGM("removeStyle", "kes-filter-css")
-            safeGM("addStyle", modalCSS, "kes-filter-css")
+            const modal = makeLoader("spam-modal", "KES: filtering spam, please wait...");
+            document.body.appendChild(modal);
             check();
         }
         function unapply () {
-            safeGM("removeStyle", "kes-filter-css")
+            safeGM("removeStyle", "mes-filter-css");
         }
 
         function filterDupes (array) {
@@ -1961,7 +1930,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             //arrays are initialized empty on each DOM recursion
             for (let i = 0; i < unique_users.length; ++i) {
                 if (iteration == 1) {
-                    modal.remove();
+                    clearLoader("spam-modal");
                 }
                 if (str_checked.split(',').includes(unique_users[i])) {
                     checked.push(unique_users[i])
@@ -2078,7 +2047,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         function processFilters () {
             const articles = document.querySelectorAll('.entry')
             for (let i = 0; i < banned.length; ++i) {
-                if (block) gt(getRelativeName(banned[i]))
+                if (block) bu(getRelativeName(banned[i]))
             }
             for (let i = 0; i < articles.length; ++i) {
                 const name = getPoster(articles[i])
@@ -2102,43 +2071,20 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     }
                 }
             }
-            modal.remove()
+            clearLoader("spam-modal")
             localStorage.setItem("kes-banned-users", banned)
             localStorage.setItem("kes-softbanned-users", softbanned)
             localStorage.setItem("kes-checked-users", checked)
         }
 
-        async function gt (u) {
-            const resp = await fetch(`https://${domain}/u/${u}`, {
-                "credentials": "include",
-                "method": "GET",
-                "mode": "cors"
-            });
-            switch (await resp.status) {
-                case 200: {
-                    const respText = await resp.text()
-                    const parser = new DOMParser();
-                    const XML = parser.parseFromString(respText, "text/html");
-                    const form = XML.querySelector('[name="user_block"]')
-                    if (form) {
-                        const t = form.querySelector('input').value
-                        bu(u, t)
-                    }
-                    break
-                }
-                default:
-                    break
-            }
-        }
-
-        async function bu (u, t) {
+        async function bu (u) {
             const resp = await fetch(`https://${domain}/u/${u}/block`, {
                 signal: AbortSignal.timeout(8000),
                 "credentials": "include",
                 "headers": {
                     "Content-Type": "multipart/form-data; boundary=---------------------------11111111111111111111111111111"
                 },
-                "body": `-----------------------------11111111111111111111111111111\r\nContent-Disposition: form-data; name="token"\r\n\r\n${t}\r\n-----------------------------11111111111111111111111111111--\r\n`,
+                "body": `-----------------------------11111111111111111111111111111\r\nContent-Disposition: form-data;`,
                 "method": "POST",
                 "mode": "cors"
             });
@@ -2453,153 +2399,179 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     resize_text: //mes-func
     function textResize (toggle) { // eslint-disable-line no-unused-vars
-        const modalContent = ".kes-settings-modal-content"
-        const modalContainer = ".kes-settings-modal-container"
 
-        function kesModalOpen () {
-            const kesModalContent = document.querySelector(modalContent);
-            if (kesModalContent) {
-                return true
-            } else {
-                return false
-            }
-        }
-
-        function modSelected () {
-            let state
-            document.querySelectorAll('.kes-option').forEach((mod) => {
-                if ((mod.style.opacity === "1") && mod.innerText === "Change font size") {
-                    state = true
-                }
-            })
-            return state
-        }
-
-        function setOpacity (value) {
-            const kesModalContent = document.querySelector(modalContent);
-            const kesModalContainer = document.querySelector(modalContainer);
-            kesModalContent.style.opacity = value;
-            kesModalContainer.style.opacity = value;
+        function resolveSize (value) {
+            //const rem = (value - (value*0.785)*(0.935))
+            //midpoint of 5 = 0.85rem, default
+            //header is 5 rem by default
+            //threads are 4
+            const rem = 1 + ( (value - 5) * 0.15)
+            return rem
         }
 
         function resizeText () {
             const settings = getModSettings('resize');
-            let oldID = sessionStorage.getItem('modalFade');
-            clearTimeout(oldID)
-
-            if (kesModalOpen()) {
-                if (modSelected()) setOpacity(0.2)
-            }
             const css = `
             /* MESSAGES */
             .page-messages * {
-                font-size: ${settings["optionMessages"]}px
+                font-size: ${resolveSize(settings["optionMessages"])}rem
             }
             .page-messages > .kbin-container > #main > h1 {
-                font-size: ${settings["optionMessages"] * 2.5}px
+                font-size: ${resolveSize(settings["optionMessages"]) * 2.5}rem
             }
             .page-messages > .mbin-container > #main > h1 {
-                font-size: ${settings["optionMessages"] * 2.5}px
+                font-size: ${resolveSize(settings["optionMessages"]) * 2.5}rem
             }
             /* SIDEBAR */
-            #sidebar * {
-                font-size: ${settings["optionHomeSidebar"]}px !important
+            .sidebar-subscriptions *,  #sidebar * {
+                font-size: ${resolveSize(settings["optionHomeSidebar"])}rem !important
+            }
+            /* POST COMMENT */
+            #comment-add * {
+                font-size: ${resolveSize(settings["optionPostComment"])}rem
+            }
+            /* ABOUT PAGES */
+            #middle[class="page-about"] h1,
+            #middle[class="page-faq"] h1,
+            #middle[class="page-terms"] h1,
+            #middle[class="page-privacy-policy"] h1,
+            #middle[class="page-magazine-panel page-magazine-moderators"] h1,
+            #middle[class="page-federation"] h1 {
+                font-size: ${resolveSize(settings["optionAbout"]) * 2.5}rem
+            }
+            #middle[class="page-about"] #content *,
+            #middle[class="page-faq"] #content *,
+            #middle[class="page-terms"] #content * ,
+            #middle[class="page-privacy-policy"] #content * ,
+            #middle[class="page-magazine-panel page-magazine-moderators"] #content *,
+            #middle[class="page-stats"] #content *,
+            #middle[class="page-federation"] .section:not(table) {
+                font-size: ${resolveSize(settings["optionAbout"])}rem
+            }
+            #middle[class="page-federation"] .section h3 {
+                font-size: ${resolveSize(settings["optionAbout"]) * 2}rem
             }
             /* COMMENTS */
-            .entry-comment * {
-                font-size: ${settings["optionComments"]}px
+            .section.post.subject *, .entry-comment * {
+                font-size: ${resolveSize(settings["optionComments"])}rem !important
             }
-            /* ============= */
+            #popover * {
+                font-size: ${resolveSize(settings["optionPopover"])}rem !important
+            }
             /* PROFILE PAGES */
             .user-main > div > .user__actions * {
-                font-size: ${settings["optionProfile"]}px
+                font-size: ${resolveSize(settings["optionProfile"])}rem
             }
             .user-box * {
-                font-size: ${settings["optionProfile"]}px
+                font-size: ${resolveSize(settings["optionProfile"])}rem
             }
             .section.user-info > ul > li a {
-                font-size: ${settings["optionProfile"]}px !important
+                font-size: ${resolveSize(settings["optionProfile"])}rem !important
             }
             .section.user-info > h3 {
-                font-size: ${settings["optionProfile"]}px !important
+                font-size: ${resolveSize(settings["optionProfile"])}rem !important
             }
             .section.user-info > ul > li {
-                font-size: ${settings["optionProfile"]}px
+                font-size: ${resolveSize(settings["optionProfile"])}rem
             }
-            /* ============= */
+            #content > h2 {
+                font-size: ${resolveSize(settings["optionProfile"]) * 2}rem
+            }
             /* POST CREATION PAGES */
-            /*TODO: this line is not applying */
+            form[name="magazine"] * {
+                font-size: ${resolveSize(settings["optionCreate"])}rem
+            }
             .entry-create > div > #entry_link_title_max_length {
-                font-size: ${settings["optionCreate"]}px
+                font-size: ${resolveSize(settings["optionCreate"])}rem
             }
             .entry-create > div > div > .ts-control > * {
-                font-size: ${settings["optionCreate"]}px
+                font-size: ${resolveSize(settings["optionCreate"])}rem
             }
             .options.options--top.options-activity * {
-                font-size: ${settings["optionCreate"]}px !important
+                font-size: ${resolveSize(settings["optionCreate"])}rem !important
             }
             .entry-create * {
-                font-size: ${settings["optionCreate"]}px
+                font-size: ${resolveSize(settings["optionCreate"])}rem
             }
-            /* ============= */
-            /* HEADERS */
+            /* NAVBAR */
             #header :not(.icon) {
-                font-size: ${settings["optionHeader"]}px
+                font-size: ${resolveSize(settings["optionNavbar"])}rem
             }
-            /* ============= */
             /* SETTINGS */
-            .page-settings * {
-                font-size: ${settings["optionUserSettings"]}px
+            form[name="user_settings"] * {
+                font-size: ${resolveSize(settings["optionUserSettings"])}rem;
+            }
+            form[name="user_settings"] .ts-control * {
+                font-size: ${resolveSize(settings["optionUserSettings"])}rem;
             }
             .page-settings h2 {
-                font-size: ${settings["optionUserSettings"] * 2.5}px
+                font-size: ${resolveSize(settings["optionUserSettings"]) * 2.5}rem
             }
-            /* ============= */
-            /* SORT OPTIONS */
-            aside#options menu li a, aside#options menu i, aside#options menu button span {
-                font-size: ${settings["optionSortBy"]}px
+            /* MENUBAR OPTIONS */
+            .pills menu li,
+            #activity menu li,
+            aside#options menu li a,
+            aside#options menu i,
+            aside#options menu button span {
+                font-size: ${resolveSize(settings["optionMenubar"])}rem
             }
             /* INBOX NOTIFICATIONS */
             .page-notifications > .kbin-container > main > * {
-                font-size: ${settings["optionNotifs"]}px
+                font-size: ${resolveSize(settings["optionNotifs"])}rem
             }
             .page-notifications > .kbin-container > main > .pills > menu > form > button {
-                font-size: ${settings["optionNotifs"] * 0.85}px
+                font-size: ${resolveSize(settings["optionNotifs"]) * 0.85}rem
             }
             .page-notifications > .kbin-container > main > h1 {
-                font-size: ${settings["optionNotifs"] * 2.5}px !important
+                font-size: ${resolveSize(settings["optionNotifs"]) * 2.5}rem !important
             }
             .page-notifications > .mbin-container > main > * {
-                font-size: ${settings["optionNotifs"]}px
+                font-size: ${resolveSize(settings["optionNotifs"])}rem
             }
             .page-notifications > .mbin-container > main > .pills > menu > form > button {
-                font-size: ${settings["optionNotifs"] * 0.85}px
+                font-size: ${resolveSize(settings["optionNotifs"]) * 0.85}rem
             }
             .page-notifications > .mbin-container > main > h1 {
-                font-size: ${settings["optionNotifs"] * 2.5}px !important
+                font-size: ${resolveSize(settings["optionNotifs"]) * 2.5}rem !important
             }
-            /* ============= */
-            /* POSTS/THREADS */
+            /* THREADS */
             article.entry > header > h2 a {
-                font-size: ${settings["optionPosts"] * 1.295}px
+                font-size: ${resolveSize(settings["optionThreads"]) * 1.295}rem
             }
             article.entry > .content * {
-                font-size: ${settings["optionPosts"]}px
+                font-size: ${resolveSize(settings["optionThreads"])}rem
             }
             article.entry * {
-                font-size: ${settings["optionPosts"]}px
+                font-size: ${resolveSize(settings["optionThreads"])}rem
+            }
+            /* TABLES */
+            .table-responsive {
+                font-size: ${resolveSize(settings["optionTables"])}rem
+            }
+            table * {
+                font-size: ${resolveSize(settings["optionTables"])}rem
+            }
+            table .action {
+                font-size: ${resolveSize(settings["optionTables"]) * 0.85}rem
+            }
+            /* MODLOG */
+            #middle[class="page-modlog"] .section--small.log,
+            #middle[class="page-modlog"] .alert.alert__danger {
+                font-size: ${resolveSize(settings["optionModlog"])}rem
+            }
+            #middle[class="page-modlog"] h1 {
+                font-size: ${resolveSize(settings["optionModlog"]) * 2.5}rem
+            }
+            /* PAGINATION FOOTER */
+            .pagination.section {
+                font-size: ${resolveSize(settings["optionPagination"])}rem
             }
             `;
-            safeGM("removeStyle", "resize-css")
             safeGM("addStyle", css, "resize-css")
-
-            if (kesModalOpen()) {
-                let timerID = setTimeout(setOpacity ,1000, 1.0);
-                sessionStorage.setItem('modalFade', timerID);
-            }
         }
 
         if (toggle) {
+            safeGM("removeStyle", "resize-css")
             resizeText();
         } else {
             safeGM("removeStyle", "resize-css")
@@ -2613,6 +2585,16 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const kibby = `${prefix}/kbin_logo_kibby.svg`
         const kibbyMini = `${prefix}/kibby-mini.svg`
         const kbinMini = `${prefix}/kbin-mini.svg`
+        const mbinNoText = "https://raw.githubusercontent.com/MbinOrg/mbin/refs/heads/main/assets/images/sources/mbin-notext.svg"
+        const mbin = "https://raw.githubusercontent.com/MbinOrg/mbin/refs/heads/main/assets/images/sources/mbin-logo.svg"
+
+        const logos = {
+            "Kbin (no text)": kbinMini,
+            "Kibby": kibby,
+            "Kibby (no text)": kibbyMini,
+            "Mbin (no text)": mbinNoText,
+            "Mbin": mbin
+        }
 
         function getDefaultLogo () {
             const keyw = document.querySelector('meta[name="keywords"]').content.split(',')[0]
@@ -2622,36 +2604,48 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function updateLogo (link) {
             $('.brand a').show();
+            document.querySelector(".head-nav__menu").style.removeProperty("padding-left")
             const img = document.querySelector('.brand a img');
-            img.setAttribute("src", link);
+            //special handling for instances with text-only logo
+            if (!img) {
+                const sp = document.querySelector(".brand a span")
+                sp.style.display = "none"
+                const i = document.createElement("img");
+                i.setAttribute("src", link)
+                i.id = "logo"
+                sp.insertAdjacentElement("afterend", i)
+            } else {
+                img.setAttribute("src", link);
+            }
         }
 
         function changeLogo () {
             const ns = "changelogo";
-
             const settings = getModSettings(ns);
             let opt = settings["logotype"];
             switch (opt) {
                 case "Hidden":
                     updateLogo(getDefaultLogo())
                     $('.brand a').hide();
+                    document.querySelector(".head-nav__menu").style.paddingLeft = "20px"
                     break;
-                case "Kibby":
-                    updateLogo(kibby);
-                    break;
-                case "Kbin (no text)":
-                    updateLogo(kbinMini);
-                    break;
-                case "Kibby (no text)":
-                    updateLogo(kibbyMini);
-                    break;
+                default:
+                    updateLogo(logos[opt])
             }
         }
 
         function restoreLogo () {
             $('.brand').show();
+            //special handling for instances with text-only logo
+            const sp = document.querySelector(".brand a span");
+            const a = document.querySelector(".brand a");
+            if (sp) {
+                sp.style.removeProperty("display");
+                a.style.removeProperty("display");
+                document.querySelector(".brand a img").remove();
+                return
+            }
             updateLogo(getDefaultLogo());
-
         }
 
         if (toggle) {
@@ -2804,17 +2798,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 if (!username) return;
                 if (username === self_username) return;
                 const sib = item.nextSibling
-                let link
-                try {
-                    if ((sib) && (sib.nodeName === "#text")) {
-                        link = document.createElement('a');
-                        const ownInstance = window.location.hostname;
-                        link.setAttribute('href', `https://${ownInstance}/u/${username}/message`);
-                        insertElementAfter(item, link);
-                    } else {
-                        link = sib;
-                    }
-                } finally {
+                if ((sib) && (sib.nodeName === "#text")) {
+                    const link = document.createElement('a');
+                    const ownInstance = window.location.hostname;
+                    link.setAttribute('href', `https://${ownInstance}/u/${username}/message`);
+                    insertElementAfter(item, link);
                     if (link) {
                         if (settings["type"] == "Text") {
                             link.className = 'kes-mail-link';
@@ -3169,41 +3157,41 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     hide_thumbs: //mes-func
     function hideThumbs (toggle) { //eslint-disable-line no-unused-vars
-        const settings = getModSettings('hidethumbs')
-        const index = 'kes-index-thumbs'
-        const inline = 'kes-inline-thumbs'
-        const thumbsCSS = `
-        .entry.section.subject figure, .no-image-placeholder {
-            display: none
+        function show () {
+            document.querySelectorAll(".figure-container").forEach((container) => {
+                if (container.dataset.hidden === "true") {
+                    container.style.removeProperty("display");
+                    delete container.dataset.hidden
+                }
+            });
+            document.querySelectorAll(".mes-thumbs-hide").forEach((icon) => {
+                icon.remove();
+            });
         }
-        `
-        const inlineCSS = `
-        .thumbs {
-            display:none
+
+        function hide () {
+            document.querySelectorAll('.figure-container').forEach((container) => {
+                if (container.dataset.hidden === "true") return
+                container.dataset.hidden = "true"
+
+                const prev = document.createElement('i')
+                prev.classList.add("mes-thumbs-hide", "fas", "fa-photo-video");
+                prev.ariaLabel = "Expand/collapse this image"
+                prev.addEventListener("click", () => {
+                    if (container.style.display === "none") {
+                        container.style.removeProperty("display");
+                    } else {
+                        container.style.display = "none"
+                    }
+                });
+
+                container.insertAdjacentElement("beforebegin", prev);
+                container.style.display = "none"
+            })
         }
-        `
-        function apply (sheet, name) {
-            unset(name)
-            safeGM("addStyle", sheet, name)
-        }
-        function unset (name) {
-            safeGM("removeStyle", name)
-        }
-        if (toggle) {
-            if (settings["index"]) {
-                apply(thumbsCSS, index);
-            } else {
-                unset(index)
-            }
-            if (settings["inline"]) {
-                apply(inlineCSS, inline)
-            } else {
-                unset(inline)
-            }
-        } else {
-            unset(index)
-            unset(inline)
-        }
+
+        if (toggle) hide();
+        if (!toggle) show();
     },
 
     adjust: //mes-func
@@ -3342,24 +3330,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function makeButton (parent) {
-            const buttonCSS = `
-            .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
-                font-size: 0.8rem;
-                padding: 0px 5px 0px 5px;
-                cursor: pointer;
-            }
-            .mes-expand-post-button.btn.btn-link.btn__primary {
-                color: var(--kbin-button-primary-text-color) !important;
-            }
-            .mes-collapse-post-button.btn.btn-link.btn__primary {
-                color: var(--kbin-button-primary-text-color) !important;
-            }
-            .mes-loading-post-button.btn.btn-link.btn__primary {
-                color: var(--kbin-button-primary-text-color) !important;
-            }
-            `;
-
-            safeGM("addStyle", buttonCSS, "expand-css");
             const button = document.createElement('a')
  
             //initialize button expand mode
@@ -3369,9 +3339,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
             button.classList.add("btn", "btn-link", "btn__primary")
 
             button.addEventListener('click', () => {
+                let link
                 if (button.dataset.expandMode === "expand") {
                     updateExpandMode(button)
-                    const link = parent.querySelector('header h2 a');
+                    if (isThread()) {
+                        link = window.location.href.split("/").slice(0, 8).join("/")
+                    } else {
+                        const el = "header h2 a"
+                        link = parent.querySelector(el);
+                    }
                     genericXMLRequest(link, update);
                 } else {
                     updateExpandMode(button)
@@ -3390,6 +3366,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function updateExpandMode (button) {
+            const settings = getModSettings("expand-posts")
             const mode = button.dataset.expandMode
             let newMode
             switch (mode) {
@@ -3441,8 +3418,27 @@ const funcObj = { // eslint-disable-line no-unused-vars
             "mes-loading-post-button",
             "mes-collapse-post-button"
         ]
+        const buttonCSS = `
+        .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
+            font-size: 0.8rem;
+            padding: 0px 5px 0px 5px;
+            cursor: pointer;
+        }
+        .mes-expand-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        .mes-collapse-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        .mes-loading-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        `;
+
 
         if (toggle) {
+            safeGM("removeStyle", "expand-css");
+            safeGM("addStyle", buttonCSS, "expand-css");
             propagateButtons();
         } else {
             let allEls
@@ -3752,10 +3748,17 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const els = document.querySelectorAll(selector);
             els.forEach((el) => {
                 if (el.getAttribute("data-instance") !== "true") {
-                    const userInstance = el.getAttribute("href").split("@")[2];
-                    if (userInstance) {
-                        el.innerText = el.innerText + "@" + userInstance;
-                        el.setAttribute("data-instance", "true")
+                    if (el.classList.contains("user-hidden-instance")) return
+                    const arr = el.getAttribute("href").split("@");
+                    const name = arr[1];
+                    const remote = arr[2];
+                    if (name) {
+                        const clone = el.cloneNode(false);
+                        clone.innerText = name + "@" + remote;
+                        clone.setAttribute("data-instance", "true");
+                        el.classList.add("user-hidden-instance");
+                        el.style.display = "none";
+                        el.insertAdjacentElement("afterend", clone);
                     }
                 }
             });
@@ -3765,10 +3768,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const els = document.querySelectorAll(selector);
             els.forEach((el) => {
                 if (el.getAttribute("data-instance") === "true") {
-                    el.setAttribute("data-instance", "false");
-                    el.innerText = el.innerText.split("@")[0]
+                    el.remove();
                 }
             });
+            document.querySelectorAll(".user-hidden-instance").forEach((el) => {
+                el.style.removeProperty("display");
+                el.classList.remove("user-hidden-instance");
+            })
         }
 
         function setSelector () {
@@ -3791,13 +3797,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const selector = setSelector();
-
-        if (toggle) {
-            showUserInstances(selector);
-        } else {
-            hideUserInstances(selector);
-            return
-        }
+        if (toggle) showUserInstances(selector);
+        if (!toggle) hideUserInstances(selector);
     },
 
     submission_label: //mes-func

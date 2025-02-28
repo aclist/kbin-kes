@@ -91,11 +91,9 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
     const username = user.href.split('/')[4];
     const hostname = window.location.hostname
 
-    function cleanup () {
-        document.querySelector('#kes-omni-tapbar')?.remove();
-        document.querySelector('.kes-omni-modal')?.remove();
-        document.querySelector('#kes-omni-keytrap-holder')?.remove();
-    }
+    document.querySelector(".kes-omni-modal")?.remove();
+    document.querySelector("#kes-omni-tapbar")?.remove();
+    
     function createOmni () {
 
         safeGM("removeStyle", "omni-css")
@@ -137,7 +135,6 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
             }
         }
         function alphaSort (links) {
-            cleanup();
             if (!links) return;
             if (typeof links[0] === "string") {
                 links.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
@@ -201,6 +198,8 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         }
         function kickoffListener (e) {
             if (e.key !== code) return
+            if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
+            if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
             e.preventDefault();
             const exists = document.querySelector('.kes-omni-modal')
             if (exists) {
@@ -375,44 +374,23 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
                 });
 
             }
-
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
 
-
-            const pageHolder = document.querySelector('.kbin-container') 
-                ?? document.querySelector('.mbin-container')
-            const kth = document.createElement('div');
-            kth.style.cssText = 'height: 0px; width: 0px;'
-            kth.id = 'kes-omni-keytrap-holder'
-            const ktb = document.createElement('button')
-            ktb.style.cssText = 'opacity:0;width:0'
-            ktb.id = 'kes-omni-keytrap'
-            kth.appendChild(ktb)
-            pageHolder.insertBefore(kth, pageHolder.children[0])
-            ktb.addEventListener('keyup',kickoffListener)
-            const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
-                ?? document.querySelector('[data-controller="mbin notifications"]');
-            globalKeyInsert.addEventListener('keydown',keyTrap)
+            $(document).on("keypress.omnikey", function (e) {
+                kickoffListener(e)
+            });
         }
-    }
-    function keyTrap (e) {
-        if (e.target.tagName === "INPUT") return
-        if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
-        const kt = document.querySelector('#kes-omni-keytrap');
-        kt.focus();
     }
 
     if (toggle) {
+        $(document).off("keypress.omnikey");
         createOmni();
     } else {
         const e = []
         loadMags.cancel(id);
         clearCachedMags();
         safeGM("setValue",`omni-default-mags-${hostname}`, e);
-        cleanup();
-        const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
-            ?? document.querySelector('[data-controller="mbin notifications"]');
-        globalKeyInsert.removeEventListener('keydown',keyTrap);
+        $(document).off("keypress.omnikey");
     }
 }

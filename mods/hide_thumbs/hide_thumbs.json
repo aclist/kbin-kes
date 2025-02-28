@@ -2,23 +2,10 @@
   "name": "Hide thumbnails",
   "author": "shazbot",
   "version": "0.1.0",
-  "label": "Hide thumbnails",
+  "label": "Hide thumbnails on microblogs",
   "login": false,
   "recurs": true,
-  "desc": "Hide thumbnails on threads and comments",
+  "desc": "Hide inline thumbnails on microblogs. For thumbnails on the thread index, use Mbin's native setting.",
   "entrypoint": "hide_thumbs",
-  "page": "general",
-  "namespace": "hidethumbs",
-  "fields": [
-    {
-      "type": "checkbox",
-      "key": "index",
-      "checkbox_label": "Hide on thread index"
-    },
-    {
-      "type": "checkbox",
-      "key": "inline",
-      "checkbox_label": "Hide inline thumbnails"
-    }
-  ]
+  "page": "general"
 }
