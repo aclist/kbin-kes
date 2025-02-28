@@ -25,6 +25,8 @@
         "isLoggedIn": "readonly",
         "log": "readonly",
         "Log": "readonly",
+        "loadMags": "readonly",
+        "clearCachedMags": "readonly",
         "makeLoader": "readonly",
         "clearLoader": "readonly",
         "isIndex": "readonly",

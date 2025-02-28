@@ -233,6 +233,110 @@ function getPageType () { //eslint-disable-line no-unused-vars
     return "Unknown"
 }
 
+/**
+ * Loads the current user's subscriptions.
+ * Will first attempt to load them from the sidebar, if available. When they are not in the sidebar,
+ * or the user has more subscriptions than fit into the sidebar, the user's profile is queried 
+ * instead (which may take a while).
+ * Even if the full list has to be fetched from the profile, the sidebar is still loaded first too
+ * to provide some early results. This can be skipped by using the runCallbackOnlyOnce
+ * parameter.
+ * @param {function(string[]):void} callback The parameter contains the full names (with instances)
+ * of the user's subscriptions
+ * @param {string} ns A namespace used for the cancellation key (ideally the mod's name)
+ * @param {boolean} useCache Whether the cached result should be used
+ * @param {boolean} runCallbackOnlyOnce Workaround for mods that aren't optimized for running the
+ * callback twice. When true, the callback is only executed once when all mods are loaded.
+ */
+async function loadMags (callback, ns, useCache, runCallbackOnlyOnce) {
+    // make sure the user is logged in
+    const username = document.querySelector('.login .user-name')?.textContent;
+    if (!username) return;
+
+    // register the key that can be used to cancel the callback
+    const hostname = window.location.hostname;
+    const cancelKey = `loadMags-${hostname}-${username}-${id}`;
+    safeGM("setValue", cancelKey, false);
+
+    async function runCallback (mags) {
+        if (safeGM("getValue", cancelKey)) return;
+        safeGM("setValue",`user-mags-${hostname}-${username}`, mags);
+        callback(mags);
+    }
+
+    if (useCache) {
+        const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
+        if (cachedValue && cachedValue.length > 0) {
+            runCallback(cachedValue);
+            return;
+        }
+    }
+
+    let loadedMags = [];
+    async function loadFromPage (username, page, mags = []) {
+        const url = `https://${hostname}/u/${username}/subscriptions?p=${page}`;
+        genericXMLRequest(url, (response) => {
+            const dom = new DOMParser().parseFromString(response.responseText, "text/html");
+            // get the magazines from this page
+            mags.push(
+                ...Array.from(dom.querySelectorAll('#content .stretched-link'))
+                    .map((link) => link.getAttribute('href').split('/')[2])
+            );
+            // load more pages if there are
+            const nextPage = dom.querySelector('#content .pagination__item--next-page');
+            if (nextPage.hasAttribute('href') && nextPage.href != window.location.href) {
+                loadFromPage(username, nextPage.getAttribute('href').split('=')[1], mags);
+            } else {
+                // finished loading all pages
+                runCallback(mags);
+            }
+        });
+    }
+    async function loadFromSidebar () {
+        const magList = [...document.querySelectorAll('.subscription')];
+        if (magList.length == 0) {
+            runCallback([]);
+            return;
+        }
+        const containsShowMore = magList[magList.length-1].querySelector('button') != undefined;
+        loadedMags = (containsShowMore ? magList.slice(0,-1) : magList)
+            .map((mag) => mag.querySelector('a').getAttribute('href').split('/')[2]);
+        if (!runCallbackOnlyOnce || !containsShowMore) {
+            safeGM("setValue",`user-mags-${hostname}-${username}`, loadedMags);
+            runCallback(loadedMags);
+        } else if (containsShowMore) {
+            loadFromPage(username, 1);
+        }
+    }
+    if (document.querySelector('.subscription-list') != undefined) {
+        loadFromSidebar();
+    } else {
+        loadFromPage(username, 1);
+    }
+}
+
+/**
+ * Cancels {@link loadMags} after running it. This is intended to be used on teardown of a mod, to
+ * prevent the callback from being called when the mod is supposed to be disabled.
+ * @param {string} ns The mod's cancellation namespace as supplied to loadMags
+ */
+loadMags.cancel = function (ns) {
+    const hostname = window.location.hostname;
+    const username = document.querySelector('.login .user-name')?.textContent;
+    if (!username) return;
+    safeGM("setValue", `loadMags-${hostname}-${username}-${ns}`, true);
+}
+
+/**
+ * Clears the cached list of subscriptions from the {@link loadMags} function.
+ */
+function clearCachedMags () {
+    const hostname = window.location.hostname;
+    const username = document.querySelector('.login .user-name')?.textContent;
+    if (!username) return;
+    safeGM("setValue",`user-mags-${hostname}-${username}`, []);
+}
+
 function isIndex () {
     const pt = getPageType();
     switch (pt) {
