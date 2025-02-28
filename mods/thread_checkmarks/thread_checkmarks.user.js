@@ -33,12 +33,10 @@ function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
     }
 
     if (toggle) {
-        loadMags(setChecks, id, settings["refresh"] == "Enable");
+        loadMags(setChecks, id, settings["refresh"]);
     } else {
         loadMags.cancel(id);
-        if (settings["refresh"] == "Enable") {
-            clearCachedMags();
-        }
+        if (settings["refresh"]) clearCachedMags();
         const oldChecks = document.querySelectorAll('#kes-omni-check')
         oldChecks.forEach((check) => {
             check.remove();
