@@ -53,6 +53,7 @@ gen_requires(){
         "safegm.user.js"
         "funcs.js"
         "pages.js"
+        "debug.js"
     )
     external=(
         "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"

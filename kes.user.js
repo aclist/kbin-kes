@@ -194,6 +194,11 @@ function constructMenu (json, layoutArr, isNew) {
     }
 
     injectSettingsButton(layoutArr, isNew)
+    //inject debug bar if enabled
+    if (isDebugBarEnabled()) {
+        const debug = debugBar(json);
+        document.querySelector("#middle").insertAdjacentElement("beforebegin", debug);
+    }
 
     var keyPressed = {};
     document.addEventListener('keydown', function (e) {
@@ -922,7 +927,8 @@ function constructMenu (json, layoutArr, isNew) {
           <button type="submit" value="export">Export</button>Export to file<br>
           <button type="submit" value="import">Import</button>Import from file<br>
           <button type="submit" value="reset">Reset</button>Reset all KES settings<br>
-          <button type="submit" value="close">Close</button>Close this dialog
+          <button type="submit" value="close">Close</button>Close this dialog<br>
+          <button type="submit" value="debug">Debug Bar</button>Toggle debug bar
         </menu>
       </form>
       `
@@ -939,6 +945,9 @@ function constructMenu (json, layoutArr, isNew) {
                     break;
                 case "reset":
                     resetAll();
+                    break;
+                case "debug":
+                    toggleDebug(json);
                     break;
                 case "close":
                     break;
@@ -1104,6 +1113,7 @@ function constructMenu (json, layoutArr, isNew) {
         modalContent.appendChild(bodyHolder);
         bodyHolder.appendChild(kesUl);
         document.body.appendChild(modal);
+
         document.querySelector('.kes-settings-modal-sidebar ul').addEventListener("click", (e) => {
             if (e.target.className != "kes-tab-link") return
             openTab(e.target.outerText);
@@ -1335,17 +1345,34 @@ function constructMenu (json, layoutArr, isNew) {
         const login = json.login
         legacyMigration(entry);
         const settings = getSettings();
+        const debug = JSON.parse(localStorage.getItem("mes-debugbar"))
+        const blocked = debug["mods"][entry]
         try {
             if (settings[entry] == true) {
                 if (requiresLoginButLoggedOut(login)) {
                     log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
-                    return
+                    return 2
+                }
+                if (blocked) {
+                    return 1
                 }
                 toggleDependencies(entry, true)
                 funcObj[entry](true, mutation);
+                return 0
+            } else {
+                //always apply allowed mods when debug bar is enabled
+                if (debug["enabled"])  {
+                    if (blocked) {
+                        return 1
+                    }
+                    toggleDependencies(entry, true)
+                    funcObj[entry](true, mutation);
+                    return 0
+                }
             }
         } catch (error) {
             console.log(error);
+            return 1
         }
     }
 
@@ -1384,9 +1411,26 @@ function constructMenu (json, layoutArr, isNew) {
     }
 
     function init () {
+        const now = performance.now()
+        let loaded = 0
+        let skipped = 0
         for (let i = 0; i < json.length; ++i) {
-            applySettings(json[i]);
+            let res = applySettings(json[i]);
+            switch (res) {
+                case 0:
+                    loaded++
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    skipped++
+                    break;
+            }
         }
+        const later = performance.now()
+        const delta = (later - now)
+        const line = document.querySelector("#mes-debugbar-loadingline")
+        if (line) line.push(loaded, skipped, delta)
     }
 
     function initmut (list) {

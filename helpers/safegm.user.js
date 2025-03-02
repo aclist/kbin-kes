@@ -1,7 +1,7 @@
 const Log = Object.freeze({ //eslint-disable-line no-unused-vars
     Log: 1,
     Warn: 2,
-    Error: 3,
+    Error: 3
 })
 
 function log (string, level) { // eslint-disable-line no-unused-vars
@@ -9,6 +9,8 @@ function log (string, level) { // eslint-disable-line no-unused-vars
     const iso = date.toISOString()
     const caller = (new Error()).stack?.split("\n")[1].split("@")[0]
     const line = `[KES:${caller}] [${iso}] ${string}`
+    const debug = document.querySelector("#mes-debugbar-expanded")
+    if (debug) debug.push(level, line)
     switch (level) {
         case Log.Log:
             console.log(line)
