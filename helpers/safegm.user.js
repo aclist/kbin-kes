@@ -253,9 +253,10 @@ async function loadMags (callback, ns, useCache, runCallbackOnlyOnce) {
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
 
-    // register the key that can be used to cancel the callback
+    // set up the cancellation logic, for the case where the mod is turned off while this function
+    // is still running
     const hostname = window.location.hostname;
-    const cancelKey = `loadMags-${hostname}-${username}-${id}`;
+    const cancelKey = `loadMags-${hostname}-${username}-${ns}`;
     safeGM("setValue", cancelKey, false);
 
     async function runCallback (mags) {
