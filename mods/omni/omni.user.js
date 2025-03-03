@@ -93,7 +93,9 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
 
     document.querySelector(".kes-omni-modal")?.remove();
     document.querySelector("#kes-omni-tapbar")?.remove();
-    
+
+    let loaded = false;
+
     function createOmni () {
 
         safeGM("removeStyle", "omni-css")
@@ -193,23 +195,6 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
                 const scrollerGeomBot = scrollEl.getBoundingClientRect().bottom;
                 if ((currentElGeom < scrollerGeom) || (currentElGeomBot > scrollerGeomBot)) {
                     el.scrollIntoView();
-                }
-            }
-        }
-        function kickoffListener (e) {
-            if (e.key !== code) return
-            if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
-            if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
-            e.preventDefault();
-            const exists = document.querySelector('.kes-omni-modal')
-            if (exists) {
-                if ($(exists).is(":visible")) {
-                    $(exists).hide();
-                } else {
-                    $(exists).show();
-                    if (!mobile) {
-                        document.querySelector("#kes-omni-search").focus();
-                    }
                 }
             }
         }
@@ -377,19 +362,49 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
 
-            $(document).on("keypress.omnikey", function (e) {
-                kickoffListener(e)
-            });
+            if ($(`#${id}-filter-modal-bg`).is(":visible")) {
+                $('.kes-omni-modal').show();
+            }
+            clearLoader(id);
+        }
+    }
+
+    function kickoffListener (e) {
+        if (e.key !== code) return
+        if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
+        if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
+        e.preventDefault();
+        const exists = document.querySelector('.kes-omni-modal')
+        if (exists) {
+            if ($(exists).is(":visible")) {
+                $(exists).hide();
+            } else {
+                $(exists).show();
+                if (!mobile) {
+                    document.querySelector("#kes-omni-search").focus();
+                }
+            }
+        } else {
+            const load = document.querySelector(`#${id}-filter-modal-bg`);
+            if ($(load).is(":visible")) {
+                $(load).hide();
+            } else {
+                $(load).show();
+            }
         }
     }
 
     if (toggle) {
-        $(document).off("keypress.omnikey");
+        const modal = makeLoader(id, "Please wait for the subscriptions to finish loading...");
+        document.body.appendChild(modal);
+        $(modal).hide();
+        $(document).on("keypress.omnikey", kickoffListener);
         createOmni();
     } else {
         const e = []
         loadMags.cancel(id);
         clearCachedMags();
+        clearLoader(id);
         safeGM("setValue",`omni-default-mags-${hostname}`, e);
         $(document).off("keypress.omnikey");
     }
