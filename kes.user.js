@@ -1235,7 +1235,9 @@ function constructMenu (json, layoutArr, isNew) {
         saveModSettings(modSettings, ns);
 
         updateCrumbs();
-        toggleSettings(json[it]);
+        if (!isDebugBarEnabled()) {
+            toggleSettings(json[it]);
+        }
     }
 
     function toggleDependencies (entry, state) {
