@@ -24,7 +24,7 @@ if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
     exit 1
 fi
 
-branch=$(git name-rev --name-only HEAD)
+branch=$(git branch --show-current)
 if [[ ! $branch == "testing" ]] && [[ ! $branch =~ / ]]; then
     abort
 fi
