@@ -468,6 +468,17 @@ function constructMenu (json, layoutArr, isNew) {
             toggleLabel.classList = 'tgl-btn';
             toggleLabel.setAttribute('for', 'kes-checkbox');
             toggleSpan.appendChild(toggleLabel);
+
+            if (isDebugBarEnabled()) {
+                toggleLabel.style.opacity = 0.4
+                toggleLabel.title = "Debug mode is active"
+                toggleInput.disabled = true
+            } else {
+                toggleLabel.style.opacity = 1.0
+                toggleLabel.title = ""
+                toggleInput.disabled = false
+            }
+
             modInfo.appendChild(toggleSpan);
             modInfo.appendChild(authorP);
             if (link) {
