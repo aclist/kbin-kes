@@ -1346,14 +1346,13 @@ function constructMenu (json, layoutArr, isNew) {
         legacyMigration(entry);
         const settings = getSettings();
         const debug = JSON.parse(localStorage.getItem("mes-debugbar"))
-        const blocked = debug["mods"][entry]
         try {
             if (settings[entry] == true) {
                 if (requiresLoginButLoggedOut(login)) {
                     log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
                     return 2
                 }
-                if (blocked) {
+                if (isDebugBarEnabled() && debug["mods"][entry]) {
                     return 1
                 }
                 toggleDependencies(entry, true)
@@ -1361,8 +1360,8 @@ function constructMenu (json, layoutArr, isNew) {
                 return 0
             } else {
                 //always apply allowed mods when debug bar is enabled
-                if (debug["enabled"])  {
-                    if (blocked) {
+                if (isDebugBarEnabled())  {
+                    if (debug["mods"][entry]) {
                         return 1
                     }
                     toggleDependencies(entry, true)
@@ -1371,7 +1370,7 @@ function constructMenu (json, layoutArr, isNew) {
                 }
             }
         } catch (error) {
-            console.log(error);
+            log(error, Log.Error)
             return 1
         }
     }
