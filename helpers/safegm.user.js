@@ -1,12 +1,12 @@
 const Log = Object.freeze({ //eslint-disable-line no-unused-vars
     Log: 1,
     Warn: 2,
-    Error: 3,
+    Error: 3
 })
 
 function makeModal (id) {
-    function makeCSS(id){
-        modalCSS= `
+    function makeCSS (id) {
+        const modalCSS= `
         #${id}-outer-modal {
             position: fixed;
             z-index: 90;
@@ -47,7 +47,8 @@ function makeModal (id) {
             float: right;
         }
         `
-        const sheetID = `${id}-mes-generic-modal`
+        const sheetID = `mes-modal-css`
+        safeGM("removeStyle", sheetID)
         safeGM("addStyle", modalCSS, sheetID)
         log(`Appended stylesheet with the id '${sheetID}'`, Log.Log)
     }
@@ -77,8 +78,8 @@ function makeModal (id) {
     header.appendChild(headerCloseButton);
 
     headerCloseButton.addEventListener("click", () => {
-            modal.remove();
-        });
+        modal.remove();
+    });
     modal.addEventListener("click", (e) => {
         if (e.target === modal) {
             modal.remove();
