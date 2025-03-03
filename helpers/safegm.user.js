@@ -303,7 +303,6 @@ async function loadMags (callback, ns, useCache, runCallbackOnlyOnce) {
         loadedMags = (containsShowMore ? magList.slice(0,-1) : magList)
             .map((mag) => mag.querySelector('a').getAttribute('href').split('/')[2]);
         if (!runCallbackOnlyOnce || !containsShowMore) {
-            safeGM("setValue",`user-mags-${hostname}-${username}`, loadedMags);
             runCallback(loadedMags);
         } else if (containsShowMore) {
             loadFromPage(username, 1);
