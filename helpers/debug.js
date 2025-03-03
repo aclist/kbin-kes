@@ -185,6 +185,12 @@ function debugBar (json) {
         }
         debugPanel.toggle()
     }
+    caret.enable = function () {
+        caret.disabled = false
+    }
+    caret.disable = function () {
+        caret.disabled = true
+    }
 
     //version URL
     const slug = "https://github.com/aclist/kbin-kes/issues/new?"
@@ -201,6 +207,8 @@ function debugBar (json) {
     iconHolder.id = "mes-debugbar-debugline-icons"
     line.appendChild(iconHolder)
     line.appendChild(exp)
+    //start disabled until notifications arrive
+    caret.disable();
 
     const logIcons = {
         "info": "circle-info",
@@ -213,9 +221,10 @@ function debugBar (json) {
         const icon = document.createElement("i")
         icon.classList.add(`mes-debugbar-${key}-count`, "fa-solid", `fa-${name}`)
         const sp = document.createElement("span")
+        sp.id = `mes-debugbar-${key}-count-value`
         iconHolder.appendChild(icon)
         iconHolder.appendChild(sp)
-        sp.innerText = "0"
+        sp.innerText = 0
     }
 
     function openToModPage () {
@@ -444,9 +453,15 @@ function debugBar (json) {
             const d = panel.querySelectorAll(".mes-debugbar-row-default").length
             const e = panel.querySelectorAll(".mes-debugbar-row-error").length
             const w = panel.querySelectorAll(".mes-debugbar-row-warn").length
-            document.querySelector(".mes-debugbar-info-count").nextElementSibling.innerText = d
-            document.querySelector(".mes-debugbar-warn-count").nextElementSibling.innerText = e
-            document.querySelector(".mes-debugbar-error-count").nextElementSibling.innerText = w
+            container.querySelector("#mes-debugbar-info-count-value").innerText = d
+            container.querySelector("#mes-debugbar-warn-count-value").innerText = e
+            container.querySelector("#mes-debugbar-error-count-value").innerText = w
+            const caret = container.querySelector("#mes-debugbar-expand-button")
+            if (d === 0 && e === 0 && w === 0) {
+                caret.disable();
+            } else {
+                caret.enable();
+            }
         }
 
         panel.push = function (level, str) {
