@@ -13,6 +13,9 @@ function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
 
         op.style.order = settings["op"]
         activity.style.order = settings["activity"]
+        //fix for #488
+        activity.style.zIndex = 0
+
         if (isLoggedIn()) {
             const post = document.querySelector('#comment-add');
             post.style.order = settings["post"]
@@ -27,6 +30,8 @@ function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
         rearrangeSetup();
     } else {
         const content = document.querySelector('#content');
+        const activity = document.querySelector('#activity');
         content.style.display = 'unset';
+        activity.style.zIndex = 5
     }
 }
