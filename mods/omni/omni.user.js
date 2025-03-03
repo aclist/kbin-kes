@@ -136,10 +136,10 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         }
         function alphaSort (links) {
             if (!links) return;
-            if (typeof links[0] === "string") {
+            if (typeof links[0] === "string") { // loadMags returns strings
                 links.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
                 omni(links);
-            } else {
+            } else { // default mags are loaded as elements
                 const clean = []
                 for (let i = 0; i < links.length; ++i) {
                     links[i].forEach((link) => {
