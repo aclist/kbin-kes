@@ -11,6 +11,7 @@ usage(){
         printf "feat/<NAME> - feature (bumps minor version)\n"
         printf "api/<NAME> - breaking change (bumps major version)\n"
         printf "release/<NAME> - pre-release\n"
+        printf "chore/<NAME> - clerical changes\n"
         printf "\n"
     }
     _format | sed 's/^/\t/g'
@@ -31,7 +32,7 @@ fi
 if [[ $branch =~ / ]]; then
     prefix=$(<<< "$branch" awk -F/ '{print $1}')
     case "$prefix" in
-        "fix"|"feat"|"api")
+        "fix"|"feat"|"api"|"chore")
             :
             ;;
         *)

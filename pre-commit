@@ -217,6 +217,9 @@ main(){
                 new_version="${new_version}-beta.1"
             fi
             ;;
+        "chore")
+            exit 0
+            ;;
     esac
     confirm_version "$cur_version" "$new_version" "$branch"
     if [[ $? -eq 0 ]]; then
