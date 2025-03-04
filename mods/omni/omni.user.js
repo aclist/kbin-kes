@@ -94,8 +94,6 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
     document.querySelector(".kes-omni-modal")?.remove();
     document.querySelector("#kes-omni-tapbar")?.remove();
 
-    let loaded = false;
-
     function createOmni () {
 
         safeGM("removeStyle", "omni-css")
