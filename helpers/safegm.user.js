@@ -1,7 +1,7 @@
 const Log = Object.freeze({ //eslint-disable-line no-unused-vars
     Log: 1,
     Warn: 2,
-    Error: 3,
+    Error: 3
 })
 
 function log (string, level) { // eslint-disable-line no-unused-vars
@@ -218,7 +218,7 @@ function getPageType () { //eslint-disable-line no-unused-vars
             if (window.location.href.includes("/reputation")) return Mbin.User.Reputation
             return Mbin.User.Default
         case "d":
-            if ((url.length === 6) && (window.location.href.includes("#comments"))) return Mbin.Domain.Comments
+            if ((url.length === 6) && (window.location.href.includes("/comments"))) return Mbin.Domain.Comments
             return Mbin.Domain.Default
         case "m":
             if (url[5] === undefined) return Mbin.Magazine
