@@ -938,8 +938,8 @@ function constructMenu (json, layoutArr, isNew) {
           <button type="submit" value="export">Export</button>Export to file<br>
           <button type="submit" value="import">Import</button>Import from file<br>
           <button type="submit" value="reset">Reset</button>Reset all KES settings<br>
-          <button type="submit" value="close">Close</button>Close this dialog<br>
-          <button type="submit" value="debug">Debug Bar</button>Toggle debug bar
+          <button type="submit" value="debug">Debug Bar</button>Toggle debug bar<br>
+          <button type="submit" value="close">Close</button>Close this dialog
         </menu>
       </form>
       `
