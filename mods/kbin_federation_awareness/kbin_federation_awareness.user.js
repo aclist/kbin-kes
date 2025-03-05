@@ -80,14 +80,17 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
             const scale = setScale(indicatorScale, 10)
             const borderCSS = `
             article.data-federated,
+            .post.data-federated,
             .comment.data-federated {
                 box-shadow: ${scale}px 0 0 ${fed};
             }
             article.data-moderated,
+            .post.data-moderated,
             .comment.data-moderated {
                 box-shadow: ${scale}px 0 0 ${mod};
             }
             article.data-home,
+            .post.data-home,
             .comment.data-home {
                 box-shadow: ${scale}px 0 0 ${home};
             }
