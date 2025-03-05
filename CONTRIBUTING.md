@@ -8,8 +8,7 @@ accessible to all mods.
 
 Mods are invoked in serial fashion by MES and their logic is walked through. Mods should not modify the main MES modal or MES itself.
 
-Because mods are ingested into MES as functions, the entire script should be wrapped in an entry function and be devoid of GreaseMonkey headers or other markup. Once adapted to the MES framework, mods 
-are not intended to be run as standalone scripts.
+Because mods are ingested into MES as functions, the entire script should be wrapped in an entry function and be devoid of GreaseMonkey headers or other markup. Once adapted to the MES framework, mods are not intended to be run as standalone scripts.
 
 # API
 Please refer to the [API reference](https://aclist.github.io/kes/kes.html#_api_reference).
