@@ -249,7 +249,7 @@ function getPageType () { //eslint-disable-line no-unused-vars
  * @param {boolean} runCallbackOnlyOnce Workaround for mods that aren't optimized for running the
  * callback twice. When true, the callback is only executed once when all mods are loaded.
  */
-async function loadMags (callback, ns, useCache, runCallbackOnlyOnce) {
+async function loadMags (callback, ns, useCache=false, runCallbackOnlyOnce=false) {
     // make sure the user is logged in
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
