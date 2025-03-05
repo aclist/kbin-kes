@@ -31,18 +31,10 @@ function debugBar (json) {
     }
     .mes-debugbar-row-text {
         margin: 5px 0px 5px 10px;
-        font-size: 0.85rem
+        font-size: 0.85rem;
     }
     .mes-debugbar-row-default {
         border-bottom: 1px solid var(--kbin-sidebar-settings-switch-hover-bg);
-    }
-    .mes-debugbar-row-error {
-        border-bottom: 1px solid var(--kbin-alert-danger-link-color);
-        background-color: var(--kbin-alert-danger-bg)
-    }
-    .mes-debugbar-row-warn {
-        border-bottom: 1px solid var(--kbin-alert-info-link-color);
-        background-color: var(--kbin-alert-info-bg)
     }
     #mes-debugbar-expand-button {
         margin-right: 15px;
@@ -84,6 +76,52 @@ function debugBar (json) {
         margin: 0px 15px 0px 0px;
     }
     `
+    const panelCSSDark = `
+    .mes-debugbar-row-error {
+        border-bottom: 1px solid var(--kbin-alert-danger-link-color);
+        background-color: var(--kbin-alert-danger-bg);
+    }
+    .mes-debugbar-row-warn {
+        border-bottom: 1px solid var(--kbin-alert-info-link-color);
+        background-color: var(--kbin-alert-info-bg);
+    }
+    `;
+    const panelCSSNight = `
+    .mes-debugbar-row-text {
+        color: var(--kbin-primary-color);
+    }
+    .mes-debugbar-row-error {
+        border-bottom: 1px solid var(--kbin-alert-danger-bg);
+        background-color: var(--kbin-alert-danger-link-color);
+    }
+    .mes-debugbar-row-warn {
+        border-bottom: 1px solid var(--kbin-alert-danger-bg);
+        background-color: var(--kbin-alert-info-link-color);
+    }
+    .mes-debugbar-row-default .mes-debugbar-row-text {
+        color: var(--alert-success-text-color)
+    }
+    .mes-debugbar-row-warn .mes-debugbar-row-text {
+        color: var(--alert-info-text-color)
+    }
+    `;
+    const panelCSSLight = `
+    .mes-debugbar-row-text {
+        color: var(--kbin-body-bg);
+    }
+    .mes-debugbar-row-default {
+        border-bottom: 1px solid var(--kbin-alert-danger-bg);
+        background-color: var(--kbin-sidebar-header-text-color);
+    }
+    .mes-debugbar-row-error {
+        border-bottom: 1px solid var(--kbin-alert-danger-bg);
+        background-color: var(--kbin-alert-danger-link-color);
+    }
+    .mes-debugbar-row-warn {
+        border-bottom: 1px solid var(--kbin-alert-info-bg);
+        background-color: var(--kbin-alert-info-link-color);
+    }
+    `;
     const gridElements = {
         mes: {
             el: "button",
@@ -134,7 +172,19 @@ function debugBar (json) {
             tooltip: "Expand the debug console"
         }
     }
+    safeGM("removeStyle", "mes-debugbar-css")
     safeGM("addStyle", debugCSS, "mes-debugbar-css")
+    const theme = getTheme()
+    const panelCssID = "mes-debugbar-panel-css"
+    safeGM("removeStyle", panelCssID)
+    if (theme.endsWith("-light")) {
+        safeGM("addStyle", panelCSSLight, panelCssID)
+    } else if (theme === "theme--tokyo-night") {
+        safeGM("addStyle", panelCSSNight, panelCssID)
+    } else {
+        safeGM("addStyle", panelCSSDark, panelCssID)
+    }
+
 
     //outer grid
     const container = document.createElement("div")

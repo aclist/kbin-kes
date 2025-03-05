@@ -259,6 +259,16 @@ function isThread () {
     }
 }
 
+function getTheme () {
+    let theme = undefined
+    document.querySelector("body").classList.forEach((c) => {
+        if (c.includes("theme--")) {
+            theme = c
+        }
+    })
+    return theme
+}
+
 
 //sets the type of GM API being used (dot or underscore notation) based on scripthandler metadata
 let gmPrefix
