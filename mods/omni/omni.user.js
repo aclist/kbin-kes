@@ -393,7 +393,7 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     if (toggle) {
-        const modal = makeLoader(id, "Please wait for the subscriptions to finish loading...");
+        const modal = makeLoader(id, "Fetching subscriptions...");
         document.body.appendChild(modal);
         $(modal).hide();
         $(document).on("keypress.omnikey", kickoffListener);
