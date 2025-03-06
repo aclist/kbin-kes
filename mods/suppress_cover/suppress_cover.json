@@ -1,0 +1,11 @@
+{
+  "name": "Hide cover image on magazines",
+  "author": "shazbot",
+  "version": "0.1.0",
+  "label": "Hide cover image on magazines",
+  "login": false,
+  "recurs": false,
+  "desc": "Hides the large cover image on the sidebar of magazines.",
+  "entrypoint": "suppress_cover",
+  "page": "cosmetic"
+}

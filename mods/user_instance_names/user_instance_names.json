@@ -3,7 +3,7 @@
   "author": "artillect",
   "version": "0.1",
   "label": "User instance names",
-  "desc": "Show instance names next to users",
+  "desc": "Shows instance names next to users if they are not on your home instance",
   "entrypoint": "user_instance_names",
   "recurs": true,
   "login": false,

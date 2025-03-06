@@ -8,15 +8,15 @@ function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
         return _getMagName(a) > _getMagName(b) ? 1: -1
     }
 
-    const pt = getPageType(); // eslint-disable-line no-undef
+    const pt = getPageType();
     let list_columns
     switch (pt) {
-        case "Mbin.User.Subscriptions": {
+        case Mbin.User.Subscriptions: {
             list_columns = '.magazines-columns'
             break;
         }
-        case "Mbin.User.Followers":
-        case "Mbin.User.Following": {
+        case Mbin.User.Followers:
+        case Mbin.User.Following: {
             list_columns = '.users-columns'
             break;
         }

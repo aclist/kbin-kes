@@ -11,6 +11,17 @@
     "page": "threads"
   },
   {
+    "name": "Hide cover image on magazines",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Hide cover image on magazines",
+    "login": false,
+    "recurs": false,
+    "desc": "Hides the large cover image on the sidebar of magazines.",
+    "entrypoint": "suppress_cover",
+    "page": "cosmetic"
+  },
+  {
     "name": "Collapsible comments",
     "author": "artillect",
     "version": "1.4.1",
@@ -308,10 +319,10 @@
     "name": "Rearrange comments",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Rearrange post order",
+    "label": "Rearrange thread order",
     "login": false,
     "recurs": false,
-    "desc": "Rearrange the order elements appear inside threads. Recommended sort order is 1, 4, 5, 3, 2",
+    "desc": "Rearrange the order elements appear inside threads. Recommended sort order is 1, 2, 4, 5, 6, 3",
     "namespace": "rearrange",
     "entrypoint": "rearrange",
     "page": "threads",
@@ -319,7 +330,7 @@
       {
         "type": "number",
         "min": 1,
-        "max": 5,
+        "max": 6,
         "step": 1,
         "initial": 1,
         "label": "Original post",
@@ -328,36 +339,45 @@
       {
         "type": "number",
         "min": 1,
-        "max": 5,
+        "max": 6,
         "step": 1,
         "initial": 2,
-        "label": "Thread sort options",
-        "key": "options"
+        "label": "Crossposts",
+        "key": "crossposts"
       },
       {
         "type": "number",
         "min": 1,
-        "max": 5,
+        "max": 6,
         "step": 1,
         "initial": 3,
-        "label": "Comments",
-        "key": "comments"
-      },
-      {
-        "type": "number",
-        "min": 1,
-        "max": 5,
-        "step": 1,
-        "initial": 4,
         "label": "Add comment",
         "key": "post"
       },
       {
         "type": "number",
         "min": 1,
-        "max": 5,
+        "max": 6,
+        "step": 1,
+        "initial": 4,
+        "label": "Thread sort options",
+        "key": "options"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 6,
         "step": 1,
         "initial": 5,
+        "label": "Comments",
+        "key": "comments"
+      },
+      {
+        "type": "number",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "initial": 6,
         "label": "Activity panel",
         "key": "activity"
       }
@@ -373,6 +393,32 @@
     "desc": "Convert navigation links on profile pages to dropdown",
     "entrypoint": "dropdown",
     "page": "profile"
+  },
+  {
+    "name": "Hide related",
+    "author": "shazbot",
+    "version": "0.1",
+    "label": "Hide crossposts",
+    "login": false,
+    "recurs": true,
+    "desc": "Hide the crosspost section from the thread index/threads",
+    "entrypoint": "hide_related",
+    "page": "threads",
+    "namespace": "hide_related",
+    "fields": [
+      {
+        "key": "index",
+        "type": "checkbox",
+        "initial": true,
+        "checkbox_label": "Hide on thread index"
+      },
+      {
+        "key": "thread",
+        "type": "checkbox",
+        "initial": true,
+        "checkbox_label": "Hide inside threads"
+      }
+    ]
   },
   {
     "name": "Remove ads",
@@ -461,12 +507,6 @@
         "initial": "Post",
         "key": "post",
         "label": "Post icon"
-      },
-      {
-        "type": "text",
-        "initial": "Subs",
-        "key": "subs",
-        "label": "Subs icon"
       }
     ],
     "page": "navbar"
@@ -475,122 +515,157 @@
     "name": "Customize font size",
     "author": "minnieo",
     "version": "0.1.1",
-    "label": "Change font size",
+    "label": "Change font scale factor",
     "login": false,
     "recurs": true,
-    "desc": "Customize the font size site-wide. The window will become transparent as you increment/decrement font sizes.",
+    "desc": "Customize the font scale on a per-page/component basis.",
     "entrypoint": "resize_text",
     "namespace": "resize",
     "page": "accessibility",
-    "catch_reset": [
-      "optionHeader",
-      "optionPosts",
-      "optionComments",
-      "optionHomeSidebar",
-      "optionCreate",
-      "optionProfile",
-      "optionUserSettings",
-      "optionMessages",
-      "optionSortBy",
-      "optionNotifs",
-      "optionFooter"
-    ],
     "fields": [
       {
-        "type": "reset",
-        "key": "resetNumFields",
-        "label": "Reset values to defaults:",
-        "value": "reset"
+        "type": "range",
+        "key": "optionNavbar",
+        "label": "Navbar:",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "#header.header",
-        "key": "optionHeader",
-        "label": "Header:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "type": "range",
+        "key": "optionThreads",
+        "label": "Threads:",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "article.entry .content p",
-        "key": "optionPosts",
-        "label": "Posts:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
-      },
-      {
-        "type": "number",
-        "initial": ".entry-comment .content",
+        "type": "range",
         "key": "optionComments",
         "label": "Comments:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "div.page-notifications",
+        "type": "range",
+        "key": "optionPostComment",
+        "label": "Post comment area:",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
         "key": "optionNotifs",
         "label": "Notifications:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "div.container form[name=\"user_settings\"",
+        "type": "range",
         "key": "optionUserSettings",
-        "label": "Settings, magazine index:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "label": "Settings",
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "aside#options menu li a, aside#options menu i",
-        "key": "optionSortBy",
-        "label": "Sort by bar:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "type": "range",
+        "key": "optionMenubar",
+        "label": "Options bars (top of pages):",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "aside#sidebar section.related-magazines",
+        "type": "range",
         "key": "optionHomeSidebar",
         "label": "Sidebars:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "form.entry-create",
+        "type": "range",
         "key": "optionCreate",
         "label": "Create (threads, mags, links, etc):",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "div.user-box",
+        "type": "range",
         "key": "optionProfile",
         "label": "User profiles:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
       },
       {
-        "type": "number",
-        "initial": "div.page-messages",
+        "type": "range",
+        "key": "optionPopover",
+        "label": "User popover card:",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
         "key": "optionMessages",
         "label": "Inbox messages:",
-        "step": "0.1",
-        "min": "5",
-        "max": "50"
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
+        "key": "optionTables",
+        "label": "Table content:",
+        "show_value": true,
+        "initial": 4,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
+        "key": "optionAbout",
+        "label": "About pages:",
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
+        "key": "optionModlog",
+        "label": "Moderation log:",
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "range",
+        "key": "optionPagination",
+        "label": "Pagination footer:",
+        "show_value": true,
+        "initial": 5,
+        "min": 1,
+        "max": 10
       }
     ]
   },
@@ -613,6 +688,8 @@
         "key": "logotype",
         "values": [
           "Hidden",
+          "Mbin",
+          "Mbin (no text)",
           "Kbin (no text)",
           "Kibby",
           "Kibby (no text)"
@@ -660,7 +737,7 @@
     "author": "shazbot",
     "version": "0.1.0",
     "label": "Add mail icon",
-    "desc": "Add mail link to usernames if on own instance",
+    "desc": "Add mail link/icon next to usernames",
     "login": false,
     "recurs": true,
     "entrypoint": "mail",
@@ -814,25 +891,12 @@
     "name": "Hide thumbnails",
     "author": "shazbot",
     "version": "0.1.0",
-    "label": "Hide thumbnails",
+    "label": "Hide thumbnails on microblogs",
     "login": false,
     "recurs": true,
-    "desc": "Hide thumbnails on threads and comments",
+    "desc": "Hide inline thumbnails on microblogs. For thumbnails on the thread index, use Mbin's native setting.",
     "entrypoint": "hide_thumbs",
-    "page": "general",
-    "namespace": "hidethumbs",
-    "fields": [
-      {
-        "type": "checkbox",
-        "key": "index",
-        "checkbox_label": "Hide on thread index"
-      },
-      {
-        "type": "checkbox",
-        "key": "inline",
-        "checkbox_label": "Hide inline thumbnails"
-      }
-    ]
+    "page": "general"
   },
   {
     "name": "Adjust colors",
@@ -974,7 +1038,7 @@
       },
       {
         "type": "text",
-        "initial": "LOADING",
+        "initial": "LOADING...",
         "key": "loading",
         "label": "Loading label"
       }
@@ -1030,7 +1094,7 @@
   {
     "name": "Hide sidebar",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "label": "Hide sidebar elements",
     "login": false,
     "recurs": true,
@@ -1044,6 +1108,11 @@
         "key": "sidebar",
         "type": "checkbox",
         "checkbox_label": "Hide sidebar entirely"
+      },
+      {
+        "key": "subs",
+        "type": "checkbox",
+        "checkbox_label": "Subscriptions"
       },
       {
         "key": "mags",
@@ -1074,6 +1143,17 @@
         "key": "intro",
         "type": "checkbox",
         "checkbox_label": "Explore the fediverse intro text"
+      },
+      {
+        "key": "about",
+        "type": "checkbox",
+        "checkbox_label": "Mbin instance About card"
+      },
+      {
+        "label": "Behavior",
+        "key": "expand",
+        "type": "checkbox",
+        "checkbox_label": "Expand content if possible"
       }
     ]
   },
@@ -1131,7 +1211,7 @@
     "author": "artillect",
     "version": "0.1",
     "label": "User instance names",
-    "desc": "Show instance names next to users",
+    "desc": "Shows instance names next to users if they are not on your home instance",
     "entrypoint": "user_instance_names",
     "recurs": true,
     "login": false,

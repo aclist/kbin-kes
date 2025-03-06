@@ -24,7 +24,7 @@
     },
     {
       "type": "text",
-      "initial": "LOADING",
+      "initial": "LOADING...",
       "key": "loading",
       "label": "Loading label"
     }

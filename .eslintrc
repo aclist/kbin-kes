@@ -19,7 +19,16 @@
         "GM_getValue": "readonly",
         "GM_getResourceText": "readonly",
         "GM_setClipboard": "readonly",
-        "GM_xmlhttpRequest": "readonly"
+        "GM_xmlhttpRequest": "readonly",
+        "Mbin": "readonly",
+        "getPageType": "readonly",
+        "isLoggedIn": "readonly",
+        "log": "readonly",
+        "Log": "readonly",
+        "makeLoader": "readonly",
+        "clearLoader": "readonly",
+        "isIndex": "readonly",
+        "isThread": "readonly"
     },
     "env": {
         "browser": true,

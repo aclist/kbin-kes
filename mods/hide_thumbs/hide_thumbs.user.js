@@ -1,37 +1,37 @@
 function hideThumbs (toggle) { //eslint-disable-line no-unused-vars
-    const settings = getModSettings('hidethumbs')
-    const index = 'kes-index-thumbs'
-    const inline = 'kes-inline-thumbs'
-    const thumbsCSS = `
-    .entry.section.subject figure, .no-image-placeholder {
-        display: none
+    function show () {
+        document.querySelectorAll(".figure-container").forEach((container) => {
+            if (container.dataset.hidden === "true") {
+                container.style.removeProperty("display");
+                delete container.dataset.hidden
+            }
+        });
+        document.querySelectorAll(".mes-thumbs-hide").forEach((icon) => {
+            icon.remove();
+        });
     }
-    `
-    const inlineCSS = `
-    .thumbs {
-        display:none
+
+    function hide () {
+        document.querySelectorAll('.figure-container').forEach((container) => {
+            if (container.dataset.hidden === "true") return
+            container.dataset.hidden = "true"
+
+            const prev = document.createElement('i')
+            prev.classList.add("mes-thumbs-hide", "fas", "fa-photo-video");
+            prev.ariaLabel = "Expand/collapse this image"
+            prev.addEventListener("click", () => {
+                if (container.style.display === "none") {
+                    container.style.removeProperty("display");
+                } else {
+                    container.style.display = "none"
+                }
+            });
+
+            container.insertAdjacentElement("beforebegin", prev);
+            container.style.display = "none"
+        })
     }
-    `
-    function apply (sheet, name) {
-        unset(name)
-        safeGM("addStyle", sheet, name)
-    }
-    function unset (name) {
-        safeGM("removeStyle", name)
-    }
-    if (toggle) {
-        if (settings["index"]) {
-            apply(thumbsCSS, index);
-        } else {
-            unset(index)
-        }
-        if (settings["inline"]) {
-            apply(inlineCSS, inline)
-        } else {
-            unset(inline)
-        }
-    } else {
-        unset(index)
-        unset(inline)
-    }
+
+    if (toggle) hide();
+    if (!toggle) show();
 }

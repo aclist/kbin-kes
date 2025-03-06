@@ -21,6 +21,29 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
     },
 
+    suppress_cover: //mes-func
+    function suppressCoverInit (toggle) { //eslint-disable-line no-unused-vars
+        const pt = getPageType();
+        switch (pt) {
+            case Mbin.Thread.Comments:
+            case Mbin.Thread.Favorites:
+            case Mbin.Thread.Boosts:
+            case Mbin.Magazine:
+                break;
+            default:
+                return
+        }
+
+        const cover = document.querySelector('#sidebar .magazine.section figure');
+        if (!cover) return
+
+        if (toggle) {
+            cover.style.display = "none"
+        } else {
+            cover.style.removeProperty("display");
+        }
+    },
+
     improved_collapsible_comments: //mes-func
     function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-unused-vars
         function applyCommentStyles () {
@@ -77,9 +100,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 transition: margin-left 0.2s ease;
             }
 
-            /*.collapsed-comment figure, .collapsed-comment header {
+            .collapsed-comment header {
                 margin-left: 24px !important;
-            }*/
+            }
 
             .expando {
                 cursor: pointer;
@@ -198,8 +221,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
             .entry-comment {
                 border-color: transparent !important;
-                grid-template-columns: 40px 50px auto min-content;
                 grid-template-rows: min-content auto auto;
+                grid-template-columns: 40px 50px auto min-content;
                 display: grid;
                 margin-left: 0 !important;
             }
@@ -247,9 +270,25 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 display: none;
             }
             `;
+            const hiddenfigureCSS = `
+            .entry-comment {
+                grid-template-columns: 40px 0px auto min-content;
+            }
+            .collapsed-comment {
+                grid-template-columns: 20px 0px auto!important;
+            }
+            .collapsed-comment header {
+                margin-left: 0px !important
+            }
+            `;
             safeGM("addStyle", hideDefaults, "hide-defaults");
             safeGM("addStyle", style, "threaded-comments");
-            safeGM("addStyle", mbinStyle, "mbin-kes-comments-style")
+            safeGM("addStyle", mbinStyle, "mbin-kes-comments-style");
+            const el = document.querySelector('.entry-comment figure');
+            const display = window.getComputedStyle(el).display
+            if (display === "none") {
+                safeGM("addStyle", hiddenfigureCSS, "mbin-kes-comments-figure-style");
+            }
         }
         function applyToNewPosts () {
             let comments = document.querySelectorAll(".entry-comment:not(.nested)");
@@ -473,8 +512,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
             clearMores();
             safeGM("removeStyle", "hide-defaults");
             safeGM("removeStyle", "threaded-comments");
-            safeGM("removeStyle", "mbin-kes-comments-style")
+            safeGM("removeStyle", "mbin-kes-comments-style");
+            safeGM("removeStyle", "mbin-kes-comments-figure-style");
         }
+
+        const pt = getPageType();
+        if (pt !== Mbin.Thread.Comments) return
         if (!toggle) {
             teardown()
             return
@@ -732,6 +775,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
             function kickoffListener (e) {
                 if (e.key !== code) return
+                if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
+                if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
                 e.preventDefault();
                 const exists = document.querySelector('.kes-omni-modal')
                 if (exists) {
@@ -906,48 +951,25 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     });
 
                 }
-
                 kesModal.style.display = 'none';
                 document.body.appendChild(kesModal)
 
-                function keyTrap (e) {
-                    if (e.target.tagName === "INPUT") return
-                    if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
-                    const kt = document.querySelector('#kes-omni-keytrap')
-                    kt.focus()
-                }
-
-                const pageHolder = document.querySelector('.kbin-container') 
-                    ?? document.querySelector('.mbin-container')
-                const kth = document.createElement('div');
-                kth.style.cssText = 'height: 0px; width: 0px'
-                const ktb = document.createElement('button')
-                ktb.style.cssText = 'opacity:0;width:0'
-                ktb.id = 'kes-omni-keytrap'
-                kth.appendChild(ktb)
-                pageHolder.insertBefore(kth, pageHolder.children[0])
-                ktb.addEventListener('keyup',kickoffListener)
-                const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
-                    ?? document.querySelector('[data-controller="mbin notifications"]');
-                globalKeyInsert.addEventListener('keydown',keyTrap)
-
-
+                $(document).on("keypress.omnikey", function (e) {
+                    kickoffListener(e)
+                });
             }
         }
+
         if (toggle) {
+            $(document).off("keypress.omnikey");
             createOmni();
         } else {
             const e = []
-            safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e)
-            safeGM("setValue",`omni-default-mags-${hostname}`, e)
-            const kt = document.querySelector('#kes-omni-keytrap')
-            const q = document.querySelector('.kes-omni-modal')
-            if (kt) {
-                kt.remove();
-            }
-            if (q) {
-                q.remove();
-            }
+            safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e);
+            safeGM("setValue",`omni-default-mags-${hostname}`, e);
+            document.querySelector("kes-omni-modal")?.remove();
+            document.querySelector("kes-omni-tapbar")?.remove();
+            $(document).off("keypress.omnikey");
         }
     },
 
@@ -975,7 +997,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== "Mbin.User.Direct_Message") return
+        if (pt !== Mbin.User.DirectMessage) return
         const form = document.querySelector('form[name="message"]')
         if (!form) return
         if (toggle) {
@@ -1112,17 +1134,20 @@ const funcObj = { // eslint-disable-line no-unused-vars
             margin: 0 5px;
         }
         .noti-panel-header {
-            background: var(--kbin-button-primary-bg);
+            background: var(--kbin-sidebar-settings-switch-off-bg);
             display: flex;
             padding: 5px;
         }
+
         .noti-arrow-holder {
             margin-left: auto
         }
         .noti-read, .noti-purge {
-            background: var(--kbin-button-secondary-hover-bg);
             margin-left: 7px;
+            background: var(--kbin-sidebar-settings-switch-on-bg);
+            color: var(--kbin-sidebar-settings-switch-on-color);
         }
+
         .noti-read,.noti-purge,.noti-back,.noti-forward {
             padding: 5px;
             cursor: pointer;
@@ -1355,8 +1380,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function startup () {
-            safeGM("addStyle",customPanelCSS);
-            safeGM("addStyle",spinnerCSS);
+            safeGM("addStyle", customPanelCSS, "notipanel-main-css");
+            safeGM("addStyle", spinnerCSS, "notipanel-spinner-css");
             build();
         }
 
@@ -1390,7 +1415,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             clickModal.addEventListener('click', () => {
                 iframe.remove();
                 clickModal.remove();
-                safeGM("addStyle",resetDropdownCSS)
+                safeGM("addStyle", resetDropdownCSS, "notipanel-reset-css")
             });
             const container = document.querySelector('.kbin-container') 
                 ?? document.querySelector('.mbin-container');
@@ -1447,7 +1472,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     anchorOuterElement.appendChild(notiBadgeHolder);
                 }
                 anchorOuterElement.addEventListener('click', () => {
-                    safeGM("addStyle",forceDropdownCSS);
+                    safeGM("addStyle", forceDropdownCSS, "notipanel-force-css");
                     toggleIframe(listItem)
                 });
             }
@@ -1462,6 +1487,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 $(counterElement).show();
                 notiPanel.remove();
             }
+            const styles = [
+                "notipanel-main-css",
+                "notipanel-spinner-css",
+                "notipanel-reset-css",
+                "notipanel-force-css"
+            ]
+            for (let i in styles) {
+                safeGM("removeStyle", styles[i]);
+            }
         }
 
         if (toggle) {
@@ -1473,43 +1507,61 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     mag_instance_names: //mes-func
     function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
-        // ==UserScript==
-        // @name         Magazine Instance Names
-        // @namespace    https://github.com/aclist
-        // @version      0.1
-        // @description  Shows instance names next to non-local magazines
-        // @author       artillect
-        // @match        https://kbin.social/*
-        // @license      MIT
-        // ==/UserScript==
-        const path = window.location.href.split('/')
-        if ((path[3] === "m") || (path[3] === "magazines")) return
-        function showMagInstances () {
-            $('.magazine-inline').each(function () {
-                // Check if community is local
-                if (!$(this).hasClass('instance')) {
-                    $(this).addClass('instance');
-                    // Get community's instance from their profile link
-                    var magInstance = $(this).attr('href').split('@')[1];
-                    // Check if community's link includes an @
-                    if (magInstance) {
-                        // Add instance name to community's name
-                        $(this).html($(this).html() + '<span class="mag-instance">@' + magInstance + '</span>');
+        function cloneMagazineName (el) {
+            document.querySelectorAll(el).forEach((magazine) => {
+                if (magazine.dataset.checkedRemote !== undefined) return
+                magazine.dataset.checkedRemote = "true"
+                const arr = magazine.getAttribute("href").split("@")
+                const name = arr[0].split("/")[2]
+                const remote = arr[1]
+                let spanEl
+                if (remote) {
+                    //subscriptions sidebar uses a different span syntax
+                    if (el === ".subscription-list .stretched-link") {
+                        spanEl = ".magazine-name"
+                    } else {
+                        spanEl = "span"
                     }
+                    const oldSpan = magazine.querySelector(spanEl)
+                    oldSpan.classList.add("mag-hidden-instance");
+                    oldSpan.style.display = "none"
+                    const newSpan = document.createElement("span")
+                    newSpan.innerText = name + "@" + remote
+                    newSpan.classList.add("mes-remote-instance");
+                    oldSpan.insertAdjacentElement("afterend", newSpan)
                 }
             });
         }
-        function hideCommunityInstances () {
-            $('.magazine-inline.instance').each(function () {
-                $(this).removeClass('instance');
-                $(this).html($(this).html().split('<span class="mag-instance">@')[0]);
-            });
+
+        function showRemotes () {
+            for (let i in els) {
+                cloneMagazineName(els[i]);
+            }
         }
-        //const localInstance = window.location.href.split('/')[2];
+
+        function hideRemotes () {
+            document.querySelectorAll('.mag-hidden-instance').forEach((magazine) => {
+                magazine.style.removeProperty("display");
+                magazine.classList.remove("mag-hidden-instance");
+            });
+            document.querySelectorAll('.mes-remote-instance').forEach((magazine) => {
+                magazine.remove();
+            });
+            for (let i in els) {
+                document.querySelectorAll(els[i]).forEach((magazine) => {
+                    delete magazine.dataset.checkedRemote
+                });
+            }
+        }
+
+        const els = [
+            ".magazine-inline",
+            ".subscription-list .stretched-link"
+        ]
         if (toggle) {
-            showMagInstances();
+            showRemotes();
         } else {
-            hideCommunityInstances();
+            hideRemotes();
         }
     },
 
@@ -1675,19 +1727,30 @@ const funcObj = { // eslint-disable-line no-unused-vars
     rearrange: //mes-func
     function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
         function rearrangeSetup () {
-            if (window.location.href.split('#')[1] != 'comments') return
+            const pt = getPageType();
+            if (pt !== Mbin.Thread.Comments) return
             const settings = getModSettings('rearrange');
             const content = document.querySelector('#content');
             content.style.display = 'grid';
             const op = document.querySelector('.section--top');
             const activity = document.querySelector('#activity');
-            const post = document.querySelector('#comment-add');
             const options = document.querySelector('#options');
             const comments = document.querySelector('#comments');
+            const cross = document.querySelector('.entries-cross');
 
             op.style.order = settings["op"]
             activity.style.order = settings["activity"]
-            post.style.order = settings["post"]
+            //fix for #488
+            activity.style.zIndex = 0
+            options.style.zIndex = 0
+
+            if (isLoggedIn()) {
+                const post = document.querySelector('#comment-add');
+                post.style.order = settings["post"]
+            }
+            if (cross) {
+                cross.style.order = settings["crossposts"]
+            }
             options.style.order = settings["options"]
             comments.style.order = settings["comments"]
         }
@@ -1695,7 +1758,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
             rearrangeSetup();
         } else {
             const content = document.querySelector('#content');
-            content.style.display = 'unset';
+            const activity = document.querySelector('#activity');
+            const options = document.querySelector('#options');
+            content.style.removeProperty("display")
+            activity.style.zIndex = 5
+            options.style.zIndex = 0
         }
     },
 
@@ -1768,6 +1835,37 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
     },
 
+    hide_related: //mes-func
+    function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
+
+        function hideRelated () {
+            restoreRelated();
+            const settings = getModSettings("hide_related");
+            if ((settings["index"]) && (isIndex())) {
+                document.querySelectorAll(".entry-cross").forEach((entry) => {
+                    entry.style.display = "none"
+                })
+            }
+            if ((settings["thread"]) && (isThread())) {
+                document.querySelectorAll(".entries-cross").forEach((entry) => {
+                    entry.style.display = "none"
+                });
+            }
+        }
+
+        function restoreRelated () {
+            document.querySelectorAll(".entry-cross").forEach((entry) => {
+                entry.style.removeProperty("display");
+            })
+            document.querySelectorAll(".entries-cross").forEach((entry) => {
+                entry.style.removeProperty("display");
+            })
+        }
+
+        if (toggle) hideRelated();
+        if (!toggle) restoreRelated();
+    },
+
     remove_ads: //mes-func
     function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
 
@@ -1777,15 +1875,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const weighted = settings["weight"]
         const block = settings["block"]
 
-        //
-        //currently unused
-        //const votes = document.querySelectorAll('.vote')
-        //function filter (posts) {
-        //    return Array.from(posts).filter((el) =>
-        //        parseInt(el.querySelector('.vote__up button span').innerText) <= parseInt(el.querySelector('.vote__down button span').innerText)
-        //    )
-        //}
-
         const user_ids = []
         const user_links = []
         const checked = []
@@ -1793,7 +1882,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const softbanned = []
 
         let unique_users = {}
-        let modal
         let iteration
     
         const domain = window.location.hostname
@@ -1801,59 +1889,14 @@ const funcObj = { // eslint-disable-line no-unused-vars
         if (url[3] !== "m") return
         if (url[5] === "t") return
 
-        const modalCSS = `
-        #kes-filter-modal-bg {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: 90;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            left: 0;
-            top: 0;
-            background-color: rgba(0, 0, 0, 0.5) !important
-        }
-
-        #kes-filter-modal {
-            background-color: gray;
-            width: 500px;
-            height: 100px;
-            display: grid;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid black;
-        }
-        #kes-filter-text {
-            color: black;
-            margin: 20px
-        }
-
-        `;
-
-
-        function makeModal () {
-            const modal_bg = document.createElement('div')
-            const modal = document.createElement('div')
-            const text = document.createElement('p')
-            modal_bg.id = "kes-filter-modal-bg"
-            modal.id = "kes-filter-modal"
-            text.id = "kes-filter-text"
-            text.innerText = "KES: filtering spam, please wait..."
-            modal_bg.appendChild(modal)
-            modal.appendChild(text)
-            return modal_bg
-        }
     
         function apply () {
-            modal = makeModal()
-            document.body.appendChild(modal)
-            safeGM("removeStyle", "kes-filter-css")
-            safeGM("addStyle", modalCSS, "kes-filter-css")
+            const modal = makeLoader("spam-modal", "KES: filtering spam, please wait...");
+            document.body.appendChild(modal);
             check();
         }
         function unapply () {
-            safeGM("removeStyle", "kes-filter-css")
+            safeGM("removeStyle", "mes-filter-css");
         }
 
         function filterDupes (array) {
@@ -1895,7 +1938,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             //arrays are initialized empty on each DOM recursion
             for (let i = 0; i < unique_users.length; ++i) {
                 if (iteration == 1) {
-                    modal.remove();
+                    clearLoader("spam-modal");
                 }
                 if (str_checked.split(',').includes(unique_users[i])) {
                     checked.push(unique_users[i])
@@ -2012,7 +2055,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         function processFilters () {
             const articles = document.querySelectorAll('.entry')
             for (let i = 0; i < banned.length; ++i) {
-                if (block) gt(getRelativeName(banned[i]))
+                if (block) bu(getRelativeName(banned[i]))
             }
             for (let i = 0; i < articles.length; ++i) {
                 const name = getPoster(articles[i])
@@ -2036,43 +2079,20 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     }
                 }
             }
-            modal.remove()
+            clearLoader("spam-modal")
             localStorage.setItem("kes-banned-users", banned)
             localStorage.setItem("kes-softbanned-users", softbanned)
             localStorage.setItem("kes-checked-users", checked)
         }
 
-        async function gt (u) {
-            const resp = await fetch(`https://${domain}/u/${u}`, {
-                "credentials": "include",
-                "method": "GET",
-                "mode": "cors"
-            });
-            switch (await resp.status) {
-                case 200: {
-                    const respText = await resp.text()
-                    const parser = new DOMParser();
-                    const XML = parser.parseFromString(respText, "text/html");
-                    const form = XML.querySelector('[name="user_block"]')
-                    if (form) {
-                        const t = form.querySelector('input').value
-                        bu(u, t)
-                    }
-                    break
-                }
-                default:
-                    break
-            }
-        }
-
-        async function bu (u, t) {
+        async function bu (u) {
             const resp = await fetch(`https://${domain}/u/${u}/block`, {
                 signal: AbortSignal.timeout(8000),
                 "credentials": "include",
                 "headers": {
                     "Content-Type": "multipart/form-data; boundary=---------------------------11111111111111111111111111111"
                 },
-                "body": `-----------------------------11111111111111111111111111111\r\nContent-Disposition: form-data; name="token"\r\n\r\n${t}\r\n-----------------------------11111111111111111111111111111--\r\n`,
+                "body": `-----------------------------11111111111111111111111111111\r\nContent-Disposition: form-data;`,
                 "method": "POST",
                 "mode": "cors"
             });
@@ -2319,9 +2339,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         } // end of displayCommandsModal()
 
+        function isTextField (el) {
+            if (el.target.tagName === "TEXTAREA") return true
+            if ((el.target.tagName === "INPUT") && (el.target.type === "text")) return true
+            return false
+        }
+
         function emoticonGen () {
             eventListener = (e) => {
-                if (e.target.tagName === 'TEXTAREA') {
+                if (isTextField(e)) {
                     emoticonMake(e.target);
                     // handle the "/help" command
                     if (e.target.value.includes('/help') || e.target.value.includes('/commands')) {
@@ -2381,153 +2407,179 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     resize_text: //mes-func
     function textResize (toggle) { // eslint-disable-line no-unused-vars
-        const modalContent = ".kes-settings-modal-content"
-        const modalContainer = ".kes-settings-modal-container"
 
-        function kesModalOpen () {
-            const kesModalContent = document.querySelector(modalContent);
-            if (kesModalContent) {
-                return true
-            } else {
-                return false
-            }
-        }
-
-        function modSelected () {
-            let state
-            document.querySelectorAll('.kes-option').forEach((mod) => {
-                if ((mod.style.opacity === "1") && mod.innerText === "Change font size") {
-                    state = true
-                }
-            })
-            return state
-        }
-
-        function setOpacity (value) {
-            const kesModalContent = document.querySelector(modalContent);
-            const kesModalContainer = document.querySelector(modalContainer);
-            kesModalContent.style.opacity = value;
-            kesModalContainer.style.opacity = value;
+        function resolveSize (value) {
+            //const rem = (value - (value*0.785)*(0.935))
+            //midpoint of 5 = 0.85rem, default
+            //header is 5 rem by default
+            //threads are 4
+            const rem = 1 + ( (value - 5) * 0.15)
+            return rem
         }
 
         function resizeText () {
             const settings = getModSettings('resize');
-            let oldID = sessionStorage.getItem('modalFade');
-            clearTimeout(oldID)
-
-            if (kesModalOpen()) {
-                if (modSelected()) setOpacity(0.2)
-            }
             const css = `
             /* MESSAGES */
             .page-messages * {
-                font-size: ${settings["optionMessages"]}px
+                font-size: ${resolveSize(settings["optionMessages"])}rem
             }
             .page-messages > .kbin-container > #main > h1 {
-                font-size: ${settings["optionMessages"] * 2.5}px
+                font-size: ${resolveSize(settings["optionMessages"]) * 2.5}rem
             }
             .page-messages > .mbin-container > #main > h1 {
-                font-size: ${settings["optionMessages"] * 2.5}px
+                font-size: ${resolveSize(settings["optionMessages"]) * 2.5}rem
             }
             /* SIDEBAR */
-            #sidebar * {
-                font-size: ${settings["optionHomeSidebar"]}px !important
+            .sidebar-subscriptions *,  #sidebar * {
+                font-size: ${resolveSize(settings["optionHomeSidebar"])}rem !important
+            }
+            /* POST COMMENT */
+            #comment-add * {
+                font-size: ${resolveSize(settings["optionPostComment"])}rem
+            }
+            /* ABOUT PAGES */
+            #middle[class="page-about"] h1,
+            #middle[class="page-faq"] h1,
+            #middle[class="page-terms"] h1,
+            #middle[class="page-privacy-policy"] h1,
+            #middle[class="page-magazine-panel page-magazine-moderators"] h1,
+            #middle[class="page-federation"] h1 {
+                font-size: ${resolveSize(settings["optionAbout"]) * 2.5}rem
+            }
+            #middle[class="page-about"] #content *,
+            #middle[class="page-faq"] #content *,
+            #middle[class="page-terms"] #content * ,
+            #middle[class="page-privacy-policy"] #content * ,
+            #middle[class="page-magazine-panel page-magazine-moderators"] #content *,
+            #middle[class="page-stats"] #content *,
+            #middle[class="page-federation"] .section:not(table) {
+                font-size: ${resolveSize(settings["optionAbout"])}rem
+            }
+            #middle[class="page-federation"] .section h3 {
+                font-size: ${resolveSize(settings["optionAbout"]) * 2}rem
             }
             /* COMMENTS */
-            .entry-comment * {
-                font-size: ${settings["optionComments"]}px
+            .section.post.subject *, .entry-comment * {
+                font-size: ${resolveSize(settings["optionComments"])}rem !important
             }
-            /* ============= */
+            #popover * {
+                font-size: ${resolveSize(settings["optionPopover"])}rem !important
+            }
             /* PROFILE PAGES */
             .user-main > div > .user__actions * {
-                font-size: ${settings["optionProfile"]}px
+                font-size: ${resolveSize(settings["optionProfile"])}rem
             }
             .user-box * {
-                font-size: ${settings["optionProfile"]}px
+                font-size: ${resolveSize(settings["optionProfile"])}rem
             }
             .section.user-info > ul > li a {
-                font-size: ${settings["optionProfile"]}px !important
+                font-size: ${resolveSize(settings["optionProfile"])}rem !important
             }
             .section.user-info > h3 {
-                font-size: ${settings["optionProfile"]}px !important
+                font-size: ${resolveSize(settings["optionProfile"])}rem !important
             }
             .section.user-info > ul > li {
-                font-size: ${settings["optionProfile"]}px
+                font-size: ${resolveSize(settings["optionProfile"])}rem
             }
-            /* ============= */
+            #content > h2 {
+                font-size: ${resolveSize(settings["optionProfile"]) * 2}rem
+            }
             /* POST CREATION PAGES */
-            /*TODO: this line is not applying */
+            form[name="magazine"] * {
+                font-size: ${resolveSize(settings["optionCreate"])}rem
+            }
             .entry-create > div > #entry_link_title_max_length {
-                font-size: ${settings["optionCreate"]}px
+                font-size: ${resolveSize(settings["optionCreate"])}rem
             }
             .entry-create > div > div > .ts-control > * {
-                font-size: ${settings["optionCreate"]}px
+                font-size: ${resolveSize(settings["optionCreate"])}rem
             }
             .options.options--top.options-activity * {
-                font-size: ${settings["optionCreate"]}px !important
+                font-size: ${resolveSize(settings["optionCreate"])}rem !important
             }
             .entry-create * {
-                font-size: ${settings["optionCreate"]}px
+                font-size: ${resolveSize(settings["optionCreate"])}rem
             }
-            /* ============= */
-            /* HEADERS */
+            /* NAVBAR */
             #header :not(.icon) {
-                font-size: ${settings["optionHeader"]}px
+                font-size: ${resolveSize(settings["optionNavbar"])}rem
             }
-            /* ============= */
             /* SETTINGS */
-            .page-settings * {
-                font-size: ${settings["optionUserSettings"]}px
+            form[name="user_settings"] * {
+                font-size: ${resolveSize(settings["optionUserSettings"])}rem;
+            }
+            form[name="user_settings"] .ts-control * {
+                font-size: ${resolveSize(settings["optionUserSettings"])}rem;
             }
             .page-settings h2 {
-                font-size: ${settings["optionUserSettings"] * 2.5}px
+                font-size: ${resolveSize(settings["optionUserSettings"]) * 2.5}rem
             }
-            /* ============= */
-            /* SORT OPTIONS */
-            aside#options menu li a, aside#options menu i, aside#options menu button span {
-                font-size: ${settings["optionSortBy"]}px
+            /* MENUBAR OPTIONS */
+            .pills menu li,
+            #activity menu li,
+            aside#options menu li a,
+            aside#options menu i,
+            aside#options menu button span {
+                font-size: ${resolveSize(settings["optionMenubar"])}rem
             }
             /* INBOX NOTIFICATIONS */
             .page-notifications > .kbin-container > main > * {
-                font-size: ${settings["optionNotifs"]}px
+                font-size: ${resolveSize(settings["optionNotifs"])}rem
             }
             .page-notifications > .kbin-container > main > .pills > menu > form > button {
-                font-size: ${settings["optionNotifs"] * 0.85}px
+                font-size: ${resolveSize(settings["optionNotifs"]) * 0.85}rem
             }
             .page-notifications > .kbin-container > main > h1 {
-                font-size: ${settings["optionNotifs"] * 2.5}px !important
+                font-size: ${resolveSize(settings["optionNotifs"]) * 2.5}rem !important
             }
             .page-notifications > .mbin-container > main > * {
-                font-size: ${settings["optionNotifs"]}px
+                font-size: ${resolveSize(settings["optionNotifs"])}rem
             }
             .page-notifications > .mbin-container > main > .pills > menu > form > button {
-                font-size: ${settings["optionNotifs"] * 0.85}px
+                font-size: ${resolveSize(settings["optionNotifs"]) * 0.85}rem
             }
             .page-notifications > .mbin-container > main > h1 {
-                font-size: ${settings["optionNotifs"] * 2.5}px !important
+                font-size: ${resolveSize(settings["optionNotifs"]) * 2.5}rem !important
             }
-            /* ============= */
-            /* POSTS/THREADS */
+            /* THREADS */
             article.entry > header > h2 a {
-                font-size: ${settings["optionPosts"] * 1.295}px
+                font-size: ${resolveSize(settings["optionThreads"]) * 1.295}rem
             }
             article.entry > .content * {
-                font-size: ${settings["optionPosts"]}px
+                font-size: ${resolveSize(settings["optionThreads"])}rem
             }
             article.entry * {
-                font-size: ${settings["optionPosts"]}px
+                font-size: ${resolveSize(settings["optionThreads"])}rem
+            }
+            /* TABLES */
+            .table-responsive {
+                font-size: ${resolveSize(settings["optionTables"])}rem
+            }
+            table * {
+                font-size: ${resolveSize(settings["optionTables"])}rem
+            }
+            table .action {
+                font-size: ${resolveSize(settings["optionTables"]) * 0.85}rem
+            }
+            /* MODLOG */
+            #middle[class="page-modlog"] .section--small.log,
+            #middle[class="page-modlog"] .alert.alert__danger {
+                font-size: ${resolveSize(settings["optionModlog"])}rem
+            }
+            #middle[class="page-modlog"] h1 {
+                font-size: ${resolveSize(settings["optionModlog"]) * 2.5}rem
+            }
+            /* PAGINATION FOOTER */
+            .pagination.section {
+                font-size: ${resolveSize(settings["optionPagination"])}rem
             }
             `;
-            safeGM("removeStyle", "resize-css")
             safeGM("addStyle", css, "resize-css")
-
-            if (kesModalOpen()) {
-                let timerID = setTimeout(setOpacity ,1000, 1.0);
-                sessionStorage.setItem('modalFade', timerID);
-            }
         }
 
         if (toggle) {
+            safeGM("removeStyle", "resize-css")
             resizeText();
         } else {
             safeGM("removeStyle", "resize-css")
@@ -2541,6 +2593,16 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const kibby = `${prefix}/kbin_logo_kibby.svg`
         const kibbyMini = `${prefix}/kibby-mini.svg`
         const kbinMini = `${prefix}/kbin-mini.svg`
+        const mbinNoText = "https://raw.githubusercontent.com/MbinOrg/mbin/refs/heads/main/assets/images/sources/mbin-notext.svg"
+        const mbin = "https://raw.githubusercontent.com/MbinOrg/mbin/refs/heads/main/assets/images/sources/mbin-logo.svg"
+
+        const logos = {
+            "Kbin (no text)": kbinMini,
+            "Kibby": kibby,
+            "Kibby (no text)": kibbyMini,
+            "Mbin (no text)": mbinNoText,
+            "Mbin": mbin
+        }
 
         function getDefaultLogo () {
             const keyw = document.querySelector('meta[name="keywords"]').content.split(',')[0]
@@ -2550,36 +2612,48 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function updateLogo (link) {
             $('.brand a').show();
+            document.querySelector(".head-nav__menu").style.removeProperty("padding-left")
             const img = document.querySelector('.brand a img');
-            img.setAttribute("src", link);
+            //special handling for instances with text-only logo
+            if (!img) {
+                const sp = document.querySelector(".brand a span")
+                sp.style.display = "none"
+                const i = document.createElement("img");
+                i.setAttribute("src", link)
+                i.id = "logo"
+                sp.insertAdjacentElement("afterend", i)
+            } else {
+                img.setAttribute("src", link);
+            }
         }
 
         function changeLogo () {
             const ns = "changelogo";
-
             const settings = getModSettings(ns);
             let opt = settings["logotype"];
             switch (opt) {
                 case "Hidden":
                     updateLogo(getDefaultLogo())
                     $('.brand a').hide();
+                    document.querySelector(".head-nav__menu").style.paddingLeft = "20px"
                     break;
-                case "Kibby":
-                    updateLogo(kibby);
-                    break;
-                case "Kbin (no text)":
-                    updateLogo(kbinMini);
-                    break;
-                case "Kibby (no text)":
-                    updateLogo(kibbyMini);
-                    break;
+                default:
+                    updateLogo(logos[opt])
             }
         }
 
         function restoreLogo () {
             $('.brand').show();
+            //special handling for instances with text-only logo
+            const sp = document.querySelector(".brand a span");
+            const a = document.querySelector(".brand a");
+            if (sp) {
+                sp.style.removeProperty("display");
+                a.style.removeProperty("display");
+                document.querySelector(".brand a img").remove();
+                return
+            }
             updateLogo(getDefaultLogo());
-
         }
 
         if (toggle) {
@@ -2718,9 +2792,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function getUsername (item) {
             try {
-                if (item.href.split('/u/')[1].charAt(0) == '@') {
-                    return null
-                }
                 return item.href.split('/u/')[1];
             } catch (error) {
                 return null;
@@ -2735,17 +2806,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 if (!username) return;
                 if (username === self_username) return;
                 const sib = item.nextSibling
-                let link
-                try {
-                    if ((sib) && (sib.nodeName === "#text")) {
-                        link = document.createElement('a');
-                        const ownInstance = window.location.hostname;
-                        link.setAttribute('href', `https://${ownInstance}/u/${username}/message`);
-                        insertElementAfter(item, link);
-                    } else {
-                        link = sib;
-                    }
-                } finally {
+                if ((sib) && (sib.nodeName === "#text")) {
+                    const link = document.createElement('a');
+                    const ownInstance = window.location.hostname;
+                    link.setAttribute('href', `https://${ownInstance}/u/${username}/message`);
+                    insertElementAfter(item, link);
                     if (link) {
                         if (settings["type"] == "Text") {
                             link.className = 'kes-mail-link';
@@ -2763,7 +2828,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         const login = document.querySelector('.login');
         const settings = getModSettings("mail")
-        if (!login) return;
         const self_username = login.href.split('/')[4];
         if (toggle) {
             addLink(settings);
@@ -2993,7 +3057,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== "Mbin.Magazine") return
+        if (pt !== Mbin.Magazine) return
 
         function applyPins () {
 
@@ -3101,41 +3165,41 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     hide_thumbs: //mes-func
     function hideThumbs (toggle) { //eslint-disable-line no-unused-vars
-        const settings = getModSettings('hidethumbs')
-        const index = 'kes-index-thumbs'
-        const inline = 'kes-inline-thumbs'
-        const thumbsCSS = `
-        .entry.section.subject figure, .no-image-placeholder {
-            display: none
+        function show () {
+            document.querySelectorAll(".figure-container").forEach((container) => {
+                if (container.dataset.hidden === "true") {
+                    container.style.removeProperty("display");
+                    delete container.dataset.hidden
+                }
+            });
+            document.querySelectorAll(".mes-thumbs-hide").forEach((icon) => {
+                icon.remove();
+            });
         }
-        `
-        const inlineCSS = `
-        .thumbs {
-            display:none
+
+        function hide () {
+            document.querySelectorAll('.figure-container').forEach((container) => {
+                if (container.dataset.hidden === "true") return
+                container.dataset.hidden = "true"
+
+                const prev = document.createElement('i')
+                prev.classList.add("mes-thumbs-hide", "fas", "fa-photo-video");
+                prev.ariaLabel = "Expand/collapse this image"
+                prev.addEventListener("click", () => {
+                    if (container.style.display === "none") {
+                        container.style.removeProperty("display");
+                    } else {
+                        container.style.display = "none"
+                    }
+                });
+
+                container.insertAdjacentElement("beforebegin", prev);
+                container.style.display = "none"
+            })
         }
-        `
-        function apply (sheet, name) {
-            unset(name)
-            safeGM("addStyle", sheet, name)
-        }
-        function unset (name) {
-            safeGM("removeStyle", name)
-        }
-        if (toggle) {
-            if (settings["index"]) {
-                apply(thumbsCSS, index);
-            } else {
-                unset(index)
-            }
-            if (settings["inline"]) {
-                apply(inlineCSS, inline)
-            } else {
-                unset(inline)
-            }
-        } else {
-            unset(index)
-            unset(inline)
-        }
+
+        if (toggle) hide();
+        if (!toggle) show();
     },
 
     adjust: //mes-func
@@ -3202,15 +3266,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
             return _getMagName(a) > _getMagName(b) ? 1: -1
         }
 
-        const pt = getPageType(); // eslint-disable-line no-undef
+        const pt = getPageType();
         let list_columns
         switch (pt) {
-            case "Mbin.User.Subscriptions": {
+            case Mbin.User.Subscriptions: {
                 list_columns = '.magazines-columns'
                 break;
             }
-            case "Mbin.User.Followers":
-            case "Mbin.User.Following": {
+            case Mbin.User.Followers:
+            case Mbin.User.Following: {
                 list_columns = '.users-columns'
                 break;
             }
@@ -3249,111 +3313,153 @@ const funcObj = { // eslint-disable-line no-unused-vars
     expand_posts: //mes-func
     function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
 
+        function makePost (post, original) {
+            const newBody = document.createElement('div');
+            newBody.id = "mes-expanded-post"
+            newBody.appendChild(post);
+            original.insertAdjacentElement("afterend", newBody);
+            original.style.cssText = "display:none"
+        }
+
         async function update (response) {
             const xml = response.response
             const parser = new DOMParser();
             const doc = parser.parseFromString(xml, "text/html");
             const articleId = doc.querySelector('article').id
-            const postBody = doc.querySelector('.content').innerText
+            const newPost = doc.querySelector('.content')
             const arr = Array.from(document.querySelectorAll('.entry'))
             const res = arr.find((el) => el.id === articleId);
-            const oldBody = res.querySelector('.short-desc p');
-            const settings = getModSettings("expand-posts")
-            const collapseLabel = settings.collapse
-            const newButton = makeButton(collapseLabel, res)
-            newButton.className = 'kes-collapse-post-button'
 
-            oldBody.innerText = postBody
-            oldBody.appendChild(newButton)
-            if (oldBody.childNodes[0].nodeName === "BR") {
-                oldBody.children[0].remove()
-            }
-            const prev = newButton.previousElementSibling
-            const prevOfPrev = newButton.previousElementSibling.previousElementSibling
-            if (prev.nodeName === "BR" && prevOfPrev.nodeName=== "BR") {
-                prevOfPrev.remove()
-            }
+            const oldPost = res.querySelector('.short-desc p');
+            const oldButton = document.querySelector(".mes-loading-post-button");
+
+            updateExpandMode(oldButton)
+            makePost(newPost, oldPost);
         }
-        function makeButton (text, parent) {
+
+        function makeButton (parent) {
             const button = document.createElement('a')
-            const br = document.createElement('br')
-            button.innerText = text
-            button.className = 'kes-expand-post-button'
-            button.style.cursor = 'pointer'
-            button.addEventListener('click', (e) => {
-                const mode = e.target.innerText
-                const settings = getModSettings("expand-posts")
-                const loadingLabel = settings.loading
-                const expandLabel = settings.expand
-                if (mode === expandLabel) {
-                    button.innerText = loadingLabel
-                    button.className = 'kes-loading-post-button'
-                    const link = parent.querySelector('header h2 a')
-                    genericXMLRequest(link, update)
-                } else {
-                    const body = parent.querySelector('.short-desc p')
-                    const ar = body.innerText.split('\n')
-                    for (let i = 0; i < ar.length; ++i) {
-                        if (ar[i]) {
-                            body.innerText = ar[i] + '...'
-                            button.innerText = expandLabel
-                            button.className = 'kes-expand-post-button'
-                            body.appendChild(br)
-                            body.appendChild(button)
-                            break
-                        }
+ 
+            //initialize button expand mode
+            button.innerText = settings.expand
+            button.dataset.expandMode = "expand"
+            button.className = "mes-expand-post-button"
+            button.classList.add("btn", "btn-link", "btn__primary")
+
+            button.addEventListener('click', () => {
+                let link
+                if (button.dataset.expandMode === "expand") {
+                    updateExpandMode(button)
+                    if (isThread()) {
+                        link = window.location.href.split("/").slice(0, 8).join("/")
+                    } else {
+                        const el = "header h2 a"
+                        link = parent.querySelector(el);
                     }
+                    genericXMLRequest(link, update);
+                } else {
+                    updateExpandMode(button)
+                    collapsePost(button, parent);
                 }
             });
             return button
         }
+
+        function collapsePost (button, post) {
+            const body = post.querySelector('.short-desc');
+            const oldPost = body.querySelector("p");
+            oldPost.style.cssText = ""
+            body.querySelector("#mes-expanded-post").remove();
+            oldPost.insertAdjacentElement("afterend", button);
+        }
+
+        function updateExpandMode (button) {
+            const settings = getModSettings("expand-posts")
+            const mode = button.dataset.expandMode
+            let newMode
+            switch (mode) {
+                case "expand":
+                    newMode = "loading"
+                    break;
+                case "loading":
+                    newMode = "collapse"
+                    break;
+                case "collapse":
+                    newMode = "expand"
+                    break;
+            }
+            button.dataset.expandMode = newMode
+            button.innerText = settings[newMode]
+            button.classList.replace(`mes-${mode}-post-button`, `mes-${newMode}-post-button`)
+        }
+
         function propagateButtons () {
             const entries = document.querySelectorAll('.entry')
             entries.forEach((entry) => {
-                const b = entry.querySelector('.short-desc p')
-                const br = document.createElement('br')
-                if (b) {
-                    const end = b.innerText.slice(-3)
-                    if (end == "...") {
-                        br.id = "kes-expand-divider"
-                        const button = makeButton(expandLabel, entry)
-                        b.appendChild(br)
-                        b.appendChild(button)
-                    }
+                if (entry.dataset.expand !== undefined) return
+                entry.dataset.expand = "true"
+                const blurb = entry.querySelector('.short-desc p')
+                if (!blurb) return
+                if (blurb.innerText.slice(-3) === "...") {
+                    const button = makeButton(entry)
+                    blurb.insertAdjacentElement("afterend", button)
                 }
             });
             updateButtonLabels();
         }
+
         function updateButtonLabels () {
-            const expandLabels = document.querySelectorAll('.kes-expand-post-button')
-            const loadingLabels = document.querySelectorAll('.kes-loading-post-button')
-            const collapseLabels = document.querySelectorAll('.kes-collapse-post-button')
-            expandLabels.forEach((label) =>{
-                label.innerText = expandLabel
-            });
-            collapseLabels.forEach((label) =>{
-                label.innerText = collapseLabel
-            });
-            loadingLabels.forEach((label) =>{
-                label.innerText = loadingLabel
-            });
+            let allEls
+            for (let i in els) {
+                allEls = document.querySelectorAll("." + els[i]);
+                allEls.forEach((el)=>{
+                    const label = els[i].split("-")[1]
+                    const hr = settings[label]
+                    el.innerText = hr
+                })
+            }
         }
 
         const settings = getModSettings("expand-posts")
-        const loadingLabel = settings.loading
-        const expandLabel = settings.expand
-        const collapseLabel = settings.collapse
+        const els = [
+            "mes-expand-post-button",
+            "mes-loading-post-button",
+            "mes-collapse-post-button"
+        ]
+        const buttonCSS = `
+        .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
+            font-size: 0.8rem;
+            padding: 0px 5px 0px 5px;
+            cursor: pointer;
+        }
+        .mes-expand-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        .mes-collapse-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        .mes-loading-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        `;
+
+
         if (toggle) {
+            safeGM("removeStyle", "expand-css");
+            safeGM("addStyle", buttonCSS, "expand-css");
             propagateButtons();
         } else {
-            const oldButtons = document.querySelectorAll('.kes-expand-post-button')
-            const oldButtons2 = document.querySelectorAll('.kes-collapse-post-button')
-            oldButtons.forEach((button)=>{
-                button.remove();
+            let allEls
+            for (let i in els) {
+                allEls = document.querySelectorAll("." + els[i]);
+                allEls.forEach((el)=>{
+                    el.remove();
+                })
+            }
+            document.querySelectorAll('.entry').forEach((entry) => {
+                delete entry.dataset.expand
             });
-            oldButtons2.forEach((button)=>{
-                button.remove();
-            });
+            safeGM("removeStyle", "expand-css");
         }
     },
 
@@ -3481,26 +3587,40 @@ const funcObj = { // eslint-disable-line no-unused-vars
             posts: '#sidebar > .posts',
             threads: '#sidebar > .entries',
             instance: '#sidebar > .kbin-promo',
-            intro: '.sidebar-options > .intro'
+            intro: '.sidebar-options > .intro',
+            subs: '#sidebar > .sidebar-subscriptions',
+            about: '#sidebar > .about'
         }
 
         const settings = getModSettings('hide-sidebar');
-
         const keys = Object.keys(obj);
 
         if (toggle) {
-            for (let i = 0; i< keys.length; i++) {
-                let key = keys[i]
-                if (settings[key]) {
-                    $(obj[key]).hide();
+            for (let i in keys) {
+                const el = document.querySelector(obj[keys[i]])
+                if (settings[keys[i]]) {
+                    if (el) el.style.display = "none"
                 } else {
-                    $(obj[key]).show();
+                    if (el) el.style.removeProperty("display")
+                }
+            }
+            // expand the content to cover the space freed up by hiding the sidebar
+            const main = document.querySelector('.mbin-container > #main');
+            if (settings["sidebar"] && settings["expand"]) {
+                main.style.gridColumn = "span 2";
+            } else {
+                if (main.style.gridColumn == "span 2") {
+                    main.style.gridColumn = '';
                 }
             }
         } else {
-            for (let i = 0; i< keys.length; i++) {
-                let key = keys[i]
-                $(obj[key]).show();
+            for (let i in keys) {
+                const el = document.querySelector(obj[keys[i]])
+                if (el) el.style.removeProperty("display")
+            }
+            const main = document.querySelector('.mbin-container > #main');
+            if (main.style.gridColumn == "span 2") {
+                main.style.gridColumn = '';
             }
         }
     },
@@ -3635,10 +3755,17 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const els = document.querySelectorAll(selector);
             els.forEach((el) => {
                 if (el.getAttribute("data-instance") !== "true") {
-                    const userInstance = el.getAttribute("href").split("@")[2];
-                    if (userInstance) {
-                        el.innerText = el.innerText + "@" + userInstance;
-                        el.setAttribute("data-instance", "true")
+                    if (el.classList.contains("user-hidden-instance")) return
+                    const arr = el.getAttribute("href").split("@");
+                    const name = arr[1];
+                    const remote = arr[2];
+                    if (name) {
+                        const clone = el.cloneNode(false);
+                        clone.innerText = name + "@" + remote;
+                        clone.setAttribute("data-instance", "true");
+                        el.classList.add("user-hidden-instance");
+                        el.style.display = "none";
+                        el.insertAdjacentElement("afterend", clone);
                     }
                 }
             });
@@ -3648,20 +3775,26 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const els = document.querySelectorAll(selector);
             els.forEach((el) => {
                 if (el.getAttribute("data-instance") === "true") {
-                    el.setAttribute("data-instance", "false");
-                    el.innerText = el.innerText.split("@")[0]
+                    el.remove();
                 }
             });
+            document.querySelectorAll(".user-hidden-instance").forEach((el) => {
+                el.style.removeProperty("display");
+                el.classList.remove("user-hidden-instance");
+            })
         }
 
         function setSelector () {
             const page = getPageType() //eslint-disable-line no-undef
             let el
             switch (page) {
-                case "Mbin.Thread.Favorites":
-                case "Mbin.User.Followers":
-                case "Mbin.User.Following":
+                case Mbin.Thread.Favorites:
+                case Mbin.User.Followers:
+                case Mbin.User.Following:
                     el = ".users-columns .stretched-link"
+                    break;
+                case Mbin.User.Default:
+                    el = ".user-inline"
                     break;
                 default:
                     el = ".user-inline"
@@ -3671,13 +3804,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const selector = setSelector();
-
-        if (toggle) {
-            showUserInstances(selector);
-        } else {
-            hideUserInstances(selector);
-            return
-        }
+        if (toggle) showUserInstances(selector);
+        if (!toggle) hideUserInstances(selector);
     },
 
     submission_label: //mes-func
@@ -3723,7 +3851,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         /*
             License: MIT
             Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
-        */
+            */
 
         const kfaHasStrictModerationRules = [
             'beehaw.org',
@@ -3818,12 +3946,42 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 // Scale 1-10; Default 5 (i.e., 50%); 10 is 50% of 20. 20 * (x * 0.1)
                 const defaultScale = 20;
                 const setScale = defaultScale * (kfaSettingsScale * 0.1);
-                let fedStyle = ` .comment div.data-federated, article .data-federated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-                let modStyle = ` .comment div.data-moderated, article .data-moderated { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-                let homeStyle = ` .comment div.data-home, article .data-home { display: inline-block; width: ` + setScale + `px; height: ` + setScale + `px; border-radius: 10px; box-shadow: `;
-                modStyle += `0 0 3px 2px ` + modColor0 + `; background-color: ` + modColor0 + `; margin-right: 4px; margin-left: 4px; }`;
-                fedStyle += `0 0 3px 2px ` + fedColor0 + `; background-color: ` + fedColor0 + `; margin-right: 4px; margin-left: 4px; }`;
-                homeStyle += `0 0 3px 2px ` + homeColor0 + `; background-color: ` + homeColor0 + `; margin-right: 4px; margin-left: 4px; }`;
+                const fedStyle=`
+                header div.data-federated, article .data-federated {
+                    display: inline-block;
+                    width: ${setScale}px;
+                    height: ${setScale}px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 3px 2px ${fedColor0};
+                    background-color: ${fedColor0};
+                    margin-right: 4px;
+                    margin-left: 4px
+                }
+                `;
+                const modStyle=`
+                header div.data-moderated, article .data-moderated {
+                    display: inline-block;
+                    width: ${setScale}px;
+                    height: ${setScale}px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 3px 2px ${modColor0};
+                    background-color: ${modColor0};
+                    margin-right: 4px;
+                    margin-left: 4px;
+                }
+                `;
+                const homeStyle=`
+                header div.data-home, article .data-home {
+                    display: inline-block;
+                    width: ${setScale}px;
+                    height: ${setScale}px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 3px 2px ${homeColor0};
+                    background-color: ${homeColor0};
+                    margin-right: 4px;
+                    margin-left: 4px;
+                }
+                `;
                 return modStyle + fedStyle + homeStyle;
             }
         }
@@ -3859,52 +4017,87 @@ const funcObj = { // eslint-disable-line no-unused-vars
         function toggleClass (article, classname) {
             const articleIndicator = document.createElement('div');
             const articleAside = article.querySelector('aside');
-            articleAside.prepend(articleIndicator);
 
             article.classList.toggle(classname);
             articleIndicator.classList.toggle(classname);
+            articleAside.prepend(articleIndicator);
+        }
+
+        function prependToComment (comment) {
+            const commentHeader = comment.querySelector('header');
+            const userInfo = commentHeader.querySelector('a.user-inline');
+            if (userInfo) {
+                const userHostname = userInfo.title.split('@').reverse()[0];
+                let commentIndicator = document.createElement('div');
+
+                if (kfaIsStrictlyModerated(userHostname)) {
+                    comment.classList.toggle('data-moderated');
+                    commentIndicator.classList.toggle('data-moderated');
+                } else if (userHostname !== window.location.hostname) {
+                    comment.classList.toggle('data-federated');
+                    commentIndicator.classList.toggle('data-federated');
+                } else {
+                    comment.classList.toggle('data-home');
+                    commentIndicator.classList.toggle('data-home');
+                }
+                commentHeader.prepend(commentIndicator);
+            }
         }
 
         function kfaInitClasses () {
-            document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
-                if (article.querySelector('[class^=data-]')) { return }
-                let op = article.querySelector('.user-inline').href
-                op = String(op)
-                const hostname = findHostname(op);
-                article.setAttribute('data-hostname', hostname);
-                let type
+            const page = getPageType(); // eslint-disable-line no-undef
+            if (page === Mbin.Microblog) {
+                document.querySelectorAll('.section.post.subject').forEach(function (comment) {
+                    if (comment.querySelector('[class^=data-]')) { return }
+                    prependToComment(comment);
+                });
+                document.querySelectorAll('.comments blockquote.post-comment').forEach(function (comment) {
+                    if (comment.querySelector('[class^=data-]')) { return }
+                    prependToComment(comment);
+                });
+                return
+            }
+            if (page !== Mbin.Microblog) {
+                document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
+                    if (article.querySelector('[class^=data-]')) { return }
+                    let op = article.querySelector('.user-inline').href
+                    op = String(op)
+                    const hostname = findHostname(op);
+                    article.setAttribute('data-hostname', hostname);
+                    let type
 
-                if (kfaIsStrictlyModerated(hostname)) {
-                    type = 'data-moderated'
-                } else if (hostname !== window.location.hostname) {
-                    type = 'data-federated'
-                } else {
-                    type = 'data-home'
-                }
-                toggleClass(article, type)
-            });
-
-            document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
-                if (comment.querySelector('[class^=data-]')) { return }
-                let commentHeader = comment.querySelector('header');
-                const userInfo = commentHeader.querySelector('a.user-inline');
-                if (userInfo) {
-                    const userHostname = userInfo.title.split('@').reverse()[0];
-                    let commentIndicator = document.createElement('div');
-
-                    if (kfaIsStrictlyModerated(userHostname)) {
-                        comment.classList.toggle('data-moderated');
-                        commentIndicator.classList.toggle('data-moderated');
-                    } else if (userHostname !== window.location.hostname) {
-                        comment.classList.toggle('data-federated');
-                        commentIndicator.classList.toggle('data-federated');
+                    if (kfaIsStrictlyModerated(hostname)) {
+                        type = 'data-moderated'
+                    } else if (hostname !== window.location.hostname) {
+                        type = 'data-federated'
                     } else {
-                        comment.classList.toggle('data-home');
-                        commentIndicator.classList.toggle('data-home');
+                        type = 'data-home'
                     }
-                    commentHeader.prepend(commentIndicator);
-                }
-            });
+                    toggleClass(article, type)
+                });
+
+                document.querySelectorAll('.comments blockquote.entry-comment').forEach(function (comment) {
+                    if (comment.querySelector('[class^=data-]')) { return }
+                    let commentHeader = comment.querySelector('header');
+                    const userInfo = commentHeader.querySelector('a.user-inline');
+                    if (userInfo) {
+                        const userHostname = userInfo.title.split('@').reverse()[0];
+                        let commentIndicator = document.createElement('div');
+
+                        if (kfaIsStrictlyModerated(userHostname)) {
+                            comment.classList.toggle('data-moderated');
+                            commentIndicator.classList.toggle('data-moderated');
+                        } else if (userHostname !== window.location.hostname) {
+                            comment.classList.toggle('data-federated');
+                            commentIndicator.classList.toggle('data-federated');
+                        } else {
+                            comment.classList.toggle('data-home');
+                            commentIndicator.classList.toggle('data-home');
+                        }
+                        commentHeader.prepend(commentIndicator);
+                    }
+                });
+            }
         }
 
         let kfaSettingsFed;
@@ -4139,7 +4332,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
         function blockThreads (mags) {
             hideThreads(mags)
-            document.querySelectorAll('.entry__meta').forEach((item) => {
+            document.querySelectorAll('.entry:not(.entry-cross) aside.meta.entry__meta').forEach((item) => {
+            //document.querySelectorAll('.entry__meta').forEach((item) => {
                 if (item.querySelector('.softblock-icon')) {
                     return
                 }

@@ -11,6 +11,7 @@ usage(){
         printf "feat/<NAME> - feature (bumps minor version)\n"
         printf "api/<NAME> - breaking change (bumps major version)\n"
         printf "release/<NAME> - pre-release\n"
+        printf "chore/<NAME> - clerical changes\n"
         printf "\n"
     }
     _format | sed 's/^/\t/g'
@@ -24,14 +25,14 @@ if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
     exit 1
 fi
 
-branch=$(git name-rev --name-only HEAD)
+branch=$(git branch --show-current)
 if [[ ! $branch == "testing" ]] && [[ ! $branch =~ / ]]; then
     abort
 fi
 if [[ $branch =~ / ]]; then
     prefix=$(<<< "$branch" awk -F/ '{print $1}')
     case "$prefix" in
-        "fix"|"feat"|"api")
+        "fix"|"feat"|"api"|"chore")
             :
             ;;
         *)

@@ -1,10 +1,120 @@
+const Log = Object.freeze({ //eslint-disable-line no-unused-vars
+    Log: 1,
+    Warn: 2,
+    Error: 3
+})
 
-function log (string) { // eslint-disable-line no-unused-vars
+function log (string, level) { // eslint-disable-line no-unused-vars
     const date = new Date()
     const iso = date.toISOString()
     const caller = (new Error()).stack?.split("\n")[1].split("@")[0]
     const line = `[KES:${caller}] [${iso}] ${string}`
-    console.log(line)
+    switch (level) {
+        case Log.Log:
+            console.log(line)
+            break;
+        case Log.Warn:
+            console.warn(line)
+            break;
+        case Log.Error:
+            console.error(line)
+            break;
+        default:
+            break;
+    }
+}
+
+//returns a generic loading prompt with spinner
+function makeLoader (id, text) {
+    const modalCSS = `
+    #${id}-filter-modal-bg {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 90;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        left: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.5) !important;
+    }
+
+    #${id}-filter-modal {
+        background-color: var(--kbin-section-bg);
+        width: 500px;
+        height: 100px;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid black;
+    }
+    #${id}-filter-text {
+        color: var(--kbin-section-text-color);
+        margin: 20px
+    }
+    .hourglass,
+    .hourglass:after {
+      box-sizing: border-box;
+    }
+    .hourglass {
+      display: inline-flex;
+      position: relative;
+      width: 10px;
+      height: 10px;
+    }
+    .hourglass:after {
+      content: " ";
+      display: block;
+      border-radius: 50%;
+      width: 0;
+      height: 0;
+      margin: 8px;
+      box-sizing: border-box;
+      border: 10px solid currentColor;
+      border-color: currentColor transparent currentColor transparent;
+      animation: hourglass 1.2s infinite;
+    }
+    @keyframes hourglass {
+      0% {
+        transform: rotate(0);
+        animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+      }
+      50% {
+        transform: rotate(900deg);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+      100% {
+        transform: rotate(1800deg);
+      }
+    }
+
+    `;
+    const modal_bg = document.createElement("div");
+    const modal = document.createElement("div");
+    const span = document.createElement("span");
+    const msg = document.createElement("p");
+    modal_bg.id = `${id}-filter-modal-bg`;
+    modal.id = `${id}-filter-modal`;
+    msg.id = `${id}-filter-text`;
+    msg.innerText = `${text}`;
+    modal_bg.appendChild(modal);
+    span.appendChild(msg);
+    const spinner = document.createElement("div");
+    spinner.className = "hourglass";
+    msg.appendChild(spinner);
+    modal.appendChild(span);
+    const cssID = "mes-loader-css";
+    safeGM("removeStyle", cssID);
+    safeGM("addStyle", modalCSS, cssID);
+    log(`Added the sheet '${cssID}' to the document head`, Log.Log);
+    return modal_bg
+}
+
+//removes a loading dialog created with makeLoader()
+function clearLoader (id) {
+    document.querySelector(`#${id}-filter-modal-bg`)?.remove();
+    safeGM("removeStyle", "mes-loader-css");
 }
 
 //adds custom CSS to the document head by named ID
@@ -57,14 +167,6 @@ function getComputedFontSize (string) { // eslint-disable-line no-unused-vars
     if (isNaN(parseFloat(string)) === false) {
         return parseFloat(string)
     }
-    const el = document.querySelector(string)
-    if (!el) {
-        return null
-    }
-    const fontsize = document.defaultView.getComputedStyle(el).fontSize
-    let px = fontsize.split('px')[0]
-    px = parseFloat(px)
-    return px
 }
 
 //returns whether the user is currently logged in
@@ -77,92 +179,85 @@ function isLoggedIn () { //eslint-disable-line no-unused-vars
 }
 
 function getPageType () { //eslint-disable-line no-unused-vars
-    const url = window.location.href.split('/')
-    if ((url.length === 4) && (url[3] === "")) {
-        return "Mbin.Top"
+    const url = window.location.href.split("/")
+    switch (url[3]) {
+        case "":
+        case "sub":
+        case "all":
+        case "threads":
+            return Mbin.Top
+        case "search":
+            return Mbin.Search
+        case "magazines":
+            return Mbin.Magazines
+        case "people":
+            return Mbin.People
+        case "bookmark-lists":
+            return Mbin.Bookmarks
+        case "tag":
+            return Mbin.Tag
+        case "microblog":
+            return Mbin.Microblog
+        case "profile":
+            if ((url[4] === "messages") && (url.length === 6)) return Mbin.Messages.Thread
+            return Mbin.Messages.Inbox
+        case "settings":
+            if ((url[4]) === "notifications") return Mbin.Messages.Notifications
+            return Mbin.Settings
+        case "u":
+            if (url[5] === undefined) return Mbin.User.Default
+            if (url[5] === "message") return Mbin.User.DirectMessage
+            if (window.location.href.includes("/subscriptions")) return Mbin.User.Subscriptions
+            if (window.location.href.includes("/threads")) return Mbin.User.Threads
+            if (window.location.href.includes("/comments")) return Mbin.User.Comments
+            if (window.location.href.includes("/posts")) return Mbin.User.Posts
+            if (window.location.href.includes("/replies")) return Mbin.User.Replies
+            if (window.location.href.includes("/boosts")) return Mbin.User.Boosts
+            if (window.location.href.includes("/following")) return Mbin.User.Following
+            if (window.location.href.includes("/followers")) return Mbin.User.Followers
+            if (window.location.href.includes("/reputation")) return Mbin.User.Reputation
+            return Mbin.User.Default
+        case "d":
+            if ((url.length === 6) && (window.location.href.includes("/comments"))) return Mbin.Domain.Comments
+            return Mbin.Domain.Default
+        case "m":
+            if (url[5] === undefined) return Mbin.Magazine
+            if (url[5] === "microblog") return Mbin.Microblog
+            if ((url[5] === "t") && (window.location.href.includes("/favourites"))) return Mbin.Thread.Favorites
+            if ((url[5] === "t") && (window.location.href.includes("/up"))) return Mbin.Thread.Boosts
+            return Mbin.Thread.Comments
+        default:
+            break;
     }
-    if ((url[3] === "settings") && (url[4] === "notifications")) {
-        return "Mbin.Messages.Notifications"
-    }
-    if ((url[3] === "profile") && (url[4] === "messages") && (url.length === 6)) {
-        return "Mbin.Messages.Thread"
-    }
-    if ((url[3] === "profile") && (url[4] === "messages")) {
-        return "Mbin.Messages.Inbox"
-    }
-    if (url[3] === "search") {
-        return "Mbin.Search"
-    }
-    if (url[3] === "settings") {
-        return "Mbin.Settings"
-    }
-    if (url[3] === "magazines") {
-        return "Mbin.Magazines"
-    }
-    if (url[3] === "people") {
-        return "Mbin.People"
-    }
-    if (url[3] === "microblog") {
-        return "Mbin.Microblog"
-    }
-    if (url[3] === "tag") {
-        return "Mbin.Tag"
-    }
-    //user pages
-    if ((url[3] === "u") && (url[5].includes("subscriptions"))) {
-        return "Mbin.User.Subscriptions"
-    }
-    if ((url[3] === "u") && (url[5] === "message")) {
-        return "Mbin.User.Direct_Message"
-    }
-    if ((url[3] === "u") && (url[5].includes("threads"))) {
-        return "Mbin.User.Threads"
-    }
-    if ((url[3] === "u") && (url[5].includes("comments"))) {
-        return "Mbin.User.Comments"
-    }
-    if ((url[3] === "u") && (url[5].includes("posts"))) {
-        return "Mbin.User.Posts"
-    }
-    if ((url[3] === "u") && (url[5].includes("replies"))) {
-        return "Mbin.User.Replies"
-    }
-    if ((url[3] === "u") && (url[5].includes("boosts"))) {
-        return "Mbin.User.Boosts"
-    }
-    if ((url[3] === "u") && (url[5].includes("following"))) {
-        return "Mbin.User.Following"
-    }
-    if ((url[3] === "u") && (url[5].includes("followers"))) {
-        return "Mbin.User.Followers"
-    }
-    if (url[3] === "u") {
-        return "Mbin.User"
-    }
-    //domain pages
-    if ((url[3] === "d") && (url[5].includes("comments"))) {
-        return "Mbin.Domain.Comments"
-    }
-    if (url[3] === "d") {
-        return "Mbin.Domain"
-    }
-    //threads
-    if ((url[3] === "m") && (url[5] === undefined)) {
-        return "Mbin.Magazine"
-    }
-    if ((url[3] === "m") && (url[5] === "t")) {
-        if (url[(url.length-1)].includes("favourites")) {
-            return "Mbin.Thread.Favorites"
-        }
-        else if (url[(url.length-1)].includes("up")) {
-            return "Mbin.Thread.Boosts"
-        }
-        else {
-            return "Mbin.Thread.Comments"
-        }
-    }
+    if (url[3].includes("?type=")) return Mbin.Top
+    if (url[3].includes("magazines?")) return Mbin.Magazines
     return "Unknown"
 }
+
+function isIndex () {
+    const pt = getPageType();
+    switch (pt) {
+        case Mbin.Domain.Default:
+        case Mbin.Domain.Comments:
+        case Mbin.Top:
+            return true
+        default:
+            return false
+    }
+}
+
+function isThread () {
+    const pt = getPageType();
+    switch (pt) {
+        case Mbin.Thread.Comments:
+        case Mbin.Thread.Favorites:
+        case Mbin.Thread.Boosts:
+            return true
+        default:
+            return false
+    }
+}
+
 
 //sets the type of GM API being used (dot or underscore notation) based on scripthandler metadata
 let gmPrefix

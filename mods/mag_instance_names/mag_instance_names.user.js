@@ -1,40 +1,58 @@
 function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
-    // ==UserScript==
-    // @name         Magazine Instance Names
-    // @namespace    https://github.com/aclist
-    // @version      0.1
-    // @description  Shows instance names next to non-local magazines
-    // @author       artillect
-    // @match        https://kbin.social/*
-    // @license      MIT
-    // ==/UserScript==
-    const path = window.location.href.split('/')
-    if ((path[3] === "m") || (path[3] === "magazines")) return
-    function showMagInstances () {
-        $('.magazine-inline').each(function () {
-            // Check if community is local
-            if (!$(this).hasClass('instance')) {
-                $(this).addClass('instance');
-                // Get community's instance from their profile link
-                var magInstance = $(this).attr('href').split('@')[1];
-                // Check if community's link includes an @
-                if (magInstance) {
-                    // Add instance name to community's name
-                    $(this).html($(this).html() + '<span class="mag-instance">@' + magInstance + '</span>');
+    function cloneMagazineName (el) {
+        document.querySelectorAll(el).forEach((magazine) => {
+            if (magazine.dataset.checkedRemote !== undefined) return
+            magazine.dataset.checkedRemote = "true"
+            const arr = magazine.getAttribute("href").split("@")
+            const name = arr[0].split("/")[2]
+            const remote = arr[1]
+            let spanEl
+            if (remote) {
+                //subscriptions sidebar uses a different span syntax
+                if (el === ".subscription-list .stretched-link") {
+                    spanEl = ".magazine-name"
+                } else {
+                    spanEl = "span"
                 }
+                const oldSpan = magazine.querySelector(spanEl)
+                oldSpan.classList.add("mag-hidden-instance");
+                oldSpan.style.display = "none"
+                const newSpan = document.createElement("span")
+                newSpan.innerText = name + "@" + remote
+                newSpan.classList.add("mes-remote-instance");
+                oldSpan.insertAdjacentElement("afterend", newSpan)
             }
         });
     }
-    function hideCommunityInstances () {
-        $('.magazine-inline.instance').each(function () {
-            $(this).removeClass('instance');
-            $(this).html($(this).html().split('<span class="mag-instance">@')[0]);
-        });
+
+    function showRemotes () {
+        for (let i in els) {
+            cloneMagazineName(els[i]);
+        }
     }
-    //const localInstance = window.location.href.split('/')[2];
+
+    function hideRemotes () {
+        document.querySelectorAll('.mag-hidden-instance').forEach((magazine) => {
+            magazine.style.removeProperty("display");
+            magazine.classList.remove("mag-hidden-instance");
+        });
+        document.querySelectorAll('.mes-remote-instance').forEach((magazine) => {
+            magazine.remove();
+        });
+        for (let i in els) {
+            document.querySelectorAll(els[i]).forEach((magazine) => {
+                delete magazine.dataset.checkedRemote
+            });
+        }
+    }
+
+    const els = [
+        ".magazine-inline",
+        ".subscription-list .stretched-link"
+    ]
     if (toggle) {
-        showMagInstances();
+        showRemotes();
     } else {
-        hideCommunityInstances();
+        hideRemotes();
     }
 }

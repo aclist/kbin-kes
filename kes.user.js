@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.3.0-beta.15
+// @version      4.3.0-beta.54
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -31,6 +31,7 @@
 // @connect      github.com
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/funcs.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/pages.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json
@@ -61,16 +62,18 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 //END AUTO MASTHEAD
 
 async function checkUpdates (response) {
-    const newVersion = await response.responseText.trim();
-
-    if (newVersion && newVersion != version) {
-        // Change version link into a button for updating
-        versionElement.innerText = 'Install update: ' + newVersion;
-        versionElement.setAttribute('href', updateURL);
-        versionElement.className = 'new';
-        await safeGM("setValue", "isnew", "yes");
-    } else {
-        await safeGM("setValue", "isnew", "no");
+    if (response.status === 200) {
+        log("Checking for new version at remote", Log.Log);
+        const newVersion = await response.responseText.trim();
+        if (newVersion && newVersion != version) {
+            // Change version link into a button for updating
+            versionElement.innerText = 'Install update: ' + newVersion;
+            versionElement.setAttribute('href', updateURL);
+            versionElement.className = 'new';
+            await safeGM("setValue", "isnew", "yes");
+        } else {
+            await safeGM("setValue", "isnew", "no");
+        }
     }
     preparePayloads();
 }
@@ -355,7 +358,20 @@ function constructMenu (json, layoutArr, isNew) {
         sidebar.className = "kes-settings-modal-sidebar";
         let sidebarUl = document.createElement('ul');
 
+        function dedupePages () {
+            const arr = [];
+            for (let i = 0; i < json.length; i++) {
+                arr.push(json[i].page);
+            }
+            return [...new Set(arr)]
+        }
+        //prune valid pages to those actually used by mods
+        const validPages = dedupePages()
         for (let i = 0; i < sidebarPages.length; ++i) {
+            if (!validPages.includes(sidebarPages[i])) {
+                log(`The sidebar page '${sidebarPages[i]}' is unused`, Log.Warn)
+                continue
+            }
             let pageUpper = sidebarPages[i].charAt(0).toUpperCase() + sidebarPages[i].slice(1);
             let sidebarListItem = document.createElement('li');
             sidebarListItem.innerHTML = `
@@ -603,24 +619,12 @@ function constructMenu (json, layoutArr, isNew) {
                             numberField.setAttribute("type", fieldType);
 
                             let val
-                            let size
                             if ((modSettings[key] === undefined) || (modSettings[key] === "")) {
-                                size = getComputedFontSize(initial)
-                                if (!size) {
-                                    val = 14
-                                } else {
-                                    val = size
-                                }
+                                val = getComputedFontSize(initial)
                             } else {
-                                size = getComputedFontSize(modSettings[key])
-                                if (!size) {
-                                    val = 14
-                                } else {
-                                    val = size
-                                }
+                                val = getComputedFontSize(modSettings[key])
                             }
                             numberField.setAttribute("value", val)
-
                             numberField.setAttribute("kes-iter", it);
                             numberField.setAttribute("kes-key", key);
                             numberField.setAttribute('min', json[it].fields[i].min);
@@ -1221,7 +1225,7 @@ function constructMenu (json, layoutArr, isNew) {
         saveModSettings(modSettings, ns);
 
         updateCrumbs();
-        toggleSettings(func);
+        toggleSettings(json[it]);
     }
 
     function toggleDependencies (entry, state) {
@@ -1252,7 +1256,13 @@ function constructMenu (json, layoutArr, isNew) {
             funcObj[entrypoint](state);
         }
     }
-    function toggleSettings (entry) {
+    function toggleSettings (json) {
+        const login = json.login
+        const entry = json.entrypoint
+        if (requiresLoginButLoggedOut(login)) {
+            log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
+            return
+        }
         const settings = getSettings()
         try {
             if (settings[entry] == true) {
@@ -1320,11 +1330,17 @@ function constructMenu (json, layoutArr, isNew) {
         }
 
     }
-    function applySettings (entry, mutation) {
+    function applySettings (json, mutation) {
+        const entry = json.entrypoint
+        const login = json.login
         legacyMigration(entry);
         const settings = getSettings();
         try {
             if (settings[entry] == true) {
+                if (requiresLoginButLoggedOut(login)) {
+                    log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
+                    return
+                }
                 toggleDependencies(entry, true)
                 funcObj[entry](true, mutation);
             }
@@ -1361,33 +1377,25 @@ function constructMenu (json, layoutArr, isNew) {
         localStorage.setItem("kes-settings", JSON.stringify(settings));
     }
 
+    function requiresLoginButLoggedOut (login) {
+        if (login === false) return false
+        if ((login === true) && (!isLoggedIn())) return true
+        return false
+    }
+
     function init () {
         for (let i = 0; i < json.length; ++i) {
-            if ((json[i].login) && (!isLoggedIn())) { // eslint-disable-line no-undef
-
-                continue
-            }
-            applySettings(json[i].entrypoint);
+            applySettings(json[i]);
         }
     }
 
     function initmut (list) {
+        const timestamp_json = { "login": false, "entrypoint": "timestamp" }
         for (const mutation of list) {
-            if (mutation.target.nodeName == "HTML") {
-                //implies that turbo mode reloaded the entire DOM tree
-                //the KES modal is itself running in the background,
-                //but when the entire DOM is reloaded in place the settings icon should be
-                //reinjected into the kbin navbar
-                injectSettingsButton(layoutArr, isNew)
-                for (let i = 0; i < json.length; ++i) {
-                    applySettings(json[i].entrypoint, mutation);
-                }
-                return
-            }
             //trigger when username popover dialog is spawned on hover
             //there can only be one popover spawned at a given time
             if (mutation.target.id === "popover") {
-                applySettings("timestamp");
+                applySettings(timestamp_json);
                 return
             }
             //workaround for timeago ticks changing timestamp textContent
@@ -1395,7 +1403,7 @@ function constructMenu (json, layoutArr, isNew) {
             //see also updateState()
             if (mutation.target.className === 'timeago') {
                 if (!mutation.target.classList.contains("hidden-timeago")) {
-                    applySettings("timestamp");
+                    applySettings(timestamp_json);
                 }
                 //triggering on the first mutation is sufficient to apply to all timestamps
                 return
@@ -1404,7 +1412,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //implies that a recurring/infinite scroll event like new threads or comment creation occurred
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i].entrypoint, mutation);
+                        applySettings(json[i], mutation);
                         obs.takeRecords();
                     }
                 }

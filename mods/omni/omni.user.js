@@ -241,6 +241,8 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         }
         function kickoffListener (e) {
             if (e.key !== code) return
+            if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
+            if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
             e.preventDefault();
             const exists = document.querySelector('.kes-omni-modal')
             if (exists) {
@@ -415,47 +417,24 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
                 });
 
             }
-
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
 
-            function keyTrap (e) {
-                if (e.target.tagName === "INPUT") return
-                if ((e.target.tagName === "TEXTAREA") && (e.target.id !== 'kes-omni-search')) return
-                const kt = document.querySelector('#kes-omni-keytrap')
-                kt.focus()
-            }
-
-            const pageHolder = document.querySelector('.kbin-container') 
-                ?? document.querySelector('.mbin-container')
-            const kth = document.createElement('div');
-            kth.style.cssText = 'height: 0px; width: 0px'
-            const ktb = document.createElement('button')
-            ktb.style.cssText = 'opacity:0;width:0'
-            ktb.id = 'kes-omni-keytrap'
-            kth.appendChild(ktb)
-            pageHolder.insertBefore(kth, pageHolder.children[0])
-            ktb.addEventListener('keyup',kickoffListener)
-            const globalKeyInsert = document.querySelector('[data-controller="kbin notifications"]')
-                ?? document.querySelector('[data-controller="mbin notifications"]');
-            globalKeyInsert.addEventListener('keydown',keyTrap)
-
-
+            $(document).on("keypress.omnikey", function (e) {
+                kickoffListener(e)
+            });
         }
     }
+
     if (toggle) {
+        $(document).off("keypress.omnikey");
         createOmni();
     } else {
         const e = []
-        safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e)
-        safeGM("setValue",`omni-default-mags-${hostname}`, e)
-        const kt = document.querySelector('#kes-omni-keytrap')
-        const q = document.querySelector('.kes-omni-modal')
-        if (kt) {
-            kt.remove();
-        }
-        if (q) {
-            q.remove();
-        }
+        safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e);
+        safeGM("setValue",`omni-default-mags-${hostname}`, e);
+        document.querySelector("kes-omni-modal")?.remove();
+        document.querySelector("kes-omni-tapbar")?.remove();
+        $(document).off("keypress.omnikey");
     }
 }

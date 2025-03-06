@@ -175,7 +175,7 @@ confirm_version(){
 main(){
     run_tests
 
-    local branch=$(git name-rev --name-only HEAD)
+    local branch=$(git branch --show-current)
     local prefix=$(<<< "$branch" awk -F/ '{print $1}')
     local test_version=$(git show testing:VERSION)
     [[ -z $test_version ]] && abort "VERSION file missing from branch 'testing'"
@@ -216,6 +216,9 @@ main(){
                 new_version=$(bump_vers "$test_version" "$choice")
                 new_version="${new_version}-beta.1"
             fi
+            ;;
+        "chore")
+            exit 0
             ;;
     esac
     confirm_version "$cur_version" "$new_version" "$branch"
