@@ -1740,6 +1740,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
             op.style.order = settings["op"]
             activity.style.order = settings["activity"]
+            //fix for #488
+            activity.style.zIndex = 0
+            options.style.zIndex = 0
+
             if (isLoggedIn()) {
                 const post = document.querySelector('#comment-add');
                 post.style.order = settings["post"]
@@ -1754,7 +1758,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
             rearrangeSetup();
         } else {
             const content = document.querySelector('#content');
-            content.style.display = 'unset';
+            const activity = document.querySelector('#activity');
+            const options = document.querySelector('#options');
+            content.style.removeProperty("display")
+            activity.style.zIndex = 5
+            options.style.zIndex = 0
         }
     },
 
@@ -3585,16 +3593,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const settings = getModSettings('hide-sidebar');
-
         const keys = Object.keys(obj);
 
         if (toggle) {
-            for (let i = 0; i< keys.length; i++) {
-                let key = keys[i]
-                if (settings[key]) {
-                    $(obj[key]).hide();
+            for (let i in keys) {
+                const el = document.querySelector(obj[keys[i]])
+                if (settings[keys[i]]) {
+                    if (el) el.style.display = "none"
                 } else {
-                    $(obj[key]).show();
+                    if (el) el.style.removeProperty("display")
                 }
             }
             // expand the content to cover the space freed up by hiding the sidebar
@@ -3607,9 +3614,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 }
             }
         } else {
-            for (let i = 0; i< keys.length; i++) {
-                let key = keys[i]
-                $(obj[key]).show();
+            for (let i in keys) {
+                const el = document.querySelector(obj[keys[i]])
+                if (el) el.style.removeProperty("display")
             }
             const main = document.querySelector('.mbin-container > #main');
             if (main.style.gridColumn == "span 2") {
