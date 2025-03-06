@@ -1408,7 +1408,8 @@ function constructMenu (json, layoutArr, isNew) {
                 //triggering on the first mutation is sufficient to apply to all timestamps
                 return
             }
-            if ((mutation.target.getAttribute("data-controller") == "subject-list") || (mutation.target.id == "comments")) {
+            if ((mutation.target.getAttribute("data-controller") == "subject-list")
+                || (mutation.target.id == "comments")) {
                 //implies that a recurring/infinite scroll event like new threads or comment creation occurred
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
@@ -1417,6 +1418,15 @@ function constructMenu (json, layoutArr, isNew) {
                     }
                 }
                 return
+            }
+            if (mutation.target.className === "kes-collapse-children") {
+                //FIXME: use this so it applies on deeply nested replies
+                for (let i = 0; i < json.length; ++i) {
+                    if (json[i].recurs) {
+                        applySettings(json[i], mutation);
+                        obs.takeRecords();
+                    }
+                }
             }
         }
     }
