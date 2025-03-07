@@ -1410,7 +1410,8 @@ function constructMenu (json, layoutArr, isNew) {
             }
             if ((mutation.target.getAttribute("data-controller") == "subject-list")
                 || (mutation.target.id == "comments")) {
-                //implies that a recurring/infinite scroll event like new threads or comment creation occurred
+                //implies that a recurring/infinite scroll event
+                //like new threads or comment creation occurred
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
                         applySettings(json[i], mutation);
