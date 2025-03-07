@@ -1433,7 +1433,7 @@ function constructMenu (json, layoutArr, isNew) {
             }
             //implies that a recurring/infinite scroll event
             //like new threads or comment creation occurred
-            //.post-comments is used for microblog expansion 
+            //.post-comments is used for microblog expansion
             if ((mutation.target.getAttribute("data-controller") == "subject-list")
                 || (mutation.target.id == "comments")
                 || (mutation.target.classList.contains("post-comments"))) {
