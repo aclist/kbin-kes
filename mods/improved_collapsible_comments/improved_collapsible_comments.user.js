@@ -522,7 +522,7 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
             globalSelector = ".entry-comments"
             break;
         default:
-            break;
+            return;
     }
     const subSelector = globalSelector.substring(0, globalSelector.length-1)
 
