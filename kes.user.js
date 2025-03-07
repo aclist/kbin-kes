@@ -211,8 +211,23 @@ function constructMenu (json, layoutArr, isNew) {
             keyPressed = {};
         }
         if (keyPressed.Escape == true) {
+            const search = document.querySelector("#kes-search-dialog")
+            if ((search) && (search.open)) {
+                e.preventDefault();
+                search.remove();
+                return
+            }
             if (modal) {
                 modal.remove();
+            }
+            keyPressed = {};
+        }
+        if (keyPressed.Shift == true && keyPressed.Control == true && keyPressed["F"] == true) {
+            e.preventDefault();
+            if (!modal) {
+                return
+            } else {
+                document.querySelector(".kes-search i").click();
             }
             keyPressed = {};
         }
@@ -319,7 +334,7 @@ function constructMenu (json, layoutArr, isNew) {
         headerChangelogButton.appendChild(headerChangelogLink)
 
         const headerSearchButton = document.createElement('span')
-        headerSearchButton.className = 'kes-changelog'
+        headerSearchButton.className = 'kes-search'
         const headerSearchIcon = document.createElement('i')
         headerSearchIcon.className = layoutArr.header.search.icon
         headerSearchIcon.title = layoutArr.header.search.tooltip
