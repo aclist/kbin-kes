@@ -1,4 +1,10 @@
-const Mbin = Object.freeze({ //eslint-disable-line no-unused-vars
+const Log = Object.freeze({
+    Log: 1,
+    Warn: 2,
+    Error: 3
+})
+
+const Mbin = Object.freeze({
     Top: 1,
     Search: 2,
     Magazines: 3,
@@ -34,4 +40,12 @@ const Mbin = Object.freeze({ //eslint-disable-line no-unused-vars
         Default: 26,
         Comments: 27
     })
+})
+
+const Trigger = Object.freeze({
+    Pageload: 0,
+    Toggle: 1,
+    Setting: 2,
+    Mutation: 3,
+    Dependency: 4
 })

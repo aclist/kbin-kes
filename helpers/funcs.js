@@ -45,7 +45,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     improved_collapsible_comments: //mes-func
-    function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-unused-vars
+    function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable-line no-unused-vars
         function applyCommentStyles () {
             var style = `
             .entry-comment {
@@ -1740,6 +1740,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
             op.style.order = settings["op"]
             activity.style.order = settings["activity"]
+            //fix for #488
+            activity.style.zIndex = 0
+            options.style.zIndex = 0
+
             if (isLoggedIn()) {
                 const post = document.querySelector('#comment-add');
                 post.style.order = settings["post"]
@@ -1754,7 +1758,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
             rearrangeSetup();
         } else {
             const content = document.querySelector('#content');
-            content.style.display = 'unset';
+            const activity = document.querySelector('#activity');
+            const options = document.querySelector('#options');
+            content.style.removeProperty("display")
+            activity.style.zIndex = 5
+            options.style.zIndex = 0
         }
     },
 
@@ -1830,29 +1838,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
     hide_related: //mes-func
     function toggleLogo (toggle) { // eslint-disable-line no-unused-vars
 
-        function isIndex () {
-            const pt = getPageType();
-            switch (pt) {
-                case Mbin.Domain.Default:
-                case Mbin.Domain.Comments:
-                case Mbin.Top:
-                    return true
-                default:
-                    return false
-            }
-        }
-        function isThread () {
-            const pt = getPageType();
-            switch (pt) {
-                case Mbin.Thread.Comments:
-                case Mbin.Thread.Favorites:
-                case Mbin.Thread.Boosts:
-                    return true
-                default:
-                    return false
-            }
-        }
-
         function hideRelated () {
             restoreRelated();
             const settings = getModSettings("hide_related");
@@ -1882,7 +1867,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     remove_ads: //mes-func
-    function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
+    function filter (toggle, trigger, mutation) { // eslint-disable-line no-unused-vars
 
         const settings = getModSettings("spamfilter")
         if (!settings) return
@@ -2070,7 +2055,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         function processFilters () {
             const articles = document.querySelectorAll('.entry')
             for (let i = 0; i < banned.length; ++i) {
-                if (block) gt(getRelativeName(banned[i]))
+                if (block) bu(getRelativeName(banned[i]))
             }
             for (let i = 0; i < articles.length; ++i) {
                 const name = getPoster(articles[i])
@@ -2100,37 +2085,14 @@ const funcObj = { // eslint-disable-line no-unused-vars
             localStorage.setItem("kes-checked-users", checked)
         }
 
-        async function gt (u) {
-            const resp = await fetch(`https://${domain}/u/${u}`, {
-                "credentials": "include",
-                "method": "GET",
-                "mode": "cors"
-            });
-            switch (await resp.status) {
-                case 200: {
-                    const respText = await resp.text()
-                    const parser = new DOMParser();
-                    const XML = parser.parseFromString(respText, "text/html");
-                    const form = XML.querySelector('[name="user_block"]')
-                    if (form) {
-                        const t = form.querySelector('input').value
-                        bu(u, t)
-                    }
-                    break
-                }
-                default:
-                    break
-            }
-        }
-
-        async function bu (u, t) {
+        async function bu (u) {
             const resp = await fetch(`https://${domain}/u/${u}/block`, {
                 signal: AbortSignal.timeout(8000),
                 "credentials": "include",
                 "headers": {
                     "Content-Type": "multipart/form-data; boundary=---------------------------11111111111111111111111111111"
                 },
-                "body": `-----------------------------11111111111111111111111111111\r\nContent-Disposition: form-data; name="token"\r\n\r\n${t}\r\n-----------------------------11111111111111111111111111111--\r\n`,
+                "body": `-----------------------------11111111111111111111111111111\r\nContent-Disposition: form-data;`,
                 "method": "POST",
                 "mode": "cors"
             });
@@ -2445,153 +2407,179 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     resize_text: //mes-func
     function textResize (toggle) { // eslint-disable-line no-unused-vars
-        const modalContent = ".kes-settings-modal-content"
-        const modalContainer = ".kes-settings-modal-container"
 
-        function kesModalOpen () {
-            const kesModalContent = document.querySelector(modalContent);
-            if (kesModalContent) {
-                return true
-            } else {
-                return false
-            }
-        }
-
-        function modSelected () {
-            let state
-            document.querySelectorAll('.kes-option').forEach((mod) => {
-                if ((mod.style.opacity === "1") && mod.innerText === "Change font size") {
-                    state = true
-                }
-            })
-            return state
-        }
-
-        function setOpacity (value) {
-            const kesModalContent = document.querySelector(modalContent);
-            const kesModalContainer = document.querySelector(modalContainer);
-            kesModalContent.style.opacity = value;
-            kesModalContainer.style.opacity = value;
+        function resolveSize (value) {
+            //const rem = (value - (value*0.785)*(0.935))
+            //midpoint of 5 = 0.85rem, default
+            //header is 5 rem by default
+            //threads are 4
+            const rem = 1 + ( (value - 5) * 0.15)
+            return rem
         }
 
         function resizeText () {
             const settings = getModSettings('resize');
-            let oldID = sessionStorage.getItem('modalFade');
-            clearTimeout(oldID)
-
-            if (kesModalOpen()) {
-                if (modSelected()) setOpacity(0.2)
-            }
             const css = `
             /* MESSAGES */
             .page-messages * {
-                font-size: ${settings["optionMessages"]}px
+                font-size: ${resolveSize(settings["optionMessages"])}rem
             }
             .page-messages > .kbin-container > #main > h1 {
-                font-size: ${settings["optionMessages"] * 2.5}px
+                font-size: ${resolveSize(settings["optionMessages"]) * 2.5}rem
             }
             .page-messages > .mbin-container > #main > h1 {
-                font-size: ${settings["optionMessages"] * 2.5}px
+                font-size: ${resolveSize(settings["optionMessages"]) * 2.5}rem
             }
             /* SIDEBAR */
-            #sidebar * {
-                font-size: ${settings["optionHomeSidebar"]}px !important
+            .sidebar-subscriptions *,  #sidebar * {
+                font-size: ${resolveSize(settings["optionHomeSidebar"])}rem !important
+            }
+            /* POST COMMENT */
+            #comment-add * {
+                font-size: ${resolveSize(settings["optionPostComment"])}rem
+            }
+            /* ABOUT PAGES */
+            #middle[class="page-about"] h1,
+            #middle[class="page-faq"] h1,
+            #middle[class="page-terms"] h1,
+            #middle[class="page-privacy-policy"] h1,
+            #middle[class="page-magazine-panel page-magazine-moderators"] h1,
+            #middle[class="page-federation"] h1 {
+                font-size: ${resolveSize(settings["optionAbout"]) * 2.5}rem
+            }
+            #middle[class="page-about"] #content *,
+            #middle[class="page-faq"] #content *,
+            #middle[class="page-terms"] #content * ,
+            #middle[class="page-privacy-policy"] #content * ,
+            #middle[class="page-magazine-panel page-magazine-moderators"] #content *,
+            #middle[class="page-stats"] #content *,
+            #middle[class="page-federation"] .section:not(table) {
+                font-size: ${resolveSize(settings["optionAbout"])}rem
+            }
+            #middle[class="page-federation"] .section h3 {
+                font-size: ${resolveSize(settings["optionAbout"]) * 2}rem
             }
             /* COMMENTS */
-            .entry-comment * {
-                font-size: ${settings["optionComments"]}px
+            .section.post.subject *, .entry-comment * {
+                font-size: ${resolveSize(settings["optionComments"])}rem !important
             }
-            /* ============= */
+            #popover * {
+                font-size: ${resolveSize(settings["optionPopover"])}rem !important
+            }
             /* PROFILE PAGES */
             .user-main > div > .user__actions * {
-                font-size: ${settings["optionProfile"]}px
+                font-size: ${resolveSize(settings["optionProfile"])}rem
             }
             .user-box * {
-                font-size: ${settings["optionProfile"]}px
+                font-size: ${resolveSize(settings["optionProfile"])}rem
             }
             .section.user-info > ul > li a {
-                font-size: ${settings["optionProfile"]}px !important
+                font-size: ${resolveSize(settings["optionProfile"])}rem !important
             }
             .section.user-info > h3 {
-                font-size: ${settings["optionProfile"]}px !important
+                font-size: ${resolveSize(settings["optionProfile"])}rem !important
             }
             .section.user-info > ul > li {
-                font-size: ${settings["optionProfile"]}px
+                font-size: ${resolveSize(settings["optionProfile"])}rem
             }
-            /* ============= */
+            #content > h2 {
+                font-size: ${resolveSize(settings["optionProfile"]) * 2}rem
+            }
             /* POST CREATION PAGES */
-            /*TODO: this line is not applying */
+            form[name="magazine"] * {
+                font-size: ${resolveSize(settings["optionCreate"])}rem
+            }
             .entry-create > div > #entry_link_title_max_length {
-                font-size: ${settings["optionCreate"]}px
+                font-size: ${resolveSize(settings["optionCreate"])}rem
             }
             .entry-create > div > div > .ts-control > * {
-                font-size: ${settings["optionCreate"]}px
+                font-size: ${resolveSize(settings["optionCreate"])}rem
             }
             .options.options--top.options-activity * {
-                font-size: ${settings["optionCreate"]}px !important
+                font-size: ${resolveSize(settings["optionCreate"])}rem !important
             }
             .entry-create * {
-                font-size: ${settings["optionCreate"]}px
+                font-size: ${resolveSize(settings["optionCreate"])}rem
             }
-            /* ============= */
-            /* HEADERS */
+            /* NAVBAR */
             #header :not(.icon) {
-                font-size: ${settings["optionHeader"]}px
+                font-size: ${resolveSize(settings["optionNavbar"])}rem
             }
-            /* ============= */
             /* SETTINGS */
-            .page-settings * {
-                font-size: ${settings["optionUserSettings"]}px
+            form[name="user_settings"] * {
+                font-size: ${resolveSize(settings["optionUserSettings"])}rem;
+            }
+            form[name="user_settings"] .ts-control * {
+                font-size: ${resolveSize(settings["optionUserSettings"])}rem;
             }
             .page-settings h2 {
-                font-size: ${settings["optionUserSettings"] * 2.5}px
+                font-size: ${resolveSize(settings["optionUserSettings"]) * 2.5}rem
             }
-            /* ============= */
-            /* SORT OPTIONS */
-            aside#options menu li a, aside#options menu i, aside#options menu button span {
-                font-size: ${settings["optionSortBy"]}px
+            /* MENUBAR OPTIONS */
+            .pills menu li,
+            #activity menu li,
+            aside#options menu li a,
+            aside#options menu i,
+            aside#options menu button span {
+                font-size: ${resolveSize(settings["optionMenubar"])}rem
             }
             /* INBOX NOTIFICATIONS */
             .page-notifications > .kbin-container > main > * {
-                font-size: ${settings["optionNotifs"]}px
+                font-size: ${resolveSize(settings["optionNotifs"])}rem
             }
             .page-notifications > .kbin-container > main > .pills > menu > form > button {
-                font-size: ${settings["optionNotifs"] * 0.85}px
+                font-size: ${resolveSize(settings["optionNotifs"]) * 0.85}rem
             }
             .page-notifications > .kbin-container > main > h1 {
-                font-size: ${settings["optionNotifs"] * 2.5}px !important
+                font-size: ${resolveSize(settings["optionNotifs"]) * 2.5}rem !important
             }
             .page-notifications > .mbin-container > main > * {
-                font-size: ${settings["optionNotifs"]}px
+                font-size: ${resolveSize(settings["optionNotifs"])}rem
             }
             .page-notifications > .mbin-container > main > .pills > menu > form > button {
-                font-size: ${settings["optionNotifs"] * 0.85}px
+                font-size: ${resolveSize(settings["optionNotifs"]) * 0.85}rem
             }
             .page-notifications > .mbin-container > main > h1 {
-                font-size: ${settings["optionNotifs"] * 2.5}px !important
+                font-size: ${resolveSize(settings["optionNotifs"]) * 2.5}rem !important
             }
-            /* ============= */
-            /* POSTS/THREADS */
+            /* THREADS */
             article.entry > header > h2 a {
-                font-size: ${settings["optionPosts"] * 1.295}px
+                font-size: ${resolveSize(settings["optionThreads"]) * 1.295}rem
             }
             article.entry > .content * {
-                font-size: ${settings["optionPosts"]}px
+                font-size: ${resolveSize(settings["optionThreads"])}rem
             }
             article.entry * {
-                font-size: ${settings["optionPosts"]}px
+                font-size: ${resolveSize(settings["optionThreads"])}rem
+            }
+            /* TABLES */
+            .table-responsive {
+                font-size: ${resolveSize(settings["optionTables"])}rem
+            }
+            table * {
+                font-size: ${resolveSize(settings["optionTables"])}rem
+            }
+            table .action {
+                font-size: ${resolveSize(settings["optionTables"]) * 0.85}rem
+            }
+            /* MODLOG */
+            #middle[class="page-modlog"] .section--small.log,
+            #middle[class="page-modlog"] .alert.alert__danger {
+                font-size: ${resolveSize(settings["optionModlog"])}rem
+            }
+            #middle[class="page-modlog"] h1 {
+                font-size: ${resolveSize(settings["optionModlog"]) * 2.5}rem
+            }
+            /* PAGINATION FOOTER */
+            .pagination.section {
+                font-size: ${resolveSize(settings["optionPagination"])}rem
             }
             `;
-            safeGM("removeStyle", "resize-css")
             safeGM("addStyle", css, "resize-css")
-
-            if (kesModalOpen()) {
-                let timerID = setTimeout(setOpacity ,1000, 1.0);
-                sessionStorage.setItem('modalFade', timerID);
-            }
         }
 
         if (toggle) {
+            safeGM("removeStyle", "resize-css")
             resizeText();
         } else {
             safeGM("removeStyle", "resize-css")
@@ -3350,24 +3338,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function makeButton (parent) {
-            const buttonCSS = `
-            .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
-                font-size: 0.8rem;
-                padding: 0px 5px 0px 5px;
-                cursor: pointer;
-            }
-            .mes-expand-post-button.btn.btn-link.btn__primary {
-                color: var(--kbin-button-primary-text-color) !important;
-            }
-            .mes-collapse-post-button.btn.btn-link.btn__primary {
-                color: var(--kbin-button-primary-text-color) !important;
-            }
-            .mes-loading-post-button.btn.btn-link.btn__primary {
-                color: var(--kbin-button-primary-text-color) !important;
-            }
-            `;
-
-            safeGM("addStyle", buttonCSS, "expand-css");
             const button = document.createElement('a')
  
             //initialize button expand mode
@@ -3377,9 +3347,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
             button.classList.add("btn", "btn-link", "btn__primary")
 
             button.addEventListener('click', () => {
+                let link
                 if (button.dataset.expandMode === "expand") {
                     updateExpandMode(button)
-                    const link = parent.querySelector('header h2 a');
+                    if (isThread()) {
+                        link = window.location.href.split("/").slice(0, 8).join("/")
+                    } else {
+                        const el = "header h2 a"
+                        link = parent.querySelector(el);
+                    }
                     genericXMLRequest(link, update);
                 } else {
                     updateExpandMode(button)
@@ -3398,6 +3374,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function updateExpandMode (button) {
+            const settings = getModSettings("expand-posts")
             const mode = button.dataset.expandMode
             let newMode
             switch (mode) {
@@ -3449,8 +3426,27 @@ const funcObj = { // eslint-disable-line no-unused-vars
             "mes-loading-post-button",
             "mes-collapse-post-button"
         ]
+        const buttonCSS = `
+        .mes-expand-post-button, .mes-loading-post-button, .mes-collapse-post-button {
+            font-size: 0.8rem;
+            padding: 0px 5px 0px 5px;
+            cursor: pointer;
+        }
+        .mes-expand-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        .mes-collapse-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        .mes-loading-post-button.btn.btn-link.btn__primary {
+            color: var(--kbin-button-primary-text-color) !important;
+        }
+        `;
+
 
         if (toggle) {
+            safeGM("removeStyle", "expand-css");
+            safeGM("addStyle", buttonCSS, "expand-css");
             propagateButtons();
         } else {
             let allEls
@@ -3597,16 +3593,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const settings = getModSettings('hide-sidebar');
-
         const keys = Object.keys(obj);
 
         if (toggle) {
-            for (let i = 0; i< keys.length; i++) {
-                let key = keys[i]
-                if (settings[key]) {
-                    $(obj[key]).hide();
+            for (let i in keys) {
+                const el = document.querySelector(obj[keys[i]])
+                if (settings[keys[i]]) {
+                    if (el) el.style.display = "none"
                 } else {
-                    $(obj[key]).show();
+                    if (el) el.style.removeProperty("display")
                 }
             }
             // expand the content to cover the space freed up by hiding the sidebar
@@ -3619,9 +3614,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 }
             }
         } else {
-            for (let i = 0; i< keys.length; i++) {
-                let key = keys[i]
-                $(obj[key]).show();
+            for (let i in keys) {
+                const el = document.querySelector(obj[keys[i]])
+                if (el) el.style.removeProperty("display")
             }
             const main = document.querySelector('.mbin-container > #main');
             if (main.style.gridColumn == "span 2") {
@@ -3703,7 +3698,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     thread_checkmarks: //mes-func
-    function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
+    function checksInit (toggle) { // eslint-disable-line no-unused-vars
         const settings = getModSettings('checks');
         const checkColor = settings["check-color"]
         const threadIndex = document.querySelector('[data-controller="subject-list"]')
@@ -3761,7 +3756,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             els.forEach((el) => {
                 if (el.getAttribute("data-instance") !== "true") {
                     if (el.classList.contains("user-hidden-instance")) return
-                    const arr = el.getAttribute("title").split("@");
+                    const arr = el.getAttribute("href").split("@");
                     const name = arr[1];
                     const remote = arr[2];
                     if (name) {
@@ -3853,10 +3848,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     kbin_federation_awareness: //mes-func
     function initKFA (toggle) { // eslint-disable-line no-unused-vars
-        /*
-            License: MIT
-            Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
-            */
+        //License: MIT
+        //Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
 
         const kfaHasStrictModerationRules = [
             'beehaw.org',
@@ -3867,145 +3860,113 @@ const funcObj = { // eslint-disable-line no-unused-vars
             return kfaHasStrictModerationRules.indexOf(hostname) !== -1;
         }
 
-        function kfaComponentToHex (c) {
-            const hex = c.toString(16);
-            return hex.length == 1 ? "0" + hex : hex;
+        function setScale (scale, mod) {
+            //Scale 1-5; Default 3
+            const defaultScale = mod;
+            const compScale = defaultScale * (scale * 0.2);
+            return compScale
         }
 
-        function kfaRgbToHex (r, g, b) {
-            return "#" + kfaComponentToHex(r) + kfaComponentToHex(g) + kfaComponentToHex(b);
-        }
-
-        function kfaHexToRgb (hex) {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-
-        function kfaSubtractColor (hex, amount) {
-            let rgb = kfaHexToRgb(hex);
-            if (rgb.r > amount) {
-                rgb.r -= amount;
-            } else {
-                rgb.r = 0;
-            }
-            if (rgb.g > amount) {
-                rgb.g -= amount;
-            } else {
-                rgb.g = 0;
-            }
-            if (rgb.b > amount) {
-                rgb.b -= amount;
-            } else {
-                rgb.b = 0;
-            }
-            return kfaRgbToHex(rgb.r, rgb.g, rgb.b);
-        }
-
-        function kfaGetCss () {
-            let fedColor0 = kfaSettingsFed;
-            let fedColor1 = kfaSubtractColor(fedColor0, 50);
-            let fedColor2 = kfaSubtractColor(fedColor1, 50);
-            let fedColor3 = kfaSubtractColor(fedColor2, 50);
-            let modColor0 = kfaSettingsMod;
-            let modColor1 = kfaSubtractColor(modColor0, 50);
-            let modColor2 = kfaSubtractColor(modColor1, 50);
-            let modColor3 = kfaSubtractColor(modColor2, 50);
-            let homeColor0 = kfaSettingsHome;
-            let homeColor1 = kfaSubtractColor(homeColor0, 50);
-            let homeColor2 = kfaSubtractColor(homeColor1, 50);
-            let homeColor3 = kfaSubtractColor(homeColor2, 50);
-            if (kfaSettingsStyle === 'border') {
-                let commentFed = ` .comment.data-federated {  box-shadow: `;
-                let articleFed = ` article.data-federated {  box-shadow: `;
-                let commentMod = ` .comment.data-moderated {  box-shadow: `;
-                let articleMod = ` article.data-moderated {  box-shadow: `;
-                let commentHome = ` .comment.data-home {  box-shadow: `;
-                let articleHome = ` article.data-home {  box-shadow: `;
-                commentMod += `1px 0 0 ` + modColor0 + `, 2px 0 0 ` + modColor0 + `, 3px 0 0 ` + modColor1 + `, 4px 0 0 ` + modColor2 + `, 5px 0 0 ` + modColor3 + `; }`;
-                commentFed += `1px 0 0 ` + fedColor0 + `, 2px 0 0 ` + fedColor0 + `, 3px 0 0 ` + fedColor1 + `, 4px 0 0 ` + fedColor2 + `, 5px 0 0 ` + fedColor3 + `; }`;
-                commentHome += `1px 0 0 ` + homeColor0 + `, 2px 0 0 ` + homeColor0 + `, 3px 0 0 ` + homeColor1 + `, 4px 0 0 ` + homeColor2 + `, 5px 0 0 ` + homeColor3 + `; }`;
-                if (kfaSettingsArticleSide === 'left' || kfaSettingsArticleSide === 'both') {
-                    articleMod += `-1px 0 0 ` + modColor0 + `, -2px 0 0 ` + modColor0 + `, -3px 0 0 ` + modColor1 + `, -4px 0 0 ` + modColor2 + `, -5px 0 0 ` + modColor3;
-                    articleFed += `-1px 0 0 ` + fedColor0 + `, -2px 0 0 ` + fedColor0 + `, -3px 0 0 ` + fedColor1 + `, -4px 0 0 ` + fedColor2 + `, -5px 0 0 ` + fedColor3;
-                    articleHome += `-1px 0 0 ` + homeColor0 + `, -2px 0 0 ` + homeColor0 + `, -3px 0 0 ` + homeColor1 + `, -4px 0 0 ` + homeColor2 + `, -5px 0 0 ` + homeColor3;
-                }
-                if (kfaSettingsArticleSide === 'right' || kfaSettingsArticleSide === 'both') {
-                    if (kfaSettingsArticleSide === 'both') {
-                        articleMod += `, `;
-                        articleFed += `, `;
-                        articleHome += `, `;
+        function kfaGenCSS () {
+            const settings = getModSettings('kbinFedAware');
+            const home = settings["kfaHomeColor"];
+            const fed = settings["kfaFedColor"];
+            const mod = settings["kfaModColor"];
+            const style = settings["kfaStyle"];
+            const indicatorScale = settings["kfaScale"];
+            log(indicatorScale, Log.Log)
+            const bubbleFuzz = settings["kfaBubbleShadow"];
+            if (style === "bubble") {
+                const scale = setScale(indicatorScale, 20)
+                const bubbleCSS=`
+                    header div.data-federated,
+                    header div.data-moderated,
+                    header div.data-home,
+                    article .data-federated,
+                    article .data-moderated,
+                    article .data-home {
+                        display: inline-block;
+                        width: ${scale}px;
+                        height: ${scale}px;
+                        border-radius: 10px;
+                        margin-right: 4px;
+                        margin-left: 4px
                     }
-                    articleMod += `1px 0 0 ` + modColor0 + `, 2px 0 0 ` + modColor0 + `, 3px 0 0 ` + modColor1 + `, 4px 0 0 ` + modColor2 + `, 5px 0 0 ` + modColor3;
-                    articleFed += `1px 0 0 ` + fedColor0 + `, 2px 0 0 ` + fedColor0 + `, 3px 0 0 ` + fedColor1 + `, 4px 0 0 ` + fedColor2 + `, 5px 0 0 ` + fedColor3;
-                    articleHome += `1px 0 0 ` + homeColor0 + `, 2px 0 0 ` + homeColor0 + `, 3px 0 0 ` + homeColor1 + `, 4px 0 0 ` + homeColor2 + `, 5px 0 0 ` + homeColor3;
+                    header div.data-federated,
+                    article .data-federated {
+                        background-color: ${fed};
+                    }
+                    header div.data-moderated,
+                    article .data-moderated {
+                        background-color: ${mod};
+                    }
+                    header div.data-home,
+                    article .data-home {
+                        background-color: ${home};
+                    }
+                `;
+                if (bubbleFuzz === true) {
+                    const fuzzCSS = `
+                        header div.data-federated,
+                        article .data-federated {
+                            box-shadow: 0 0 3px 2px ${fed};
+                        }
+                        header div.data-moderated,
+                        article .data-moderated {
+                            box-shadow: 0 0 3px 2px ${mod};
+                        }
+                        header div.data-home,
+                        article .data-home {
+                            box-shadow: 0 0 3px 2px ${home};
+                        }
+                    `;
+                    return bubbleCSS + fuzzCSS
+                } else {
+                    return bubbleCSS
                 }
-                articleMod += `; }`;
-                articleFed += `; }`;
-                articleHome += `; }`;
-                return commentFed + articleFed + commentMod + articleMod + commentHome + articleHome;
-            } else if (kfaSettingsStyle === 'bubble') {
-                // Scale 1-10; Default 5 (i.e., 50%); 10 is 50% of 20. 20 * (x * 0.1)
-                const defaultScale = 20;
-                const setScale = defaultScale * (kfaSettingsScale * 0.1);
-                const fedStyle=`
-                header div.data-federated, article .data-federated {
-                    display: inline-block;
-                    width: ${setScale}px;
-                    height: ${setScale}px;
-                    border-radius: 10px;
-                    box-shadow: 0 0 3px 2px ${fedColor0};
-                    background-color: ${fedColor0};
-                    margin-right: 4px;
-                    margin-left: 4px
+            }
+            if (style === "border") {
+                const scale = setScale(indicatorScale, 10)
+                const borderCSS = `
+                article.data-federated,
+                .post.data-federated,
+                .comment.data-federated {
+                    box-shadow: ${scale}px 0 0 ${fed};
+                }
+                article.data-moderated,
+                .post.data-moderated,
+                .comment.data-moderated {
+                    box-shadow: ${scale}px 0 0 ${mod};
+                }
+                article.data-home,
+                .post.data-home,
+                .comment.data-home {
+                    box-shadow: ${scale}px 0 0 ${home};
                 }
                 `;
-                const modStyle=`
-                header div.data-moderated, article .data-moderated {
-                    display: inline-block;
-                    width: ${setScale}px;
-                    height: ${setScale}px;
-                    border-radius: 10px;
-                    box-shadow: 0 0 3px 2px ${modColor0};
-                    background-color: ${modColor0};
-                    margin-right: 4px;
-                    margin-left: 4px;
-                }
-                `;
-                const homeStyle=`
-                header div.data-home, article .data-home {
-                    display: inline-block;
-                    width: ${setScale}px;
-                    height: ${setScale}px;
-                    border-radius: 10px;
-                    box-shadow: 0 0 3px 2px ${homeColor0};
-                    background-color: ${homeColor0};
-                    margin-right: 4px;
-                    margin-left: 4px;
-                }
-                `;
-                return modStyle + fedStyle + homeStyle;
+                return borderCSS
             }
         }
 
         function kfaStartup () {
             kfaInitClasses();
-            safeGM("addStyle",kfaGetCss(),"kfaInjectedCss");
+            safeGM("removeStyle","kfaInjectedCss");
+            safeGM("addStyle",kfaGenCSS(),"kfaInjectedCss");
         }
 
         function kfaShutdown () {
             safeGM("removeStyle","kfaInjectedCss");
-            document.querySelectorAll('div.data-home, div.data-federated, div.data-moderated')
-                .forEach((element) => element.remove());
-            document.querySelectorAll('.data-home')
-                .forEach((element) => element.classList.remove('data-home'));
-            document.querySelectorAll('.data-federated')
-                .forEach((element) => element.classList.remove('data-federated'));
-            document.querySelectorAll('.data-moderated')
-                .forEach((element) => element.classList.remove('data-moderated'));
+            const els = [
+                "data-home",
+                "data-federated",
+                "data-moderated"
+            ]
+            for (let i in els) {
+                document.querySelectorAll("div." + els[i])
+                    .forEach((element) => element.remove());
+                document.querySelectorAll("." + els[i])
+                    .forEach((element) => element.classList.remove(els[i]));
+            }
         }
 
         function findHostname (op) {
@@ -4105,22 +4066,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
         }
 
-        let kfaSettingsFed;
-        let kfaSettingsMod;
-        let kfaSettingsHome;
-        let kfaSettingsArticleSide;
-        let kfaSettingsStyle;
-        let kfaSettingsScale;
-
         if (toggle) {
-            const settings = getModSettings('kbinFedAware');
-            kfaSettingsFed = settings['kfaFedColor'];
-            kfaSettingsMod = settings['kfaModColor'];
-            kfaSettingsHome = settings['kfaHomeColor'];
-            kfaSettingsArticleSide = settings['kfaPostSide'];
-            kfaSettingsStyle = settings['kfaStyle'];
-            kfaSettingsScale = settings['kfaBubbleScale'];
-            kfaShutdown();
             kfaStartup();
         } else {
             kfaShutdown();

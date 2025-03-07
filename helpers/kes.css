@@ -176,7 +176,7 @@ span.kes-update {
     padding-right: 0.5rem;
 }
 
-.kes-changelog {
+.kes-search, .kes-changelog {
     float: right;
     padding-left: 0.5rem;
     padding-right: 0.5rem;

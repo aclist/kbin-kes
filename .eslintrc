@@ -21,13 +21,16 @@
         "GM_setClipboard": "readonly",
         "GM_xmlhttpRequest": "readonly",
         "Mbin": "readonly",
+        "Log": "readonly",
+        "Trigger": "readonly",
         "getPageType": "readonly",
         "isLoggedIn": "readonly",
         "log": "readonly",
-        "Log": "readonly",
         "makeModal": "readonly",
         "makeLoader": "readonly",
-        "clearLoader": "readonly"
+        "clearLoader": "readonly",
+        "isIndex": "readonly",
+        "isThread": "readonly"
     },
     "env": {
         "browser": true,

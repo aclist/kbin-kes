@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-build_dir="build/scripts"
-kes="tmp/kes.user.js"
-alt="${kes}.alt"
-prefix="https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/"
-lcl="http://127.0.0.1:8080/tmp/helpers/"
+get_owner(){
+    local raw=$(git config --get remote.origin.url)
+    local owner=$(<<< "$raw" awk -F[:,/] '{print $2}')
+    echo "$owner"
+}
 
 build(){
     "$build_dir/gen_kes.sh" "testing" "local"
@@ -62,6 +62,12 @@ result(){
             ;;
     esac
 }
+build_dir="build/scripts"
+kes="tmp/kes.user.js"
+alt="${kes}.alt"
+prefix="https://raw.githubusercontent.com/$(get_owner)/kbin-kes/testing/helpers/"
+lcl="http://127.0.0.1:8080/tmp/helpers/"
+
 
 trap abort SIGINT INT
 
