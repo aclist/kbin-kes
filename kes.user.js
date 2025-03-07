@@ -1420,13 +1420,13 @@ function constructMenu (json, layoutArr, isNew) {
                 return
             }
             if (mutation.target.className === "kes-collapse-children") {
-                //FIXME: use this so it applies on deeply nested replies
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
                         applySettings(json[i], mutation);
                         obs.takeRecords();
                     }
                 }
+                return
             }
         }
     }
