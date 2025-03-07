@@ -1,9 +1,3 @@
-const Log = Object.freeze({ //eslint-disable-line no-unused-vars
-    Log: 1,
-    Warn: 2,
-    Error: 3
-})
-
 function log (string, level) { // eslint-disable-line no-unused-vars
     const date = new Date()
     const iso = date.toISOString()
@@ -99,7 +93,7 @@ function makeLoader (id, text) {
     modal_bg.id = `${id}-filter-modal-bg`;
     modal.id = `${id}-filter-modal`;
     msg.id = `${id}-filter-text`;
-    msg.innerText = `${text}`;
+    msg.innerText = `MES: ${text}`;
     modal_bg.appendChild(modal);
     span.appendChild(msg);
     const spinner = document.createElement("div");
@@ -201,31 +195,32 @@ function getPageType () { //eslint-disable-line no-unused-vars
         case "microblog":
             return Mbin.Microblog
         case "profile":
-            if ((url[4] === "messages") && (url.length === 6)) return "Mbin.Messages.Thread"
+            if ((url[4] === "messages") && (url.length === 6)) return Mbin.Messages.Thread
             return Mbin.Messages.Inbox
         case "settings":
-            if ((url[4]) === "notifications") return "Mbin.Messages.Notifications"
+            if ((url[4]) === "notifications") return Mbin.Messages.Notifications
             return Mbin.Settings
         case "u":
             if (url[5] === undefined) return Mbin.User.Default
             if (url[5] === "message") return Mbin.User.DirectMessage
-            if (url[5].includes("subscriptions")) return Mbin.User.Subscriptions
-            if (url[5].includes("threads")) return Mbin.User.Threads
-            if (url[5].includes("comments")) return Mbin.User.Comments
-            if (url[5].includes("posts")) return Mbin.User.Posts
-            if (url[5].includes("replies")) return Mbin.User.Replies
-            if (url[5].includes("boosts")) return Mbin.User.Boosts
-            if (url[5].includes("following")) return Mbin.User.Following
-            if (url[5].includes("followers")) return Mbin.User.Followers
+            if (window.location.href.includes("/subscriptions")) return Mbin.User.Subscriptions
+            if (window.location.href.includes("/threads")) return Mbin.User.Threads
+            if (window.location.href.includes("/comments")) return Mbin.User.Comments
+            if (window.location.href.includes("/posts")) return Mbin.User.Posts
+            if (window.location.href.includes("/replies")) return Mbin.User.Replies
+            if (window.location.href.includes("/boosts")) return Mbin.User.Boosts
+            if (window.location.href.includes("/following")) return Mbin.User.Following
+            if (window.location.href.includes("/followers")) return Mbin.User.Followers
+            if (window.location.href.includes("/reputation")) return Mbin.User.Reputation
             return Mbin.User.Default
         case "d":
-            if ((url.length === 6) && (url[5].includes("comments"))) return Mbin.Domain.Comments
+            if ((url.length === 6) && (window.location.href.includes("/comments"))) return Mbin.Domain.Comments
             return Mbin.Domain.Default
         case "m":
             if (url[5] === undefined) return Mbin.Magazine
             if (url[5] === "microblog") return Mbin.Microblog
-            if ((url[5] === "t") && (url[url.length-1].includes("favourites"))) return Mbin.Thread.Favorites
-            if ((url[5] === "t") && (url[url.length-1].includes("up"))) return Mbin.Thread.Boosts
+            if ((url[5] === "t") && (window.location.href.includes("/favourites"))) return Mbin.Thread.Favorites
+            if ((url[5] === "t") && (window.location.href.includes("/up"))) return Mbin.Thread.Boosts
             return Mbin.Thread.Comments
         default:
             break;

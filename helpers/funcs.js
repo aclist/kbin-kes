@@ -45,7 +45,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     improved_collapsible_comments: //mes-func
-    function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-unused-vars
+    function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable-line no-unused-vars
         function applyCommentStyles () {
             var style = `
             .entry-comment {
@@ -1740,6 +1740,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
             op.style.order = settings["op"]
             activity.style.order = settings["activity"]
+            //fix for #488
+            activity.style.zIndex = 0
+            options.style.zIndex = 0
+
             if (isLoggedIn()) {
                 const post = document.querySelector('#comment-add');
                 post.style.order = settings["post"]
@@ -1754,7 +1758,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
             rearrangeSetup();
         } else {
             const content = document.querySelector('#content');
-            content.style.display = 'unset';
+            const activity = document.querySelector('#activity');
+            const options = document.querySelector('#options');
+            content.style.removeProperty("display")
+            activity.style.zIndex = 5
+            options.style.zIndex = 0
         }
     },
 
@@ -1859,7 +1867,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     remove_ads: //mes-func
-    function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
+    function filter (toggle, trigger, mutation) { // eslint-disable-line no-unused-vars
 
         const settings = getModSettings("spamfilter")
         if (!settings) return
@@ -3585,16 +3593,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const settings = getModSettings('hide-sidebar');
-
         const keys = Object.keys(obj);
 
         if (toggle) {
-            for (let i = 0; i< keys.length; i++) {
-                let key = keys[i]
-                if (settings[key]) {
-                    $(obj[key]).hide();
+            for (let i in keys) {
+                const el = document.querySelector(obj[keys[i]])
+                if (settings[keys[i]]) {
+                    if (el) el.style.display = "none"
                 } else {
-                    $(obj[key]).show();
+                    if (el) el.style.removeProperty("display")
                 }
             }
             // expand the content to cover the space freed up by hiding the sidebar
@@ -3607,9 +3614,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 }
             }
         } else {
-            for (let i = 0; i< keys.length; i++) {
-                let key = keys[i]
-                $(obj[key]).show();
+            for (let i in keys) {
+                const el = document.querySelector(obj[keys[i]])
+                if (el) el.style.removeProperty("display")
             }
             const main = document.querySelector('.mbin-container > #main');
             if (main.style.gridColumn == "span 2") {
@@ -3691,7 +3698,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     thread_checkmarks: //mes-func
-    function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
+    function checksInit (toggle) { // eslint-disable-line no-unused-vars
         const settings = getModSettings('checks');
         const checkColor = settings["check-color"]
         const threadIndex = document.querySelector('[data-controller="subject-list"]')
@@ -3841,10 +3848,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     kbin_federation_awareness: //mes-func
     function initKFA (toggle) { // eslint-disable-line no-unused-vars
-        /*
-            License: MIT
-            Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
-            */
+        //License: MIT
+        //Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
 
         const kfaHasStrictModerationRules = [
             'beehaw.org',
@@ -3855,145 +3860,113 @@ const funcObj = { // eslint-disable-line no-unused-vars
             return kfaHasStrictModerationRules.indexOf(hostname) !== -1;
         }
 
-        function kfaComponentToHex (c) {
-            const hex = c.toString(16);
-            return hex.length == 1 ? "0" + hex : hex;
+        function setScale (scale, mod) {
+            //Scale 1-5; Default 3
+            const defaultScale = mod;
+            const compScale = defaultScale * (scale * 0.2);
+            return compScale
         }
 
-        function kfaRgbToHex (r, g, b) {
-            return "#" + kfaComponentToHex(r) + kfaComponentToHex(g) + kfaComponentToHex(b);
-        }
-
-        function kfaHexToRgb (hex) {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-
-        function kfaSubtractColor (hex, amount) {
-            let rgb = kfaHexToRgb(hex);
-            if (rgb.r > amount) {
-                rgb.r -= amount;
-            } else {
-                rgb.r = 0;
-            }
-            if (rgb.g > amount) {
-                rgb.g -= amount;
-            } else {
-                rgb.g = 0;
-            }
-            if (rgb.b > amount) {
-                rgb.b -= amount;
-            } else {
-                rgb.b = 0;
-            }
-            return kfaRgbToHex(rgb.r, rgb.g, rgb.b);
-        }
-
-        function kfaGetCss () {
-            let fedColor0 = kfaSettingsFed;
-            let fedColor1 = kfaSubtractColor(fedColor0, 50);
-            let fedColor2 = kfaSubtractColor(fedColor1, 50);
-            let fedColor3 = kfaSubtractColor(fedColor2, 50);
-            let modColor0 = kfaSettingsMod;
-            let modColor1 = kfaSubtractColor(modColor0, 50);
-            let modColor2 = kfaSubtractColor(modColor1, 50);
-            let modColor3 = kfaSubtractColor(modColor2, 50);
-            let homeColor0 = kfaSettingsHome;
-            let homeColor1 = kfaSubtractColor(homeColor0, 50);
-            let homeColor2 = kfaSubtractColor(homeColor1, 50);
-            let homeColor3 = kfaSubtractColor(homeColor2, 50);
-            if (kfaSettingsStyle === 'border') {
-                let commentFed = ` .comment.data-federated {  box-shadow: `;
-                let articleFed = ` article.data-federated {  box-shadow: `;
-                let commentMod = ` .comment.data-moderated {  box-shadow: `;
-                let articleMod = ` article.data-moderated {  box-shadow: `;
-                let commentHome = ` .comment.data-home {  box-shadow: `;
-                let articleHome = ` article.data-home {  box-shadow: `;
-                commentMod += `1px 0 0 ` + modColor0 + `, 2px 0 0 ` + modColor0 + `, 3px 0 0 ` + modColor1 + `, 4px 0 0 ` + modColor2 + `, 5px 0 0 ` + modColor3 + `; }`;
-                commentFed += `1px 0 0 ` + fedColor0 + `, 2px 0 0 ` + fedColor0 + `, 3px 0 0 ` + fedColor1 + `, 4px 0 0 ` + fedColor2 + `, 5px 0 0 ` + fedColor3 + `; }`;
-                commentHome += `1px 0 0 ` + homeColor0 + `, 2px 0 0 ` + homeColor0 + `, 3px 0 0 ` + homeColor1 + `, 4px 0 0 ` + homeColor2 + `, 5px 0 0 ` + homeColor3 + `; }`;
-                if (kfaSettingsArticleSide === 'left' || kfaSettingsArticleSide === 'both') {
-                    articleMod += `-1px 0 0 ` + modColor0 + `, -2px 0 0 ` + modColor0 + `, -3px 0 0 ` + modColor1 + `, -4px 0 0 ` + modColor2 + `, -5px 0 0 ` + modColor3;
-                    articleFed += `-1px 0 0 ` + fedColor0 + `, -2px 0 0 ` + fedColor0 + `, -3px 0 0 ` + fedColor1 + `, -4px 0 0 ` + fedColor2 + `, -5px 0 0 ` + fedColor3;
-                    articleHome += `-1px 0 0 ` + homeColor0 + `, -2px 0 0 ` + homeColor0 + `, -3px 0 0 ` + homeColor1 + `, -4px 0 0 ` + homeColor2 + `, -5px 0 0 ` + homeColor3;
-                }
-                if (kfaSettingsArticleSide === 'right' || kfaSettingsArticleSide === 'both') {
-                    if (kfaSettingsArticleSide === 'both') {
-                        articleMod += `, `;
-                        articleFed += `, `;
-                        articleHome += `, `;
+        function kfaGenCSS () {
+            const settings = getModSettings('kbinFedAware');
+            const home = settings["kfaHomeColor"];
+            const fed = settings["kfaFedColor"];
+            const mod = settings["kfaModColor"];
+            const style = settings["kfaStyle"];
+            const indicatorScale = settings["kfaScale"];
+            log(indicatorScale, Log.Log)
+            const bubbleFuzz = settings["kfaBubbleShadow"];
+            if (style === "bubble") {
+                const scale = setScale(indicatorScale, 20)
+                const bubbleCSS=`
+                    header div.data-federated,
+                    header div.data-moderated,
+                    header div.data-home,
+                    article .data-federated,
+                    article .data-moderated,
+                    article .data-home {
+                        display: inline-block;
+                        width: ${scale}px;
+                        height: ${scale}px;
+                        border-radius: 10px;
+                        margin-right: 4px;
+                        margin-left: 4px
                     }
-                    articleMod += `1px 0 0 ` + modColor0 + `, 2px 0 0 ` + modColor0 + `, 3px 0 0 ` + modColor1 + `, 4px 0 0 ` + modColor2 + `, 5px 0 0 ` + modColor3;
-                    articleFed += `1px 0 0 ` + fedColor0 + `, 2px 0 0 ` + fedColor0 + `, 3px 0 0 ` + fedColor1 + `, 4px 0 0 ` + fedColor2 + `, 5px 0 0 ` + fedColor3;
-                    articleHome += `1px 0 0 ` + homeColor0 + `, 2px 0 0 ` + homeColor0 + `, 3px 0 0 ` + homeColor1 + `, 4px 0 0 ` + homeColor2 + `, 5px 0 0 ` + homeColor3;
+                    header div.data-federated,
+                    article .data-federated {
+                        background-color: ${fed};
+                    }
+                    header div.data-moderated,
+                    article .data-moderated {
+                        background-color: ${mod};
+                    }
+                    header div.data-home,
+                    article .data-home {
+                        background-color: ${home};
+                    }
+                `;
+                if (bubbleFuzz === true) {
+                    const fuzzCSS = `
+                        header div.data-federated,
+                        article .data-federated {
+                            box-shadow: 0 0 3px 2px ${fed};
+                        }
+                        header div.data-moderated,
+                        article .data-moderated {
+                            box-shadow: 0 0 3px 2px ${mod};
+                        }
+                        header div.data-home,
+                        article .data-home {
+                            box-shadow: 0 0 3px 2px ${home};
+                        }
+                    `;
+                    return bubbleCSS + fuzzCSS
+                } else {
+                    return bubbleCSS
                 }
-                articleMod += `; }`;
-                articleFed += `; }`;
-                articleHome += `; }`;
-                return commentFed + articleFed + commentMod + articleMod + commentHome + articleHome;
-            } else if (kfaSettingsStyle === 'bubble') {
-                // Scale 1-10; Default 5 (i.e., 50%); 10 is 50% of 20. 20 * (x * 0.1)
-                const defaultScale = 20;
-                const setScale = defaultScale * (kfaSettingsScale * 0.1);
-                const fedStyle=`
-                header div.data-federated, article .data-federated {
-                    display: inline-block;
-                    width: ${setScale}px;
-                    height: ${setScale}px;
-                    border-radius: 10px;
-                    box-shadow: 0 0 3px 2px ${fedColor0};
-                    background-color: ${fedColor0};
-                    margin-right: 4px;
-                    margin-left: 4px
+            }
+            if (style === "border") {
+                const scale = setScale(indicatorScale, 10)
+                const borderCSS = `
+                article.data-federated,
+                .post.data-federated,
+                .comment.data-federated {
+                    box-shadow: ${scale}px 0 0 ${fed};
+                }
+                article.data-moderated,
+                .post.data-moderated,
+                .comment.data-moderated {
+                    box-shadow: ${scale}px 0 0 ${mod};
+                }
+                article.data-home,
+                .post.data-home,
+                .comment.data-home {
+                    box-shadow: ${scale}px 0 0 ${home};
                 }
                 `;
-                const modStyle=`
-                header div.data-moderated, article .data-moderated {
-                    display: inline-block;
-                    width: ${setScale}px;
-                    height: ${setScale}px;
-                    border-radius: 10px;
-                    box-shadow: 0 0 3px 2px ${modColor0};
-                    background-color: ${modColor0};
-                    margin-right: 4px;
-                    margin-left: 4px;
-                }
-                `;
-                const homeStyle=`
-                header div.data-home, article .data-home {
-                    display: inline-block;
-                    width: ${setScale}px;
-                    height: ${setScale}px;
-                    border-radius: 10px;
-                    box-shadow: 0 0 3px 2px ${homeColor0};
-                    background-color: ${homeColor0};
-                    margin-right: 4px;
-                    margin-left: 4px;
-                }
-                `;
-                return modStyle + fedStyle + homeStyle;
+                return borderCSS
             }
         }
 
         function kfaStartup () {
             kfaInitClasses();
-            safeGM("addStyle",kfaGetCss(),"kfaInjectedCss");
+            safeGM("removeStyle","kfaInjectedCss");
+            safeGM("addStyle",kfaGenCSS(),"kfaInjectedCss");
         }
 
         function kfaShutdown () {
             safeGM("removeStyle","kfaInjectedCss");
-            document.querySelectorAll('div.data-home, div.data-federated, div.data-moderated')
-                .forEach((element) => element.remove());
-            document.querySelectorAll('.data-home')
-                .forEach((element) => element.classList.remove('data-home'));
-            document.querySelectorAll('.data-federated')
-                .forEach((element) => element.classList.remove('data-federated'));
-            document.querySelectorAll('.data-moderated')
-                .forEach((element) => element.classList.remove('data-moderated'));
+            const els = [
+                "data-home",
+                "data-federated",
+                "data-moderated"
+            ]
+            for (let i in els) {
+                document.querySelectorAll("div." + els[i])
+                    .forEach((element) => element.remove());
+                document.querySelectorAll("." + els[i])
+                    .forEach((element) => element.classList.remove(els[i]));
+            }
         }
 
         function findHostname (op) {
@@ -4093,22 +4066,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
         }
 
-        let kfaSettingsFed;
-        let kfaSettingsMod;
-        let kfaSettingsHome;
-        let kfaSettingsArticleSide;
-        let kfaSettingsStyle;
-        let kfaSettingsScale;
-
         if (toggle) {
-            const settings = getModSettings('kbinFedAware');
-            kfaSettingsFed = settings['kfaFedColor'];
-            kfaSettingsMod = settings['kfaModColor'];
-            kfaSettingsHome = settings['kfaHomeColor'];
-            kfaSettingsArticleSide = settings['kfaPostSide'];
-            kfaSettingsStyle = settings['kfaStyle'];
-            kfaSettingsScale = settings['kfaBubbleScale'];
-            kfaShutdown();
             kfaStartup();
         } else {
             kfaShutdown();
