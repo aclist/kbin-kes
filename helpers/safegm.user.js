@@ -91,7 +91,7 @@ function makeLoader (id, text) {
     modal_bg.id = `${id}-filter-modal-bg`;
     modal.id = `${id}-filter-modal`;
     msg.id = `${id}-filter-text`;
-    msg.innerText = `${text}`;
+    msg.innerText = `MES: ${text}`;
     modal_bg.appendChild(modal);
     span.appendChild(msg);
     const spinner = document.createElement("div");
