@@ -1229,7 +1229,15 @@ function constructMenu (json, layoutArr, isNew) {
         } else {
             state = false;
         }
-
+        let trigger
+        switch (key) {
+            case "state": // toggle was flipped
+                trigger = Trigger.Toggle
+                break;
+            default: // any other setting was changed
+                trigger = Trigger.Setting
+                break;
+        }
         //update master and mod settings
         let func = json[it].entrypoint;
         modSettings[key] = modValue;
@@ -1240,10 +1248,10 @@ function constructMenu (json, layoutArr, isNew) {
         saveModSettings(modSettings, ns);
 
         updateCrumbs();
-        toggleSettings(json[it]);
+        toggleSettings(json[it], trigger, key);
     }
 
-    function toggleDependencies (entry, state) {
+    function toggleDependencies (entry, state, trigger) {
         let object
         let depends
         let entrypoint
@@ -1268,10 +1276,10 @@ function constructMenu (json, layoutArr, isNew) {
             entrypoint = depends[i]
             settings[entrypoint] = state
             saveSettings(settings);
-            funcObj[entrypoint](state);
+            funcObj[entrypoint](state, trigger);
         }
     }
-    function toggleSettings (json) {
+    function toggleSettings (json, trigger, meta) {
         const login = json.login
         const entry = json.entrypoint
         if (requiresLoginButLoggedOut(login)) {
@@ -1281,11 +1289,11 @@ function constructMenu (json, layoutArr, isNew) {
         const settings = getSettings()
         try {
             if (settings[entry] == true) {
-                toggleDependencies(entry, true)
-                funcObj[entry](true);
+                toggleDependencies(entry, true, Trigger.Dependency)
+                funcObj[entry](true, trigger, meta);
             } else {
-                toggleDependencies(entry, false)
-                funcObj[entry](false);
+                toggleDependencies(entry, false, Trigger.Dependency)
+                funcObj[entry](false, trigger, meta);
             }
         } catch (error) {
             console.log(error);
@@ -1345,7 +1353,7 @@ function constructMenu (json, layoutArr, isNew) {
         }
 
     }
-    function applySettings (json, mutation) {
+    function applySettings (json, trigger, meta=null) {
         const entry = json.entrypoint
         const login = json.login
         legacyMigration(entry);
@@ -1356,8 +1364,8 @@ function constructMenu (json, layoutArr, isNew) {
                     log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
                     return
                 }
-                toggleDependencies(entry, true)
-                funcObj[entry](true, mutation);
+                toggleDependencies(entry, true, Trigger.Dependency)
+                funcObj[entry](true, trigger, meta);
             }
         } catch (error) {
             console.log(error);
@@ -1400,7 +1408,7 @@ function constructMenu (json, layoutArr, isNew) {
 
     function init () {
         for (let i = 0; i < json.length; ++i) {
-            applySettings(json[i]);
+            applySettings(json[i], Trigger.Pageload);
         }
     }
 
@@ -1410,7 +1418,7 @@ function constructMenu (json, layoutArr, isNew) {
             //trigger when username popover dialog is spawned on hover
             //there can only be one popover spawned at a given time
             if (mutation.target.id === "popover") {
-                applySettings(timestamp_json);
+                applySettings(timestamp_json, Trigger.Mutation, mutation);
                 return
             }
             //workaround for timeago ticks changing timestamp textContent
@@ -1418,7 +1426,7 @@ function constructMenu (json, layoutArr, isNew) {
             //see also updateState()
             if (mutation.target.className === 'timeago') {
                 if (!mutation.target.classList.contains("hidden-timeago")) {
-                    applySettings(timestamp_json);
+                    applySettings(timestamp_json, Trigger.Mutation, mutation);
                 }
                 //triggering on the first mutation is sufficient to apply to all timestamps
                 return
@@ -1427,7 +1435,7 @@ function constructMenu (json, layoutArr, isNew) {
                 //implies that a recurring/infinite scroll event like new threads or comment creation occurred
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i], mutation);
+                        applySettings(json[i], Trigger.Mutation, mutation);
                         obs.takeRecords();
                     }
                 }
