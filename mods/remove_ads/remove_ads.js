@@ -22,7 +22,7 @@ function filter (toggle, trigger, mutation) { // eslint-disable-line no-unused-v
 
     
     function apply () {
-        const modal = makeLoader("spam-modal", "KES: filtering spam, please wait...");
+        const modal = makeLoader("spam-modal", "Filtering spam, please wait...");
         document.body.appendChild(modal);
         check();
     }

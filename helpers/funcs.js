@@ -1891,7 +1891,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     
         function apply () {
-            const modal = makeLoader("spam-modal", "KES: filtering spam, please wait...");
+            const modal = makeLoader("spam-modal", "Filtering spam, please wait...");
             document.body.appendChild(modal);
             check();
         }
