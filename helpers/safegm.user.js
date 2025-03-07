@@ -1,9 +1,3 @@
-const Log = Object.freeze({ //eslint-disable-line no-unused-vars
-    Log: 1,
-    Warn: 2,
-    Error: 3
-})
-
 function log (string, level) { // eslint-disable-line no-unused-vars
     const date = new Date()
     const iso = date.toISOString()
