@@ -1,4 +1,4 @@
-function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
+function checksInit (toggle) { // eslint-disable-line no-unused-vars
     const settings = getModSettings('checks');
     const checkColor = settings["check-color"]
     const threadIndex = document.querySelector('[data-controller="subject-list"]')

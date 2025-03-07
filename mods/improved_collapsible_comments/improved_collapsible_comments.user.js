@@ -1,4 +1,4 @@
-function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-unused-vars
+function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable-line no-unused-vars
     function applyCommentStyles () {
         var style = `
         .entry-comment {
