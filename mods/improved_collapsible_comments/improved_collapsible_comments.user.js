@@ -1,6 +1,7 @@
 function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable-line no-unused-vars
     function applyCommentStyles () {
         var style = `
+        .post-comment,
         .entry-comment {
         grid-column-gap: 2px;
         padding: 10px 0 0 0 !important;
@@ -10,6 +11,7 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
             bottom: 0px;
         }
 
+        .post-comment header,
         .entry-comment header {
             margin-bottom: 0;
         }
@@ -22,9 +24,11 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
         .comments > div[class^="comment-line--"] {
             border-left: none !important;
         }
+        .post-comment .kes-collapse-children,
         .entry-comment .kes-collapse-children {
             gap: 8px;
         }
+        .kes-collapse-children .post-comment,
         .kes-collapse-children .entry-comment {
             border-top: 1px solid var(--kbin-bg) !important;
         }
@@ -41,6 +45,10 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
             display: none !important;
         }
 
+        .post-comment .kes-collapse-children,
+        .post-comment .content,
+        .post-comment footer,
+        .post-comment .vote,
         .entry-comment .kes-collapse-children,
         .entry-comment .content,
         .entry-comment footer,
@@ -56,6 +64,7 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
             grid-row-gap: 0!important;
         }
 
+        .post-comment figure, .post-comment header,
         .entry-comment figure, .entry-comment header {
             transition: margin-left 0.2s ease;
         }
@@ -138,11 +147,13 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
             background-color: var(--kbin-meta-link-hover-color);
         }
 
+        .post-comment > figure,
         .entry-comment > figure {
             width: 20px;
         }
 
         @media (max-width: 992px) {
+            .post-comment.nested,
             .entry-comment.nested {
                 padding: 10px 0 0 2px !important;
                 grid-column-gap: 0px;
@@ -162,23 +173,27 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
         }
 
         @media (max-width: 600px) {
+            .post-comment.nested,
             .entry-comment.nested {
                 padding: 1px !important;
                 grid-column-gap: 1px;
                 grid-row-gap: 0px;
                 grid-template-columns: 14px min-content auto min-content;
             }
+            .post-comment,
             .entry-comment {
                 border-bottom: 0px;
             }
         }
 
         @media (max-width: 1px) {
+            .post-comment,
             .entry-comment {
                 margin-left: 0 !important;
                 color: red;
             }
         }
+        .post-comment,
         .entry-comment {
             border-color: transparent !important;
             grid-template-rows: min-content auto auto;
@@ -186,20 +201,24 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
             display: grid;
             margin-left: 0 !important;
         }
+        .kes-collapse-children .post-comment,
         .kes-collapse-children .entry-comment {
             margin-left: 0 !important;
         }
 
+        .post-comment > .post-comment,
         .entry-comment > .entry-comment {
             display: block;
         }
 
+        .post-comment .kes-collapse-children,
         .entry-comment .kes-collapse-children {
             grid-area: kes-collapse-children;
             display: flex;
             flex-direction: column;
         }
 
+        .post-comment .js-container,
         .entry-comment .js-container {
             margin-bottom: 0 !important;
             display: block;
@@ -214,6 +233,7 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
             `;
         }
         const mbinStyle = `
+        .post-comment,
         .entry-comment {
             grid-template-areas:
             "expando-icon avatar header aside"
@@ -231,6 +251,7 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
         }
         `;
         const hiddenfigureCSS = `
+        .post-comment,
         .entry-comment {
             grid-template-columns: 40px 0px auto min-content;
         }
@@ -244,22 +265,38 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
         safeGM("addStyle", hideDefaults, "hide-defaults");
         safeGM("addStyle", style, "threaded-comments");
         safeGM("addStyle", mbinStyle, "mbin-kes-comments-style");
-        const el = document.querySelector('.entry-comment figure');
+        const el = document.querySelector(`${subSelector} figure`);
         const display = window.getComputedStyle(el).display
         if (display === "none") {
             safeGM("addStyle", hiddenfigureCSS, "mbin-kes-comments-figure-style");
         }
     }
-    function applyToNewPosts () {
-        let comments = document.querySelectorAll(".entry-comment:not(.nested)");
-        let levels = [];
-        for (let i = 0; i < comments.length; i++) {
-            let level = comments[i].className.match(/comment-level--(\d+)/)[1];
-            levels.push(level);
+    function applyToNewPosts (mutation) {
+        function _pushLevels (comments) {
+            let levels = [];
+            for (let i = 0; i < comments.length; i++) {
+                let level = comments[i].className.match(/comment-level--(\d+)/)[1];
+                levels.push(level);
+            }
+            return levels
         }
-        nestComments(comments,levels);
+        let commentGroups = []
+        if (!mutation) {
+            commentGroups = document.querySelectorAll(`${globalSelector}:not(.nested)`);
+        } else {
+            commentGroups.push(mutation.target)
+        }
+
+        let cleanComments = [];
+        commentGroups.forEach((group) => {
+            group.querySelectorAll(subSelector).forEach((reply) => {
+                cleanComments.push(reply)
+            });
+        });
+        const levels = _pushLevels(cleanComments)
+        nestComments(cleanComments, levels);
     }
-    function nestComments (comments,levels) {
+    function nestComments (comments, levels) {
         // Go through comments in reverse order
         for (let i = comments.length-1; i >= 0; i--) {
             comments[i].classList.add('nested');
@@ -324,7 +361,7 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
         //duplicate '.more' elements get created when DOM is manipulated
         //must wait for them to propagate, then iterate and remove
         sleep(20).then(() => {
-            const comments = document.querySelectorAll('.entry-comment')
+            const comments = document.querySelectorAll(subSelector)
             comments.forEach((comment) => {
                 id = comment.id
                 mores = comment.querySelectorAll(`#${id} > .more`)
@@ -337,14 +374,14 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
         });
 
     }
-    function enterMain () {
-        applyToNewPosts();
+    function enterMain (mutation) {
+        applyToNewPosts(mutation);
         applyCommentStyles();
         initCollapsibleCommentsListeners();
         clearMores();
     }
     function initCollapsibleCommentsListeners () {
-        let comments = document.querySelectorAll('.entry-comment:not(.listened)');
+        let comments = document.querySelectorAll(`${subSelector}:not(.listened)`);
 
         for (let i = 0; i < comments.length; i++) {
             comments[i].classList.add('listened');
@@ -476,18 +513,30 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
         safeGM("removeStyle", "mbin-kes-comments-figure-style");
     }
 
-    const pt = getPageType();
-    if (pt !== Mbin.Thread.Comments) return
+    let globalSelector
+    switch (getPageType()) {
+        case Mbin.Microblog:
+            globalSelector = ".post-comments"
+            break;
+        case Mbin.Thread.Comments:
+            globalSelector = ".entry-comments"
+            break;
+        default:
+            break;
+    }
+    const subSelector = globalSelector.substring(0, globalSelector.length-1)
+
     if (!toggle) {
         teardown()
         return
     }
-    if (mutation && mutation.addedNodes[0].className.indexOf('nested') === -1) {
-        enterMain();
-    } else if (document.querySelector('.entry-comment.nested')
-        || !document.querySelector('.comments')) {
-        return;
-    } else {
-        enterMain();
+    switch (trigger) {
+        case Trigger.Mutation:
+            enterMain(mutation);
+            break;
+        case Trigger.Pageload:
+        case Trigger.Toggle:
+            enterMain();
+            break;
     }
 }
