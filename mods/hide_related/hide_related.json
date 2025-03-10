@@ -8,6 +8,7 @@
   "desc": "Hide the crosspost section from the thread index/threads",
   "entrypoint": "hide_related",
   "page": "threads",
+  "new_since": "5.0.0",
   "namespace": "hide_related",
   "fields": [
     {

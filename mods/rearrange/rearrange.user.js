@@ -13,6 +13,10 @@ function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
 
         op.style.order = settings["op"]
         activity.style.order = settings["activity"]
+        //fix for #488
+        activity.style.zIndex = 0
+        options.style.zIndex = 0
+
         if (isLoggedIn()) {
             const post = document.querySelector('#comment-add');
             post.style.order = settings["post"]
@@ -27,6 +31,10 @@ function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
         rearrangeSetup();
     } else {
         const content = document.querySelector('#content');
-        content.style.display = 'unset';
+        const activity = document.querySelector('#activity');
+        const options = document.querySelector('#options');
+        content.style.removeProperty("display")
+        activity.style.zIndex = 5
+        options.style.zIndex = 0
     }
 }

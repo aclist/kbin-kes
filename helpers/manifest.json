@@ -18,6 +18,7 @@
     "login": false,
     "recurs": false,
     "desc": "Hides the large cover image on the sidebar of magazines.",
+    "new_since": "5.0.0",
     "entrypoint": "suppress_cover",
     "page": "cosmetic"
   },
@@ -404,6 +405,7 @@
     "desc": "Hide the crosspost section from the thread index/threads",
     "entrypoint": "hide_related",
     "page": "threads",
+    "new_since": "5.0.0",
     "namespace": "hide_related",
     "fields": [
       {
@@ -766,7 +768,7 @@
     "name": "Customizable Default Sort Option",
     "namespace": "default-sort",
     "author": "Pamasich",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "label": "Change default sort",
     "desc": "When you access a page on Mbin without specifying sort options in the URL, default options are applied that you cannot customize. If you for example want to always see the latest threads, you always have to manually switch to the \"newest\" sort.\n\nThis addon tries to add this missing element of customization by redirecting you from the default sorted page to your chosen explicitly sorted one.\n\nMbin has four distinct types of sorted pages that have different options available to them. You can disable this addon from working on any of them by setting them to \"default\".",
     "login": false,
@@ -1289,23 +1291,18 @@
       },
       {
         "type": "range",
-        "key": "kfaBubbleScale",
-        "initial": 5,
+        "key": "kfaScale",
+        "initial": 3,
         "min": 1,
-        "max": 10,
+        "max": 5,
         "show_value": true,
-        "label": "Bubble Scale (Only works if 'Indicator Style' is set to 'bubble'.)"
+        "label": "Indicator size"
       },
       {
-        "type": "select",
-        "initial": "both",
-        "key": "kfaPostSide",
-        "values": [
-          "both",
-          "left",
-          "right"
-        ],
-        "label": "Border Side (Only works if 'Indicator Style' is set to 'border'.)"
+        "type": "checkbox",
+        "key": "kfaBubbleShadow",
+        "initial": false,
+        "checkbox_label": "Apply fuzzy edges to bubble indicators"
       }
     ],
     "page": "threads"
