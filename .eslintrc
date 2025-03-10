@@ -23,6 +23,7 @@
         "Mbin": "readonly",
         "Log": "readonly",
         "Trigger": "readonly",
+        "Theme": "readonly",
         "getPageType": "readonly",
         "isLoggedIn": "readonly",
         "log": "readonly",

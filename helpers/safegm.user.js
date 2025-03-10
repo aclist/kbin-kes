@@ -258,10 +258,23 @@ function getTheme () {
     let theme = undefined
     document.querySelector("body").classList.forEach((c) => {
         if (c.includes("theme--")) {
-            theme = c
+            theme = c.split("--")[1]
         }
     })
-    return theme
+    switch (theme) {
+        case "kbin":
+            return Theme.KBIN
+        case "dark":
+            return Theme.DARK
+        case "light":
+            return Theme.LIGHT
+        case "solarized-light":
+            return Theme.SOLARIZED_LIGHT
+        case "solarized-dark":
+            return Theme.SOLARIZED_DARK
+        case "tokyo-night":
+            return Theme.TOKYO_NIGHT
+    }
 }
 
 
