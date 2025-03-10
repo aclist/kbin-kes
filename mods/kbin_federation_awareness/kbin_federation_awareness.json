@@ -39,23 +39,18 @@
     },
     {
       "type": "range",
-      "key": "kfaBubbleScale",
-      "initial": 5,
+      "key": "kfaScale",
+      "initial": 3,
       "min": 1,
-      "max": 10,
+      "max": 5,
       "show_value": true,
-      "label": "Bubble Scale (Only works if 'Indicator Style' is set to 'bubble'.)"
+      "label": "Indicator size"
     },
     {
-      "type": "select",
-      "initial": "both",
-      "key": "kfaPostSide",
-      "values": [
-        "both",
-        "left",
-        "right"
-      ],
-      "label": "Border Side (Only works if 'Indicator Style' is set to 'border'.)"
+      "type": "checkbox",
+      "key": "kfaBubbleShadow",
+      "initial": false,
+      "checkbox_label": "Apply fuzzy edges to bubble indicators"
     }
   ],
   "page": "threads"
