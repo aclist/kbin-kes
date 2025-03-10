@@ -1,0 +1,19 @@
+{
+    "$id": "`<_static/schemas/text.json>`_",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Subschema - Text",
+    "type": "object",
+    "description": "An oject describing text field settings",
+    "required": [
+        "type",
+        "key",
+        "initial",
+        "label"
+    ],
+    "properties": {
+        "type": { "type": "string", "description": "The element type", "enum": ["text"] },
+        "key": { "type": "string", "description": "The unique lookup id for the text field's value. The key ``state`` is reserved; do not use it." },
+        "label": { "type": "string", "description": "A section heading printed above the text field, required for identification" },
+        "initial": { "type": "string", "description": "The initial text (value) of the field" }
+    }
+}
