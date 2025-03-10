@@ -2856,8 +2856,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
             MICROBLOG: { id: "Post", options: ["top", "hot", "newest", "active", "commented"] },
             MAGAZINES: { id: "Magazine", options: ["newest", "hot", "active", "abandoned"] }
         };
-        /** The attribute used to mark which sort option has been modified. */
-        const markerAttribute = "defaultSort_originalPath";
         /** Regex pattern used to remove or extract the url parameters from a URL. */
         const urlParameterRegex = /\?.+/;
 
@@ -2882,30 +2880,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const pageType = determinePageType();
             if (getChosenDefault(pageType) == 'default') return;
 
-            const optionsToHandle = determineInstanceDefault(options, pageType.options);
-            if (optionsToHandle == null) return; // all the options are already explicit
-
-            // Rewrite the link of the default option to lead to the explicitly sorted page.
-            const exampleLink = options.find(
-                (option) => option.getAttribute('href') != optionsToHandle.element.getAttribute('href')
-            ).getAttribute('href');
-            optionsToHandle.element.setAttribute(
-                `data-${markerAttribute}`, 
-                optionsToHandle.element.getAttribute('href')
-            );
-            optionsToHandle.element.setAttribute('href', (() => {
-                const baseRegex = `\\/(?:${pageType.options.join('|')})`;
-                var newLink = exampleLink.replaceAll(
-                    // replace at end
-                    new RegExp(`${baseRegex}$`, 'g'), `/${optionsToHandle.target}`
-                );
-                newLink = newLink.replaceAll(
-                    // replace within
-                    new RegExp(`${baseRegex}\\/`, 'g'), `/${optionsToHandle.target}/`
-                );
-                return newLink;
-            })());
-
             if (!isUrlExplicitlySorted(window.location.pathname, pageType.options)) {
                 const userDefault = getChosenDefault(pageType);
                 var buttonToClick = findOptionByName(options, userDefault);
@@ -2919,12 +2893,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
          * page again.
          */
         function teardown () {
-            /** @type {HTMLElement} */
-            const markedOption = document.querySelector(`[data-${markerAttribute}]`);
-            if (markedOption == null) return; // already torn down
-            const attrValue = markedOption.getAttribute(`data-${markerAttribute}`);
-            markedOption.setAttribute('href', attrValue);
-            markedOption.removeAttribute(`data-${markerAttribute}`);
         }
 
         /**
@@ -2950,38 +2918,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
          */
         function getChosenDefault (pageType) {
             return getModSettings("default-sort")[`default${pageType.id}Sort`];
-        }
-
-        /** 
-         * On any sortable page, there is one sort option that's the default used if no option
-         * is explicitly specified. This default may get changed by instances or in newer versions
-         * of kbin/mbin, so to future-proof this mod, this function figures out which option is the
-         * default one and returns both the menu item and url endpoint corresponding to it.
-         * @param actualOptions {HTMLElement[]} The options present on the page
-         * @param expectedOptions {string[]} The options that should be available on the page
-        */
-        function determineInstanceDefault (actualOptions, expectedOptions) {
-            // create copies as we'll modify the array later
-            var expectedOptions2 = Array.from(expectedOptions);
-            var actualOptions2 = Array.from(actualOptions);
-
-            for (var i = 0; i < actualOptions2.length; i++) {
-                const actual = actualOptions2[i];
-
-                const url = actual.getAttribute('href').replace(urlParameterRegex, '');
-                const found = expectedOptions2.find((option) => {
-                    return url.endsWith(`/${option}`) || url.includes(`/${option}/`);
-                });
-
-                if (found) {
-                    expectedOptions2 = expectedOptions2.filter((value) => value != found);
-                    actualOptions2 = actualOptions2.filter((value) => value != actual);
-                    i--;
-                }
-            }
-
-            if (actualOptions2.length == 0 || expectedOptions2.length == 0) return null;
-            return { element: actualOptions2[0], target: expectedOptions2[0] };
         }
 
         /**
