@@ -18,9 +18,12 @@ function debugBar (json) {
             max-content max-content max-content max-content max-content max-content;
         }
     #mes-debugbar-version {
-        color: var(--kbin-upvoted-color);
+        color: var(--kbin-link-color)
         opacity: 0.8;
         cursor: pointer;
+    }
+    #mes-debugbar-version:hover {
+        color: var(--kbin-section-link-hover-color)
     }
     #mes-debugbar-version,
     #mes-debugbar-loadingline {
@@ -33,8 +36,11 @@ function debugBar (json) {
         margin: 5px 0px 5px 10px;
         font-size: 0.85rem;
     }
+    .mes-debugbar-row-error,
+    .mes-debugbar-row-warn,
     .mes-debugbar-row-default {
-        border-bottom: 1px solid var(--kbin-sidebar-settings-switch-hover-bg);
+        border-bottom: 1px solid var(--kbin-button-secondary-text-color);
+        color: var(--kbin-vote-text-hover-color);
     }
     #mes-debugbar-expand-button {
         margin-right: 15px;
@@ -76,6 +82,39 @@ function debugBar (json) {
         margin: 0px 15px 0px 0px;
     }
     `
+    const panelCSSSolarizedDark = `
+    .mes-debugbar-row-error,
+    .mes-debugbar-row-warn,
+    .mes-debugbar-row-default {
+        border-bottom: 1px solid var(--kbin-button-secondary-text-color);
+        color: var(--kbin-vote-text-hover-color);
+    }
+    .mes-debugbar-row-error {
+        background-color: var(--kbin-alert-danger-bg);
+    }
+    .mes-debugbar-row-warn {
+        background-color: var(--kbin-alert-info-link-color);
+    }
+    .mes-debugbar-row-default {
+        background-color: var(--kbin-sidebar-settings-switch-on-bg);
+    }
+    `;
+    const panelCSSKbin = `
+    .mes-debugbar-row-error,
+    .mes-debugbar-row-warn,
+    .mes-debugbar-row-default {
+        border-bottom: 1px solid var(--kbin-body-bg);
+    }
+    .mes-debugbar-row-error {
+        background-color: var(--kbin-alert-danger-bg);
+    }
+    .mes-debugbar-row-warn {
+        background-color: var(--kbin-alert-info-link-color);
+    }
+    .mes-debugbar-row-default {
+        background-color: var(--kbin-sidebar-settings-switch-off-color);
+    }
+    `;
     const panelCSSDark = `
     .mes-debugbar-row-error {
         border-bottom: 1px solid var(--kbin-alert-danger-link-color);
@@ -87,38 +126,45 @@ function debugBar (json) {
     }
     `;
     const panelCSSNight = `
-    .mes-debugbar-row-text {
-        color: var(--kbin-primary-color);
+    .mes-debugbar-info-count {
+        color: var(--kbin-options-link-color)
+    }
+    .mes-debugbar-warn-count {
+        color: var(--kbin-alert-info-bg)
+    }
+    .mes-debugbar-row-error,
+    .mes-debugbar-row-warn,
+    .mes-debugbar-row-default {
+        border-bottom: 1px solid var(--kbin-alert-info-text-color);
+        color: var(--kbin-bg);
     }
     .mes-debugbar-row-error {
-        border-bottom: 1px solid var(--kbin-alert-danger-bg);
         background-color: var(--kbin-alert-danger-link-color);
     }
     .mes-debugbar-row-warn {
-        border-bottom: 1px solid var(--kbin-alert-danger-bg);
-        background-color: var(--kbin-alert-info-link-color);
+        background-color: var(--kbin-alert-info-bg);
     }
-    .mes-debugbar-row-default .mes-debugbar-row-text {
-        color: var(--alert-success-text-color)
-    }
-    .mes-debugbar-row-warn .mes-debugbar-row-text {
-        color: var(--alert-info-text-color)
+    .mes-debugbar-row-default {
+        background-color: var(--kbin-options-link-color);
     }
     `;
     const panelCSSLight = `
     .mes-debugbar-row-text {
         color: var(--kbin-body-bg);
     }
+    .mes-debugbar-row-error,
+    .mes-debugbar-row-warn,
     .mes-debugbar-row-default {
-        border-bottom: 1px solid var(--kbin-alert-danger-bg);
+        border-bottom: 1px solid var(--kbin-alert-info-text-color);
+        color: var(--kbin-bg);
+    }
+    .mes-debugbar-row-default {
         background-color: var(--kbin-sidebar-header-text-color);
     }
     .mes-debugbar-row-error {
-        border-bottom: 1px solid var(--kbin-alert-danger-bg);
         background-color: var(--kbin-alert-danger-link-color);
     }
     .mes-debugbar-row-warn {
-        border-bottom: 1px solid var(--kbin-alert-info-bg);
         background-color: var(--kbin-alert-info-link-color);
     }
     `;
@@ -177,13 +223,27 @@ function debugBar (json) {
     const theme = getTheme()
     const panelCssID = "mes-debugbar-panel-css"
     safeGM("removeStyle", panelCssID)
-    if (theme.endsWith("-light")) {
-        safeGM("addStyle", panelCSSLight, panelCssID)
-    } else if (theme === "theme--tokyo-night") {
-        safeGM("addStyle", panelCSSNight, panelCssID)
-    } else {
-        safeGM("addStyle", panelCSSDark, panelCssID)
+    let style
+    switch (theme) {
+        case Theme.TOKYO_NIGHT:
+            style = panelCSSNight
+            break;
+        case Theme.SOLARIZED_DARK:
+            console.log("MATCH HERE")
+            style = panelCSSSolarizedDark
+            break;
+        case Theme.KBIN:
+            style = panelCSSKbin
+            break;
+        case Theme.LIGHT:
+        case Theme.SOLARIZED_LIGHT:
+            style = panelCSSLight
+            break;
+        case Theme.DARK:
+            style = panelCSSDark
+            break;
     }
+    safeGM("addStyle", style, panelCssID)
 
 
     //outer grid
