@@ -1,7 +1,7 @@
-function checksInit (toggle) { // eslint-disable-line no-unused-vars
+function checksInit (toggle, trigger, setting) { // eslint-disable-line no-unused-vars
     const id = 'checks';
     const settings = getModSettings(id);
-    const checkColor = settings["check-color"]
+    const checkColor = getHex(settings["check-color"])
     const threadIndex = document.querySelector('[data-controller="subject-list"]')
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
@@ -13,7 +13,7 @@ function checksInit (toggle) { // eslint-disable-line no-unused-vars
         const mag = item.getAttribute('href').split('/')[2]
         if (subs.includes(mag)) {
             const ch = document.createElement('span')
-            ch.style.color = getHex(checkColor);
+            ch.style.color = checkColor
             ch.id = 'kes-omni-check'
             ch.innerText = " ✓"
             item.after(ch)
@@ -24,22 +24,29 @@ function checksInit (toggle) { // eslint-disable-line no-unused-vars
         const exists = document.querySelector('#kes-omni-check')
         if (exists) {
             document.querySelectorAll('#kes-omni-check').forEach((item) => {
-                item.style.color = getHex(checkColor);
+                item.style.color = checkColor
             });
         }
         document.querySelectorAll('.magazine-inline').forEach((item) => {
             addCheck(subs, item)
         });
     }
+    function getChecks () {
+        return document.querySelectorAll('#kes-omni-check');
+    }
 
-    if (toggle) {
-        loadMags(setChecks, id, settings["refresh"]);
+    if (trigger == Trigger.Setting) {
+        if (setting == "refresh" && !settings["refresh"]) {
+            clearCachedMags()
+        } else if (setting == "check-color") {
+            getChecks().forEach((check) => check.style.color = checkColor)
+        }
     } else {
-        loadMags.cancel(id);
-        if (settings["refresh"]) clearCachedMags();
-        const oldChecks = document.querySelectorAll('#kes-omni-check')
-        oldChecks.forEach((check) => {
-            check.remove();
-        });
+        if (toggle) {
+            loadMags(setChecks, id, settings["refresh"])
+        } else {
+            loadMags.cancel(id)
+            getChecks().forEach((check) => check.remove())
+        }
     }
 }

@@ -3,7 +3,7 @@
   "author": "shazbot",
   "version": "0.2.0",
   "label": "Checkmark on subbed mags",
-  "desc": "Append a checkmark to magazines on the thread index you are subscribed to.\n\nDepending on the amount of subscriptions, it might take a long time for all checkmarks to appear. If Caching is enabled, results will be saved and reused the next time, providing instant results. But to reset the cache, you'll have to turn this mod off and on again.",
+  "desc": "Append a checkmark to magazines on the thread index you are subscribed to.\n\nDepending on the amount of subscriptions, it might take a long time for all checkmarks to appear. If Caching is enabled, results will be saved and reused the next time, providing instant results.",
   "login": false,
   "recurs": true,
   "entrypoint": "thread_checkmarks",
@@ -19,7 +19,7 @@
       "type": "checkbox",
       "key": "refresh",
       "label": "Caching",
-      "checkbox_label": "Enable"
+      "checkbox_label": "Enable (turning this off clears the cache)"
     }
   ],
   "page": "threads"
