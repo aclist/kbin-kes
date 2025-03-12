@@ -110,6 +110,30 @@ Utility functions
 
    :rtype: bool
 
+.. js:function:: loadMags(callback, ns, useCache=false, runCallBackOnlyOnce=false)
+
+    Loads the current user's subscriptions.
+    Will first attempt to load them from the sidebar, if available. When they are not in the sidebar,
+    or the user has more subscriptions than fit into the sidebar, the user's profile is queried
+    instead (which may take a while).
+
+    Even if the full list has to be fetched from the profile, the sidebar is still loaded first
+    to provide some early results. This can be skipped by using the ``runCallbackOnlyOnce``
+
+    :param function() callback: name of the function receiving the return data (full names and instances of the user's subscriptions)
+    :param string ns: a namespace used for the cancellation key (ideally the mod's name)
+    :param bool useCache: whether the cached result should be used
+    :param bool runCallbackOnlyOnce: workaround for mods that aren't optimized for running the callback twice. When true, the callback is only executed once when all mods are loaded.
+
+    :rtype: void
+
+.. js:method:: loadMags.cancel(ns)
+
+   Cancels :js:func:`loadMags` after running it.
+   This is intended to be used on teardown of a mod, to prevent the callback from being called when the mod is supposed to be disabled.
+
+   :param string ns: the mod's cancellation namespace as supplied to :js:func:`loadMags`.
+
 .. js:function:: log(msg, level)
 
     Prints messages to the browser console using `console.log() <https://developer.mozilla.org/ja/docs/Web/API/console/log_static>`_,
