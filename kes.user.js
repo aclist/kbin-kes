@@ -1448,6 +1448,15 @@ function constructMenu (json, layoutArr, isNew) {
                 }
                 return
             }
+            if (mutation.target.className === "kes-collapse-children") {
+                for (let i = 0; i < json.length; ++i) {
+                    if (json[i].recurs) {
+                        applySettings(json[i], Trigger.Mutation, mutation);
+                        obs.takeRecords();
+                    }
+                }
+                return
+            }
         }
     }
 
