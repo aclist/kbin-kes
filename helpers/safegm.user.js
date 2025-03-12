@@ -280,7 +280,7 @@ async function loadMags (callback, ns, useCache=false, runCallbackOnlyOnce=false
             );
             // load more pages if there are
             const nextPage = dom.querySelector('#content .pagination__item--next-page');
-            if (nextPage.hasAttribute('href') && nextPage.href != window.location.href) {
+            if (nextPage?.hasAttribute('href') && nextPage.href != window.location.href) {
                 loadFromPage(username, nextPage.getAttribute('href').split('=')[1], mags);
             } else {
                 // finished loading all pages
