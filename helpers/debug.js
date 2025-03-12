@@ -15,7 +15,8 @@ function debugBar (json) {
         padding: 10px;
         grid-gap: 10px;
         grid-template-columns: max-content max-content max-content \
-            max-content max-content max-content max-content max-content max-content;
+            max-content max-content max-content max-content \
+            max-content max-content max-content;
         }
     #mes-debugbar-version {
         color: var(--kbin-link-color)
@@ -28,6 +29,11 @@ function debugBar (json) {
     #mes-debugbar-version,
     #mes-debugbar-loadingline {
         padding: 15px;
+    }
+    #mes-debugbar-anonymize,
+    #mes-debugbar-anonymize-span {
+        margin-top: 15px;
+        padding-left: 2px;
     }
     #mes-debugbar-version:hover {
         opacity: 1.0;
@@ -205,6 +211,12 @@ function debugBar (json) {
             text: "Apply changes",
             tooltip: "Reloads the page"
         },
+        anonymize: {
+            el: "input",
+            id: "mes-debugbar-anonymize",
+            text: "",
+            tooltip: "Anonymize page"
+        },
         debugline: {
             el: "div",
             id: "mes-debugbar-debugline",
@@ -280,6 +292,16 @@ function debugBar (json) {
     const debugPanel = panel();
     container.insertAdjacentElement("afterend", debugPanel);
 
+    //
+    const anon = grid.querySelector("#mes-debugbar-anonymize")
+    anon.type = "checkbox"
+    const anonSpan = document.createElement("span")
+    anon.insertAdjacentElement("afterend", anonSpan)
+    anonSpan.id = "mes-debugbar-anonymize-span"
+    anonSpan.innerText = "Anonymize"
+    anon.addEventListener("click", (e) => {
+        (e.target.checked) ? anonymize() : window.location.reload();
+    });
     //set up expand icons
     const caret = grid.querySelector("#mes-debugbar-expand-button")
     const caretIcon = document.createElement("i")
@@ -359,6 +381,48 @@ function debugBar (json) {
         })
     }
 
+    function anonymize () {
+        const pref = "MES-"
+        const phrases = [
+            "Company announces plans to do something",
+            "A picture of something that looks cool",
+            "Discussion about my favorite food",
+            "Experts publish report about interesting finding",
+            "What is your opinion on this thing?",
+            "Amazing footage of music concert by famous celebrity",
+            "Pictures of everyone's favorite cute animal",
+            "What should I wear to my friend's wedding?",
+            "I need technical support to fix my broken device",
+            "Does anyone remember that show that used to be on TV?",
+            "Timelapse footage of me learning how to play an instrument",
+            "Something I'm excited to share with you",
+            "Interesting astronomical photos of celestial bodies",
+            "Tell me about your favorite hobby in 100 words or less",
+            "Best clothing to wear for outdoor activities"
+        ]
+        function _rand () {
+            return Math.floor(1000 + Math.random() * 9000);
+        }
+        function _randPhrase() {
+            return phrases[Math.floor(Math.random() * phrases.length)];
+        }
+
+        document.querySelectorAll(".magazine-inline").forEach((magazine) => {
+            magazine.innerText = pref + "magazine-" + _rand()
+        });
+        document.querySelectorAll(".user-inline").forEach((user) => {
+            user.innerText = pref + "user-" + _rand()
+        });
+        document.querySelectorAll(".entry.section.subject h2").forEach((thread) => {
+            //use lorem
+            thread.innerText = _randPhrase();
+        });
+        document.querySelectorAll(".short-desc").forEach((thread) => {
+            //use lorem
+            thread.innerText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        });
+        document.querySelector(".user-name").innerText = pref + "user-" + _rand()
+    }
     function toggleAll (state) {
         const mods = []
         for (let i in json) mods.push(json[i].entrypoint)
