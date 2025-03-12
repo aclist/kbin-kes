@@ -1,4 +1,4 @@
-function omniInit (toggle) { // eslint-disable-line no-unused-vars
+function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-vars
 
     const kesActive = 'kes-subs-active'
     const omniCSS = `
@@ -92,7 +92,6 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
     const hostname = window.location.hostname
 
     document.querySelector(".kes-omni-modal")?.remove();
-    document.querySelector("#kes-omni-tapbar")?.remove();
 
     function createOmni () {
 
@@ -340,23 +339,6 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
                 }
             });
 
-            if (mobile) {
-                const top = document.querySelector('body');
-                const mobileBar = document.createElement('div');
-                mobileBar.id = 'kes-omni-tapbar';
-                mobileBar.style.cssText = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
-                top.insertBefore(mobileBar, top.children[0])
-
-                mobileBar.addEventListener('click', () => {
-                    const toShow = document.querySelector('.kes-omni-modal')
-                    if ($(toShow).is(":visible")) {
-                        $(toShow).hide();
-                    } else {
-                        $(toShow).show();
-                    }
-                });
-
-            }
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
 
@@ -365,6 +347,23 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
             }
             clearLoader(id);
         }
+    }
+
+    function addTapBar () {
+        const top = document.querySelector('body');
+        const mobileBar = document.createElement('div');
+        mobileBar.id = 'kes-omni-tapbar';
+        mobileBar.style.cssText = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
+        top.insertBefore(mobileBar, top.children[0])
+
+        mobileBar.addEventListener('click', () => {
+            const toShow = document.querySelector('.kes-omni-modal')
+            if ($(toShow).is(":visible")) {
+                $(toShow).hide();
+            } else {
+                $(toShow).show();
+            }
+        });
     }
 
     function kickoffListener (e) {
@@ -392,18 +391,41 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         }
     }
 
-    if (toggle) {
+    function removeTapBar () {
+        document.querySelector("#kes-omni-tapbar")?.remove();
+    }
+
+    function setup () {
         const modal = makeLoader(id, "Fetching subscriptions...");
         document.body.appendChild(modal);
         $(modal).hide();
         $(document).on("keypress.omnikey", kickoffListener);
         createOmni();
-    } else {
+        if (mobile) addTapBar();
+    }
+
+    function shutdown () {
         const e = []
         loadMags.cancel(id);
         clearCachedMags();
         clearLoader(id);
         safeGM("setValue",`omni-default-mags-${hostname}`, e);
         $(document).off("keypress.omnikey");
+        removeTapBar();
+    }
+
+    switch (trigger) {
+        case Trigger.Toggle:
+            (toggle) ? setup() : shutdown();
+            break;
+        case Trigger.Setting:
+            if (setting === "mobile") {
+                (mobile) ? addTapBar() : removeTapBar();
+            }
+            if (setting === "meta") {
+                $(document).off("keypress.omnikey");
+                $(document).on("keypress.omnikey", kickoffListener);
+            }
+            break;
     }
 }
