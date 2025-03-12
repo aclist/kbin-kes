@@ -230,18 +230,10 @@ function getPageType () { //eslint-disable-line no-unused-vars
 
 /**
  * Loads the current user's subscriptions.
- * Will first attempt to load them from the sidebar, if available. When they are not in the sidebar,
- * or the user has more subscriptions than fit into the sidebar, the user's profile is queried 
- * instead (which may take a while).
- * Even if the full list has to be fetched from the profile, the sidebar is still loaded first too
- * to provide some early results. This can be skipped by using the runCallbackOnlyOnce
- * parameter.
- * @param {function(string[]):void} callback The parameter contains the full names (with instances)
- * of the user's subscriptions
- * @param {string} ns A namespace used for the cancellation key (ideally the mod's name)
- * @param {boolean} useCache Whether the cached result should be used
- * @param {boolean} runCallbackOnlyOnce Workaround for mods that aren't optimized for running the
- * callback twice. When true, the callback is only executed once when all mods are loaded.
+ * @param {function(string[]):void} callback
+ * @param {string} ns
+ * @param {boolean} useCache
+ * @param {boolean} runCallbackOnlyOnce
  */
 async function loadMags (callback, ns, useCache=false, runCallbackOnlyOnce=false) {
     // make sure the user is logged in
@@ -311,9 +303,8 @@ async function loadMags (callback, ns, useCache=false, runCallbackOnlyOnce=false
 }
 
 /**
- * Cancels {@link loadMags} after running it. This is intended to be used on teardown of a mod, to
- * prevent the callback from being called when the mod is supposed to be disabled.
- * @param {string} ns The mod's cancellation namespace as supplied to loadMags
+ * Cancels {@link loadMags} after running it.
+ * @param {string} ns
  */
 loadMags.cancel = function (ns) {
     const hostname = window.location.hostname;
