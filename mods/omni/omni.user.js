@@ -143,7 +143,9 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
                 for (let i = 0; i < links.length; ++i) {
                     links[i].forEach((link) => {
                         clean.push(link.href.split('/')[4])
-                        clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+                        clean
+                            .sort()
+                            .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
                     });
                 }
                 saveDefaultMags(clean)
@@ -353,7 +355,8 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
         const top = document.querySelector('body');
         const mobileBar = document.createElement('div');
         mobileBar.id = 'kes-omni-tapbar';
-        mobileBar.style.cssText = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
+        mobileBar.style.cssText 
+            = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
         top.insertBefore(mobileBar, top.children[0])
 
         mobileBar.addEventListener('click', () => {
@@ -405,16 +408,16 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
     }
 
     function shutdown () {
-        const e = []
         loadMags.cancel(id);
         clearCachedMags();
         clearLoader(id);
-        safeGM("setValue",`omni-default-mags-${hostname}`, e);
+        safeGM("setValue",`omni-default-mags-${hostname}`, []);
         $(document).off("keypress.omnikey");
         removeTapBar();
     }
 
     switch (trigger) {
+        case Trigger.Pageload:
         case Trigger.Toggle:
             (toggle) ? setup() : shutdown();
             break;
