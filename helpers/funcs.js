@@ -80,11 +80,18 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 margin-bottom: 8px;
             }
 
-            .collapsed-comment .kes-collapse-children, .collapsed-comment .content, .collapsed-comment footer, .collapsed-comment .vote, .collapsed-comment .more {
+            .collapsed-comment .kes-collapse-children,
+            .collapsed-comment .content,
+            .collapsed-comment footer,
+            .collapsed-comment .vote,
+            .collapsed-comment .more {
                 display: none !important;
             }
 
-            .entry-comment .kes-collapse-children, .entry-comment .content, .entry-comment footer, .entry-comment .vote {
+            .entry-comment .kes-collapse-children,
+            .entry-comment .content,
+            .entry-comment footer,
+            .entry-comment .vote {
                 opacity: 1;
                 transition: opacity 0.2s ease;
             }
@@ -524,7 +531,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
         if (mutation && mutation.addedNodes[0].className.indexOf('nested') === -1) {
             enterMain();
-        } else if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
+        } else if (document.querySelector('.entry-comment.nested')
+            || !document.querySelector('.comments')) {
             return;
         } else {
             enterMain();
