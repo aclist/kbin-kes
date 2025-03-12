@@ -26,6 +26,8 @@
         "getPageType": "readonly",
         "isLoggedIn": "readonly",
         "log": "readonly",
+        "loadMags": "readonly",
+        "clearCachedMags": "readonly",
         "makeLoader": "readonly",
         "clearLoader": "readonly",
         "isIndex": "readonly",
