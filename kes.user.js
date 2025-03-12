@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.3.0-beta.55
+// @version      5.0.0-beta.1
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -621,10 +621,6 @@ function constructMenu (json, layoutArr, isNew) {
                             colorField.setAttribute("type", fieldType);
                             colorField.setAttribute("kes-iter", it);
                             colorField.setAttribute("kes-key", key);
-                            //#220: explicit handling for labelOp mod (child inherits 75% opacity of author header)
-                            if (json[it].entrypoint == "labelOp") {
-                                colorField.className = "kes-dimmed-colorpicker";
-                            }
                             hBox.appendChild(colorField);
                             hBox.appendChild(br);
                             break;
@@ -1247,6 +1243,13 @@ function constructMenu (json, layoutArr, isNew) {
         saveSettings(settings);
         saveModSettings(modSettings, ns);
 
+        //changing settings on a disabled mod should result in no-op:
+        //if the setting changed was not the toggle,
+        //and the mod is already off, only save settings and abort
+        if (key !== "state" && !state) return
+
+        //everything beyond this point only applies to
+        //changes while a mod is ON, or explicit toggle OFF action
         updateCrumbs();
         toggleSettings(json[it], trigger, key);
     }
