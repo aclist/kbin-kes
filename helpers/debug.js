@@ -383,6 +383,7 @@ function debugBar (json) {
 
     function anonymize () {
         const pref = "MES-"
+        const lorem = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
         const phrases = [
             "Company announces plans to do something",
             "A picture of something that looks cool",
@@ -403,23 +404,36 @@ function debugBar (json) {
         function _rand () {
             return Math.floor(1000 + Math.random() * 9000);
         }
-        function _randPhrase() {
+        function _randPhrase () {
             return phrases[Math.floor(Math.random() * phrases.length)];
         }
 
+        function splitInstance (el) {
+            const str = el.innerText.split("@")
+            let delim
+            let suffix
+            if (str[1]) {
+                delim = "@"
+                suffix = str[1]
+            } else {
+                delim = ""
+                suffix = ""
+            }
+            return `${_rand()}${delim}${suffix}`
+
+        }
+
         document.querySelectorAll(".magazine-inline").forEach((magazine) => {
-            magazine.innerText = pref + "magazine-" + _rand()
+            magazine.innerText = `${pref}magazine-${splitInstance(magazine)}`
         });
         document.querySelectorAll(".user-inline").forEach((user) => {
-            user.innerText = pref + "user-" + _rand()
+            user.innerText = `${pref}user-${splitInstance(user)}`
         });
         document.querySelectorAll(".entry.section.subject h2").forEach((thread) => {
-            //use lorem
             thread.innerText = _randPhrase();
         });
         document.querySelectorAll(".short-desc").forEach((thread) => {
-            //use lorem
-            thread.innerText = "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+            thread.innerText = lorem
         });
         document.querySelector(".user-name").innerText = pref + "user-" + _rand()
     }
