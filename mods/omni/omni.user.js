@@ -91,8 +91,6 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
     const username = user.href.split('/')[4];
     const hostname = window.location.hostname
 
-    document.querySelector(".kes-omni-modal")?.remove();
-
     function createOmni () {
 
         safeGM("removeStyle", "omni-css")
@@ -419,6 +417,7 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
     switch (trigger) {
         case Trigger.Pageload:
         case Trigger.Toggle:
+            document.querySelector(".kes-omni-modal")?.remove();
             (toggle) ? setup() : shutdown();
             break;
         case Trigger.Setting:
