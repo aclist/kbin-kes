@@ -236,7 +236,7 @@ Members
 
    All comments posted under that domain tag.
 
-Domain
+New
 ^^^^^^^^^^^
 
 Corresponds to creation of new posts/content.
