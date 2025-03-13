@@ -17,3 +17,8 @@ Navigate to the `install script <https://raw.githubusercontent.com/aclist/kbin-k
 handled seamlessly, and MES will notify you if there is a new version available.
 
 New add-ons are deployed directly within the menu, and the suite of features should grow over time.
+
+Caveats
+-------------------------
+Some extensions like Tampermonkey may require you to enable Developer Mode in your browser in order for
+userscripts to apply on pages. See: https://developer.chrome.com/docs/extensions/reference/api/userScripts#developer_mode_for_extension_users
