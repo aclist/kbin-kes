@@ -196,7 +196,10 @@ In the context of MES, calling safeGM is thus a safer, simpler, and more cross-p
 
 .. js:method:: addStyle(css, id)
 
-    Adds a stylesheet to the document head.
+    Adds a stylesheet to the document head. Stylesheet IDs must be globally unique;
+    mods should prefix the stylesheet id with the name of the mod and other identifying information,
+    e.g., ``mymod-custom-tables``. If adding multiple sheets from a single mod, ensure that all
+    sheets have unique names.
 
    :param string css: the stylesheet
    :param string id: a unique ID used to later remove the stylesheet
