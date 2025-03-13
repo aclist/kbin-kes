@@ -71,6 +71,16 @@ Members
 
    A specific magazine/community
 
+.. rst-class:: enum, member-10
+.. js:attribute:: People
+
+   Lists users registered on an instance
+
+.. rst-class:: enum, member-11
+.. js:attribute:: Modlog
+
+   The moderation log for an instance
+
 
 Messages
 ^^^^^^^^^^^
@@ -88,17 +98,17 @@ Members
 
    int
 
-.. rst-class:: enum, member-10
+.. rst-class:: enum, member-12
 .. js:attribute:: INBOX
 
    The conversations index.
 
-.. rst-class:: enum, member-11
+.. rst-class:: enum, member-13
 .. js:attribute:: NOTIFICATIONS
 
    Notifications of incoming conversations, including messages within conversations.
 
-.. rst-class:: enum, member-11
+.. rst-class:: enum, member-14
 .. js:attribute:: THREAD
 
     A threaded conversation between two users.
@@ -119,52 +129,52 @@ Members
 
    int
 
-.. rst-class:: enum, member-13
+.. rst-class:: enum, member-15
 .. js:attribute:: DEFAULT
 
    The user's main profile page.
 
-.. rst-class:: enum, member-14
+.. rst-class:: enum, member-16
 .. js:attribute:: DIRECT_MESSAGE
 
    A page for initiating a direct message to the user.
 
-.. rst-class:: enum, member-15
+.. rst-class:: enum, member-17
 .. js:attribute:: SUBSCRIPTIONS
 
    The user's subscriptions (only visible to self).
 
-.. rst-class:: enum, member-16
+.. rst-class:: enum, member-18
 .. js:attribute:: THREADS
 
    Threads created by the user.
 
-.. rst-class:: enum, member-17
+.. rst-class:: enum, member-19
 .. js:attribute:: COMMENTS
 
    Comments posted by the user.
 
-.. rst-class:: enum, member-18
+.. rst-class:: enum, member-20
 .. js:attribute:: POSTS
 
    Posts made by the user
 
-.. rst-class:: enum, member-19
+.. rst-class:: enum, member-21
 .. js:attribute:: REPLIES
 
    Replies posted by the user.
 
-.. rst-class:: enum, member-20
+.. rst-class:: enum, member-22
 .. js:attribute:: BOOSTS
 
    Activity voted up by the user.
 
-.. rst-class:: enum, member-21
+.. rst-class:: enum, member-23
 .. js:attribute:: FOLLOWING
 
    Users the user follows.
 
-.. rst-class:: enum, member-22
+.. rst-class:: enum, member-24
 .. js:attribute:: FOLLOWERS
 
    Users following the user.
@@ -185,17 +195,17 @@ Members
 
    int
 
-.. rst-class:: enum, member-23
+.. rst-class:: enum, member-25
 .. js:attribute:: COMMENTS
 
    The main comments inside of a thread.
 
-.. rst-class:: enum, member-24
+.. rst-class:: enum, member-26
 .. js:attribute:: FAVORITES
 
    Users who favorited the thread.
 
-.. rst-class:: enum, member-25
+.. rst-class:: enum, member-27
 .. js:attribute:: BOOSTS
 
    Users who boosted the thread.
@@ -216,15 +226,51 @@ Members
 
    int
 
-.. rst-class:: enum, member-26
+.. rst-class:: enum, member-28
 .. js:attribute:: DEFAULT
 
    The default thread index for that domain tag.
 
-.. rst-class:: enum, member-27
+.. rst-class:: enum, member-29
 .. js:attribute:: COMMENTS
 
    All comments posted under that domain tag.
+
+Domain
+^^^^^^^^^^^
+
+Corresponds to creation of new posts/content.
+
+Namespace
+""""""""""""
+   .. js:attribute:: Mbin.New
+
+Members
+""""""""""""
+.. rst-class:: enum, nolink
+.. js:attribute:: Member type
+
+   int
+
+.. rst-class:: enum, member-30
+.. js:attribute:: LINK
+
+   Submitting a third-party link.
+
+.. rst-class:: enum, member-31
+.. js:attribute:: THREAD
+
+   Submitting a discussion thread.
+
+.. rst-class:: enum, member-32
+.. js:attribute:: PHOTO
+
+   Submitting photo or image content.
+
+.. rst-class:: enum, member-33
+.. js:attribute:: MAGAZINE
+
+   Creating a new magazine.
 
 Load triggers
 -------------------
