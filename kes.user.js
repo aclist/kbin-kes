@@ -2,7 +2,7 @@
 // @name         KES
 // @namespace    https://github.com/aclist
 // @license      MIT
-// @version      4.3.0-beta.59
+// @version      5.0.0-beta.4
 // @description  Kbin Enhancement Suite
 // @author       aclist
 // @match        https://kbin.social/*
@@ -1243,6 +1243,13 @@ function constructMenu (json, layoutArr, isNew) {
         saveSettings(settings);
         saveModSettings(modSettings, ns);
 
+        //changing settings on a disabled mod should result in no-op:
+        //if the setting changed was not the toggle,
+        //and the mod is already off, only save settings and abort
+        if (key !== "state" && !state) return
+
+        //everything beyond this point only applies to
+        //changes while a mod is ON, or explicit toggle OFF action
         updateCrumbs();
         toggleSettings(json[it], trigger, key);
     }
@@ -1433,6 +1440,15 @@ function constructMenu (json, layoutArr, isNew) {
             if ((mutation.target.getAttribute("data-controller") == "subject-list")
                 || (mutation.target.id == "comments")
                 || (mutation.target.classList.contains("post-comments"))) {
+                for (let i = 0; i < json.length; ++i) {
+                    if (json[i].recurs) {
+                        applySettings(json[i], Trigger.Mutation, mutation);
+                        obs.takeRecords();
+                    }
+                }
+                return
+            }
+            if (mutation.target.className === "kes-collapse-children") {
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
                         applySettings(json[i], Trigger.Mutation, mutation);

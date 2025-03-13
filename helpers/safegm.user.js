@@ -19,7 +19,7 @@ function log (string, level) { // eslint-disable-line no-unused-vars
 }
 
 //returns a generic loading prompt with spinner
-function makeLoader (id, text) {
+function makeLoader (id, text) { // eslint-disable-line no-unused-vars
     const modalCSS = `
     #${id}-filter-modal-bg {
         position: fixed;
@@ -106,7 +106,7 @@ function makeLoader (id, text) {
 }
 
 //removes a loading dialog created with makeLoader()
-function clearLoader (id) {
+function clearLoader (id) { // eslint-disable-line no-unused-vars
     document.querySelector(`#${id}-filter-modal-bg`)?.remove();
     safeGM("removeStyle", "mes-loader-css");
 }
@@ -188,6 +188,10 @@ function getPageType () { //eslint-disable-line no-unused-vars
             return Mbin.People
         case "bookmark-lists":
             return Mbin.Bookmarks
+        case "modlog":
+            return Mbin.Modlog
+        case "people":
+            return Mbin.People
         case "tag":
             return Mbin.Tag
         case "microblog":
@@ -198,6 +202,11 @@ function getPageType () { //eslint-disable-line no-unused-vars
         case "settings":
             if ((url[4]) === "notifications") return Mbin.Messages.Notifications
             return Mbin.Settings
+        case "new":
+            if ((url[4]) === undefined) return Mbin.New.LINK
+            if ((url[4]) === "article") return Mbin.New.THREAD
+            if ((url[4]) === "photo") return Mbin.New.PHOTO
+            if ((url[4]) === "newMagazine") return Mbin.New.MAGAZINE
         case "u":
             if (url[5] === undefined) return Mbin.User.Default
             if (url[5] === "message") return Mbin.User.DirectMessage
@@ -315,14 +324,14 @@ loadMags.cancel = function (ns) {
 /**
  * Clears the cached list of subscriptions from the {@link loadMags} function.
  */
-function clearCachedMags () {
+function clearCachedMags () { // eslint-disable-line no-unused-vars
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
     safeGM("setValue",`user-mags-${hostname}-${username}`, []);
 }
 
-function isIndex () {
+function isIndex () { // eslint-disable-line no-unused-vars
     const pt = getPageType();
     switch (pt) {
         case Mbin.Domain.Default:
@@ -334,7 +343,7 @@ function isIndex () {
     }
 }
 
-function isThread () {
+function isThread () { // eslint-disable-line no-unused-vars
     const pt = getPageType();
     switch (pt) {
         case Mbin.Thread.Comments:
