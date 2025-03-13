@@ -97,7 +97,9 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
         safeGM("addStyle", omniCSS, "omni-css")
 
         if (username) {
-            loadMags(alphaSort, id, true, true);
+            loadMags((mags, isFinalCall) => {
+                if (isFinalCall) alphaSort(mags);
+            }, id, true);
         } else {
             loadDefaultMags();
         }
