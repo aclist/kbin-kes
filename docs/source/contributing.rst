@@ -115,7 +115,7 @@ A simple example of a script with setup and teardown logic follows:
            safeGM.removeStyle("myCSS");
            document.querySelectorAll(".myElement").forEach((el) => {
                el.remove();
-           }
+           });
        }
 
        function changeSetting(setting) {
