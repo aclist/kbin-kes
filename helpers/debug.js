@@ -215,7 +215,7 @@ function debugBar (json) {
             el: "input",
             id: "mes-debugbar-anonymize",
             text: "",
-            tooltip: "Anonymize page"
+            tooltip: "Anonymize user/magazine names, post content, and images"
         },
         debugline: {
             el: "div",
