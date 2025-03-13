@@ -108,7 +108,8 @@ A simple example of a script with setup and teardown logic follows:
                const newEl = document.createElement("div")
                newEl.className = myElement
                el.appendChild(newEl)
-           })
+           });
+       }
 
        function removeMyMod() {
            safeGM.removeStyle("myCSS");
@@ -138,8 +139,9 @@ A simple example of a script with setup and teardown logic follows:
                break;
            case Trigger.MUTATION:
                applyMyMod(meta);
-           }
+               break;
        }
+   }
 
 Event listeners and mutation observers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
