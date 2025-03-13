@@ -15,7 +15,7 @@ const Mbin = Object.freeze({
     Settings: 8,
     Magazine: 9,
     People: 10,
-    Modlog: 11
+    Modlog: 11,
     Messages: Object.freeze({
         Inbox: 12,
         Notifications: 13,
