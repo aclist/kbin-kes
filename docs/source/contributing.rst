@@ -132,7 +132,7 @@ A simple example of a script with setup and teardown logic follows:
                applyMyMod();
                break;
            case Trigger.TOGGLE:
-               (toggle) ? applyMyMod() : removeMyMod():
+               (toggle) ? applyMyMod() : removeMyMod();
                break;
            case Trigger.SETTING:
                changeSetting(meta);
