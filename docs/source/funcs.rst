@@ -110,7 +110,7 @@ Utility functions
 
    :rtype: bool
 
-.. js:function:: loadMags(callback, ns, useCache=false, runCallBackOnlyOnce=false)
+.. js:function:: loadMags(callback, ns, useCache=false)
 
     Loads the current user's subscriptions.
     Will first attempt to load them from the sidebar, if available. When they are not in the sidebar,
@@ -118,14 +118,19 @@ Utility functions
     instead (which may take a while).
 
     Even if the full list has to be fetched from the profile, the sidebar is still loaded first
-    to provide some early results. This can be skipped by using the ``runCallbackOnlyOnce``
+    to provide some early results.
 
-    :param function() callback: name of the function receiving the return data (full names and instances of the user's subscriptions)
+    :param function(string[], bool) callback: name of the function receiving the return data. See note below
     :param string ns: a namespace used for the cancellation key (ideally the mod's name)
     :param bool useCache: whether the cached result should be used
     :param bool runCallbackOnlyOnce: workaround for mods that aren't optimized for running the callback twice. When true, the callback is only executed once when all mods are loaded.
 
     :rtype: void
+
+.. note::
+   The callback receives a list of the full names and instances of the user's subscriptions, along with a boolean indicating
+   whether loadMags has reached its last iteration. (``true`` on final iteration). If the definitive list of all subscriptions
+   is needed (e.g., constructing an immutable list), the receiving function should wait for this final pass to complete.
 
 .. js:method:: loadMags.cancel(ns)
 
