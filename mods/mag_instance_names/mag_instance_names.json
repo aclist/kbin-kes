@@ -3,9 +3,9 @@
   "author": "artillect",
   "version": "0.1",
   "label": "Magazine instance names",
-  "desc": "Show instance names next to magazines",
+  "desc": "Shows instance names next to magazines. Overcomes limitations in the native Mbin setting. This will override the default behavior.",
   "login": false,
   "recurs": true,
   "entrypoint": "mag_instance_names",
-  "page": "general"
+  "page": "fixes"
 }
