@@ -86,6 +86,61 @@ trigger a mod to be called again. For this reason, you should include logic to a
 When a mod is asked to be toggled off, some teardown logic must reverse the setup process and restore the page to its original state.
 This includes restoring elements' attributes, removing injected elements, and detaching stylesheets.
 
+A simple example of a script with setup and teardown logic follows:
+
+.. code:: console
+
+   function myModEntrypoint(toggle, trigger, meta) {
+
+       function applyMyMod(mutation) {
+           const existingEl = document.querySelector(".myElement");
+           //abort if existing
+           if (existingEl) return
+           //only apply on mutation
+           if (mutation) {
+               const myEl = document.createElement("div")
+               myEl.className = myElement
+               mutation.target.appendChild(myEl)
+               return
+           }
+           //first-time invocation
+           document.querySelectorAll(".someEl").forEach((el) => {
+               const newEl = document.createElement("div")
+               newEl.className = myElement
+               el.appendChild(newEl)
+           })
+
+       function removeMyMod() {
+           safeGM.removeStyle("myCSS");
+           document.querySelectorAll(".myElement").forEach((el) => {
+               el.remove();
+           }
+       }
+
+       function changeSetting(setting) {
+           const myEls = document.querySelectorAll(".myElement");
+           const settings = getModSettings("myModNamespace")
+           const userColor = settings[setting]
+           myEls.forEach((el) => {
+               el.color = color
+           });
+       }
+
+       switch (trigger) {
+           case Trigger.PAGELOAD:
+               applyMyMod();
+               break;
+           case Trigger.TOGGLE:
+               (toggle) ? applyMyMod() : removeMyMod():
+               break;
+           case Trigger.SETTING:
+               changeSetting(meta);
+               break;
+           case Trigger.MUTATION:
+               applyMyMod(meta);
+           }
+       }
+
 Event listeners and mutation observers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Unless you are creating a special button or widget triggering on a specific signal like clicks, there is generally no need to actively watch the page for changes (like onload or mutation events).
