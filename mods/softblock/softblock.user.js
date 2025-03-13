@@ -7,6 +7,9 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     .softblock-manage, .softblock-icon:hover {
         cursor: pointer;
     }
+    .softblock-icon:hover {
+        color: var(--kbin-link-hover-color);
+    }
     .softblock-button {
         padding-bottom: .5rem;
         padding-top: .5rem
