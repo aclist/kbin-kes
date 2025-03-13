@@ -188,6 +188,10 @@ function getPageType () { //eslint-disable-line no-unused-vars
             return Mbin.People
         case "bookmark-lists":
             return Mbin.Bookmarks
+        case "modlog":
+            return Mbin.Modlog
+        case "people":
+            return Mbin.People
         case "tag":
             return Mbin.Tag
         case "microblog":
@@ -198,6 +202,11 @@ function getPageType () { //eslint-disable-line no-unused-vars
         case "settings":
             if ((url[4]) === "notifications") return Mbin.Messages.Notifications
             return Mbin.Settings
+        case "new":
+            if ((url[4]) === undefined) return Mbin.New.LINK
+            if ((url[4]) === "article") return Mbin.New.THREAD
+            if ((url[4]) === "photo") return Mbin.New.PHOTO
+            if ((url[4]) === "newMagazine") return Mbin.New.MAGAZINE
         case "u":
             if (url[5] === undefined) return Mbin.User.Default
             if (url[5] === "message") return Mbin.User.DirectMessage
