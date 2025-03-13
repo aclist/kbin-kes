@@ -639,7 +639,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
             safeGM("addStyle", omniCSS, "omni-css")
 
             if (username) {
-                loadMags(alphaSort, id, true, true);
+                loadMags((mags, isFinalCall) => {
+                    if (isFinalCall) alphaSort(mags);
+                }, id, true);
             } else {
                 loadDefaultMags();
             }
