@@ -7,6 +7,10 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     .softblock-manage, .softblock-icon:hover {
         cursor: pointer;
     }
+    .softblock-button {
+        padding-bottom: .5rem;
+        padding-top: .5rem
+    }
     .softblock-aside {
         display: flex;
         justify-content: center;
@@ -101,7 +105,11 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         if (document.querySelector('.softblock-button')) return
         const mag = el.action.split("/")[4]
         const button = createBlockButton(mags, mag);
-        el.insertAdjacentElement("afterend", button)
+        const container = document.createElement("div")
+        const notifications = document.querySelector(".notification-switch-container")
+        container.id = "softblock-button-container"
+        container.appendChild(button)
+        notifications.insertAdjacentElement("beforebegin", container)
     }
 
     function clean (mags) {
