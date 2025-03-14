@@ -1,4 +1,4 @@
-function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
+function initCodeHighlights (toggle, trigger, setting) { // eslint-disable-line no-unused-vars
     /* global hljs */
     const codeCSS = `
     .hljs.kch_header {
@@ -29,22 +29,26 @@ function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
     safeGM("removeStyle", "mes-code-css")
     safeGM("addStyle", codeCSS, "mes-code-css")
 
-    function kchStartup (kchCssUrl) {
-        addHeaders('pre code');
-        setCss(kchCssUrl);
+    function kchStartup () {
+        addHeaders('pre');
+        setCss();
     }
 
-    function kchShutdown () {
+    function shutdown () {
         safeGM("removeStyle", "kch-hljs")
-        $('.kch_header').remove();
+        document.querySelectorAll("pre").forEach((item) => {
+            item.style.removeProperty("display")
+            delete item.dataset.codehighlight
+        })
+        $('.mes-code-clone').remove();
     }
     function addTags (item) {
-        if (item.parentElement.querySelector('.kch_header')) return
+        //if (item.parentElement.querySelector('.kch_header')) return
         let lang;
 
-        if (item.previousSibling) {
-            if (item.previousSibling.className === "hljs kch_header") return
-        }
+        //if (item.previousSibling) {
+        //    if (item.previousSibling.className === "hljs kch_header") return
+        //}
         for (let name of item.className.split(' ')) {
             if (name.includes('-')) {
                 lang = name.split('-')[1];
@@ -99,10 +103,15 @@ function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
         header.appendChild(icon);
         header.appendChild(span_copied);
         header.appendChild(hide_icon);
-        item.parentElement.prepend(header);
+        item.prepend(header);
 
     }
-    function setCss (url) {
+    function setCss () {
+        const settings = getModSettings("codehighlights");
+        const myStyle = settings["style"];
+        const prefix = "https://raw.githubusercontent.com"
+        const suffix = "highlightjs/highlight.js/main/src/styles/base16"
+        const url = `${prefix}/${suffix}/${myStyle}.css`
         safeGM("xmlhttpRequest",{
             method: "GET",
             url: url,
@@ -110,29 +119,37 @@ function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
                 "Content-Type": "text/css"
             },
             onload: function (response) {
+                safeGM("removeStyle", response.responseText, "kch-hljs");
                 safeGM("addStyle", response.responseText, "kch-hljs");
             }
         });
     }
     function addHeaders (selector) {
         document.querySelectorAll(selector).forEach((item) => {
-            if (!(item.classList.contains('hljs'))) {
-                hljs.highlightElement(item);
-            }
-            if (item.style.display === "none") return
-            addTags(item);
+            if (item.dataset.codehiglight === true) return
+            const clone = item.cloneNode(true)
+            clone.classList.add("mes-code-clone")
+            item.insertAdjacentElement("afterend", clone)
+            item.style.display = "none"
+            item.dataset.codehighlight = true
+            addTags(clone);
         });
     }
-    if (toggle) {
-        const settings = getModSettings("codehighlights");
-        const myStyle = settings["style"];
-        const prefix = "https://raw.githubusercontent.com"
-        const suffix = "highlightjs/highlight.js/main/src/styles/base16"
-        const kchCssUrl = `${prefix}/${suffix}/${myStyle}.css`
-        kchStartup(kchCssUrl);
+
+
+    function setup () {
+        kchStartup();
         hljs.configure({ ignoreUnescapedHTML: true });
         hljs.highlightAll();
-    } else {
-        kchShutdown();
+    }
+    switch (trigger) {
+        case Trigger.Mutation:
+        case Trigger.Pageload:
+        case Trigger.Toggle:
+            (toggle) ? setup() : shutdown();
+            break;
+        case Trigger.Setting:
+            setCss()
+            break;
     }
 }
