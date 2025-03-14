@@ -169,6 +169,7 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         const softblockHead = document.createElement('th')
         softblockHead.style.textAlign = "center"
         softblockHead.innerText = "Softblock"
+        softblockHead.id = "softblock-column"
         header.appendChild(softblockHead)
 
         const tableRow = document.querySelectorAll('.magazines.table-responsive tbody tr');
@@ -290,7 +291,12 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         loadMags(hostname);
     } else {
         safeGM('removeStyle', 'softblock-css')
-        removeEls('.softblock-icon', '.softblock-button')
+        removeEls(
+            '.softblock-icon',
+            '.softblock-button',
+            '.softblock-manage',
+            '#softblock-column'
+        )
         const e = []
         saveMags(hostname, e)
     }
