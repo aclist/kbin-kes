@@ -293,12 +293,12 @@ Members
 .. rst-class:: enum, member-1
 .. js:attribute:: PAGELOAD
 
-    On initial pageload
+   When the page was loaded for the first time.
 
 .. rst-class:: enum, member-2
 .. js:attribute:: TOGGLE
 
-   When the toggle button was switched, changing the mod's active state
+   When the toggle button was switched, changing the mod's active state.
 
 .. rst-class:: enum, member-3
 .. js:attribute:: SETTING
@@ -308,7 +308,17 @@ Members
 .. rst-class:: enum, member-4
 .. js:attribute:: MUTATION
 
-   If a watched mutation was propagated from MES (infinite scroll, comment reply, popup expansion, etc.)
+   If a watched mutation was propagated from MES. Known mutations are:
+
+   - Triggering an infinite scroll event, causing more threads or comments to load
+   - Hovering another user's name, causing a popover card to be drawn
+   - Replying to a post/comment, causing the reply to be drawn below the parent
+   - Expanding a collapsed microblog thread
+   - Timestamp increments (used only by the verbose timestamps mod)
+
+   Since the mod will already have applied during the previous :js:attr`Trigger.PAGELOAD<PAGELOAD>`
+   event, when it receives a mutation trigger, it should apply itself only to those elements it did not
+   apply to before.
 
 Themes
 --------------------------------------
