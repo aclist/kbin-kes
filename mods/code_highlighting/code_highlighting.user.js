@@ -30,7 +30,7 @@ function initCodeHighlights (toggle, trigger, setting) { // eslint-disable-line 
     safeGM("addStyle", codeCSS, "mes-code-css")
 
     function kchStartup () {
-        addHeaders('pre');
+        addHeaders('pre:not(.mes-code-clone)');
         setCss();
     }
 
