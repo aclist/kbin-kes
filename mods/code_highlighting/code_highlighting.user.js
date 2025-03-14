@@ -43,12 +43,8 @@ function initCodeHighlights (toggle, trigger, setting) { // eslint-disable-line 
         $('.mes-code-clone').remove();
     }
     function addTags (item) {
-        //if (item.parentElement.querySelector('.kch_header')) return
         let lang;
 
-        //if (item.previousSibling) {
-        //    if (item.previousSibling.className === "hljs kch_header") return
-        //}
         for (let name of item.className.split(' ')) {
             if (name.includes('-')) {
                 lang = name.split('-')[1];
