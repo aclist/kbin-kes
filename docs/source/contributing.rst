@@ -143,6 +143,25 @@ A simple example of a script with setup and teardown logic follows:
        }
    }
 
+Cloning nodes
+^^^^^^^^^^^^^^
+It is generally advisable to clone the target nodes you want to modify and apply changes to the clones, rather than injecting
+changes into them directly. If you modify the style, classlist, id, visibility, or other properties of the original node,
+it may become difficult to keep track of and undo these changes on teardown, causing the original state of the element to be destroyed.
+
+Such a workflow might look like:
+
+- Clone the original node
+- Give the clone a unique selector
+- Set the ``display`` property of the original node to ``node``
+- Set a unique dataset property on the original node to indicate that it's been cloned (in lieu of tinkering with its selectors)
+- Apply changes to the clone
+- On teardown, remove the entire clone and unset the properties on the original node
+
+.. caution::
+   In general, try to avoid modifying the same elements that another mod is responsible for modifying, since this may lead to
+   undefined behavior. If necessary, collaborate with the other mod's author to ensure there are no selector collisions.
+
 Event listeners and mutation observers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Unless you are creating a special button or widget triggering on a specific signal like clicks, there is generally no need to actively watch the page for changes (like onload or mutation events).
