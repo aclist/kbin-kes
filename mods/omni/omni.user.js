@@ -1,4 +1,4 @@
-function omniInit (toggle) { // eslint-disable-line no-unused-vars
+function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-vars
 
     const kesActive = 'kes-subs-active'
     const omniCSS = `
@@ -82,76 +82,45 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
         "Right bracket": "]"
     }
 
-    const settings = getModSettings('omni');
+    const id = "omni";
+    const settings = getModSettings(id);
     const meta = settings["meta"]
     const code = keyCodes[meta]
     const mobile = settings["mobile"]
     const user = document.querySelector('.login');
     const username = user.href.split('/')[4];
     const hostname = window.location.hostname
-    const fetchedMags = []
-
-    const tapBar = document.querySelector('#kes-omni-tapbar')
-    if (tapBar) {
-        tapBar.remove();
-    }
-    const q = document.querySelector('.kes-omni-modal')
-    if (q) {
-        q.remove();
-    }
 
     function createOmni () {
 
         safeGM("removeStyle", "omni-css")
         safeGM("addStyle", omniCSS, "omni-css")
 
-        let str
         if (username) {
-            str = 'user'
-            loadMags(str, username)
+            loadMags((mags, isFinalCall) => {
+                if (isFinalCall) alphaSort(mags);
+            }, id, true);
         } else {
-            str = 'default'
-            loadMags(str)
+            loadDefaultMags();
         }
 
-        async function loadMags (mode, username) {
-            const dataStr = setMagString(mode);
-            const loaded = await safeGM("getValue", dataStr)
+        async function loadDefaultMags () {
+            const loaded = await safeGM("getValue", `omni-default-mags-${hostname}`);
             if ((!loaded) || (loaded.length < 1)) {
-                fetchMags(username, 1);
+                fetchDefaultMags();
             } else {
                 omni(loaded);
             }
         }
-        function setMagString (mode) {
-            let mags;
-            switch (mode) {
-                case 'default':
-                    mags = `omni-default-mags-${hostname}`
-                    break;
-                case 'user':
-                    mags = `omni-user-mags-${hostname}-${username}`
-                    break;
-            }
-            return mags;
-        }
-        async function saveMags (mode, mags) {
-            const dataStr = setMagString(mode);
-            await safeGM("setValue", dataStr, mags)
+        async function saveDefaultMags (mags) {
+            await safeGM("setValue", `omni-default-mags-${hostname}`, mags)
             omni(mags);
         }
-
-        function fetchMags (username, page) {
-            let url
-            if (username) {
-                url = `https://${hostname}/u/${username}/subscriptions?p=${page}`
-            } else {
-                url = `https://${hostname}/magazines`
-            }
-            genericXMLRequest(url, parseMags)
+        function fetchDefaultMags () {
+            let url = `https://${hostname}/magazines`
+            genericXMLRequest(url, parseDefaultMags)
         }
-        function parseMags (response) {
-            //TODO: user may have no subscribed mags
+        function parseDefaultMags (response) {
             let links
             let mags
             let parser = new DOMParser();
@@ -162,36 +131,25 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
                 links = mags.querySelectorAll('.stretched-link')
                 defaultFetched.push(links)
                 alphaSort(defaultFetched);
-            } else {
-                let page
-                mags = notificationsXML.querySelector('.magazines-columns');
-                links = mags.querySelectorAll('.stretched-link');
-                const username = notificationsXML.querySelector('.login').getAttribute("href").split('/')[2];
-                const paginator = notificationsXML.querySelector('.pagination__item.pagination__item--next-page');
-                if (paginator) {
-                    const tip = paginator.getAttribute("href")
-                    if (tip) {
-                        page = tip.split('=')[1]
-                    }
-                }
-                fetchedMags.push(links);
-                if (links.length < 48) {
-                    alphaSort(fetchedMags)
-                } else {
-                    const url = `https://${hostname}/u/${username}/subscriptions?p=${page}`
-                    genericXMLRequest(url, parseMags)
-                }
             }
         }
         function alphaSort (links) {
-            const clean = []
-            for (let i = 0; i < links.length; ++i) {
-                links[i].forEach((link) => {
-                    clean.push(link.href.split('/')[4])
-                    clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
-                });
+            if (!links) return;
+            if (typeof links[0] === "string") { // loadMags returns strings
+                links.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+                omni(links);
+            } else { // default mags are loaded as elements
+                const clean = []
+                for (let i = 0; i < links.length; ++i) {
+                    links[i].forEach((link) => {
+                        clean.push(link.href.split('/')[4])
+                        clean
+                            .sort()
+                            .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+                    });
+                }
+                saveDefaultMags(clean)
             }
-            saveMags(str, clean)
         }
         function updateVisible () {
             let pos
@@ -236,23 +194,6 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
                 const scrollerGeomBot = scrollEl.getBoundingClientRect().bottom;
                 if ((currentElGeom < scrollerGeom) || (currentElGeomBot > scrollerGeomBot)) {
                     el.scrollIntoView();
-                }
-            }
-        }
-        function kickoffListener (e) {
-            if (e.key !== code) return
-            if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
-            if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
-            e.preventDefault();
-            const exists = document.querySelector('.kes-omni-modal')
-            if (exists) {
-                if ($(exists).is(":visible")) {
-                    $(exists).hide();
-                } else {
-                    $(exists).show();
-                    if (!mobile) {
-                        document.querySelector("#kes-omni-search").focus();
-                    }
                 }
             }
         }
@@ -400,41 +341,95 @@ function omniInit (toggle) { // eslint-disable-line no-unused-vars
                 }
             });
 
-            if (mobile) {
-                const top = document.querySelector('body');
-                const mobileBar = document.createElement('div');
-                mobileBar.id = 'kes-omni-tapbar';
-                mobileBar.style.cssText = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
-                top.insertBefore(mobileBar, top.children[0])
-
-                mobileBar.addEventListener('click', () => {
-                    const toShow = document.querySelector('.kes-omni-modal')
-                    if ($(toShow).is(":visible")) {
-                        $(toShow).hide();
-                    } else {
-                        $(toShow).show();
-                    }
-                });
-
-            }
             kesModal.style.display = 'none';
             document.body.appendChild(kesModal)
 
-            $(document).on("keypress.omnikey", function (e) {
-                kickoffListener(e)
-            });
+            if ($(`#${id}-filter-modal-bg`).is(":visible")) {
+                $('.kes-omni-modal').show();
+            }
+            clearLoader(id);
         }
     }
 
-    if (toggle) {
-        $(document).off("keypress.omnikey");
+    function addTapBar () {
+        const top = document.querySelector('body');
+        const mobileBar = document.createElement('div');
+        mobileBar.id = 'kes-omni-tapbar';
+        mobileBar.style.cssText 
+            = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
+        top.insertBefore(mobileBar, top.children[0])
+
+        mobileBar.addEventListener('click', () => {
+            const toShow = document.querySelector('.kes-omni-modal')
+            if ($(toShow).is(":visible")) {
+                $(toShow).hide();
+            } else {
+                $(toShow).show();
+            }
+        });
+    }
+
+    function kickoffListener (e) {
+        if (e.key !== code) return
+        if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
+        if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
+        e.preventDefault();
+        const exists = document.querySelector('.kes-omni-modal')
+        if (exists) {
+            if ($(exists).is(":visible")) {
+                $(exists).hide();
+            } else {
+                $(exists).show();
+                if (!mobile) {
+                    document.querySelector("#kes-omni-search").focus();
+                }
+            }
+        } else {
+            const load = document.querySelector(`#${id}-filter-modal-bg`);
+            if ($(load).is(":visible")) {
+                $(load).hide();
+            } else {
+                $(load).show();
+            }
+        }
+    }
+
+    function removeTapBar () {
+        document.querySelector("#kes-omni-tapbar")?.remove();
+    }
+
+    function setup () {
+        const modal = makeLoader(id, "Fetching subscriptions...");
+        document.body.appendChild(modal);
+        $(modal).hide();
+        $(document).on("keypress.omnikey", kickoffListener);
         createOmni();
-    } else {
-        const e = []
-        safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e);
-        safeGM("setValue",`omni-default-mags-${hostname}`, e);
-        document.querySelector("kes-omni-modal")?.remove();
-        document.querySelector("kes-omni-tapbar")?.remove();
+        if (mobile) addTapBar();
+    }
+
+    function shutdown () {
+        loadMags.cancel(id);
+        clearCachedMags();
+        clearLoader(id);
+        safeGM("setValue",`omni-default-mags-${hostname}`, []);
         $(document).off("keypress.omnikey");
+        removeTapBar();
+    }
+
+    switch (trigger) {
+        case Trigger.Pageload:
+        case Trigger.Toggle:
+            document.querySelector(".kes-omni-modal")?.remove();
+            (toggle) ? setup() : shutdown();
+            break;
+        case Trigger.Setting:
+            if (setting === "mobile") {
+                (mobile) ? addTapBar() : removeTapBar();
+            }
+            if (setting === "meta") {
+                $(document).off("keypress.omnikey");
+                $(document).on("keypress.omnikey", kickoffListener);
+            }
+            break;
     }
 }

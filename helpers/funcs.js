@@ -45,7 +45,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     improved_collapsible_comments: //mes-func
-    function initCollapsibleComments (toggle, mutation) { // eslint-disable-line no-unused-vars
+    function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable-line no-unused-vars
         function applyCommentStyles () {
             var style = `
             .entry-comment {
@@ -80,11 +80,18 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 margin-bottom: 8px;
             }
 
-            .collapsed-comment .kes-collapse-children, .collapsed-comment .content, .collapsed-comment footer, .collapsed-comment .vote, .collapsed-comment .more {
+            .collapsed-comment .kes-collapse-children,
+            .collapsed-comment .content,
+            .collapsed-comment footer,
+            .collapsed-comment .vote,
+            .collapsed-comment .more {
                 display: none !important;
             }
 
-            .entry-comment .kes-collapse-children, .entry-comment .content, .entry-comment footer, .entry-comment .vote {
+            .entry-comment .kes-collapse-children,
+            .entry-comment .content,
+            .entry-comment footer,
+            .entry-comment .vote {
                 opacity: 1;
                 transition: opacity 0.2s ease;
             }
@@ -524,7 +531,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
         if (mutation && mutation.addedNodes[0].className.indexOf('nested') === -1) {
             enterMain();
-        } else if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
+        } else if (document.querySelector('.entry-comment.nested')
+            || !document.querySelector('.comments')) {
             return;
         } else {
             enterMain();
@@ -532,7 +540,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     omni: //mes-func
-    function omniInit (toggle) { // eslint-disable-line no-unused-vars
+    function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-vars
 
         const kesActive = 'kes-subs-active'
         const omniCSS = `
@@ -616,76 +624,45 @@ const funcObj = { // eslint-disable-line no-unused-vars
             "Right bracket": "]"
         }
 
-        const settings = getModSettings('omni');
+        const id = "omni";
+        const settings = getModSettings(id);
         const meta = settings["meta"]
         const code = keyCodes[meta]
         const mobile = settings["mobile"]
         const user = document.querySelector('.login');
         const username = user.href.split('/')[4];
         const hostname = window.location.hostname
-        const fetchedMags = []
-
-        const tapBar = document.querySelector('#kes-omni-tapbar')
-        if (tapBar) {
-            tapBar.remove();
-        }
-        const q = document.querySelector('.kes-omni-modal')
-        if (q) {
-            q.remove();
-        }
 
         function createOmni () {
 
             safeGM("removeStyle", "omni-css")
             safeGM("addStyle", omniCSS, "omni-css")
 
-            let str
             if (username) {
-                str = 'user'
-                loadMags(str, username)
+                loadMags((mags, isFinalCall) => {
+                    if (isFinalCall) alphaSort(mags);
+                }, id, true);
             } else {
-                str = 'default'
-                loadMags(str)
+                loadDefaultMags();
             }
 
-            async function loadMags (mode, username) {
-                const dataStr = setMagString(mode);
-                const loaded = await safeGM("getValue", dataStr)
+            async function loadDefaultMags () {
+                const loaded = await safeGM("getValue", `omni-default-mags-${hostname}`);
                 if ((!loaded) || (loaded.length < 1)) {
-                    fetchMags(username, 1);
+                    fetchDefaultMags();
                 } else {
                     omni(loaded);
                 }
             }
-            function setMagString (mode) {
-                let mags;
-                switch (mode) {
-                    case 'default':
-                        mags = `omni-default-mags-${hostname}`
-                        break;
-                    case 'user':
-                        mags = `omni-user-mags-${hostname}-${username}`
-                        break;
-                }
-                return mags;
-            }
-            async function saveMags (mode, mags) {
-                const dataStr = setMagString(mode);
-                await safeGM("setValue", dataStr, mags)
+            async function saveDefaultMags (mags) {
+                await safeGM("setValue", `omni-default-mags-${hostname}`, mags)
                 omni(mags);
             }
-
-            function fetchMags (username, page) {
-                let url
-                if (username) {
-                    url = `https://${hostname}/u/${username}/subscriptions?p=${page}`
-                } else {
-                    url = `https://${hostname}/magazines`
-                }
-                genericXMLRequest(url, parseMags)
+            function fetchDefaultMags () {
+                let url = `https://${hostname}/magazines`
+                genericXMLRequest(url, parseDefaultMags)
             }
-            function parseMags (response) {
-                //TODO: user may have no subscribed mags
+            function parseDefaultMags (response) {
                 let links
                 let mags
                 let parser = new DOMParser();
@@ -696,36 +673,25 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     links = mags.querySelectorAll('.stretched-link')
                     defaultFetched.push(links)
                     alphaSort(defaultFetched);
-                } else {
-                    let page
-                    mags = notificationsXML.querySelector('.magazines-columns');
-                    links = mags.querySelectorAll('.stretched-link');
-                    const username = notificationsXML.querySelector('.login').getAttribute("href").split('/')[2];
-                    const paginator = notificationsXML.querySelector('.pagination__item.pagination__item--next-page');
-                    if (paginator) {
-                        const tip = paginator.getAttribute("href")
-                        if (tip) {
-                            page = tip.split('=')[1]
-                        }
-                    }
-                    fetchedMags.push(links);
-                    if (links.length < 48) {
-                        alphaSort(fetchedMags)
-                    } else {
-                        const url = `https://${hostname}/u/${username}/subscriptions?p=${page}`
-                        genericXMLRequest(url, parseMags)
-                    }
                 }
             }
             function alphaSort (links) {
-                const clean = []
-                for (let i = 0; i < links.length; ++i) {
-                    links[i].forEach((link) => {
-                        clean.push(link.href.split('/')[4])
-                        clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
-                    });
+                if (!links) return;
+                if (typeof links[0] === "string") { // loadMags returns strings
+                    links.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+                    omni(links);
+                } else { // default mags are loaded as elements
+                    const clean = []
+                    for (let i = 0; i < links.length; ++i) {
+                        links[i].forEach((link) => {
+                            clean.push(link.href.split('/')[4])
+                            clean
+                                .sort()
+                                .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+                        });
+                    }
+                    saveDefaultMags(clean)
                 }
-                saveMags(str, clean)
             }
             function updateVisible () {
                 let pos
@@ -770,23 +736,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     const scrollerGeomBot = scrollEl.getBoundingClientRect().bottom;
                     if ((currentElGeom < scrollerGeom) || (currentElGeomBot > scrollerGeomBot)) {
                         el.scrollIntoView();
-                    }
-                }
-            }
-            function kickoffListener (e) {
-                if (e.key !== code) return
-                if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
-                if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
-                e.preventDefault();
-                const exists = document.querySelector('.kes-omni-modal')
-                if (exists) {
-                    if ($(exists).is(":visible")) {
-                        $(exists).hide();
-                    } else {
-                        $(exists).show();
-                        if (!mobile) {
-                            document.querySelector("#kes-omni-search").focus();
-                        }
                     }
                 }
             }
@@ -934,42 +883,96 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     }
                 });
 
-                if (mobile) {
-                    const top = document.querySelector('body');
-                    const mobileBar = document.createElement('div');
-                    mobileBar.id = 'kes-omni-tapbar';
-                    mobileBar.style.cssText = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
-                    top.insertBefore(mobileBar, top.children[0])
-
-                    mobileBar.addEventListener('click', () => {
-                        const toShow = document.querySelector('.kes-omni-modal')
-                        if ($(toShow).is(":visible")) {
-                            $(toShow).hide();
-                        } else {
-                            $(toShow).show();
-                        }
-                    });
-
-                }
                 kesModal.style.display = 'none';
                 document.body.appendChild(kesModal)
 
-                $(document).on("keypress.omnikey", function (e) {
-                    kickoffListener(e)
-                });
+                if ($(`#${id}-filter-modal-bg`).is(":visible")) {
+                    $('.kes-omni-modal').show();
+                }
+                clearLoader(id);
             }
         }
 
-        if (toggle) {
-            $(document).off("keypress.omnikey");
+        function addTapBar () {
+            const top = document.querySelector('body');
+            const mobileBar = document.createElement('div');
+            mobileBar.id = 'kes-omni-tapbar';
+            mobileBar.style.cssText 
+                = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
+            top.insertBefore(mobileBar, top.children[0])
+
+            mobileBar.addEventListener('click', () => {
+                const toShow = document.querySelector('.kes-omni-modal')
+                if ($(toShow).is(":visible")) {
+                    $(toShow).hide();
+                } else {
+                    $(toShow).show();
+                }
+            });
+        }
+
+        function kickoffListener (e) {
+            if (e.key !== code) return
+            if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
+            if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
+            e.preventDefault();
+            const exists = document.querySelector('.kes-omni-modal')
+            if (exists) {
+                if ($(exists).is(":visible")) {
+                    $(exists).hide();
+                } else {
+                    $(exists).show();
+                    if (!mobile) {
+                        document.querySelector("#kes-omni-search").focus();
+                    }
+                }
+            } else {
+                const load = document.querySelector(`#${id}-filter-modal-bg`);
+                if ($(load).is(":visible")) {
+                    $(load).hide();
+                } else {
+                    $(load).show();
+                }
+            }
+        }
+
+        function removeTapBar () {
+            document.querySelector("#kes-omni-tapbar")?.remove();
+        }
+
+        function setup () {
+            const modal = makeLoader(id, "Fetching subscriptions...");
+            document.body.appendChild(modal);
+            $(modal).hide();
+            $(document).on("keypress.omnikey", kickoffListener);
             createOmni();
-        } else {
-            const e = []
-            safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e);
-            safeGM("setValue",`omni-default-mags-${hostname}`, e);
-            document.querySelector("kes-omni-modal")?.remove();
-            document.querySelector("kes-omni-tapbar")?.remove();
+            if (mobile) addTapBar();
+        }
+
+        function shutdown () {
+            loadMags.cancel(id);
+            clearCachedMags();
+            clearLoader(id);
+            safeGM("setValue",`omni-default-mags-${hostname}`, []);
             $(document).off("keypress.omnikey");
+            removeTapBar();
+        }
+
+        switch (trigger) {
+            case Trigger.Pageload:
+            case Trigger.Toggle:
+                document.querySelector(".kes-omni-modal")?.remove();
+                (toggle) ? setup() : shutdown();
+                break;
+            case Trigger.Setting:
+                if (setting === "mobile") {
+                    (mobile) ? addTapBar() : removeTapBar();
+                }
+                if (setting === "meta") {
+                    $(document).off("keypress.omnikey");
+                    $(document).on("keypress.omnikey", kickoffListener);
+                }
+                break;
         }
     },
 
@@ -1740,6 +1743,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
             op.style.order = settings["op"]
             activity.style.order = settings["activity"]
+            //fix for #488
+            activity.style.zIndex = 0
+            options.style.zIndex = 0
+
             if (isLoggedIn()) {
                 const post = document.querySelector('#comment-add');
                 post.style.order = settings["post"]
@@ -1754,7 +1761,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
             rearrangeSetup();
         } else {
             const content = document.querySelector('#content');
-            content.style.display = 'unset';
+            const activity = document.querySelector('#activity');
+            const options = document.querySelector('#options');
+            content.style.removeProperty("display")
+            activity.style.zIndex = 5
+            options.style.zIndex = 0
         }
     },
 
@@ -1859,7 +1870,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     remove_ads: //mes-func
-    function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
+    function filter (toggle, trigger, mutation) { // eslint-disable-line no-unused-vars
 
         const settings = getModSettings("spamfilter")
         if (!settings) return
@@ -1883,7 +1894,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     
         function apply () {
-            const modal = makeLoader("spam-modal", "KES: filtering spam, please wait...");
+            const modal = makeLoader("spam-modal", "Filtering spam, please wait...");
             document.body.appendChild(modal);
             check();
         }
@@ -2848,8 +2859,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
             MICROBLOG: { id: "Post", options: ["top", "hot", "newest", "active", "commented"] },
             MAGAZINES: { id: "Magazine", options: ["newest", "hot", "active", "abandoned"] }
         };
-        /** The attribute used to mark which sort option has been modified. */
-        const markerAttribute = "defaultSort_originalPath";
         /** Regex pattern used to remove or extract the url parameters from a URL. */
         const urlParameterRegex = /\?.+/;
 
@@ -2874,30 +2883,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const pageType = determinePageType();
             if (getChosenDefault(pageType) == 'default') return;
 
-            const optionsToHandle = determineInstanceDefault(options, pageType.options);
-            if (optionsToHandle == null) return; // all the options are already explicit
-
-            // Rewrite the link of the default option to lead to the explicitly sorted page.
-            const exampleLink = options.find(
-                (option) => option.getAttribute('href') != optionsToHandle.element.getAttribute('href')
-            ).getAttribute('href');
-            optionsToHandle.element.setAttribute(
-                `data-${markerAttribute}`, 
-                optionsToHandle.element.getAttribute('href')
-            );
-            optionsToHandle.element.setAttribute('href', (() => {
-                const baseRegex = `\\/(?:${pageType.options.join('|')})`;
-                var newLink = exampleLink.replaceAll(
-                    // replace at end
-                    new RegExp(`${baseRegex}$`, 'g'), `/${optionsToHandle.target}`
-                );
-                newLink = newLink.replaceAll(
-                    // replace within
-                    new RegExp(`${baseRegex}\\/`, 'g'), `/${optionsToHandle.target}/`
-                );
-                return newLink;
-            })());
-
             if (!isUrlExplicitlySorted(window.location.pathname, pageType.options)) {
                 const userDefault = getChosenDefault(pageType);
                 var buttonToClick = findOptionByName(options, userDefault);
@@ -2911,12 +2896,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
          * page again.
          */
         function teardown () {
-            /** @type {HTMLElement} */
-            const markedOption = document.querySelector(`[data-${markerAttribute}]`);
-            if (markedOption == null) return; // already torn down
-            const attrValue = markedOption.getAttribute(`data-${markerAttribute}`);
-            markedOption.setAttribute('href', attrValue);
-            markedOption.removeAttribute(`data-${markerAttribute}`);
         }
 
         /**
@@ -2942,38 +2921,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
          */
         function getChosenDefault (pageType) {
             return getModSettings("default-sort")[`default${pageType.id}Sort`];
-        }
-
-        /** 
-         * On any sortable page, there is one sort option that's the default used if no option
-         * is explicitly specified. This default may get changed by instances or in newer versions
-         * of kbin/mbin, so to future-proof this mod, this function figures out which option is the
-         * default one and returns both the menu item and url endpoint corresponding to it.
-         * @param actualOptions {HTMLElement[]} The options present on the page
-         * @param expectedOptions {string[]} The options that should be available on the page
-        */
-        function determineInstanceDefault (actualOptions, expectedOptions) {
-            // create copies as we'll modify the array later
-            var expectedOptions2 = Array.from(expectedOptions);
-            var actualOptions2 = Array.from(actualOptions);
-
-            for (var i = 0; i < actualOptions2.length; i++) {
-                const actual = actualOptions2[i];
-
-                const url = actual.getAttribute('href').replace(urlParameterRegex, '');
-                const found = expectedOptions2.find((option) => {
-                    return url.endsWith(`/${option}`) || url.includes(`/${option}/`);
-                });
-
-                if (found) {
-                    expectedOptions2 = expectedOptions2.filter((value) => value != found);
-                    actualOptions2 = actualOptions2.filter((value) => value != actual);
-                    i--;
-                }
-            }
-
-            if (actualOptions2.length == 0 || expectedOptions2.length == 0) return null;
-            return { element: actualOptions2[0], target: expectedOptions2[0] };
         }
 
         /**
@@ -3585,16 +3532,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const settings = getModSettings('hide-sidebar');
-
         const keys = Object.keys(obj);
 
         if (toggle) {
-            for (let i = 0; i< keys.length; i++) {
-                let key = keys[i]
-                if (settings[key]) {
-                    $(obj[key]).hide();
+            for (let i in keys) {
+                const el = document.querySelector(obj[keys[i]])
+                if (settings[keys[i]]) {
+                    if (el) el.style.display = "none"
                 } else {
-                    $(obj[key]).show();
+                    if (el) el.style.removeProperty("display")
                 }
             }
             // expand the content to cover the space freed up by hiding the sidebar
@@ -3607,9 +3553,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 }
             }
         } else {
-            for (let i = 0; i< keys.length; i++) {
-                let key = keys[i]
-                $(obj[key]).show();
+            for (let i in keys) {
+                const el = document.querySelector(obj[keys[i]])
+                if (el) el.style.removeProperty("display")
             }
             const main = document.querySelector('.mbin-container > #main');
             if (main.style.gridColumn == "span 2") {
@@ -3691,53 +3637,56 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     thread_checkmarks: //mes-func
-    function checksInit (toggle, mutation) { // eslint-disable-line no-unused-vars
-        const settings = getModSettings('checks');
-        const checkColor = settings["check-color"]
+    function checksInit (toggle, trigger, setting) { // eslint-disable-line no-unused-vars
+        const id = 'checks';
+        const settings = getModSettings(id);
+        const checkColor = getHex(settings["check-color"])
         const threadIndex = document.querySelector('[data-controller="subject-list"]')
         const user = document.querySelector('.login');
         const username = user.href.split('/')[4];
-        const hostname = window.location.hostname
 
         if ((!threadIndex) || (!username)) return
 
-        async function fetchMags (username) {
-            const loaded = await safeGM("getValue", `omni-user-mags-${hostname}-${username}`)
-            if (!loaded) return
-            setChecks(loaded)
-        }
         function addCheck (subs, item) {
-            if (item.querySelector('#kes-omni-check')) return
+            if (item.parentNode.querySelector('#kes-omni-check')) return
             const mag = item.getAttribute('href').split('/')[2]
             if (subs.includes(mag)) {
                 const ch = document.createElement('span')
-                ch.style.color = getHex(checkColor); // eslint-disable-line no-undef
+                ch.style.color = checkColor
                 ch.id = 'kes-omni-check'
                 ch.innerText = " ✓"
-                //FIXME: append adjacent; collision with mag instance mod
                 item.after(ch)
-                //item.appendChild(ch)
             }
         }
         function setChecks (subs) {
+            if (!subs) return
             const exists = document.querySelector('#kes-omni-check')
             if (exists) {
                 document.querySelectorAll('#kes-omni-check').forEach((item) => {
-                    item.style.color = getHex(checkColor); // eslint-disable-line no-undef
+                    item.style.color = checkColor
                 });
             }
             document.querySelectorAll('.magazine-inline').forEach((item) => {
                 addCheck(subs, item)
             });
         }
+        function getChecks () {
+            return document.querySelectorAll('#kes-omni-check');
+        }
 
-        if (toggle) {
-            fetchMags(username);
+        if (trigger == Trigger.Setting) {
+            if (setting == "refresh" && !settings["refresh"]) {
+                clearCachedMags()
+            } else if (setting == "check-color") {
+                getChecks().forEach((check) => check.style.color = checkColor)
+            }
         } else {
-            const oldChecks = document.querySelectorAll('#kes-omni-check')
-            oldChecks.forEach((check) => {
-                check.remove();
-            });
+            if (toggle) {
+                loadMags(setChecks, id, settings["refresh"])
+            } else {
+                loadMags.cancel(id)
+                getChecks().forEach((check) => check.remove())
+            }
         }
     },
 
@@ -3841,10 +3790,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     kbin_federation_awareness: //mes-func
     function initKFA (toggle) { // eslint-disable-line no-unused-vars
-        /*
-            License: MIT
-            Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
-            */
+        //License: MIT
+        //Original Author: CodingAndCoffee (https://kbin.social/u/CodingAndCoffee)
 
         const kfaHasStrictModerationRules = [
             'beehaw.org',
@@ -3855,145 +3802,113 @@ const funcObj = { // eslint-disable-line no-unused-vars
             return kfaHasStrictModerationRules.indexOf(hostname) !== -1;
         }
 
-        function kfaComponentToHex (c) {
-            const hex = c.toString(16);
-            return hex.length == 1 ? "0" + hex : hex;
+        function setScale (scale, mod) {
+            //Scale 1-5; Default 3
+            const defaultScale = mod;
+            const compScale = defaultScale * (scale * 0.2);
+            return compScale
         }
 
-        function kfaRgbToHex (r, g, b) {
-            return "#" + kfaComponentToHex(r) + kfaComponentToHex(g) + kfaComponentToHex(b);
-        }
-
-        function kfaHexToRgb (hex) {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-
-        function kfaSubtractColor (hex, amount) {
-            let rgb = kfaHexToRgb(hex);
-            if (rgb.r > amount) {
-                rgb.r -= amount;
-            } else {
-                rgb.r = 0;
-            }
-            if (rgb.g > amount) {
-                rgb.g -= amount;
-            } else {
-                rgb.g = 0;
-            }
-            if (rgb.b > amount) {
-                rgb.b -= amount;
-            } else {
-                rgb.b = 0;
-            }
-            return kfaRgbToHex(rgb.r, rgb.g, rgb.b);
-        }
-
-        function kfaGetCss () {
-            let fedColor0 = kfaSettingsFed;
-            let fedColor1 = kfaSubtractColor(fedColor0, 50);
-            let fedColor2 = kfaSubtractColor(fedColor1, 50);
-            let fedColor3 = kfaSubtractColor(fedColor2, 50);
-            let modColor0 = kfaSettingsMod;
-            let modColor1 = kfaSubtractColor(modColor0, 50);
-            let modColor2 = kfaSubtractColor(modColor1, 50);
-            let modColor3 = kfaSubtractColor(modColor2, 50);
-            let homeColor0 = kfaSettingsHome;
-            let homeColor1 = kfaSubtractColor(homeColor0, 50);
-            let homeColor2 = kfaSubtractColor(homeColor1, 50);
-            let homeColor3 = kfaSubtractColor(homeColor2, 50);
-            if (kfaSettingsStyle === 'border') {
-                let commentFed = ` .comment.data-federated {  box-shadow: `;
-                let articleFed = ` article.data-federated {  box-shadow: `;
-                let commentMod = ` .comment.data-moderated {  box-shadow: `;
-                let articleMod = ` article.data-moderated {  box-shadow: `;
-                let commentHome = ` .comment.data-home {  box-shadow: `;
-                let articleHome = ` article.data-home {  box-shadow: `;
-                commentMod += `1px 0 0 ` + modColor0 + `, 2px 0 0 ` + modColor0 + `, 3px 0 0 ` + modColor1 + `, 4px 0 0 ` + modColor2 + `, 5px 0 0 ` + modColor3 + `; }`;
-                commentFed += `1px 0 0 ` + fedColor0 + `, 2px 0 0 ` + fedColor0 + `, 3px 0 0 ` + fedColor1 + `, 4px 0 0 ` + fedColor2 + `, 5px 0 0 ` + fedColor3 + `; }`;
-                commentHome += `1px 0 0 ` + homeColor0 + `, 2px 0 0 ` + homeColor0 + `, 3px 0 0 ` + homeColor1 + `, 4px 0 0 ` + homeColor2 + `, 5px 0 0 ` + homeColor3 + `; }`;
-                if (kfaSettingsArticleSide === 'left' || kfaSettingsArticleSide === 'both') {
-                    articleMod += `-1px 0 0 ` + modColor0 + `, -2px 0 0 ` + modColor0 + `, -3px 0 0 ` + modColor1 + `, -4px 0 0 ` + modColor2 + `, -5px 0 0 ` + modColor3;
-                    articleFed += `-1px 0 0 ` + fedColor0 + `, -2px 0 0 ` + fedColor0 + `, -3px 0 0 ` + fedColor1 + `, -4px 0 0 ` + fedColor2 + `, -5px 0 0 ` + fedColor3;
-                    articleHome += `-1px 0 0 ` + homeColor0 + `, -2px 0 0 ` + homeColor0 + `, -3px 0 0 ` + homeColor1 + `, -4px 0 0 ` + homeColor2 + `, -5px 0 0 ` + homeColor3;
-                }
-                if (kfaSettingsArticleSide === 'right' || kfaSettingsArticleSide === 'both') {
-                    if (kfaSettingsArticleSide === 'both') {
-                        articleMod += `, `;
-                        articleFed += `, `;
-                        articleHome += `, `;
+        function kfaGenCSS () {
+            const settings = getModSettings('kbinFedAware');
+            const home = settings["kfaHomeColor"];
+            const fed = settings["kfaFedColor"];
+            const mod = settings["kfaModColor"];
+            const style = settings["kfaStyle"];
+            const indicatorScale = settings["kfaScale"];
+            log(indicatorScale, Log.Log)
+            const bubbleFuzz = settings["kfaBubbleShadow"];
+            if (style === "bubble") {
+                const scale = setScale(indicatorScale, 20)
+                const bubbleCSS=`
+                    header div.data-federated,
+                    header div.data-moderated,
+                    header div.data-home,
+                    article .data-federated,
+                    article .data-moderated,
+                    article .data-home {
+                        display: inline-block;
+                        width: ${scale}px;
+                        height: ${scale}px;
+                        border-radius: 10px;
+                        margin-right: 4px;
+                        margin-left: 4px
                     }
-                    articleMod += `1px 0 0 ` + modColor0 + `, 2px 0 0 ` + modColor0 + `, 3px 0 0 ` + modColor1 + `, 4px 0 0 ` + modColor2 + `, 5px 0 0 ` + modColor3;
-                    articleFed += `1px 0 0 ` + fedColor0 + `, 2px 0 0 ` + fedColor0 + `, 3px 0 0 ` + fedColor1 + `, 4px 0 0 ` + fedColor2 + `, 5px 0 0 ` + fedColor3;
-                    articleHome += `1px 0 0 ` + homeColor0 + `, 2px 0 0 ` + homeColor0 + `, 3px 0 0 ` + homeColor1 + `, 4px 0 0 ` + homeColor2 + `, 5px 0 0 ` + homeColor3;
+                    header div.data-federated,
+                    article .data-federated {
+                        background-color: ${fed};
+                    }
+                    header div.data-moderated,
+                    article .data-moderated {
+                        background-color: ${mod};
+                    }
+                    header div.data-home,
+                    article .data-home {
+                        background-color: ${home};
+                    }
+                `;
+                if (bubbleFuzz === true) {
+                    const fuzzCSS = `
+                        header div.data-federated,
+                        article .data-federated {
+                            box-shadow: 0 0 3px 2px ${fed};
+                        }
+                        header div.data-moderated,
+                        article .data-moderated {
+                            box-shadow: 0 0 3px 2px ${mod};
+                        }
+                        header div.data-home,
+                        article .data-home {
+                            box-shadow: 0 0 3px 2px ${home};
+                        }
+                    `;
+                    return bubbleCSS + fuzzCSS
+                } else {
+                    return bubbleCSS
                 }
-                articleMod += `; }`;
-                articleFed += `; }`;
-                articleHome += `; }`;
-                return commentFed + articleFed + commentMod + articleMod + commentHome + articleHome;
-            } else if (kfaSettingsStyle === 'bubble') {
-                // Scale 1-10; Default 5 (i.e., 50%); 10 is 50% of 20. 20 * (x * 0.1)
-                const defaultScale = 20;
-                const setScale = defaultScale * (kfaSettingsScale * 0.1);
-                const fedStyle=`
-                header div.data-federated, article .data-federated {
-                    display: inline-block;
-                    width: ${setScale}px;
-                    height: ${setScale}px;
-                    border-radius: 10px;
-                    box-shadow: 0 0 3px 2px ${fedColor0};
-                    background-color: ${fedColor0};
-                    margin-right: 4px;
-                    margin-left: 4px
+            }
+            if (style === "border") {
+                const scale = setScale(indicatorScale, 10)
+                const borderCSS = `
+                article.data-federated,
+                .post.data-federated,
+                .comment.data-federated {
+                    box-shadow: ${scale}px 0 0 ${fed};
+                }
+                article.data-moderated,
+                .post.data-moderated,
+                .comment.data-moderated {
+                    box-shadow: ${scale}px 0 0 ${mod};
+                }
+                article.data-home,
+                .post.data-home,
+                .comment.data-home {
+                    box-shadow: ${scale}px 0 0 ${home};
                 }
                 `;
-                const modStyle=`
-                header div.data-moderated, article .data-moderated {
-                    display: inline-block;
-                    width: ${setScale}px;
-                    height: ${setScale}px;
-                    border-radius: 10px;
-                    box-shadow: 0 0 3px 2px ${modColor0};
-                    background-color: ${modColor0};
-                    margin-right: 4px;
-                    margin-left: 4px;
-                }
-                `;
-                const homeStyle=`
-                header div.data-home, article .data-home {
-                    display: inline-block;
-                    width: ${setScale}px;
-                    height: ${setScale}px;
-                    border-radius: 10px;
-                    box-shadow: 0 0 3px 2px ${homeColor0};
-                    background-color: ${homeColor0};
-                    margin-right: 4px;
-                    margin-left: 4px;
-                }
-                `;
-                return modStyle + fedStyle + homeStyle;
+                return borderCSS
             }
         }
 
         function kfaStartup () {
             kfaInitClasses();
-            safeGM("addStyle",kfaGetCss(),"kfaInjectedCss");
+            safeGM("removeStyle","kfaInjectedCss");
+            safeGM("addStyle",kfaGenCSS(),"kfaInjectedCss");
         }
 
         function kfaShutdown () {
             safeGM("removeStyle","kfaInjectedCss");
-            document.querySelectorAll('div.data-home, div.data-federated, div.data-moderated')
-                .forEach((element) => element.remove());
-            document.querySelectorAll('.data-home')
-                .forEach((element) => element.classList.remove('data-home'));
-            document.querySelectorAll('.data-federated')
-                .forEach((element) => element.classList.remove('data-federated'));
-            document.querySelectorAll('.data-moderated')
-                .forEach((element) => element.classList.remove('data-moderated'));
+            const els = [
+                "data-home",
+                "data-federated",
+                "data-moderated"
+            ]
+            for (let i in els) {
+                document.querySelectorAll("div." + els[i])
+                    .forEach((element) => element.remove());
+                document.querySelectorAll("." + els[i])
+                    .forEach((element) => element.classList.remove(els[i]));
+            }
         }
 
         function findHostname (op) {
@@ -4093,22 +4008,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
         }
 
-        let kfaSettingsFed;
-        let kfaSettingsMod;
-        let kfaSettingsHome;
-        let kfaSettingsArticleSide;
-        let kfaSettingsStyle;
-        let kfaSettingsScale;
-
         if (toggle) {
-            const settings = getModSettings('kbinFedAware');
-            kfaSettingsFed = settings['kfaFedColor'];
-            kfaSettingsMod = settings['kfaModColor'];
-            kfaSettingsHome = settings['kfaHomeColor'];
-            kfaSettingsArticleSide = settings['kfaPostSide'];
-            kfaSettingsStyle = settings['kfaStyle'];
-            kfaSettingsScale = settings['kfaBubbleScale'];
-            kfaShutdown();
             kfaStartup();
         } else {
             kfaShutdown();

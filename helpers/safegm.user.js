@@ -1,9 +1,3 @@
-const Log = Object.freeze({ //eslint-disable-line no-unused-vars
-    Log: 1,
-    Warn: 2,
-    Error: 3
-})
-
 function log (string, level) { // eslint-disable-line no-unused-vars
     const date = new Date()
     const iso = date.toISOString()
@@ -25,7 +19,7 @@ function log (string, level) { // eslint-disable-line no-unused-vars
 }
 
 //returns a generic loading prompt with spinner
-function makeLoader (id, text) {
+function makeLoader (id, text) { // eslint-disable-line no-unused-vars
     const modalCSS = `
     #${id}-filter-modal-bg {
         position: fixed;
@@ -97,7 +91,7 @@ function makeLoader (id, text) {
     modal_bg.id = `${id}-filter-modal-bg`;
     modal.id = `${id}-filter-modal`;
     msg.id = `${id}-filter-text`;
-    msg.innerText = `${text}`;
+    msg.innerText = `MES: ${text}`;
     modal_bg.appendChild(modal);
     span.appendChild(msg);
     const spinner = document.createElement("div");
@@ -112,7 +106,7 @@ function makeLoader (id, text) {
 }
 
 //removes a loading dialog created with makeLoader()
-function clearLoader (id) {
+function clearLoader (id) { // eslint-disable-line no-unused-vars
     document.querySelector(`#${id}-filter-modal-bg`)?.remove();
     safeGM("removeStyle", "mes-loader-css");
 }
@@ -194,6 +188,10 @@ function getPageType () { //eslint-disable-line no-unused-vars
             return Mbin.People
         case "bookmark-lists":
             return Mbin.Bookmarks
+        case "modlog":
+            return Mbin.Modlog
+        case "people":
+            return Mbin.People
         case "tag":
             return Mbin.Tag
         case "microblog":
@@ -204,6 +202,11 @@ function getPageType () { //eslint-disable-line no-unused-vars
         case "settings":
             if ((url[4]) === "notifications") return Mbin.Messages.Notifications
             return Mbin.Settings
+        case "new":
+            if ((url[4]) === undefined) return Mbin.New.LINK
+            if ((url[4]) === "article") return Mbin.New.THREAD
+            if ((url[4]) === "photo") return Mbin.New.PHOTO
+            if ((url[4]) === "newMagazine") return Mbin.New.MAGAZINE
         case "u":
             if (url[5] === undefined) return Mbin.User.Default
             if (url[5] === "message") return Mbin.User.DirectMessage
@@ -234,7 +237,101 @@ function getPageType () { //eslint-disable-line no-unused-vars
     return "Unknown"
 }
 
-function isIndex () {
+/**
+ * Loads the current user's subscriptions.
+ * @param {function(string[],boolean):void} callback
+ * @param {string} ns
+ * @param {boolean} useCache
+ */
+async function loadMags (callback, ns, useCache=false) {
+    // make sure the user is logged in
+    const username = document.querySelector('.login .user-name')?.textContent;
+    if (!username) return;
+
+    // set up the cancellation logic, for the case where the mod is turned off while this function
+    // is still running
+    const hostname = window.location.hostname;
+    const cancelKey = `loadMags-${hostname}-${username}-${ns}`;
+    safeGM("setValue", cancelKey, false);
+
+    async function runCallback (mags, isFinalCall) {
+        if (safeGM("getValue", cancelKey)) return;
+        safeGM("setValue",`user-mags-${hostname}-${username}`, mags);
+        callback(mags, isFinalCall);
+    }
+
+    if (useCache) {
+        const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
+        if (cachedValue && cachedValue.length > 0) {
+            runCallback(cachedValue, true);
+            return;
+        }
+    }
+
+    let loadedMags = [];
+    async function loadFromPage (username, page, mags = []) {
+        const url = `https://${hostname}/u/${username}/subscriptions?p=${page}`;
+        genericXMLRequest(url, (response) => {
+            const dom = new DOMParser().parseFromString(response.responseText, "text/html");
+            // get the magazines from this page
+            mags.push(
+                ...Array.from(dom.querySelectorAll('#content .stretched-link'))
+                    .map((link) => link.getAttribute('href').split('/')[2])
+            );
+            // load more pages if there are
+            const nextPage = dom.querySelector('#content .pagination__item--next-page');
+            if (nextPage?.hasAttribute('href') && nextPage.href != window.location.href) {
+                loadFromPage(username, nextPage.getAttribute('href').split('=')[1], mags);
+            } else {
+                // finished loading all pages
+                runCallback(mags, true);
+            }
+        });
+    }
+    async function loadFromSidebar () {
+        const magList = [...document.querySelectorAll('.subscription')];
+        if (magList.length == 0) {
+            runCallback([], true);
+            return;
+        }
+        const containsShowMore = magList[magList.length-1].querySelector('button') != undefined;
+        loadedMags = (containsShowMore ? magList.slice(0,-1) : magList)
+            .map((mag) => mag.querySelector('a').getAttribute('href').split('/')[2]);
+        runCallback(loadedMags, !containsShowMore);
+        if (containsShowMore) {
+            loadFromPage(username, 1);
+        }
+    }
+
+    if (document.querySelector('.subscription-list') != undefined) {
+        loadFromSidebar();
+    } else {
+        loadFromPage(username, 1);
+    }
+}
+
+/**
+ * Cancels {@link loadMags} after running it.
+ * @param {string} ns
+ */
+loadMags.cancel = function (ns) {
+    const hostname = window.location.hostname;
+    const username = document.querySelector('.login .user-name')?.textContent;
+    if (!username) return;
+    safeGM("setValue", `loadMags-${hostname}-${username}-${ns}`, true);
+}
+
+/**
+ * Clears the cached list of subscriptions from the {@link loadMags} function.
+ */
+function clearCachedMags () { // eslint-disable-line no-unused-vars
+    const hostname = window.location.hostname;
+    const username = document.querySelector('.login .user-name')?.textContent;
+    if (!username) return;
+    safeGM("setValue",`user-mags-${hostname}-${username}`, []);
+}
+
+function isIndex () { // eslint-disable-line no-unused-vars
     const pt = getPageType();
     switch (pt) {
         case Mbin.Domain.Default:
@@ -246,7 +343,7 @@ function isIndex () {
     }
 }
 
-function isThread () {
+function isThread () { // eslint-disable-line no-unused-vars
     const pt = getPageType();
     switch (pt) {
         case Mbin.Thread.Comments:

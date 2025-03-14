@@ -1,4 +1,4 @@
-function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
+function filter (toggle, trigger, mutation) { // eslint-disable-line no-unused-vars
 
     const settings = getModSettings("spamfilter")
     if (!settings) return
@@ -22,7 +22,7 @@ function filter (toggle, mutation) { // eslint-disable-line no-unused-vars
 
     
     function apply () {
-        const modal = makeLoader("spam-modal", "KES: filtering spam, please wait...");
+        const modal = makeLoader("spam-modal", "Filtering spam, please wait...");
         document.body.appendChild(modal);
         check();
     }
