@@ -133,14 +133,16 @@ function initCodeHighlights (toggle, trigger, setting) { // eslint-disable-line 
             item.style.display = "none"
             item.dataset.codehighlight = true
             addTags(clone);
+            clone.querySelectorAll("code").forEach((block) => {
+                hljs.highlightElement(block);
+            })
         });
     }
 
 
     function setup () {
-        kchStartup();
         hljs.configure({ ignoreUnescapedHTML: true });
-        hljs.highlightAll();
+        kchStartup();
     }
     switch (trigger) {
         case Trigger.Mutation:
