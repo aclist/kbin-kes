@@ -122,12 +122,15 @@ function debugBar (json) {
     }
     `;
     const panelCSSDark = `
+    .mes-debugbar-row-error,
+    .mes-debugbar-row-warn,
+    .mes-debugbar-row-default {
+        border-bottom: 1px solid var(--kbin-body-bg);
+        }
     .mes-debugbar-row-error {
-        border-bottom: 1px solid var(--kbin-alert-danger-link-color);
         background-color: var(--kbin-alert-danger-bg);
     }
     .mes-debugbar-row-warn {
-        border-bottom: 1px solid var(--kbin-alert-info-link-color);
         background-color: var(--kbin-alert-info-bg);
     }
     `;
@@ -161,7 +164,7 @@ function debugBar (json) {
     .mes-debugbar-row-error,
     .mes-debugbar-row-warn,
     .mes-debugbar-row-default {
-        border-bottom: 1px solid var(--kbin-alert-info-text-color);
+        border-bottom: 1px solid var(--kbin-section-link-hover-color);
         color: var(--kbin-bg);
     }
     .mes-debugbar-row-default {
