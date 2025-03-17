@@ -295,7 +295,8 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
             '.softblock-icon',
             '.softblock-button',
             '.softblock-manage',
-            '#softblock-column'
+            '#softblock-column',
+            ".softblock-row"
         )
         const e = []
         saveMags(hostname, e)
