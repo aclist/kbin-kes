@@ -18,6 +18,7 @@
     "login": false,
     "recurs": false,
     "desc": "Hides the large cover image on the sidebar of magazines.",
+    "new_since": "5.0.0",
     "entrypoint": "suppress_cover",
     "page": "cosmetic"
   },
@@ -28,7 +29,7 @@
     "label": "Collapsible comments",
     "desc": "Collapse comments by clicking on the bars to their left.",
     "login": false,
-    "recurs": false,
+    "recurs": true,
     "entrypoint": "improved_collapsible_comments",
     "page": "threads",
     "namespace": "collapsibleComments"
@@ -36,9 +37,9 @@
   {
     "name": "Subs omnibar",
     "author": "shazbot",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "label": "Subscriptions omnibar",
-    "desc": "Quickly jump to a magazine by viewing your subs in a floating search panel (type to search). Use the meta key to open/close the omnibar. The meta key will not take effect inside of text fields. If you are logged out, the omnibar shows default magazines (most popular). To refresh the cached list of your magazines or change settings while this add-on is enabled, toggle off and then on again.",
+    "desc": "Quickly jump to a magazine by viewing your subs in a floating search panel (type to search). Use the meta key to open/close the omnibar. The meta key will not take effect inside of text fields. If you are logged out, the omnibar shows default magazines (most popular). To refresh the cached list of your magazines while this mod is enabled, toggle off and then on again.",
     "login": false,
     "recurs": false,
     "entrypoint": "omni",
@@ -404,6 +405,7 @@
     "desc": "Hide the crosspost section from the thread index/threads",
     "entrypoint": "hide_related",
     "page": "threads",
+    "new_since": "5.0.0",
     "namespace": "hide_related",
     "fields": [
       {
@@ -766,7 +768,7 @@
     "name": "Customizable Default Sort Option",
     "namespace": "default-sort",
     "author": "Pamasich",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "label": "Change default sort",
     "desc": "When you access a page on Mbin without specifying sort options in the URL, default options are applied that you cannot customize. If you for example want to always see the latest threads, you always have to manually switch to the \"newest\" sort.\n\nThis addon tries to add this missing element of customization by redirecting you from the default sorted page to your chosen explicitly sorted one.\n\nMbin has four distinct types of sorted pages that have different options available to them. You can disable this addon from working on any of them by setting them to \"default\".",
     "login": false,
@@ -1189,9 +1191,9 @@
   {
     "name": "Thread checkmarks",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "label": "Checkmark on subbed mags",
-    "desc": "Append a checkmark to magazines on the thread index you are subscribed to. The 'Subscriptions omnibar' option (page: General) must be enabled for this to work",
+    "desc": "Append a checkmark to magazines on the thread index you are subscribed to.\n\nDepending on the amount of subscriptions, it might take a long time for all checkmarks to appear. If Caching is enabled, results will be saved and reused the next time, providing instant results.",
     "login": false,
     "recurs": true,
     "entrypoint": "thread_checkmarks",
@@ -1202,6 +1204,12 @@
         "key": "check-color",
         "label": "Checkmark color",
         "initial": "--kbin-upvoted-color"
+      },
+      {
+        "type": "checkbox",
+        "key": "refresh",
+        "label": "Caching",
+        "checkbox_label": "Enable (turning this off clears the cache)"
       }
     ],
     "page": "threads"
