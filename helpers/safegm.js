@@ -113,6 +113,10 @@ function clearLoader (id) { // eslint-disable-line no-unused-vars
 
 //adds custom CSS to the document head by named ID
 function addCustomCSS (css, id) {
+    if (document.head.querySelector(`style[id="${id}"]`)) {
+        log(`CSS with id '${id}' already exists, skipping`, Log.Warn)
+        return
+    }
     const style = document.createElement('style');
     style.id = id;
     style.innerHTML = css;
@@ -225,6 +229,7 @@ function getPageType () { //eslint-disable-line no-unused-vars
             return Mbin.Domain.Default
         case "m":
             if (url[5] === undefined) return Mbin.Magazine
+            if (window.location.href.includes("/threads")) return Mbin.Magazine
             if (url[5] === "microblog") return Mbin.Microblog
             if ((url[5] === "t") && (window.location.href.includes("/favourites"))) return Mbin.Thread.Favorites
             if ((url[5] === "t") && (window.location.href.includes("/up"))) return Mbin.Thread.Boosts
@@ -239,12 +244,11 @@ function getPageType () { //eslint-disable-line no-unused-vars
 
 /**
  * Loads the current user's subscriptions.
- * @param {function(string[]):void} callback
+ * @param {function(string[],boolean):void} callback
  * @param {string} ns
  * @param {boolean} useCache
- * @param {boolean} runCallbackOnlyOnce
  */
-async function loadMags (callback, ns, useCache=false, runCallbackOnlyOnce=false) {
+async function loadMags (callback, ns, useCache=false) {
     // make sure the user is logged in
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
@@ -255,16 +259,16 @@ async function loadMags (callback, ns, useCache=false, runCallbackOnlyOnce=false
     const cancelKey = `loadMags-${hostname}-${username}-${ns}`;
     safeGM("setValue", cancelKey, false);
 
-    async function runCallback (mags) {
+    async function runCallback (mags, isFinalCall) {
         if (safeGM("getValue", cancelKey)) return;
         safeGM("setValue",`user-mags-${hostname}-${username}`, mags);
-        callback(mags);
+        callback(mags, isFinalCall);
     }
 
     if (useCache) {
         const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
         if (cachedValue && cachedValue.length > 0) {
-            runCallback(cachedValue);
+            runCallback(cachedValue, true);
             return;
         }
     }
@@ -285,25 +289,25 @@ async function loadMags (callback, ns, useCache=false, runCallbackOnlyOnce=false
                 loadFromPage(username, nextPage.getAttribute('href').split('=')[1], mags);
             } else {
                 // finished loading all pages
-                runCallback(mags);
+                runCallback(mags, true);
             }
         });
     }
     async function loadFromSidebar () {
         const magList = [...document.querySelectorAll('.subscription')];
         if (magList.length == 0) {
-            runCallback([]);
+            runCallback([], true);
             return;
         }
         const containsShowMore = magList[magList.length-1].querySelector('button') != undefined;
         loadedMags = (containsShowMore ? magList.slice(0,-1) : magList)
             .map((mag) => mag.querySelector('a').getAttribute('href').split('/')[2]);
-        if (!runCallbackOnlyOnce || !containsShowMore) {
-            runCallback(loadedMags);
-        } else if (containsShowMore) {
+        runCallback(loadedMags, !containsShowMore);
+        if (containsShowMore) {
             loadFromPage(username, 1);
         }
     }
+
     if (document.querySelector('.subscription-list') != undefined) {
         loadFromSidebar();
     } else {
