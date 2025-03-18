@@ -8,9 +8,6 @@ function initCodeHighlights (toggle, trigger, setting) { // eslint-disable-line 
     code.hljs {
         border-top: 2px solid;'
     }
-    .hljs-keyword {
-        margin-left: 20px;
-    }
     #mes-copy-code-icon {
         margin-left: 10px;
         cursor: pointer;
