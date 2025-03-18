@@ -35,6 +35,7 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
                 addToIndex(mags);
                 break
             }
+            case Mbin.Microblog:
             case Mbin.Magazine: {
                 addToSidebar(mags);
                 break
@@ -109,10 +110,10 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         const mag = el.action.split("/")[4]
         const button = createBlockButton(mags, mag);
         const container = document.createElement("div")
-        const notifications = document.querySelector(".notification-switch-container")
+        const subscribe_row = document.querySelector(".magazine__subscribe")
         container.id = "softblock-button-container"
         container.appendChild(button)
-        notifications.insertAdjacentElement("beforebegin", container)
+        subscribe_row.insertAdjacentElement("afterend", container)
     }
 
     function clean (mags) {
