@@ -113,6 +113,10 @@ function clearLoader (id) { // eslint-disable-line no-unused-vars
 
 //adds custom CSS to the document head by named ID
 function addCustomCSS (css, id) {
+    if (document.head.querySelector(`style[id="${id}"]`)) {
+        log(`CSS with id '${id}' already exists, skipping`, Log.Warn)
+        return
+    }
     const style = document.createElement('style');
     style.id = id;
     style.innerHTML = css;
