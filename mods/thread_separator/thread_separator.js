@@ -6,7 +6,7 @@ function dividerInit (toggle) { //eslint-disable-line no-unused-vars
         const top = document.querySelector(".section--top")
         const sep = document.createElement("div")
         top.insertAdjacentElement("beforebegin", sep)
-        sep.style.height = "11px"
+        sep.style.height = "0.5rem"
         sep.id = "mes-thread-divider"
     }
 
