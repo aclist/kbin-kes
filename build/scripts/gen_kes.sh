@@ -153,13 +153,12 @@ owner=$(get_owner)
 slug="${owner}/kbin-kes"
 
 instances=(
-    "https://kbin.social/*"
     "https://kbin.earth/*"
-    "https://lab2.kbin.pub/*"
-    "https://lab3.kbin.pub/*"
     "https://fedia.io/*"
-    "https://karab.in/*"
-    "https://kbin.cafe/*"
+    "https://kbin.melroy.org/*"
+    "https://moist.catsweat.com/*"
+    "https://thebrainbin.org/*"
+    "https://gehirneimer.de/*"
 )
 grants=(
     "addStyle"
