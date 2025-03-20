@@ -5,13 +5,12 @@
 // @version      5.0.0-beta.6
 // @description  Kbin Enhancement Suite
 // @author       aclist
-// @match        https://kbin.social/*
 // @match        https://kbin.earth/*
-// @match        https://lab2.kbin.pub/*
-// @match        https://lab3.kbin.pub/*
 // @match        https://fedia.io/*
-// @match        https://karab.in/*
-// @match        https://kbin.cafe/*
+// @match        https://kbin.melroy.org/*
+// @match        https://moist.catsweat.com/*
+// @match        https://thebrainbin.org/*
+// @match        https://gehirneimer.de/*
 // @grant        GM_addStyle
 // @grant        GM_getResourceText
 // @grant        GM_xmlhttpRequest
