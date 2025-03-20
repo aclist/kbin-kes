@@ -311,9 +311,6 @@
         "label": "Select a theme"
       }
     ],
-    "depends_on": [
-      "fix_codeblocks"
-    ],
     "page": "threads"
   },
   {
