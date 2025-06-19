@@ -23,6 +23,7 @@
         "Mbin": "readonly",
         "Log": "readonly",
         "Trigger": "readonly",
+        "Theme": "readonly",
         "getPageType": "readonly",
         "isLoggedIn": "readonly",
         "log": "readonly",
@@ -31,7 +32,10 @@
         "makeLoader": "readonly",
         "clearLoader": "readonly",
         "isIndex": "readonly",
-        "isThread": "readonly"
+        "isThread": "readonly",
+        "debugBar": "readonly",
+        "toggleDebug": "readonly",
+        "isDebugBarEnabled": "readonly"
     },
     "env": {
         "browser": true,

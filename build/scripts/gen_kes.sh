@@ -52,6 +52,7 @@ gen_requires(){
     deps=(
         "safegm.user.js"
         "funcs.js"
+        "debug.js"
         "enums.js"
     )
     external=(

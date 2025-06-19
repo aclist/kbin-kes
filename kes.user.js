@@ -193,6 +193,11 @@ function constructMenu (json, layoutArr, isNew) {
     }
 
     injectSettingsButton(layoutArr, isNew)
+    //inject debug bar if enabled
+    if (isDebugBarEnabled()) {
+        const debug = debugBar(json);
+        document.querySelector("#middle").insertAdjacentElement("beforebegin", debug);
+    }
 
     var keyPressed = {};
     document.addEventListener('keydown', function (e) {
@@ -477,6 +482,17 @@ function constructMenu (json, layoutArr, isNew) {
             toggleLabel.classList = 'tgl-btn';
             toggleLabel.setAttribute('for', 'kes-checkbox');
             toggleSpan.appendChild(toggleLabel);
+
+            if (isDebugBarEnabled()) {
+                toggleLabel.style.opacity = 0.4
+                toggleLabel.title = "Debug mode is active"
+                toggleInput.disabled = true
+            } else {
+                toggleLabel.style.opacity = 1.0
+                toggleLabel.title = ""
+                toggleInput.disabled = false
+            }
+
             modInfo.appendChild(toggleSpan);
             modInfo.appendChild(authorP);
             if (link) {
@@ -932,6 +948,7 @@ function constructMenu (json, layoutArr, isNew) {
           <button type="submit" value="export">Export</button>Export to file<br>
           <button type="submit" value="import">Import</button>Import from file<br>
           <button type="submit" value="reset">Reset</button>Reset all KES settings<br>
+          <button type="submit" value="debug">Debug Bar</button>Toggle debug bar<br>
           <button type="submit" value="close">Close</button>Close this dialog
         </menu>
       </form>
@@ -949,6 +966,9 @@ function constructMenu (json, layoutArr, isNew) {
                     break;
                 case "reset":
                     resetAll();
+                    break;
+                case "debug":
+                    toggleDebug(json);
                     break;
                 case "close":
                     break;
@@ -1114,6 +1134,7 @@ function constructMenu (json, layoutArr, isNew) {
         modalContent.appendChild(bodyHolder);
         bodyHolder.appendChild(kesUl);
         document.body.appendChild(modal);
+
         document.querySelector('.kes-settings-modal-sidebar ul').addEventListener("click", (e) => {
             if (e.target.className != "kes-tab-link") return
             openTab(e.target.outerText);
@@ -1250,7 +1271,9 @@ function constructMenu (json, layoutArr, isNew) {
         //everything beyond this point only applies to
         //changes while a mod is ON, or explicit toggle OFF action
         updateCrumbs();
-        toggleSettings(json[it], trigger, key);
+        if (!isDebugBarEnabled()) {
+            toggleSettings(json[it], trigger, key);
+        }
     }
 
     function toggleDependencies (entry, state, trigger) {
@@ -1360,17 +1383,33 @@ function constructMenu (json, layoutArr, isNew) {
         const login = json.login
         legacyMigration(entry);
         const settings = getSettings();
+        const debug = JSON.parse(localStorage.getItem("mes-debugbar"))
         try {
             if (settings[entry] == true) {
                 if (requiresLoginButLoggedOut(login)) {
                     log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
-                    return
+                    return 2
+                }
+                if (isDebugBarEnabled() && debug["mods"][entry]) {
+                    return 1
                 }
                 toggleDependencies(entry, true, Trigger.Dependency)
                 funcObj[entry](true, trigger, meta);
+                return 0
+            } else {
+                //always apply allowed mods when debug bar is enabled
+                if (isDebugBarEnabled())  {
+                    if (debug["mods"][entry]) {
+                        return 1
+                    }
+                    toggleDependencies(entry, true)
+                    funcObj[entry](true, trigger, meta);
+                    return 0
+                }
             }
         } catch (error) {
-            console.log(error);
+            log(error, Log.Error)
+            return 1
         }
     }
 
@@ -1409,9 +1448,26 @@ function constructMenu (json, layoutArr, isNew) {
     }
 
     function init () {
+        const now = performance.now()
+        let loaded = 0
+        let skipped = 0
         for (let i = 0; i < json.length; ++i) {
-            applySettings(json[i], Trigger.Pageload);
+            let res = applySettings(json[i], Trigger.PageLoad);
+            switch (res) {
+                case 0:
+                    loaded++
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    skipped++
+                    break;
+            }
         }
+        const later = performance.now()
+        const delta = (later - now)
+        const line = document.querySelector("#mes-debugbar-loadingline")
+        if (line) line.push(loaded, skipped, delta)
     }
 
     function initmut (list) {

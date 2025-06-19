@@ -57,3 +57,12 @@ const Trigger = Object.freeze({
     Mutation: 3,
     Dependency: 4
 })
+
+const Theme = Object.freeze({
+    KBIN: 1,
+    LIGHT: 2,
+    DARK: 3,
+    SOLARIZED_LIGHT: 4,
+    SOLARIZED_DARK: 5,
+    TOKYO_NIGHT: 6
+})
