@@ -3,9 +3,9 @@
   "author": "artillect",
   "version": "0.1",
   "label": "User instance names",
-  "desc": "Shows instance names next to users if they are not on your home instance",
+  "desc": "Shows instance names next to users if they are not on your home instance. Overcomes limitations in the native Mbin setting. This will override the default behavior.",
   "entrypoint": "user_instance_names",
   "recurs": true,
   "login": false,
-  "page": "general"
+  "page": "fixes"
 }
