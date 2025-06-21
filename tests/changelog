@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 TEST_NAME="Check CHANGELOG version"
+#checks if CHANGELOG.md version does not match script version
 
 if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
     echo "Must be run from repository root"

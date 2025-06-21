@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 TEST_NAME="Check for reserved keys"
+#checks for reserved localStorage keys being used in mods
 
 abort(){
     printf "The file '%s' contains the reserved key '%s'\n" "$file" "state"
