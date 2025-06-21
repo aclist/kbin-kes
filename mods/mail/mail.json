@@ -6,7 +6,6 @@
   "desc": "Add mail link/icon next to usernames",
   "login": false,
   "recurs": true,
-  "entrypoint": "mail",
   "namespace": "mail",
   "fields": [
     {

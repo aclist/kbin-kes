@@ -6,7 +6,6 @@
   "desc": "Collapse comments by clicking on the bars to their left.",
   "login": false,
   "recurs": true,
-  "entrypoint": "improved_collapsible_comments",
   "page": "threads",
   "namespace": "collapsibleComments"
 }

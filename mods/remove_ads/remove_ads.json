@@ -6,7 +6,6 @@
   "desc": "Hide posts or block users matching certain spam heuristics.\n\nThis is a one-way process; toggling off does not unblock, it merely stops filtering. Does not currently work on microblogs.",
   "login": true,
   "recurs": true,
-  "entrypoint": "remove_ads",
   "page": "spam",
   "new_since": "4.1",
   "namespace": "spamfilter",

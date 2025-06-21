@@ -6,7 +6,6 @@
   "login": false,
   "recurs": true,
   "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax. Note: toggling off will reload the page",
-  "entrypoint": "timestamp",
   "page": "general",
   "namespace": "timestamp",
   "fields": [

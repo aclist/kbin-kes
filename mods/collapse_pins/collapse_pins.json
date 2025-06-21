@@ -7,7 +7,6 @@
   "login": false,
   "recurs": false,
   "namespace": "collapse_pins",
-  "entrypoint": "collapse_pins",
   "page": "threads",
   "new_since": "4.2",
   "fields": [

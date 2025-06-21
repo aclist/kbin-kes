@@ -15,6 +15,5 @@
       "label": "Poster prefix (use single space for empty)"
     }
   ],
-  "page": "threads",
-  "entrypoint": "submission_label"
+  "page": "threads"
 }
