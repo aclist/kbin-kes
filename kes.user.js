@@ -1275,34 +1275,6 @@ function constructMenu (json, layoutArr, isNew) {
         }
     }
 
-    function toggleDependencies (entry, state, trigger) {
-        let object
-        let depends
-        let entrypoint
-
-        for (let i = 0; i < json.length; ++i) {
-            if(json[i].entrypoint === entry) {
-                object = json[i]
-            }
-        }
-        if (!object.depends_on && !object.depends_off) return
-        if (state == true && !object.depends_on) return
-        if (state == false && !object.depends_off) return
-
-        if (state === true) {
-            depends = object.depends_on
-        } else {
-            depends = object.depends_off
-        }
-
-        const settings = getSettings();
-        for (let i = 0; i < depends.length; ++i) {
-            entrypoint = depends[i]
-            settings[entrypoint] = state
-            saveSettings(settings);
-            funcObj[entrypoint](state, trigger);
-        }
-    }
     function toggleSettings (json, trigger, meta) {
         const login = json.login
         const entry = json.entrypoint
@@ -1313,10 +1285,8 @@ function constructMenu (json, layoutArr, isNew) {
         const settings = getSettings()
         try {
             if (settings[entry] == true) {
-                toggleDependencies(entry, true, Trigger.Dependency)
                 funcObj[entry](true, trigger, meta);
             } else {
-                toggleDependencies(entry, false, Trigger.Dependency)
                 funcObj[entry](false, trigger, meta);
             }
         } catch (error) {
@@ -1392,7 +1362,6 @@ function constructMenu (json, layoutArr, isNew) {
                 if (isDebugBarEnabled() && debug["mods"][entry]) {
                     return 1
                 }
-                toggleDependencies(entry, true, Trigger.Dependency)
                 funcObj[entry](true, trigger, meta);
                 return 0
             } else {
@@ -1401,7 +1370,6 @@ function constructMenu (json, layoutArr, isNew) {
                     if (debug["mods"][entry]) {
                         return 1
                     }
-                    toggleDependencies(entry, true)
                     funcObj[entry](true, trigger, meta);
                     return 0
                 }
