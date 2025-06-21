@@ -592,37 +592,6 @@ function constructMenu (json, layoutArr, isNew) {
                             hBox.appendChild(br);
                             break;
                         }
-                        case "reset": {
-                            const resetField = document.createElement('input');
-                            resetField.setAttribute("type",fieldType);
-                            resetField.addEventListener('click', ()=> {
-                                for (let j = 0; j < json[it].catch_reset.length; ++j) {
-                                    let fieldToReset = json[it].catch_reset[j];
-                                    let resetClassName = `.kes-settings-modal-helpbox input[kes-key="${fieldToReset}"]`
-                                    let found = document.querySelector(resetClassName)
-                                    let matchKey = found.getAttribute("kes-key")
-                                    for (let k = 0 ; k < json[it].fields.length; ++k) {
-                                        if(json[it].fields[k].key === matchKey) {
-                                            let initial = json[it].fields[k].initial
-                                            if (json[it].fields[k].type === "color") {
-                                                initial = getHex(initial);
-                                            } else if (json[it].fields[k].type === "number") {
-                                                initial = getComputedFontSize(initial)
-                                                if (!initial) {
-                                                    initial = 14
-                                                }
-                                            }
-                                            found.setAttribute("value",initial);
-                                            found.value = initial;
-                                        }
-                                    }
-                                    updateState(found);
-                                }
-                            });
-                            hBox.appendChild(resetField)
-                            hBox.appendChild(br)
-                            break;
-                        }
                         case "color": {
                             const colorField = document.createElement('input');
                             let realHex

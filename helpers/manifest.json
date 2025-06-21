@@ -919,16 +919,6 @@
     "entrypoint": "adjust",
     "namespace": "adjust",
     "page": "accessibility",
-    "catch_reset": [
-      "sepia",
-      "hueRotate",
-      "bright",
-      "saturate",
-      "contrast",
-      "upvote",
-      "downvote",
-      "boost"
-    ],
     "fields": [
       {
         "type": "reset",
