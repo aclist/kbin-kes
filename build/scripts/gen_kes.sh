@@ -169,7 +169,6 @@ grants=(
     "getValue"
     "setValue"
     "getResourceText"
-    "setClipboard"
 )
 readarray -t funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | sort)
 readarray -t eslint_funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | sort)

@@ -422,7 +422,6 @@ window.safeGM = function (func,...args) {
         addStyle (...args) { return addCustomCSS(...args)},
         removeStyle (...args) { return removeCustomCSS (...args) },
         xmlhttpRequest (...args) { return GM_xmlhttpRequest(...args)},
-        setClipboard (...args) { return GM_setClipboard(...args)},
         getResourceText (...args) { return GM_getResourceText(...args)},
         info () { return GM_info }
     }
@@ -432,7 +431,6 @@ window.safeGM = function (func,...args) {
         addStyle (...args) { return addCustomCSS(...args)},
         removeStyle (...args) { return removeCustomCSS (...args) },
         xmlhttpRequest (...args) { return GM.xmlHttpRequest(...args)},
-        setClipboard (...args) { return GM.setClipboard(...args)},
         info () { return GM_info }
     }
 

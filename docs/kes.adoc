@@ -405,7 +405,6 @@ to such a function:
 - addStyle
 - removeStyle*
 - xmlhttpRequest
-- setClipboard
 
 These are the functions currently supported, but more may be added if necessary. Given that KES handles the setting and fetching of configs, we have not
 seen many scripts need to leverage extra functionality through GreaseMonkey itself.

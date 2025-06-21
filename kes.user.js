@@ -18,13 +18,11 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_getResourceText
-// @grant        GM_setClipboard
 // @grant        GM.addStyle
 // @grant        GM.xmlHttpRequest
 // @grant        GM.info
 // @grant        GM.getValue
 // @grant        GM.setValue
-// @grant        GM.setClipboard
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
