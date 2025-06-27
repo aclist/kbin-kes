@@ -193,5 +193,6 @@
       "label": "Select a theme"
     }
   ],
-  "page": "threads"
+  "page": "threads",
+  "entrypoint": "code_highlighting"
 }

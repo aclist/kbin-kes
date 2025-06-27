@@ -6,5 +6,6 @@
   "login": false,
   "recurs": true,
   "desc": "Submit the contents of a thread comment verbatim as a bug report to the KES issue tracker. The button is available from the 'More' menu under comments.",
-  "page": "debug"
+  "page": "debug",
+  "entrypoint": "report_bug"
 }

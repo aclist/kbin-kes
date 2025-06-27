@@ -29,5 +29,6 @@
       ]
     }
   ],
-  "page": "general"
+  "page": "general",
+  "entrypoint": "omni"
 }

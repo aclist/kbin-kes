@@ -65,5 +65,6 @@
       ],
       "initial": "default"
     }
-  ]
+  ],
+  "entrypoint": "default_sort"
 }

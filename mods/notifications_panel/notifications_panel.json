@@ -9,5 +9,6 @@
   "login": true,
   "recurs": false,
   "desc": "Adds a floating notifications panel to the navbar",
-  "page": "navbar"
+  "page": "navbar",
+  "entrypoint": "notifications_panel"
 }

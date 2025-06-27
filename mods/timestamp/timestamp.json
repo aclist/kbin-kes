@@ -19,5 +19,6 @@
         "Local time"
       ]
     }
-  ]
+  ],
+  "entrypoint": "timestamp"
 }

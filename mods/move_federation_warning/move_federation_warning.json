@@ -19,5 +19,6 @@
       ]
     }
   ],
-  "page": "threads"
+  "page": "threads",
+  "entrypoint": "move_federation_warning"
 }

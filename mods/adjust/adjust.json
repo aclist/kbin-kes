@@ -82,5 +82,6 @@
       "key": "border",
       "checkbox_label": "Border around up/downvote buttons"
     }
-  ]
+  ],
+  "entrypoint": "adjust"
 }

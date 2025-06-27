@@ -27,5 +27,6 @@
       "key": "loading",
       "label": "Loading label"
     }
-  ]
+  ],
+  "entrypoint": "expand_posts"
 }

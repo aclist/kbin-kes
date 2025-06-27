@@ -6,5 +6,6 @@
   "login": false,
   "recurs": true,
   "desc": "Hide inline thumbnails on microblogs. For thumbnails on the thread index, use Mbin's native setting.",
-  "page": "general"
+  "page": "general",
+  "entrypoint": "hide_thumbs"
 }

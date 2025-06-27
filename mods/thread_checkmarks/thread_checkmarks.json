@@ -21,5 +21,6 @@
       "checkbox_label": "Enable (turning this off clears the cache)"
     }
   ],
-  "page": "threads"
+  "page": "threads",
+  "entrypoint": "thread_checkmarks"
 }

@@ -61,5 +61,6 @@
       "type": "checkbox",
       "checkbox_label": "Expand content if possible"
     }
-  ]
+  ],
+  "entrypoint": "hide_sidebar"
 }

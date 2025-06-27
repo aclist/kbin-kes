@@ -7,5 +7,6 @@
   "recurs": false,
   "desc": "Hides the large cover image on the sidebar of magazines.",
   "new_since": "5.0.0",
-  "page": "cosmetic"
+  "page": "cosmetic",
+  "entrypoint": "suppress_cover"
 }

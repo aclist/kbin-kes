@@ -31,5 +31,6 @@
       "label": "Post icon"
     }
   ],
-  "page": "navbar"
+  "page": "navbar",
+  "entrypoint": "nav_icons"
 }

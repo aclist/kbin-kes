@@ -22,5 +22,6 @@
       "initial": true,
       "checkbox_label": "Hide inside threads"
     }
-  ]
+  ],
+  "entrypoint": "hide_related"
 }

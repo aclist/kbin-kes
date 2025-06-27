@@ -52,5 +52,6 @@
       "checkbox_label": "Apply fuzzy edges to bubble indicators"
     }
   ],
-  "page": "threads"
+  "page": "threads",
+  "entrypoint": "kbin_federation_awareness"
 }

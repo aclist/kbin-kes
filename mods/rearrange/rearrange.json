@@ -63,5 +63,6 @@
       "label": "Activity panel",
       "key": "activity"
     }
-  ]
+  ],
+  "entrypoint": "rearrange"
 }

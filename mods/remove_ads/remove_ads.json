@@ -28,5 +28,6 @@
       "key": "block",
       "checkbox_label": "Block users with spam-like activity"
     }
-  ]
+  ],
+  "entrypoint": "remove_ads"
 }

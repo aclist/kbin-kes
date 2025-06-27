@@ -6,5 +6,6 @@
   "desc": "Hide reputation on users' profiles",
   "login": false,
   "recurs": false,
-  "page": "profile"
+  "page": "profile",
+  "entrypoint": "hide_reputation"
 }

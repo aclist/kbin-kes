@@ -31,5 +31,6 @@
         "off"
       ]
     }
-  ]
+  ],
+  "entrypoint": "thread_delta"
 }

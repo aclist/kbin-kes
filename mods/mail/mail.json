@@ -25,5 +25,6 @@
       "label": "Label text"
     }
   ],
-  "page": "general"
+  "page": "general",
+  "entrypoint": "mail"
 }

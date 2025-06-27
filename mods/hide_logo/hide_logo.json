@@ -23,5 +23,6 @@
         "Kibby (no text)"
       ]
     }
-  ]
+  ],
+  "entrypoint": "hide_logo"
 }

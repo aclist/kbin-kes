@@ -6,5 +6,6 @@
   "desc": "Shows instance names next to magazines. Overcomes limitations in the native Mbin setting. This will override the default behavior.",
   "login": false,
   "recurs": true,
-  "page": "fixes"
+  "page": "fixes",
+  "entrypoint": "mag_instance_names"
 }

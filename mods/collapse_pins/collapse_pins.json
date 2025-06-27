@@ -26,5 +26,6 @@
       "key": "bordercolor",
       "label": "Outline color"
     }
-  ]
+  ],
+  "entrypoint": "collapse_pins"
 }
