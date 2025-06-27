@@ -96,14 +96,13 @@ async function preparePayloads () {
     let css
     let kes_layout
     let isNew
-    if (gmPrefix === "GM_") {
+    if (getGMPrefix() === Scripthandler.TAMPER) {
         json = safeGM.getResourceText("kes_json");
         css = safeGM.getResourceText("kes_css");
         kes_layout = safeGM.getResourceText("kes_layout");
         isNew = safeGM.getValue("isnew")
         validateData(css, json, kes_layout, isNew)
     } else {
-
         genericXMLRequest(layoutURL, setRemoteUI);
         genericXMLRequest(manifest, makeArr);
         genericXMLRequest(cssURL, setRemoteCSS);
