@@ -417,7 +417,7 @@ function getGMPrefix () {
 
 function testMode (func, ...args) {
     let dict
-    (getGMPrefix() == gmEnums.tamper) ? dict = tamperGM : dict = nativeGM
+    (getGMPrefix() == Scripthandler.TAMPER) ? dict = tamperGM : dict = nativeGM
     dict[func](...args);
 }
 
