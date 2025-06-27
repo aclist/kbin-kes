@@ -24,6 +24,7 @@
         "Log": "readonly",
         "Trigger": "readonly",
         "Theme": "readonly",
+        "Scripthandler": "readonly",
         "getPageType": "readonly",
         "isLoggedIn": "readonly",
         "log": "readonly",
