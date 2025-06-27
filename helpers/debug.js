@@ -233,11 +233,11 @@ function debugBar (json) {
             tooltip: "Expand the debug console"
         }
     }
-    safeGM("removeStyle", "mes-debugbar-css")
-    safeGM("addStyle", debugCSS, "mes-debugbar-css")
+    safeGM.removeStyle("mes-debugbar-css")
+    safeGM.addStyle(debugCSS, "mes-debugbar-css")
     const theme = getTheme()
     const panelCssID = "mes-debugbar-panel-css"
-    safeGM("removeStyle", panelCssID)
+    safeGM.removeStyle(panelCssID)
     let style
     switch (theme) {
         case Theme.TOKYO_NIGHT:
@@ -258,7 +258,7 @@ function debugBar (json) {
             style = panelCSSDark
             break;
     }
-    safeGM("addStyle", style, panelCssID)
+    safeGM.addStyle(style, panelCssID)
 
 
     //outer grid
