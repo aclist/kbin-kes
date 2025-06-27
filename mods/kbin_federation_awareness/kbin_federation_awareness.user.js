@@ -25,7 +25,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
         const mod = settings["kfaModColor"];
         const style = settings["kfaStyle"];
         const indicatorScale = settings["kfaScale"];
-        log(indicatorScale, Log.Log)
+        log(indicatorScale, Log.LOG)
         const bubbleFuzz = settings["kfaBubbleShadow"];
         if (style === "bubble") {
             const scale = setScale(indicatorScale, 20)
@@ -163,7 +163,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
 
     function kfaInitClasses () {
         const page = getPageType(); // eslint-disable-line no-undef
-        if (page === Mbin.Microblog) {
+        if (page === Mbin.MICROBLOG) {
             document.querySelectorAll('.section.post.subject').forEach(function (comment) {
                 if (comment.querySelector('[class^=data-]')) { return }
                 prependToComment(comment);
@@ -174,7 +174,7 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
             });
             return
         }
-        if (page !== Mbin.Microblog) {
+        if (page !== Mbin.MICROBLOG) {
             document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
                 if (article.querySelector('[class^=data-]')) { return }
                 let op = article.querySelector('.user-inline').href

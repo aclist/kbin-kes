@@ -141,12 +141,12 @@ function initCodeHighlights (toggle, trigger, setting) { // eslint-disable-line 
         kchStartup();
     }
     switch (trigger) {
-        case Trigger.Mutation:
-        case Trigger.Pageload:
-        case Trigger.Toggle:
+        case Trigger.MUTATION:
+        case Trigger.PAGELOAD:
+        case Trigger.TOGGLE:
             (toggle) ? setup() : shutdown();
             break;
-        case Trigger.Setting:
+        case Trigger.SETTING:
             setCss()
             break;
     }

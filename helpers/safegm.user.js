@@ -6,13 +6,13 @@ function log (string, level) { // eslint-disable-line no-unused-vars
     const debug = document.querySelector("#mes-debugbar-expanded")
     if (debug) debug.push(level, line)
     switch (level) {
-        case Log.Log:
+        case Log.LOG:
             console.log(line)
             break;
-        case Log.Warn:
+        case Log.WARN:
             console.warn(line)
             break;
-        case Log.Error:
+        case Log.ERROR:
             console.error(line)
             break;
         default:
@@ -103,7 +103,7 @@ function makeLoader (id, text) { // eslint-disable-line no-unused-vars
     const cssID = "mes-loader-css";
     safeGM("removeStyle", cssID);
     safeGM("addStyle", modalCSS, cssID);
-    log(`Added the sheet '${cssID}' to the document head`, Log.Log);
+    log(`Added the sheet '${cssID}' to the document head`, Log.LOG);
     return modal_bg
 }
 
@@ -116,7 +116,7 @@ function clearLoader (id) { // eslint-disable-line no-unused-vars
 //adds custom CSS to the document head by named ID
 function addCustomCSS (css, id) {
     if (document.head.querySelector(`style[id="${id}"]`)) {
-        log(`CSS with id '${id}' already exists, skipping`, Log.Warn)
+        log(`CSS with id '${id}' already exists, skipping`, Log.WARN)
         return
     }
     const style = document.createElement('style');
@@ -185,62 +185,62 @@ function getPageType () { //eslint-disable-line no-unused-vars
         case "sub":
         case "all":
         case "threads":
-            return Mbin.Top
+            return Mbin.TOP
         case "search":
-            return Mbin.Search
+            return Mbin.SEARCH
         case "magazines":
-            return Mbin.Magazines
+            return Mbin.MAGAZINES
         case "people":
-            return Mbin.People
+            return Mbin.PEOPLE
         case "bookmark-lists":
-            return Mbin.Bookmarks
+            return Mbin.BOOKMARKS
         case "modlog":
-            return Mbin.Modlog
+            return Mbin.MODLOG
         case "people":
-            return Mbin.People
+            return Mbin.PEOPLE
         case "tag":
-            return Mbin.Tag
+            return Mbin.TAG
         case "microblog":
-            return Mbin.Microblog
+            return Mbin.MICROBLOG
         case "profile":
-            if ((url[4] === "messages") && (url.length === 6)) return Mbin.Messages.Thread
-            return Mbin.Messages.Inbox
+            if ((url[4] === "messages") && (url.length === 6)) return Mbin.Messages.THREAD
+            return Mbin.Messages.INBOX
         case "settings":
-            if ((url[4]) === "notifications") return Mbin.Messages.Notifications
-            return Mbin.Settings
+            if ((url[4]) === "notifications") return Mbin.Messages.NOTIFICATIONS
+            return Mbin.SETTINGS
         case "new":
             if ((url[4]) === undefined) return Mbin.New.LINK
             if ((url[4]) === "article") return Mbin.New.THREAD
             if ((url[4]) === "photo") return Mbin.New.PHOTO
             if ((url[4]) === "newMagazine") return Mbin.New.MAGAZINE
         case "u":
-            if (url[5] === undefined) return Mbin.User.Default
-            if (url[5] === "message") return Mbin.User.DirectMessage
-            if (window.location.href.includes("/subscriptions")) return Mbin.User.Subscriptions
-            if (window.location.href.includes("/threads")) return Mbin.User.Threads
-            if (window.location.href.includes("/comments")) return Mbin.User.Comments
-            if (window.location.href.includes("/posts")) return Mbin.User.Posts
-            if (window.location.href.includes("/replies")) return Mbin.User.Replies
-            if (window.location.href.includes("/boosts")) return Mbin.User.Boosts
-            if (window.location.href.includes("/following")) return Mbin.User.Following
-            if (window.location.href.includes("/followers")) return Mbin.User.Followers
-            if (window.location.href.includes("/reputation")) return Mbin.User.Reputation
-            return Mbin.User.Default
+            if (url[5] === undefined) return Mbin.User.DEFAULT
+            if (url[5] === "message") return Mbin.User.DIRECTMESSAGE
+            if (window.location.href.includes("/subscriptions")) return Mbin.User.SUBSCRIPTIONS
+            if (window.location.href.includes("/threads")) return Mbin.User.THREADS
+            if (window.location.href.includes("/comments")) return Mbin.User.COMMENTS
+            if (window.location.href.includes("/posts")) return Mbin.User.POSTS
+            if (window.location.href.includes("/replies")) return Mbin.User.REPLIES
+            if (window.location.href.includes("/boosts")) return Mbin.User.BOOSTS
+            if (window.location.href.includes("/following")) return Mbin.User.FOLLOWING
+            if (window.location.href.includes("/followers")) return Mbin.User.FOLLOWERS
+            if (window.location.href.includes("/reputation")) return Mbin.User.REPUTATION
+            return Mbin.User.DEFAULT
         case "d":
-            if ((url.length === 6) && (window.location.href.includes("/comments"))) return Mbin.Domain.Comments
-            return Mbin.Domain.Default
+            if ((url.length === 6) && (window.location.href.includes("/comments"))) return Mbin.Domain.COMMENTS
+            return Mbin.Domain.DEFAULT
         case "m":
-            if (url[5] === undefined) return Mbin.Magazine
-            if (window.location.href.includes("/threads")) return Mbin.Magazine
-            if (url[5] === "microblog") return Mbin.Microblog
-            if ((url[5] === "t") && (window.location.href.includes("/favourites"))) return Mbin.Thread.Favorites
-            if ((url[5] === "t") && (window.location.href.includes("/up"))) return Mbin.Thread.Boosts
-            return Mbin.Thread.Comments
+            if (url[5] === undefined) return Mbin.MAGAZINE
+            if (window.location.href.includes("/threads")) return Mbin.MAGAZINE
+            if (url[5] === "microblog") return Mbin.MICROBLOG
+            if ((url[5] === "t") && (window.location.href.includes("/favourites"))) return Mbin.Thread.FAVORITES
+            if ((url[5] === "t") && (window.location.href.includes("/up"))) return Mbin.Thread.BOOSTS
+            return Mbin.Thread.COMMENTS
         default:
             break;
     }
-    if (url[3].includes("?type=")) return Mbin.Top
-    if (url[3].includes("magazines?")) return Mbin.Magazines
+    if (url[3].includes("?type=")) return Mbin.TOP
+    if (url[3].includes("magazines?")) return Mbin.MAGAZINES
     return "Unknown"
 }
 
@@ -341,9 +341,9 @@ function clearCachedMags () { // eslint-disable-line no-unused-vars
 function isIndex () { // eslint-disable-line no-unused-vars
     const pt = getPageType();
     switch (pt) {
-        case Mbin.Domain.Default:
-        case Mbin.Domain.Comments:
-        case Mbin.Top:
+        case Mbin.Domain.DEFAULT:
+        case Mbin.Domain.COMMENTS:
+        case Mbin.TOP:
             return true
         default:
             return false
@@ -353,9 +353,9 @@ function isIndex () { // eslint-disable-line no-unused-vars
 function isThread () { // eslint-disable-line no-unused-vars
     const pt = getPageType();
     switch (pt) {
-        case Mbin.Thread.Comments:
-        case Mbin.Thread.Favorites:
-        case Mbin.Thread.Boosts:
+        case Mbin.Thread.COMMENTS:
+        case Mbin.Thread.FAVORITES:
+        case Mbin.Thread.BOOSTS:
             return true
         default:
             return false

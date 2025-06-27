@@ -515,10 +515,10 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
 
     let globalSelector
     switch (getPageType()) {
-        case Mbin.Microblog:
+        case Mbin.MICROBLOG:
             globalSelector = ".post-comments"
             break;
-        case Mbin.Thread.Comments:
+        case Mbin.Thread.COMMENTS:
             globalSelector = ".entry-comments"
             break;
         default:
@@ -531,11 +531,11 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
         return
     }
     switch (trigger) {
-        case Trigger.Mutation:
+        case Trigger.MUTATION:
             enterMain(mutation);
             break;
-        case Trigger.Pageload:
-        case Trigger.Toggle:
+        case Trigger.PAGELOAD:
+        case Trigger.TOGGLE:
             enterMain();
             break;
     }

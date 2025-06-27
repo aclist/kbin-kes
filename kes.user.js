@@ -61,7 +61,7 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 
 async function checkUpdates (response) {
     if (response.status === 200) {
-        log("Checking for new version at remote", Log.Log);
+        log("Checking for new version at remote", Log.LOG);
         const newVersion = await response.responseText.trim();
         if (newVersion && newVersion != version) {
             // Change version link into a button for updating
@@ -387,7 +387,7 @@ function constructMenu (json, layoutArr, isNew) {
         const validPages = dedupePages()
         for (let i = 0; i < sidebarPages.length; ++i) {
             if (!validPages.includes(sidebarPages[i])) {
-                log(`The sidebar page '${sidebarPages[i]}' is unused`, Log.Warn)
+                log(`The sidebar page '${sidebarPages[i]}' is unused`, Log.WARN)
                 continue
             }
             let pageUpper = sidebarPages[i].charAt(0).toUpperCase() + sidebarPages[i].slice(1);
@@ -1216,10 +1216,10 @@ function constructMenu (json, layoutArr, isNew) {
         let trigger
         switch (key) {
             case "state": // toggle was flipped
-                trigger = Trigger.Toggle
+                trigger = Trigger.TOGGLE
                 break;
             default: // any other setting was changed
-                trigger = Trigger.Setting
+                trigger = Trigger.SETTING
                 break;
         }
         //update master and mod settings
@@ -1248,7 +1248,7 @@ function constructMenu (json, layoutArr, isNew) {
         const login = json.login
         const entry = json.entrypoint
         if (requiresLoginButLoggedOut(login)) {
-            log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
+            log(`Mod '${entry}' requires login, but user is logged out`, Log.WARN)
             return
         }
         const settings = getSettings()
@@ -1325,7 +1325,7 @@ function constructMenu (json, layoutArr, isNew) {
         try {
             if (settings[entry] == true) {
                 if (requiresLoginButLoggedOut(login)) {
-                    log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
+                    log(`Mod '${entry}' requires login, but user is logged out`, Log.WARN)
                     return 2
                 }
                 if (isDebugBarEnabled() && debug["mods"][entry]) {
@@ -1344,7 +1344,7 @@ function constructMenu (json, layoutArr, isNew) {
                 }
             }
         } catch (error) {
-            log(error, Log.Error)
+            log(error, Log.ERROR)
             return 1
         }
     }
@@ -1388,7 +1388,7 @@ function constructMenu (json, layoutArr, isNew) {
         let loaded = 0
         let skipped = 0
         for (let i = 0; i < json.length; ++i) {
-            let res = applySettings(json[i], Trigger.PageLoad);
+            let res = applySettings(json[i], Trigger.PAGELOAD);
             switch (res) {
                 case 0:
                     loaded++
@@ -1412,7 +1412,7 @@ function constructMenu (json, layoutArr, isNew) {
             //trigger when username popover dialog is spawned on hover
             //there can only be one popover spawned at a given time
             if (mutation.target.id === "popover") {
-                applySettings(timestamp_json, Trigger.Mutation, mutation);
+                applySettings(timestamp_json, Trigger.MUTATION, mutation);
                 return
             }
             //workaround for timeago ticks changing timestamp textContent
@@ -1420,7 +1420,7 @@ function constructMenu (json, layoutArr, isNew) {
             //see also updateState()
             if (mutation.target.className === 'timeago') {
                 if (!mutation.target.classList.contains("hidden-timeago")) {
-                    applySettings(timestamp_json, Trigger.Mutation, mutation);
+                    applySettings(timestamp_json, Trigger.MUTATION, mutation);
                 }
                 //triggering on the first mutation is sufficient to apply to all timestamps
                 return
@@ -1433,7 +1433,7 @@ function constructMenu (json, layoutArr, isNew) {
                 || (mutation.target.classList.contains("post-comments"))) {
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i], Trigger.Mutation, mutation);
+                        applySettings(json[i], Trigger.MUTATION, mutation);
                         obs.takeRecords();
                     }
                 }
@@ -1442,7 +1442,7 @@ function constructMenu (json, layoutArr, isNew) {
             if (mutation.target.className === "kes-collapse-children") {
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i], Trigger.Mutation, mutation);
+                        applySettings(json[i], Trigger.MUTATION, mutation);
                         obs.takeRecords();
                     }
                 }

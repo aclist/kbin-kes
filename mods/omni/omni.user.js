@@ -417,12 +417,12 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
     }
 
     switch (trigger) {
-        case Trigger.Pageload:
-        case Trigger.Toggle:
+        case Trigger.PAGELOAD:
+        case Trigger.TOGGLE:
             document.querySelector(".kes-omni-modal")?.remove();
             (toggle) ? setup() : shutdown();
             break;
-        case Trigger.Setting:
+        case Trigger.SETTING:
             if (setting === "mobile") {
                 (mobile) ? addTapBar() : removeTapBar();
             }

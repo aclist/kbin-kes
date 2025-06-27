@@ -666,9 +666,9 @@ function debugBar (json) {
             const row = document.createElement("p")
 
             let cl
-            if (level === Log.Log) cl = `${pref}-default`
-            if (level === Log.Warn) cl = `${pref}-warn`
-            if (level === Log.Error) cl = `${pref}-error`
+            if (level === Log.LOG) cl = `${pref}-default`
+            if (level === Log.WARN) cl = `${pref}-warn`
+            if (level === Log.ERROR) cl = `${pref}-error`
             sep.className = cl
 
             row.innerText = str
