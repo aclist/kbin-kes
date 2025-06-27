@@ -367,7 +367,7 @@ function isThread () { // eslint-disable-line no-unused-vars
     }
 }
 
-function getTheme () {
+function getTheme () { // eslint-disable-line no-unused-vars
     let theme = undefined
     document.querySelector("body").classList.forEach((c) => {
         if (c.includes("theme--")) {
