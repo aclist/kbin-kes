@@ -418,9 +418,7 @@ function getGMPrefix () {
 function testMode (func, ...args) {
     let dict
     (getGMPrefix() == Scripthandler.TAMPER) ? dict = tamperGM : dict = nativeGM
-    //GM.info is a simple object
-    if (func == "info") return dict[func](...args)
-    dict[func](...args);
+    return dict[func](...args);
 }
 
 const nativeGM = {

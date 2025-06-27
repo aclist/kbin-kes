@@ -1063,8 +1063,8 @@ function constructMenu (json, layoutArr, isNew) {
         debugClip.addEventListener('click', ()=> {
             const userPlatform = navigator.platform;
             const userAgent = navigator.userAgent;
-            const handler = safeGM.info.scriptHandler;
-            const incog = safeGM.info.isIncognito;
+            const handler = safeGM.info().scriptHandler;
+            const incog = safeGM.info().isIncognito;
             const kesUserSettings = localStorage["kes-settings"];
             const toPaste = `OS: ${userPlatform}\nAgent: ${userAgent}\nKES version: ${version}\nHandler: ${handler}\nIncog: ${incog}\nSettings: ${kesUserSettings}`
             navigator.clipboard.writeText(toPaste);
