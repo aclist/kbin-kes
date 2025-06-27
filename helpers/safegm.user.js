@@ -101,8 +101,8 @@ function makeLoader (id, text) { // eslint-disable-line no-unused-vars
     msg.appendChild(spinner);
     modal.appendChild(span);
     const cssID = "mes-loader-css";
-    safeGM("removeStyle", cssID);
-    safeGM("addStyle", modalCSS, cssID);
+    safeGM.removeStyle(cssID);
+    safeGM.addStyle(modalCSS, cssID);
     log(`Added the sheet '${cssID}' to the document head`, Log.LOG);
     return modal_bg
 }
@@ -110,7 +110,7 @@ function makeLoader (id, text) { // eslint-disable-line no-unused-vars
 //removes a loading dialog created with makeLoader()
 function clearLoader (id) { // eslint-disable-line no-unused-vars
     document.querySelector(`#${id}-filter-modal-bg`)?.remove();
-    safeGM("removeStyle", "mes-loader-css");
+    safeGM.removeStyle("mes-loader-css");
 }
 
 //adds custom CSS to the document head by named ID
@@ -150,7 +150,7 @@ function getHex (value) { //eslint-disable-line no-unused-vars
 
 //helper function to simplify pushing the results of a GET request to a callback
 function genericXMLRequest (url, callback) { //eslint-disable-line no-unused-vars
-    safeGM("xmlhttpRequest", {
+    safeGM.xmlHttpRequest({
         method: 'GET',
         url: url,
         onload: callback,
@@ -264,16 +264,16 @@ async function loadMags (callback, ns, useCache=false) {
     // is still running
     const hostname = window.location.hostname;
     const cancelKey = `loadMags-${hostname}-${username}-${ns}`;
-    safeGM("setValue", cancelKey, false);
+    safeGM.setValue(cancelKey, false);
 
     async function runCallback (mags, isFinalCall) {
         if (safeGM("getValue", cancelKey)) return;
-        safeGM("setValue",`user-mags-${hostname}-${username}`, mags);
+        safeGM.setValue(`user-mags-${hostname}-${username}`, mags);
         callback(mags, isFinalCall);
     }
 
     if (useCache) {
-        const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
+        const cachedValue = safeGM.getValue(`user-mags-${hostname}-${username}`);
         if (cachedValue && cachedValue.length > 0) {
             runCallback(cachedValue, true);
             return;
@@ -330,7 +330,7 @@ loadMags.cancel = function (ns) {
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
-    safeGM("setValue", `loadMags-${hostname}-${username}-${ns}`, true);
+    safeGM.setValue(`loadMags-${hostname}-${username}-${ns}`, true);
 }
 
 /**
@@ -340,7 +340,7 @@ function clearCachedMags () { // eslint-disable-line no-unused-vars
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
-    safeGM("setValue",`user-mags-${hostname}-${username}`, []);
+    safeGM.setValue(`user-mags-${hostname}-${username}`, []);
 }
 
 function isIndex () { // eslint-disable-line no-unused-vars
@@ -418,6 +418,8 @@ function getGMPrefix () {
 function testMode (func, ...args) {
     let dict
     (getGMPrefix() == Scripthandler.TAMPER) ? dict = tamperGM : dict = nativeGM
+    //GM.info is a simple object
+    if (func == "info") return dict[func](...args)
     dict[func](...args);
 }
 
@@ -427,7 +429,7 @@ const nativeGM = {
     xmlHttpRequest (...args) { return GM.xmlHttpRequest(...args)},
     addStyle (...args) { return addCustomCSS(...args)},
     removeStyle (...args) { return removeCustomCSS (...args) },
-    info () { return GM.info }
+    info(...args) { return GM.info }
 }
 
 const tamperGM = {
@@ -437,7 +439,7 @@ const tamperGM = {
     addStyle (...args) { return addCustomCSS(...args)},
     removeStyle (...args) { return removeCustomCSS (...args) },
     getResourceText (...args) { return GM_getResourceText(...args)},
-    info () { return GM_info }
+    info(...args) { return GM_info }
 }
 
 //maps incoming arguments to wrapper functions depending on *monkey extension variant being used
