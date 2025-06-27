@@ -262,13 +262,13 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
             margin-left: 0px !important
         }
         `;
-        safeGM("addStyle", hideDefaults, "hide-defaults");
-        safeGM("addStyle", style, "threaded-comments");
-        safeGM("addStyle", mbinStyle, "mbin-kes-comments-style");
+        safeGM.addStyle(hideDefaults, "hide-defaults");
+        safeGM.addStyle(style, "threaded-comments");
+        safeGM.addStyle(mbinStyle, "mbin-kes-comments-style");
         const el = document.querySelector(`${subSelector} figure`);
         const display = window.getComputedStyle(el).display
         if (display === "none") {
-            safeGM("addStyle", hiddenfigureCSS, "mbin-kes-comments-figure-style");
+            safeGM.addStyle(hiddenfigureCSS, "mbin-kes-comments-figure-style");
         }
     }
     function applyToNewPosts (mutation) {
@@ -507,10 +507,10 @@ function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable
         }
         removeDangling();
         clearMores();
-        safeGM("removeStyle", "hide-defaults");
-        safeGM("removeStyle", "threaded-comments");
-        safeGM("removeStyle", "mbin-kes-comments-style");
-        safeGM("removeStyle", "mbin-kes-comments-figure-style");
+        safeGM.removeStyle("hide-defaults");
+        safeGM.removeStyle("threaded-comments");
+        safeGM.removeStyle("mbin-kes-comments-style");
+        safeGM.removeStyle("mbin-kes-comments-figure-style");
     }
 
     let globalSelector

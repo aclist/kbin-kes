@@ -18,11 +18,11 @@ function navbarIcons (toggle) { // eslint-disable-line no-unused-vars
     }
     `;
     if (toggle) {
-        safeGM("removeStyle", "navbar-icons-css")
-        safeGM("addStyle", css, "navbar-icons-css")
+        safeGM.removeStyle("navbar-icons-css")
+        safeGM.addStyle(css, "navbar-icons-css")
         searchText.innerText = "" ;
         postText.innerText = "" ;
     } else {
-        safeGM("removeStyle", "navbar-icons-css")
+        safeGM.removeStyle("navbar-icons-css")
     }
 }

@@ -40,8 +40,8 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-const version = safeGM("info").script.version;
-const tool = safeGM("info").script.name;
+const version = safeGM.info.script.version;
+const tool = safeGM.info.script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
 const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/"
 const branch = "testing"
@@ -68,9 +68,9 @@ async function checkUpdates (response) {
             versionElement.innerText = 'Install update: ' + newVersion;
             versionElement.setAttribute('href', updateURL);
             versionElement.className = 'new';
-            await safeGM("setValue", "isnew", "yes");
+            await safeGM.setValue("isnew", "yes");
         } else {
-            await safeGM("setValue", "isnew", "no");
+            await safeGM.setValue("isnew", "no");
         }
     }
     preparePayloads();
@@ -78,17 +78,17 @@ async function checkUpdates (response) {
 
 async function makeArr (response) {
     const resp = await response.response;
-    await safeGM("setValue", "json", resp);
+    await safeGM.setValue("json", resp);
 }
 
 async function setRemoteCSS (response) {
     const resp = await response.responseText.trim();
-    await safeGM("setValue", "kes-css", resp)
+    await safeGM.setValue("kes-css", resp)
 }
 async function setRemoteUI (response) {
     const resp = await response.response;
-    await safeGM("setValue", "layout", resp)
-    await safeGM("getValue", "json")
+    await safeGM.setValue("layout", resp)
+    await safeGM.getValue("json")
 
 }
 async function preparePayloads () {
@@ -97,10 +97,10 @@ async function preparePayloads () {
     let kes_layout
     let isNew
     if (gmPrefix === "GM_") {
-        json = safeGM("getResourceText", "kes_json");
-        css = safeGM("getResourceText", "kes_css");
-        kes_layout = safeGM("getResourceText", "kes_layout");
-        isNew = safeGM("getValue", "isnew")
+        json = safeGM.getResourceText("kes_json");
+        css = safeGM.getResourceText("kes_css");
+        kes_layout = safeGM.getResourceText("kes_layout");
+        isNew = safeGM.getValue("isnew")
         validateData(css, json, kes_layout, isNew)
     } else {
 
@@ -112,10 +112,10 @@ async function preparePayloads () {
     }
 }
 async function unwrapPayloads () {
-    const storedJSON = safeGM("getValue", "json")
-    const storedCSS = safeGM("getValue", "kes-css")
-    const storedUI = safeGM("getValue", "layout")
-    const storedNew = safeGM("getValue", "isnew")
+    const storedJSON = safeGM.getValue("json")
+    const storedCSS = safeGM.getValue("kes-css")
+    const storedUI = safeGM.getValue("layout")
+    const storedNew = safeGM.getValue("isnew")
     let payload = Promise.all([storedCSS, storedJSON, storedUI, storedNew]);
     payload.then((items) => {
         let p0 = items[0]
@@ -137,7 +137,7 @@ function validateData (rawCSS, rawJSON, rawLayout, isNew) {
         warning.innerText = "[kbin Enhancement Suite] Failed to fetch the remote resources. Reload or try again later."
         document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
     } else {
-        safeGM("addStyle", rawCSS);
+        safeGM.addStyle(rawCSS);
         const j = JSON.parse(rawJSON);
         const json = j.sort( function ( a, b ) {
             a = a.label.toLowerCase();
@@ -1064,8 +1064,8 @@ function constructMenu (json, layoutArr, isNew) {
         debugClip.addEventListener('click', ()=> {
             const userPlatform = navigator.platform;
             const userAgent = navigator.userAgent;
-            const handler = safeGM("info").scriptHandler;
-            const incog = safeGM("info").isIncognito;
+            const handler = safeGM.info.scriptHandler;
+            const incog = safeGM.info.isIncognito;
             const kesUserSettings = localStorage["kes-settings"];
             const toPaste = `OS: ${userPlatform}\nAgent: ${userAgent}\nKES version: ${version}\nHandler: ${handler}\nIncog: ${incog}\nSettings: ${kesUserSettings}`
             navigator.clipboard.writeText(toPaste);

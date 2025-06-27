@@ -101,12 +101,12 @@ function initKFA (toggle) { // eslint-disable-line no-unused-vars
 
     function kfaStartup () {
         kfaInitClasses();
-        safeGM("removeStyle","kfaInjectedCss");
-        safeGM("addStyle",kfaGenCSS(),"kfaInjectedCss");
+        safeGM.removeStyle("kfaInjectedCss");
+        safeGM.addStyle(kfaGenCSS(),"kfaInjectedCss");
     }
 
     function kfaShutdown () {
-        safeGM("removeStyle","kfaInjectedCss");
+        safeGM.removeStyle("kfaInjectedCss");
         const els = [
             "data-home",
             "data-federated",

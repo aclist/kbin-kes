@@ -29,8 +29,8 @@ function pinsInit (toggle) { // eslint-disable-line no-unused-vars
     function applyPins () {
 
         const css = setCSS();
-        safeGM("removeStyle", 'kes-pin-css');
-        safeGM("addStyle", css, 'kes-pin-css');
+        safeGM.removeStyle("kes-pin-css");
+        safeGM.addStyle(css, "kes-pin-css");
 
         if (document.querySelector('#kes-pin-button')) return
         const pins = document.querySelectorAll('.entry:has(footer i.fa-thumbtack)')
@@ -70,7 +70,7 @@ function pinsInit (toggle) { // eslint-disable-line no-unused-vars
 
     function unapplyPins () {
         document.querySelector('#kes-pin-button').remove();
-        safeGM("removeStyle", "kes-pin-css");
+        safeGM.removeStyle("kes-pin-css");
     }
 
     if (toggle) applyPins();

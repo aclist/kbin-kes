@@ -10,9 +10,9 @@ function addPrefix (toggle) { // eslint-disable-line no-unused-vars
     `;
 
     if (toggle) {
-        safeGM("removeStyle", "submission-css")
-        safeGM("addStyle", css, "submission-css")
+        safeGM.removeStyle("submission-css")
+        safeGM.addStyle(css, "submission-css")
     } else {
-        safeGM("removeStyle", "submission-css")
+        safeGM.removeStyle("submission-css")
     }
 }

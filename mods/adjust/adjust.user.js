@@ -13,7 +13,7 @@ function adjustSite (toggle) { // eslint-disable-line no-unused-vars
     if (toggle) {
         adjustColors(sheetName);
     } else {
-        safeGM("removeStyle", sheetName);
+        safeGM.removeStyle(sheetName);
     }
 
     function adjustColors (sheetName) {
@@ -45,7 +45,7 @@ function adjustSite (toggle) { // eslint-disable-line no-unused-vars
                 text-decoration: none;
             }
         `;
-        safeGM("removeStyle", sheetName);
-        safeGM("addStyle", customCSS, sheetName)
+        safeGM.removeStyle(sheetName);
+        safeGM.addStyle(customCSS, sheetName)
     }
 }

@@ -26,8 +26,8 @@ function initCodeHighlights (toggle, trigger, setting) { // eslint-disable-line 
     }
     `;
 
-    safeGM("removeStyle", "mes-code-css")
-    safeGM("addStyle", codeCSS, "mes-code-css")
+    safeGM.removeStyle("mes-code-css")
+    safeGM.addStyle(codeCSS, "mes-code-css")
 
     function kchStartup () {
         addHeaders('pre:not(.mes-code-clone)');
@@ -35,7 +35,7 @@ function initCodeHighlights (toggle, trigger, setting) { // eslint-disable-line 
     }
 
     function shutdown () {
-        safeGM("removeStyle", "kch-hljs")
+        safeGM.removeStyle("kch-hljs")
         document.querySelectorAll("pre").forEach((item) => {
             item.style.removeProperty("display")
             delete item.dataset.codehighlight
@@ -108,15 +108,15 @@ function initCodeHighlights (toggle, trigger, setting) { // eslint-disable-line 
         const prefix = "https://raw.githubusercontent.com"
         const suffix = "highlightjs/highlight.js/main/src/styles/base16"
         const url = `${prefix}/${suffix}/${myStyle}.css`
-        safeGM("xmlhttpRequest",{
+        safeGM.xmlHttpRequest({
             method: "GET",
             url: url,
             headers: {
                 "Content-Type": "text/css"
             },
             onload: function (response) {
-                safeGM("removeStyle", response.responseText, "kch-hljs");
-                safeGM("addStyle", response.responseText, "kch-hljs");
+                safeGM.removeStyle(response.responseText, "kch-hljs");
+                safeGM.addStyle(response.responseText, "kch-hljs");
             }
         });
     }
