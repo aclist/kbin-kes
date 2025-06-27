@@ -1,0 +1,20 @@
+{
+    "$id": "`<_static/schemas/checkbox.json>`_",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Subschema - Checkbox",
+    "type": "object",
+    "description": "An object describing checkbox settings",
+    "required": [
+        "type",
+        "key",
+        "initial",
+        "checkbox_label"
+    ],
+    "properties": {
+        "type": { "type": "string", "description": "The element type", "enum": ["checkbox"] },
+        "key": { "type": "string", "description": "The unique lookup id for the checkbox state. The key ``state`` is reserved; do not use it." },
+        "label": { "type": "string", "description": "A section heading printed above the checkbox or group of checkboxes. Usually added above the first checkbox in an array" },
+        "initial": { "type": "bool", "description": "Whether the checkbox starts enabled" },
+        "checkbox_label": { "type": "string", "description": "A human-readable label for the checkbox" }
+    }
+}

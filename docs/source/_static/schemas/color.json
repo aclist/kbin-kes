@@ -1,0 +1,18 @@
+{
+    "$id": "`<_static/schemas/color.json>`_",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Subschema - Color",
+    "type": "object",
+    "description": "An object describing colorpicker settings",
+    "required": [
+        "type",
+        "key",
+        "initial"
+    ],
+    "properties": {
+        "type": { "type": "string", "description": "The element type", "enum": ["color"] },
+        "key": { "type": "string", "description": "The unique lookup id for the checkbox state. The key ``state`` is reserved; do not use it." },
+        "label": { "type": "string", "description": "A section heading printed above the colorpicker." },
+        "initial": { "type": "string", "description": "The initial color value. Can be a theme variable or a hex color" }
+    }
+}

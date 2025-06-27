@@ -1,0 +1,26 @@
+{
+    "$id": "`<_static/schemas/range.json>`_",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$ref": "schemas/main",
+    "title": "Subschema - Range",
+    "type": "object",
+    "description": "An object describing range slider settings",
+    "required": [
+        "type",
+        "key",
+        "label",
+        "initial",
+        "min",
+        "max"
+    ],
+    "properties": {
+        "type": { "type": "string", "description": "The element type", "enum": ["range"] },
+        "key": { "type": "string", "description": "The unique lookup id for the slider's value. The key ``state`` is reserved; do not use it." },
+        "label": { "type": "string", "description": "A section heading printed above the slider field" },
+        "initial": { "type": "int", "description": "Initial value of the slider" },
+        "min": { "type": "int", "description": "Minimum threshold of the slider" },
+        "max": { "type": "int", "description": "Maximum threshold of the slider" },
+        "show_value": { "type": "bool", "description": "Whether the slider should show its numeric value" },
+        "step": { "type": "int", "description": "The increment between values" }
+    }
+}

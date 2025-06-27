@@ -1,0 +1,74 @@
+{
+    "$id": "`<_static/schemas/manifest.json>`_",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$$target": "schemas/main",
+    "title": "Main MES manifest",
+    "description": "The main portion of the mod manifest, exclusive of input fields.",
+    "type": "object",
+    "required": [
+        "name",
+        "author",
+        "label",
+        "desc",
+        "login",
+        "recurs",
+        "page"
+    ],
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "The internal name of the mod."
+        },
+        "author": {
+            "type": "string",
+            "description": "The author's handle on Mbin."
+        },
+        "version": {
+            "type": "string",
+            "description": "The mod's internal version number using `semantic versioning <https://semver.org/>`_."
+        },
+        "label": {
+            "type": "string",
+            "description": "The user-facing label for the mod as shown in MES."
+        },
+        "desc": {
+            "type": "string",
+            "description": "The user-facing description/instructions for the mod as shown in MES."
+        },
+        "login": {
+            "type": "bool",
+            "description": "Whether the mod requires the user to be logged in to function."
+        },
+        "recurs": {
+            "type": "bool",
+            "description": "Whether the mod should be applied on recurring page events like infinite scroll."
+        },
+        "page": {
+            "type": "string",
+            "description": "The corresponding sidebar page in MES where the mod should be located.",
+            "enum": [
+                "general",
+                "navbar",
+                "threads",
+                "profile",
+                "accessibility",
+                "mobile",
+                "debug",
+                "cosmetic",
+                "fixes",
+                "spam"
+            ]
+        },
+        "namespace": {
+            "type": "string",
+            "description": "If the mod exposes customizable settings, a fully qualified namespace used to save and retrieve the mod's settings in localStorage."
+        },
+        "fields": {
+            "type": "array",
+            "description": "This property is required if the mod wishes to embed input fields in the settings menu. An array of objects describing input fields, one per element. See detailed subschemas below.",
+            "items": {
+                "type": "object"
+            }
+        }
+    }
+}
