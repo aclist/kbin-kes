@@ -83,8 +83,8 @@ gen_requires(){
 
 gen_consts(){
 	cat<<-EOF
-		const version = safeGM("info").script.version;
-		const tool = safeGM("info").script.name;
+        const version = safeGM.info().script.version;
+        const tool = safeGM.info().script.name;
 		const repositoryURL = "https://github.com/$slug/";
 		const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/"
 		const branch = "$branch"

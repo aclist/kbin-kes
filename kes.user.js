@@ -40,8 +40,8 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-const version = safeGM.info.script.version;
-const tool = safeGM.info.script.name;
+const version = safeGM.info().script.version;
+const tool = safeGM.info().script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
 const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/"
 const branch = "testing"
