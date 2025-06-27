@@ -25,10 +25,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function suppressCoverInit (toggle) { //eslint-disable-line no-unused-vars
         const pt = getPageType();
         switch (pt) {
-            case Mbin.Thread.Comments:
-            case Mbin.Thread.Favorites:
-            case Mbin.Thread.Boosts:
-            case Mbin.Magazine:
+            case Mbin.Thread.COMMENTS:
+            case Mbin.Thread.FAVORITES:
+            case Mbin.Thread.BOOSTS:
+            case Mbin.MAGAZINE:
                 break;
             default:
                 return
@@ -562,10 +562,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         let globalSelector
         switch (getPageType()) {
-            case Mbin.Microblog:
+            case Mbin.MICROBLOG:
                 globalSelector = ".post-comments"
                 break;
-            case Mbin.Thread.Comments:
+            case Mbin.Thread.COMMENTS:
                 globalSelector = ".entry-comments"
                 break;
             default:
@@ -578,11 +578,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
             return
         }
         switch (trigger) {
-            case Trigger.Mutation:
+            case Trigger.MUTATION:
                 enterMain(mutation);
                 break;
-            case Trigger.Pageload:
-            case Trigger.Toggle:
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
                 enterMain();
                 break;
         }
@@ -592,7 +592,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function dividerInit (toggle) { //eslint-disable-line no-unused-vars
         function insertSeparator () {
             const pt = getPageType()
-            if (!isThread() && pt !== Mbin.Microblog) return
+            if (!isThread() && pt !== Mbin.MICROBLOG) return
             if (document.querySelector("#mes-thread-divider")) return
             const top = document.querySelector(".section--top")
             const sep = document.createElement("div")
@@ -1025,12 +1025,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         switch (trigger) {
-            case Trigger.Pageload:
-            case Trigger.Toggle:
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
                 document.querySelector(".kes-omni-modal")?.remove();
                 (toggle) ? setup() : shutdown();
                 break;
-            case Trigger.Setting:
+            case Trigger.SETTING:
                 if (setting === "mobile") {
                     (mobile) ? addTapBar() : removeTapBar();
                 }
@@ -1066,7 +1066,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== Mbin.User.DirectMessage) return
+        if (pt !== Mbin.User.DIRECTMESSAGE) return
         const form = document.querySelector('form[name="message"]')
         if (!form) return
         if (toggle) {
@@ -1770,12 +1770,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
             kchStartup();
         }
         switch (trigger) {
-            case Trigger.Mutation:
-            case Trigger.Pageload:
-            case Trigger.Toggle:
+            case Trigger.MUTATION:
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
                 (toggle) ? setup() : shutdown();
                 break;
-            case Trigger.Setting:
+            case Trigger.SETTING:
                 setCss()
                 break;
         }
@@ -1785,7 +1785,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
         function rearrangeSetup () {
             const pt = getPageType();
-            if (pt !== Mbin.Thread.Comments) return
+            if (pt !== Mbin.Thread.COMMENTS) return
             const settings = getModSettings('rearrange');
             const content = document.querySelector('#content');
             content.style.display = 'grid';
@@ -3050,7 +3050,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== Mbin.Magazine) return
+        if (pt !== Mbin.MAGAZINE) return
 
         function applyPins () {
 
@@ -3262,12 +3262,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const pt = getPageType();
         let list_columns
         switch (pt) {
-            case Mbin.User.Subscriptions: {
+            case Mbin.User.SUBSCRIPTIONS: {
                 list_columns = '.magazines-columns'
                 break;
             }
-            case Mbin.User.Followers:
-            case Mbin.User.Following: {
+            case Mbin.User.FOLLOWERS:
+            case Mbin.User.FOLLOWING: {
                 list_columns = '.users-columns'
                 break;
             }
@@ -3728,7 +3728,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             return document.querySelectorAll('#kes-omni-check');
         }
 
-        if (trigger == Trigger.Setting) {
+        if (trigger == Trigger.SETTING) {
             if (setting == "refresh" && !settings["refresh"]) {
                 clearCachedMags()
             } else if (setting == "check-color") {
@@ -3784,12 +3784,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const page = getPageType() //eslint-disable-line no-undef
             let el
             switch (page) {
-                case Mbin.Thread.Favorites:
-                case Mbin.User.Followers:
-                case Mbin.User.Following:
+                case Mbin.Thread.FAVORITES:
+                case Mbin.User.FOLLOWERS:
+                case Mbin.User.FOLLOWING:
                     el = ".users-columns .stretched-link"
                     break;
-                case Mbin.User.Default:
+                case Mbin.User.DEFAULT:
                     el = ".user-inline"
                     break;
                 default:
@@ -3870,7 +3870,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const mod = settings["kfaModColor"];
             const style = settings["kfaStyle"];
             const indicatorScale = settings["kfaScale"];
-            log(indicatorScale, Log.Log)
+            log(indicatorScale, Log.LOG)
             const bubbleFuzz = settings["kfaBubbleShadow"];
             if (style === "bubble") {
                 const scale = setScale(indicatorScale, 20)
@@ -4008,7 +4008,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function kfaInitClasses () {
             const page = getPageType(); // eslint-disable-line no-undef
-            if (page === Mbin.Microblog) {
+            if (page === Mbin.MICROBLOG) {
                 document.querySelectorAll('.section.post.subject').forEach(function (comment) {
                     if (comment.querySelector('[class^=data-]')) { return }
                     prependToComment(comment);
@@ -4019,7 +4019,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 });
                 return
             }
-            if (page !== Mbin.Microblog) {
+            if (page !== Mbin.MICROBLOG) {
                 document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
                     if (article.querySelector('[class^=data-]')) { return }
                     let op = article.querySelector('.user-inline').href
