@@ -66,3 +66,9 @@ const Theme = Object.freeze({
     SOLARIZED_DARK: 5,
     TOKYO_NIGHT: 6
 })
+
+const Scripthandler = {
+    NATIVE: 1,
+    TAMPER: 2
+}
+

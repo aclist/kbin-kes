@@ -387,57 +387,77 @@ function getTheme () {
 
 
 //sets the type of GM API being used (dot or underscore notation) based on scripthandler metadata
-let gmPrefix
-const dotPrefix = "GM."
-const underPrefix = "GM_"
-try {
-    if (GM_info) {
-        let scriptHandler = GM_info.scriptHandler;
+function getGMPrefix () {
+    let prefix
+    if (GM.info) {
+        let scriptHandler = GM.info.scriptHandler;
         switch (scriptHandler) {
             case "Greasemonkey":
-                gmPrefix = dotPrefix;
-                break;
             case "FireMonkey":
-                gmPrefix = dotPrefix;
-                break;
             case "Userscripts":
-                gmPrefix = dotPrefix;
+                prefix = Scripthandler.NATIVE
+                break;
+            case "Tampermonkey":
+                prefix = Scripthandler.TAMPER
                 break;
             default:
-                gmPrefix = underPrefix;
+                prefix = Scripthandler.TAMPER
                 break;
         }
+    } else {
+        prefix = Scripthandler.TAMPER
     }
-} catch (error) {
-    console.log(error);
+    return prefix
+}
+
+function testMode (func, ...args) {
+    let dict
+    (getGMPrefix() == gmEnums.tamper) ? dict = tamperGM : dict = nativeGM
+    dict[func](...args);
+}
+
+const nativeGM = {
+    setValue (...args) { return GM.setValue(...args) },
+    getValue (...args) { return GM.getValue(...args) },
+    xmlHttpRequest (...args) { return GM.xmlHttpRequest(...args)},
+    addStyle (...args) { return addCustomCSS(...args)},
+    removeStyle (...args) { return removeCustomCSS (...args) },
+    info () { return GM.info }
+}
+
+const tamperGM = {
+    setValue (...args) { return GM_setValue(...args) },
+    getValue (...args) { return GM_getValue(...args) },
+    xmlHttpRequest (...args) { return GM_xmlhttpRequest(...args)},
+    addStyle (...args) { return addCustomCSS(...args)},
+    removeStyle (...args) { return removeCustomCSS (...args) },
+    getResourceText (...args) { return GM_getResourceText(...args)},
+    info () { return GM_info }
 }
 
 //maps incoming arguments to wrapper functions depending on *monkey extension variant being used
 //provides seamless support for switching between new and old GM API
-window.safeGM = function (func,...args) {
-    let use
-    const underscore = {
-        setValue (...args) { return GM_setValue(...args) },
-        getValue (...args) { return GM_getValue(...args) },
-        addStyle (...args) { return addCustomCSS(...args)},
-        removeStyle (...args) { return removeCustomCSS (...args) },
-        xmlhttpRequest (...args) { return GM_xmlhttpRequest(...args)},
-        getResourceText (...args) { return GM_getResourceText(...args)},
-        info () { return GM_info }
+const safeGM = {
+    setValue: function (...args) {
+        return testMode("setValue", ...args)
+    },
+    getValue: function (...args) {
+        return testMode("getValue", ...args)
+    },
+    addStyle: function (...args) {
+        return testMode("addStyle", ...args)
+    },
+    removeStyle: function (...args) {
+        return testMode("removeStyle", ...args)
+    },
+    xmlHttpRequest: function (...args) {
+        return testMode("xmlHttpRequest", ...args)
+    },
+    getResourceText: function (...args) {
+        return testMode("getResourceText", ...args)
+    },
+    info: function (...args) {
+        return testMode("info", ...args)
     }
-    const dot = {
-        setValue (...args) { return GM.setValue(...args) },
-        getValue (...args) { return GM.getValue(...args) },
-        addStyle (...args) { return addCustomCSS(...args)},
-        removeStyle (...args) { return removeCustomCSS (...args) },
-        xmlhttpRequest (...args) { return GM.xmlHttpRequest(...args)},
-        info () { return GM_info }
-    }
-
-    if (gmPrefix === "GM_") {
-        use = underscore
-    } else {
-        use = dot
-    }
-    return use[func](...args);
 }
+
