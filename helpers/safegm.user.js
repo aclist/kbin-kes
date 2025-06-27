@@ -196,8 +196,6 @@ function getPageType () { //eslint-disable-line no-unused-vars
             return Mbin.BOOKMARKS
         case "modlog":
             return Mbin.MODLOG
-        case "people":
-            return Mbin.PEOPLE
         case "tag":
             return Mbin.TAG
         case "microblog":
@@ -213,6 +211,7 @@ function getPageType () { //eslint-disable-line no-unused-vars
             if ((url[4]) === "article") return Mbin.New.THREAD
             if ((url[4]) === "photo") return Mbin.New.PHOTO
             if ((url[4]) === "newMagazine") return Mbin.New.MAGAZINE
+            break;
         case "u":
             if (url[5] === undefined) return Mbin.User.DEFAULT
             if (url[5] === "message") return Mbin.User.DIRECTMESSAGE
@@ -227,14 +226,20 @@ function getPageType () { //eslint-disable-line no-unused-vars
             if (window.location.href.includes("/reputation")) return Mbin.User.REPUTATION
             return Mbin.User.DEFAULT
         case "d":
-            if ((url.length === 6) && (window.location.href.includes("/comments"))) return Mbin.Domain.COMMENTS
+            if ((url.length === 6) && (window.location.href.includes("/comments"))) {
+                return Mbin.Domain.COMMENTS
+            }
             return Mbin.Domain.DEFAULT
         case "m":
             if (url[5] === undefined) return Mbin.MAGAZINE
             if (window.location.href.includes("/threads")) return Mbin.MAGAZINE
             if (url[5] === "microblog") return Mbin.MICROBLOG
-            if ((url[5] === "t") && (window.location.href.includes("/favourites"))) return Mbin.Thread.FAVORITES
-            if ((url[5] === "t") && (window.location.href.includes("/up"))) return Mbin.Thread.BOOSTS
+            if ((url[5] === "t") && (window.location.href.includes("/favourites"))) {
+                return Mbin.Thread.FAVORITES
+            }
+            if ((url[5] === "t") && (window.location.href.includes("/up"))) {
+                return Mbin.Thread.BOOSTS
+            }
             return Mbin.Thread.COMMENTS
         default:
             break;
