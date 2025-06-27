@@ -3,7 +3,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Subschema - Color",
     "type": "object",
-    "description": "An oject describing colorpicker settings",
+    "description": "An object describing colorpicker settings",
     "required": [
         "type",
         "key",

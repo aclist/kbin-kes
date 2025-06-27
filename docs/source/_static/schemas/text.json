@@ -3,7 +3,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Subschema - Text",
     "type": "object",
-    "description": "An oject describing text field settings",
+    "description": "An object describing text field settings",
     "required": [
         "type",
         "key",
