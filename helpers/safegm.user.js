@@ -267,7 +267,7 @@ async function loadMags (callback, ns, useCache=false) {
     safeGM.setValue(cancelKey, false);
 
     async function runCallback (mags, isFinalCall) {
-        if (safeGM("getValue", cancelKey)) return;
+        if (safeGM.getValue(cancelKey)) return;
         safeGM.setValue(`user-mags-${hostname}-${username}`, mags);
         callback(mags, isFinalCall);
     }

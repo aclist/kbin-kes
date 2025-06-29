@@ -34,7 +34,7 @@ Utility functions
 .. code-block:: javascript
 
    function genericXMLRequest (url, callback) {
-        safeGM("xmlhttpRequest", {
+        safeGM.xmlHttpRequest({
             method: 'GET',
             url: url,
             onload: callback,
