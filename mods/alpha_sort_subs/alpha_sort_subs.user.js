@@ -11,12 +11,12 @@ function alphaSortInit (toggle) { // eslint-disable-line no-unused-vars
     const pt = getPageType();
     let list_columns
     switch (pt) {
-        case Mbin.User.Subscriptions: {
+        case Mbin.User.SUBSCRIPTIONS: {
             list_columns = '.magazines-columns'
             break;
         }
-        case Mbin.User.Followers:
-        case Mbin.User.Following: {
+        case Mbin.User.FOLLOWERS:
+        case Mbin.User.FOLLOWING: {
             list_columns = '.users-columns'
             break;
         }

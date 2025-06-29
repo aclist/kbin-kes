@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 TEST_NAME="Check for missing mod functions"
+#checks for local mods missing in funcs.js and vice versa
+
 find_mods(){
     readarray -t mods < <(find mods/ -mindepth 1 -type d | sort)
     for mod in "${mods[@]}"; do

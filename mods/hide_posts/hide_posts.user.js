@@ -1,21 +1,21 @@
 function hidePostsInit (toggle) { //eslint-disable-line no-unused-vars
 
     async function wipeArray () {
-        await safeGM("setValue","hidden-posts","[]")
+        await safeGM.setValue("hidden-posts","[]")
     }
     async function setArray () {
-        const val = await safeGM("getValue","hidden-posts")
+        const val = await safeGM.getValue("hidden-posts")
         if(val) {
             setup(val)
         } else {
-            await safeGM("setValue","hidden-posts","[]")
+            await safeGM.setValue("hidden-posts","[]")
             setup('[]')
         }
     }
     async function addToArr (idArr,toHideID) {
         idArr.push(toHideID)
         const updatedArr = JSON.stringify(idArr)
-        await safeGM("setValue","hidden-posts",updatedArr)
+        await safeGM.setValue("hidden-posts",updatedArr)
     }
     function teardown (hp) {
         $('.kes-hide-posts').hide();
@@ -29,13 +29,13 @@ function hidePostsInit (toggle) { //eslint-disable-line no-unused-vars
         wipeArray();
     }
     async function fetchCurrentPage () {
-        const hp = await safeGM("getValue","hide-this-page");
+        const hp = await safeGM.getValue("hide-this-page");
         if (hp) {
             teardown(hp);
         }
     }
     async function storeCurrentPage (hideThisPage) {
-        await safeGM("setValue","hide-this-page",hideThisPage)
+        await safeGM.setValue("hide-this-page", hideThisPage)
     }
     function hideSib (el, mode) {
         const sib = el.nextSibling;

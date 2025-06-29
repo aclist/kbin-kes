@@ -16,9 +16,9 @@ function unblurInit (toggle) { // eslint-disable-line no-unused-vars
     `;
 
     if (toggle) {
-        safeGM("removeStyle", 'unblurred');
-        safeGM("addStyle", unblurCSS, 'unblurred');
+        safeGM.removeStyle("unblurred");
+        safeGM.addStyle(unblurCSS, "unblurred");
     } else {
-        safeGM("removeStyle", 'unblurred');
+        safeGM.removeStyle("unblurred");
     }
 }

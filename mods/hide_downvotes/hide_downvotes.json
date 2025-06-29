@@ -6,6 +6,6 @@
   "login": false,
   "recurs": true,
   "desc": "Hide reduces (downvotes) on threads, posts, and comments",
-  "entrypoint": "hide_downvotes",
-  "page": "general"
+  "page": "general",
+  "entrypoint": "hide_downvotes"
 }

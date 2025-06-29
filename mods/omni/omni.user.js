@@ -93,8 +93,8 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
 
     function createOmni () {
 
-        safeGM("removeStyle", "omni-css")
-        safeGM("addStyle", omniCSS, "omni-css")
+        safeGM.removeStyle("omni-css")
+        safeGM.addStyle(omniCSS, "omni-css")
 
         if (username) {
             loadMags((mags, isFinalCall) => {
@@ -105,7 +105,7 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
         }
 
         async function loadDefaultMags () {
-            const loaded = await safeGM("getValue", `omni-default-mags-${hostname}`);
+            const loaded = await safeGM.getValue(`omni-default-mags-${hostname}`);
             if ((!loaded) || (loaded.length < 1)) {
                 fetchDefaultMags();
             } else {
@@ -113,7 +113,7 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
             }
         }
         async function saveDefaultMags (mags) {
-            await safeGM("setValue", `omni-default-mags-${hostname}`, mags)
+            await safeGM.setValue(`omni-default-mags-${hostname}`, mags)
             omni(mags);
         }
         function fetchDefaultMags () {
@@ -411,18 +411,18 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
         loadMags.cancel(id);
         clearCachedMags();
         clearLoader(id);
-        safeGM("setValue",`omni-default-mags-${hostname}`, []);
+        safeGM.setValue(`omni-default-mags-${hostname}`, []);
         $(document).off("keypress.omnikey");
         removeTapBar();
     }
 
     switch (trigger) {
-        case Trigger.Pageload:
-        case Trigger.Toggle:
+        case Trigger.PAGELOAD:
+        case Trigger.TOGGLE:
             document.querySelector(".kes-omni-modal")?.remove();
             (toggle) ? setup() : shutdown();
             break;
-        case Trigger.Setting:
+        case Trigger.SETTING:
             if (setting === "mobile") {
                 (mobile) ? addTapBar() : removeTapBar();
             }

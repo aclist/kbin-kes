@@ -233,11 +233,11 @@ function debugBar (json) {
             tooltip: "Expand the debug console"
         }
     }
-    safeGM("removeStyle", "mes-debugbar-css")
-    safeGM("addStyle", debugCSS, "mes-debugbar-css")
+    safeGM.removeStyle("mes-debugbar-css")
+    safeGM.addStyle(debugCSS, "mes-debugbar-css")
     const theme = getTheme()
     const panelCssID = "mes-debugbar-panel-css"
-    safeGM("removeStyle", panelCssID)
+    safeGM.removeStyle(panelCssID)
     let style
     switch (theme) {
         case Theme.TOKYO_NIGHT:
@@ -258,7 +258,7 @@ function debugBar (json) {
             style = panelCSSDark
             break;
     }
-    safeGM("addStyle", style, panelCssID)
+    safeGM.addStyle(style, panelCssID)
 
 
     //outer grid
@@ -666,9 +666,9 @@ function debugBar (json) {
             const row = document.createElement("p")
 
             let cl
-            if (level === Log.Log) cl = `${pref}-default`
-            if (level === Log.Warn) cl = `${pref}-warn`
-            if (level === Log.Error) cl = `${pref}-error`
+            if (level === Log.LOG) cl = `${pref}-default`
+            if (level === Log.WARN) cl = `${pref}-warn`
+            if (level === Log.ERROR) cl = `${pref}-error`
             sep.className = cl
 
             row.innerText = str

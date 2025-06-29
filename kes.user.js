@@ -18,13 +18,11 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_getResourceText
-// @grant        GM_setClipboard
 // @grant        GM.addStyle
 // @grant        GM.xmlHttpRequest
 // @grant        GM.info
 // @grant        GM.getValue
 // @grant        GM.setValue
-// @grant        GM.setClipboard
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
@@ -42,8 +40,8 @@
 // ==/UserScript==
 
 //START AUTO MASTHEAD
-const version = safeGM("info").script.version;
-const tool = safeGM("info").script.name;
+const version = safeGM.info().script.version;
+const tool = safeGM.info().script.name;
 const repositoryURL = "https://github.com/aclist/kbin-kes/";
 const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/"
 const branch = "testing"
@@ -63,16 +61,16 @@ const layoutURL = branchPath + helpersPath + "ui.json"
 
 async function checkUpdates (response) {
     if (response.status === 200) {
-        log("Checking for new version at remote", Log.Log);
+        log("Checking for new version at remote", Log.LOG);
         const newVersion = await response.responseText.trim();
         if (newVersion && newVersion != version) {
             // Change version link into a button for updating
             versionElement.innerText = 'Install update: ' + newVersion;
             versionElement.setAttribute('href', updateURL);
             versionElement.className = 'new';
-            await safeGM("setValue", "isnew", "yes");
+            await safeGM.setValue("isnew", "yes");
         } else {
-            await safeGM("setValue", "isnew", "no");
+            await safeGM.setValue("isnew", "no");
         }
     }
     preparePayloads();
@@ -80,17 +78,17 @@ async function checkUpdates (response) {
 
 async function makeArr (response) {
     const resp = await response.response;
-    await safeGM("setValue", "json", resp);
+    await safeGM.setValue("json", resp);
 }
 
 async function setRemoteCSS (response) {
     const resp = await response.responseText.trim();
-    await safeGM("setValue", "kes-css", resp)
+    await safeGM.setValue("kes-css", resp)
 }
 async function setRemoteUI (response) {
     const resp = await response.response;
-    await safeGM("setValue", "layout", resp)
-    await safeGM("getValue", "json")
+    await safeGM.setValue("layout", resp)
+    await safeGM.getValue("json")
 
 }
 async function preparePayloads () {
@@ -98,14 +96,13 @@ async function preparePayloads () {
     let css
     let kes_layout
     let isNew
-    if (gmPrefix === "GM_") {
-        json = safeGM("getResourceText", "kes_json");
-        css = safeGM("getResourceText", "kes_css");
-        kes_layout = safeGM("getResourceText", "kes_layout");
-        isNew = safeGM("getValue", "isnew")
+    if (getGMPrefix() === Scripthandler.TAMPER) {
+        json = safeGM.getResourceText("kes_json");
+        css = safeGM.getResourceText("kes_css");
+        kes_layout = safeGM.getResourceText("kes_layout");
+        isNew = safeGM.getValue("isnew")
         validateData(css, json, kes_layout, isNew)
     } else {
-
         genericXMLRequest(layoutURL, setRemoteUI);
         genericXMLRequest(manifest, makeArr);
         genericXMLRequest(cssURL, setRemoteCSS);
@@ -114,10 +111,10 @@ async function preparePayloads () {
     }
 }
 async function unwrapPayloads () {
-    const storedJSON = safeGM("getValue", "json")
-    const storedCSS = safeGM("getValue", "kes-css")
-    const storedUI = safeGM("getValue", "layout")
-    const storedNew = safeGM("getValue", "isnew")
+    const storedJSON = safeGM.getValue("json")
+    const storedCSS = safeGM.getValue("kes-css")
+    const storedUI = safeGM.getValue("layout")
+    const storedNew = safeGM.getValue("isnew")
     let payload = Promise.all([storedCSS, storedJSON, storedUI, storedNew]);
     payload.then((items) => {
         let p0 = items[0]
@@ -139,7 +136,7 @@ function validateData (rawCSS, rawJSON, rawLayout, isNew) {
         warning.innerText = "[kbin Enhancement Suite] Failed to fetch the remote resources. Reload or try again later."
         document.body.insertAdjacentHTML("beforebegin", warning.outerHTML);
     } else {
-        safeGM("addStyle", rawCSS);
+        safeGM.addStyle(rawCSS);
         const j = JSON.parse(rawJSON);
         const json = j.sort( function ( a, b ) {
             a = a.label.toLowerCase();
@@ -389,7 +386,7 @@ function constructMenu (json, layoutArr, isNew) {
         const validPages = dedupePages()
         for (let i = 0; i < sidebarPages.length; ++i) {
             if (!validPages.includes(sidebarPages[i])) {
-                log(`The sidebar page '${sidebarPages[i]}' is unused`, Log.Warn)
+                log(`The sidebar page '${sidebarPages[i]}' is unused`, Log.WARN)
                 continue
             }
             let pageUpper = sidebarPages[i].charAt(0).toUpperCase() + sidebarPages[i].slice(1);
@@ -592,37 +589,6 @@ function constructMenu (json, layoutArr, isNew) {
                                 hBox.appendChild(range);
                             }
                             hBox.appendChild(br);
-                            break;
-                        }
-                        case "reset": {
-                            const resetField = document.createElement('input');
-                            resetField.setAttribute("type",fieldType);
-                            resetField.addEventListener('click', ()=> {
-                                for (let j = 0; j < json[it].catch_reset.length; ++j) {
-                                    let fieldToReset = json[it].catch_reset[j];
-                                    let resetClassName = `.kes-settings-modal-helpbox input[kes-key="${fieldToReset}"]`
-                                    let found = document.querySelector(resetClassName)
-                                    let matchKey = found.getAttribute("kes-key")
-                                    for (let k = 0 ; k < json[it].fields.length; ++k) {
-                                        if(json[it].fields[k].key === matchKey) {
-                                            let initial = json[it].fields[k].initial
-                                            if (json[it].fields[k].type === "color") {
-                                                initial = getHex(initial);
-                                            } else if (json[it].fields[k].type === "number") {
-                                                initial = getComputedFontSize(initial)
-                                                if (!initial) {
-                                                    initial = 14
-                                                }
-                                            }
-                                            found.setAttribute("value",initial);
-                                            found.value = initial;
-                                        }
-                                    }
-                                    updateState(found);
-                                }
-                            });
-                            hBox.appendChild(resetField)
-                            hBox.appendChild(br)
                             break;
                         }
                         case "color": {
@@ -1097,8 +1063,8 @@ function constructMenu (json, layoutArr, isNew) {
         debugClip.addEventListener('click', ()=> {
             const userPlatform = navigator.platform;
             const userAgent = navigator.userAgent;
-            const handler = safeGM("info").scriptHandler;
-            const incog = safeGM("info").isIncognito;
+            const handler = safeGM.info().scriptHandler;
+            const incog = safeGM.info().isIncognito;
             const kesUserSettings = localStorage["kes-settings"];
             const toPaste = `OS: ${userPlatform}\nAgent: ${userAgent}\nKES version: ${version}\nHandler: ${handler}\nIncog: ${incog}\nSettings: ${kesUserSettings}`
             navigator.clipboard.writeText(toPaste);
@@ -1249,10 +1215,10 @@ function constructMenu (json, layoutArr, isNew) {
         let trigger
         switch (key) {
             case "state": // toggle was flipped
-                trigger = Trigger.Toggle
+                trigger = Trigger.TOGGLE
                 break;
             default: // any other setting was changed
-                trigger = Trigger.Setting
+                trigger = Trigger.SETTING
                 break;
         }
         //update master and mod settings
@@ -1277,48 +1243,18 @@ function constructMenu (json, layoutArr, isNew) {
         }
     }
 
-    function toggleDependencies (entry, state, trigger) {
-        let object
-        let depends
-        let entrypoint
-
-        for (let i = 0; i < json.length; ++i) {
-            if(json[i].entrypoint === entry) {
-                object = json[i]
-            }
-        }
-        if (!object.depends_on && !object.depends_off) return
-        if (state == true && !object.depends_on) return
-        if (state == false && !object.depends_off) return
-
-        if (state === true) {
-            depends = object.depends_on
-        } else {
-            depends = object.depends_off
-        }
-
-        const settings = getSettings();
-        for (let i = 0; i < depends.length; ++i) {
-            entrypoint = depends[i]
-            settings[entrypoint] = state
-            saveSettings(settings);
-            funcObj[entrypoint](state, trigger);
-        }
-    }
     function toggleSettings (json, trigger, meta) {
         const login = json.login
         const entry = json.entrypoint
         if (requiresLoginButLoggedOut(login)) {
-            log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
+            log(`Mod '${entry}' requires login, but user is logged out`, Log.WARN)
             return
         }
         const settings = getSettings()
         try {
             if (settings[entry] == true) {
-                toggleDependencies(entry, true, Trigger.Dependency)
                 funcObj[entry](true, trigger, meta);
             } else {
-                toggleDependencies(entry, false, Trigger.Dependency)
                 funcObj[entry](false, trigger, meta);
             }
         } catch (error) {
@@ -1388,13 +1324,12 @@ function constructMenu (json, layoutArr, isNew) {
         try {
             if (settings[entry] == true) {
                 if (requiresLoginButLoggedOut(login)) {
-                    log(`Mod '${entry}' requires login, but user is logged out`, Log.Warn)
+                    log(`Mod '${entry}' requires login, but user is logged out`, Log.WARN)
                     return 2
                 }
                 if (isDebugBarEnabled() && debug["mods"][entry]) {
                     return 1
                 }
-                toggleDependencies(entry, true, Trigger.Dependency)
                 funcObj[entry](true, trigger, meta);
                 return 0
             } else {
@@ -1403,13 +1338,12 @@ function constructMenu (json, layoutArr, isNew) {
                     if (debug["mods"][entry]) {
                         return 1
                     }
-                    toggleDependencies(entry, true)
                     funcObj[entry](true, trigger, meta);
                     return 0
                 }
             }
         } catch (error) {
-            log(error, Log.Error)
+            log(error, Log.ERROR)
             return 1
         }
     }
@@ -1453,7 +1387,7 @@ function constructMenu (json, layoutArr, isNew) {
         let loaded = 0
         let skipped = 0
         for (let i = 0; i < json.length; ++i) {
-            let res = applySettings(json[i], Trigger.PageLoad);
+            let res = applySettings(json[i], Trigger.PAGELOAD);
             switch (res) {
                 case 0:
                     loaded++
@@ -1477,7 +1411,7 @@ function constructMenu (json, layoutArr, isNew) {
             //trigger when username popover dialog is spawned on hover
             //there can only be one popover spawned at a given time
             if (mutation.target.id === "popover") {
-                applySettings(timestamp_json, Trigger.Mutation, mutation);
+                applySettings(timestamp_json, Trigger.MUTATION, mutation);
                 return
             }
             //workaround for timeago ticks changing timestamp textContent
@@ -1485,7 +1419,7 @@ function constructMenu (json, layoutArr, isNew) {
             //see also updateState()
             if (mutation.target.className === 'timeago') {
                 if (!mutation.target.classList.contains("hidden-timeago")) {
-                    applySettings(timestamp_json, Trigger.Mutation, mutation);
+                    applySettings(timestamp_json, Trigger.MUTATION, mutation);
                 }
                 //triggering on the first mutation is sufficient to apply to all timestamps
                 return
@@ -1498,7 +1432,7 @@ function constructMenu (json, layoutArr, isNew) {
                 || (mutation.target.classList.contains("post-comments"))) {
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i], Trigger.Mutation, mutation);
+                        applySettings(json[i], Trigger.MUTATION, mutation);
                         obs.takeRecords();
                     }
                 }
@@ -1507,7 +1441,7 @@ function constructMenu (json, layoutArr, isNew) {
             if (mutation.target.className === "kes-collapse-children") {
                 for (let i = 0; i < json.length; ++i) {
                     if (json[i].recurs) {
-                        applySettings(json[i], Trigger.Mutation, mutation);
+                        applySettings(json[i], Trigger.MUTATION, mutation);
                         obs.takeRecords();
                     }
                 }

@@ -6,7 +6,6 @@
   "desc": "Change navbar search/post icons to text strings",
   "login": false,
   "recurs": true,
-  "entrypoint": "nav_icons",
   "namespace": "nav_icons",
   "fields": [
     {
@@ -32,5 +31,6 @@
       "label": "Post icon"
     }
   ],
-  "page": "navbar"
+  "page": "navbar",
+  "entrypoint": "nav_icons"
 }

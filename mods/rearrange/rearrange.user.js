@@ -1,7 +1,7 @@
 function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
     function rearrangeSetup () {
         const pt = getPageType();
-        if (pt !== Mbin.Thread.Comments) return
+        if (pt !== Mbin.Thread.COMMENTS) return
         const settings = getModSettings('rearrange');
         const content = document.querySelector('#content');
         content.style.display = 'grid';

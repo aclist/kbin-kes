@@ -25,10 +25,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function suppressCoverInit (toggle) { //eslint-disable-line no-unused-vars
         const pt = getPageType();
         switch (pt) {
-            case Mbin.Thread.Comments:
-            case Mbin.Thread.Favorites:
-            case Mbin.Thread.Boosts:
-            case Mbin.Magazine:
+            case Mbin.Thread.COMMENTS:
+            case Mbin.Thread.FAVORITES:
+            case Mbin.Thread.BOOSTS:
+            case Mbin.MAGAZINE:
                 break;
             default:
                 return
@@ -309,13 +309,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 margin-left: 0px !important
             }
             `;
-            safeGM("addStyle", hideDefaults, "hide-defaults");
-            safeGM("addStyle", style, "threaded-comments");
-            safeGM("addStyle", mbinStyle, "mbin-kes-comments-style");
+            safeGM.addStyle(hideDefaults, "hide-defaults");
+            safeGM.addStyle(style, "threaded-comments");
+            safeGM.addStyle(mbinStyle, "mbin-kes-comments-style");
             const el = document.querySelector(`${subSelector} figure`);
             const display = window.getComputedStyle(el).display
             if (display === "none") {
-                safeGM("addStyle", hiddenfigureCSS, "mbin-kes-comments-figure-style");
+                safeGM.addStyle(hiddenfigureCSS, "mbin-kes-comments-figure-style");
             }
         }
         function applyToNewPosts (mutation) {
@@ -554,18 +554,18 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
             removeDangling();
             clearMores();
-            safeGM("removeStyle", "hide-defaults");
-            safeGM("removeStyle", "threaded-comments");
-            safeGM("removeStyle", "mbin-kes-comments-style");
-            safeGM("removeStyle", "mbin-kes-comments-figure-style");
+            safeGM.removeStyle("hide-defaults");
+            safeGM.removeStyle("threaded-comments");
+            safeGM.removeStyle("mbin-kes-comments-style");
+            safeGM.removeStyle("mbin-kes-comments-figure-style");
         }
 
         let globalSelector
         switch (getPageType()) {
-            case Mbin.Microblog:
+            case Mbin.MICROBLOG:
                 globalSelector = ".post-comments"
                 break;
-            case Mbin.Thread.Comments:
+            case Mbin.Thread.COMMENTS:
                 globalSelector = ".entry-comments"
                 break;
             default:
@@ -578,11 +578,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
             return
         }
         switch (trigger) {
-            case Trigger.Mutation:
+            case Trigger.MUTATION:
                 enterMain(mutation);
                 break;
-            case Trigger.Pageload:
-            case Trigger.Toggle:
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
                 enterMain();
                 break;
         }
@@ -592,7 +592,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function dividerInit (toggle) { //eslint-disable-line no-unused-vars
         function insertSeparator () {
             const pt = getPageType()
-            if (!isThread() && pt !== Mbin.Microblog) return
+            if (!isThread() && pt !== Mbin.MICROBLOG) return
             if (document.querySelector("#mes-thread-divider")) return
             const top = document.querySelector(".section--top")
             const sep = document.createElement("div")
@@ -701,8 +701,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function createOmni () {
 
-            safeGM("removeStyle", "omni-css")
-            safeGM("addStyle", omniCSS, "omni-css")
+            safeGM.removeStyle("omni-css")
+            safeGM.addStyle(omniCSS, "omni-css")
 
             if (username) {
                 loadMags((mags, isFinalCall) => {
@@ -713,7 +713,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
 
             async function loadDefaultMags () {
-                const loaded = await safeGM("getValue", `omni-default-mags-${hostname}`);
+                const loaded = await safeGM.getValue(`omni-default-mags-${hostname}`);
                 if ((!loaded) || (loaded.length < 1)) {
                     fetchDefaultMags();
                 } else {
@@ -721,7 +721,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 }
             }
             async function saveDefaultMags (mags) {
-                await safeGM("setValue", `omni-default-mags-${hostname}`, mags)
+                await safeGM.setValue(`omni-default-mags-${hostname}`, mags)
                 omni(mags);
             }
             function fetchDefaultMags () {
@@ -1019,18 +1019,18 @@ const funcObj = { // eslint-disable-line no-unused-vars
             loadMags.cancel(id);
             clearCachedMags();
             clearLoader(id);
-            safeGM("setValue",`omni-default-mags-${hostname}`, []);
+            safeGM.setValue(`omni-default-mags-${hostname}`, []);
             $(document).off("keypress.omnikey");
             removeTapBar();
         }
 
         switch (trigger) {
-            case Trigger.Pageload:
-            case Trigger.Toggle:
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
                 document.querySelector(".kes-omni-modal")?.remove();
                 (toggle) ? setup() : shutdown();
                 break;
-            case Trigger.Setting:
+            case Trigger.SETTING:
                 if (setting === "mobile") {
                     (mobile) ? addTapBar() : removeTapBar();
                 }
@@ -1066,7 +1066,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== Mbin.User.DirectMessage) return
+        if (pt !== Mbin.User.DIRECTMESSAGE) return
         const form = document.querySelector('form[name="message"]')
         if (!form) return
         if (toggle) {
@@ -1269,7 +1269,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function genericPOSTRequest (url, callback, data) {
-            safeGM("xmlhttpRequest", {
+            safeGM.xmlHttpRequest({
                 method: 'POST',
                 onload: callback,
                 data: 'token=' + data,
@@ -1449,8 +1449,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function startup () {
-            safeGM("addStyle", customPanelCSS, "notipanel-main-css");
-            safeGM("addStyle", spinnerCSS, "notipanel-spinner-css");
+            safeGM.addStyle(customPanelCSS, "notipanel-main-css");
+            safeGM.addStyle(spinnerCSS, "notipanel-spinner-css");
             build();
         }
 
@@ -1484,7 +1484,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             clickModal.addEventListener('click', () => {
                 iframe.remove();
                 clickModal.remove();
-                safeGM("addStyle", resetDropdownCSS, "notipanel-reset-css")
+                safeGM.addStyle(resetDropdownCSS, "notipanel-reset-css")
             });
             const container = document.querySelector('.kbin-container') 
                 ?? document.querySelector('.mbin-container');
@@ -1541,7 +1541,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     anchorOuterElement.appendChild(notiBadgeHolder);
                 }
                 anchorOuterElement.addEventListener('click', () => {
-                    safeGM("addStyle", forceDropdownCSS, "notipanel-force-css");
+                    safeGM.addStyle(forceDropdownCSS, "notipanel-force-css");
                     toggleIframe(listItem)
                 });
             }
@@ -1563,7 +1563,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 "notipanel-force-css"
             ]
             for (let i in styles) {
-                safeGM("removeStyle", styles[i]);
+                safeGM.removeStyle(styles[i]);
             }
         }
 
@@ -1655,8 +1655,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
         `;
 
-        safeGM("removeStyle", "mes-code-css")
-        safeGM("addStyle", codeCSS, "mes-code-css")
+        safeGM.removeStyle("mes-code-css")
+        safeGM.addStyle(codeCSS, "mes-code-css")
 
         function kchStartup () {
             addHeaders('pre:not(.mes-code-clone)');
@@ -1664,7 +1664,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function shutdown () {
-            safeGM("removeStyle", "kch-hljs")
+            safeGM.removeStyle("kch-hljs")
             document.querySelectorAll("pre").forEach((item) => {
                 item.style.removeProperty("display")
                 delete item.dataset.codehighlight
@@ -1737,15 +1737,15 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const prefix = "https://raw.githubusercontent.com"
             const suffix = "highlightjs/highlight.js/main/src/styles/base16"
             const url = `${prefix}/${suffix}/${myStyle}.css`
-            safeGM("xmlhttpRequest",{
+            safeGM.xmlHttpRequest({
                 method: "GET",
                 url: url,
                 headers: {
                     "Content-Type": "text/css"
                 },
                 onload: function (response) {
-                    safeGM("removeStyle", response.responseText, "kch-hljs");
-                    safeGM("addStyle", response.responseText, "kch-hljs");
+                    safeGM.removeStyle(response.responseText, "kch-hljs");
+                    safeGM.addStyle(response.responseText, "kch-hljs");
                 }
             });
         }
@@ -1770,12 +1770,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
             kchStartup();
         }
         switch (trigger) {
-            case Trigger.Mutation:
-            case Trigger.Pageload:
-            case Trigger.Toggle:
+            case Trigger.MUTATION:
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
                 (toggle) ? setup() : shutdown();
                 break;
-            case Trigger.Setting:
+            case Trigger.SETTING:
                 setCss()
                 break;
         }
@@ -1785,7 +1785,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
         function rearrangeSetup () {
             const pt = getPageType();
-            if (pt !== Mbin.Thread.Comments) return
+            if (pt !== Mbin.Thread.COMMENTS) return
             const settings = getModSettings('rearrange');
             const content = document.querySelector('#content');
             content.style.display = 'grid';
@@ -1953,7 +1953,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             check();
         }
         function unapply () {
-            safeGM("removeStyle", "mes-filter-css");
+            safeGM.removeStyle("mes-filter-css");
         }
 
         function filterDupes (array) {
@@ -2183,10 +2183,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
         `;
 
         if (toggle) {
-            safeGM("removeStyle", 'unblurred');
-            safeGM("addStyle", unblurCSS, 'unblurred');
+            safeGM.removeStyle("unblurred");
+            safeGM.addStyle(unblurCSS, "unblurred");
         } else {
-            safeGM("removeStyle", 'unblurred');
+            safeGM.removeStyle("unblurred");
         }
     },
 
@@ -2453,12 +2453,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
         `;
         if (toggle) {
-            safeGM("removeStyle", "navbar-icons-css")
-            safeGM("addStyle", css, "navbar-icons-css")
+            safeGM.removeStyle("navbar-icons-css")
+            safeGM.addStyle(css, "navbar-icons-css")
             searchText.innerText = "" ;
             postText.innerText = "" ;
         } else {
-            safeGM("removeStyle", "navbar-icons-css")
+            safeGM.removeStyle("navbar-icons-css")
         }
     },
 
@@ -2632,14 +2632,14 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 font-size: ${resolveSize(settings["optionPagination"])}rem
             }
             `;
-            safeGM("addStyle", css, "resize-css")
+            safeGM.addStyle(css, "resize-css")
         }
 
         if (toggle) {
-            safeGM("removeStyle", "resize-css")
+            safeGM.removeStyle("resize-css")
             resizeText();
         } else {
-            safeGM("removeStyle", "resize-css")
+            safeGM.removeStyle("resize-css")
             return
         }
     },
@@ -3050,13 +3050,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== Mbin.Magazine) return
+        if (pt !== Mbin.MAGAZINE) return
 
         function applyPins () {
 
             const css = setCSS();
-            safeGM("removeStyle", 'kes-pin-css');
-            safeGM("addStyle", css, 'kes-pin-css');
+            safeGM.removeStyle("kes-pin-css");
+            safeGM.addStyle(css, "kes-pin-css");
 
             if (document.querySelector('#kes-pin-button')) return
             const pins = document.querySelectorAll('.entry:has(footer i.fa-thumbtack)')
@@ -3096,7 +3096,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function unapplyPins () {
             document.querySelector('#kes-pin-button').remove();
-            safeGM("removeStyle", "kes-pin-css");
+            safeGM.removeStyle("kes-pin-css");
         }
 
         if (toggle) applyPins();
@@ -3211,7 +3211,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         if (toggle) {
             adjustColors(sheetName);
         } else {
-            safeGM("removeStyle", sheetName);
+            safeGM.removeStyle(sheetName);
         }
 
         function adjustColors (sheetName) {
@@ -3243,8 +3243,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     text-decoration: none;
                 }
             `;
-            safeGM("removeStyle", sheetName);
-            safeGM("addStyle", customCSS, sheetName)
+            safeGM.removeStyle(sheetName);
+            safeGM.addStyle(customCSS, sheetName)
         }
     },
 
@@ -3262,12 +3262,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const pt = getPageType();
         let list_columns
         switch (pt) {
-            case Mbin.User.Subscriptions: {
+            case Mbin.User.SUBSCRIPTIONS: {
                 list_columns = '.magazines-columns'
                 break;
             }
-            case Mbin.User.Followers:
-            case Mbin.User.Following: {
+            case Mbin.User.FOLLOWERS:
+            case Mbin.User.FOLLOWING: {
                 list_columns = '.users-columns'
                 break;
             }
@@ -3438,8 +3438,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
 
         if (toggle) {
-            safeGM("removeStyle", "expand-css");
-            safeGM("addStyle", buttonCSS, "expand-css");
+            safeGM.removeStyle("expand-css");
+            safeGM.addStyle(buttonCSS, "expand-css");
             propagateButtons();
         } else {
             let allEls
@@ -3452,7 +3452,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             document.querySelectorAll('.entry').forEach((entry) => {
                 delete entry.dataset.expand
             });
-            safeGM("removeStyle", "expand-css");
+            safeGM.removeStyle("expand-css");
         }
     },
 
@@ -3528,7 +3528,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         async function loadCounts (hostname, mag) {
             let counts
-            counts = await safeGM("getValue", `thread-deltas-${hostname}-${mag}`)
+            counts = await safeGM.getValue(`thread-deltas-${hostname}-${mag}`)
             if (!counts) {
                 counts = []
             }
@@ -3537,7 +3537,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         async function saveCounts (hostname, mag, counts) {
             // eslint-disable-next-line no-unused-vars
-            const savedCounts = await safeGM("setValue", `thread-deltas-${hostname}-${mag}`, counts)
+            const savedCounts = await safeGM.setValue(`thread-deltas-${hostname}-${mag}`, counts)
         }
 
         if (toggle) {
@@ -3632,7 +3632,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         if (toggle) {
             applyOutlines();
         } else {
-            safeGM("removeStyle", "kes-hover-css")
+            safeGM.removeStyle("kes-hover-css")
         }
 
         function applyOutlines () {
@@ -3683,10 +3683,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
 
             `
-            safeGM("removeStyle", "kes-hover-exclusions")
-            safeGM("removeStyle", "kes-hover-css")
-            safeGM("addStyle", mergedCSS, "kes-hover-css")
-            safeGM("addStyle", exclusions, "kes-hover-exclusions")
+            safeGM.removeStyle("kes-hover-exclusions")
+            safeGM.removeStyle("kes-hover-css")
+            safeGM.addStyle(mergedCSS, "kes-hover-css")
+            safeGM.addStyle(exclusions, "kes-hover-exclusions")
         }
     },
 
@@ -3728,7 +3728,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             return document.querySelectorAll('#kes-omni-check');
         }
 
-        if (trigger == Trigger.Setting) {
+        if (trigger == Trigger.SETTING) {
             if (setting == "refresh" && !settings["refresh"]) {
                 clearCachedMags()
             } else if (setting == "check-color") {
@@ -3784,12 +3784,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const page = getPageType() //eslint-disable-line no-undef
             let el
             switch (page) {
-                case Mbin.Thread.Favorites:
-                case Mbin.User.Followers:
-                case Mbin.User.Following:
+                case Mbin.Thread.FAVORITES:
+                case Mbin.User.FOLLOWERS:
+                case Mbin.User.FOLLOWING:
                     el = ".users-columns .stretched-link"
                     break;
-                case Mbin.User.Default:
+                case Mbin.User.DEFAULT:
                     el = ".user-inline"
                     break;
                 default:
@@ -3817,10 +3817,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
         `;
 
         if (toggle) {
-            safeGM("removeStyle", "submission-css")
-            safeGM("addStyle", css, "submission-css")
+            safeGM.removeStyle("submission-css")
+            safeGM.addStyle(css, "submission-css")
         } else {
-            safeGM("removeStyle", "submission-css")
+            safeGM.removeStyle("submission-css")
         }
     },
 
@@ -3870,7 +3870,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const mod = settings["kfaModColor"];
             const style = settings["kfaStyle"];
             const indicatorScale = settings["kfaScale"];
-            log(indicatorScale, Log.Log)
+            log(indicatorScale, Log.LOG)
             const bubbleFuzz = settings["kfaBubbleShadow"];
             if (style === "bubble") {
                 const scale = setScale(indicatorScale, 20)
@@ -3946,12 +3946,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function kfaStartup () {
             kfaInitClasses();
-            safeGM("removeStyle","kfaInjectedCss");
-            safeGM("addStyle",kfaGenCSS(),"kfaInjectedCss");
+            safeGM.removeStyle("kfaInjectedCss");
+            safeGM.addStyle(kfaGenCSS(),"kfaInjectedCss");
         }
 
         function kfaShutdown () {
-            safeGM("removeStyle","kfaInjectedCss");
+            safeGM.removeStyle("kfaInjectedCss");
             const els = [
                 "data-home",
                 "data-federated",
@@ -4008,7 +4008,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function kfaInitClasses () {
             const page = getPageType(); // eslint-disable-line no-undef
-            if (page === Mbin.Microblog) {
+            if (page === Mbin.MICROBLOG) {
                 document.querySelectorAll('.section.post.subject').forEach(function (comment) {
                     if (comment.querySelector('[class^=data-]')) { return }
                     prependToComment(comment);
@@ -4019,7 +4019,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 });
                 return
             }
-            if (page !== Mbin.Microblog) {
+            if (page !== Mbin.MICROBLOG) {
                 document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
                     if (article.querySelector('[class^=data-]')) { return }
                     let op = article.querySelector('.user-inline').href
@@ -4121,21 +4121,21 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function hidePostsInit (toggle) { //eslint-disable-line no-unused-vars
 
         async function wipeArray () {
-            await safeGM("setValue","hidden-posts","[]")
+            await safeGM.setValue("hidden-posts","[]")
         }
         async function setArray () {
-            const val = await safeGM("getValue","hidden-posts")
+            const val = await safeGM.getValue("hidden-posts")
             if(val) {
                 setup(val)
             } else {
-                await safeGM("setValue","hidden-posts","[]")
+                await safeGM.setValue("hidden-posts","[]")
                 setup('[]')
             }
         }
         async function addToArr (idArr,toHideID) {
             idArr.push(toHideID)
             const updatedArr = JSON.stringify(idArr)
-            await safeGM("setValue","hidden-posts",updatedArr)
+            await safeGM.setValue("hidden-posts",updatedArr)
         }
         function teardown (hp) {
             $('.kes-hide-posts').hide();
@@ -4149,13 +4149,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
             wipeArray();
         }
         async function fetchCurrentPage () {
-            const hp = await safeGM("getValue","hide-this-page");
+            const hp = await safeGM.getValue("hide-this-page");
             if (hp) {
                 teardown(hp);
             }
         }
         async function storeCurrentPage (hideThisPage) {
-            await safeGM("setValue","hide-this-page",hideThisPage)
+            await safeGM.setValue("hide-this-page", hideThisPage)
         }
         function hideSib (el, mode) {
             const sib = el.nextSibling;
@@ -4463,7 +4463,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         async function loadMags (hostname) {
-            let mags = await safeGM("getValue", `softblock-mags-${hostname}`)
+            let mags = await safeGM.getValue(`softblock-mags-${hostname}`)
             if (!mags) {
                 mags = [];
                 saveMags(hostname, mags)
@@ -4472,7 +4472,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         async function saveMags (hostname, mags) {
-            await safeGM("setValue", `softblock-mags-${hostname}`, mags)
+            await safeGM.setValue(`softblock-mags-${hostname}`, mags)
         }
         function removeEls () {
             let range
@@ -4485,10 +4485,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         if (toggle) {
-            safeGM('addStyle', softBlockCSS, 'softblock-css');
+            safeGM.addStyle(softBlockCSS, 'softblock-css');
             loadMags(hostname);
         } else {
-            safeGM('removeStyle', 'softblock-css')
+            safeGM.removeStyle("softblock-css")
             removeEls('.softblock-icon', '.softblock-button')
             const e = []
             saveMags(hostname, e)

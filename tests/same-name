@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 TEST_NAME="Check mod names"
+#checks that mod directory, script, and manifest share same name
+
 abort(){
     printf "Mod file '%s' does not share directory name '%s'\n" "$1" "$2"
     exit 1
