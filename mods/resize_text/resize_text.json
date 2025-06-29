@@ -6,7 +6,6 @@
   "login": false,
   "recurs": true,
   "desc": "Customize the font scale on a per-page/component basis.",
-  "entrypoint": "resize_text",
   "namespace": "resize",
   "page": "accessibility",
   "fields": [
@@ -154,5 +153,6 @@
       "min": 1,
       "max": 10
     }
-  ]
+  ],
+  "entrypoint": "resize_text"
 }

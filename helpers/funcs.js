@@ -25,10 +25,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function suppressCoverInit (toggle) { //eslint-disable-line no-unused-vars
         const pt = getPageType();
         switch (pt) {
-            case Mbin.Thread.Comments:
-            case Mbin.Thread.Favorites:
-            case Mbin.Thread.Boosts:
-            case Mbin.Magazine:
+            case Mbin.Thread.COMMENTS:
+            case Mbin.Thread.FAVORITES:
+            case Mbin.Thread.BOOSTS:
+            case Mbin.MAGAZINE:
                 break;
             default:
                 return
@@ -48,6 +48,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function initCollapsibleComments (toggle, trigger, mutation) { // eslint-disable-line no-unused-vars
         function applyCommentStyles () {
             var style = `
+            .post-comment,
             .entry-comment {
             grid-column-gap: 2px;
             padding: 10px 0 0 0 !important;
@@ -57,6 +58,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 bottom: 0px;
             }
 
+            .post-comment header,
             .entry-comment header {
                 margin-bottom: 0;
             }
@@ -69,9 +71,11 @@ const funcObj = { // eslint-disable-line no-unused-vars
             .comments > div[class^="comment-line--"] {
                 border-left: none !important;
             }
+            .post-comment .kes-collapse-children,
             .entry-comment .kes-collapse-children {
                 gap: 8px;
             }
+            .kes-collapse-children .post-comment,
             .kes-collapse-children .entry-comment {
                 border-top: 1px solid var(--kbin-bg) !important;
             }
@@ -80,11 +84,22 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 margin-bottom: 8px;
             }
 
-            .collapsed-comment .kes-collapse-children, .collapsed-comment .content, .collapsed-comment footer, .collapsed-comment .vote, .collapsed-comment .more {
+            .collapsed-comment .kes-collapse-children,
+            .collapsed-comment .content,
+            .collapsed-comment footer,
+            .collapsed-comment .vote,
+            .collapsed-comment .more {
                 display: none !important;
             }
 
-            .entry-comment .kes-collapse-children, .entry-comment .content, .entry-comment footer, .entry-comment .vote {
+            .post-comment .kes-collapse-children,
+            .post-comment .content,
+            .post-comment footer,
+            .post-comment .vote,
+            .entry-comment .kes-collapse-children,
+            .entry-comment .content,
+            .entry-comment footer,
+            .entry-comment .vote {
                 opacity: 1;
                 transition: opacity 0.2s ease;
             }
@@ -96,6 +111,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 grid-row-gap: 0!important;
             }
 
+            .post-comment figure, .post-comment header,
             .entry-comment figure, .entry-comment header {
                 transition: margin-left 0.2s ease;
             }
@@ -178,11 +194,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 background-color: var(--kbin-meta-link-hover-color);
             }
 
+            .post-comment > figure,
             .entry-comment > figure {
                 width: 20px;
             }
 
             @media (max-width: 992px) {
+                .post-comment.nested,
                 .entry-comment.nested {
                     padding: 10px 0 0 2px !important;
                     grid-column-gap: 0px;
@@ -202,23 +220,27 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
 
             @media (max-width: 600px) {
+                .post-comment.nested,
                 .entry-comment.nested {
                     padding: 1px !important;
                     grid-column-gap: 1px;
                     grid-row-gap: 0px;
                     grid-template-columns: 14px min-content auto min-content;
                 }
+                .post-comment,
                 .entry-comment {
                     border-bottom: 0px;
                 }
             }
 
             @media (max-width: 1px) {
+                .post-comment,
                 .entry-comment {
                     margin-left: 0 !important;
                     color: red;
                 }
             }
+            .post-comment,
             .entry-comment {
                 border-color: transparent !important;
                 grid-template-rows: min-content auto auto;
@@ -226,20 +248,24 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 display: grid;
                 margin-left: 0 !important;
             }
+            .kes-collapse-children .post-comment,
             .kes-collapse-children .entry-comment {
                 margin-left: 0 !important;
             }
 
+            .post-comment > .post-comment,
             .entry-comment > .entry-comment {
                 display: block;
             }
 
+            .post-comment .kes-collapse-children,
             .entry-comment .kes-collapse-children {
                 grid-area: kes-collapse-children;
                 display: flex;
                 flex-direction: column;
             }
 
+            .post-comment .js-container,
             .entry-comment .js-container {
                 margin-bottom: 0 !important;
                 display: block;
@@ -254,6 +280,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 `;
             }
             const mbinStyle = `
+            .post-comment,
             .entry-comment {
                 grid-template-areas:
                 "expando-icon avatar header aside"
@@ -271,6 +298,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
             `;
             const hiddenfigureCSS = `
+            .post-comment,
             .entry-comment {
                 grid-template-columns: 40px 0px auto min-content;
             }
@@ -281,25 +309,41 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 margin-left: 0px !important
             }
             `;
-            safeGM("addStyle", hideDefaults, "hide-defaults");
-            safeGM("addStyle", style, "threaded-comments");
-            safeGM("addStyle", mbinStyle, "mbin-kes-comments-style");
-            const el = document.querySelector('.entry-comment figure');
+            safeGM.addStyle(hideDefaults, "hide-defaults");
+            safeGM.addStyle(style, "threaded-comments");
+            safeGM.addStyle(mbinStyle, "mbin-kes-comments-style");
+            const el = document.querySelector(`${subSelector} figure`);
             const display = window.getComputedStyle(el).display
             if (display === "none") {
-                safeGM("addStyle", hiddenfigureCSS, "mbin-kes-comments-figure-style");
+                safeGM.addStyle(hiddenfigureCSS, "mbin-kes-comments-figure-style");
             }
         }
-        function applyToNewPosts () {
-            let comments = document.querySelectorAll(".entry-comment:not(.nested)");
-            let levels = [];
-            for (let i = 0; i < comments.length; i++) {
-                let level = comments[i].className.match(/comment-level--(\d+)/)[1];
-                levels.push(level);
+        function applyToNewPosts (mutation) {
+            function _pushLevels (comments) {
+                let levels = [];
+                for (let i = 0; i < comments.length; i++) {
+                    let level = comments[i].className.match(/comment-level--(\d+)/)[1];
+                    levels.push(level);
+                }
+                return levels
             }
-            nestComments(comments,levels);
+            let commentGroups = []
+            if (!mutation) {
+                commentGroups = document.querySelectorAll(`${globalSelector}:not(.nested)`);
+            } else {
+                commentGroups.push(mutation.target)
+            }
+
+            let cleanComments = [];
+            commentGroups.forEach((group) => {
+                group.querySelectorAll(subSelector).forEach((reply) => {
+                    cleanComments.push(reply)
+                });
+            });
+            const levels = _pushLevels(cleanComments)
+            nestComments(cleanComments, levels);
         }
-        function nestComments (comments,levels) {
+        function nestComments (comments, levels) {
             // Go through comments in reverse order
             for (let i = comments.length-1; i >= 0; i--) {
                 comments[i].classList.add('nested');
@@ -364,7 +408,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             //duplicate '.more' elements get created when DOM is manipulated
             //must wait for them to propagate, then iterate and remove
             sleep(20).then(() => {
-                const comments = document.querySelectorAll('.entry-comment')
+                const comments = document.querySelectorAll(subSelector)
                 comments.forEach((comment) => {
                     id = comment.id
                     mores = comment.querySelectorAll(`#${id} > .more`)
@@ -377,14 +421,14 @@ const funcObj = { // eslint-disable-line no-unused-vars
             });
 
         }
-        function enterMain () {
-            applyToNewPosts();
+        function enterMain (mutation) {
+            applyToNewPosts(mutation);
             applyCommentStyles();
             initCollapsibleCommentsListeners();
             clearMores();
         }
         function initCollapsibleCommentsListeners () {
-            let comments = document.querySelectorAll('.entry-comment:not(.listened)');
+            let comments = document.querySelectorAll(`${subSelector}:not(.listened)`);
 
             for (let i = 0; i < comments.length; i++) {
                 comments[i].classList.add('listened');
@@ -510,29 +554,59 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
             removeDangling();
             clearMores();
-            safeGM("removeStyle", "hide-defaults");
-            safeGM("removeStyle", "threaded-comments");
-            safeGM("removeStyle", "mbin-kes-comments-style");
-            safeGM("removeStyle", "mbin-kes-comments-figure-style");
+            safeGM.removeStyle("hide-defaults");
+            safeGM.removeStyle("threaded-comments");
+            safeGM.removeStyle("mbin-kes-comments-style");
+            safeGM.removeStyle("mbin-kes-comments-figure-style");
         }
 
-        const pt = getPageType();
-        if (pt !== Mbin.Thread.Comments) return
+        let globalSelector
+        switch (getPageType()) {
+            case Mbin.MICROBLOG:
+                globalSelector = ".post-comments"
+                break;
+            case Mbin.Thread.COMMENTS:
+                globalSelector = ".entry-comments"
+                break;
+            default:
+                return;
+        }
+        const subSelector = globalSelector.substring(0, globalSelector.length-1)
+
         if (!toggle) {
             teardown()
             return
         }
-        if (mutation && mutation.addedNodes[0].className.indexOf('nested') === -1) {
-            enterMain();
-        } else if (document.querySelector('.entry-comment.nested') || !document.querySelector('.comments')) {
-            return;
-        } else {
-            enterMain();
+        switch (trigger) {
+            case Trigger.MUTATION:
+                enterMain(mutation);
+                break;
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
+                enterMain();
+                break;
         }
     },
 
+    thread_separator: //mes-func
+    function dividerInit (toggle) { //eslint-disable-line no-unused-vars
+        function insertSeparator () {
+            const pt = getPageType()
+            if (!isThread() && pt !== Mbin.MICROBLOG) return
+            if (document.querySelector("#mes-thread-divider")) return
+            const top = document.querySelector(".section--top")
+            const sep = document.createElement("div")
+            top.insertAdjacentElement("beforebegin", sep)
+            sep.style.height = "0.5rem"
+            sep.id = "mes-thread-divider"
+        }
+
+        if (toggle) insertSeparator()
+        if (!toggle) document.querySelector("#mes-thread-divider")?.remove();
+    },
+
     omni: //mes-func
-    function omniInit (toggle) { // eslint-disable-line no-unused-vars
+    function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-vars
 
         const kesActive = 'kes-subs-active'
         const omniCSS = `
@@ -616,76 +690,45 @@ const funcObj = { // eslint-disable-line no-unused-vars
             "Right bracket": "]"
         }
 
-        const settings = getModSettings('omni');
+        const id = "omni";
+        const settings = getModSettings(id);
         const meta = settings["meta"]
         const code = keyCodes[meta]
         const mobile = settings["mobile"]
         const user = document.querySelector('.login');
         const username = user.href.split('/')[4];
         const hostname = window.location.hostname
-        const fetchedMags = []
-
-        const tapBar = document.querySelector('#kes-omni-tapbar')
-        if (tapBar) {
-            tapBar.remove();
-        }
-        const q = document.querySelector('.kes-omni-modal')
-        if (q) {
-            q.remove();
-        }
 
         function createOmni () {
 
-            safeGM("removeStyle", "omni-css")
-            safeGM("addStyle", omniCSS, "omni-css")
+            safeGM.removeStyle("omni-css")
+            safeGM.addStyle(omniCSS, "omni-css")
 
-            let str
             if (username) {
-                str = 'user'
-                loadMags(str, username)
+                loadMags((mags, isFinalCall) => {
+                    if (isFinalCall) alphaSort(mags);
+                }, id, true);
             } else {
-                str = 'default'
-                loadMags(str)
+                loadDefaultMags();
             }
 
-            async function loadMags (mode, username) {
-                const dataStr = setMagString(mode);
-                const loaded = await safeGM("getValue", dataStr)
+            async function loadDefaultMags () {
+                const loaded = await safeGM.getValue(`omni-default-mags-${hostname}`);
                 if ((!loaded) || (loaded.length < 1)) {
-                    fetchMags(username, 1);
+                    fetchDefaultMags();
                 } else {
                     omni(loaded);
                 }
             }
-            function setMagString (mode) {
-                let mags;
-                switch (mode) {
-                    case 'default':
-                        mags = `omni-default-mags-${hostname}`
-                        break;
-                    case 'user':
-                        mags = `omni-user-mags-${hostname}-${username}`
-                        break;
-                }
-                return mags;
-            }
-            async function saveMags (mode, mags) {
-                const dataStr = setMagString(mode);
-                await safeGM("setValue", dataStr, mags)
+            async function saveDefaultMags (mags) {
+                await safeGM.setValue(`omni-default-mags-${hostname}`, mags)
                 omni(mags);
             }
-
-            function fetchMags (username, page) {
-                let url
-                if (username) {
-                    url = `https://${hostname}/u/${username}/subscriptions?p=${page}`
-                } else {
-                    url = `https://${hostname}/magazines`
-                }
-                genericXMLRequest(url, parseMags)
+            function fetchDefaultMags () {
+                let url = `https://${hostname}/magazines`
+                genericXMLRequest(url, parseDefaultMags)
             }
-            function parseMags (response) {
-                //TODO: user may have no subscribed mags
+            function parseDefaultMags (response) {
                 let links
                 let mags
                 let parser = new DOMParser();
@@ -696,36 +739,25 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     links = mags.querySelectorAll('.stretched-link')
                     defaultFetched.push(links)
                     alphaSort(defaultFetched);
-                } else {
-                    let page
-                    mags = notificationsXML.querySelector('.magazines-columns');
-                    links = mags.querySelectorAll('.stretched-link');
-                    const username = notificationsXML.querySelector('.login').getAttribute("href").split('/')[2];
-                    const paginator = notificationsXML.querySelector('.pagination__item.pagination__item--next-page');
-                    if (paginator) {
-                        const tip = paginator.getAttribute("href")
-                        if (tip) {
-                            page = tip.split('=')[1]
-                        }
-                    }
-                    fetchedMags.push(links);
-                    if (links.length < 48) {
-                        alphaSort(fetchedMags)
-                    } else {
-                        const url = `https://${hostname}/u/${username}/subscriptions?p=${page}`
-                        genericXMLRequest(url, parseMags)
-                    }
                 }
             }
             function alphaSort (links) {
-                const clean = []
-                for (let i = 0; i < links.length; ++i) {
-                    links[i].forEach((link) => {
-                        clean.push(link.href.split('/')[4])
-                        clean.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
-                    });
+                if (!links) return;
+                if (typeof links[0] === "string") { // loadMags returns strings
+                    links.sort().sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+                    omni(links);
+                } else { // default mags are loaded as elements
+                    const clean = []
+                    for (let i = 0; i < links.length; ++i) {
+                        links[i].forEach((link) => {
+                            clean.push(link.href.split('/')[4])
+                            clean
+                                .sort()
+                                .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+                        });
+                    }
+                    saveDefaultMags(clean)
                 }
-                saveMags(str, clean)
             }
             function updateVisible () {
                 let pos
@@ -770,23 +802,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     const scrollerGeomBot = scrollEl.getBoundingClientRect().bottom;
                     if ((currentElGeom < scrollerGeom) || (currentElGeomBot > scrollerGeomBot)) {
                         el.scrollIntoView();
-                    }
-                }
-            }
-            function kickoffListener (e) {
-                if (e.key !== code) return
-                if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
-                if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
-                e.preventDefault();
-                const exists = document.querySelector('.kes-omni-modal')
-                if (exists) {
-                    if ($(exists).is(":visible")) {
-                        $(exists).hide();
-                    } else {
-                        $(exists).show();
-                        if (!mobile) {
-                            document.querySelector("#kes-omni-search").focus();
-                        }
                     }
                 }
             }
@@ -934,42 +949,96 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     }
                 });
 
-                if (mobile) {
-                    const top = document.querySelector('body');
-                    const mobileBar = document.createElement('div');
-                    mobileBar.id = 'kes-omni-tapbar';
-                    mobileBar.style.cssText = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
-                    top.insertBefore(mobileBar, top.children[0])
-
-                    mobileBar.addEventListener('click', () => {
-                        const toShow = document.querySelector('.kes-omni-modal')
-                        if ($(toShow).is(":visible")) {
-                            $(toShow).hide();
-                        } else {
-                            $(toShow).show();
-                        }
-                    });
-
-                }
                 kesModal.style.display = 'none';
                 document.body.appendChild(kesModal)
 
-                $(document).on("keypress.omnikey", function (e) {
-                    kickoffListener(e)
-                });
+                if ($(`#${id}-filter-modal-bg`).is(":visible")) {
+                    $('.kes-omni-modal').show();
+                }
+                clearLoader(id);
             }
         }
 
-        if (toggle) {
-            $(document).off("keypress.omnikey");
+        function addTapBar () {
+            const top = document.querySelector('body');
+            const mobileBar = document.createElement('div');
+            mobileBar.id = 'kes-omni-tapbar';
+            mobileBar.style.cssText 
+                = 'background-color: var(--kbin-alert-info-link-color); height: 15px'
+            top.insertBefore(mobileBar, top.children[0])
+
+            mobileBar.addEventListener('click', () => {
+                const toShow = document.querySelector('.kes-omni-modal')
+                if ($(toShow).is(":visible")) {
+                    $(toShow).hide();
+                } else {
+                    $(toShow).show();
+                }
+            });
+        }
+
+        function kickoffListener (e) {
+            if (e.key !== code) return
+            if (e.target.tagName === "INPUT" && e.target.id !== "kes-omni-search") return
+            if (e.target.tagName === "TEXTAREA" && e.target.id !== "kes-omni-search") return
+            e.preventDefault();
+            const exists = document.querySelector('.kes-omni-modal')
+            if (exists) {
+                if ($(exists).is(":visible")) {
+                    $(exists).hide();
+                } else {
+                    $(exists).show();
+                    if (!mobile) {
+                        document.querySelector("#kes-omni-search").focus();
+                    }
+                }
+            } else {
+                const load = document.querySelector(`#${id}-filter-modal-bg`);
+                if ($(load).is(":visible")) {
+                    $(load).hide();
+                } else {
+                    $(load).show();
+                }
+            }
+        }
+
+        function removeTapBar () {
+            document.querySelector("#kes-omni-tapbar")?.remove();
+        }
+
+        function setup () {
+            const modal = makeLoader(id, "Fetching subscriptions...");
+            document.body.appendChild(modal);
+            $(modal).hide();
+            $(document).on("keypress.omnikey", kickoffListener);
             createOmni();
-        } else {
-            const e = []
-            safeGM("setValue",`omni-user-mags-${hostname}-${username}`, e);
-            safeGM("setValue",`omni-default-mags-${hostname}`, e);
-            document.querySelector("kes-omni-modal")?.remove();
-            document.querySelector("kes-omni-tapbar")?.remove();
+            if (mobile) addTapBar();
+        }
+
+        function shutdown () {
+            loadMags.cancel(id);
+            clearCachedMags();
+            clearLoader(id);
+            safeGM.setValue(`omni-default-mags-${hostname}`, []);
             $(document).off("keypress.omnikey");
+            removeTapBar();
+        }
+
+        switch (trigger) {
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
+                document.querySelector(".kes-omni-modal")?.remove();
+                (toggle) ? setup() : shutdown();
+                break;
+            case Trigger.SETTING:
+                if (setting === "mobile") {
+                    (mobile) ? addTapBar() : removeTapBar();
+                }
+                if (setting === "meta") {
+                    $(document).off("keypress.omnikey");
+                    $(document).on("keypress.omnikey", kickoffListener);
+                }
+                break;
         }
     },
 
@@ -997,7 +1066,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== Mbin.User.DirectMessage) return
+        if (pt !== Mbin.User.DIRECTMESSAGE) return
         const form = document.querySelector('form[name="message"]')
         if (!form) return
         if (toggle) {
@@ -1200,7 +1269,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function genericPOSTRequest (url, callback, data) {
-            safeGM("xmlhttpRequest", {
+            safeGM.xmlHttpRequest({
                 method: 'POST',
                 onload: callback,
                 data: 'token=' + data,
@@ -1380,8 +1449,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function startup () {
-            safeGM("addStyle", customPanelCSS, "notipanel-main-css");
-            safeGM("addStyle", spinnerCSS, "notipanel-spinner-css");
+            safeGM.addStyle(customPanelCSS, "notipanel-main-css");
+            safeGM.addStyle(spinnerCSS, "notipanel-spinner-css");
             build();
         }
 
@@ -1415,7 +1484,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             clickModal.addEventListener('click', () => {
                 iframe.remove();
                 clickModal.remove();
-                safeGM("addStyle", resetDropdownCSS, "notipanel-reset-css")
+                safeGM.addStyle(resetDropdownCSS, "notipanel-reset-css")
             });
             const container = document.querySelector('.kbin-container') 
                 ?? document.querySelector('.mbin-container');
@@ -1472,7 +1541,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     anchorOuterElement.appendChild(notiBadgeHolder);
                 }
                 anchorOuterElement.addEventListener('click', () => {
-                    safeGM("addStyle", forceDropdownCSS, "notipanel-force-css");
+                    safeGM.addStyle(forceDropdownCSS, "notipanel-force-css");
                     toggleIframe(listItem)
                 });
             }
@@ -1494,7 +1563,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 "notipanel-force-css"
             ]
             for (let i in styles) {
-                safeGM("removeStyle", styles[i]);
+                safeGM.removeStyle(styles[i]);
             }
         }
 
@@ -1514,21 +1583,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 const arr = magazine.getAttribute("href").split("@")
                 const name = arr[0].split("/")[2]
                 const remote = arr[1]
-                let spanEl
                 if (remote) {
-                    //subscriptions sidebar uses a different span syntax
-                    if (el === ".subscription-list .stretched-link") {
-                        spanEl = ".magazine-name"
-                    } else {
-                        spanEl = "span"
-                    }
-                    const oldSpan = magazine.querySelector(spanEl)
-                    oldSpan.classList.add("mag-hidden-instance");
-                    oldSpan.style.display = "none"
-                    const newSpan = document.createElement("span")
-                    newSpan.innerText = name + "@" + remote
-                    newSpan.classList.add("mes-remote-instance");
-                    oldSpan.insertAdjacentElement("afterend", newSpan)
+                    const clone = magazine.cloneNode(true);
+                    clone.innerText = name + "@" + remote
+                    clone.classList.add("mes-remote-instance")
+                    magazine.classList.add("mag-hidden-instance")
+                    magazine.style.display = "none"
+                    magazine.insertAdjacentElement("afterend", clone)
                 }
             });
         }
@@ -1566,13 +1627,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     code_highlighting: //mes-func
-    function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
+    function initCodeHighlights (toggle, trigger, setting) { // eslint-disable-line no-unused-vars
         /* global hljs */
-        let kchCssUrl;
-        safeGM("addStyle",`
-        .kch-collapsed {
-            display: none !important;
-        }
+        const codeCSS = `
         .hljs.kch_header {
             padding-top: 10px;
             padding-bottom: 10px;
@@ -1580,32 +1637,43 @@ const funcObj = { // eslint-disable-line no-unused-vars
         code.hljs {
             border-top: 2px solid;'
         }
-        .hljs-keyword {
+        .kch_header span {
             margin-left: 20px;
         }
-
-        `);
-        function kchStartup () {
-            addHeaders('pre code');
-            setCss(kchCssUrl);
+        #mes-copy-code-icon {
+            margin-left: 10px;
+            cursor: pointer;
         }
-        function kchShutdown () {
-            safeGM("removeStyle", "kch-hljs")
-            const clicker = document.querySelector('#kch-clicker')
-            if (clicker) {
-                const comms = document.querySelector('#comments')
-                clicker.before(comms)
-                clicker.remove()
-            }
-            $('.kch_header').remove();
+        #copied-tooltip {
+            margin-left: 10px;
+        }
+        .fa-solid.fa-chevron-down.hljs-section,
+        .fa-solid.fa-chevron-up.hljs-section {
+            float: right;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        `;
+
+        safeGM.removeStyle("mes-code-css")
+        safeGM.addStyle(codeCSS, "mes-code-css")
+
+        function kchStartup () {
+            addHeaders('pre:not(.mes-code-clone)');
+            setCss();
+        }
+
+        function shutdown () {
+            safeGM.removeStyle("kch-hljs")
+            document.querySelectorAll("pre").forEach((item) => {
+                item.style.removeProperty("display")
+                delete item.dataset.codehighlight
+            })
+            $('.mes-code-clone').remove();
         }
         function addTags (item) {
-            if (item.parentElement.querySelector('.kch_header')) return
             let lang;
 
-            if (item.previousSibling) {
-                if (item.previousSibling.className === "hljs kch_header") return
-            }
             for (let name of item.className.split(' ')) {
                 if (name.includes('-')) {
                     lang = name.split('-')[1];
@@ -1619,108 +1687,97 @@ const funcObj = { // eslint-disable-line no-unused-vars
             span.className = 'hljs-keyword'
             span.innerHTML = lang;
 
-            // TODO: create static stylesheet
             const icon = document.createElement('i');
+            icon.id = "mes-copy-code-icon"
             icon.className = 'fa-solid fa-copy hljs-section';
             icon.setAttribute('aria-hidden', 'true');
-            icon.style = 'margin-left: 10px; cursor: pointer;';
             const span_copied = document.createElement('span');
             span_copied.id = 'copied-tooltip';
             span_copied.innerHTML = 'COPIED!';
-            span_copied.style = 'display: none; margin-left: 10px;';
+            span_copied.style.display = "none"
             const hide_icon = document.createElement('i');
             hide_icon.className = 'fa-solid fa-chevron-up hljs-section';
             hide_icon.setAttribute('aria-hidden', 'true');
-            hide_icon.style = 'float: right; margin-right: 20px; cursor: pointer;';
+
+
+            icon.addEventListener("click", (e) => {
+                const header = e.target.parentNode
+                const code = header.nextElementSibling
+                const tooltip = header.querySelector("#copied-tooltip")
+                navigator.clipboard.writeText(code.innerText);
+                tooltip.style.removeProperty("display")
+                setTimeout(function () {
+                    tooltip.style.display = "none";
+                }, 1000);
+            })
+
+            hide_icon.addEventListener("click", (e) => {
+                const header = e.target.parentNode
+                const code = header.nextElementSibling
+                const chevron = e.target
+                if (chevron.classList.contains("fa-chevron-up")) {
+                    chevron.classList.replace("fa-chevron-up", "fa-chevron-down")
+                    code.style.display = "none"
+                } else {
+                    chevron.classList.replace("fa-chevron-down", "fa-chevron-up")
+                    code.style.removeProperty("display")
+                }
+            })
 
             header.appendChild(span);
             header.appendChild(icon);
             header.appendChild(span_copied);
             header.appendChild(hide_icon);
-            item.parentElement.prepend(header);
-
-            //for compatibility with collapsible comments mod
-            //outer clicker is immune to changes in the comments tree
-            //and uses event delegation to filter clicks
-            if (document.querySelector('#kch-clicker')) return
-            const clicker = document.createElement('div')
-            clicker.id = 'kch-clicker'
-            const comms = document.querySelector('#comments')
-            comms.before(clicker)
-            clicker.appendChild(comms)
-            clicker.addEventListener('click', captureHeaderClicks, event)
-        }
-        function captureHeaderClicks (e) {
-            switch (e.target.className) {
-                case "fa-solid fa-copy hljs-section": {
-                    const par = e.target.parentElement
-                    const next = getNextValidSibling(par);
-                    navigator.clipboard.writeText(next.innerText);
-                    const t = document.querySelector('#copied-tooltip')
-                    t.style.display = 'inline';
-                    setTimeout(function () {
-                        t.style.display = 'none';
-                    }, 1000);
-                    break;
-                }
-                case "fa-solid fa-chevron-up hljs-section": {
-                    e.target.className = 'fa-solid fa-chevron-down hljs-section'
-                    toggleCollapse(e.target);
-                    break;
-                }
-                case "fa-solid fa-chevron-down hljs-section": {
-                    e.target.className = 'fa-solid fa-chevron-up hljs-section'
-                    toggleCollapse(e.target);
-                    break;
-                }
-            }
-        }
-        function toggleCollapse (child) {
-            const par = child.parentElement
-            const next = getNextValidSibling(par);
-            next.classList.toggle('kch-collapsed')
-        }
-        function getNextValidSibling (el) {
-            let next
-            next = el.nextSibling
-            if (next.style.display === "none") {
-                next = el.nextSibling.nextSibling
-            }
-            return next
+            item.prepend(header);
 
         }
-        function setCss (url) {
-            safeGM("xmlhttpRequest",{
+        function setCss () {
+            const settings = getModSettings("codehighlights");
+            const myStyle = settings["style"];
+            const prefix = "https://raw.githubusercontent.com"
+            const suffix = "highlightjs/highlight.js/main/src/styles/base16"
+            const url = `${prefix}/${suffix}/${myStyle}.css`
+            safeGM.xmlHttpRequest({
                 method: "GET",
                 url: url,
                 headers: {
                     "Content-Type": "text/css"
                 },
                 onload: function (response) {
-                    safeGM("addStyle", response.responseText, "kch-hljs");
+                    safeGM.removeStyle(response.responseText, "kch-hljs");
+                    safeGM.addStyle(response.responseText, "kch-hljs");
                 }
             });
         }
         function addHeaders (selector) {
             document.querySelectorAll(selector).forEach((item) => {
-                if (!(item.classList.contains('hljs'))) {
-                    hljs.highlightElement(item);
-                }
-                if (item.style.display === "none") return
-                addTags(item);
+                if (item.dataset.codehiglight === true) return
+                const clone = item.cloneNode(true)
+                clone.classList.add("mes-code-clone")
+                item.insertAdjacentElement("afterend", clone)
+                item.style.display = "none"
+                item.dataset.codehighlight = true
+                addTags(clone);
+                clone.querySelectorAll("code").forEach((block) => {
+                    hljs.highlightElement(block);
+                })
             });
         }
-        if (toggle) {
-            const settings = getModSettings("codehighlights");
-            const myStyle = settings["style"];
-            const prefix = "https://raw.githubusercontent.com"
-            const suffix = "highlightjs/highlight.js/main/src/styles/base16"
-            kchCssUrl = `${prefix}/${suffix}/${myStyle}.css`
-            kchStartup();
+
+
+        function setup () {
             hljs.configure({ ignoreUnescapedHTML: true });
-            hljs.highlightAll();
-        } else {
-            kchShutdown();
+            kchStartup();
+        }
+        switch (trigger) {
+            case Trigger.MUTATION:
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
+                (toggle) ? setup() : shutdown();
+                break;
+            case Trigger.SETTING:
+                setCss()
+                break;
         }
     },
 
@@ -1728,7 +1785,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
         function rearrangeSetup () {
             const pt = getPageType();
-            if (pt !== Mbin.Thread.Comments) return
+            if (pt !== Mbin.Thread.COMMENTS) return
             const settings = getModSettings('rearrange');
             const content = document.querySelector('#content');
             content.style.display = 'grid';
@@ -1896,7 +1953,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             check();
         }
         function unapply () {
-            safeGM("removeStyle", "mes-filter-css");
+            safeGM.removeStyle("mes-filter-css");
         }
 
         function filterDupes (array) {
@@ -2126,10 +2183,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
         `;
 
         if (toggle) {
-            safeGM("removeStyle", 'unblurred');
-            safeGM("addStyle", unblurCSS, 'unblurred');
+            safeGM.removeStyle("unblurred");
+            safeGM.addStyle(unblurCSS, "unblurred");
         } else {
-            safeGM("removeStyle", 'unblurred');
+            safeGM.removeStyle("unblurred");
         }
     },
 
@@ -2396,12 +2453,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
         `;
         if (toggle) {
-            safeGM("removeStyle", "navbar-icons-css")
-            safeGM("addStyle", css, "navbar-icons-css")
+            safeGM.removeStyle("navbar-icons-css")
+            safeGM.addStyle(css, "navbar-icons-css")
             searchText.innerText = "" ;
             postText.innerText = "" ;
         } else {
-            safeGM("removeStyle", "navbar-icons-css")
+            safeGM.removeStyle("navbar-icons-css")
         }
     },
 
@@ -2575,14 +2632,14 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 font-size: ${resolveSize(settings["optionPagination"])}rem
             }
             `;
-            safeGM("addStyle", css, "resize-css")
+            safeGM.addStyle(css, "resize-css")
         }
 
         if (toggle) {
-            safeGM("removeStyle", "resize-css")
+            safeGM.removeStyle("resize-css")
             resizeText();
         } else {
-            safeGM("removeStyle", "resize-css")
+            safeGM.removeStyle("resize-css")
             return
         }
     },
@@ -2993,13 +3050,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== Mbin.Magazine) return
+        if (pt !== Mbin.MAGAZINE) return
 
         function applyPins () {
 
             const css = setCSS();
-            safeGM("removeStyle", 'kes-pin-css');
-            safeGM("addStyle", css, 'kes-pin-css');
+            safeGM.removeStyle("kes-pin-css");
+            safeGM.addStyle(css, "kes-pin-css");
 
             if (document.querySelector('#kes-pin-button')) return
             const pins = document.querySelectorAll('.entry:has(footer i.fa-thumbtack)')
@@ -3039,7 +3096,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function unapplyPins () {
             document.querySelector('#kes-pin-button').remove();
-            safeGM("removeStyle", "kes-pin-css");
+            safeGM.removeStyle("kes-pin-css");
         }
 
         if (toggle) applyPins();
@@ -3154,7 +3211,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         if (toggle) {
             adjustColors(sheetName);
         } else {
-            safeGM("removeStyle", sheetName);
+            safeGM.removeStyle(sheetName);
         }
 
         function adjustColors (sheetName) {
@@ -3186,8 +3243,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     text-decoration: none;
                 }
             `;
-            safeGM("removeStyle", sheetName);
-            safeGM("addStyle", customCSS, sheetName)
+            safeGM.removeStyle(sheetName);
+            safeGM.addStyle(customCSS, sheetName)
         }
     },
 
@@ -3205,12 +3262,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const pt = getPageType();
         let list_columns
         switch (pt) {
-            case Mbin.User.Subscriptions: {
+            case Mbin.User.SUBSCRIPTIONS: {
                 list_columns = '.magazines-columns'
                 break;
             }
-            case Mbin.User.Followers:
-            case Mbin.User.Following: {
+            case Mbin.User.FOLLOWERS:
+            case Mbin.User.FOLLOWING: {
                 list_columns = '.users-columns'
                 break;
             }
@@ -3381,8 +3438,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
 
         if (toggle) {
-            safeGM("removeStyle", "expand-css");
-            safeGM("addStyle", buttonCSS, "expand-css");
+            safeGM.removeStyle("expand-css");
+            safeGM.addStyle(buttonCSS, "expand-css");
             propagateButtons();
         } else {
             let allEls
@@ -3395,7 +3452,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             document.querySelectorAll('.entry').forEach((entry) => {
                 delete entry.dataset.expand
             });
-            safeGM("removeStyle", "expand-css");
+            safeGM.removeStyle("expand-css");
         }
     },
 
@@ -3471,7 +3528,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         async function loadCounts (hostname, mag) {
             let counts
-            counts = await safeGM("getValue", `thread-deltas-${hostname}-${mag}`)
+            counts = await safeGM.getValue(`thread-deltas-${hostname}-${mag}`)
             if (!counts) {
                 counts = []
             }
@@ -3480,7 +3537,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         async function saveCounts (hostname, mag, counts) {
             // eslint-disable-next-line no-unused-vars
-            const savedCounts = await safeGM("setValue", `thread-deltas-${hostname}-${mag}`, counts)
+            const savedCounts = await safeGM.setValue(`thread-deltas-${hostname}-${mag}`, counts)
         }
 
         if (toggle) {
@@ -3575,7 +3632,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         if (toggle) {
             applyOutlines();
         } else {
-            safeGM("removeStyle", "kes-hover-css")
+            safeGM.removeStyle("kes-hover-css")
         }
 
         function applyOutlines () {
@@ -3626,61 +3683,64 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
 
             `
-            safeGM("removeStyle", "kes-hover-exclusions")
-            safeGM("removeStyle", "kes-hover-css")
-            safeGM("addStyle", mergedCSS, "kes-hover-css")
-            safeGM("addStyle", exclusions, "kes-hover-exclusions")
+            safeGM.removeStyle("kes-hover-exclusions")
+            safeGM.removeStyle("kes-hover-css")
+            safeGM.addStyle(mergedCSS, "kes-hover-css")
+            safeGM.addStyle(exclusions, "kes-hover-exclusions")
         }
     },
 
     thread_checkmarks: //mes-func
-    function checksInit (toggle) { // eslint-disable-line no-unused-vars
-        const settings = getModSettings('checks');
-        const checkColor = settings["check-color"]
+    function checksInit (toggle, trigger, setting) { // eslint-disable-line no-unused-vars
+        const id = 'checks';
+        const settings = getModSettings(id);
+        const checkColor = getHex(settings["check-color"])
         const threadIndex = document.querySelector('[data-controller="subject-list"]')
         const user = document.querySelector('.login');
         const username = user.href.split('/')[4];
-        const hostname = window.location.hostname
 
         if ((!threadIndex) || (!username)) return
 
-        async function fetchMags (username) {
-            const loaded = await safeGM("getValue", `omni-user-mags-${hostname}-${username}`)
-            if (!loaded) return
-            setChecks(loaded)
-        }
         function addCheck (subs, item) {
-            if (item.querySelector('#kes-omni-check')) return
+            if (item.parentNode.querySelector('#kes-omni-check')) return
             const mag = item.getAttribute('href').split('/')[2]
             if (subs.includes(mag)) {
                 const ch = document.createElement('span')
-                ch.style.color = getHex(checkColor); // eslint-disable-line no-undef
+                ch.style.color = checkColor
                 ch.id = 'kes-omni-check'
                 ch.innerText = " ✓"
-                //FIXME: append adjacent; collision with mag instance mod
                 item.after(ch)
-                //item.appendChild(ch)
             }
         }
         function setChecks (subs) {
+            if (!subs) return
             const exists = document.querySelector('#kes-omni-check')
             if (exists) {
                 document.querySelectorAll('#kes-omni-check').forEach((item) => {
-                    item.style.color = getHex(checkColor); // eslint-disable-line no-undef
+                    item.style.color = checkColor
                 });
             }
             document.querySelectorAll('.magazine-inline').forEach((item) => {
                 addCheck(subs, item)
             });
         }
+        function getChecks () {
+            return document.querySelectorAll('#kes-omni-check');
+        }
 
-        if (toggle) {
-            fetchMags(username);
+        if (trigger == Trigger.SETTING) {
+            if (setting == "refresh" && !settings["refresh"]) {
+                clearCachedMags()
+            } else if (setting == "check-color") {
+                getChecks().forEach((check) => check.style.color = checkColor)
+            }
         } else {
-            const oldChecks = document.querySelectorAll('#kes-omni-check')
-            oldChecks.forEach((check) => {
-                check.remove();
-            });
+            if (toggle) {
+                loadMags(setChecks, id, settings["refresh"])
+            } else {
+                loadMags.cancel(id)
+                getChecks().forEach((check) => check.remove())
+            }
         }
     },
 
@@ -3724,12 +3784,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const page = getPageType() //eslint-disable-line no-undef
             let el
             switch (page) {
-                case Mbin.Thread.Favorites:
-                case Mbin.User.Followers:
-                case Mbin.User.Following:
+                case Mbin.Thread.FAVORITES:
+                case Mbin.User.FOLLOWERS:
+                case Mbin.User.FOLLOWING:
                     el = ".users-columns .stretched-link"
                     break;
-                case Mbin.User.Default:
+                case Mbin.User.DEFAULT:
                     el = ".user-inline"
                     break;
                 default:
@@ -3757,10 +3817,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
         `;
 
         if (toggle) {
-            safeGM("removeStyle", "submission-css")
-            safeGM("addStyle", css, "submission-css")
+            safeGM.removeStyle("submission-css")
+            safeGM.addStyle(css, "submission-css")
         } else {
-            safeGM("removeStyle", "submission-css")
+            safeGM.removeStyle("submission-css")
         }
     },
 
@@ -3810,7 +3870,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const mod = settings["kfaModColor"];
             const style = settings["kfaStyle"];
             const indicatorScale = settings["kfaScale"];
-            log(indicatorScale, Log.Log)
+            log(indicatorScale, Log.LOG)
             const bubbleFuzz = settings["kfaBubbleShadow"];
             if (style === "bubble") {
                 const scale = setScale(indicatorScale, 20)
@@ -3886,12 +3946,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function kfaStartup () {
             kfaInitClasses();
-            safeGM("removeStyle","kfaInjectedCss");
-            safeGM("addStyle",kfaGenCSS(),"kfaInjectedCss");
+            safeGM.removeStyle("kfaInjectedCss");
+            safeGM.addStyle(kfaGenCSS(),"kfaInjectedCss");
         }
 
         function kfaShutdown () {
-            safeGM("removeStyle","kfaInjectedCss");
+            safeGM.removeStyle("kfaInjectedCss");
             const els = [
                 "data-home",
                 "data-federated",
@@ -3948,7 +4008,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function kfaInitClasses () {
             const page = getPageType(); // eslint-disable-line no-undef
-            if (page === Mbin.Microblog) {
+            if (page === Mbin.MICROBLOG) {
                 document.querySelectorAll('.section.post.subject').forEach(function (comment) {
                     if (comment.querySelector('[class^=data-]')) { return }
                     prependToComment(comment);
@@ -3959,7 +4019,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 });
                 return
             }
-            if (page !== Mbin.Microblog) {
+            if (page !== Mbin.MICROBLOG) {
                 document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
                     if (article.querySelector('[class^=data-]')) { return }
                     let op = article.querySelector('.user-inline').href
@@ -4061,21 +4121,21 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function hidePostsInit (toggle) { //eslint-disable-line no-unused-vars
 
         async function wipeArray () {
-            await safeGM("setValue","hidden-posts","[]")
+            await safeGM.setValue("hidden-posts","[]")
         }
         async function setArray () {
-            const val = await safeGM("getValue","hidden-posts")
+            const val = await safeGM.getValue("hidden-posts")
             if(val) {
                 setup(val)
             } else {
-                await safeGM("setValue","hidden-posts","[]")
+                await safeGM.setValue("hidden-posts","[]")
                 setup('[]')
             }
         }
         async function addToArr (idArr,toHideID) {
             idArr.push(toHideID)
             const updatedArr = JSON.stringify(idArr)
-            await safeGM("setValue","hidden-posts",updatedArr)
+            await safeGM.setValue("hidden-posts",updatedArr)
         }
         function teardown (hp) {
             $('.kes-hide-posts').hide();
@@ -4089,13 +4149,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
             wipeArray();
         }
         async function fetchCurrentPage () {
-            const hp = await safeGM("getValue","hide-this-page");
+            const hp = await safeGM.getValue("hide-this-page");
             if (hp) {
                 teardown(hp);
             }
         }
         async function storeCurrentPage (hideThisPage) {
-            await safeGM("setValue","hide-this-page",hideThisPage)
+            await safeGM.setValue("hide-this-page", hideThisPage)
         }
         function hideSib (el, mode) {
             const sib = el.nextSibling;
@@ -4403,7 +4463,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         async function loadMags (hostname) {
-            let mags = await safeGM("getValue", `softblock-mags-${hostname}`)
+            let mags = await safeGM.getValue(`softblock-mags-${hostname}`)
             if (!mags) {
                 mags = [];
                 saveMags(hostname, mags)
@@ -4412,7 +4472,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         async function saveMags (hostname, mags) {
-            await safeGM("setValue", `softblock-mags-${hostname}`, mags)
+            await safeGM.setValue(`softblock-mags-${hostname}`, mags)
         }
         function removeEls () {
             let range
@@ -4425,10 +4485,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         if (toggle) {
-            safeGM('addStyle', softBlockCSS, 'softblock-css');
+            safeGM.addStyle(softBlockCSS, 'softblock-css');
             loadMags(hostname);
         } else {
-            safeGM('removeStyle', 'softblock-css')
+            safeGM.removeStyle("softblock-css")
             removeEls('.softblock-icon', '.softblock-button')
             const e = []
             saveMags(hostname, e)

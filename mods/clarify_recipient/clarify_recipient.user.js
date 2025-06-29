@@ -21,7 +21,7 @@ function clarifyRecipientInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     const pt = getPageType(); // eslint-disable-line no-undef
-    if (pt !== Mbin.User.DirectMessage) return
+    if (pt !== Mbin.User.DIRECTMESSAGE) return
     const form = document.querySelector('form[name="message"]')
     if (!form) return
     if (toggle) {

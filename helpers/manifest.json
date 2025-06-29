@@ -7,8 +7,8 @@
     "login": false,
     "recurs": false,
     "desc": "Auto-expands long post bodies instead of starting collapsed",
-    "entrypoint": "always_more",
-    "page": "threads"
+    "page": "threads",
+    "entrypoint": "always_more"
   },
   {
     "name": "Hide cover image on magazines",
@@ -19,8 +19,8 @@
     "recurs": false,
     "desc": "Hides the large cover image on the sidebar of magazines.",
     "new_since": "5.0.0",
-    "entrypoint": "suppress_cover",
-    "page": "cosmetic"
+    "page": "cosmetic",
+    "entrypoint": "suppress_cover"
   },
   {
     "name": "Collapsible comments",
@@ -29,20 +29,30 @@
     "label": "Collapsible comments",
     "desc": "Collapse comments by clicking on the bars to their left.",
     "login": false,
-    "recurs": false,
-    "entrypoint": "improved_collapsible_comments",
+    "recurs": true,
     "page": "threads",
-    "namespace": "collapsibleComments"
+    "namespace": "collapsibleComments",
+    "entrypoint": "improved_collapsible_comments"
+  },
+  {
+    "name": "Thread separator",
+    "author": "shazbot",
+    "version": "0.1.0",
+    "label": "Add extra padding between top post and navbar",
+    "login": false,
+    "recurs": false,
+    "desc": "The top post in a thread and microblog does not follow the tiled gap behavior of other panels onscreen. This fix inserts an extra divider between the top post and navbar to simulate the right spacing.",
+    "page": "fixes",
+    "entrypoint": "thread_separator"
   },
   {
     "name": "Subs omnibar",
     "author": "shazbot",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "label": "Subscriptions omnibar",
-    "desc": "Quickly jump to a magazine by viewing your subs in a floating search panel (type to search). Use the meta key to open/close the omnibar. The meta key will not take effect inside of text fields. If you are logged out, the omnibar shows default magazines (most popular). To refresh the cached list of your magazines or change settings while this add-on is enabled, toggle off and then on again.",
+    "desc": "Quickly jump to a magazine by viewing your subs in a floating search panel (type to search). Use the meta key to open/close the omnibar. The meta key will not take effect inside of text fields. If you are logged out, the omnibar shows default magazines (most popular). To refresh the cached list of your magazines while this mod is enabled, toggle off and then on again.",
     "login": false,
     "recurs": false,
-    "entrypoint": "omni",
     "namespace": "omni",
     "fields": [
       {
@@ -66,7 +76,8 @@
         ]
       }
     ],
-    "page": "general"
+    "page": "general",
+    "entrypoint": "omni"
   },
   {
     "name": "Clearer PM box",
@@ -76,8 +87,8 @@
     "login": true,
     "recurs": false,
     "desc": "Lists the recipient in the message box title",
-    "entrypoint": "clarify_recipient",
-    "page": "profile"
+    "page": "profile",
+    "entrypoint": "clarify_recipient"
   },
   {
     "name": "Hide Reputation",
@@ -87,8 +98,8 @@
     "desc": "Hide reputation on users' profiles",
     "login": false,
     "recurs": false,
-    "entrypoint": "hide_reputation",
-    "page": "profile"
+    "page": "profile",
+    "entrypoint": "hide_reputation"
   },
   {
     "name": "Notifications panel",
@@ -101,19 +112,19 @@
     "login": true,
     "recurs": false,
     "desc": "Adds a floating notifications panel to the navbar",
-    "entrypoint": "notifications_panel",
-    "page": "navbar"
+    "page": "navbar",
+    "entrypoint": "notifications_panel"
   },
   {
     "name": "Magazine Instance Names",
     "author": "artillect",
     "version": "0.1",
     "label": "Magazine instance names",
-    "desc": "Show instance names next to magazines",
+    "desc": "Shows instance names next to magazines. Overcomes limitations in the native Mbin setting. This will override the default behavior.",
     "login": false,
     "recurs": true,
-    "entrypoint": "mag_instance_names",
-    "page": "general"
+    "page": "fixes",
+    "entrypoint": "mag_instance_names"
   },
   {
     "name": "kbin-code-highlighting",
@@ -123,7 +134,6 @@
     "login": false,
     "recurs": true,
     "desc": "Adds syntax highlighting to code blocks.",
-    "entrypoint": "code_highlighting",
     "namespace": "codehighlights",
     "fields": [
       {
@@ -311,10 +321,8 @@
         "label": "Select a theme"
       }
     ],
-    "depends_on": [
-      "fix_codeblocks"
-    ],
-    "page": "threads"
+    "page": "threads",
+    "entrypoint": "code_highlighting"
   },
   {
     "name": "Rearrange comments",
@@ -325,7 +333,6 @@
     "recurs": false,
     "desc": "Rearrange the order elements appear inside threads. Recommended sort order is 1, 2, 4, 5, 6, 3",
     "namespace": "rearrange",
-    "entrypoint": "rearrange",
     "page": "threads",
     "fields": [
       {
@@ -382,7 +389,8 @@
         "label": "Activity panel",
         "key": "activity"
       }
-    ]
+    ],
+    "entrypoint": "rearrange"
   },
   {
     "name": "Dropdown links",
@@ -392,8 +400,8 @@
     "login": false,
     "recurs": false,
     "desc": "Convert navigation links on profile pages to dropdown",
-    "entrypoint": "dropdown",
-    "page": "profile"
+    "page": "profile",
+    "entrypoint": "dropdown"
   },
   {
     "name": "Hide related",
@@ -403,7 +411,6 @@
     "login": false,
     "recurs": true,
     "desc": "Hide the crosspost section from the thread index/threads",
-    "entrypoint": "hide_related",
     "page": "threads",
     "new_since": "5.0.0",
     "namespace": "hide_related",
@@ -420,7 +427,8 @@
         "initial": true,
         "checkbox_label": "Hide inside threads"
       }
-    ]
+    ],
+    "entrypoint": "hide_related"
   },
   {
     "name": "Remove ads",
@@ -430,7 +438,6 @@
     "desc": "Hide posts or block users matching certain spam heuristics.\n\nThis is a one-way process; toggling off does not unblock, it merely stops filtering. Does not currently work on microblogs.",
     "login": true,
     "recurs": true,
-    "entrypoint": "remove_ads",
     "page": "spam",
     "new_since": "4.1",
     "namespace": "spamfilter",
@@ -453,7 +460,8 @@
         "key": "block",
         "checkbox_label": "Block users with spam-like activity"
       }
-    ]
+    ],
+    "entrypoint": "remove_ads"
   },
   {
     "name": "Unblur NSFW",
@@ -463,8 +471,8 @@
     "desc": "Makes NSFW thumbnails start unblurred by default.",
     "login": false,
     "recurs": true,
-    "entrypoint": "unblur",
-    "page": "threads"
+    "page": "threads",
+    "entrypoint": "unblur"
   },
   {
     "name": "Kbin Easy Emoticon",
@@ -474,8 +482,8 @@
     "login": true,
     "recurs": false,
     "desc": "Use slash commands for emoticons in text areas. /help to open a list of commands",
-    "entrypoint": "easy_emoticon",
-    "page": "general"
+    "page": "general",
+    "entrypoint": "easy_emoticon"
   },
   {
     "name": "Navbar icons",
@@ -485,7 +493,6 @@
     "desc": "Change navbar search/post icons to text strings",
     "login": false,
     "recurs": true,
-    "entrypoint": "nav_icons",
     "namespace": "nav_icons",
     "fields": [
       {
@@ -511,7 +518,8 @@
         "label": "Post icon"
       }
     ],
-    "page": "navbar"
+    "page": "navbar",
+    "entrypoint": "nav_icons"
   },
   {
     "name": "Customize font size",
@@ -521,7 +529,6 @@
     "login": false,
     "recurs": true,
     "desc": "Customize the font scale on a per-page/component basis.",
-    "entrypoint": "resize_text",
     "namespace": "resize",
     "page": "accessibility",
     "fields": [
@@ -669,7 +676,8 @@
         "min": 1,
         "max": 10
       }
-    ]
+    ],
+    "entrypoint": "resize_text"
   },
   {
     "name": "Toggle logo",
@@ -679,7 +687,6 @@
     "login": false,
     "recurs": false,
     "desc": "Disable or use alternate logo on navbar",
-    "entrypoint": "hide_logo",
     "page": "navbar",
     "namespace": "changelogo",
     "fields": [
@@ -697,7 +704,8 @@
           "Kibby (no text)"
         ]
       }
-    ]
+    ],
+    "entrypoint": "hide_logo"
   },
   {
     "name": "Verbose timestamps",
@@ -707,7 +715,6 @@
     "login": false,
     "recurs": true,
     "desc": "Use adapted ISO8601 (Swedish-like) date/time syntax. Note: toggling off will reload the page",
-    "entrypoint": "timestamp",
     "page": "general",
     "namespace": "timestamp",
     "fields": [
@@ -721,7 +728,8 @@
           "Local time"
         ]
       }
-    ]
+    ],
+    "entrypoint": "timestamp"
   },
   {
     "name": "Submit post contents as bug report",
@@ -731,8 +739,8 @@
     "login": false,
     "recurs": true,
     "desc": "Submit the contents of a thread comment verbatim as a bug report to the KES issue tracker. The button is available from the 'More' menu under comments.",
-    "entrypoint": "report_bug",
-    "page": "debug"
+    "page": "debug",
+    "entrypoint": "report_bug"
   },
   {
     "name": "Add mail",
@@ -742,7 +750,6 @@
     "desc": "Add mail link/icon next to usernames",
     "login": false,
     "recurs": true,
-    "entrypoint": "mail",
     "namespace": "mail",
     "fields": [
       {
@@ -762,7 +769,8 @@
         "label": "Label text"
       }
     ],
-    "page": "general"
+    "page": "general",
+    "entrypoint": "mail"
   },
   {
     "name": "Customizable Default Sort Option",
@@ -773,7 +781,6 @@
     "desc": "When you access a page on Mbin without specifying sort options in the URL, default options are applied that you cannot customize. If you for example want to always see the latest threads, you always have to manually switch to the \"newest\" sort.\n\nThis addon tries to add this missing element of customization by redirecting you from the default sorted page to your chosen explicitly sorted one.\n\nMbin has four distinct types of sorted pages that have different options available to them. You can disable this addon from working on any of them by setting them to \"default\".",
     "login": false,
     "recurs": false,
-    "entrypoint": "default_sort",
     "new_since": "4.3",
     "page": "general",
     "fields": [
@@ -832,7 +839,8 @@
         ],
         "initial": "default"
       }
-    ]
+    ],
+    "entrypoint": "default_sort"
   },
   {
     "name": "Collapse pins",
@@ -843,7 +851,6 @@
     "login": false,
     "recurs": false,
     "namespace": "collapse_pins",
-    "entrypoint": "collapse_pins",
     "page": "threads",
     "new_since": "4.2",
     "fields": [
@@ -863,7 +870,8 @@
         "key": "bordercolor",
         "label": "Outline color"
       }
-    ]
+    ],
+    "entrypoint": "collapse_pins"
   },
   {
     "name": "Move federation warning to sidebar",
@@ -873,7 +881,6 @@
     "login": false,
     "recurs": false,
     "desc": "When viewing a magazine/profile from another instance, kbin displays a warning at the top of the feed. This mod moves the warning to the sidebar's info panel, or hides it completely.",
-    "entrypoint": "move_federation_warning",
     "namespace": "moveFederationWarning",
     "fields": [
       {
@@ -887,7 +894,8 @@
         ]
       }
     ],
-    "page": "threads"
+    "page": "threads",
+    "entrypoint": "move_federation_warning"
   },
   {
     "name": "Hide thumbnails",
@@ -897,8 +905,8 @@
     "login": false,
     "recurs": true,
     "desc": "Hide inline thumbnails on microblogs. For thumbnails on the thread index, use Mbin's native setting.",
-    "entrypoint": "hide_thumbs",
-    "page": "general"
+    "page": "general",
+    "entrypoint": "hide_thumbs"
   },
   {
     "name": "Adjust colors",
@@ -908,26 +916,9 @@
     "login": false,
     "recurs": true,
     "desc": "Adjust the colors of the site.",
-    "entrypoint": "adjust",
     "namespace": "adjust",
     "page": "accessibility",
-    "catch_reset": [
-      "sepia",
-      "hueRotate",
-      "bright",
-      "saturate",
-      "contrast",
-      "upvote",
-      "downvote",
-      "boost"
-    ],
     "fields": [
-      {
-        "type": "reset",
-        "key": "resetAdjust",
-        "label": "Reset values to defaults:",
-        "value": "reset"
-      },
       {
         "type": "range",
         "initial": 0,
@@ -1001,7 +992,8 @@
         "key": "border",
         "checkbox_label": "Border around up/downvote buttons"
       }
-    ]
+    ],
+    "entrypoint": "adjust"
   },
   {
     "name": "Alpha sort subscriptions/followers/following",
@@ -1011,8 +1003,8 @@
     "login": true,
     "recurs": false,
     "desc": "Alphabetically sort the list of subscribed magazines, followers, and followed users on your profile page and other users' profile pages.",
-    "entrypoint": "alpha_sort_subs",
-    "page": "profile"
+    "page": "profile",
+    "entrypoint": "alpha_sort_subs"
   },
   {
     "name": "Expand post descriptions from thread index",
@@ -1022,7 +1014,6 @@
     "desc": "Adds an expand/collapse button used to read the full body text of posts without leaving the thread index. By design, does not work in mbin's compact view mode, which truncates detailed post descriptions.",
     "login": false,
     "recurs": true,
-    "entrypoint": "expand_posts",
     "page": "threads",
     "namespace": "expand-posts",
     "fields": [
@@ -1044,7 +1035,8 @@
         "key": "loading",
         "label": "Loading label"
       }
-    ]
+    ],
+    "entrypoint": "expand_posts"
   },
   {
     "name": "Show thread/microblog delta since last visit",
@@ -1054,7 +1046,6 @@
     "desc": "Intended for magazine moderators (or others) checking for new magazine activity. If there are new threads/microblogs since your last visit, shows the delta at the top of the page.",
     "login": true,
     "recurs": false,
-    "entrypoint": "thread_delta",
     "page": "threads",
     "namespace": "thread-delta",
     "fields": [
@@ -1080,7 +1071,8 @@
           "off"
         ]
       }
-    ]
+    ],
+    "entrypoint": "thread_delta"
   },
   {
     "name": "Hide Upvotes",
@@ -1090,8 +1082,8 @@
     "login": false,
     "recurs": true,
     "desc": "Hide favorites (upvotes) on threads, posts, and comments",
-    "entrypoint": "hide_upvotes",
-    "page": "general"
+    "page": "general",
+    "entrypoint": "hide_upvotes"
   },
   {
     "name": "Hide sidebar",
@@ -1101,7 +1093,6 @@
     "login": false,
     "recurs": true,
     "desc": "Hide/unhide sidebar elements",
-    "entrypoint": "hide_sidebar",
     "namespace": "hide-sidebar",
     "page": "general",
     "fields": [
@@ -1157,7 +1148,8 @@
         "type": "checkbox",
         "checkbox_label": "Expand content if possible"
       }
-    ]
+    ],
+    "entrypoint": "hide_sidebar"
   },
   {
     "name": "Hover indicator",
@@ -1168,7 +1160,6 @@
     "recurs": false,
     "desc": "Apply an outline to elements that are being hovered over.",
     "namespace": "hover",
-    "entrypoint": "hover_indicator",
     "page": "accessibility",
     "fields": [
       {
@@ -1186,17 +1177,17 @@
         "label": "Thickness of outline",
         "key": "thickness"
       }
-    ]
+    ],
+    "entrypoint": "hover_indicator"
   },
   {
     "name": "Thread checkmarks",
     "author": "shazbot",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "label": "Checkmark on subbed mags",
-    "desc": "Append a checkmark to magazines on the thread index you are subscribed to. The 'Subscriptions omnibar' option (page: General) must be enabled for this to work",
+    "desc": "Append a checkmark to magazines on the thread index you are subscribed to.\n\nDepending on the amount of subscriptions, it might take a long time for all checkmarks to appear. If Caching is enabled, results will be saved and reused the next time, providing instant results.",
     "login": false,
     "recurs": true,
-    "entrypoint": "thread_checkmarks",
     "namespace": "checks",
     "fields": [
       {
@@ -1204,20 +1195,27 @@
         "key": "check-color",
         "label": "Checkmark color",
         "initial": "--kbin-upvoted-color"
+      },
+      {
+        "type": "checkbox",
+        "key": "refresh",
+        "label": "Caching",
+        "checkbox_label": "Enable (turning this off clears the cache)"
       }
     ],
-    "page": "threads"
+    "page": "threads",
+    "entrypoint": "thread_checkmarks"
   },
   {
     "name": "User Instance Names",
     "author": "artillect",
     "version": "0.1",
     "label": "User instance names",
-    "desc": "Shows instance names next to users if they are not on your home instance",
-    "entrypoint": "user_instance_names",
+    "desc": "Shows instance names next to users if they are not on your home instance. Overcomes limitations in the native Mbin setting. This will override the default behavior.",
     "recurs": true,
     "login": false,
-    "page": "general"
+    "page": "fixes",
+    "entrypoint": "user_instance_names"
   },
   {
     "name": "Add submission prefix",
@@ -1247,8 +1245,8 @@
     "login": false,
     "recurs": true,
     "desc": "Hide reduces (downvotes) on threads, posts, and comments",
-    "entrypoint": "hide_downvotes",
-    "page": "general"
+    "page": "general",
+    "entrypoint": "hide_downvotes"
   },
   {
     "name": "kbin-federation-awareness",
@@ -1258,7 +1256,6 @@
     "login": false,
     "recurs": true,
     "desc": "Quickly identify a post/comment's federation/moderation status. Original by @CodingAndCoffee@kbin.social",
-    "entrypoint": "kbin_federation_awareness",
     "namespace": "kbinFedAware",
     "fields": [
       {
@@ -1305,7 +1302,8 @@
         "checkbox_label": "Apply fuzzy edges to bubble indicators"
       }
     ],
-    "page": "threads"
+    "page": "threads",
+    "entrypoint": "kbin_federation_awareness"
   },
   {
     "name": "Mobile view cleanup",
@@ -1316,7 +1314,6 @@
     "recurs": false,
     "desc": "Hide elements in navbar to reduce clutter in mobile view",
     "namespace": "mobilehide",
-    "entrypoint": "mobile_cleanup",
     "page": "mobile",
     "fields": [
       {
@@ -1331,7 +1328,8 @@
         "key": "view",
         "checkbox_label": "Hide view icon"
       }
-    ]
+    ],
+    "entrypoint": "mobile_cleanup"
   },
   {
     "name": "Permanently hide posts",
@@ -1341,8 +1339,8 @@
     "login": false,
     "recurs": true,
     "desc": "Adds a hide button to permanently hide posts from your feed. Untoggle to wipe the history of hidden posts and reset.",
-    "entrypoint": "hide_posts",
-    "page": "threads"
+    "page": "threads",
+    "entrypoint": "hide_posts"
   },
   {
     "name": "Softblock magazines",
@@ -1352,8 +1350,8 @@
     "desc": "Prevent a magazine from appearing on the main subscriptions index, but do not explicitly block its content altogether if visiting the magazine directly. Adds a softblock button next to magazine names on the thread index. Softblocked mags can be managed via the magazine subscriptions index or via a specific magazine's sidebar. Disabling this add-on will clear your softblocked magazines",
     "login": false,
     "recurs": true,
-    "entrypoint": "softblock",
-    "page": "threads"
+    "page": "threads",
+    "entrypoint": "softblock"
   },
   {
     "name": "Add subs to navbar",
@@ -1363,7 +1361,7 @@
     "login": true,
     "recurs": false,
     "desc": "Add magazine subscription link to navbar",
-    "entrypoint": "subs",
-    "page": "navbar"
+    "page": "navbar",
+    "entrypoint": "subs"
   }
 ]

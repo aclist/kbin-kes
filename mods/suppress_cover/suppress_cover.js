@@ -1,10 +1,10 @@
 function suppressCoverInit (toggle) { //eslint-disable-line no-unused-vars
     const pt = getPageType();
     switch (pt) {
-        case Mbin.Thread.Comments:
-        case Mbin.Thread.Favorites:
-        case Mbin.Thread.Boosts:
-        case Mbin.Magazine:
+        case Mbin.Thread.COMMENTS:
+        case Mbin.Thread.FAVORITES:
+        case Mbin.Thread.BOOSTS:
+        case Mbin.MAGAZINE:
             break;
         default:
             return

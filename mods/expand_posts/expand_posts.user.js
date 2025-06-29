@@ -132,8 +132,8 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
 
 
     if (toggle) {
-        safeGM("removeStyle", "expand-css");
-        safeGM("addStyle", buttonCSS, "expand-css");
+        safeGM.removeStyle("expand-css");
+        safeGM.addStyle(buttonCSS, "expand-css");
         propagateButtons();
     } else {
         let allEls
@@ -146,6 +146,6 @@ function expandPostsInit (toggle) { // eslint-disable-line no-unused-vars
         document.querySelectorAll('.entry').forEach((entry) => {
             delete entry.dataset.expand
         });
-        safeGM("removeStyle", "expand-css");
+        safeGM.removeStyle("expand-css");
     }
 }

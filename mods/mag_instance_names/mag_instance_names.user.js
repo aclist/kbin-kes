@@ -6,21 +6,13 @@ function magInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
             const arr = magazine.getAttribute("href").split("@")
             const name = arr[0].split("/")[2]
             const remote = arr[1]
-            let spanEl
             if (remote) {
-                //subscriptions sidebar uses a different span syntax
-                if (el === ".subscription-list .stretched-link") {
-                    spanEl = ".magazine-name"
-                } else {
-                    spanEl = "span"
-                }
-                const oldSpan = magazine.querySelector(spanEl)
-                oldSpan.classList.add("mag-hidden-instance");
-                oldSpan.style.display = "none"
-                const newSpan = document.createElement("span")
-                newSpan.innerText = name + "@" + remote
-                newSpan.classList.add("mes-remote-instance");
-                oldSpan.insertAdjacentElement("afterend", newSpan)
+                const clone = magazine.cloneNode(true);
+                clone.innerText = name + "@" + remote
+                clone.classList.add("mes-remote-instance")
+                magazine.classList.add("mag-hidden-instance")
+                magazine.style.display = "none"
+                magazine.insertAdjacentElement("afterend", clone)
             }
         });
     }

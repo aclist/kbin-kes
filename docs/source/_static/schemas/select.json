@@ -1,0 +1,25 @@
+{
+    "$id": "`<_static/schemas/select.json>`_",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$ref": "schemas/main",
+    "title": "Subschema - Select",
+    "type": "object",
+    "description": "An object describing select menu settings",
+    "required": [
+        "type",
+        "key",
+        "initial",
+        "values"
+    ],
+    "properties": {
+        "type": { "type": "string", "description": "The element type", "enum": ["select"] },
+        "key": { "type": "string", "description": "The unique lookup id for the group of select options. The key ``state`` is reserved; do not use it." },
+        "label": { "type": "string", "description": "A section heading printed above the select combobox" },
+        "initial": { "type": "string", "description": "Initial option set to selected" },
+        "values": {
+            "type": "array",
+            "description": "An array of user-facing strings, one per select option, which also function as the options' values",
+            "minItems": 1
+        }
+    }
+}

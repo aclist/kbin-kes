@@ -7,7 +7,6 @@
   "recurs": false,
   "desc": "Hide elements in navbar to reduce clutter in mobile view",
   "namespace": "mobilehide",
-  "entrypoint": "mobile_cleanup",
   "page": "mobile",
   "fields": [
     {
@@ -22,5 +21,6 @@
       "key": "view",
       "checkbox_label": "Hide view icon"
     }
-  ]
+  ],
+  "entrypoint": "mobile_cleanup"
 }

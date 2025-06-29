@@ -6,6 +6,6 @@
   "login": false,
   "recurs": false,
   "desc": "Convert navigation links on profile pages to dropdown",
-  "entrypoint": "dropdown",
-  "page": "profile"
+  "page": "profile",
+  "entrypoint": "dropdown"
 }

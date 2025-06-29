@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 TEST_NAME="Lint JS files"
+#lints mods, main scripts, and funcs.js using ESLint
 
 abort(){
     local msg="$1"

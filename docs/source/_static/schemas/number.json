@@ -1,0 +1,24 @@
+{
+    "$id": "`<_static/schemas/number.json>`_",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$ref": "schemas/main",
+    "title": "Subschema - Number",
+    "type": "object",
+    "description": "An object describing number field settings",
+    "required": [
+        "type",
+        "key",
+        "initial",
+        "min",
+        "max"
+    ],
+    "properties": {
+        "type": { "type": "string", "description": "The element type", "enum": ["number"] },
+        "key": { "type": "string", "description": "The unique lookup id for the number field's value. The key ``state`` is reserved; do not use it." },
+        "label": { "type": "string", "description": "A section heading printed above the number field" },
+        "initial": { "type": "int", "description": "The number to initialize the field with" },
+        "min": { "type": "int", "description": "Minimum threshold of the number field" },
+        "max": { "type": "int", "description": "Maximum threshold of the number field" },
+        "step": { "type": "int", "description": "The increment between values" }
+    }
+}

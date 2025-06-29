@@ -11,7 +11,7 @@ function hoverIndicator (toggle) { // eslint-disable-line no-unused-vars
     if (toggle) {
         applyOutlines();
     } else {
-        safeGM("removeStyle", "kes-hover-css")
+        safeGM.removeStyle("kes-hover-css")
     }
 
     function applyOutlines () {
@@ -62,9 +62,9 @@ function hoverIndicator (toggle) { // eslint-disable-line no-unused-vars
         }
 
         `
-        safeGM("removeStyle", "kes-hover-exclusions")
-        safeGM("removeStyle", "kes-hover-css")
-        safeGM("addStyle", mergedCSS, "kes-hover-css")
-        safeGM("addStyle", exclusions, "kes-hover-exclusions")
+        safeGM.removeStyle("kes-hover-exclusions")
+        safeGM.removeStyle("kes-hover-css")
+        safeGM.addStyle(mergedCSS, "kes-hover-css")
+        safeGM.addStyle(exclusions, "kes-hover-exclusions")
     }
 }

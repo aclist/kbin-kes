@@ -6,7 +6,6 @@
   "login": false,
   "recurs": true,
   "desc": "Hide/unhide sidebar elements",
-  "entrypoint": "hide_sidebar",
   "namespace": "hide-sidebar",
   "page": "general",
   "fields": [
@@ -62,5 +61,6 @@
       "type": "checkbox",
       "checkbox_label": "Expand content if possible"
     }
-  ]
+  ],
+  "entrypoint": "hide_sidebar"
 }
