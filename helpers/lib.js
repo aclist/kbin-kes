@@ -1,4 +1,4 @@
-function makeModal (id) {
+function makeModal (id) { //eslint-disable-line no-unused-vars
     function makeCSS (id) {
         const modalCSS= `
         #${id}-outer-modal {
@@ -475,9 +475,7 @@ function getTheme () { // eslint-disable-line no-unused-vars
     }
 }
 
-
-//sets the type of GM API being used (dot or underscore notation) based on scripthandler metadata
-function getGMPrefix () {
+function getGMPrefix () { //eslint-disable-line no-unused-vars
     let prefix
     if (GM.info) {
         let scriptHandler = GM.info.scriptHandler;
@@ -498,4 +496,11 @@ function getGMPrefix () {
         prefix = Scripthandler.TAMPER
     }
     return prefix
+}
+
+function elementFactory (el, id=null, classname=null) { //eslint-disable-line no-unused-vars
+    const e = document.createElement(el)
+    if (id != null ) e.id = id
+    if (classname != null) e.className = classname
+    return e
 }
