@@ -50,7 +50,7 @@ EOF
 gen_requires(){
     prefix="https://raw.githubusercontent.com/$slug/$branch/"
     deps=(
-        "safegm.user.js"
+        "safegm.js"
         "funcs.js"
         "debug.js"
         "enums.js"
@@ -70,7 +70,7 @@ gen_requires(){
         gen_line "require" "${external[$i]}"
     done
     #for (( i = 0; i < ${#mods[@]}; i++ )); do
-    #    local str="${prefix}mods/${mods[$i]}/${mods[$i]}.user.js"
+    #    local str="${prefix}mods/${mods[$i]}/${mods[$i]}.js"
     #    gen_line "require" "$str"
     #done
     for i in "${!resources[@]}"; do

@@ -26,7 +26,7 @@
 // @icon         https://kbin.social/favicon.svg
 // @connect      raw.githubusercontent.com
 // @connect      github.com
-// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.user.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/safegm.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/funcs.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/debug.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/enums.js
