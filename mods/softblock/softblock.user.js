@@ -292,7 +292,7 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         safeGM.addStyle(softBlockCSS, 'softblock-css');
         loadMags(hostname);
     } else {
-       safeGM.removeStyle("softblock-css")
+        safeGM.removeStyle("softblock-css")
         removeEls(
             '.softblock-icon',
             '.softblock-button',
