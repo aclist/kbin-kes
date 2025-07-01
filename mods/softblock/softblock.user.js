@@ -150,8 +150,8 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
         if(manageLink) {
             return
         }
-        const sib = document.querySelector('.options__main a[href="/magazines/abandoned"]')
-        const par = sib.parentElement
+        const menubar = document.querySelector('.options__main')
+        const holder = document.createElement("li")
         const but = document.createElement('a')
         but.className = 'softblock-manage'
         but.innerText = "Softblocked"
@@ -164,7 +164,8 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
             mod.querySelector("#softblock-panel-inner-modal-body").appendChild(cleanmags)
             document.body.appendChild(mod)
         });
-        par.insertAdjacentElement("afterend", but)
+        holder.appendChild(but)
+        menubar.appendChild(holder)
 
         const header = document.querySelector('.magazines.table-responsive table thead tr')
         const softblockHead = document.createElement('th')
