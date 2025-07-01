@@ -30,6 +30,7 @@
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/funcs.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/debug.js
 // @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/enums.js
+// @require      https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/lib.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
 // @resource     kes_layout https://raw.githubusercontent.com/aclist/kbin-kes/testing/helpers/ui.json

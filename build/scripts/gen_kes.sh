@@ -54,6 +54,7 @@ gen_requires(){
         "funcs.js"
         "debug.js"
         "enums.js"
+        "lib.js"
     )
     external=(
         "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"
