@@ -169,7 +169,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
     }
 
     function genericPOSTRequest (url, callback, data) {
-        safeGM("xmlhttpRequest", {
+        safeGM.xmlHttpRequest({
             method: 'POST',
             onload: callback,
             data: 'token=' + data,
@@ -349,8 +349,8 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
     }
 
     function startup () {
-        safeGM("addStyle", customPanelCSS, "notipanel-main-css");
-        safeGM("addStyle", spinnerCSS, "notipanel-spinner-css");
+        safeGM.addStyle(customPanelCSS, "notipanel-main-css");
+        safeGM.addStyle(spinnerCSS, "notipanel-spinner-css");
         build();
     }
 
@@ -384,7 +384,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
         clickModal.addEventListener('click', () => {
             iframe.remove();
             clickModal.remove();
-            safeGM("addStyle", resetDropdownCSS, "notipanel-reset-css")
+            safeGM.addStyle(resetDropdownCSS, "notipanel-reset-css")
         });
         const container = document.querySelector('.kbin-container') 
             ?? document.querySelector('.mbin-container');
@@ -441,7 +441,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
                 anchorOuterElement.appendChild(notiBadgeHolder);
             }
             anchorOuterElement.addEventListener('click', () => {
-                safeGM("addStyle", forceDropdownCSS, "notipanel-force-css");
+                safeGM.addStyle(forceDropdownCSS, "notipanel-force-css");
                 toggleIframe(listItem)
             });
         }
@@ -463,7 +463,7 @@ function notificationsPanel (toggle) { // eslint-disable-line no-unused-vars
             "notipanel-force-css"
         ]
         for (let i in styles) {
-            safeGM("removeStyle", styles[i]);
+            safeGM.removeStyle(styles[i]);
         }
     }
 

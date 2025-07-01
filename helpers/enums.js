@@ -1,59 +1,73 @@
 const Log = Object.freeze({
-    Log: 1,
-    Warn: 2,
-    Error: 3
+    LOG: 1,
+    WARN: 2,
+    ERROR: 3
 })
 
 const Mbin = Object.freeze({
-    Top: 1,
-    Search: 2,
-    Magazines: 3,
-    People: 4,
-    Bookmarks: 5,
-    Tag: 6,
-    Microblog: 7,
-    Settings: 8,
-    Magazine: 9,
-    People: 10,
-    Modlog: 11,
+    TOP: 1,
+    SEARCH: 2,
+    MAGAZINES: 3,
+    PEOPLE: 4,
+    BOOKMARKS: 5,
+    TAG: 6,
+    MICROBLOG: 7,
+    SETTINGS: 8,
+    MAGAZINE: 9,
+    MODLOG: 10,
     Messages: Object.freeze({
-        Inbox: 12,
-        Notifications: 13,
-        Thread: 14
+        INBOX: 11,
+        NOTIFICATIONS: 12,
+        THREAD: 13
     }),
     User: Object.freeze({
-        Default: 15,
-        DirectMessage: 16,
-        Subscriptions: 17,
-        Threads: 18,
-        Comments: 19,
-        Posts: 20,
-        Replies: 21,
-        Boosts: 22,
-        Following: 23,
-        Followers: 24
+        DEFAULT: 14,
+        DIRECTMESSAGE: 15,
+        SUBSCRIPTIONS: 16,
+        THREADS: 17,
+        COMMENTS: 18,
+        POSTS: 19,
+        REPLIES: 20,
+        BOOSTS: 21,
+        FOLLOWING: 22,
+        FOLLOWERS: 23
     }),
     Thread: Object.freeze({
-        Comments: 25,
-        Favorites: 26,
-        Boosts: 27
+        COMMENTS: 24,
+        FAVORITES: 25,
+        BOOSTS: 26
     }),
     Domain: Object.freeze({
-        Default: 28,
-        Comments: 29
+        DEFAULT: 27,
+        COMMENTS: 28
     }),
     New: Object.freeze({
-        LINK: 30,
-        THREAD: 31,
-        PHOTO: 32,
-        MAGAZINE: 33
+        LINK: 29,
+        THREAD: 30,
+        PHOTO: 31,
+        MAGAZINE: 32
     })
 })
 
 const Trigger = Object.freeze({
-    Pageload: 0,
-    Toggle: 1,
-    Setting: 2,
-    Mutation: 3,
-    Dependency: 4
+    PAGELOAD: 0,
+    TOGGLE: 1,
+    SETTING: 2,
+    MUTATION: 3,
+    DEPENDENCY: 4
 })
+
+const Theme = Object.freeze({
+    KBIN: 1,
+    LIGHT: 2,
+    DARK: 3,
+    SOLARIZED_LIGHT: 4,
+    SOLARIZED_DARK: 5,
+    TOKYO_NIGHT: 6
+})
+
+const Scripthandler = {
+    NATIVE: 1,
+    TAMPER: 2
+}
+

@@ -25,10 +25,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function suppressCoverInit (toggle) { //eslint-disable-line no-unused-vars
         const pt = getPageType();
         switch (pt) {
-            case Mbin.Thread.Comments:
-            case Mbin.Thread.Favorites:
-            case Mbin.Thread.Boosts:
-            case Mbin.Magazine:
+            case Mbin.Thread.COMMENTS:
+            case Mbin.Thread.FAVORITES:
+            case Mbin.Thread.BOOSTS:
+            case Mbin.MAGAZINE:
                 break;
             default:
                 return
@@ -309,13 +309,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 margin-left: 0px !important
             }
             `;
-            safeGM("addStyle", hideDefaults, "hide-defaults");
-            safeGM("addStyle", style, "threaded-comments");
-            safeGM("addStyle", mbinStyle, "mbin-kes-comments-style");
+            safeGM.addStyle(hideDefaults, "hide-defaults");
+            safeGM.addStyle(style, "threaded-comments");
+            safeGM.addStyle(mbinStyle, "mbin-kes-comments-style");
             const el = document.querySelector(`${subSelector} figure`);
             const display = window.getComputedStyle(el).display
             if (display === "none") {
-                safeGM("addStyle", hiddenfigureCSS, "mbin-kes-comments-figure-style");
+                safeGM.addStyle(hiddenfigureCSS, "mbin-kes-comments-figure-style");
             }
         }
         function applyToNewPosts (mutation) {
@@ -554,18 +554,18 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
             removeDangling();
             clearMores();
-            safeGM("removeStyle", "hide-defaults");
-            safeGM("removeStyle", "threaded-comments");
-            safeGM("removeStyle", "mbin-kes-comments-style");
-            safeGM("removeStyle", "mbin-kes-comments-figure-style");
+            safeGM.removeStyle("hide-defaults");
+            safeGM.removeStyle("threaded-comments");
+            safeGM.removeStyle("mbin-kes-comments-style");
+            safeGM.removeStyle("mbin-kes-comments-figure-style");
         }
 
         let globalSelector
         switch (getPageType()) {
-            case Mbin.Microblog:
+            case Mbin.MICROBLOG:
                 globalSelector = ".post-comments"
                 break;
-            case Mbin.Thread.Comments:
+            case Mbin.Thread.COMMENTS:
                 globalSelector = ".entry-comments"
                 break;
             default:
@@ -578,14 +578,31 @@ const funcObj = { // eslint-disable-line no-unused-vars
             return
         }
         switch (trigger) {
-            case Trigger.Mutation:
+            case Trigger.MUTATION:
                 enterMain(mutation);
                 break;
-            case Trigger.Pageload:
-            case Trigger.Toggle:
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
                 enterMain();
                 break;
         }
+    },
+
+    thread_separator: //mes-func
+    function dividerInit (toggle) { //eslint-disable-line no-unused-vars
+        function insertSeparator () {
+            const pt = getPageType()
+            if (!isThread() && pt !== Mbin.MICROBLOG) return
+            if (document.querySelector("#mes-thread-divider")) return
+            const top = document.querySelector(".section--top")
+            const sep = document.createElement("div")
+            top.insertAdjacentElement("beforebegin", sep)
+            sep.style.height = "0.5rem"
+            sep.id = "mes-thread-divider"
+        }
+
+        if (toggle) insertSeparator()
+        if (!toggle) document.querySelector("#mes-thread-divider")?.remove();
     },
 
     omni: //mes-func
@@ -684,8 +701,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function createOmni () {
 
-            safeGM("removeStyle", "omni-css")
-            safeGM("addStyle", omniCSS, "omni-css")
+            safeGM.removeStyle("omni-css")
+            safeGM.addStyle(omniCSS, "omni-css")
 
             if (username) {
                 loadMags((mags, isFinalCall) => {
@@ -696,7 +713,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
 
             async function loadDefaultMags () {
-                const loaded = await safeGM("getValue", `omni-default-mags-${hostname}`);
+                const loaded = await safeGM.getValue(`omni-default-mags-${hostname}`);
                 if ((!loaded) || (loaded.length < 1)) {
                     fetchDefaultMags();
                 } else {
@@ -704,7 +721,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 }
             }
             async function saveDefaultMags (mags) {
-                await safeGM("setValue", `omni-default-mags-${hostname}`, mags)
+                await safeGM.setValue(`omni-default-mags-${hostname}`, mags)
                 omni(mags);
             }
             function fetchDefaultMags () {
@@ -1002,18 +1019,18 @@ const funcObj = { // eslint-disable-line no-unused-vars
             loadMags.cancel(id);
             clearCachedMags();
             clearLoader(id);
-            safeGM("setValue",`omni-default-mags-${hostname}`, []);
+            safeGM.setValue(`omni-default-mags-${hostname}`, []);
             $(document).off("keypress.omnikey");
             removeTapBar();
         }
 
         switch (trigger) {
-            case Trigger.Pageload:
-            case Trigger.Toggle:
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
                 document.querySelector(".kes-omni-modal")?.remove();
                 (toggle) ? setup() : shutdown();
                 break;
-            case Trigger.Setting:
+            case Trigger.SETTING:
                 if (setting === "mobile") {
                     (mobile) ? addTapBar() : removeTapBar();
                 }
@@ -1049,7 +1066,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== Mbin.User.DirectMessage) return
+        if (pt !== Mbin.User.DIRECTMESSAGE) return
         const form = document.querySelector('form[name="message"]')
         if (!form) return
         if (toggle) {
@@ -1252,7 +1269,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function genericPOSTRequest (url, callback, data) {
-            safeGM("xmlhttpRequest", {
+            safeGM.xmlHttpRequest({
                 method: 'POST',
                 onload: callback,
                 data: 'token=' + data,
@@ -1432,8 +1449,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         function startup () {
-            safeGM("addStyle", customPanelCSS, "notipanel-main-css");
-            safeGM("addStyle", spinnerCSS, "notipanel-spinner-css");
+            safeGM.addStyle(customPanelCSS, "notipanel-main-css");
+            safeGM.addStyle(spinnerCSS, "notipanel-spinner-css");
             build();
         }
 
@@ -1467,7 +1484,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             clickModal.addEventListener('click', () => {
                 iframe.remove();
                 clickModal.remove();
-                safeGM("addStyle", resetDropdownCSS, "notipanel-reset-css")
+                safeGM.addStyle(resetDropdownCSS, "notipanel-reset-css")
             });
             const container = document.querySelector('.kbin-container') 
                 ?? document.querySelector('.mbin-container');
@@ -1524,7 +1541,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     anchorOuterElement.appendChild(notiBadgeHolder);
                 }
                 anchorOuterElement.addEventListener('click', () => {
-                    safeGM("addStyle", forceDropdownCSS, "notipanel-force-css");
+                    safeGM.addStyle(forceDropdownCSS, "notipanel-force-css");
                     toggleIframe(listItem)
                 });
             }
@@ -1546,7 +1563,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 "notipanel-force-css"
             ]
             for (let i in styles) {
-                safeGM("removeStyle", styles[i]);
+                safeGM.removeStyle(styles[i]);
             }
         }
 
@@ -1566,21 +1583,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 const arr = magazine.getAttribute("href").split("@")
                 const name = arr[0].split("/")[2]
                 const remote = arr[1]
-                let spanEl
                 if (remote) {
-                    //subscriptions sidebar uses a different span syntax
-                    if (el === ".subscription-list .stretched-link") {
-                        spanEl = ".magazine-name"
-                    } else {
-                        spanEl = "span"
-                    }
-                    const oldSpan = magazine.querySelector(spanEl)
-                    oldSpan.classList.add("mag-hidden-instance");
-                    oldSpan.style.display = "none"
-                    const newSpan = document.createElement("span")
-                    newSpan.innerText = name + "@" + remote
-                    newSpan.classList.add("mes-remote-instance");
-                    oldSpan.insertAdjacentElement("afterend", newSpan)
+                    const clone = magazine.cloneNode(true);
+                    clone.innerText = name + "@" + remote
+                    clone.classList.add("mes-remote-instance")
+                    magazine.classList.add("mag-hidden-instance")
+                    magazine.style.display = "none"
+                    magazine.insertAdjacentElement("afterend", clone)
                 }
             });
         }
@@ -1618,13 +1627,9 @@ const funcObj = { // eslint-disable-line no-unused-vars
     },
 
     code_highlighting: //mes-func
-    function initCodeHighlights (toggle) { // eslint-disable-line no-unused-vars
+    function initCodeHighlights (toggle, trigger, setting) { // eslint-disable-line no-unused-vars
         /* global hljs */
-        let kchCssUrl;
-        safeGM("addStyle",`
-        .kch-collapsed {
-            display: none !important;
-        }
+        const codeCSS = `
         .hljs.kch_header {
             padding-top: 10px;
             padding-bottom: 10px;
@@ -1632,32 +1637,43 @@ const funcObj = { // eslint-disable-line no-unused-vars
         code.hljs {
             border-top: 2px solid;'
         }
-        .hljs-keyword {
+        .kch_header span {
             margin-left: 20px;
         }
-
-        `);
-        function kchStartup () {
-            addHeaders('pre code');
-            setCss(kchCssUrl);
+        #mes-copy-code-icon {
+            margin-left: 10px;
+            cursor: pointer;
         }
-        function kchShutdown () {
-            safeGM("removeStyle", "kch-hljs")
-            const clicker = document.querySelector('#kch-clicker')
-            if (clicker) {
-                const comms = document.querySelector('#comments')
-                clicker.before(comms)
-                clicker.remove()
-            }
-            $('.kch_header').remove();
+        #copied-tooltip {
+            margin-left: 10px;
+        }
+        .fa-solid.fa-chevron-down.hljs-section,
+        .fa-solid.fa-chevron-up.hljs-section {
+            float: right;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        `;
+
+        safeGM.removeStyle("mes-code-css")
+        safeGM.addStyle(codeCSS, "mes-code-css")
+
+        function kchStartup () {
+            addHeaders('pre:not(.mes-code-clone)');
+            setCss();
+        }
+
+        function shutdown () {
+            safeGM.removeStyle("kch-hljs")
+            document.querySelectorAll("pre").forEach((item) => {
+                item.style.removeProperty("display")
+                delete item.dataset.codehighlight
+            })
+            $('.mes-code-clone').remove();
         }
         function addTags (item) {
-            if (item.parentElement.querySelector('.kch_header')) return
             let lang;
 
-            if (item.previousSibling) {
-                if (item.previousSibling.className === "hljs kch_header") return
-            }
             for (let name of item.className.split(' ')) {
                 if (name.includes('-')) {
                     lang = name.split('-')[1];
@@ -1671,108 +1687,97 @@ const funcObj = { // eslint-disable-line no-unused-vars
             span.className = 'hljs-keyword'
             span.innerHTML = lang;
 
-            // TODO: create static stylesheet
             const icon = document.createElement('i');
+            icon.id = "mes-copy-code-icon"
             icon.className = 'fa-solid fa-copy hljs-section';
             icon.setAttribute('aria-hidden', 'true');
-            icon.style = 'margin-left: 10px; cursor: pointer;';
             const span_copied = document.createElement('span');
             span_copied.id = 'copied-tooltip';
             span_copied.innerHTML = 'COPIED!';
-            span_copied.style = 'display: none; margin-left: 10px;';
+            span_copied.style.display = "none"
             const hide_icon = document.createElement('i');
             hide_icon.className = 'fa-solid fa-chevron-up hljs-section';
             hide_icon.setAttribute('aria-hidden', 'true');
-            hide_icon.style = 'float: right; margin-right: 20px; cursor: pointer;';
+
+
+            icon.addEventListener("click", (e) => {
+                const header = e.target.parentNode
+                const code = header.nextElementSibling
+                const tooltip = header.querySelector("#copied-tooltip")
+                navigator.clipboard.writeText(code.innerText);
+                tooltip.style.removeProperty("display")
+                setTimeout(function () {
+                    tooltip.style.display = "none";
+                }, 1000);
+            })
+
+            hide_icon.addEventListener("click", (e) => {
+                const header = e.target.parentNode
+                const code = header.nextElementSibling
+                const chevron = e.target
+                if (chevron.classList.contains("fa-chevron-up")) {
+                    chevron.classList.replace("fa-chevron-up", "fa-chevron-down")
+                    code.style.display = "none"
+                } else {
+                    chevron.classList.replace("fa-chevron-down", "fa-chevron-up")
+                    code.style.removeProperty("display")
+                }
+            })
 
             header.appendChild(span);
             header.appendChild(icon);
             header.appendChild(span_copied);
             header.appendChild(hide_icon);
-            item.parentElement.prepend(header);
-
-            //for compatibility with collapsible comments mod
-            //outer clicker is immune to changes in the comments tree
-            //and uses event delegation to filter clicks
-            if (document.querySelector('#kch-clicker')) return
-            const clicker = document.createElement('div')
-            clicker.id = 'kch-clicker'
-            const comms = document.querySelector('#comments')
-            comms.before(clicker)
-            clicker.appendChild(comms)
-            clicker.addEventListener('click', captureHeaderClicks, event)
-        }
-        function captureHeaderClicks (e) {
-            switch (e.target.className) {
-                case "fa-solid fa-copy hljs-section": {
-                    const par = e.target.parentElement
-                    const next = getNextValidSibling(par);
-                    navigator.clipboard.writeText(next.innerText);
-                    const t = document.querySelector('#copied-tooltip')
-                    t.style.display = 'inline';
-                    setTimeout(function () {
-                        t.style.display = 'none';
-                    }, 1000);
-                    break;
-                }
-                case "fa-solid fa-chevron-up hljs-section": {
-                    e.target.className = 'fa-solid fa-chevron-down hljs-section'
-                    toggleCollapse(e.target);
-                    break;
-                }
-                case "fa-solid fa-chevron-down hljs-section": {
-                    e.target.className = 'fa-solid fa-chevron-up hljs-section'
-                    toggleCollapse(e.target);
-                    break;
-                }
-            }
-        }
-        function toggleCollapse (child) {
-            const par = child.parentElement
-            const next = getNextValidSibling(par);
-            next.classList.toggle('kch-collapsed')
-        }
-        function getNextValidSibling (el) {
-            let next
-            next = el.nextSibling
-            if (next.style.display === "none") {
-                next = el.nextSibling.nextSibling
-            }
-            return next
+            item.prepend(header);
 
         }
-        function setCss (url) {
-            safeGM("xmlhttpRequest",{
+        function setCss () {
+            const settings = getModSettings("codehighlights");
+            const myStyle = settings["style"];
+            const prefix = "https://raw.githubusercontent.com"
+            const suffix = "highlightjs/highlight.js/main/src/styles/base16"
+            const url = `${prefix}/${suffix}/${myStyle}.css`
+            safeGM.xmlHttpRequest({
                 method: "GET",
                 url: url,
                 headers: {
                     "Content-Type": "text/css"
                 },
                 onload: function (response) {
-                    safeGM("addStyle", response.responseText, "kch-hljs");
+                    safeGM.removeStyle(response.responseText, "kch-hljs");
+                    safeGM.addStyle(response.responseText, "kch-hljs");
                 }
             });
         }
         function addHeaders (selector) {
             document.querySelectorAll(selector).forEach((item) => {
-                if (!(item.classList.contains('hljs'))) {
-                    hljs.highlightElement(item);
-                }
-                if (item.style.display === "none") return
-                addTags(item);
+                if (item.dataset.codehiglight === true) return
+                const clone = item.cloneNode(true)
+                clone.classList.add("mes-code-clone")
+                item.insertAdjacentElement("afterend", clone)
+                item.style.display = "none"
+                item.dataset.codehighlight = true
+                addTags(clone);
+                clone.querySelectorAll("code").forEach((block) => {
+                    hljs.highlightElement(block);
+                })
             });
         }
-        if (toggle) {
-            const settings = getModSettings("codehighlights");
-            const myStyle = settings["style"];
-            const prefix = "https://raw.githubusercontent.com"
-            const suffix = "highlightjs/highlight.js/main/src/styles/base16"
-            kchCssUrl = `${prefix}/${suffix}/${myStyle}.css`
-            kchStartup();
+
+
+        function setup () {
             hljs.configure({ ignoreUnescapedHTML: true });
-            hljs.highlightAll();
-        } else {
-            kchShutdown();
+            kchStartup();
+        }
+        switch (trigger) {
+            case Trigger.MUTATION:
+            case Trigger.PAGELOAD:
+            case Trigger.TOGGLE:
+                (toggle) ? setup() : shutdown();
+                break;
+            case Trigger.SETTING:
+                setCss()
+                break;
         }
     },
 
@@ -1780,7 +1785,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function rearrangeInit (toggle) { // eslint-disable-line no-unused-vars
         function rearrangeSetup () {
             const pt = getPageType();
-            if (pt !== Mbin.Thread.Comments) return
+            if (pt !== Mbin.Thread.COMMENTS) return
             const settings = getModSettings('rearrange');
             const content = document.querySelector('#content');
             content.style.display = 'grid';
@@ -1948,7 +1953,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             check();
         }
         function unapply () {
-            safeGM("removeStyle", "mes-filter-css");
+            safeGM.removeStyle("mes-filter-css");
         }
 
         function filterDupes (array) {
@@ -2178,10 +2183,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
         `;
 
         if (toggle) {
-            safeGM("removeStyle", 'unblurred');
-            safeGM("addStyle", unblurCSS, 'unblurred');
+            safeGM.removeStyle("unblurred");
+            safeGM.addStyle(unblurCSS, "unblurred");
         } else {
-            safeGM("removeStyle", 'unblurred');
+            safeGM.removeStyle("unblurred");
         }
     },
 
@@ -2448,12 +2453,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
         `;
         if (toggle) {
-            safeGM("removeStyle", "navbar-icons-css")
-            safeGM("addStyle", css, "navbar-icons-css")
+            safeGM.removeStyle("navbar-icons-css")
+            safeGM.addStyle(css, "navbar-icons-css")
             searchText.innerText = "" ;
             postText.innerText = "" ;
         } else {
-            safeGM("removeStyle", "navbar-icons-css")
+            safeGM.removeStyle("navbar-icons-css")
         }
     },
 
@@ -2627,14 +2632,14 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 font-size: ${resolveSize(settings["optionPagination"])}rem
             }
             `;
-            safeGM("addStyle", css, "resize-css")
+            safeGM.addStyle(css, "resize-css")
         }
 
         if (toggle) {
-            safeGM("removeStyle", "resize-css")
+            safeGM.removeStyle("resize-css")
             resizeText();
         } else {
-            safeGM("removeStyle", "resize-css")
+            safeGM.removeStyle("resize-css")
             return
         }
     },
@@ -3045,13 +3050,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         const pt = getPageType(); // eslint-disable-line no-undef
-        if (pt !== Mbin.Magazine) return
+        if (pt !== Mbin.MAGAZINE) return
 
         function applyPins () {
 
             const css = setCSS();
-            safeGM("removeStyle", 'kes-pin-css');
-            safeGM("addStyle", css, 'kes-pin-css');
+            safeGM.removeStyle("kes-pin-css");
+            safeGM.addStyle(css, "kes-pin-css");
 
             if (document.querySelector('#kes-pin-button')) return
             const pins = document.querySelectorAll('.entry:has(footer i.fa-thumbtack)')
@@ -3091,7 +3096,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function unapplyPins () {
             document.querySelector('#kes-pin-button').remove();
-            safeGM("removeStyle", "kes-pin-css");
+            safeGM.removeStyle("kes-pin-css");
         }
 
         if (toggle) applyPins();
@@ -3206,7 +3211,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         if (toggle) {
             adjustColors(sheetName);
         } else {
-            safeGM("removeStyle", sheetName);
+            safeGM.removeStyle(sheetName);
         }
 
         function adjustColors (sheetName) {
@@ -3238,8 +3243,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     text-decoration: none;
                 }
             `;
-            safeGM("removeStyle", sheetName);
-            safeGM("addStyle", customCSS, sheetName)
+            safeGM.removeStyle(sheetName);
+            safeGM.addStyle(customCSS, sheetName)
         }
     },
 
@@ -3257,12 +3262,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
         const pt = getPageType();
         let list_columns
         switch (pt) {
-            case Mbin.User.Subscriptions: {
+            case Mbin.User.SUBSCRIPTIONS: {
                 list_columns = '.magazines-columns'
                 break;
             }
-            case Mbin.User.Followers:
-            case Mbin.User.Following: {
+            case Mbin.User.FOLLOWERS:
+            case Mbin.User.FOLLOWING: {
                 list_columns = '.users-columns'
                 break;
             }
@@ -3433,8 +3438,8 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
 
         if (toggle) {
-            safeGM("removeStyle", "expand-css");
-            safeGM("addStyle", buttonCSS, "expand-css");
+            safeGM.removeStyle("expand-css");
+            safeGM.addStyle(buttonCSS, "expand-css");
             propagateButtons();
         } else {
             let allEls
@@ -3447,7 +3452,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             document.querySelectorAll('.entry').forEach((entry) => {
                 delete entry.dataset.expand
             });
-            safeGM("removeStyle", "expand-css");
+            safeGM.removeStyle("expand-css");
         }
     },
 
@@ -3523,7 +3528,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         async function loadCounts (hostname, mag) {
             let counts
-            counts = await safeGM("getValue", `thread-deltas-${hostname}-${mag}`)
+            counts = await safeGM.getValue(`thread-deltas-${hostname}-${mag}`)
             if (!counts) {
                 counts = []
             }
@@ -3532,7 +3537,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         async function saveCounts (hostname, mag, counts) {
             // eslint-disable-next-line no-unused-vars
-            const savedCounts = await safeGM("setValue", `thread-deltas-${hostname}-${mag}`, counts)
+            const savedCounts = await safeGM.setValue(`thread-deltas-${hostname}-${mag}`, counts)
         }
 
         if (toggle) {
@@ -3627,7 +3632,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         if (toggle) {
             applyOutlines();
         } else {
-            safeGM("removeStyle", "kes-hover-css")
+            safeGM.removeStyle("kes-hover-css")
         }
 
         function applyOutlines () {
@@ -3678,10 +3683,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
             }
 
             `
-            safeGM("removeStyle", "kes-hover-exclusions")
-            safeGM("removeStyle", "kes-hover-css")
-            safeGM("addStyle", mergedCSS, "kes-hover-css")
-            safeGM("addStyle", exclusions, "kes-hover-exclusions")
+            safeGM.removeStyle("kes-hover-exclusions")
+            safeGM.removeStyle("kes-hover-css")
+            safeGM.addStyle(mergedCSS, "kes-hover-css")
+            safeGM.addStyle(exclusions, "kes-hover-exclusions")
         }
     },
 
@@ -3723,7 +3728,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             return document.querySelectorAll('#kes-omni-check');
         }
 
-        if (trigger == Trigger.Setting) {
+        if (trigger == Trigger.SETTING) {
             if (setting == "refresh" && !settings["refresh"]) {
                 clearCachedMags()
             } else if (setting == "check-color") {
@@ -3779,12 +3784,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const page = getPageType() //eslint-disable-line no-undef
             let el
             switch (page) {
-                case Mbin.Thread.Favorites:
-                case Mbin.User.Followers:
-                case Mbin.User.Following:
+                case Mbin.Thread.FAVORITES:
+                case Mbin.User.FOLLOWERS:
+                case Mbin.User.FOLLOWING:
                     el = ".users-columns .stretched-link"
                     break;
-                case Mbin.User.Default:
+                case Mbin.User.DEFAULT:
                     el = ".user-inline"
                     break;
                 default:
@@ -3812,10 +3817,10 @@ const funcObj = { // eslint-disable-line no-unused-vars
         `;
 
         if (toggle) {
-            safeGM("removeStyle", "submission-css")
-            safeGM("addStyle", css, "submission-css")
+            safeGM.removeStyle("submission-css")
+            safeGM.addStyle(css, "submission-css")
         } else {
-            safeGM("removeStyle", "submission-css")
+            safeGM.removeStyle("submission-css")
         }
     },
 
@@ -3865,7 +3870,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const mod = settings["kfaModColor"];
             const style = settings["kfaStyle"];
             const indicatorScale = settings["kfaScale"];
-            log(indicatorScale, Log.Log)
+            log(indicatorScale, Log.LOG)
             const bubbleFuzz = settings["kfaBubbleShadow"];
             if (style === "bubble") {
                 const scale = setScale(indicatorScale, 20)
@@ -3941,12 +3946,12 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function kfaStartup () {
             kfaInitClasses();
-            safeGM("removeStyle","kfaInjectedCss");
-            safeGM("addStyle",kfaGenCSS(),"kfaInjectedCss");
+            safeGM.removeStyle("kfaInjectedCss");
+            safeGM.addStyle(kfaGenCSS(),"kfaInjectedCss");
         }
 
         function kfaShutdown () {
-            safeGM("removeStyle","kfaInjectedCss");
+            safeGM.removeStyle("kfaInjectedCss");
             const els = [
                 "data-home",
                 "data-federated",
@@ -4003,7 +4008,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
         function kfaInitClasses () {
             const page = getPageType(); // eslint-disable-line no-undef
-            if (page === Mbin.Microblog) {
+            if (page === Mbin.MICROBLOG) {
                 document.querySelectorAll('.section.post.subject').forEach(function (comment) {
                     if (comment.querySelector('[class^=data-]')) { return }
                     prependToComment(comment);
@@ -4014,7 +4019,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 });
                 return
             }
-            if (page !== Mbin.Microblog) {
+            if (page !== Mbin.MICROBLOG) {
                 document.querySelectorAll('#content article.entry:not(.entry-cross)').forEach(function (article) {
                     if (article.querySelector('[class^=data-]')) { return }
                     let op = article.querySelector('.user-inline').href
@@ -4116,21 +4121,21 @@ const funcObj = { // eslint-disable-line no-unused-vars
     function hidePostsInit (toggle) { //eslint-disable-line no-unused-vars
 
         async function wipeArray () {
-            await safeGM("setValue","hidden-posts","[]")
+            await safeGM.setValue("hidden-posts","[]")
         }
         async function setArray () {
-            const val = await safeGM("getValue","hidden-posts")
+            const val = await safeGM.getValue("hidden-posts")
             if(val) {
                 setup(val)
             } else {
-                await safeGM("setValue","hidden-posts","[]")
+                await safeGM.setValue("hidden-posts","[]")
                 setup('[]')
             }
         }
         async function addToArr (idArr,toHideID) {
             idArr.push(toHideID)
             const updatedArr = JSON.stringify(idArr)
-            await safeGM("setValue","hidden-posts",updatedArr)
+            await safeGM.setValue("hidden-posts",updatedArr)
         }
         function teardown (hp) {
             $('.kes-hide-posts').hide();
@@ -4144,13 +4149,13 @@ const funcObj = { // eslint-disable-line no-unused-vars
             wipeArray();
         }
         async function fetchCurrentPage () {
-            const hp = await safeGM("getValue","hide-this-page");
+            const hp = await safeGM.getValue("hide-this-page");
             if (hp) {
                 teardown(hp);
             }
         }
         async function storeCurrentPage (hideThisPage) {
-            await safeGM("setValue","hide-this-page",hideThisPage)
+            await safeGM.setValue("hide-this-page", hideThisPage)
         }
         function hideSib (el, mode) {
             const sib = el.nextSibling;
@@ -4209,7 +4214,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
 
     softblock: //mes-func
     function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
-        //TODO: don't apply on magazine pages
         const hostname = window.location.hostname;
         const softBlockCSS = `
         .softblocked-article {
@@ -4218,40 +4222,36 @@ const funcObj = { // eslint-disable-line no-unused-vars
         .softblock-manage, .softblock-icon:hover {
             cursor: pointer;
         }
-        #softblock-panel {
-            background-color: gray;
-            z-index: 99999;
+        .softblock-icon:hover {
+            color: var(--kbin-link-hover-color);
+        }
+        .softblock-button {
+            padding-bottom: .5rem;
+            padding-top: .5rem
+        }
+        .softblock-aside {
             display: flex;
             justify-content: center;
-            align-items: center;
-            margin-left: 150px;
-            width: 50%;
-            overflow-y: scroll;
-            flex-direction: column-reverse;
-            padding-top: 10px;
         }
-        .softblock-panel-close {
-            margin: auto;
-        }
-        .softblock-panel-list {
-            color: white;
+        .softblock-table-empty {
+            display: flex;
+            justify-content: center;
         }
         `
 
         function softBlock (mags) {
-            const path = location.pathname.split('/')[1]
-            switch (path) {
-                case "":
-                case "sub":
-                case "all": {
+            const pt = getPageType();
+            switch (pt) {
+                case Mbin.Top: {
                     blockThreads(mags);
                     break
                 }
-                case "magazines": {
+                case Mbin.Magazines: {
                     addToIndex(mags);
                     break
                 }
-                case "m": {
+                case Mbin.Microblog:
+                case Mbin.Magazine: {
                     addToSidebar(mags);
                     break
                 }
@@ -4275,7 +4275,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
         function blockThreads (mags) {
             hideThreads(mags)
             document.querySelectorAll('.entry:not(.entry-cross) aside.meta.entry__meta').forEach((item) => {
-            //document.querySelectorAll('.entry__meta').forEach((item) => {
                 if (item.querySelector('.softblock-icon')) {
                     return
                 }
@@ -4304,33 +4303,60 @@ const funcObj = { // eslint-disable-line no-unused-vars
                 return 'block'
             }
         }
-        function addToSidebar (mags) {
-            const mag = location.pathname.split('/')[2]
-            const el = document.querySelector('.magazine__subscribe form[name="magazine_block"]')
-            const state = returnState(mags, mag);
-            const old = document.querySelector('.softblock-button')
-            if (old) {
-                return
-            }
-            insertBlockButton(mags, state, el);
+
+        function makeEmpty () {
+            const empty = document.createElement('text')
+            empty.className = "softblock-table-empty"
+            empty.innerText = "No softblocked mags."
+            return empty
         }
+
+        function wipeTable () {
+            document.querySelector('.softblock-panel-table')?.remove();
+            const body = document.querySelector('#softblock-panel-inner-modal-body');
+            const empty = makeEmpty();
+            body.appendChild(empty);
+        }
+
+        function addToSidebar (mags) {
+            const el = document.querySelector('.magazine__subscribe form[name="magazine_block"]')
+            if (!el) return
+            if (document.querySelector('.softblock-button')) return
+            const mag = el.action.split("/")[4]
+            const button = createBlockButton(mags, mag);
+            const container = document.createElement("div")
+            const subscribe_row = document.querySelector(".magazine__subscribe")
+            container.id = "softblock-button-container"
+            container.appendChild(button)
+            subscribe_row.insertAdjacentElement("afterend", container)
+        }
+
         function clean (mags) {
-            const list = document.createElement('ul')
-            list.className = 'softblock-panel-list'
+            const list = document.createElement('table');
+            const body = document.createElement('tbody');
+            list.appendChild(body);
+            list.className = 'softblock-panel-table'
             const sorted = mags.sort((a, b) => {
                 return a.localeCompare(b, undefined, { sensitivity: 'base' });
             });
-            for (let i=0; i<sorted.length; ++i) {
-                const it = document.createElement('li')
-                it.innerText = sorted[i]
-                insertBlockButton(mags, 'unblock', it)
-                list.appendChild(it)
-            }
             if (mags.length === 0) {
-                const empty = document.createElement('text')
-                empty.innerText = "No softblocked mags."
-                list.appendChild(empty)
-
+                return makeEmpty()
+            }
+            for (let i=0; i<sorted.length; ++i) {
+                const it = document.createElement('tr')
+                const td1 = document.createElement('td')
+                const td1a = document.createElement("a")
+                td1.appendChild(td1a)
+                td1a.innerText = sorted[i]
+                td1a.setAttribute("href", "m/" + sorted[i])
+                const td2 = document.createElement('td')
+                const tdb = createBlockButton(mags, sorted[i])
+                td1.style.padding = "0.5rem 1rem"
+                td2.style.padding = "0.5rem 1rem"
+                td2.appendChild(tdb)
+                it.appendChild(td1)
+                it.appendChild(td2)
+                body.appendChild(it)
             }
             return list
         }
@@ -4339,45 +4365,46 @@ const funcObj = { // eslint-disable-line no-unused-vars
             if(manageLink) {
                 return
             }
-            const sib = document.querySelector('.options__main a[href="/magazines/abandoned"]')
-            const par = sib.parentElement
+            const menubar = document.querySelector('.options__main')
+            const holder = document.createElement("li")
             const but = document.createElement('a')
             but.className = 'softblock-manage'
-            but.innerText = "softblocked"
+            but.innerText = "Softblocked"
             but.addEventListener('click', () => {
                 if (document.querySelector('#softblock-panel')) {
                     return
                 }
                 const cleanmags = clean(mags)
-                const mod = document.createElement('div')
-                mod.id = 'softblock-panel'
-                const closeButton = document.createElement('button')
-                closeButton.innerText = 'close'
-                closeButton.className = 'softblock-panel-close'
-                closeButton.addEventListener('click', (e)=>{
-                    e.target.parentElement.remove();
-                });
-                mod.appendChild(cleanmags)
-                mod.appendChild(closeButton)
-                document.querySelector('header').appendChild(mod)
+                const mod = makeModal("softblock-panel")
+                mod.querySelector("#softblock-panel-inner-modal-body").appendChild(cleanmags)
+                document.body.appendChild(mod)
             });
-            par.insertAdjacentElement("afterend", but)
+            holder.appendChild(but)
+            menubar.appendChild(holder)
 
-            const rows = document.querySelectorAll('.magazines.table-responsive .magazine-inline')
-            rows.forEach((link) => {
+            const header = document.querySelector('.magazines.table-responsive table thead tr')
+            const softblockHead = document.createElement('th')
+            softblockHead.style.textAlign = "center"
+            softblockHead.innerText = "Softblock"
+            softblockHead.id = "softblock-column"
+            header.appendChild(softblockHead)
+
+            const tableRow = document.querySelectorAll('.magazines.table-responsive tbody tr');
+            tableRow.forEach((row) => {
+                const link = row.querySelector('.magazine-inline')
                 const mag = link.href.split('/')[4]
-                const row = link.parentElement.parentElement
-                const el = row.querySelector('.magazine__subscribe form[name="magazine_block"]')
-                const state = returnState(mags, mag);
-                if (el.querySelector('.softblock-button')) {
-                    return
-                }
-                insertBlockButton(mags, state, el);
+                if (row.querySelector(".softblock-row")) return
+                const t = document.createElement("td");
+                t.className = "softblock-row"
+                row.appendChild(t);
+                const button = createBlockButton(mags, mag)
+                t.appendChild(button)
             });
         }
 
-        function insertBlockButton (mags, state, el) {
+        function createBlockButton (mags, mag) {
 
+            const state = returnState(mags, mag)
             const blockButton = document.createElement('button');
             blockButton.classList.add('softblock-button', 'btn', 'btn__secondary', 'action')
 
@@ -4390,59 +4417,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
             blockButton.appendChild(blockIcon);
             blockButton.appendChild(sp);
 
-            blockButton.addEventListener('click', (e) => {
-                let mag
-                let button
-                let span
-                if (location.pathname.split('/')[1] === "magazines") {
-                    const type = e.target.tagName
-                    const row = e.target.parentElement.parentElement.parentElement.parentElement
-                    const row2 = e.target.parentElement.parentElement.parentElement
-                    let par
-                    switch (type) {
-                        case "I":
-                            par = row
-                            break
-                        case "SPAN":
-                            par = row
-                            break
-                        case "BUTTON":
-                            par = row2
-                            break
-                    }
-                    mag = par.querySelector('.magazine-inline').href.split('/')[4]
-                    button = par.querySelector('.softblock-button')
-                    span = par.querySelector('.softblock-span')
-                } else {
-                    mag = location.pathname.split('/')[2];
-                    button = document.querySelector('.softblock-button')
-                    span = document.querySelector('.softblock-span')
-                }
-                const text = span.innerText
-                switch (text) {
-                    case "Softblock":{
-                        span.innerText = 'Unsoftblock'
-                        button.classList.add('danger')
-                        if(mags.includes(mag)) {
-                            break
-                        }
-                        mags.push(mag)
-                        break
-                    }
-                    case "Unsoftblock": {
-                        span.innerText = 'Softblock'
-                        button.classList.remove('danger')
-                        if(!mags.includes(mag)) {
-                            break
-                        }
-                        const ind = mags.indexOf(mag)
-                        mags.splice(ind, 1)
-                        break
-                    }
-                }
-                saveMags(hostname, mags)
-            });
-
             switch(state) {
                 case "block": {
                     sp.innerText = 'Softblock'
@@ -4454,11 +4428,61 @@ const funcObj = { // eslint-disable-line no-unused-vars
                     break
                 }
             }
-            el.insertAdjacentElement("afterend", blockButton);
+            blockButton.dataset.mag = mag
+
+            blockButton.addEventListener('click', (e) => {
+                const target = e.currentTarget
+                const mag = target.dataset.mag
+                const span = target.querySelector('.softblock-span')
+                let text = span.innerText
+                switch (text) {
+                    case "Softblock":{
+                        span.innerText = 'Unsoftblock'
+                        target.classList.add('danger')
+                        if(mags.includes(mag)) {
+                            break
+                        }
+                        mags.push(mag)
+                        break
+                    }
+                    case "Unsoftblock": {
+                        span.innerText = 'Softblock'
+                        target.classList.remove('danger')
+                        if(!mags.includes(mag)) {
+                            break
+                        }
+                        const ind = mags.indexOf(mag)
+                        mags.splice(ind, 1)
+
+                        //remove applicable row from modal
+                        if (document.querySelector("#softblock-panel-inner-modal-content")) {
+                            const parRow = target.parentNode.parentNode.parentNode
+                            parRow.remove();
+                            const m = `.magazine-inline[href="/m/${mag}"]`
+                            const tableRow = document.querySelector(m)
+                            //also unsubscribe from magazine table
+                            if (tableRow) {
+                                tableRow.parentNode.parentNode.querySelector(".softblock-button").click();
+                            }
+                            if (mags.length === 0) {
+                                wipeTable();
+                            }
+                        }
+
+                        break
+                    }
+                }
+                saveMags(hostname, mags)
+            });
+
+            const aside = document.createElement("aside")
+            aside.className = "softblock-aside"
+            aside.appendChild(blockButton)
+            return aside
         }
 
         async function loadMags (hostname) {
-            let mags = await safeGM("getValue", `softblock-mags-${hostname}`)
+            let mags = await safeGM.getValue(`softblock-mags-${hostname}`)
             if (!mags) {
                 mags = [];
                 saveMags(hostname, mags)
@@ -4467,7 +4491,7 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         async function saveMags (hostname, mags) {
-            await safeGM("setValue", `softblock-mags-${hostname}`, mags)
+            await safeGM.setValue(`softblock-mags-${hostname}`, mags)
         }
         function removeEls () {
             let range
@@ -4480,11 +4504,17 @@ const funcObj = { // eslint-disable-line no-unused-vars
         }
 
         if (toggle) {
-            safeGM('addStyle', softBlockCSS, 'softblock-css');
+            safeGM.addStyle(softBlockCSS, 'softblock-css');
             loadMags(hostname);
         } else {
-            safeGM('removeStyle', 'softblock-css')
-            removeEls('.softblock-icon', '.softblock-button')
+            safeGM.removeStyle("softblock-css")
+            removeEls(
+                '.softblock-icon',
+                '.softblock-button',
+                '.softblock-manage',
+                '#softblock-column',
+                ".softblock-row"
+            )
             const e = []
             saveMags(hostname, e)
         }

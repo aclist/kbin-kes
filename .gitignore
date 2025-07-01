@@ -4,3 +4,4 @@ kes.user.js.alt
 package-lock.json
 sane.sh
 /docs/*.html
+/docs/build/*

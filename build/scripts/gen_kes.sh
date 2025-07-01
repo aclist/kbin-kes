@@ -52,6 +52,7 @@ gen_requires(){
     deps=(
         "safegm.js"
         "funcs.js"
+        "debug.js"
         "enums.js"
     )
     external=(
@@ -82,8 +83,8 @@ gen_requires(){
 
 gen_consts(){
 	cat<<-EOF
-		const version = safeGM("info").script.version;
-		const tool = safeGM("info").script.name;
+		const version = safeGM.info().script.version;
+		const tool = safeGM.info().script.name;
 		const repositoryURL = "https://github.com/$slug/";
 		const rawURL = "https://raw.githubusercontent.com/aclist/kbin-kes/"
 		const branch = "$branch"
@@ -153,13 +154,12 @@ owner=$(get_owner)
 slug="${owner}/kbin-kes"
 
 instances=(
-    "https://kbin.social/*"
     "https://kbin.earth/*"
-    "https://lab2.kbin.pub/*"
-    "https://lab3.kbin.pub/*"
     "https://fedia.io/*"
-    "https://karab.in/*"
-    "https://kbin.cafe/*"
+    "https://kbin.melroy.org/*"
+    "https://moist.catsweat.com/*"
+    "https://thebrainbin.org/*"
+    "https://gehirneimer.de/*"
 )
 grants=(
     "addStyle"
@@ -169,7 +169,6 @@ grants=(
     "getValue"
     "setValue"
     "getResourceText"
-    "setClipboard"
 )
 readarray -t funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | sort)
 readarray -t eslint_funcs < <(< $manifest awk -F\" '/entrypoint/ {print $4}' | sort)

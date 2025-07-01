@@ -37,12 +37,12 @@ function userInstanceEntry (toggle) { // eslint-disable-line no-unused-vars
         const page = getPageType() //eslint-disable-line no-undef
         let el
         switch (page) {
-            case Mbin.Thread.Favorites:
-            case Mbin.User.Followers:
-            case Mbin.User.Following:
+            case Mbin.Thread.FAVORITES:
+            case Mbin.User.FOLLOWERS:
+            case Mbin.User.FOLLOWING:
                 el = ".users-columns .stretched-link"
                 break;
-            case Mbin.User.Default:
+            case Mbin.User.DEFAULT:
                 el = ".user-inline"
                 break;
             default:

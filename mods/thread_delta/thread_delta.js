@@ -69,7 +69,7 @@ function threadDeltaInit (toggle) { // eslint-disable-line no-unused-vars
 
     async function loadCounts (hostname, mag) {
         let counts
-        counts = await safeGM("getValue", `thread-deltas-${hostname}-${mag}`)
+        counts = await safeGM.getValue(`thread-deltas-${hostname}-${mag}`)
         if (!counts) {
             counts = []
         }
@@ -78,7 +78,7 @@ function threadDeltaInit (toggle) { // eslint-disable-line no-unused-vars
 
     async function saveCounts (hostname, mag, counts) {
         // eslint-disable-next-line no-unused-vars
-        const savedCounts = await safeGM("setValue", `thread-deltas-${hostname}-${mag}`, counts)
+        const savedCounts = await safeGM.setValue(`thread-deltas-${hostname}-${mag}`, counts)
     }
 
     if (toggle) {

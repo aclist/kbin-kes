@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 TEST_NAME="Check for valid page name"
+#checks if a mod manifest uses an unauthorized UI page name
 
 abort(){
     local str="$1"
