@@ -35,7 +35,7 @@ function checksInit (toggle, trigger, setting) { // eslint-disable-line no-unuse
         return document.querySelectorAll('#kes-omni-check');
     }
 
-    if (trigger == Trigger.Setting) {
+    if (trigger == Trigger.SETTING) {
         if (setting == "refresh" && !settings["refresh"]) {
             clearCachedMags()
         } else if (setting == "check-color") {

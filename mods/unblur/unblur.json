@@ -6,6 +6,6 @@
   "desc": "Makes NSFW thumbnails start unblurred by default.",
   "login": false,
   "recurs": true,
-  "entrypoint": "unblur",
-  "page": "threads"
+  "page": "threads",
+  "entrypoint": "unblur"
 }

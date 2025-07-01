@@ -6,26 +6,9 @@
   "login": false,
   "recurs": true,
   "desc": "Adjust the colors of the site.",
-  "entrypoint": "adjust",
   "namespace": "adjust",
   "page": "accessibility",
-  "catch_reset": [
-    "sepia",
-    "hueRotate",
-    "bright",
-    "saturate",
-    "contrast",
-    "upvote",
-    "downvote",
-    "boost"
-  ],
   "fields": [
-    {
-      "type": "reset",
-      "key": "resetAdjust",
-      "label": "Reset values to defaults:",
-      "value": "reset"
-    },
     {
       "type": "range",
       "initial": 0,
@@ -99,5 +82,6 @@
       "key": "border",
       "checkbox_label": "Border around up/downvote buttons"
     }
-  ]
+  ],
+  "entrypoint": "adjust"
 }

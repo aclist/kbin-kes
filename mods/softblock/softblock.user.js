@@ -267,7 +267,7 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     async function loadMags (hostname) {
-        let mags = await safeGM("getValue", `softblock-mags-${hostname}`)
+        let mags = await safeGM.getValue(`softblock-mags-${hostname}`)
         if (!mags) {
             mags = [];
             saveMags(hostname, mags)
@@ -276,7 +276,7 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     async function saveMags (hostname, mags) {
-        await safeGM("setValue", `softblock-mags-${hostname}`, mags)
+        await safeGM.setValue(`softblock-mags-${hostname}`, mags)
     }
     function removeEls () {
         let range
@@ -289,10 +289,10 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     }
 
     if (toggle) {
-        safeGM('addStyle', softBlockCSS, 'softblock-css');
+        safeGM.addStyle(softBlockCSS, 'softblock-css');
         loadMags(hostname);
     } else {
-        safeGM('removeStyle', 'softblock-css')
+       safeGM.removeStyle("softblock-css")
         removeEls(
             '.softblock-icon',
             '.softblock-button',

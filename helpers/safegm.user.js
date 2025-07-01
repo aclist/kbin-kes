@@ -88,14 +88,16 @@ function log (string, level) { // eslint-disable-line no-unused-vars
     const iso = date.toISOString()
     const caller = (new Error()).stack?.split("\n")[1].split("@")[0]
     const line = `[KES:${caller}] [${iso}] ${string}`
+    const debug = document.querySelector("#mes-debugbar-expanded")
+    if (debug) debug.push(level, line)
     switch (level) {
-        case Log.Log:
+        case Log.LOG:
             console.log(line)
             break;
-        case Log.Warn:
+        case Log.WARN:
             console.warn(line)
             break;
-        case Log.Error:
+        case Log.ERROR:
             console.error(line)
             break;
         default:
@@ -104,7 +106,7 @@ function log (string, level) { // eslint-disable-line no-unused-vars
 }
 
 //returns a generic loading prompt with spinner
-function makeLoader (id, text) {
+function makeLoader (id, text) { // eslint-disable-line no-unused-vars
     const modalCSS = `
     #${id}-filter-modal-bg {
         position: fixed;
@@ -184,20 +186,24 @@ function makeLoader (id, text) {
     msg.appendChild(spinner);
     modal.appendChild(span);
     const cssID = "mes-loader-css";
-    safeGM("removeStyle", cssID);
-    safeGM("addStyle", modalCSS, cssID);
-    log(`Added the sheet '${cssID}' to the document head`, Log.Log);
+    safeGM.removeStyle(cssID);
+    safeGM.addStyle(modalCSS, cssID);
+    log(`Added the sheet '${cssID}' to the document head`, Log.LOG);
     return modal_bg
 }
 
 //removes a loading dialog created with makeLoader()
-function clearLoader (id) {
+function clearLoader (id) { // eslint-disable-line no-unused-vars
     document.querySelector(`#${id}-filter-modal-bg`)?.remove();
-    safeGM("removeStyle", "mes-loader-css");
+    safeGM.removeStyle("mes-loader-css");
 }
 
 //adds custom CSS to the document head by named ID
 function addCustomCSS (css, id) {
+    if (document.head.querySelector(`style[id="${id}"]`)) {
+        log(`CSS with id '${id}' already exists, skipping`, Log.WARN)
+        return
+    }
     const style = document.createElement('style');
     style.id = id;
     style.innerHTML = css;
@@ -229,7 +235,7 @@ function getHex (value) { //eslint-disable-line no-unused-vars
 
 //helper function to simplify pushing the results of a GET request to a callback
 function genericXMLRequest (url, callback) { //eslint-disable-line no-unused-vars
-    safeGM("xmlhttpRequest", {
+    safeGM.xmlHttpRequest({
         method: 'GET',
         url: url,
         onload: callback,
@@ -264,63 +270,77 @@ function getPageType () { //eslint-disable-line no-unused-vars
         case "sub":
         case "all":
         case "threads":
-            return Mbin.Top
+            return Mbin.TOP
         case "search":
-            return Mbin.Search
+            return Mbin.SEARCH
         case "magazines":
-            return Mbin.Magazines
+            return Mbin.MAGAZINES
         case "people":
-            return Mbin.People
+            return Mbin.PEOPLE
         case "bookmark-lists":
-            return Mbin.Bookmarks
+            return Mbin.BOOKMARKS
+        case "modlog":
+            return Mbin.MODLOG
         case "tag":
-            return Mbin.Tag
+            return Mbin.TAG
         case "microblog":
-            return Mbin.Microblog
+            return Mbin.MICROBLOG
         case "profile":
-            if ((url[4] === "messages") && (url.length === 6)) return Mbin.Messages.Thread
-            return Mbin.Messages.Inbox
+            if ((url[4] === "messages") && (url.length === 6)) return Mbin.Messages.THREAD
+            return Mbin.Messages.INBOX
         case "settings":
-            if ((url[4]) === "notifications") return Mbin.Messages.Notifications
-            return Mbin.Settings
+            if ((url[4]) === "notifications") return Mbin.Messages.NOTIFICATIONS
+            return Mbin.SETTINGS
+        case "new":
+            if ((url[4]) === undefined) return Mbin.New.LINK
+            if ((url[4]) === "article") return Mbin.New.THREAD
+            if ((url[4]) === "photo") return Mbin.New.PHOTO
+            if ((url[4]) === "newMagazine") return Mbin.New.MAGAZINE
+            break;
         case "u":
-            if (url[5] === undefined) return Mbin.User.Default
-            if (url[5] === "message") return Mbin.User.DirectMessage
-            if (window.location.href.includes("/subscriptions")) return Mbin.User.Subscriptions
-            if (window.location.href.includes("/threads")) return Mbin.User.Threads
-            if (window.location.href.includes("/comments")) return Mbin.User.Comments
-            if (window.location.href.includes("/posts")) return Mbin.User.Posts
-            if (window.location.href.includes("/replies")) return Mbin.User.Replies
-            if (window.location.href.includes("/boosts")) return Mbin.User.Boosts
-            if (window.location.href.includes("/following")) return Mbin.User.Following
-            if (window.location.href.includes("/followers")) return Mbin.User.Followers
-            if (window.location.href.includes("/reputation")) return Mbin.User.Reputation
-            return Mbin.User.Default
+            if (url[5] === undefined) return Mbin.User.DEFAULT
+            if (url[5] === "message") return Mbin.User.DIRECTMESSAGE
+            if (window.location.href.includes("/subscriptions")) return Mbin.User.SUBSCRIPTIONS
+            if (window.location.href.includes("/threads")) return Mbin.User.THREADS
+            if (window.location.href.includes("/comments")) return Mbin.User.COMMENTS
+            if (window.location.href.includes("/posts")) return Mbin.User.POSTS
+            if (window.location.href.includes("/replies")) return Mbin.User.REPLIES
+            if (window.location.href.includes("/boosts")) return Mbin.User.BOOSTS
+            if (window.location.href.includes("/following")) return Mbin.User.FOLLOWING
+            if (window.location.href.includes("/followers")) return Mbin.User.FOLLOWERS
+            if (window.location.href.includes("/reputation")) return Mbin.User.REPUTATION
+            return Mbin.User.DEFAULT
         case "d":
-            if ((url.length === 6) && (window.location.href.includes("/comments"))) return Mbin.Domain.Comments
-            return Mbin.Domain.Default
+            if ((url.length === 6) && (window.location.href.includes("/comments"))) {
+                return Mbin.Domain.COMMENTS
+            }
+            return Mbin.Domain.DEFAULT
         case "m":
-            if (url[5] === undefined) return Mbin.Magazine
-            if (url[5] === "microblog") return Mbin.Microblog
-            if ((url[5] === "t") && (window.location.href.includes("/favourites"))) return Mbin.Thread.Favorites
-            if ((url[5] === "t") && (window.location.href.includes("/up"))) return Mbin.Thread.Boosts
-            return Mbin.Thread.Comments
+            if (url[5] === undefined) return Mbin.MAGAZINE
+            if (window.location.href.includes("/threads")) return Mbin.MAGAZINE
+            if (url[5] === "microblog") return Mbin.MICROBLOG
+            if ((url[5] === "t") && (window.location.href.includes("/favourites"))) {
+                return Mbin.Thread.FAVORITES
+            }
+            if ((url[5] === "t") && (window.location.href.includes("/up"))) {
+                return Mbin.Thread.BOOSTS
+            }
+            return Mbin.Thread.COMMENTS
         default:
             break;
     }
-    if (url[3].includes("?type=")) return Mbin.Top
-    if (url[3].includes("magazines?")) return Mbin.Magazines
+    if (url[3].includes("?type=")) return Mbin.TOP
+    if (url[3].includes("magazines?")) return Mbin.MAGAZINES
     return "Unknown"
 }
 
 /**
  * Loads the current user's subscriptions.
- * @param {function(string[]):void} callback
+ * @param {function(string[],boolean):void} callback
  * @param {string} ns
  * @param {boolean} useCache
- * @param {boolean} runCallbackOnlyOnce
  */
-async function loadMags (callback, ns, useCache=false, runCallbackOnlyOnce=false) {
+async function loadMags (callback, ns, useCache=false) {
     // make sure the user is logged in
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
@@ -329,18 +349,18 @@ async function loadMags (callback, ns, useCache=false, runCallbackOnlyOnce=false
     // is still running
     const hostname = window.location.hostname;
     const cancelKey = `loadMags-${hostname}-${username}-${ns}`;
-    safeGM("setValue", cancelKey, false);
+    safeGM.setValue(cancelKey, false);
 
-    async function runCallback (mags) {
-        if (safeGM("getValue", cancelKey)) return;
-        safeGM("setValue",`user-mags-${hostname}-${username}`, mags);
-        callback(mags);
+    async function runCallback (mags, isFinalCall) {
+        if (safeGM.getValue(cancelKey)) return;
+        safeGM.setValue(`user-mags-${hostname}-${username}`, mags);
+        callback(mags, isFinalCall);
     }
 
     if (useCache) {
-        const cachedValue = safeGM("getValue",`user-mags-${hostname}-${username}`);
+        const cachedValue = safeGM.getValue(`user-mags-${hostname}-${username}`);
         if (cachedValue && cachedValue.length > 0) {
-            runCallback(cachedValue);
+            runCallback(cachedValue, true);
             return;
         }
     }
@@ -361,25 +381,25 @@ async function loadMags (callback, ns, useCache=false, runCallbackOnlyOnce=false
                 loadFromPage(username, nextPage.getAttribute('href').split('=')[1], mags);
             } else {
                 // finished loading all pages
-                runCallback(mags);
+                runCallback(mags, true);
             }
         });
     }
     async function loadFromSidebar () {
         const magList = [...document.querySelectorAll('.subscription')];
         if (magList.length == 0) {
-            runCallback([]);
+            runCallback([], true);
             return;
         }
         const containsShowMore = magList[magList.length-1].querySelector('button') != undefined;
         loadedMags = (containsShowMore ? magList.slice(0,-1) : magList)
             .map((mag) => mag.querySelector('a').getAttribute('href').split('/')[2]);
-        if (!runCallbackOnlyOnce || !containsShowMore) {
-            runCallback(loadedMags);
-        } else if (containsShowMore) {
+        runCallback(loadedMags, !containsShowMore);
+        if (containsShowMore) {
             loadFromPage(username, 1);
         }
     }
+
     if (document.querySelector('.subscription-list') != undefined) {
         loadFromSidebar();
     } else {
@@ -395,98 +415,139 @@ loadMags.cancel = function (ns) {
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
-    safeGM("setValue", `loadMags-${hostname}-${username}-${ns}`, true);
+    safeGM.setValue(`loadMags-${hostname}-${username}-${ns}`, true);
 }
 
 /**
  * Clears the cached list of subscriptions from the {@link loadMags} function.
  */
-function clearCachedMags () {
+function clearCachedMags () { // eslint-disable-line no-unused-vars
     const hostname = window.location.hostname;
     const username = document.querySelector('.login .user-name')?.textContent;
     if (!username) return;
-    safeGM("setValue",`user-mags-${hostname}-${username}`, []);
+    safeGM.setValue(`user-mags-${hostname}-${username}`, []);
 }
 
-function isIndex () {
+function isIndex () { // eslint-disable-line no-unused-vars
     const pt = getPageType();
     switch (pt) {
-        case Mbin.Domain.Default:
-        case Mbin.Domain.Comments:
-        case Mbin.Top:
+        case Mbin.Domain.DEFAULT:
+        case Mbin.Domain.COMMENTS:
+        case Mbin.TOP:
             return true
         default:
             return false
     }
 }
 
-function isThread () {
+function isThread () { // eslint-disable-line no-unused-vars
     const pt = getPageType();
     switch (pt) {
-        case Mbin.Thread.Comments:
-        case Mbin.Thread.Favorites:
-        case Mbin.Thread.Boosts:
+        case Mbin.Thread.COMMENTS:
+        case Mbin.Thread.FAVORITES:
+        case Mbin.Thread.BOOSTS:
             return true
         default:
             return false
+    }
+}
+
+function getTheme () { // eslint-disable-line no-unused-vars
+    let theme = undefined
+    document.querySelector("body").classList.forEach((c) => {
+        if (c.includes("theme--")) {
+            theme = c.split("--")[1]
+        }
+    })
+    switch (theme) {
+        case "kbin":
+            return Theme.KBIN
+        case "dark":
+            return Theme.DARK
+        case "light":
+            return Theme.LIGHT
+        case "solarized-light":
+            return Theme.SOLARIZED_LIGHT
+        case "solarized-dark":
+            return Theme.SOLARIZED_DARK
+        case "tokyo-night":
+            return Theme.TOKYO_NIGHT
     }
 }
 
 
 //sets the type of GM API being used (dot or underscore notation) based on scripthandler metadata
-let gmPrefix
-const dotPrefix = "GM."
-const underPrefix = "GM_"
-try {
-    if (GM_info) {
-        let scriptHandler = GM_info.scriptHandler;
+function getGMPrefix () {
+    let prefix
+    if (GM.info) {
+        let scriptHandler = GM.info.scriptHandler;
         switch (scriptHandler) {
             case "Greasemonkey":
-                gmPrefix = dotPrefix;
-                break;
             case "FireMonkey":
-                gmPrefix = dotPrefix;
-                break;
             case "Userscripts":
-                gmPrefix = dotPrefix;
+                prefix = Scripthandler.NATIVE
+                break;
+            case "Tampermonkey":
+                prefix = Scripthandler.TAMPER
                 break;
             default:
-                gmPrefix = underPrefix;
+                prefix = Scripthandler.TAMPER
                 break;
         }
+    } else {
+        prefix = Scripthandler.TAMPER
     }
-} catch (error) {
-    console.log(error);
+    return prefix
+}
+
+function testMode (func, ...args) {
+    let dict
+    (getGMPrefix() == Scripthandler.TAMPER) ? dict = tamperGM : dict = nativeGM
+    return dict[func](...args);
+}
+
+const nativeGM = {
+    setValue (...args) { return GM.setValue(...args) },
+    getValue (...args) { return GM.getValue(...args) },
+    xmlHttpRequest (...args) { return GM.xmlHttpRequest(...args)},
+    addStyle (...args) { return addCustomCSS(...args)},
+    removeStyle (...args) { return removeCustomCSS (...args) },
+    info(...args) { return GM.info }
+}
+
+const tamperGM = {
+    setValue (...args) { return GM_setValue(...args) },
+    getValue (...args) { return GM_getValue(...args) },
+    xmlHttpRequest (...args) { return GM_xmlhttpRequest(...args)},
+    addStyle (...args) { return addCustomCSS(...args)},
+    removeStyle (...args) { return removeCustomCSS (...args) },
+    getResourceText (...args) { return GM_getResourceText(...args)},
+    info(...args) { return GM_info }
 }
 
 //maps incoming arguments to wrapper functions depending on *monkey extension variant being used
 //provides seamless support for switching between new and old GM API
-window.safeGM = function (func,...args) {
-    let use
-    const underscore = {
-        setValue (...args) { return GM_setValue(...args) },
-        getValue (...args) { return GM_getValue(...args) },
-        addStyle (...args) { return addCustomCSS(...args)},
-        removeStyle (...args) { return removeCustomCSS (...args) },
-        xmlhttpRequest (...args) { return GM_xmlhttpRequest(...args)},
-        setClipboard (...args) { return GM_setClipboard(...args)},
-        getResourceText (...args) { return GM_getResourceText(...args)},
-        info () { return GM_info }
+const safeGM = {
+    setValue: function (...args) {
+        return testMode("setValue", ...args)
+    },
+    getValue: function (...args) {
+        return testMode("getValue", ...args)
+    },
+    addStyle: function (...args) {
+        return testMode("addStyle", ...args)
+    },
+    removeStyle: function (...args) {
+        return testMode("removeStyle", ...args)
+    },
+    xmlHttpRequest: function (...args) {
+        return testMode("xmlHttpRequest", ...args)
+    },
+    getResourceText: function (...args) {
+        return testMode("getResourceText", ...args)
+    },
+    info: function (...args) {
+        return testMode("info", ...args)
     }
-    const dot = {
-        setValue (...args) { return GM.setValue(...args) },
-        getValue (...args) { return GM.getValue(...args) },
-        addStyle (...args) { return addCustomCSS(...args)},
-        removeStyle (...args) { return removeCustomCSS (...args) },
-        xmlhttpRequest (...args) { return GM.xmlHttpRequest(...args)},
-        setClipboard (...args) { return GM.setClipboard(...args)},
-        info () { return GM_info }
-    }
-
-    if (gmPrefix === "GM_") {
-        use = underscore
-    } else {
-        use = dot
-    }
-    return use[func](...args);
 }
+

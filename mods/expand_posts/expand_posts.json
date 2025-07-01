@@ -6,7 +6,6 @@
   "desc": "Adds an expand/collapse button used to read the full body text of posts without leaving the thread index. By design, does not work in mbin's compact view mode, which truncates detailed post descriptions.",
   "login": false,
   "recurs": true,
-  "entrypoint": "expand_posts",
   "page": "threads",
   "namespace": "expand-posts",
   "fields": [
@@ -28,5 +27,6 @@
       "key": "loading",
       "label": "Loading label"
     }
-  ]
+  ],
+  "entrypoint": "expand_posts"
 }

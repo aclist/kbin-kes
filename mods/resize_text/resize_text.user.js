@@ -167,14 +167,14 @@ function textResize (toggle) { // eslint-disable-line no-unused-vars
             font-size: ${resolveSize(settings["optionPagination"])}rem
         }
         `;
-        safeGM("addStyle", css, "resize-css")
+        safeGM.addStyle(css, "resize-css")
     }
 
     if (toggle) {
-        safeGM("removeStyle", "resize-css")
+        safeGM.removeStyle("resize-css")
         resizeText();
     } else {
-        safeGM("removeStyle", "resize-css")
+        safeGM.removeStyle("resize-css")
         return
     }
 }

@@ -27,7 +27,7 @@ function filter (toggle, trigger, mutation) { // eslint-disable-line no-unused-v
         check();
     }
     function unapply () {
-        safeGM("removeStyle", "mes-filter-css");
+        safeGM.removeStyle("mes-filter-css");
     }
 
     function filterDupes (array) {

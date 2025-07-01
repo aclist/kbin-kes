@@ -1,0 +1,25 @@
+{
+    "$id": "`<_static/schemas/radio.json>`_",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$ref": "schemas/main",
+    "title": "Subschema - Radio",
+    "type": "object",
+    "description": "An object describing radio button settings",
+    "required": [
+        "type",
+        "key",
+        "initial",
+        "values"
+    ],
+    "properties": {
+        "type": { "type": "string", "description": "The element type", "enum": ["radio"] },
+        "key": { "type": "string", "description": "The unique lookup id for the group of buttons. The key ``state`` is reserved; do not use it." },
+        "label": { "type": "string", "description": "A section heading printed above the radio button or group of radio buttons" },
+        "initial": { "type": "string", "description": "Initial radio button set to selected" },
+        "values": {
+            "type": "array",
+            "description": "An array of user-facing strings, one per radio button, which also function as the buttons' values",
+            "minItems": 1
+        }
+    }
+}

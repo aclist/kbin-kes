@@ -1,0 +1,11 @@
+{
+  "name": "Thread separator",
+  "author": "shazbot",
+  "version": "0.1.0",
+  "label": "Add extra padding between top post and navbar",
+  "login": false,
+  "recurs": false,
+  "desc": "The top post in a thread and microblog does not follow the tiled gap behavior of other panels onscreen. This fix inserts an extra divider between the top post and navbar to simulate the right spacing.",
+  "page": "fixes",
+  "entrypoint": "thread_separator"
+}

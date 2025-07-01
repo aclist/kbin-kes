@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 TEST_NAME="Dangling newline in mod scripts"
+#checks for dangling newlines in mod JS files (breaks concat_funcs)
+
 if [[ ! $(git rev-parse --show-toplevel 2>/dev/null) == "$PWD" ]]; then
     echo "Must be run from repository root"
     exit 1
