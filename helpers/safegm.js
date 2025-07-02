@@ -42,8 +42,8 @@ function makeModal (id) {
         }
         `
         const sheetID = `mes-modal-css`
-        safeGM("removeStyle", sheetID)
-        safeGM("addStyle", modalCSS, sheetID)
+        safeGM.removeStyle(sheetID)
+        safeGM.addStyle(modalCSS, sheetID)
         log(`Appended stylesheet with the id '${sheetID}'`, Log.Log)
     }
 
