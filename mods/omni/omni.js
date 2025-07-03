@@ -10,6 +10,10 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
             max-height: unset !important;
         }
     }
+    #kes-omni-placeholder {
+        background-color: var(--kbin-body-bg);
+        padding: 5px
+    }
     #kes-omni-counter {
         background: transparent;
         color: var(--kbin-text-color);
@@ -331,9 +335,8 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
             updateCounter(headerCounter, 0, subs.length)
             if (subs.length == 0) {
                 const placeholder = document.createElement("div")
+                placeholder.id = "kes-omni-placeholder"
                 placeholder.innerText = "No subscriptions found."
-                placeholder.style.backgroundColor = "black"
-                placeholder.style.padding = "5px"
                 search.insertAdjacentElement("afterend", placeholder)
             }
             innerholder.appendChild(scroller)
