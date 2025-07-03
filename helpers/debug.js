@@ -432,7 +432,7 @@ function debugBar (json) {
         document.querySelectorAll(".user-inline, .user__name, .users-columns .stretched-link, .user-main h1, .user-main small").forEach((user) => {
             user.innerText = `${pref}user-${splitInstance(user)}`
         });
-        document.querySelectorAll(".entry.section.subject h2,.entry.section.subject h1").forEach((thread) => {
+        document.querySelectorAll(".entry.section.subject h2,.entry.section.subject h1, .entry-cross .entry__meta a").forEach((thread) => {
             thread.innerText = _randPhrase();
         });
         document.querySelectorAll("img").forEach((img) => {
