@@ -452,6 +452,13 @@ function isThread () { // eslint-disable-line no-unused-vars
     }
 }
 
+function elementFactory (el, id=null, classname=null) { // eslint-disable-line no-unused-vars
+    const e = document.createElement(el)
+    if (id != null ) e.id = id
+    if (classname != null) e.className = classname
+    return e
+}
+
 function getTheme () { // eslint-disable-line no-unused-vars
     let theme = undefined
     document.querySelector("body").classList.forEach((c) => {

@@ -19,6 +19,16 @@ Utility functions
    :param string id: unique ID of the stylesheet
    :rtype: undefined
 
+.. js:function:: elementFactory(element, id, classname)
+
+   Simplifies creation of HTMLElements by abstracting creation and setting up selectors
+   into a single function call. The `id` and `classname` parameters are optional.
+
+   :param string element: the type of HTMLElement to create.
+   :param string id: the name to use for the id selector.
+   :param string classname: the name to use for the class selector.
+   :rtype: HTMLElement
+
 .. js:function:: genericXMLRequest(url, callback)
 
    This is a further abstraction of :js:func:`safeGM.xmlhttpRequest`
