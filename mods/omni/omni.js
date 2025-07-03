@@ -329,6 +329,13 @@ function omniInit (toggle, trigger, setting) { // eslint-disable-line no-unused-
                 scroller.appendChild(outerA);
             }
             updateCounter(headerCounter, 0, subs.length)
+            if (subs.length == 0) {
+                const placeholder = document.createElement("div")
+                placeholder.innerText = "No subscriptions found."
+                placeholder.style.backgroundColor = "black"
+                placeholder.style.padding = "5px"
+                search.insertAdjacentElement("afterend", placeholder)
+            }
             innerholder.appendChild(scroller)
             entryholder.appendChild(innerholder)
             kesModal.appendChild(entryholder)
