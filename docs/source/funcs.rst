@@ -31,7 +31,7 @@ Utility functions
 
 .. js:function:: genericXMLRequest(url, callback)
 
-   This is a further abstraction of :js:func:`safeGM.xmlhttpRequest`
+   This is a further abstraction of :js:func:`safeGM.xmlHttpRequest`
    intended for when you only need to perform a generic GET request on a remote page to retrieve it.
    This utility function obviates the need to set up an object, as properties are pre-filled. (See function definition below)
 
@@ -258,7 +258,7 @@ In the context of MES, calling safeGM is thus a safer, simpler, and more cross-p
    :param value: string, int, or bool
    :rtype: undefined
 
-.. js:method:: xmlhttpRequest(details)
+.. js:method:: xmlHttpRequest(details)
 
    Greasemonkey's custom implementation of XMLHttpRequest with CORS support.
 
