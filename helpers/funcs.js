@@ -3880,7 +3880,6 @@ const funcObj = { // eslint-disable-line no-unused-vars
             const mod = settings["kfaModColor"];
             const style = settings["kfaStyle"];
             const indicatorScale = settings["kfaScale"];
-            log(indicatorScale, Log.LOG)
             const bubbleFuzz = settings["kfaBubbleShadow"];
             if (style === "bubble") {
                 const scale = setScale(indicatorScale, 20)
