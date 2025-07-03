@@ -27,16 +27,16 @@ function softBlockInit (toggle) { // eslint-disable-line no-unused-vars
     function softBlock (mags) {
         const pt = getPageType();
         switch (pt) {
-            case Mbin.Top: {
+            case Mbin.TOP: {
                 blockThreads(mags);
                 break
             }
-            case Mbin.Magazines: {
+            case Mbin.MAGAZINES: {
                 addToIndex(mags);
                 break
             }
-            case Mbin.Microblog:
-            case Mbin.Magazine: {
+            case Mbin.MICROBLOG:
+            case Mbin.MAGAZINE: {
                 addToSidebar(mags);
                 break
             }
